@@ -2,7 +2,7 @@
 
 int func_8018F358(RoomEnt *o) {
     o->state = 4;
-    if (FieldEng_GetStatus() >= 2) {
+    if ((unsigned int)FieldEng_GetStatus(o) >= 2) {
         RoomRenderNode *target = o->link->target;
         target->flags &= 0xC0FFFFFF;
     }

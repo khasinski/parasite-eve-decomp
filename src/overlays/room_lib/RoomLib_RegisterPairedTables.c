@@ -11,7 +11,7 @@
 int RoomLib_RegisterPairedTables(void *o) {
     int result;
 
-    if (FieldEng_GetStatus() >= 2) {
+    if ((unsigned int)FieldEng_GetStatus(o) >= 2) {
         result = func_800C251C(o, g_RoomUpdateList);
         result |= func_800C2758(o, g_RoomInitList, g_RoomSpawnLayout);
     } else {

@@ -8,7 +8,7 @@ extern int RoomLib_CloseTarget_8018F340(void *o);
 int func_8018F2B4(void *o) {
     int result;
 
-    if (FieldEng_GetStatus() >= 2) {
+    if ((unsigned int)FieldEng_GetStatus(o) >= 2) {
         result = func_800C251C(o, D_8019532C);
         result |= func_800C2758(o, D_80195314, D_80195338);
     } else {

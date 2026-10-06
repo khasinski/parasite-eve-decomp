@@ -4,7 +4,7 @@
 int func_8018F12C(void *o) {
     int ret;
 
-    if (FieldEng_GetStatus() == 3) {
+    if (FieldEng_GetStatus(o) == 3) {
         ret = func_800C251C(o, g_RoomUpdateList);
         ret = ret | func_800C2758(o, g_RoomInitList, g_RoomSpawnLayout);
     } else {

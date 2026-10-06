@@ -8,7 +8,7 @@ void func_8018F1B0(void *o);
 int func_8018F124(void *o) {
     int ret;
 
-    if (FieldEng_GetStatus() == 3) {
+    if (FieldEng_GetStatus(o) == 3) {
         ret = func_800C251C(o, D_80192480);
         ret = ret | func_800C2758(o, D_80192448, D_8019249C);
     } else {

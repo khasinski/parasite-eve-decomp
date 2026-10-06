@@ -86,7 +86,7 @@ void func_800C3098(int arg0);
 void func_800C3238(int arg0);
 void func_800C42A4(RoomFxSpritePacket *sprite, GteMatrix *matrix, int mode);
 int func_800C61A8(GteShortVector *point, GteMatrix *matrix);
-int FieldEng_GetStatus(RoomGlowOrbObject *object);
+int FieldEng_GetStatus(void *object);
 void **FieldEng_GetSlot(void);
 u16 *func_800C2B90(void *owner, int kind, int *layout,
                    RoomModuleHandler *initList);

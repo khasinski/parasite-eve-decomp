@@ -17,7 +17,7 @@ int func_8018F118(RoomEnt *obj)
 {
     int result;
 
-    if ((unsigned int)FieldEng_GetStatus() >= 2) {
+    if ((unsigned int)FieldEng_GetStatus(obj) >= 2) {
         result = func_800C251C(obj, D_80190E60);
         result |= func_800C2758(obj, g_RoomInitList, g_RoomSpawnLayout);
     } else {

@@ -114,7 +114,9 @@ extern int FieldEng_VecToAngle(int *vec, int *ref);
 extern int FieldEng_TurnToward(short cur, short target, short rate);
 extern char *RoomMain_ActorPtr;
 extern int RoomMain_RotTable[];
-extern unsigned int FieldEng_GetStatus(void);
+/* Field object status: 0 no model, 1 model without data, 2 inactive,
+ * 3 active, 4 disabled object, 5 the player. */
+extern int FieldEng_GetStatus(void *object);
 extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
 extern void FieldEng_Register(void *o, void *table);
 extern int func_800C251C(void *o, void *table);
@@ -725,7 +727,7 @@ extern char RoomLib_TableB[];
 #define ROOMLIB_CLOSE_TARGET(name) \
     int name(RoomEnt *o) { \
         o->state = 4; \
-        if (FieldEng_GetStatus() >= 2) { \
+        if ((unsigned int)FieldEng_GetStatus(o) >= 2) { \
             RoomLinkByte *tgt = o->link->target; \
             *(int *)tgt &= 0xC0FFFFFF; \
             *o->link->target->state = 4; \
@@ -736,7 +738,7 @@ extern char RoomLib_TableB[];
 /* register this entity's table with the field engine when active */
 #define ROOMLIB_REGISTER_TABLE(name, table) \
     int name(void *o) { \
-        if (FieldEng_GetStatus() >= 2) { \
+        if ((unsigned int)FieldEng_GetStatus(o) >= 2) { \
             FieldEng_Register(o, table); \
         } \
         return 0; \
@@ -1070,7 +1072,7 @@ extern short D_800942EC;
 
 #define ROOMLIB_REGISTER_TABLE_AT3(name, table) \
     int name(void *o) { \
-        if (FieldEng_GetStatus() == 3) { \
+        if (FieldEng_GetStatus(o) == 3) { \
             FieldEng_Register(o, table); \
         } \
         return 0; \
