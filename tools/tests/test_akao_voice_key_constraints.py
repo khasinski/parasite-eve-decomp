@@ -8,12 +8,15 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class AkaoVoiceKeyConstraintTests(unittest.TestCase):
     def test_redundant_constraints_are_absent(self):
-        for name,limit,unpinned in (
-            ('Akao_SetVoiceKeyOn',9,('flags','base_volume','value','next')),
-            ('Akao_SetVoiceKeyOff',19,('voice','one','raw_pan','bias','pitch')),
+        unit = (ROOT/'src/main/akao/Akao_SpuVoiceControl.c').read_text()
+        for name,limit,unpinned,first,last in (
+            ('Akao_SetVoiceKeyOn',9,('flags','base_volume','value','next'),
+             '#undef ADVANCE_ENV_PTR','void Spu_CopyVoiceToStereoSlot('),
+            ('Akao_SetVoiceKeyOff',19,('voice','one','raw_pan','bias','pitch'),
+             '#define U16(','#undef ADVANCE_ENV_PTR'),
         ):
             with self.subTest(function=name):
-                source = (ROOT/f'src/main/akao/{name}.c').read_text()
+                source = unit[unit.index(first):unit.index(last)]
                 source = re.sub(r'/\*.*?\*/|//[^\n]*','',source,flags=re.S)
                 self.assertNotRegex(source,r'asm\s+volatile')
                 self.assertLessEqual(len(re.findall(r'asm\("\$\d+"\)',source)),limit)

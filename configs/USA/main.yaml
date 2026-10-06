@@ -1288,15 +1288,11 @@ segments:
       # flag D_8009D270 shared by both upload paths, and the bank upload/rebase
       # routines; contiguous default-profile run with no split evidence.
       - [0x77850, c, akao/Akao_SampleBankUpload]
-      - [0x77F0C, c, akao/Akao_SpuVoiceRegisters]
-      # AKAO SPU voice-register primitives and parameter write dispatcher.
-      - [0x782A8, c, akao/Spu_UpdateVoiceRegisters]
-      - [0x787A0, c, akao/Spu_TickVoiceEnvelopes]
-      - [0x78B44, c, akao/Akao_SetVoiceKeyOff]
-      - [0x79180, c, akao/Akao_SetVoiceKeyOn]
-      - [0x79664, c, akao/Akao_SpuStereoVoice]
-      # Queue, allocation, and voice-mask setters share the AKAO voice bank.
-      - [0x7980C, c, akao/Akao_VoiceQueueAndMasks]
+      # SPU voice control: register writers, per-voice parameter updates, envelope
+      # ticks, key on/off, stereo slot copies, and the voice queue and mask
+      # setters share AkaoTrack voice state (helper evidence 21 across the key and
+      # queue functions); contiguous default-profile run with no split evidence.
+      - [0x77F0C, c, akao/Akao_SpuVoiceControl]
       - [0x7A6B8, c, psyq/libspu/s_snc]
       - [0x7A708, c, psyq/libspu/s_gvex]
       - [0x7A724, pad]

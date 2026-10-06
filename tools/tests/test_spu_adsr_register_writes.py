@@ -15,7 +15,7 @@ CASES = (
 
 class SpuAdsrRegisterTests(unittest.TestCase):
     def test_changed_helpers_are_plain(self):
-        source = (ROOT/'src/main/akao/Akao_SpuVoiceRegisters.c').read_text()
+        source = (ROOT/'src/main/akao/Akao_SpuVoiceControl.c').read_text()
         for name,*_ in CASES:
             body = source.split('void AkaoSpuVoice_SetAdsr'+name+'(',1)[1].split('\n}',1)[0]
             self.assertNotRegex(body,r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')

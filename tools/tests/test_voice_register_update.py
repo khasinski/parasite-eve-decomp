@@ -10,7 +10,8 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class VoiceRegisterUpdateTests(unittest.TestCase):
     def test_shared_old_value_pin_is_gone(self):
-        source = (ROOT/'src/main/akao/Spu_UpdateVoiceRegisters.c').read_text()
+        source = (ROOT/'src/main/akao/Akao_SpuVoiceControl.c').read_text()
+        source = source[source.index('static inline int compute_volume'):source.index('void Spu_TickVoiceEnvelopes(')]
         self.assertNotRegex(source,r'old_value\s+asm')
         self.assertLessEqual(source.count('asm("$'),6)
 

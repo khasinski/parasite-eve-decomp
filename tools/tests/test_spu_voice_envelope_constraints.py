@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class SpuVoiceEnvelopeConstraintTests(unittest.TestCase):
     def test_redundant_pins_are_absent(self):
-        source = (ROOT/'src/main/akao/Spu_TickVoiceEnvelopes.c').read_text()
+        source = (ROOT/'src/main/akao/Akao_SpuVoiceControl.c').read_text()
+        source = source[source.index('void Spu_TickVoiceEnvelopes('):source.index('#define U16(')]
         source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
         for name in ('delta','pitch_depth','volume_stage','wave_sample','wave','pitch_weight'):
             self.assertNotRegex(source,r'\b'+name+r'\s+asm\s*\(')

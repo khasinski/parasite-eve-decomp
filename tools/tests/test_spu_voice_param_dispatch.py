@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class SpuVoiceParamDispatchTests(unittest.TestCase):
     def test_entire_translation_unit_is_plain_c(self):
-        source = (ROOT/'src/main/akao/Akao_SpuVoiceRegisters.c').read_text()
+        source = (ROOT/'src/main/akao/Akao_SpuVoiceControl.c').read_text()
+        source = source[:source.index('static inline int compute_volume')]
         source = re.sub(r'/\*.*?\*/|//[^\n]*','',source,flags=re.S)
         self.assertNotRegex(source,r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')
 
