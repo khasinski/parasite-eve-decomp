@@ -178,8 +178,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
                 gte_stsxy1_precise(p1);
                 gte_stsxy2_precise(p2);
             }
-            asm volatile("" : "=r"(depthOut) : "0"(depthOut));
-            gte_stmac0(depthOut);
+                        gte_stmac0(depthOut);
             if (depth == 0) {
                 break;
             }
@@ -193,8 +192,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
             }
             {
                 register GteShortVector *v3 = &vertex[3];
-                asm volatile("" : "=r"(v3) : "0"(v3));
-                gte_lwc2_0_0(v3);
+                                gte_lwc2_0_0(v3);
                 gte_lwc2_1_4(v3);
             }
             gte_cop2_hazard_slot();
@@ -206,8 +204,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
 
                 {
                     register s16 *p3 = &packet->x3;
-                    asm volatile("" : "=r"(p3) : "0"(p3));
-                    gte_stsxy2(p3);
+                                        gte_stsxy2(p3);
                 }
                 packet->tag.address = STRIP_OT(depth)->address;
                 link.tag = &packet->tag;
