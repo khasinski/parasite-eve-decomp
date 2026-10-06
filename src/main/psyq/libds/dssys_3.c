@@ -1,8 +1,7 @@
 /* ASSEMBLER: GNU */
-/* Psy-Q LIBDS DSSYS_3.OBJ: DsMix, DsGetSector, DsGetSector2, DsDataSync,
- * DsIntToPos, DsPosToInt, DsSetDebug. */
-
+/* Psy-Q LIBDS DSSYS_3.OBJ: DsMix, DsGetSector, DsGetSector2, DsDataSync, DsIntToPos, DsPosToInt, DsSetDebug, DsLastPos. */
 #include "pe1/psyq_cd.h"
+#include "pe1/cdrom.h"
 
 extern void CD_vol(void);
 
@@ -51,4 +50,13 @@ int DsSetDebug(int level) {
     int old = CD_debug;
     CD_debug = level;
     return old;
+}
+
+CdlLOC *DsLastPos(CdlLOC *dst) {
+    if (dst != 0) {
+        *dst = *DS_lastpos();
+        return dst;
+    }
+
+    return DS_lastpos();
 }

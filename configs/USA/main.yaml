@@ -1125,8 +1125,8 @@ segments:
       - [0x71150, c, psyq/libds/parcpy]
       - [0x711E0, c, psyq/libds/tipDsSystem]
       - [0x712BC, c, psyq/libds/dssys_1_pad]
-      - [0x712C4, c, psyq/libds/DsMix]
-      - [0x714DC, c, psyq/libds/DsLastPos]
+      # Psy-Q LIBDS DSSYS_3.OBJ: mixer, sector, position and debug accessors.
+      - [0x712C4, c, psyq/libds/dssys_3]
       - [0x71530, pad]
       - [0x71534, c, psyq/libds/DsControlF]
       - [0x7155C, c, psyq/libds/DsControl]
