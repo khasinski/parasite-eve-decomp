@@ -15,8 +15,15 @@ extern int D_800A76CC;
 extern char * volatile g_GeomState;
 extern int g_CollisionPlaneTable;
 extern char *g_CollisionDb;
-extern short g_CameraBaseAngleX;
-extern short g_CameraBaseAngleY;
+/* Camera base angles at 0x800BD020. As a record, the second argument load
+ * stays behind the first store: GCC 2.7 lets a varying array load pass a
+ * store to a fixed scalar, but not to a structure member. */
+typedef struct CameraBaseAngles {
+    short x;
+    short y;
+} CameraBaseAngles;
+
+extern CameraBaseAngles D_800BD020;
 extern unsigned char g_ScreenTransitionState;
 extern short D_800BCFFE;
 
@@ -366,9 +373,8 @@ int Task_LoadGeomState(int **arg0) {
 }
 
 int Task_SetScreenScrollPos(int **arg0) {
-    g_CameraBaseAngleX = *arg0[0];
-    asm volatile("" ::: "memory");
-    g_CameraBaseAngleY = *arg0[1];
+    D_800BD020.x = *arg0[0];
+    D_800BD020.y = *arg0[1];
     return 1;
 }
 
