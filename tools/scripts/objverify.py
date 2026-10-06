@@ -37,10 +37,33 @@ def compile_one(src):
     return done.returncode == 0 and obj.exists()
 
 
+# Compiler output uses function sections such as .text.Gte_Atan2. Comparing
+# only the canonical names treats that code as absent and accepts a real change.
+_SKIPPED_SECTIONS = (
+    '.comment', '.pdr', '.mdebug', '.reginfo', '.gptab', '.stab', '.line',
+)
+
+
+def image_sections(obj):
+    """Allocated section names, including function sections."""
+    done = subprocess.run(['mipsel-none-elf-objdump', '-h', str(obj)],
+                          capture_output=True, text=True, errors='replace')
+    names = []
+    for line in done.stdout.splitlines():
+        parts = line.split()
+        if len(parts) < 2 or not parts[0].isdigit() or not parts[1].startswith('.'):
+            continue
+        name = parts[1]
+        if name.startswith(_SKIPPED_SECTIONS) or name.startswith(('.debug', '.rel', '.rela')):
+            continue
+        names.append(name)
+    return names or list(SECTIONS)
+
+
 def sections(obj):
     """The bytes of every section that ends up in the image, keyed by name."""
     out = {}
-    for name in SECTIONS:
+    for name in image_sections(obj):
         dump = obj.with_suffix('.o.%s.bin' % name.strip('.'))
         done = subprocess.run([OBJCOPY, '-O', 'binary', '--only-section', name,
                                str(obj), str(dump)],
