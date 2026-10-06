@@ -47,8 +47,7 @@ int func_8018F800(int mode, MotionSpriteState *state) {
         next = state->frame + 1;
         state->frame = next;
         /* Keep the halfword store before the signed range check. */
-        asm volatile("" : "=r"(next) : "0"(next) : "memory");
-        signed_next = (s16)next;
+                signed_next = (s16)next;
         if (signed_next < 16) return 0;
         /* The two return paths must stay distinct. */
         asm volatile("" ::: "memory");
