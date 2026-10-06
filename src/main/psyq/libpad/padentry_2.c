@@ -96,10 +96,10 @@ void _padSetMainMode(CardObj *obj, int byte1, int byte2);
 void PadSetMainMode(int channel, unsigned char byte1, unsigned char byte2) {
     _padSetMainMode(D_8009B738(), byte1, byte2);
 }
-void func_800835A4(CardObj *obj, int payload, int size);
+void _padSetAct(CardObj *obj, int payload, int size);
 
 void PadSetAct(int channel, int payload, int size) {
-    func_800835A4(D_8009B738(), payload, size);
+    _padSetAct(D_8009B738(), payload, size);
 }
 
 unsigned int gap_memcard_card_obj_tail_731BC[] __attribute__((section(".text"))) = {

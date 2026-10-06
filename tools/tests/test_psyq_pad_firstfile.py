@@ -12,42 +12,47 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 CASES = [('libpad/padmain_4',
   204,
   '076b8ee57e1d1411d223e73ccc826bf4bd9094e504ed1881540730f58d14f197',
+  'ChangeClearRCnt = 0x80073C84;\n'
+  'D_8009B728 = 0x8009B728;\n'
+  'D_8009B758 = 0x8009B758;\n'
   'D_8009B75C = 0x8009B75C;\n'
-  'EnterCriticalSection = 0x80072714;\n'
+  'D_8009B784 = 0x8009B784;\n'
   'D_800A5AB0 = 0x800A5AB0;\n'
+  'D_800A5AC0 = 0x800A5AC0;\n'
+  'EnterCriticalSection = 0x80072714;\n'
+  'ExitCriticalSection = 0x80072724;\n'
   'SysDeqIntRP = 0x8007E1F4;\n'
   'SysEnqIntRP = 0x8007E1E4;\n'
-  'D_8009B784 = 0x8009B784;\n'
-  'ChangeClearRCnt = 0x80073C84;\n'
-  'ExitCriticalSection = 0x80072724;\n'
-  'D_8009B758 = 0x8009B758;\n'
-  'D_8009B728 = 0x8009B728;\n'
-  'D_800A5AC0 = 0x800A5AC0;\n'
   'SECTIONS { .text 0x80082cf0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libpad/padmain_7',
-  672,
-  '7f8dcf592cc711bce3302338a4485ae1c66ea0d7a67818fd2263cc2aee1daecf',
-  'D_8009B768 = 0x8009B768;\n'
-  'D_8009B7A8 = 0x8009B7A8;\n'
-  'setRC2wait = 0x80084FC4;\n'
-  'MemCard_WaitReadyForTransfer = 0x800834E8;\n'
-  'D_8009B724 = 0x8009B724;\n'
-  'D_8009B788 = 0x8009B788;\n'
+ ('libpad/padmain_6',
+  1204,
+  '7ed055a2d8980cb473e98abb5f85750308637ff7bd5f2701d62a60309f813e65',
   'chkRC2wait = 0x80084FE4;\n'
-  'D_800BD02C = 0x800BD02C;\n'
-  'D_800A76D0 = 0x800A76D0;\n'
+  'D_8009B724 = 0x8009B724;\n'
+  'D_8009B744 = 0x8009B744;\n'
+  'D_8009B748 = 0x8009B748;\n'
+  'D_8009B764 = 0x8009B764;\n'
+  'D_8009B768 = 0x8009B768;\n'
+  'D_8009B77C = 0x8009B77C;\n'
   'D_8009B784 = 0x8009B784;\n'
-  'SECTIONS { .text 0x80083014 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+  'D_8009B788 = 0x8009B788;\n'
+  'D_8009B7A8 = 0x8009B7A8;\n'
+  'D_800A76D0 = 0x800A76D0;\n'
+  'D_800BD02C = 0x800BD02C;\n'
+  'MemCard_WaitReadyForTransfer = 0x800834E8;\n'
+  'MemCard_WaitStatusBit2 = 0x80083578;\n'
+  'setRC2wait = 0x80084FC4;\n'
+  'SECTIONS { .text 0x80082e00 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libapi/first',
   412,
   'fb4487ddf042d75ff65995232a434817de7de7f5b772bee5593ad0e2e850e24a',
-  'D_800A32D8 = 0x800A32D8;\n'
-  'strcmp = 0x80072A54;\n'
   'D_800A32D0 = 0x800A32D0;\n'
-  'Sys_FirstFileHookCallback = 0x80072950;\n'
+  'D_800A32D8 = 0x800A32D8;\n'
   'firstfile2 = 0x80072A64;\n'
+  'strcmp = 0x80072A54;\n'
+  'Sys_FirstFileHookCallback = 0x80072950;\n'
   'SECTIONS { .text 0x800727b4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }')]
 

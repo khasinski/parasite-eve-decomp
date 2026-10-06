@@ -9,17 +9,24 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libpad/padseqd_4',
-  220,
-  '47e8a6fba0fec4977c4010c8939c74c7c6df252963140491477700e6124c0c7e',
+CASES = [('libpad/padseqd_2',
+  1088,
+  'b01296f0208d34d3dfd34331b3392e03e2303806107ae873853c5653b6d62c62',
+  '_padCmdParaMode = 0x80083E50;\n'
+  '_padRecvAtLoadInfo = 0x80083644;\n'
+  '_padSendAtLoadInfo = 0x800835C0;\n'
   'D_8009B728 = 0x8009B728;\n'
-  'SECTIONS { .text 0x80084eb0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+  'SECTIONS { .text 0x80084b78 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libpad/padcmd_4',
-  628,
-  'ba83b67dddbf9a9076dfcba0b38d448dbf688b2b114704e9ccf1f1732f54736d',
+ ('libpad/padcmd_3',
+  796,
+  'c58945e1ab65142acb12ac4c9699629869cc8c4c731ab2947a19bab8394ab2f0',
+  'CardObj_EmitCommand46 = 0x80083EA4;\n'
+  'CardObj_EmitCommand47 = 0x80083EC4;\n'
+  'CardObj_EmitCommand4B = 0x80083EE4;\n'
+  'CardObj_EmitCommand4C = 0x80083E84;\n'
   'D_800A5AD0 = 0x800A5AD0;\n'
-  'SECTIONS { .text 0x80083944 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+  'SECTIONS { .text 0x8008389c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libds/dssys2_flush',
   496,

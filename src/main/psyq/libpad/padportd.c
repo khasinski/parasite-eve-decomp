@@ -29,7 +29,7 @@ int CardObj_GetChannelId(CardObj *obj);
 CardObj *CardObj_LookupByChannelId(int channel);
 void CardObj_SwapByteField(CardObj *obj);
 void bzero(void *ptr, int size);
-void MemCard_InitTimerCallbacks(void);
+void _padSetVsyncParam(void);
 
 int PadInitDirect(u8 *output0, u8 *output1) {
     u8 *savedOutput0 = output0;
@@ -90,7 +90,7 @@ int PadInitDirect(u8 *output0, u8 *output1) {
         obj++;
     } while (i < 2);
 
-    MemCard_InitTimerCallbacks();
+    _padSetVsyncParam();
     g_MemCardServiceReady = 1;
     asm volatile("" : : : "memory");
     return 1;

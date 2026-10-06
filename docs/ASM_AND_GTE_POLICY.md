@@ -1591,7 +1591,7 @@ through status. Their access widths and instruction sequences are unchanged.
 The earlier header comment incorrectly described the RAM words at
 0x800A5AC0/4 as another instance of the same state type. Those words are
 separate signed counters: the timer callback compares them with 150 and
-increments them, while `mem_card8` tests and resets them. No enclosing RAM
+increments them, while `PadEnableCom` tests and resets them. No enclosing RAM
 object is inferred here. The duplicate local interrupt-register typedef
 in the transfer TU and two unused include_asm includes in the timer TU
 were removed. No pin, barrier or instruction assembly was added.

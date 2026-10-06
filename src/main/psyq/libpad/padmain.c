@@ -1,6 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-/* PSY-Q LIBPAD PADMAIN, part 1 of 8: mem_card8. */
+/* PSY-Q LIBPAD PADMAIN, part 1 of 8: PadEnableCom. */
 
 #include "pe1/card_obj.h"
 
@@ -12,7 +12,7 @@ extern int g_MemCardServiceReady;
 extern CardObj *g_MemCardObjArray;
 extern void (*g_MemCardObjResetFn)(CardObj *obj);
 
-int mem_card8(int portMask) {
+int PadEnableCom(int portMask) {
     int currentMask;
     register int timerValue asm("$2");
     register int *timer1 asm("$18");

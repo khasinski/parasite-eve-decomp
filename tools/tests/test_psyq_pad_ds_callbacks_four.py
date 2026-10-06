@@ -9,12 +9,13 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libpad/padportd_5',
-  636,
-  'cdd89c8623bb223d4d99006bab00bf286d6194f37e2685f4fa855a0d88db5b28',
+CASES = [('libpad/padportd_4',
+  928,
+  '155be32d071e436ea5ebfa2786d5cb1de439d92dabae661b6d5f2eaf2dffae69',
   'bzero = 0x80071A24;\n'
   'D_8009B76C = 0x8009B76C;\n'
-  'SECTIONS { .text 0x8008486c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+  'D_800A5B70 = 0x800A5B70;\n'
+  'SECTIONS { .text 0x800847a0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libds/dssys1_vsync',
   720,
@@ -53,22 +54,22 @@ CASES = [('libpad/padportd_5',
  ('libpad/padif_3',
   892,
   'a435b3916bf94b1ffe701eb59664b0f9a9b3b57710343a2f3e1a7f39070089c3',
-  'D_8009B730 = 0x8009B730;\n'
-  'D_8009B770 = 0x8009B770;\n'
-  'D_8009B79C = 0x8009B79C;\n'
+  '_padSioRW = 0x800830DC;\n'
+  'D_8009B724 = 0x8009B724;\n'
   'D_8009B72C = 0x8009B72C;\n'
-  'MemCard_WriteByte = 0x800832B4;\n'
-  'setRC2wait = 0x80084FC4;\n'
-  'MemCard_WaitReadyForTransfer = 0x800834E8;\n'
-  'D_8009B764 = 0x8009B764;\n'
-  'D_8009B77C = 0x8009B77C;\n'
-  'D_8009B758 = 0x8009B758;\n'
+  'D_8009B730 = 0x8009B730;\n'
   'D_8009B744 = 0x8009B744;\n'
   'D_8009B748 = 0x8009B748;\n'
-  '_padSioRW = 0x800830DC;\n'
-  'MemCard_WaitStatusBit2 = 0x80083578;\n'
+  'D_8009B758 = 0x8009B758;\n'
+  'D_8009B764 = 0x8009B764;\n'
+  'D_8009B770 = 0x8009B770;\n'
+  'D_8009B77C = 0x8009B77C;\n'
+  'D_8009B79C = 0x8009B79C;\n'
   'D_8009B7A0 = 0x8009B7A0;\n'
-  'D_8009B724 = 0x8009B724;\n'
+  'MemCard_WaitReadyForTransfer = 0x800834E8;\n'
+  'MemCard_WaitStatusBit2 = 0x80083578;\n'
+  'MemCard_WriteByte = 0x800832B4;\n'
+  'setRC2wait = 0x80084FC4;\n'
   'SECTIONS { .text 0x80084168 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }')]
 

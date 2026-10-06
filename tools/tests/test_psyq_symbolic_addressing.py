@@ -13,16 +13,16 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 CASES = [('src/main/psyq/libapi/pad.c',
-  12,
-  'ca0784dda126a1b868badf58f4bd44bd84e74b24a56a401ce8b0a61727f7dfe6',
+  28,
+  '426f43966384e9ddbd0dacb3bb5c754b92ba875ffdeaee50173767cc5927ce7a',
   'g_InitPadFlag = 0x8009B4AC;\n'
   'SECTIONS { .text 0x8007dea4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('src/main/psyq/libpad/waitrc2.c',
-  32,
-  '6c5f1e66aa6c297b2aba4b3f46bfe2c7dcc0a5388227831c9d8b0748b638a10b',
-  'g_TimerTimeoutLimit = 0x800bd02c;\n'
-  'D_800A76D0 = 0x800a76d0;\n'
+  192,
+  '1795d848e518e058eb629903c8f624ed60f2d7b4315c553f78207b376a3a9b92',
+  'g_TimerTimeoutLimit = 0x800BD02C;\n'
+  'g_TimerTimeoutStart = 0x800A76D0;\n'
   'SECTIONS { .text 0x80084fc4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('src/main/psyq/libgpu/ext.c',
@@ -61,12 +61,12 @@ CASES = [('src/main/psyq/libapi/pad.c',
  ('src/main/psyq/libpad/padseqd.c',
   52,
   '9f58f31b9a795eeb97b583930590eef95892a1ba629c367c21ddde091ea87eb1',
-  'func_80084B78 = 0x80084b78;\n'
-  'g_MemCardStateDispatchFn = 0x8009b73c;\n'
-  'CardObj_IsTransferActive = 0x80084f8c;\n'
-  'g_MemCardIsTransferActiveFn = 0x8009b740;\n'
-  'LIBPAD_PADSEQD_text_108 = 0x80084c4c;\n'
-  'g_MemCardResponseHandler = 0x8009b744;\n'
+  'CardObj_IsTransferActive = 0x80084F8C;\n'
+  'func_80084B78 = 0x80084B78;\n'
+  'g_MemCardIsTransferActiveFn = 0x8009B740;\n'
+  'g_MemCardResponseHandler = 0x8009B744;\n'
+  'g_MemCardStateDispatchFn = 0x8009B73C;\n'
+  'LIBPAD_PADSEQD_text_108 = 0x80084C4C;\n'
   'SECTIONS { .text 0x80084b44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('src/main/psyq/libds/CdRom_SeekDoneCallback.c',

@@ -1,10 +1,10 @@
 /* PSY-Q LIBPAD PADENTRY, part 1 of 2: PadChkVsync, PadStartCom, PadStopCom,
  * PadChkMtap, PadGetState. */
-int MemCard_TakeCallback(void);
+int _padChkVsync(void);
 
 extern void _padStartCom(void);
 
-void MemCard_StopCounterIrq(void);
+void _padStopCom(void);
 
 extern int g_MemCardCommandByte;
 extern void *g_MemCardObjArray;
@@ -16,7 +16,7 @@ extern int (*g_MemCardObjLookupFn)(void);
  * retail's case tree tests ==3, <4, ==2, ==6 separately. */
 
 void PadChkVsync(void) {
-    MemCard_TakeCallback();
+    _padChkVsync();
 }
 
 void PadStartCom(void) {
@@ -24,7 +24,7 @@ void PadStartCom(void) {
 }
 
 void PadStopCom(void) {
-    MemCard_StopCounterIrq();
+    _padStopCom();
 }
 
 int PadChkMtap(int arg0)

@@ -1,5 +1,5 @@
 /* PSY-Q LIBPAD PADMAIN, part 3 of 8: MemCard_TimerReadyCallback,
- * MemCard_TimerCallback, MemCard_TakeCallback. */
+ * MemCard_TimerCallback, _padChkVsync. */
 #include "common.h"
 #include "pe1/memcard_state.h"
 
@@ -105,7 +105,7 @@ int MemCard_TimerCallback(void) {
     return 0;
 }
 
-int MemCard_TakeCallback(void) {
+int _padChkVsync(void) {
     int old = g_MemCardCallbackPending;
     g_MemCardPendingAddressBase = (int *)0x800A0000;
     g_MemCardPendingAddressBase[-0x121D] = 0;

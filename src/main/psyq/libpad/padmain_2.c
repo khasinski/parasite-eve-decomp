@@ -1,9 +1,9 @@
-/* PSY-Q LIBPAD PADMAIN, part 2 of 8: MemCard_InitTimerCallbacks. */
+/* PSY-Q LIBPAD PADMAIN, part 2 of 8: _padSetVsyncParam. */
 extern void MemCard_TimerCallback(void);
 int MemCard_TimerReadyCallback(void);
 extern void *D_800A5AB4[];
 
-void MemCard_InitTimerCallbacks(void) {
+void _padSetVsyncParam(void) {
     void **table;
 
     table = D_800A5AB4;

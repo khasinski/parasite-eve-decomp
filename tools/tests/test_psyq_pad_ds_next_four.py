@@ -27,13 +27,14 @@ CASES = [('libds/dssys1_sync_poll',
   'SECTIONS { .text 0x80080220 : SUBALIGN(4) { *(.text .text.*) }'
   '.rodata 0x80011D0C : SUBALIGN(4) { *(.rodata .rodata.*) }'
   '/DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
- ('libpad/padseqd_3',
-  612,
-  '47c760223bf315e045fd97140986def718e5d1852e262838a9e3760a18a433b8',
-  'CardObj_IsTransferActive = 0x80084F8C;\n'
-  'D_8009B728 = 0x8009B728;\n'
+ ('libpad/padseqd_2',
+  1088,
+  'b01296f0208d34d3dfd34331b3392e03e2303806107ae873853c5653b6d62c62',
+  '_padCmdParaMode = 0x80083E50;\n'
   '_padRecvAtLoadInfo = 0x80083644;\n'
-  'SECTIONS { .text 0x80084c4c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+  '_padSendAtLoadInfo = 0x800835C0;\n'
+  'D_8009B728 = 0x8009B728;\n'
+  'SECTIONS { .text 0x80084b78 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libds/dssys2_sync',
   548,
@@ -50,16 +51,23 @@ CASES = [('libds/dssys1_sync_poll',
   'SECTIONS { .text 0x8007e964 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libpad/padmain_6',
-  532,
-  '38dae3a9445d323f640baf1405b4c53ff44fc742dc7298f0d2a062266e1be513',
-  'D_8009B788 = 0x8009B788;\n'
-  'setRC2wait = 0x80084FC4;\n'
-  'D_8009B764 = 0x8009B764;\n'
-  'D_8009B77C = 0x8009B77C;\n'
+  1204,
+  '7ed055a2d8980cb473e98abb5f85750308637ff7bd5f2701d62a60309f813e65',
+  'chkRC2wait = 0x80084FE4;\n'
+  'D_8009B724 = 0x8009B724;\n'
   'D_8009B744 = 0x8009B744;\n'
   'D_8009B748 = 0x8009B748;\n'
-  'MemCard_WaitStatusBit2 = 0x80083578;\n'
+  'D_8009B764 = 0x8009B764;\n'
+  'D_8009B768 = 0x8009B768;\n'
+  'D_8009B77C = 0x8009B77C;\n'
   'D_8009B784 = 0x8009B784;\n'
+  'D_8009B788 = 0x8009B788;\n'
+  'D_8009B7A8 = 0x8009B7A8;\n'
+  'D_800A76D0 = 0x800A76D0;\n'
+  'D_800BD02C = 0x800BD02C;\n'
+  'MemCard_WaitReadyForTransfer = 0x800834E8;\n'
+  'MemCard_WaitStatusBit2 = 0x80083578;\n'
+  'setRC2wait = 0x80084FC4;\n'
   'SECTIONS { .text 0x80082e00 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }')]
 
