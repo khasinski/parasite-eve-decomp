@@ -1341,13 +1341,8 @@ segments:
       - [0xB293C, rodata, engine/engine_800C213C]
       - [0xB2AA4, .rodata, engine/FieldEng_TaskSpawnFlow]
       - [0xB2ABC, rodata, engine/engine_800C22BC]
-      # Object slot reset and the two slot dispatch passes share the script-state pointers (G1392).
-      - [0xB2AF8, c, engine/FieldEng_ObjectSlots]
-      # Interpreter, script-state accessors, and slot allocation share FieldEngState.
-      - [0xB2F58, c, engine/FieldEng_RunScript]
-      - [0xB350C, c, engine/func_800C2D0C]
-      # Single-slot and full-table cleanup share the slot and script-state layouts.
-      - [0xB35A0, c, engine/func_800C2E08]
+      # Object slot reset and dispatch, the script interpreter, slot allocation and cleanup share FieldEngState (G1389, helper evidence into the cleanup pair).
+      - [0xB2AF8, c, engine/FieldEng_ObjectScript]
       # Render setup state and the oriented sprite draw; private draw-area state joins them (G1395).
       - [0xB36AC, c, engine/FieldEng_RenderSetup]
       - [0xB4304, c, engine/FieldEng_Billboard]
