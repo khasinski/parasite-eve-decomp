@@ -6,19 +6,13 @@
 
 #define NULL ((void *)0)
 M2C_UNK Render_LoadFontGlyph();
-extern struct { char _[16]; } g_MenuEquipSlotState_o __asm__("g_MenuEquipSlotState");
-#define g_MenuEquipSlotState (*(u8 *)&g_MenuEquipSlotState_o)
-extern struct { char _[16]; } D_80091A1E_o __asm__("g_FontGlyphCode");
-#define g_FontGlyphCode (*(u8 *)&D_80091A1E_o)
+/* The cache-slot tail stores and reloads the selected byte through views of
+ * its own symbol and the table pointer's, not through the record. */
 extern struct { char _[16]; } D_80091A1F_o __asm__("g_FontGlyphIndex");
 #define g_FontGlyphIndex (*(u8 *)&D_80091A1F_o)
 extern u8 D_80091A1F_rd[] __asm__("g_FontGlyphIndex");
-extern struct { char _[16]; } D_80091A20_o __asm__("g_FontGlyphLoadFailed");
-#define g_FontGlyphLoadFailed (*(s8 *)&D_80091A20_o)
 extern struct { char _[16]; } D_80091A28_o __asm__("g_FontGlyphTable");
 #define g_FontGlyphTable (*(void **)&D_80091A28_o)
-extern struct { char _[16]; } D_8009EE22_o __asm__("g_FontGlyphCodeTable");
-#define g_FontGlyphCodeTable (*(M2C_UNK *)&D_8009EE22_o)
 
 u8 Render_FindFontGlyphSlot(void) {
     u8 temp_v0;
@@ -27,20 +21,20 @@ u8 Render_FindFontGlyphSlot(void) {
     u8 *p;
     u8 *p2;
     u8 *q;
-    u8 *t;
     s32 i;
     s32 found;
     s32 slot;
+    u8 *t;
 
-    if ((u8) g_MenuEquipSlotState >= 0x46U) {
-        g_FontGlyphLoadFailed = 1;
+    if (g_FontSelectionState.codeIndex >= 0x46U) {
+        g_FontSelectionState.loadFailed = 1;
         return 0xFFU;
     }
-    temp_v0 = g_MenuEquipSlotState + 1;
-    g_MenuEquipSlotState = temp_v0;
-    temp_a0 = *((u8 *)&D_8009EE22_o + temp_v0);
-    g_FontGlyphLoadFailed = 0;
-    g_FontGlyphCode = temp_a0;
+    temp_v0 = g_FontSelectionState.codeIndex + 1;
+    g_FontSelectionState.codeIndex = temp_v0;
+    temp_a0 = D_8009EE22[temp_v0];
+    g_FontSelectionState.loadFailed = 0;
+    g_FontSelectionState.code = temp_a0;
     Render_LoadFontGlyph(temp_a0);
     found = 0;
     hdr = g_FontGlyphTable;

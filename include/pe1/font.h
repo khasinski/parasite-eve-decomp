@@ -36,9 +36,12 @@ typedef struct FontGlyphLoadState {
 /* The selection byte is nine bytes before the table pointer. Navigation
  * derives its address from the pointer member's address in retail code. */
 typedef struct FontGlyphSelectionState {
-    unsigned char unknown00[3];
+    unsigned char unknown00;
+    unsigned char codeIndex;  /* index of the loaded code in D_8009EE22 */
+    unsigned char code;       /* glyph code last passed to the loader */
     unsigned char selected;
-    unsigned char unknown04[8];
+    unsigned char loadFailed; /* set when the code index runs past the table */
+    unsigned char unknown05[7];
     FontGlyphTable *table;
 } FontGlyphSelectionState;
 
