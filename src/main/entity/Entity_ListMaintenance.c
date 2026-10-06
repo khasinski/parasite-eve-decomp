@@ -1,7 +1,11 @@
-#include "pe1/pm.h"
-#include "common.h"
-#include "pe1/field_actor.h"
+/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
+#include "common.h"
+#include "pe1/pm.h"
+#include "pe1/field_actor.h"
+
+/* Actor list maintenance after movement: rolling positions back through
+ * the parent chain, following attached parents, and freeing dead actors. */
 
 typedef FieldActor Entity;
 
@@ -13,6 +17,51 @@ int g_FieldMoveLock;
 
 void Entity_FreeAllocationBlock(int arg0);
 int Util_ReturnTrue(void *unused);
+
+void Entity_RollbackPositionHierarchy(FieldActor *arg0)
+{
+    FieldActor *cur;
+    FieldActor *child;
+
+    child = arg0->parent;
+    if (child != 0) {
+        Entity_RollbackPositionHierarchy(child);
+        cur = g_FieldActorListHead;
+        if (cur != 0) {
+            do {
+                if (cur->parent == arg0->parent) {
+                    cur->pos_x = cur->base_x;
+                    cur->pos_y = cur->base_y;
+                    cur->pos_z = cur->base_z;
+                    cur->field_1a4 = cur->field_1a8;
+                }
+                cur = cur->next;
+            } while (cur != 0);
+        }
+    } else {
+        arg0->pos_x = arg0->base_x;
+        arg0->pos_y = arg0->base_y;
+        arg0->pos_z = arg0->base_z;
+        arg0->field_1a4 = arg0->field_1a8;
+        arg0->flags |= 0x40000;
+    }
+}
+
+void Entity_CopyParentPosition(void) {
+    FieldActor *cur = g_FieldActorListHead;
+
+    while (cur != 0) {
+        if (cur->parent != 0 && (cur->flags & 0x400000) != 0) {
+            cur->pos_x = cur->parent->pos_x;
+            cur->pos_y = cur->parent->pos_y;
+            cur->pos_z = cur->parent->pos_z;
+            cur->rot_x = cur->parent->rot_x;
+            cur->rot_y = cur->parent->rot_y;
+            cur->rot_z = cur->parent->rot_z;
+        }
+        cur = cur->next;
+    }
+}
 
 void Entity_CollectGarbage(void) {
     Entity *cur;
