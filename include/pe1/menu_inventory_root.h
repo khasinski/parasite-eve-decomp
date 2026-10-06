@@ -7,10 +7,10 @@
 #include "pe1/menu_equipment.h"
 #include "pe1/inventory.h"
 #include "pe1/aya.h"
+#include "pe1/menu_item_list_input.h"
 
 int Menu_InventoryPageNavHandler(MenuWidgetNode *root, unsigned int flags);
 void Menu_DrawBattleCommandList();
-void Menu_ItemListInputHandler();
 void Menu_DrawEquipSelectionList(MenuWidgetNode *node);
 void Inv_BuildFilteredPackedListExcluding(int mask, int excluded);
 int Inv_GetPackedListCount(void);
@@ -19,7 +19,7 @@ void Menu_DrawParasiteAbilityList();
 void Menu_InitStateTables(void);
 void Menu_DrawItemDetailPanel(MenuWidgetNode *panel);
 void Menu_DrawUsableItemActionList();
-void Menu_BonusPointCancelHandler();
+int Menu_BonusPointCancelHandler(void *node, int flags);
 void Menu_DrawEmptyList();
 void Menu_StepEquipSlotSelect2(void);
 void Menu_SetEquipPanelsCursorY(void);
@@ -34,6 +34,5 @@ extern int D_800A18D8[7];
 extern int D_800A18FC[7];
 extern int D_800C0E10[];
 extern int D_8009CF80, D_8009CF40, D_8009CF68;
-extern u8 D_800A1960[];
 
 #endif

@@ -107,7 +107,7 @@ segments:
       - [0x17AC, .rodata, menu/Menu_SaveBgDraw]
       - [0x17CC, .rodata, menu/Menu_StepItemSelectScreen]
       - [0x17F0, rodata, main/rodata_0017F0]
-      - [0x17F4, .rodata, menu/Menu_InventoryBonusPointFlow]
+      - [0x17F4, .rodata, menu/Menu_InventoryAndBonusPoints]
       - [0x1830, rodata, main/rodata_001830]
       - [0x1834, .rodata, menu/Menu_CreateMainMenuView]
       - [0x184C, .rodata, menu/Menu_ContextHelpFlow]
@@ -449,9 +449,8 @@ segments:
       - [0x37F8C, c, menu/Menu_ItemActionFlow]
       - [0x38E54, c, menu/Menu_StepSaveLoadScreen]
       - [0x39038, c, menu/Menu_SaveLoadNavigate]
-      # Inventory root step, equip panel alignment and the bonus-point slot handlers (G0426).
-      - [0x39118, c, menu/Menu_InventoryRootAndBonusSlots]
-      - [0x39B54, c, menu/Menu_InventoryBonusPointFlow]
+      # Inventory root step, equip panel alignment, bonus-point slot handlers and the bonus-point flow (G0426).
+      - [0x39118, c, menu/Menu_InventoryAndBonusPoints]
       - [0x3B59C, c, menu/Menu_CreateMainMenuView]
       - [0x3B93C, c, menu/Menu_VisualSettingsFlow]
       - [0x3BF0C, c, menu/Menu_ExperienceReviewFlow]

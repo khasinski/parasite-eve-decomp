@@ -61,7 +61,7 @@ class SourceQualityTests(unittest.TestCase):
     def test_equip_panel_alignment_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
         self.assertEqual(source_quality.classify(
-            root / "src/main/menu/Menu_InventoryRootAndBonusSlots.c"), "semantic_c")
+            root / "src/main/menu/Menu_InventoryAndBonusPoints.c"), "semantic_c")
 
     def test_selected_equip_lookup_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
