@@ -671,10 +671,11 @@ segments:
       - [0x4E688, c, menu/queue]
       - [0x4E76C, c, menu/Queue_DequeueByMask]
       - [0x4E838, c, menu/MenuInputFlow]
-      - [0x4ED4C, c, gpu/misc11]
-      - [0x4ED88, c, gpu/Draw_InitBuffers]
-      - [0x4EEE4, c, gpu/draw]
-      - [0x4EF88, c, gpu/Draw_PresentFrame]
+      # Draw-buffer setup, buffer selection and frame presentation share the
+      # present flags and the double-buffer OT/front tables (private evidence;
+      # no split evidence); every member is identical under -G8 with the common
+      # section.
+      - [0x4ED4C, c, gpu/Draw_FramePresent]
       # Base-offset setter and Y accessor share one default-profile object.
       - [0x4F050, c, gpu/Draw_BaseOffset]
       - [0x4F094, c, gpu/draw2]
