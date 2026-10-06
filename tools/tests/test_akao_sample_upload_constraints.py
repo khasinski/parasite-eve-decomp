@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class AkaoSampleUploadConstraintTests(unittest.TestCase):
     def test_redundant_pins_are_absent(self):
-        source = (ROOT/'src/main/akao/Akao_StepNoteSequencer.c').read_text()
+        source = (ROOT/'src/main/akao/Akao_SampleBankUpload.c').read_text()
+        source = re.search(r'^[^\n]*\bAkao_StepNoteSequencer\([^;{]*\{.*?^\}', source, re.S | re.M).group(0)
         source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
         for name in ('remaining_payload','dest_base'):
             self.assertNotRegex(source, name+r'\s+asm\s*\(')

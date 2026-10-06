@@ -10,7 +10,8 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class SpuVoiceVolumeTests(unittest.TestCase):
     def test_translation_unit_is_plain_c(self):
-        source = (ROOT/'src/main/akao/Spu_SetVoiceVolume.c').read_text()
+        source = (ROOT/'src/main/akao/Akao_SampleBankUpload.c').read_text()
+        source = re.search(r'^[^\n]*\bSpu_SetVoiceVolume\([^;{]*\{.*?^\}', source, re.S | re.M).group(0)
         source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
         self.assertNotRegex(source, r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')
 
