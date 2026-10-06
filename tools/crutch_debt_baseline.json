@@ -34,7 +34,7 @@
     "dead_code": 1,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 1346,
+    "externs_in_c": 1255,
     "field_macros": 0,
     "game_asm_units": 0,
     "gotos": 343,
@@ -49,6 +49,6 @@
     "stack_reserves": 0,
     "stack_switch_macros": 0,
     "statement_expressions": 3,
-    "unknown_fields": 56
+    "unknown_fields": 54
   }
 }
