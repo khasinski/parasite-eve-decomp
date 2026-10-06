@@ -8,7 +8,7 @@
     "dead_code": 0,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3188,
+    "externs_in_c": 3186,
     "field_macros": 364,
     "game_asm_units": 4,
     "gotos": 921,
@@ -34,7 +34,7 @@
     "dead_code": 1,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 1360,
+    "externs_in_c": 1253,
     "field_macros": 0,
     "game_asm_units": 0,
     "gotos": 343,
@@ -49,6 +49,6 @@
     "stack_reserves": 0,
     "stack_switch_macros": 0,
     "statement_expressions": 3,
-    "unknown_fields": 56
+    "unknown_fields": 54
   }
 }
