@@ -1,5 +1,5 @@
-extern char D_8019581C[];
+#include "pe1/room_trail_burst.h"
 
 void *func_801955F4(void) {
-    return D_8019581C;
+    return g_RoomSeekingTrailHistory;
 }
