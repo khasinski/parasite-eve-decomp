@@ -13,6 +13,6 @@ extern u8 D_800B8AC0[];
 extern u8 D_800C0D90[];
 
 void Spu_InitVoiceState(void);
-void Spu_SetVoiceAttr(int voice, u16 left, u16 right, s16 left_mode, u16 right_mode);
+void SpuSetVoiceVolumeAttr(int voice, u16 left, u16 right, s16 left_mode, u16 right_mode);
 
 #endif

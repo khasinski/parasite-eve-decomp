@@ -30,11 +30,11 @@ CASES = [('libpad/PadStartCom',
   '7f8dcf592cc711bce3302338a4485ae1c66ea0d7a67818fd2263cc2aee1daecf',
   'D_8009B768 = 0x8009B768;\n'
   'D_8009B7A8 = 0x8009B7A8;\n'
-  'Timer_StartTimeout = 0x80084FC4;\n'
+  'setRC2wait = 0x80084FC4;\n'
   'MemCard_WaitReadyForTransfer = 0x800834E8;\n'
   'D_8009B724 = 0x8009B724;\n'
   'D_8009B788 = 0x8009B788;\n'
-  'Spu_CheckTimerElapsed = 0x80084FE4;\n'
+  'chkRC2wait = 0x80084FE4;\n'
   'D_800BD02C = 0x800BD02C;\n'
   'D_800A76D0 = 0x800A76D0;\n'
   'D_8009B784 = 0x8009B784;\n'
@@ -47,7 +47,7 @@ CASES = [('libpad/PadStartCom',
   'strcmp = 0x80072A54;\n'
   'D_800A32D0 = 0x800A32D0;\n'
   'Sys_FirstFileHookCallback = 0x80072950;\n'
-  'firstfile = 0x80072A64;\n'
+  'firstfile2 = 0x80072A64;\n'
   'SECTIONS { .text 0x800727b4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }')]
 

@@ -68,7 +68,7 @@ int Akao_StepNoteSequencer(unsigned char *cursor, unsigned size)
         }
         g_AkaoVoiceKeyOnState &= ~0x100U;
 address_selected:
-        Spu_WriteRegChecked(address);
+        SpuSetTransferStartAddr(address);
         Spu_UploadWithPrepare((int)input, upload_size);
         rebase_instruments = instruments;
         rebase_address = address;
@@ -93,7 +93,7 @@ address_selected:
         mode &= clear_bits;
         D_8009D270 = mode;
     } else {
-        Spu_WriteRegChecked(D_8009D2BC);
+        SpuSetTransferStartAddr(D_8009D2BC);
         upload_size = available;
         if (upload_size >= D_8009D2E4) upload_size = D_8009D2E4;
         Spu_UploadWithPrepare((int)input, upload_size);

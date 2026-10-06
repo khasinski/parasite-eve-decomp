@@ -3,9 +3,9 @@
  * See proposals/PsyqPadFirstfile for provenance and full-byte validation. */
 #include "pe1/bios_firstfile.h"
 int strcmp(const char *, const char *);
-void *firstfile(const char *, void *);
+void *firstfile2(const char *, void *);
 int Sys_FirstFileHookCallback(int *, unsigned, unsigned);
-void *Scene_CreateEntityNode(const char *inName, void *inResult) {
+void *firstfile(const char *inName, void *inResult) {
     register const char *name = inName;
     register void *result = inResult;
     register const signed char *input;
@@ -61,5 +61,5 @@ second:
         } while (entry < limit);
     }
 call:
-    return firstfile(name, result);
+    return firstfile2(name, result);
 }

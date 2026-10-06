@@ -38,11 +38,11 @@ extern u32 D_80092200[];
 extern u32 D_800A76F0[];
 extern u32 D_800A7770[];
 
-int CardObj_GetModeClass();
-int CardObj_GetField(int arg0, int mode, int index);
-void CardObj_SetCommandPayload(int arg0, void *payload, int size);
-void CardObj_StartCommandWithBytes(int arg0, int byte1, int byte2);
-void CardObj_StartCommand4D(int arg0, void *payload);
+int PadGetState();
+int PadInfoMode(int arg0, int mode, int index);
+void PadSetAct(int arg0, void *payload, int size);
+void PadSetMainMode(int arg0, int byte1, int byte2);
+void PadSetActAlign(int arg0, void *payload);
 void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 
 void Field_HandleStateTransition(void) {
@@ -65,7 +65,7 @@ void Field_HandleStateTransition(void) {
     u16 i;
     u8 analog;
 
-    if (CardObj_GetModeClass(0) == 0) {
+    if (PadGetState(0) == 0) {
         u32 initial_flags = field_flags_read_0[0];
         if ((initial_flags & 0x4001) == 0) {
             D_8009D1F4 = 4;
@@ -83,26 +83,26 @@ void Field_HandleStateTransition(void) {
     }
 
     if (field_flags_read_1[0] & 0x4000) {
-        mode = CardObj_GetModeClass(0);
+        mode = PadGetState(0);
         if (mode == 2) {
             goto clear_4000;
         }
         if (mode == 1) {
-            CardObj_SetCommandPayload(0, D_8009D1C0, 2);
+            PadSetAct(0, D_8009D1C0, 2);
             goto after_mode;
         }
         if (mode != 6) {
             goto after_mode;
         }
-        if (CardObj_GetField(0, 2, 0) == 0) {
+        if (PadInfoMode(0, 2, 0) == 0) {
             goto after_mode;
         }
         if ((field_flags_read_3[0] & 0x8000) == 0) {
-            CardObj_StartCommandWithBytes(0, 1, 0);
+            PadSetMainMode(0, 1, 0);
             field_flags_write[0] = field_flags_read_4[0] | 0x8000;
             goto after_mode;
         }
-        CardObj_StartCommand4D(0, D_800921F8);
+        PadSetActAlign(0, D_800921F8);
 clear_4000:
         field_flags_write[0] = field_flags_read_5[0] & ~0x4000;
 after_mode:

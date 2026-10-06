@@ -11,7 +11,7 @@ extern void (*g_MemCardIsTransferActiveFn)(void);
 
 extern void (*g_MemCardResponseHandler)(void);
 
-void MemCard_SetCallbackVtable(void) {
+void _padInitDirSeq(void) {
     void (*response_handler)(void);
 
     g_MemCardStateDispatchFn = func_80084B78;

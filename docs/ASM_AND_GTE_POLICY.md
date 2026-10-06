@@ -228,9 +228,9 @@ comparisons.
 | LIBGTE MTX_003 | `psyq/libgte/mtx_003.c` | `CompMatrix` | PSY-Q 3.5 `mtx_00.o` CompMatrix: 88/88 words identical; trapping `add` for the translation. |
 | LIBGTE MTX_006 | `psyq/libgte/mtx_006.c` | `Gte_PushMatrix`, `Gte_PopMatrix` | Static matrix stack and SAVERA slot; PSY-Q 3.5 `mtx_00.o` has the same routines with local labels CONTpush/CONTpop, but its assembler moved the SAVERA `lui` into the branch delay slot. |
 | LIBGTE PATCHGTE | `psyq/libgte/patchgte.c` (+ `PATCHGTE_templates` data) | `St_InstallDmaHandler` (_patch_gte) | PSY-Q 3.5 `patchgte.o`: same static-ra installer, inline B0 call and `.text` instruction templates (`_patch_GTE` to `_patch_GTE_end`, copy loop at assembler label `1$`). |
-| LIBAPI PATCH | `psyq/libapi/patch_pad.c` | `Pad_DequeueHandler` (_patch_pad) | Static `ra` slot, inline B0 call, trapping `addi`. EnablePAD/DisablePAD of the same object remain C in `psyq/libapi/EnablePAD.c`. |
-| LIBAPI CHCLRPAD | `psyq/libapi/chclrpad.c` | `Pad_StopHandler` (_remove_ChgclrPAD) | Static `ra` slot, inline B0 call, trapping `addi`. |
-| LIBCARD PATCH | `psyq/libcard/patch_head.c`, `psyq/libcard/patch_card.c` | `func_8007E344`, `func_8007E3C8`, `func_8007E3DC` (_patch_card), `func_8007E470` (_patch_card2) | Kernel patch image copied to 0xDF80 that runs with BIOS-supplied `v0`/`v1`. The installers use a static `ra` slot and inline C0/B0 calls. CardPatchFunctions, `func_8007E3B4` and `_copy_memcard_patch` of the same object remain C. |
+| LIBAPI PATCH | `psyq/libapi/patch_pad.c` | `_patch_pad` | Static `ra` slot, inline B0 call, trapping `addi`. EnablePAD/DisablePAD of the same object remain C in `psyq/libapi/EnablePAD.c`. |
+| LIBAPI CHCLRPAD | `psyq/libapi/chclrpad.c` | `_remove_ChgclrPAD` | Static `ra` slot, inline B0 call, trapping `addi`. |
+| LIBCARD PATCH | `psyq/libcard/patch_head.c`, `psyq/libcard/patch_card.c` | `func_8007E344`, `func_8007E3C8`, `_patch_card`, `_patch_card2` | Kernel patch image copied to 0xDF80 that runs with BIOS-supplied `v0`/`v1`. The installers use a static `ra` slot and inline C0/B0 calls. CardPatchFunctions, `func_8007E3B4` and `_copy_memcard_patch` of the same object remain C. |
 | LIBCARD END | `psyq/libcard/end.c` (+ `END_templates` data) | `_ExitCard` | Static `ra` slot, inline C0 call; copies a three-NOP template into the C0 table. |
 
 ## Game-side assembler
@@ -1664,7 +1664,7 @@ including their save order. This independent cleanup is not accepted.
 
 ## SPU IRQ callback registration (2026-09-09)
 
-The IRQ setter (`Spu_SetTransferMode`, a historical project name), its AKAO
+The IRQ setter (`SpuSetIRQCallback`), its AKAO
 initialization caller, and the IRQ/DMA registration wrappers now share
 `SpuCallback` and their declarations through `psyq_spu_internal.h`. The IRQ
 setter reads `_spu_IRQCallback`, the existing symbol at `0x8009B438`; shutdown
@@ -1681,7 +1681,7 @@ instruction blocks have not been promoted or hidden.
 
 ## SPU read/write wrapper return constraints (2026-09-09)
 
-`Spu_ReadFromSpu` and `Spu_UploadToSpu` now return their capped transfer size
+`SpuRead` and `SpuWrite` now return their capped transfer size
 directly. Both local `$2` result pins are unnecessary with the current shared
 volatile callback declaration and stock GCC 2.8.1 unsplit profile. Removing
 each pin gives 100% object agreement against the SHA-verified build; both
@@ -1732,7 +1732,7 @@ volatile changes scheduling and is not part of this matching cleanup.
 The three generic register helper prototypes are shared in the SPU internal
 header, including the unsigned value and return types of `_spu_FsetRXXa`.
 
-`SPU_StepDmaRead` now uses the shared `SpuRegs` view instead of declaring the
+`SpuSetReverbModeType` now uses the shared `SpuRegs` view instead of declaring the
 same `_spu_RXX` object as a volatile-halfword pointer. Five literal register
 accesses become `spucnt`, `reverb_volume_left` and `reverb_volume_right`.
 The latter fields at offsets `0x184`/`0x186` were incorrectly named master
@@ -1750,7 +1750,7 @@ window layout. The register meanings and addresses follow the
 [SPU register map](https://psx-spx.consoledev.net/soundprocessingunitspu/).
 
 `SpuSetReverb`, `SpuSetCommonAttr`, `_spu_setReverbAttr` and
-`Akao_SetMasterVolume` use this shared view instead of incompatible pointer
+`SpuSetReverbModeDepth` use this shared view instead of incompatible pointer
 declarations. The reverb parameter setter replaces all 32 literal byte
 addresses with indexed halfword fields; the original mask tests and write
 order remain intact. All four functions match their prior objects at 100%,
@@ -1758,7 +1758,7 @@ and the full main and all 191 overlay SHA checks pass.
 
 `Spu_SetGlobalVolumeField1AA` was tried with the shared volatile control
 field but remains unchanged: the qualified store leaves the return delay
-slot and adds a nop. The existing constraint in `Akao_SetMasterVolume` also
+slot and adds a nop. The existing constraint in `SpuSetReverbModeDepth` also
 remains necessary; replacing it with an ordinary pointer assignment changes
 code generation. No new pins or barriers are added.
 
@@ -1772,7 +1772,7 @@ follows the [SPU voice register map](https://psx-spx.consoledev.net/soundprocess
 `SpuGetVoiceEnvelope` now reads the named volatile envelope field using a
 voice index, removing the integer representation of the pointer and the
 literal envelope offset. Writing the pointer sum with the index first
-preserves the target register allocation. `Spu_SetVoiceAttr` uses the same
+preserves the target register allocation. `SpuSetVoiceVolumeAttr` uses the same
 register type for its left/right stores, retaining its halfword-index
 intermediate; a direct voice index collapses two shifts and does not match.
 Both functions retain 100% object agreement and the full main and all 191
@@ -2094,13 +2094,13 @@ declarations are removed without changing instructions, function boundaries
 or constraints. Main retail SHA, all 191 overlays, 290 tests and source/debt
 gates pass. The fourteen-function combined candidate keeps all previous scores.
 The transfer-address volatile mismatch is intentionally still local: attempts
-to unify it regress either _spu_t or Spu_WriteRegChecked, as recorded in the
+to unify it regress either _spu_t or SpuSetTransferStartAddr, as recorded in the
 spu_core candidate README. No conflicting type is silently overridden.
 
 
 ## SPU transfer-address qualifier boundary
 
-Spu_WriteRegChecked and the transfer core now share one ordinary u16 address
+SpuSetTransferStartAddr and the transfer core now share one ordinary u16 address
 object. A single empty barrier in the checked wrapper has read/write memory
 operands restricted to that halfword, preserving the retail store-and-reload
 sequence without contradictory extern qualifiers. The wrapper and all four

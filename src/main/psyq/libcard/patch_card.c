@@ -1,8 +1,8 @@
 /* ASSEMBLER: GNU */
 /*
  * PSY-Q LIBCARD PATCH, offsets 0x84..0x19C: the second redirect template
- * (text_84, func_8007E3C8) and the installers _patch_card (func_8007E3DC) and
- * _patch_card2 (func_8007E470). Assembler source: ra is parked in a static
+ * (text_84, func_8007E3C8) and the installers _patch_card and
+ * _patch_card2. Assembler source: ra is parked in a static
  * word, the C0/B0 tables are fetched inline through the t2/t1 BIOS call
  * protocol, and the templates are copied into kernel memory word by word.
  * The template's fifth word is part of the 20 bytes _patch_card2 copies.
@@ -18,7 +18,7 @@ PSYQ_ASM_FUNCTION(func_8007E3C8,
     "    nop\n"
     "    nop\n");
 
-PSYQ_ASM_FUNCTION(func_8007E3DC,
+PSYQ_ASM_FUNCTION(_patch_card,
     "    lui     $at, %hi(D_800A34E0)\n"
     "    sw      $ra, %lo(D_800A34E0)($at)\n"
     "    jal     EnterCriticalSection\n"
@@ -58,7 +58,7 @@ PSYQ_ASM_FUNCTION(func_8007E3DC,
     "    jr      $ra\n"
     "    nop\n");
 
-PSYQ_ASM_FUNCTION(func_8007E470,
+PSYQ_ASM_FUNCTION(_patch_card2,
     "    lui     $at, %hi(D_800A34E0)\n"
     "    sw      $ra, %lo(D_800A34E0)($at)\n"
     "    jal     EnterCriticalSection\n"
@@ -72,8 +72,8 @@ PSYQ_ASM_FUNCTION(func_8007E470,
     "    lw      $v1, 0x9C8($v0)\n"
     "    lui     $t2, %hi(func_8007E3C8)\n"
     "    addiu   $t2, $t2, %lo(func_8007E3C8)\n"
-    "    lui     $t1, %hi(func_8007E3DC)\n"
-    "    addiu   $t1, $t1, %lo(func_8007E3DC)\n"
+    "    lui     $t1, %hi(_patch_card)\n"
+    "    addiu   $t1, $t1, %lo(_patch_card)\n"
     ".Lcopy_card2:\n"
     "    lw      $t0, 0x0($t2)\n"
     "    nop\n"

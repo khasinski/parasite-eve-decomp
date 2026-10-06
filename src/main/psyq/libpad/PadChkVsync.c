@@ -1,6 +1,6 @@
 int MemCard_TakeCallback(void);
 
-extern void MemCard_StartCounterIrq(void);
+extern void _padStartCom(void);
 
 void MemCard_StopCounterIrq(void);
 
@@ -13,19 +13,19 @@ extern int (*g_MemCardObjLookupFn)(void);
  * shared case body makes GCC merge {2,3} into one range compare, while
  * retail's case tree tests ==3, <4, ==2, ==6 separately. */
 
-void MemCard_ClearCallback(void) {
+void PadChkVsync(void) {
     MemCard_TakeCallback();
 }
 
-void MemCard_StartTimerTransfer(void) {
-    MemCard_StartCounterIrq();
+void PadStartCom(void) {
+    _padStartCom();
 }
 
-void MemCard_StopTimerTransfer(void) {
+void PadStopCom(void) {
     MemCard_StopCounterIrq();
 }
 
-int MemCard_IsPortReady(int arg0)
+int PadChkMtap(int arg0)
 {
   register int index;
   int offset;
@@ -40,7 +40,7 @@ int MemCard_IsPortReady(int arg0)
   return 0;
 }
 
-int CardObj_GetModeClass(void) {
+int PadGetState(void) {
     int obj;
 
     obj = g_MemCardObjLookupFn();

@@ -13,7 +13,7 @@ void MemCard_RunCommandStep(void) {
     result = next();
     if (result >= 0) {
         if (D_8009B768) {
-            Timer_StartTimeout(60);
+            setRC2wait(60);
             if (!MemCard_WaitReadyForTransfer())
                 D_8009B724(-3);
         }
@@ -23,7 +23,7 @@ void MemCard_RunCommandStep(void) {
         D_8009B724(result);
 }
 
-s32 MemCard_ReadByte(CardObj *inObj, s32 inByte) {
+s32 _padSioRW(CardObj *inObj, s32 inByte) {
     register CardObj *port = inObj;
     register s32 outgoing = inByte;
     register s32 received asm("$4");
@@ -47,7 +47,7 @@ s32 MemCard_ReadByte(CardObj *inObj, s32 inByte) {
         }
         do {
 
-        } while (Spu_CheckTimerElapsed() == 0);
+        } while (chkRC2wait() == 0);
         result = ~outgoing;
         D_8009B788->data = result;
         result = initialByte;
@@ -91,7 +91,7 @@ s32 MemCard_ReadByte(CardObj *inObj, s32 inByte) {
         sio->baud = baud;
         if (!(irq->status & 0x80)) {
         waitAcknowledge:
-            if (Spu_CheckTimerElapsed() != 0) {
+            if (chkRC2wait() != 0) {
                 result = -20;
                 goto done;
             }

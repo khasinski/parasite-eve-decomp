@@ -8,7 +8,7 @@ M2C_UNK Save_InitSystem();
 M2C_UNK Task_InitNodePool();
 M2C_UNK Entity_ResetStateGlobals();
 M2C_UNK Entity_ResetAllPools();
-M2C_UNK ssinit();
+M2C_UNK SsInit();
 M2C_UNK Menu_SetEquipSlotIndex();
 M2C_UNK Menu_ConsumeEquipSlotFlag();
 M2C_UNK Boot_BuildRenderFlagTable();
@@ -44,7 +44,7 @@ void Boot_InitSubsystems(void) {
         Task_GpuFlushPrimQueue();
     } while (var_s0 < 0x7D0U);
     Boot_BuildRenderFlagTable();
-    ssinit();
+    SsInit();
     VSyncCallback(NULL);
     VSyncCallback(&Boot_VsyncCallback);
     Menu_SetEquipSlotIndex(0);

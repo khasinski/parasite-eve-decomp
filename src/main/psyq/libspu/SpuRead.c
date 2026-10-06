@@ -4,7 +4,7 @@
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
 
-u32 Spu_ReadFromSpu(void *address, u32 size) {
+u32 SpuRead(void *address, u32 size) {
     if (size > 0x7EFF0) {
         size = 0x7EFF0;
     }
@@ -19,7 +19,7 @@ u32 Spu_ReadFromSpu(void *address, u32 size) {
 /* Retail places a zero alignment word between the adjacent SDK routines. */
 static unsigned int Spu_ReadFromSpu_alignment __attribute__((section(".text"))) = 0;
 
-u32 Spu_UploadToSpu(void *address, u32 size) {
+u32 SpuWrite(void *address, u32 size) {
     if (size > 0x7EFF0) {
         size = 0x7EFF0;
     }

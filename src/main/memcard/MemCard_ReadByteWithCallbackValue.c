@@ -6,9 +6,9 @@
 extern int (*g_MemCardStateDispatchFn)(int channel);
 extern int g_MemCardDispatchResult;
 
-int MemCard_ReadByte(int channel, int index);
+int _padSioRW(int channel, int index);
 
 int MemCard_ReadByteWithCallbackValue(int channel) {
     g_MemCardDispatchResult = g_MemCardStateDispatchFn(channel);
-    return MemCard_ReadByte(channel, -2);
+    return _padSioRW(channel, -2);
 }

@@ -30,7 +30,7 @@ class VoiceQueueTests(unittest.TestCase):
         self.assertEqual(retail,compiled)
         retail_syms = candidate_syms = {
             'Akao_ProcessVoiceQueue':0x80089328,
-            'Akao_SetMasterVolume':0x80089f28,
+            'SpuSetReverbModeDepth':0x80089f28,
             'Akao_SetVoiceAdsr':0x80089b48,
             'Akao_SetVoiceKeyOn':0x80088980,
             'Akao_SetVoiceStartAddr':0x80089d10,
@@ -58,7 +58,7 @@ class VoiceQueueTests(unittest.TestCase):
         saved = [getattr(R,f'UC_MIPS_REG_S{i}') for i in range(8)]+[R.UC_MIPS_REG_GP,R.UC_MIPS_REG_FP]
         rng = random.Random(base)
         channel = retail_syms['g_AkaoVoiceChannelTable']
-        functions = {'Akao_UpdateVoiceEnvelopes':1,'Akao_StepVoiceNote':4,'Akao_SetVoiceKeyOn':2,'Akao_WriteVoiceParam':3,'Akao_SetMasterVolume':2,'SpuSetNoiseClock':1,'Akao_SetVoiceAdsr':0,'Akao_SetVoiceVolume':0,'Akao_SetVoiceStartAddr':0,'Spu_WriteReverbEnable':1,'Spu_WriteNoiseEnable':1,'Spu_WriteFmEnable':1,'Spu_WriteKeyOn':1}
+        functions = {'Akao_UpdateVoiceEnvelopes':1,'Akao_StepVoiceNote':4,'Akao_SetVoiceKeyOn':2,'Akao_WriteVoiceParam':3,'SpuSetReverbModeDepth':2,'SpuSetNoiseClock':1,'Akao_SetVoiceAdsr':0,'Akao_SetVoiceVolume':0,'Akao_SetVoiceStartAddr':0,'Spu_WriteReverbEnable':1,'Spu_WriteNoiseEnable':1,'Spu_WriteFmEnable':1,'Spu_WriteKeyOn':1}
         coverage = set()
         for case,(updates,channels,pattern,mutate) in enumerate(itertools.product((0,0x10,0x80,0x100,0x190),(0,0x1000,0xA000,0xF000),range(4),(False,True))):
             bank_data = bytearray(rng.randbytes(0x110))
@@ -119,7 +119,7 @@ class VoiceQueueTests(unittest.TestCase):
                             word(current+8,get(current+8)^3)
                             word(current+16,get(current+16)^5)
                         if name=='Akao_WriteVoiceParam': word(args[1]+4,0)
-                        if name=='Akao_SetMasterVolume':
+                        if name=='SpuSetReverbModeDepth':
                             word(retail_syms['g_AkaoVoiceUpdateFlags'],get(retail_syms['g_AkaoVoiceUpdateFlags'])^0x100)
                     for reg in ('V0','V1','A0','A1','A2','A3','T0','T1','T2','T3','T4','T5','T6','T7','T8','T9'):
                         machine.reg_write(getattr(R,'UC_MIPS_REG_'+reg),0xDEADCAFE)

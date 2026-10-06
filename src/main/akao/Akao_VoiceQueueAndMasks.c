@@ -108,7 +108,7 @@ extern unsigned D_800BCD58, g_AkaoVoiceMaskScratch;
 extern unsigned short g_AkaoTrack5ATransposeValue;
 extern AkaoTrack g_AkaoVoiceChannelTable[];
 void Akao_WriteVoiceParam(int, int *, unsigned);
-void Akao_SetMasterVolume(short, short);
+void SpuSetReverbModeDepth(short, short);
 void Spu_WriteReverbEnable(unsigned);
 void Spu_WriteNoiseEnable(unsigned);
 void Spu_WriteFmEnable(unsigned);
@@ -197,7 +197,7 @@ void Akao_ProcessVoiceQueue(void)
   if (primary & 0x80)
   {
     short volume = ((short *) g_AkaoCurTrack->field_40)[1];
-    Akao_SetMasterVolume(volume, volume);
+    SpuSetReverbModeDepth(volume, volume);
     g_AkaoVoiceUpdateFlags &= ~0x80;
   }
   if (primary & 0x10)

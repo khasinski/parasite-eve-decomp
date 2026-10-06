@@ -1,7 +1,7 @@
 #include "pe1/card_obj.h"
 
-void CardObj_EmitCommand43(CardObj *obj, unsigned char value);
-void CardObj_EmitReadCommandForState(CardObj *obj);
+void _padCmdParaMode(CardObj *obj, unsigned char value);
+void _padSendAtLoadInfo(CardObj *obj);
 
 int func_80084B78(CardObj *obj) {
     register int compare asm("$2");
@@ -42,19 +42,19 @@ high_state:
 
 emit_one:
     asm volatile("" : : "r"(compare));
-    CardObj_EmitCommand43(obj, 1);
+    _padCmdParaMode(obj, 1);
     goto done;
 
 emit_zero:
     asm volatile("" : : "r"(compare));
-    CardObj_EmitCommand43(obj, 0);
+    _padCmdParaMode(obj, 0);
     goto done;
 
 dispatch:
     if (obj->fn_14 != 0) {
         obj->fn_14(obj);
     } else {
-        CardObj_EmitReadCommandForState(obj);
+        _padSendAtLoadInfo(obj);
     }
 
 done:

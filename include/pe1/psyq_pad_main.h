@@ -15,11 +15,11 @@ extern unsigned D_800A5AC0[2];
 extern int (*D_8009B7A8[])(void);
 extern void (*D_8009B724)(int);
 extern u32 D_800BD02C, D_800A76D0;
-void Timer_StartTimeout(int);
+void setRC2wait(int);
 int MemCard_WaitReadyForTransfer(void);
-int Spu_CheckTimerElapsed(void);
-void MemCard_StartCounterIrq(void);
+int chkRC2wait(void);
+void _padStartCom(void);
 void MemCard_RunCommandStep(void);
-int MemCard_ReadByte(CardObj *, int);
+int _padSioRW(CardObj *, int);
 
 #endif

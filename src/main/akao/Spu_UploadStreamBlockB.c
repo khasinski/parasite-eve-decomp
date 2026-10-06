@@ -21,7 +21,7 @@ int Spu_UploadStreamBlockB(unsigned bank, unsigned char *cursor)
     instruments = cursor + 0x24;
     cursor = instruments + (count << 6);
     address = 0x68000 + (bank << 13);
-    Spu_WriteRegChecked(address);
+    SpuSetTransferStartAddr(address);
     Spu_UploadWithPrepare((int)cursor,size);
     Spu_RebaseStreamAddrs(instruments,address,count);
     /* Cache the relocated records after the SPU payload upload. */

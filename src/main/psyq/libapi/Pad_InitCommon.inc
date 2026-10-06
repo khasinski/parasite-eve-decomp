@@ -1,18 +1,18 @@
 #include "common.h"
 #include "pe1/pad_internal.h"
 
-void Pad_StopHandler(void);
+void _remove_ChgclrPAD(void);
 void EnterCriticalSection(void);
-void Pad_DequeueHandler(void);
+void _patch_pad(void);
 void ExitCriticalSection(void);
 void ChangeClearPAD(int mode);
 int Sys_SetInterruptHandler(void);
 void PAD_INIT_COMMON_CALL(void *buffer0, int size0, void *buffer1, int size1);
 
 int PAD_INIT_COMMON_NAME(void *buffer0, int size0, void *buffer1, int size1) {
-    Pad_StopHandler();
+    _remove_ChgclrPAD();
     EnterCriticalSection();
-    Pad_DequeueHandler();
+    _patch_pad();
     ExitCriticalSection();
     ChangeClearPAD(0);
     Sys_SetInterruptHandler();

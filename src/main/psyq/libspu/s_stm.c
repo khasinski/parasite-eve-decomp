@@ -1,8 +1,7 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_spu_internal.h"
 
-/* Historical link name; Psy-Q LIBSPU SpuSetTransferMode. */
-int Spu_SetReverbMode(int mode) {
+int SpuSetTransferMode(int mode) {
     int enabled;
     switch (mode) {
     case 0:

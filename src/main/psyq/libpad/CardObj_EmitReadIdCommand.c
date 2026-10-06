@@ -31,7 +31,7 @@ int CardObj_CheckAbortOrDispatch(CardObj *arg0) {
     D_8009B728(arg0);
     return 0;
 }
-void CardObj_EmitCommand43(CardObj *obj, unsigned char value) {
+void _padCmdParaMode(CardObj *obj, unsigned char value) {
     obj->command = 0x43;
     obj->payload_2c = (unsigned char *)obj + 0x24;
     obj->pad_24[0] = value;

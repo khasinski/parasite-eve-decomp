@@ -52,8 +52,7 @@ functions. Moving 238 functions into the SDK category changes `main-psyq` to
 
 ## Symbolic stores in the two SPU setters
 
-`SpuSetIRQCallback` and `SpuSetTransferMode` (historical link names
-`Spu_SetTransferMode` and `Spu_SetReverbMode`) previously matched the retail
+`SpuSetIRQCallback` and `SpuSetTransferMode` previously matched the retail
 EXE after linking, but their object comparisons were below 100%. Their final
 stores used a hard-coded `0x800A0000` page base and negative offsets instead
 of HI16/LO16 relocations against `_spu_IRQCallback` and `D_8009B418`.

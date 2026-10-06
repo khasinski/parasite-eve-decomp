@@ -7,7 +7,7 @@ void ExitCriticalSection(void);
 void SysDeqIntRP(int, void *);
 void SysEnqIntRP(int, void *);
 void ChangeClearRCnt(int, int);
-void MemCard_StartCounterIrq(void) {
+void _padStartCom(void) {
     D_8009B75C = 0;
     EnterCriticalSection();
     SysDeqIntRP(2, D_800A5AB0);

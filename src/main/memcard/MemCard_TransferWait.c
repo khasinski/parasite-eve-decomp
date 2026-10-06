@@ -3,7 +3,7 @@
 
 #include "pe1/memcard_state.h"
 
-int Spu_CheckTimerElapsed(void);
+int chkRC2wait(void);
 int MemCard_WaitReadyForTransfer(void)
 {
   register MemCardInterruptRegisters *state;
@@ -19,7 +19,7 @@ int MemCard_WaitReadyForTransfer(void)
   status &= 0x80;
   while (status != 0)
   {
-    if (Spu_CheckTimerElapsed() != 0)
+    if (chkRC2wait() != 0)
     {
       return 0;
     }

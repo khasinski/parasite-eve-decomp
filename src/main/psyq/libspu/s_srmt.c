@@ -3,7 +3,7 @@
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
 
-int SPU_StepDmaRead(u32 mode) {
+int SpuSetReverbModeType(u32 mode) {
     SpuReverbRegisterAttrs attr;
     int clear = 0;
     u32 enabled;

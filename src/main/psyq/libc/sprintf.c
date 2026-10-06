@@ -42,7 +42,7 @@ extern s32 strlen(u8 *);
 extern u8 *memchr(u8 *, s32, s32);
 extern void *memmove(void *, const void *, int);
 
-s32 Square_Vsprintf(char *dest, s8 *format, ...)
+s32 sprintf(char *dest, s8 *format, ...)
 {
     FormatWork work;
     u8 *argState[2];

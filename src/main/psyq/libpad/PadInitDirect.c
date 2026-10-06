@@ -19,7 +19,7 @@ extern int (*D_8009B734)(CardObj *);
 extern CardObj *(*g_MemCardObjLookupFn)(int);
 extern void (*D_8009B748)(CardObj *);
 
-void MemCard_SetCallbackVtable(void);
+void _padInitDirSeq(void);
 int MemCard_DmaCompleteCallback(int result);
 void CardObj_ResetFields(CardObj *obj);
 int CardObj_ReadPayloadByte(CardObj *obj);
@@ -30,7 +30,7 @@ void CardObj_SwapByteField(CardObj *obj);
 void bzero(void *ptr, int size);
 void MemCard_InitTimerCallbacks(void);
 
-int MemCard_InitTransferState(u8 *output0, u8 *output1) {
+int PadInitDirect(u8 *output0, u8 *output1) {
     u8 *savedOutput0 = output0;
     u8 *savedOutput1 = output1;
     register CardObj *obj asm("$16");
@@ -46,7 +46,7 @@ int MemCard_InitTransferState(u8 *output0, u8 *output1) {
 
     g_MemCardServiceReady = 0;
     g_MemCardCommandByte = 0;
-    MemCard_SetCallbackVtable();
+    _padInitDirSeq();
 
     asm("" : "=r"(obj) : "0"(&D_800A5B70[0]));
     D_8009B724 = MemCard_DmaCompleteCallback;

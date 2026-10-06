@@ -2183,7 +2183,7 @@ void Seq_SetParamWithReset(unsigned int arg0) {
     Seq_GetGlobalPitch(&value);
     if (value != arg0) {
         SpuSetReverb(0);
-        SPU_StepDmaRead(arg0 | 0x100);
+        SpuSetReverbModeType(arg0 | 0x100);
         SpuSetReverb(1);
     }
 }

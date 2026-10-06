@@ -1,6 +1,6 @@
 /* ASSEMBLER: GNU */
 /*
- * PSY-Q LIBAPI PATCH: _patch_pad (Pad_DequeueHandler). EnablePAD and
+ * PSY-Q LIBAPI PATCH: _patch_pad. EnablePAD and
  * DisablePAD from the same object are reconstructed in psyq/libapi/EnablePAD.c.
  * Assembler source: ra is parked in a static word, the B0 table is fetched
  * inline through the t2/t1 BIOS call protocol, and the kernel pad hooks are
@@ -10,7 +10,7 @@
 
 PSYQ_ASM_OBJECT(LIBAPI, PATCH)
 
-PSYQ_ASM_FUNCTION(Pad_DequeueHandler,
+PSYQ_ASM_FUNCTION(_patch_pad,
     "    lui     $at, %hi(D_800A34C0)\n"
     "    sw      $ra, %lo(D_800A34C0)($at)\n"
     "    jal     EnterCriticalSection\n"

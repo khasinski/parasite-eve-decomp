@@ -24,7 +24,7 @@ extern u32 g_TimerTimeoutLimit;
 
 extern volatile s32 g_SpuTransferStatus;
 
-int Spu_CheckTimerElapsed(void) {
+int chkRC2wait(void) {
     register u32 current asm("$4");
     register u32 raw asm("$3");
     u32 base;
@@ -67,7 +67,7 @@ void Spu_ClearTransferCallback(void) {
 void Spu_ClearTransferCallback(void);
 
 void Spu_PrepareTransfer(void);
-void Spu_UploadToSpu(int arg0, int arg1);
+void SpuWrite(int arg0, int arg1);
 
 void Spu_PrepareTransfer(void) {
     g_SpuTransferStatus = 1;
@@ -76,15 +76,15 @@ void Spu_PrepareTransfer(void) {
 
 void Spu_UploadWithPrepare(int arg0, int arg1) {
     Spu_PrepareTransfer();
-    Spu_UploadToSpu(arg0, arg1);
+    SpuWrite(arg0, arg1);
 }
 
 void Spu_PrepareTransfer(void);
-unsigned int Spu_ReadFromSpu(int arg0, unsigned int size);
+unsigned int SpuRead(int arg0, unsigned int size);
 
 void Spu_ReadWithPrepare(int arg0, int arg1) {
     Spu_PrepareTransfer();
-    Spu_ReadFromSpu(arg0, arg1);
+    SpuRead(arg0, arg1);
 }
 
 void Spu_WaitTransferDone(void) {
@@ -94,7 +94,7 @@ void Spu_WaitTransferDone(void) {
 
 void Spu_WaitTransferDone(void);
 s32 Spu_ValidateSampleHeader(void *arg0);
-int Spu_WriteRegChecked(int arg0);
+int SpuSetTransferStartAddr(int arg0);
 void Spu_UploadWithPrepare(int arg0, int arg1);
 
 extern AkaoInstrument g_AkaoInstrumentTable[];
@@ -114,7 +114,7 @@ s32 Spu_UploadSampleBlock(void *arg0, s32 arg1) {
     Spu_WaitTransferDone();
     if (Spu_ValidateSampleHeader(arg0) == 0) {
         cursor += 0x10;
-        Spu_WriteRegChecked(*(s32 *)cursor);
+        SpuSetTransferStartAddr(*(s32 *)cursor);
         cursor += 4;
         asm volatile("" : "=r"(cursor) : "0"(cursor));
         count = *(s32 *)cursor;
@@ -237,7 +237,7 @@ void Spu_InitVoiceState(void) {
         U32(voice, 0xF0) = voice_count;
         U16(voice, 0x54) = 0;
         U32(voice, 0x50) = 0;
-        Spu_SetVoiceAttr(i, 0, 0, 0, 0);
+        SpuSetVoiceVolumeAttr(i, 0, 0, 0, 0);
     }
 
     i = 0;
@@ -248,7 +248,7 @@ void Spu_InitVoiceState(void) {
         U32(voice, 0xF0) = voice_count;
         U16(voice, 0x54) = 0;
         U32(voice, 0x50) = 0;
-        Spu_SetVoiceAttr(i, 0, 0, 0, 0);
+        SpuSetVoiceVolumeAttr(i, 0, 0, 0, 0);
         voice += 0x11C;
     }
 
@@ -298,7 +298,7 @@ void SpuInitMalloc(s32, void *);
 void SpuSetIRQ(s32);
 s32 StartRCnt(s32);
 void Spu_WaitTransferDone(void);
-void Spu_SetReverbMode(s32);
+void SpuSetTransferMode(s32);
 extern u8 D_8009B7FC[];
 extern s32 g_AkaoTimerEventDesc[];
 extern u8 D_800B6958[];
@@ -313,13 +313,13 @@ void Spu_InitHardware(void) {
 
     SpuStart();
     SpuInitMalloc(4, &D_800B6958);
-    Spu_SetReverbMode(0);
-    Spu_WriteRegChecked(0x1010);
+    SpuSetTransferMode(0);
+    SpuSetTransferStartAddr(0x1010);
     Spu_UploadWithPrepare(&D_8009B7FC, 0x20);
     Spu_WaitTransferDone();
     Spu_InitVoiceState();
     SpuSetIRQ(0);
-    Spu_SetTransferMode(0);
+    SpuSetIRQCallback(0);
     do {
 
     } while (SetRCnt(0xF2000002, 0x44E8, 0x1000) == 0);

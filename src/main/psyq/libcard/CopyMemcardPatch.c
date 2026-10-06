@@ -3,7 +3,7 @@
  * Empty constraints preserve the retail schedule; see proposals/PsyqQueueFour. */
 /* Treat the patch instruction image as words; copy up to the next label. */
 #include "pe1/psyq_card.h"
-void func_8007E4E0(void) {
+void _copy_memcard_patch(void) {
     register unsigned *dst = (unsigned *)0xdf80;
     register const unsigned *src asm("$10") = func_8007E344;
     register const unsigned *end asm("$9") = (const unsigned *)func_8007E3B4;

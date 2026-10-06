@@ -5,7 +5,7 @@ void ExitCriticalSection(void);
 void ChangeClearRCnt(int counter, int mode);
 void SysDeqIntRP(int index, void *queue);
 
-void func_80082DBC(void) {
+void _padStopCom(void) {
     EnterCriticalSection();
     ChangeClearRCnt(3, 1);
     SysDeqIntRP(2, &D_800A5AB0);

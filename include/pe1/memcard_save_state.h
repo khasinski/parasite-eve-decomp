@@ -19,7 +19,7 @@ typedef struct MemCardDirEntry {
 } MemCardDirEntry;
 
 /* SDK firstfile wrapper (FIRST.OBJ); returns the entry or 0. */
-void *Scene_CreateEntityNode(const char *name, void *entry);
+void *firstfile(const char *name, void *entry);
 void *nextfile(void *entry);
 int format(char *device);
 int lseek(int descriptor, int offset, int origin);

@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_pad_main.h"
 int CardObj_IsTransferActive(CardObj *);
-int CardObj_AdvanceReadLayout(CardObj *);
+int _padRecvAtLoadInfo(CardObj *);
 void LIBPAD_PADSEQD_text_108(CardObj *port) {
     int old = port->field_e8;
     int i;
@@ -69,7 +69,7 @@ void LIBPAD_PADSEQD_text_108(CardObj *port) {
         if (port->fn_18)
             value = port->fn_18(port);
         else
-            value = CardObj_AdvanceReadLayout(port);
+            value = _padRecvAtLoadInfo(port);
         port->field_46 += value;
     }
 }

@@ -5,7 +5,7 @@
 
 extern CardObj *(*g_MemCardObjLookupFn)(void);
 
-int func_80082778(int channel, int index, int field) {
+int PadInfoAct(int channel, int index, int field) {
     CardObj *obj;
     unsigned char *entry;
 

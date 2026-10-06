@@ -2,7 +2,7 @@
 #include "pe1/psyq_spu_internal.h"
 
 
-int Spu_WriteRegChecked(int arg0) {
+int SpuSetTransferStartAddr(int arg0) {
     int result;
 
     if (((unsigned int)arg0 - 0x1010) <= 0x7EFE8) {

@@ -3,7 +3,7 @@
 
 extern CardObj *(*D_8009B738)(void);
 
-int CardObj_GetField(int channel, int mode, int index) {
+int PadInfoMode(int channel, int mode, int index) {
     CardObj *obj;
 
     obj = D_8009B738();

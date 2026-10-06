@@ -1,7 +1,7 @@
 #include "pe1/psyq_spu_internal.h"
 
 
-void Akao_SetMasterVolume(short left, short right) {
+void SpuSetReverbModeDepth(short left, short right) {
     short *vol;
 
     _spu_RXX->reverb_volume_left = left;

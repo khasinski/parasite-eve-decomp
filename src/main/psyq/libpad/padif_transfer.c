@@ -39,7 +39,7 @@ int LIBPAD_PADIF_text_26C(CardObj *inPort) {
         result = MemCard_WriteByte(port, (u8)D_8009B72C(port, 1));
         if (result < 0)
             goto done;
-        Timer_StartTimeout(60);
+        setRC2wait(60);
         if (!MemCard_WaitReadyForTransfer())
             goto timeout;
         index++;
@@ -110,10 +110,10 @@ setup:
             transfer:
                 arg = port;
             call_transfer:
-                result = MemCard_ReadByte(port, (u8)D_8009B72C(arg, mode));
+                result = _padSioRW(port, (u8)D_8009B72C(arg, mode));
                 if (result < 0)
                     goto done;
-                Timer_StartTimeout(60);
+                setRC2wait(60);
                 if (!MemCard_WaitReadyForTransfer()) {
                 timeout:
                     result = -3;
@@ -125,10 +125,10 @@ setup:
         }
     }
     while (--D_8009B79C > 0) {
-        result = MemCard_ReadByte(port, (u8)D_8009B72C(port, mode));
+        result = _padSioRW(port, (u8)D_8009B72C(port, mode));
         if (result < 0)
             goto done;
-        Timer_StartTimeout(60);
+        setRC2wait(60);
         {
             int ready = MemCard_WaitReadyForTransfer();
             if (!ready) {

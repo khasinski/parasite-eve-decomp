@@ -14,7 +14,7 @@ void Sys_ClearWordBuf(void *dst, int count);
 int setjmp(void *env);
 void Render_InitSceneGeom(void);
 void HookEntryInt(void *entry);
-void Sys_HleJumpA0(void *arg);
+void _96_remove(void *arg);
 void ExitCriticalSection(void);
 
 u16 *Sys_InitIntrManager(void) {
@@ -57,7 +57,7 @@ u16 *Sys_InitIntrManager(void) {
     ptr = g_EventCallbackTable;
     ptr->dma = dmaSetter;
 
-    Sys_HleJumpA0(g_EventCallbackTable);
+    _96_remove(g_EventCallbackTable);
     state = flag;
     ExitCriticalSection();
 

@@ -11,7 +11,7 @@ int _padInitSioMode(CardObj *port) {
     sio->control = 0;
     sio->mode = 13;
     sio->baud = 136;
-    Timer_StartTimeout(port->field_e8 == 8 ? 80 : 145);
+    setRC2wait(port->field_e8 == 8 ? 80 : 145);
     {
         int index = D_8009B764;
         {

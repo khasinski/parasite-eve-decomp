@@ -48,7 +48,7 @@ int Spu_UploadStreamBlockA(unsigned bank, unsigned char *cursor, unsigned size)
         address_base = 0x4f000;
         address_offset = ((bank * 5) << 13);
         address = address_offset + address_base;
-        Spu_WriteRegChecked(address);
+        SpuSetTransferStartAddr(address);
         Spu_UploadWithPrepare((int)input, upload_size);
         rebase_instruments = instruments;
         rebase_address = address;
@@ -72,7 +72,7 @@ int Spu_UploadStreamBlockA(unsigned bank, unsigned char *cursor, unsigned size)
         mode &= clear_bits;
         D_8009D270 = mode;
     } else {
-        Spu_WriteRegChecked(D_8009D1EC);
+        SpuSetTransferStartAddr(D_8009D1EC);
         upload_size = available;
         if (upload_size >= D_8009D204) upload_size = D_8009D204;
         Spu_UploadWithPrepare((int)input, upload_size);

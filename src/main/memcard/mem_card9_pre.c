@@ -29,7 +29,7 @@ extern void ChangeClearRCnt(int, int);
 extern void SysDeqIntRP(int, void *);
 extern int g_MemCardCounterIrqQueueNode;
 
-int Spu_CheckTimerElapsed(void);
+int chkRC2wait(void);
 int _padInitSioMode();
 void MemCard_RunCommandStep();
 

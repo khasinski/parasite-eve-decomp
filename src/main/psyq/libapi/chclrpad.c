@@ -1,6 +1,6 @@
 /* ASSEMBLER: GNU */
 /*
- * PSY-Q LIBAPI CHCLRPAD: _remove_ChgclrPAD (Pad_StopHandler). Assembler
+ * PSY-Q LIBAPI CHCLRPAD: _remove_ChgclrPAD. Assembler
  * source with the same static ra slot, inline B0 table call and trapping addi
  * as LIBAPI PATCH.
  */
@@ -8,7 +8,7 @@
 
 PSYQ_ASM_OBJECT(LIBAPI, CHCLRPAD)
 
-PSYQ_ASM_FUNCTION(Pad_StopHandler,
+PSYQ_ASM_FUNCTION(_remove_ChgclrPAD,
     "    lui     $at, %hi(D_800A34D0)\n"
     "    sw      $ra, %lo(D_800A34D0)($at)\n"
     "    jal     EnterCriticalSection\n"

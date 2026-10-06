@@ -102,7 +102,7 @@ provenance entry first: a few overlaps are only alignment words
 | `audio` | `Sfx_` | misnamed: both files are menu item-list code | dissolve into `menu` |
 | `time` | `GameTime_` | play-time counters and timers | keep; receives `util/game_time2.c` |
 | `table` | `Tbl_`, `Str_` | text and textbox lookup tables | rename to `text` (`Text_`) |
-| `util` | `Util_` | vague | dissolve: `util.c` (inventory globals) to `item`, `game_time2.c` to `time`, `Timer_StartTimeout.c` is LIBPAD, `Util_ReturnTrue` to its caller's subsystem |
+| `util` | `Util_` | vague | dissolve: `util.c` (inventory globals) to `item`, `game_time2.c` to `time`, `Util_ReturnTrue` to its caller's subsystem |
 | `main` | mixed | splat's default bucket, not a subsystem | dissolve by prefix into the rows above; `gap_*` words go with the object they pad (most are SDK object tails) |
 
 ## Overlays

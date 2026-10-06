@@ -104,7 +104,7 @@ extern s32 _spu_EVdma;
 extern SpuCallback volatile _spu_transferCallback;
 SpuCallback SpuSetTransferCallback(SpuCallback callback);
 extern SpuCallback volatile _spu_IRQCallback;
-SpuCallback Spu_SetTransferMode(SpuCallback callback);
+SpuCallback SpuSetIRQCallback(SpuCallback callback);
 void _SpuCallback(SpuCallback callback);
 void _SpuDataCallback(SpuCallback callback);
 s32 _spu_Fr(void *address, s32 size);

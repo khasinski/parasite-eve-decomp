@@ -21,7 +21,7 @@ extern int D_800BCDC0;
 extern int D_800BCDC4;
 
 int TestEvent(int event);
-void MemCard_InitCardSlot(int arg0);
+void _card_clear(int arg0);
 void _card_info(int arg0);
 void _card_load(int arg0);
 int Menu_IsMemCardDialogOpen(void);
@@ -49,7 +49,7 @@ void MemCard_StepPortState(int port) {
                 D_800A1834 = 0;
                 D_800A1830 = 0;
                 D_800A182C = 0;
-                MemCard_InitCardSlot(port << 4);
+                _card_clear(port << 4);
                 state->cardState = 2;
                 return;
             }
@@ -77,7 +77,7 @@ void MemCard_StepPortState(int port) {
         D_800A1834 = 0;
         D_800A1830 = 0;
         D_800A182C = 0;
-        MemCard_InitCardSlot(port << 4);
+        _card_clear(port << 4);
         state->cardState = 2;
         return;
 
@@ -186,7 +186,7 @@ int EnterCriticalSection(void);
 void ExitCriticalSection(void);
 int OpenEvent(int desc, int spec, int mode, int (*func)(void));
 int EnableEvent(int event);
-void MemCard_InitCardSubsystem(int arg0);
+void InitCARD(int arg0);
 long StartCARD(void);
 void _bu_init(void);
 void _card_auto(int arg0);
@@ -231,7 +231,7 @@ void MemCard_InitManager(void) {
         D_800BCDC0 = OpenEvent(0xF0000011, 0x0100, 0x1000, MemCard_OnEventF000Spec0100);
         D_800BCDC4 = OpenEvent(0xF0000011, 0x2000, 0x1000, MemCard_OnEventF000Spec2000);
 
-        MemCard_InitCardSubsystem(0);
+        InitCARD(0);
         StartCARD();
         _bu_init();
         _card_auto(0);
@@ -365,9 +365,9 @@ void MemCard_AbortActiveOperation(MemCardPortState *state) {
         retry = 0;
         slot = state->selectedSlot;
 
-        Square_Vsprintf(name_buf, D_80092224, is_second,
+        sprintf(name_buf, D_80092224, is_second,
                         state->slots[slot].titleStyleFlag + 0x30, slot + 0x41);
-        Square_Vsprintf(path, g_MemCardSaveSupportData.saveFileFormat, state_index, D_8009EE70);
+        sprintf(path, g_MemCardSaveSupportData.saveFileFormat, state_index, D_8009EE70);
 
         do {
             fd = open(path, 1);
@@ -395,7 +395,7 @@ void MemCard_AbortActiveOperation(MemCardPortState *state) {
 
 static inline void MemCard_FormatSlotFileName(MemCardPortState *state,
                                               int slot) {
-    Square_Vsprintf(D_8009EE70, D_80092224, state > g_MemCardPortStates,
+    sprintf(D_8009EE70, D_80092224, state > g_MemCardPortStates,
                     state->slots[slot].titleStyleFlag + '0', slot + 'A');
 }
 
@@ -523,7 +523,7 @@ void MemCard_UpdateSaveState(int port) {
         break;
 
     case 14:
-        Square_Vsprintf(device, g_MemCardSaveSupportData.deviceFormat, port);
+        sprintf(device, g_MemCardSaveSupportData.deviceFormat, port);
         D_800A1864 = format(device) ? 12 : -1;
         state->present &= ~4;
         D_800A1838 = 0;
@@ -546,7 +546,7 @@ void MemCard_UpdateSaveState(int port) {
         for (i = 14; i >= 0; i--) {
             state->slots[i].state = current;
         }
-        if (Scene_CreateEntityNode(D_80092230, &entry) != 0) {
+        if (firstfile(D_80092230, &entry) != 0) {
             MemCard_NoteSaveFile(state, &entry);
             while (nextfile(&entry) != 0) {
                 MemCard_NoteSaveFile(state, &entry);
@@ -848,7 +848,7 @@ void Save_StartWriteSlot(int port, int arg_slot) {
         next_sequence;
     });
 
-    Square_Vsprintf(path, D_80092224,
+    sprintf(path, D_80092224,
                     state > g_MemCardPortStates,
                     state->slots[(u8)slot].titleStyleFlag + 0x30,
                     (u8)slot + 0x41);

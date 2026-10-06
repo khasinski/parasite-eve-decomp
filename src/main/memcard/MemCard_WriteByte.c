@@ -31,7 +31,7 @@ int MemCard_WriteByte(CardObj *obj, int value)
             poll_status = ready_sio->status;
         } while ((poll_status & 2) == 0);
     }
-    Timer_StartTimeout(400);
+    setRC2wait(400);
 
     sio = D_8009B788;
     received = sio->data;
@@ -71,8 +71,8 @@ baud_done:
     }
 
     if (obj->field_e8 != 8 && D_8009B768 == 2) {
-        Timer_StartTimeout(60);
-        while (!Spu_CheckTimerElapsed()) { }
+        setRC2wait(60);
+        while (!chkRC2wait()) { }
     }
 
     D_8009B788->data = value;

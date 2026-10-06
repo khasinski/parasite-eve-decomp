@@ -15,7 +15,7 @@ typedef struct SpuCommonSettings {
 
 void SpuSetCommonAttr(SpuCommonSettings *attr);
 int SpuSetReverb(int on_off);
-int SPU_StepDmaRead(unsigned int mode);
+int SpuSetReverbModeType(unsigned int mode);
 void SpuInit(void);
 void SpuStart(void);
 void SpuQuit(void);

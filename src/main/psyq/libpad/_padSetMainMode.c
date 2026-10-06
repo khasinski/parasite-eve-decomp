@@ -8,7 +8,7 @@ extern int (*g_MemCardIsTransferActiveFn)(CardObj *obj);
 void CardObj_EmitReadIdCommand(CardObj *obj);
 int CardObj_CheckAbortOrDispatch(CardObj *obj);
 
-int CardObj_BeginReadIdCommand(CardObj *obj, int byte1, int byte2) {
+int _padSetMainMode(CardObj *obj, int byte1, int byte2) {
     register int compareByte asm("$19");
     register int flag asm("$3");
     register int result asm("$2");

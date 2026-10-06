@@ -2,13 +2,13 @@
 
 #include "pe1/card_obj.h"
 
-int CardObj_CalcReadPayloadSize(CardObj *obj);
-int CardObj_StartReadTransfer(CardObj *obj, unsigned char *dst);
+int _padGetActSize(CardObj *obj);
+int _padLoadActInfo(CardObj *obj, unsigned char *dst);
 
 #define CARD_RESPONSE(obj) \
     (*(unsigned char * volatile *)&(obj)->response_3c)
 
-int CardObj_AdvanceReadLayout(CardObj *obj) {
+int _padRecvAtLoadInfo(CardObj *obj) {
     unsigned int chunk;
     register unsigned int next asm("$2");
     unsigned int responseValue;
@@ -43,14 +43,14 @@ return_zero:
             return 0;
         }
 
-        if (CardObj_CalcReadPayloadSize(obj) >= 0x81) {
+        if (_padGetActSize(obj) >= 0x81) {
             obj->field_46 = 0xFE;
             obj->field_49 = 2;
             goto return_zero;
         }
 
         obj->field_46 = 0xFF;
-        CardObj_StartReadTransfer(obj, (unsigned char *)obj + 0x63);
+        _padLoadActInfo(obj, (unsigned char *)obj + 0x63);
         obj->field_46 = 2;
         goto return_zero;
     }
@@ -58,7 +58,7 @@ return_zero:
     return 1;
 }
 
-int CardObj_CalcReadPayloadSize(CardObj *arg0) {
+int _padGetActSize(CardObj *arg0) {
     int first;
     int second;
     int base;
@@ -87,7 +87,7 @@ extern int (*g_MemCardIsTransferActiveFn)(void);
 void CardObj_EmitReadTransferCommand(CardObj *obj);
 int LIBPAD_PADCMD_text_3A0(CardObj *obj);
 
-int CardObj_StartReadTransfer(CardObj *obj, unsigned char *buffer) {
+int _padLoadActInfo(CardObj *obj, unsigned char *buffer) {
     int cursor;
     int result;
     int state;
