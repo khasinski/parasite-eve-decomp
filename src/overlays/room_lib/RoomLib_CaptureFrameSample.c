@@ -1,3 +1,10 @@
+/*
+ * Fills the room's capture block (D_80192C34..D_80192C3C) from the field
+ * engine's current object: its halfwords at +0x268 and +0x26C, the floor
+ * height and a fixed 0x76C. room_m156, room_m291 and room_m380 (the +2
+ * variants) link it after RoomLib_SlotSet; this unit is that function,
+ * compiled into each of them.
+ */
 #include "common.h"
 #include "pe1/room_floor.h"
 
@@ -12,7 +19,7 @@ extern s16 D_80192C36;
 extern s16 D_80192C38;
 extern s32 D_80192C3C;
 
-void func_80192A3C(RoomCaptureContext *modeOrContext, int x, int y, int z) {
+void RoomLib_CaptureFrameSample(RoomCaptureContext *modeOrContext, int x, int y, int z) {
     unsigned int sample;
     unsigned char *object;
     volatile s16 *captureX;

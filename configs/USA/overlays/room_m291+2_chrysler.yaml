@@ -39,7 +39,7 @@ segments:
       - [0x70, c, ../room_lib/RoomEffect_SparkAttacks]
       - [0x3A00, c, ../room_lib/RoomLib_SetArg1]
       - [0x3A10, c, ../room_lib/RoomLib_SlotSet]
-      - [0x3A54, c, RoomLib_CaptureFrameSample_80192A3C]
+      - [0x3A54, c, ../room_lib/RoomLib_CaptureFrameSample]
       - [0x3AF4, data, D_80192ADC]
       - [0x3B20, data, D_80192B08]
       - [0x3B58, data, D_80192B40]

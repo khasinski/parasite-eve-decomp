@@ -16,3 +16,4 @@ g_RoomBeamSparkAsset = 0x80192C30;
 RoomLib_SlotSet = 0x801929F8; // type:func
 RoomLib_SetArg1 = 0x801929E8; // type:func
 g_RoomScriptArg = 0x80192BF8;
+RoomLib_CaptureFrameSample = 0x80192A3C; // type:func
