@@ -228,8 +228,14 @@ overlay-extract:
 	test -f $(OVERLAY_CFG) || { echo "missing overlay config: $(OVERLAY_CFG)"; exit 1; }; \
 	$(PY) tools/scripts/extract_overlay_config_target.py "$(OVERLAY_CFG)" --pe-img "$(PE_IMG)"
 
+# Splat resolves a shared unit (`../room_lib/<unit>`) through the overlay's
+# own source directory, which Git drops when the overlay has no other C: a
+# missing directory makes the shared source look absent, and splat would then
+# overwrite it with an INCLUDE_ASM stub.
+OVERLAY_SRC_PATH = $(shell sed -n 's/^  src_path: *//p' $(OVERLAY_CFG) 2>/dev/null)
 overlay-split: overlay-extract
 	@test -f $(OVERLAY_CFG) || { echo "missing overlay config: $(OVERLAY_CFG)"; exit 1; }
+	@mkdir -p $(OVERLAY_SRC_PATH)
 	@$(PY) -m splat split $(OVERLAY_CFG)
 	@find $(OVERLAY_ASM_DIR) \( -name '*.data.s' -o -name '*.rodata.s' -o -path '*/data/*.s' \) \
 	    | xargs $(PY) tools/scripts/collapse_zero_data.py
