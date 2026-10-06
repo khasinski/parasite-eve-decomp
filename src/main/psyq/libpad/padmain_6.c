@@ -76,7 +76,7 @@ int _padInitSioMode(CardObj *port) {
 }
 
 /* Adjacent PADMAIN.OBJ state-machine and SIO exchange functions.
- * Empty constraints are tracked; see proposals/PsyqPadFirstfile. */
+ * Empty constraints are tracked in crutch debt. */
 void MemCard_RunCommandStep(void) {
     register int *index asm("$5") = &D_8009B768;
     register int count;

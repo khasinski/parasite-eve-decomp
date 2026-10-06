@@ -28,7 +28,7 @@ void CardObj_EmitReadTransferCommand(CardObj *arg0) {
 }
 
 /* Psy-Q LIBPAD/PADCMD.OBJ private text_3A0.
- * See proposals/PsyqPadDsFour for byte-match evidence and constraint debt. */
+ * Provenance: configs/USA/psyq_provenance.json (LIBPAD PADCMD). */
 extern u8 *D_800A5AD0;
 int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
     register CardObj *port = inPort;

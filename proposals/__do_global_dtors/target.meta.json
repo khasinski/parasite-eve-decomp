@@ -1,6 +1,0 @@
-{
-  "function": "__do_global_dtors",
-  "size": "0x68",
-  "size_bytes": 104,
-  "source": "asm/USA/main/psyq/libsn/__do_global_dtors.s"
-}

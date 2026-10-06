@@ -1,6 +1,6 @@
 /* ASSEMBLER: GNU */
 /* Psy-Q LIBDS/DSSYS_2.OBJ private text_170.
- * See proposals/PsyqPadDsFour for byte-match evidence and constraint debt. */
+ * Provenance: configs/USA/psyq_provenance.json (LIBDS). */
 #include "pe1/psyq_ds_queue.h"
 void LIBDS_DSSYS_2_text_170(int event, u8 *data) {
     DsQueueCallback callbacks[8];

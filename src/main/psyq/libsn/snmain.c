@@ -7,7 +7,7 @@
  * walk the constructor/destructor tables with a 16-byte frame that saves s0,
  * s1 and ra at 4/8/12 and leaves no outgoing argument area, which GCC never
  * produces. PSY-Q 4.6 LIBSN.LIB SNMAIN has all 67 non-relocated words
- * identical (see proposals/libsn_runtime).
+ * identical; the 4.3 object is in configs/USA/psyq_provenance.json.
  */
 #include "pe1/psyq_asm.h"
 

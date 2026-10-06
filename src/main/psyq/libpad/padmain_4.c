@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 /* PSY-Q LIBPAD PADMAIN, part 4 of 8: _padStartCom. */
 /* SDK _padStartCom (PADMAIN.OBJ). Constraints are tracked in crutch debt.
- * See proposals/PsyqPadFirstfile for provenance and full-byte validation. */
+ * Provenance: configs/USA/psyq_provenance.json (LIBPAD PADMAIN). */
 #include "pe1/psyq_pad_main.h"
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);

@@ -5,7 +5,7 @@
  * text_8B8 is at 0x80080220 and text_A9C follows at 0x80080404.
  * text_4A4 is non-contiguous and remains in dssys1_vsync.c. */
 /* Psy-Q LIBDS/DSSYS_1.OBJ private text_8B8.
- * See proposals/PsyqPadDsFour for byte-match evidence and constraint debt. */
+ * Provenance: configs/USA/psyq_provenance.json (LIBDS). */
 #define STATE_FROM_MODE(p)                                                             \
     ((CdRomEventCommandState *)((u8 *)(p) - PE1_OFFSETOF(CdRomEventCommandState,       \
                                                          command.read.commandMode)))

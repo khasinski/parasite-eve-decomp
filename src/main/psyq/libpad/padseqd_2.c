@@ -142,7 +142,7 @@ void LIBPAD_PADSEQD_text_108(CardObj *port) {
 }
 
 /* Psy-Q LIBPAD/PADSEQD.OBJ _dirFailAuto.
- * See proposals/PsyqPadDsFour for byte-match evidence and constraint debt. */
+ * Provenance: configs/USA/psyq_provenance.json (LIBPAD PADSEQD). */
 void _dirFailAuto(CardObj *port) {
     port->field_4c++;
     switch (port->field_46) {

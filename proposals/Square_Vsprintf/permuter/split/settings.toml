@@ -1,3 +1,0 @@
-compiler_type = "gcc"
-func_name = "Square_Vsprintf"
-objdump_command = "mipsel-linux-gnu-objdump"

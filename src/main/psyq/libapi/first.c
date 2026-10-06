@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 /* PSY-Q LIBAPI FIRST, part 1 of 2: firstfile. */
 /* SDK firstfile wrapper (FIRST.OBJ). Constraints are tracked in crutch debt.
- * See proposals/PsyqPadFirstfile for provenance and full-byte validation. */
+ * Provenance: configs/USA/psyq_provenance.json (LIBAPI FIRST). */
 #include "pe1/bios_firstfile.h"
 int strcmp(const char *, const char *);
 void *firstfile2(const char *, void *);

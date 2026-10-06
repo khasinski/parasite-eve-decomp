@@ -221,7 +221,7 @@ comparisons.
 
 | Object | Source | Functions (project names) | Object-specific evidence |
 | --- | --- | --- | --- |
-| LIBSN SNMAIN | `psyq/libsn/snmain.c` | `__SN_ENTRY_POINT`, `__main`, `__do_global_dtors` | PSY-Q 4.6 SNMAIN: all 67 non-relocated words identical. Startup clears BSS, sets `sp`/`fp`/`gp` and parks `ra` in a static word around `InitHeap`. The ctor/dtor walkers use a 16-byte frame with saves at 4/8/12 and load the constant one with `ori` in a delay slot. The C proposals in `proposals/__main` and `proposals/__do_global_dtors` cannot reproduce that frame. |
+| LIBSN SNMAIN | `psyq/libsn/snmain.c` | `__SN_ENTRY_POINT`, `__main`, `__do_global_dtors` | PSY-Q 4.6 SNMAIN: all 67 non-relocated words identical. Startup clears BSS, sets `sp`/`fp`/`gp` and parks `ra` in a static word around `InitHeap`. The ctor/dtor walkers use a 16-byte frame with saves at 4/8/12 and load the constant one with `ori` in a delay slot. Compiled C cannot reproduce that frame. |
 | LIBGTE MSC00 | `psyq/libgte/InitGeom.c` | `InitGeom` | PSY-Q 3.5 `msc00.o`: 32/32 words identical. Static SAVERA slot, direct `mtc0`/`ctc2` setup with explicit hazard NOPs. |
 | LIBGTE MSC01 | `psyq/libgte/msc01.c` | `Gte_ISqrt` (SquareRoot0) | PSY-Q 3.5 `msc01.o`: 31/33 words identical. The two others differ only in the temporary register its assembler chose when expanding `and $t2, $v0, -2`. Local labels Rshift/CNTSQ/RTNSQRT at the same offsets. |
 | LIBGTE MSC02 | `psyq/libgte/msc02.c` | `Gte_VectorOp` (InvSquareRoot), `Gte_NormalizeVecS32toS16` (VectorNormalS), `Gte_NormalizeVec` (VectorNormal), `VectorNormalSS`, `Gte_MatrixOp` (text_100), `Gte_BuildOrthoBasis` (MatrixNormal) | Private routine takes and returns the vector in `t0`..`t2`; callers save `ra` in `a3`; VectorNormalS branches into VectorNormalSS. PSY-Q 3.5 `msc02.o` has the same protocol and local labels, with filled delay slots that 4.0 leaves as NOPs. |
@@ -1355,8 +1355,7 @@ input-only barrier scores 95%. The existing offset, unit, shifted-result,
 and final-address pins were tested individually and remain necessary.
 The containing translation unit still has legacy division ASM and a stack
 pointer constraint; this is not a clean-C match claim. A fully arithmetic
-candidate and the remaining stock-MASPSX difference are recorded under
-`proposals/spu_FsetRXXa`.
+candidate still leaves a stock-MASPSX difference.
 
 ## TIM block accessors
 
@@ -2105,8 +2104,7 @@ object. A single empty barrier in the checked wrapper has read/write memory
 operands restricted to that halfword, preserving the retail store-and-reload
 sequence without contradictory extern qualifiers. The wrapper and all four
 production transfer functions match at 100%, with the full retail main SHA.
-Removing the barrier or either memory operand breaks the match; measurements
-are recorded in proposals/spu_core/README.md. The retained barrier adds one to
+Removing the barrier or either memory operand breaks the match. The retained barrier adds one to
 the debt baseline, with no register pin or instruction ASM. The range check
 casts before subtraction so its arithmetic wraps unsigned, with identical code.
 This supersedes the earlier unresolved-boundary note above.

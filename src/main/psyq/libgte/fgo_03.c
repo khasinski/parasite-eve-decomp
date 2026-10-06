@@ -5,7 +5,7 @@
 
 /* Q12 rotation with retail wrap/rounding order. Pins, empty HI/LO and
  * scheduling constraints, and individual NOPs are tracked matching debt.
- * See proposals/PsyqRotationMatrix for the constraint rationale and evidence.
+ * Provenance: configs/USA/psyq_provenance.json (LIBGTE FGO objects).
  */
 GteMatrix *RotMatrixZYX(GteShortVector *angles, GteMatrix *matrix) {
     register GteMatrix *result;

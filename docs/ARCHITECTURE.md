@@ -119,7 +119,6 @@ main.elf ──objcopy──> build/USA/main.exe ──sha1──> retail
 | `configs/USA/` | splat configs, symbols, relocations, SDK provenance, assembler evidence |
 | `tools/scripts/` | build, check and report scripts; `tools/tests/` their tests |
 | `docs/` | contracts (`CONVENTIONS.md`, `CODE_ORGANIZATION.md`, `ASM_AND_GTE_POLICY.md`), PsyQ notes, badges |
-| `proposals/` | match and provenance evidence, mostly for PsyQ objects reproduced in C |
 
 Not tracked: disc images, `PE.IMG`, the retail executable, the SDK and
 compiler binaries, and everything generated (`asm/`, `linkers/`, `build/`).

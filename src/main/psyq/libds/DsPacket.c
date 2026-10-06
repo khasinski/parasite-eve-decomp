@@ -1,6 +1,6 @@
 /* ASSEMBLER: GNU */
 /* Psy-Q DsPacket. Retains the existing link symbol for callers.
- * Empty constraints preserve the retail schedule; see proposals/PsyqQueueFour. */
+ * Empty constraints preserve the retail schedule. */
 #include "pe1/psyq_ds_queue.h"
 
 int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,

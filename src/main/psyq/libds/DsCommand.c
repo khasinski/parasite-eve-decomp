@@ -1,6 +1,6 @@
 /* ASSEMBLER: GNU */
 /* Psy-Q DsCommand. Retains the existing link symbol for callers.
- * Empty constraints preserve the retail schedule; see proposals/PsyqQueueFour. */
+ * Empty constraints preserve the retail schedule. */
 #include "pe1/psyq_ds_queue.h"
 
 int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
