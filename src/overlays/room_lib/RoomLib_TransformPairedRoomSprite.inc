@@ -1,17 +1,15 @@
 #include "pe1/field_script_context.h"
 #include "RoomLib_RenderLayouts.h"
+#include "pe1/room_paired_glow.h"
 #ifndef ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC
 #error "ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC must name the room entry point"
 #endif
 
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
-void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_800C3238(int page);
 void func_800C3134(void *table, int step, void *out);
 void func_800C4FC4(void *state, RoomSpriteMatrix *matrix, int mode);
 
-extern RoomFxSeed8 D_8018EFF4;
 extern unsigned char ROOMLIB_PAIRED_SPRITE_TABLE[];
 
 /* Retail marks this function handwritten; only its COP2 windows remain ASM. */
@@ -29,7 +27,7 @@ void ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC(void *unused, char *params,
     renderParams = params;
     workState = state;
     root = func_800C2B50();
-    stack.seed = D_8018EFF4;
+    stack.seed = RoomLib_PairedGlowSeed;
 
     stack.scaleMatrix.m[2][2] = 0x1000;
     stack.scaleMatrix.m[1][1] = 0x1000;

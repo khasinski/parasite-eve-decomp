@@ -38,25 +38,14 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, scene_e14_header]
+      - [0xC, .rodata, RoomLib_PairedGlowEmitters]
       - [0x14, .rodata, ../room_lib/RoomEffect_OrbitFlare]
       - [0x24, c, ../room_lib/RoomLib_PlantScript]
       - [0x50, c, ../room_lib/RoomLib_Spawn6]
       - [0x7C, c, ../room_lib/RoomLib_RegisterDrawList]
       - [0xC4, c, ../room_lib/RoomLib_RegisterPairedTables]
       - [0x150, c, ../room_lib/RoomLib_CloseTarget]
-      - [0x1D4, c, func_8018F1C4]
-      - [0x1DC, c, func_8018F1CC]
-      - [0x1E4, c, func_8018F1D4]
-      - [0x2F0, c, func_8018F2E0]
-      - [0x2F8, c, func_8018F2E8]
-      - [0x378, c, func_8018F368]
-      - [0x528, c, func_8018F518]
-      - [0x828, c, RoomLib_ParticleTickA_8018F818]
-      - [0x91C, c, func_8018F90C]
-      - [0x924, c, func_8018F914]
-      - [0x92C, c, func_8018F91C]
-      - [0x934, c, func_8018F924]
-      - [0x954, c, func_8018F944]
+      - [0x1D4, c, RoomLib_PairedGlowEmitters]
   - [0xB18]
   - name: scene_e14_late
     type: code

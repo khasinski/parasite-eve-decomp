@@ -1,4 +1,0 @@
-#define ROOMLIB_UPDATE_PAIRED_EMITTER_NAME func_8018F514
-#define ROOMLIB_UPDATE_PAIRED_EMITTER_TABLE D_80190FB4
-#define ROOMLIB_UPDATE_PAIRED_EMITTER_COUNTER g_FrameCount16
-#include "../room_lib/RoomLib_UpdatePairedEmitter.inc"
