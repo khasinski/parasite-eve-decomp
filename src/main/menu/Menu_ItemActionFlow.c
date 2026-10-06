@@ -43,6 +43,27 @@ void Menu_DrawItemListInvPanel(void);
 extern void Menu_DrawEquipStatsDelta(ItemDataRecord *data);
 extern void Draw_PrintNumberWidth4Unk(int arg0);
 extern void Draw_PrintSignedNumberWidth4(int arg0);
+/* Inlined into Menu_OpenItemList, like Menu_CreateItemActionSubmenu; no
+ * out-of-line copy exists in retail. */
+static inline void Menu_CreateScreenModeSubmenu(void) {
+    MenuWidgetNode *parent;
+    MenuWidgetNode *child;
+
+    parent = MenuWidget_CreateSimpleNode(0x2c, MenuWidget_GetCurrentNode(), 0, 1);
+    child = MenuWidget_CreateNode(0x2c, parent, parent);
+    parent->draw = Menu_DrawEquipScreenHeader;
+    parent->update = Menu_InventoryItemHandler;
+    child->draw = Menu_DrawScreenModeList;
+    child->selectionAvailable = Menu_GetStatBaseValue;
+    if (D_8009CF0C != 0) {
+        parent->visible_rows += 0x10;
+        child->visible_rows = 2;
+        child->y_limit = 2;
+        child->x += 0x1c;
+    }
+    MenuWidget_SetCurrentNode(child);
+}
+
 void Menu_OpenItemList(void);
 void Menu_StepInventoryRoot(s32 arg0, s32 arg1, s32 arg2);
 void Menu_PlayMoveSound(void);
@@ -84,7 +105,8 @@ int Menu_InventoryItemHandler(MenuWidgetNode *arg0, int arg1) {
     return 1;
 }
 
-void Menu_CreateItemActionSubmenu(void) {
+/* Also inlined into Menu_OpenItemList, which follows in this unit. */
+inline void Menu_CreateItemActionSubmenu(void) {
     void *node;
     void *child;
 
@@ -413,8 +435,6 @@ void Menu_OpenItemList(void)
     int kind;
     int i;
     MenuWidgetNode *node;
-    MenuWidgetNode *parent;
-    MenuWidgetNode *child;
     ItemDataRecord *item;
 
     node = MenuWidget_GetCurrentNode();
@@ -446,32 +466,7 @@ void Menu_OpenItemList(void)
         D_8009CF18 = kind != 9;
         i = (D_800A1888[0] > 0) + (D_800A188C[0] > 0) + (D_800A1890[0] > 0);
         if (D_800A1894[0] > 0 ? i + 1 >= 2 : i >= 2) {
-            MenuWidgetNode *equip_child;
-            MenuWidgetNode *raw_child;
-            MenuWidgetNode *raw_parent;
-            register int create_mode asm("$4");
-            raw_parent = MenuWidget_CreateSimpleNode(0x2c, MenuWidget_GetCurrentNode(), 0, 1);
-            create_mode = 0x2c;
-            asm volatile("" : "=r"(raw_parent) : "0"(raw_parent), "r"(create_mode));
-            parent = raw_parent;
-            raw_child = MenuWidget_CreateNode(create_mode, parent, parent);
-            {
-                void (*callback)();
-                callback = Menu_DrawEquipScreenHeader;
-                parent->draw = callback;
-                callback = Menu_InventoryItemHandler;
-                parent->update = callback;
-            }
-            equip_child = raw_child;
-            equip_child->draw = Menu_DrawScreenModeList;
-            equip_child->selectionAvailable = Menu_GetStatBaseValue;
-            if (D_8009CF0C != 0) {
-                parent->visible_rows += 0x10;
-                equip_child->visible_rows = 2;
-                equip_child->y_limit = 2;
-                equip_child->x += 0x1c;
-            }
-            MenuWidget_SetCurrentNode(equip_child);
+            Menu_CreateScreenModeSubmenu();
             goto confirm;
         }
 
@@ -481,22 +476,7 @@ void Menu_OpenItemList(void)
         kind = *(u8 *)((unsigned int)item + slot + 0x15) & 0x1f;
         if (status == 1 || (!(D_8009CF2C & 1) && status == 2) ||
             ((D_8009CF2C & 1) && status == 5 && (unsigned)(kind - 8) >= 3)) {
-            MenuWidgetNode *raw_parent2;
-            register int create_mode2 asm("$4");
-            raw_parent2 = MenuWidget_CreateSimpleNode(4, MenuWidget_GetCurrentNode(), 0, 1);
-            create_mode2 = 4;
-            asm volatile("" : "=r"(raw_parent2) : "0"(raw_parent2), "r"(create_mode2));
-            parent = raw_parent2;
-            child = MenuWidget_CreateNode(create_mode2, parent, parent);
-            parent->draw = Menu_DrawItemActionSubmenu;
-            parent->update = Menu_StepSkillSelect;
-            child->draw = Menu_DrawActionOptionList;
-            D_8009CF14 = 5;
-            MenuWidget_SetCurrentNode(child);
-            if (D_8009CF2C & 1) {
-                parent->visible_rows -= 0x1c;
-                child->y -= 0x1c;
-            }
+            Menu_CreateItemActionSubmenu();
         } else {
             Menu_CreateItemList();
         }
