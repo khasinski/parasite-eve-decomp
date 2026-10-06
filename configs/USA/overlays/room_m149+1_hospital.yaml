@@ -34,12 +34,9 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m149+1_0_1C]
-      - [0x1C, .rodata, RoomEffect_DroppedFlareParticle_8018F038]
-      - [0x48, rodata, RoomLib_DlgRect]
-      - [0x50, c, RoomEffect_DroppedFlareParticle_8018F038]
-      - [0xA10, c, RoomLib_MsgDispatch_8018F9F8]
-      - [0xCD8, c, RoomLib_SetPair_8018FCC0]
+      - [0x0, rodata, room_m149+1_0_C]
+      - [0xC, .rodata, ../room_lib/RoomEffect_DroppedFlare]
+      - [0x50, c, ../room_lib/RoomEffect_DroppedFlare]
       - [0xCF4, data, D_8018FCDC]
       - [0xD18, data, D_8018FD00]
       - [0xD50, data, RoomLib_PairA]

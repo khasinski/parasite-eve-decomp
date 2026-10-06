@@ -1,17 +1,14 @@
+/* MASPSX_FLAGS: --expand-div */
+/*
+ * Dropped flares: the particle, the emitter that drops them and the setter
+ * of the room's two flare arguments. The three functions follow each other
+ * in this order in thirteen hospital rooms and in scenes e09 and e10, and
+ * the unit's rodata (the particle's two seed initialisers, its two jump
+ * tables, the emitter's rectangle) is one contiguous block in all of them.
+ */
+#include "common.h"
 #include "pe1/room_flare.h"
 #include "pe1/gte.h"
-#ifndef ROOMEFFECT_DROPPED_FLARE_FUNC
-#error "ROOMEFFECT_DROPPED_FLARE_FUNC must name the room entry point"
-#endif
-#ifndef ROOMEFFECT_DROPPED_FLARE_ROTATION
-#error "ROOMEFFECT_DROPPED_FLARE_ROTATION must name the floor rotation seed"
-#endif
-#ifndef ROOMEFFECT_DROPPED_FLARE_COLOR
-#error "ROOMEFFECT_DROPPED_FLARE_COLOR must name the colour seed"
-#endif
-
-extern GteRotation ROOMEFFECT_DROPPED_FLARE_ROTATION;
-extern RoomFlareColor ROOMEFFECT_DROPPED_FLARE_COLOR;
 
 /* Flashes the scene: marks the battle actor and rewrites the colour code of
  * the first packet in the primary effect channel. */
@@ -32,10 +29,10 @@ extern RoomFlareColor ROOMEFFECT_DROPPED_FLARE_COLOR;
 /* Particle that falls under gravity, flashes the scene when it hits the
  * walkable area, scatters children every other frame, and settles on the
  * floor; the lift argument scales the sprite and the scatter spread. */
-int ROOMEFFECT_DROPPED_FLARE_FUNC(int mode, RoomDroppedFlare *flare,
-                                  RoomDroppedFlareSpawn *spawn) {
-    GteRotation rotation = ROOMEFFECT_DROPPED_FLARE_ROTATION;
-    RoomFlareColor color = ROOMEFFECT_DROPPED_FLARE_COLOR;
+int RoomEffect_DroppedFlareParticle(int mode, RoomDroppedFlare *flare,
+                                    RoomDroppedFlareSpawn *spawn) {
+    GteRotation rotation = {0x400, 0, 0, 1};
+    RoomFlareColor color = {0xC8, 0x08, 0x00, 0x00};
     GteShortVector floorPos;
     GteRotation floorSpin;
     RoomDroppedFlare *child;
@@ -221,7 +218,77 @@ int ROOMEFFECT_DROPPED_FLARE_FUNC(int mode, RoomDroppedFlare *flare,
     return 0;
 }
 
-#undef ROOMEFFECT_DROPPED_FLARE_FLASH
-#undef ROOMEFFECT_DROPPED_FLARE_FUNC
-#undef ROOMEFFECT_DROPPED_FLARE_ROTATION
-#undef ROOMEFFECT_DROPPED_FLARE_COLOR
+/* Drops the flares: mode 0 aims the emitter (at the scene anchor, or at the
+ * player) and spawns the particle, mode 1 sheds a falling flare and a
+ * rising spark on frame 1, mode 2 resets the sprite parameters. */
+int RoomEffect_DroppedFlareEmitter(int mode, RoomDroppedFlareEmitter *emitter,
+                                   s16 *speed) {
+    RoomFlareRect rect = {{0x00, 0x00, 0x00, 0x00, 0xF0, 0xFF, 0x00, 0x00}};
+
+    switch (mode) {
+    case 0:
+        func_800CE8F0(D_800F32D0->pool, 0x13, &rect, emitter);
+        switch (D_800E2368->phase) {
+        case 0:
+            func_800CE9D4(D_800F32D0->pool, 0x13, &emitter->angles);
+            break;
+        case 1:
+            {
+                s16 target[4];
+                func_800CE870((char *)D_8009D254, 0, target);
+                func_800CFAA8(emitter, target, &emitter->angles);
+                emitter->angles.x = 0x180;
+            }
+            break;
+        }
+        if (D_800E2368->active != 0) {
+            RoomFlareNode **node = (RoomFlareNode **)D_800F32D0->pool;
+            if (node != 0 && *node != 0) {
+                u8 *state = (*node)->state;
+                if (*state == 1) {
+                    *state = 2;
+                }
+            }
+        }
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x18,
+                             RoomEffect_DroppedFlareParticle);
+    case 1:
+        if (D_800E27EC == mode) {
+            RoomDroppedFlare *flare = func_800CE610(D_800F33E0->pool);
+            if (flare != 0) {
+                flare->x = emitter->x;
+                flare->y = emitter->y;
+                flare->z = emitter->z;
+                func_800CFB7C(&emitter->angles, *speed, &flare->velocity);
+                flare->state = 0;
+                flare->timer = 0;
+            }
+            flare = func_800CE610(D_800F33E0->pool);
+            if (flare != 0) {
+                flare->x = emitter->x;
+                flare->y = emitter->y;
+                flare->z = emitter->z;
+                flare->state = 3;
+                flare->timer = 0;
+            }
+            func_800D3F64(0x586, func_800D3FD8());
+        }
+        if (D_800E27EC >= 2) {
+            return 2;
+        }
+        break;
+    case 2:
+        D_800F3368.parameter0A = 0;
+        D_800F3368.depth = 8;
+        break;
+    }
+    return 0;
+}
+
+/* Stores the room's two flare arguments and returns the first. */
+int *RoomEffect_DroppedFlareSetArgs(int unused, int first, int second) {
+    int *slot = &RoomLib_PairA;
+    *slot = first;
+    RoomLib_PairB = second;
+    return slot;
+}

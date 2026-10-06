@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/gte_short_vector.h"
 #include "pe1/room_fx.h"
 
 /* Flare effects: a controller that orbits an anchor read from the scene
@@ -98,11 +99,24 @@ typedef struct RoomOrbitFlareSpawn {
 typedef struct RoomDroppedFlare {
     s16 x, y, z;                  /* 0x00 */
     s16 swing;                    /* 0x06 */
-    s16 vx, vy, vz;               /* 0x08 */
-    s16 reserved0E;
+    GteShortVector velocity;      /* 0x08 */
     s16 state;                    /* 0x10 */
     u16 timer;                    /* 0x12 */
 } RoomDroppedFlare;
+
+/* The object that drops the flares: its position and the direction the
+ * flares leave in. */
+typedef struct RoomDroppedFlareEmitter {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    GteShortVector angles;        /* 0x08 */
+} RoomDroppedFlareEmitter;
+
+/* Eight-byte sprite rectangle the emitter hands to its effect channel;
+ * byte-typed, so it is copied with unaligned word moves. */
+typedef struct RoomFlareRect {
+    u8 bytes[8];
+} RoomFlareRect;
 
 typedef struct RoomDroppedFlareSpawn {
     s32 reserved00;
@@ -146,5 +160,16 @@ extern void func_800CEE20(void *position, void *rotation, int scale_x,
                           int scale_y, int texture, int clut, int kind,
                           int fade, void *color);
 extern void func_800D1DEC(void *position, void *color, int scale, int flags);
+extern void func_800CE870(char *object, int mode, s16 *position);
+extern void func_800CFAA8(void *from, void *to, void *angles);
+extern void func_800CFB7C(GteShortVector *angles, s16 distance,
+                          GteShortVector *out);
+
+/* Room data the dropped-flare unit writes; each room defines it. */
+extern int RoomLib_PairA;
+extern int RoomLib_PairB;
+
+int RoomEffect_DroppedFlareParticle(int mode, RoomDroppedFlare *flare,
+                                    RoomDroppedFlareSpawn *spawn);
 
 #endif

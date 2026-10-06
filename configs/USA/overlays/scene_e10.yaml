@@ -40,12 +40,7 @@ segments:
         name: scene_e10_header
         dir: scene_e10
       - [0x24, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - start: 0x1FC
-        type: rodatabin
-        name: scene_e10_header_tail
-        dir: scene_e10
-      - [0x20C, .rodata, RoomEffect_DroppedFlareParticle_80193F64]
-      - [0x238, rodata, RoomEffect_DroppedFlareParticle_80193F64_pad]
+      - [0x1FC, .rodata, ../room_lib/RoomEffect_DroppedFlare]
       - [0x240, c, RoomLib_PlantTable_8018F228]
       - [0x26C, c, RoomLib_Spawn6_8018F254]
       - [0x298, c, RoomLib_RegisterTable_8018F280]
@@ -69,9 +64,7 @@ segments:
       - [0x1B50, c, func_80190B38]
       - [0x1BB0, c, func_80190B98]
       - [0x1C60, c, ../room_lib/RoomLib_ActorClasses]
-      - [0x4F7C, c, RoomEffect_DroppedFlareParticle_80193F64]
-      - [0x593C, c, func_80194924]
-      - [0x5C04, c, func_80194BEC]
+      - [0x4F7C, c, ../room_lib/RoomEffect_DroppedFlare]
       - [0x5C20, data]
   - [0x6000]
 # source slice: scanner
