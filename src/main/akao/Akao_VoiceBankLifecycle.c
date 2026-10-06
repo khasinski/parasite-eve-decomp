@@ -703,7 +703,7 @@ extern u32 D_800BCD50;
 void func_8008ABF0(void) {
     u32 mask;
     u32 bit;
-    register AkaoTrack *track asm("$2");
+    AkaoTrack *track;
     unsigned int *flags;
     mask = D_800BCD50;
     track = D_800BC000_tracks;
