@@ -75,7 +75,7 @@ Str_EncodeBase32 = 0x8006E2D0; // type:func
 Str_DecodeBase32 = 0x8006E338; // type:func
 
 // Event / controller.
-Evt_Deliver = 0x800739C4; // type:func
+_err_math = 0x800739C4; // type:func
 
 // Audio / SPU sequencer.
 Seq_TrackPitchSetup = 0x8008B410; // type:func
@@ -750,7 +750,7 @@ Akao_SendTableCommand = 0x8006DF50; // type:func
 Str_ParseBase32Id = 0x8006E3D4; // type:func
 Str_ParseMapNumber = 0x8006E454; // type:func
 Gpu_LoadTimImage = 0x800718D0; // type:func
-Math_Cmp64Pair = 0x80073244; // type:func
+_comp_mant = 0x80073244; // type:func
 puts = 0x80073C5C; // type:func
 setjmp = 0x80074354; // type:func
 startIntrDMA = 0x800744D4; // type:func
@@ -1235,13 +1235,13 @@ Scene_UpdateEntityFacingFromPad = 0x80071754; // type:func
 firstfile = 0x800727B4; // type:func
 Sys_FirstFileHookCallback = 0x80072950; // type:func
 __adddf3 = 0x80072A74; // type:func
-Math_Add64 = 0x80072DF4; // type:func
-Math_Add64WithShift = 0x80072EA4; // type:func
+_add_mant_d = 0x80072DF4; // type:func
+_dbl_shift = 0x80072EA4; // type:func
 __divdf3 = 0x80072F64; // type:func
-Math_Shift64 = 0x80073294; // type:func
-Math_DoubleToInt32 = 0x80073354; // type:func
-Math_Int32ToDouble = 0x80073454; // type:func
-Math_Mul32To64 = 0x800738D8; // type:func
+_dbl_shift_us = 0x80073294; // type:func
+__fixdfsi = 0x80073354; // type:func
+__floatsidf = 0x80073454; // type:func
+_mul_mant_d = 0x800738D8; // type:func
 Sys_InitIntrManager = 0x80073E28; // type:func
 Render_InitSceneGeom = 0x80073F00; // type:func
 Sys_SetIntrCallback = 0x800740D0; // type:func
@@ -1367,7 +1367,7 @@ SeqOp_SetPitchLFO = 0x8008FD10; // type:func
 SeqOp_UpdatePitchLFOTarget = 0x8008FE10; // type:func
 SeqOp_NoteOnWithPitchSlide = 0x80090E20; // type:func
 Battle_Init = 0x80020F18; // type:func
-Math_Neg64 = 0x80073554; // type:func
+_mainasu = 0x80073554; // type:func
 Battle_DispatchSpecialAction = 0x800254BC; // type:func
 
 Seq_StartNestedStreams = 0x8008A92C; // type:func
@@ -1427,7 +1427,7 @@ StGetNext = 0x8007C484; // type:func
 Inv_StepScrollDisplay = 0x80057094; // type:func
 StCdInterrupt = 0x8007C564; // type:func
 Scene_UpdateEntityPositions = 0x80036448; // type:func
-Math_Sqrt64 = 0x800735C4; // type:func
+__muldf3 = 0x800735C4; // type:func
 Akao_ProcessCommand = 0x80015DAC; // type:func
 Battle_DrawHPBar = 0x80030894; // type:func
 Akao_SetVoiceKeyOn = 0x80088980; // type:func

@@ -12,20 +12,20 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 CASES = [('libmath/divdf3',
   816,
   '3b46f2ee4ed2d17e27f2c2e19afe53b7fa403a7333b3e9b633dd2551bfccd101',
-  'Math_Add64WithShift = 0x80072EA4;\n'
-  'Math_Neg64 = 0x80073554;\n'
-  'Math_Add64 = 0x80072DF4;\n'
-  'Math_Shift64 = 0x80073294;\n'
-  'Evt_Deliver = 0x800739C4;\n'
+  '_dbl_shift = 0x80072EA4;\n'
+  '_mainasu = 0x80073554;\n'
+  '_add_mant_d = 0x80072DF4;\n'
+  '_dbl_shift_us = 0x80073294;\n'
+  '_err_math = 0x800739C4;\n'
   'SECTIONS { .text 0x80072f64 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libmath/adddf3',
   884,
   '3060f098b67be7758d285c025aca8d2dfc4db7a0b07501b9c929bdb914f11835',
-  'Math_Neg64 = 0x80073554;\n'
-  'Math_Add64WithShift = 0x80072EA4;\n'
-  'Math_Add64 = 0x80072DF4;\n'
-  'Evt_Deliver = 0x800739C4;\n'
+  '_mainasu = 0x80073554;\n'
+  '_dbl_shift = 0x80072EA4;\n'
+  '_add_mant_d = 0x80072DF4;\n'
+  '_err_math = 0x800739C4;\n'
   'SECTIONS { .text 0x80072a74 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libgpu/PutDispEnv',

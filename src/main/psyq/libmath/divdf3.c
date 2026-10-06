@@ -1,7 +1,6 @@
 /* ASSEMBLER: GNU */
 /* Complete LIBMATH DIVDF3.OBJ: division and its 64-bit comparison helper. */
 #include "pe1/math64.h"
-void Evt_Deliver(int, int);
 double __divdf3(double numerator, double denominator) {
     struct {
         MathU64 quotient, bit, round, n, d, temp;
@@ -46,8 +45,8 @@ double __divdf3(double numerator, double denominator) {
         w.n.lo = left.bits.lo;
         w.d.hi = (right.bits.hi & 0xfffff) | 0x100000;
         w.d.lo = right.bits.lo;
-        if (Math_Cmp64Pair(w.n, w.d) < 0) {
-            Math_Add64WithShift(&w.n, 0, w.n, 1);
+        if (_comp_mant(w.n, w.d) < 0) {
+            _dbl_shift(&w.n, 0, w.n, 1);
             exponent--;
         }
         savedN = &w.n;
@@ -57,36 +56,36 @@ double __divdf3(double numerator, double denominator) {
         w.quotient.lo = 0;
         w.quotient.hi = 0;
         do {
-            if (Math_Cmp64Pair(w.n, w.d) >= 0) {
+            if (_comp_mant(w.n, w.d) >= 0) {
                 w.quotient.hi |= w.bit.hi;
                 w.quotient.lo |= w.bit.lo;
-                Math_Neg64(&w.temp, w.d);
-                Math_Add64(savedN, w.n, w.temp);
+                _mainasu(&w.temp, w.d);
+                _add_mant_d(savedN, w.n, w.temp);
             }
-            Math_Add64WithShift(&w.n, 0, w.n, shift);
-            Math_Shift64(&w.bit, 1, w.bit, shift);
+            _dbl_shift(&w.n, 0, w.n, shift);
+            _dbl_shift_us(&w.bit, 1, w.bit, shift);
         } while (w.bit.hi || w.bit.lo);
         qp = &w.quotient;
         if (exponent >= 0) {
             shift = 1;
             w.round.hi = 0;
             w.round.lo = 1;
-            Math_Add64(qp, w.quotient, w.round);
+            _add_mant_d(qp, w.quotient, w.round);
             exponent++;
             qp = &w.quotient;
         } else {
             shift = -exponent;
             w.round.hi = 0;
             w.round.lo = 1U << shift;
-            Math_Add64(qp, w.quotient, w.round);
+            _add_mant_d(qp, w.quotient, w.round);
             exponent = 0;
             qp = &w.quotient;
             shift++;
         }
-        Math_Shift64(qp, 1, w.quotient, shift);
+        _dbl_shift_us(qp, 1, w.quotient, shift);
         w.quotient.hi &= 0xffefffff;
         if (exponent >= 2047) {
-            Evt_Deliver(34, 15);
+            _err_math(34, 15);
             result.bits.hi = sign ? 0xfff00000 : 0x7ff00000;
             result.bits.lo = 0;
         } else {
@@ -102,7 +101,7 @@ double __divdf3(double numerator, double denominator) {
 
 
 
-int Math_Cmp64Pair(MathU64 left, MathU64 right)
+int _comp_mant(MathU64 left, MathU64 right)
 {
     if (left.hi > right.hi) goto greater;
     if (left.hi < right.hi) return -1;

@@ -2,7 +2,7 @@
 #include "common.h"
 #include "pe1/math64.h"
 
-MathU64 *Math_Neg64(MathU64 *out, MathU64 value)
+MathU64 *_mainasu(MathU64 *out, MathU64 value)
 {
     MathU64 one;
 
@@ -12,7 +12,7 @@ MathU64 *Math_Neg64(MathU64 *out, MathU64 value)
     value.lo = ~value.lo;
     asm("" : "+m"(value.lo), "+m"(value.hi));
     asm("" : "+m"(one.lo));
-    Math_Add64(&value, value, one);
+    _add_mant_d(&value, value, one);
     {
         u32 resultLo;
         s32 resultHi;

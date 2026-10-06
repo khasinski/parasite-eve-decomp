@@ -5,7 +5,7 @@
 /* A nonzero direction selects sign-extending right shifts. Counts <= 0
  * copy the input unchanged; larger counts are processed one bit at a time.
  * The output binding and empty barrier are included in debt. */
-MathU64 *Math_Add64WithShift(MathU64 *result, int right, MathU64 value, int amount)
+MathU64 *_dbl_shift(MathU64 *result, int right, MathU64 value, int amount)
 {
     register MathU64 *out asm("$8") = result;
     int shift = amount;

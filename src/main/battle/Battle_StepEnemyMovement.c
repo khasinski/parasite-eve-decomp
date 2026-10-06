@@ -5,8 +5,8 @@
 #include "pe1/random.h"
 
 /* Legacy name: this computes enemy damage, applies attack/status resistances,
- * subtracts HP, and starts the hit reaction. Math_Sqrt64 is the existing name
- * of the software double multiply helper. Matching debt: 2 pins and 1 empty
+ * subtracts HP, and starts the hit reaction. The double arithmetic calls the
+ * LIBMATH soft-float entry points directly. Matching debt: 2 pins and 1 empty
  * barrier retain the core alias and signed action-mode argument sequence. */
 void Battle_StepEnemyMovement(BattleEntity *entity)
 {
@@ -40,11 +40,11 @@ void Battle_StepEnemyMovement(BattleEntity *entity)
         double base, scale;
         stat -= 25;
         stat += D_8009D278->field04.fieldId04;
-        base = Math_Int32ToDouble(stat * 6);
-        scale = Math_Int32ToDouble(D_8009D2B0 - 1);
-        scale = Math_Sqrt64(scale, 0.1);
+        base = __floatsidf(stat * 6);
+        scale = __floatsidf(D_8009D2B0 - 1);
+        scale = __muldf3(scale, 0.1);
         scale = __adddf3(scale, 1.0);
-        attackPower = Math_DoubleToInt32(__divdf3(Math_Sqrt64(base, scale), 7.0));
+        attackPower = __fixdfsi(__divdf3(__muldf3(base, scale), 7.0));
     }
     else if (activeState & 0x100000)
     {

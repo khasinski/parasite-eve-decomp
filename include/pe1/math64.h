@@ -12,16 +12,17 @@ typedef union MathDoubleBits {
     MathU64 bits;
 } MathDoubleBits;
 
-MathU64 *Math_Add64(MathU64 *result, MathU64 left, MathU64 right);
-MathU64 *Math_Add64WithShift(MathU64 *result, int arithmetic, MathU64 value, int amount);
-int Math_Cmp64Pair(MathU64 left, MathU64 right);
-MathU64 *Math_Shift64(MathU64 *result, int arithmetic, MathU64 value, int amount);
-MathU64 *Math_Neg64(MathU64 *result, MathU64 value);
-double Math_Int32ToDouble(int value);
-int Math_DoubleToInt32(double value);
+MathU64 *_add_mant_d(MathU64 *result, MathU64 left, MathU64 right);
+MathU64 *_dbl_shift(MathU64 *result, int arithmetic, MathU64 value, int amount);
+int _comp_mant(MathU64 left, MathU64 right);
+MathU64 *_dbl_shift_us(MathU64 *result, int arithmetic, MathU64 value, int amount);
+MathU64 *_mainasu(MathU64 *result, MathU64 value);
+double __floatsidf(int value);
+int __fixdfsi(double value);
 double __divdf3(double numerator, double denominator);
-MathU64 *Math_Mul32To64(MathU64 *result, unsigned int left, unsigned int right);
+MathU64 *_mul_mant_d(MathU64 *result, unsigned int left, unsigned int right);
 double __adddf3(double left, double right);
-double Math_Sqrt64(double left, double right);
+double __muldf3(double left, double right);
+int _err_math(int error, int operation);
 
 #endif

@@ -3,9 +3,7 @@
 
 /* GCC_VERSION: 2.8.1 */
 
-void Evt_Deliver(s32 event, s32 argument);
-
-s32 Math_DoubleToInt32(register double value)
+s32 __fixdfsi(register double value)
 {
     register MathDoubleBits input;
     volatile MathU64 parts;
@@ -24,7 +22,7 @@ s32 Math_DoubleToInt32(register double value)
     exponent = ((s32)input.bits.hi >> exponent) & 0x7FF;
     shift = exponent - 0x41D;
     if (shift > 0) {
-        Evt_Deliver(0x22, 0x11);
+        _err_math(0x22, 0x11);
         result = 0x7FFFFFFF;
         if ((s32)input.bits.hi < 0) {
             result = 0x80000000;
@@ -34,7 +32,7 @@ s32 Math_DoubleToInt32(register double value)
 
     parts.hi = (input.bits.hi & 0xFFFFF) | 0x100000;
     parts.lo = input.bits.lo;
-    Math_Add64WithShift(&parts, 0, parts, 10);
+    _dbl_shift(&parts, 0, parts, 10);
     mantissa = parts.hi;
     if ((u32)(exponent - 0x3FE) >= 0x20) goto zero;
     if (mantissa == 0) goto zero;

@@ -1,6 +1,5 @@
 /* ASSEMBLER: GNU */
 #include "pe1/math64.h"
-void Evt_Deliver(int, int);
 double __adddf3(double x, double y) {
     struct {
         MathU64 a, b, round;
@@ -47,57 +46,57 @@ decode:;
     w.b.lo = right.bits.lo;
     signMask = 0x80000000;
     if ((int)left.bits.hi < 0)
-        Math_Neg64(&w.a, w.a);
+        _mainasu(&w.a, w.a);
     {
         register unsigned negative asm("$2") = right.bits.hi & signMask;
         if (negative)
-            Math_Neg64(&w.b, w.b);
+            _mainasu(&w.b, w.b);
     }
     shift = 9;
-    Math_Add64WithShift(&w.a, 0, w.a, shift);
+    _dbl_shift(&w.a, 0, w.a, shift);
     bp = &w.b;
-    Math_Add64WithShift(bp, 0, w.b, shift);
+    _dbl_shift(bp, 0, w.b, shift);
     if (exponent > rexp)
-        Math_Add64WithShift(bp, 1, w.b, exponent - rexp);
+        _dbl_shift(bp, 1, w.b, exponent - rexp);
     else {
         register MathU64 *ptr = &w.a;
         register int direction = 1;
         amount = rexp - exponent;
-        Math_Add64WithShift(ptr, direction, w.a, amount);
+        _dbl_shift(ptr, direction, w.a, amount);
         exponent = rexp;
     }
-    Math_Add64(&w.a, w.a, w.b);
+    _add_mant_d(&w.a, w.a, w.b);
     if ((int)w.a.hi >= 0) {
         if (!w.a.hi && !w.a.lo)
             return w.zero.value;
     } else {
-        Math_Neg64(&w.a, w.a);
+        _mainasu(&w.a, w.a);
         sign = 0x80000000;
     }
     if (!(w.a.hi & 0xe0000000)) {
         topMask = 0xe0000000;
         one = 1;
         do {
-            Math_Add64WithShift(&w.a, 0, w.a, one);
+            _dbl_shift(&w.a, 0, w.a, one);
             exponent--;
         } while (!(w.a.hi & topMask));
     }
     topMask = 0x40000000;
     if (w.a.hi & topMask) {
-        Math_Add64WithShift(&w.a, 1, w.a, 1);
+        _dbl_shift(&w.a, 1, w.a, 1);
         exponent++;
     }
     w.round.hi = 0;
     w.round.lo = (w.a.lo & 0x200) ? 0x100 : 0xff;
-    Math_Add64(&w.a, w.a, w.round);
+    _add_mant_d(&w.a, w.a, w.round);
     if (w.a.hi & topMask) {
-        Math_Add64WithShift(&w.a, 1, w.a, 1);
+        _dbl_shift(&w.a, 1, w.a, 1);
         exponent++;
     }
-    Math_Add64WithShift(&w.a, 1, w.a, 9);
+    _dbl_shift(&w.a, 1, w.a, 9);
     w.a.hi &= 0xffefffff;
     if (exponent >= 2047) {
-        Evt_Deliver(34, 11);
+        _err_math(34, 11);
         left.bits.hi = sign ? 0xfff00000 : 0x7ff00000;
         left.bits.lo = 0;
     } else {

@@ -1,7 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 #include "pe1/math64.h"
 
-MathU64 *Math_Add64(MathU64 *result, MathU64 left, MathU64 right)
+MathU64 *_add_mant_d(MathU64 *result, MathU64 left, MathU64 right)
 {
     unsigned int parts[4];
 

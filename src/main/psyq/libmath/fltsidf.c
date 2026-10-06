@@ -5,7 +5,7 @@
  * Keep the retail signed comparisons, including the nonterminating INT_MIN
  * normalization path. The zero-register binding and scheduling constraints
  * below emit no instructions and are included in debt. */
-double Math_Int32ToDouble(int value) {
+double __floatsidf(int value) {
     register unsigned int sign = 0;
     register int exponent = 0x41D;
     register MathDoubleBits result asm("$16");
@@ -31,7 +31,7 @@ double Math_Int32ToDouble(int value) {
         }
         parts.hi = value;
         parts.lo = 0;
-        Math_Shift64(&parts, 1, parts, 10);
+        _dbl_shift_us(&parts, 1, parts, 10);
         {
             register unsigned int high;
             register unsigned int packed asm("$17");

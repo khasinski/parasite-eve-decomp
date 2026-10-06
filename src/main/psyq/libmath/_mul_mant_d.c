@@ -2,9 +2,9 @@
 #include "pe1/math64.h"
 
 /* Four 16-bit partial products, with the two cross terms accumulated by
- * Math_Add64. The output pointer is passed in a0 and returned in v0.
+ * _add_mant_d. The output pointer is passed in a0 and returned in v0.
  * Register pins and empty scheduling barriers are included in debt. */
-MathU64 *Math_Mul32To64(MathU64 *out, unsigned int left, unsigned int right) {
+MathU64 *_mul_mant_d(MathU64 *out, unsigned int left, unsigned int right) {
     volatile MathU64 result;
     MathU64 part;
     register unsigned int low asm("$18") = left & 0xFFFF;
@@ -27,13 +27,13 @@ MathU64 *Math_Mul32To64(MathU64 *out, unsigned int left, unsigned int right) {
     part.lo = product << 16;
     asm("" : "+m"(part.lo) : "m"(part.hi));
     right >>= 16;
-    Math_Add64(resultPtr, result, part);
+    _add_mant_d(resultPtr, result, part);
 
     product = low * right;
     part.hi = product >> 16;
     part.lo = product << 16;
     asm("" : "+m"(part.lo) : "m"(part.hi));
-    Math_Add64(&result, result, part);
+    _add_mant_d(&result, result, part);
     {
         unsigned int last = left * right;
         register unsigned int hi = result.hi;
