@@ -35,7 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m383_chrysler]
-      - [0x94, .rodata, RoomLib_Room174383CoreCluster]
+      - [0x94, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x26C, c, func_8018F254]
       - [0x318, c, RoomLib_Spawn6_8018F300]
       - [0x344, c, RoomLib_RegisterTable3_8018F32C]
@@ -89,6 +89,7 @@ segments:
       - [0x4110, c, RoomLib_DrawFourScaledSprites_801930F8]
       - [0x4410, c, func_801933F8]
       - [0x44A0, c, RoomLib_Room174383CoreCluster]
+      - [0x4978, c, ../room_lib/RoomLib_ActorClasses]
       - [0x7C94, data, D_80196C7C]
       - [0x7CA8, data, D_80196C90]
       - [0x7CBC, data, D_80196CA4]

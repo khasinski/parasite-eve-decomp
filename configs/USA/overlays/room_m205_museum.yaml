@@ -35,12 +35,9 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m205_museum]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFCC]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915A8]
-      - [0x1F0, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A04, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x1F0, c, ../room_lib/RoomLib_ActorClasses]
       - [0x350C, c, RoomEffect_SoundBurstParticle_801924F4]
       - [0x3904, c, RoomEffect_SoundBurstController_801928EC]
       - [0x3C2C, c, RoomLib_SetArgs3_80192C14]

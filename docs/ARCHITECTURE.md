@@ -56,7 +56,7 @@ Overlays call into the executable directly by address. Each overlay is linked
 separately against the executable's symbols; nothing is shared between
 overlays at link time, so code common to several rooms exists once per room
 in the binaries. In the source the room library linked into 125 room and
-scene overlays exists once (`src/overlays/room_lib/RoomLib_ActorClasses*.c`)
+scene overlays exists once (`src/overlays/room_lib/RoomLib_ActorClasses.c`)
 and is compiled into each of them; `src/overlays/room_lib/` also holds the
 templates other shared code still instantiates per overlay.
 

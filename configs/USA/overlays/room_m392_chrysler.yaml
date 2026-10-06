@@ -35,9 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m392_chrysler]
-      - [0x44, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x148, rodata, RoomLib_HandlerEArgsPad_80191128]
-      - [0x14C, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x44, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x21C, rodata, RoomLib_HandlerCArgsData_80192704]
       - [0x230, c, func_8018F218]
       - [0x238, c, RoomLib_PlantTable_8018F220]
@@ -61,8 +59,7 @@ segments:
       - [0xFD8, c, RoomLib_InitParticleRenderState_8018FFC0]
       - [0x1160, c, RoomLib_RenderParticleDepths_80190148]
       - [0x1270, c, RoomLib_ParticleStep_80190258]
-      - [0x134C, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x2B60, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x134C, c, ../room_lib/RoomLib_ActorClasses]
       - [0x4668, c, func_80193650]
       - [0x4A04, c, RoomEffect_LineBurstController_801939EC]
       - [0x5458, c, RoomLib_SlotSet_80194440]

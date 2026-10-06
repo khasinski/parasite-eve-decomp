@@ -35,15 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m152_0_C]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_8019000C]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915E8]
       - [0x1EC, rodata, room_m152_1EC_1F4]
       - [0x1F4, .rodata, RoomEffect_DroppedFlareParticle_80192D24]
       - [0x220, rodata, RoomLib_DlgRect]
-      - [0x230, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A44, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x230, c, ../room_lib/RoomLib_ActorClasses]
       - [0x354C, c, func_80192534]
       - [0x3554, c, RoomLib_InitE_8019253C]
       - [0x35B8, c, func_801925A0]

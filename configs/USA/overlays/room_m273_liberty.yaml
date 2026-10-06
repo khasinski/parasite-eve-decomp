@@ -35,13 +35,10 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m273_liberty]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFDC]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, .rodata, func_80192E64]
       - [0x1FC, rodata, D_8018F1E4]
-      - [0x200, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A14, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x200, c, ../room_lib/RoomLib_ActorClasses]
       - [0x351C, c, func_80192504]
       - [0x3524, c, func_8019250C]
       - [0x35C8, c, func_801925B0]

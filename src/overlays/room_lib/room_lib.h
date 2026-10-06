@@ -2609,8 +2609,7 @@ typedef struct RoomPartSys {
         } \
     }
 
-/* The room library's actor classes (RoomLib_ActorClassesDE.c and
- * RoomLib_ActorClassesBCA.c). A room's class table lists seven methods per
+/* The room library's actor classes (RoomLib_ActorClasses.c). A room's class table lists seven methods per
  * class: three no-ops (slots 0, 3 and 6), Init, Configure, Update and
  * Release; the remaining functions are the class's private states. */
 struct RoomLibMotionState;

@@ -144,7 +144,7 @@ name is the configured overlay name.
   PsyQ LIBPRESS VLC decoder (for example `mdec_vlc`), and `render_clip` is a
   data-only duplicate of one `fx_common` sector.
 - **Shared overlay code:** `src/overlays/room_lib/` holds the room library's
-  units (`RoomLib_ActorClasses*.c`), which every overlay that links the
+  unit (`RoomLib_ActorClasses.c`), which every overlay that links the
   library lists in its manifest as `../room_lib/<unit>` and compiles into its
   own build, and the templates that other copied code still instantiates
   (`*.inc` bodies, `*_family.h` declarations, `room_lib.h`). A templated copy

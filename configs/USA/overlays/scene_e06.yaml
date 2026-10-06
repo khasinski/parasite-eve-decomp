@@ -38,15 +38,12 @@ segments:
         type: rodatabin
         name: scene_e06_header
         dir: scene_e06
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFD8]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - start: 0x1E4
         type: rodatabin
         name: scene_e06_rodata_tail
         dir: scene_e06
-      - [0x1FC, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A10, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x1FC, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3518, c, RoomEffect_SeekerSparkCallback_80192500]
       - [0x3D8C, data]
   - [0x4000]

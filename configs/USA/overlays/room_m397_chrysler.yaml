@@ -35,12 +35,9 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m397_chrysler]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFD8]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915B4]
-      - [0x1FC, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A10, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x1FC, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3518, c, RoomEffect_SeekingTrailController_80192500]
       - [0x425C, c, RoomLib_ControlEffectSpawn_80193244]
       - [0x4404, c, RoomLib_UpdatePulsingSprite_801933EC]

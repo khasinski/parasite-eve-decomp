@@ -28,12 +28,12 @@ reduce the file count.
   binary evidence identifies a linked library or a reproducible generation
   rule.
 - `src/overlays/room_lib/` holds such a linked library once. The room
-  library (`RoomLib_ActorClassesDE.c`, `RoomLib_ActorClassesBCA.c`) is the
-  same run of 53 functions, in the same order and with the same rodata, in
-  125 room and scene overlays. Each overlay's manifest names the units as
-  `../room_lib/<unit>` subsegments, and `make overlay-build` compiles them
-  into that overlay's own build directory, so every overlay still links its
-  own copy at its own address.
+  library (`RoomLib_ActorClasses.c`) is the same run of 53 functions, in the
+  same order and with the same jump tables, in 125 room and scene overlays.
+  Each overlay's manifest names the unit as a `../room_lib/RoomLib_ActorClasses`
+  subsegment, and `make overlay-build` compiles it into that overlay's own
+  build directory, so every overlay still links its own copy at its own
+  address.
 - `include/pe1/` owns game ABI, shared data structures, and declarations.
 - `include/pe1/akao/` owns the AKAO command, queue, track, and SPU interfaces.
 - hardware and SDK declarations belong in their subsystem header rather than

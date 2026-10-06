@@ -36,12 +36,9 @@ segments:
     subsegments:
       # generated from static prologue hints; verify with runtime trace and SHA check
       - [0x0, rodata, scene_e22]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_80190020]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, scene_e22_tail]
-      - [0x244, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A58, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x244, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3560, c, RoomEffect_OrbitRingFlow]
       - [0x41D0, c, RoomEffect_LinkBeamFlow]
       - [0x4958, c, RoomEffect_EmberDriftFlow]

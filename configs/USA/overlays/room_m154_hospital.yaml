@@ -35,9 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m154_hospital]
-      - [0x5C, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x160, rodata, RoomLib_HandlerEArgsPad_801914DC]
-      - [0x164, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x5C, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x234, rodata, RoomLib_HandlerCArgsData_80192AB8]
       - [0x23C, c, func_8018F224]
       - [0x244, c, RoomLib_PlantTable_8018F22C]
@@ -64,8 +62,7 @@ segments:
       - [0x1268, c, func_80190250]
       - [0x142C, c, func_80190414]
       - [0x1624, c, RoomLib_UpdateTrailParticle_8019060C]
-      - [0x1700, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x2F14, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x1700, c, ../room_lib/RoomLib_ActorClasses]
       - [0x4A1C, c, func_80193A04]
       - [0x4A24, c, RoomLib_InitE_80193A0C]
       - [0x4A88, c, func_80193A70]

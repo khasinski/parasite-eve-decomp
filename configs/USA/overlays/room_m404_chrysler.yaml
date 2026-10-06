@@ -35,14 +35,11 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m404_chrysler]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_80190018]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915F4]
       - [0x1F4, .rodata, RoomEffect_SinkingDrop_80192540]
       - [0x220, rodata, RoomEffect_SpriteSeeds_8018F208]
-      - [0x23C, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A50, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x23C, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3558, c, RoomEffect_SinkingDrop_80192540]
       - [0x4380, c, RoomEffect_M404ParticleController]
       - [0x45F8, c, RoomEffect_BounceGlowSpark_801935E0]

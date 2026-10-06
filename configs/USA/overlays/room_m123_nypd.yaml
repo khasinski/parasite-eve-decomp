@@ -35,12 +35,9 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m123_nypd]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFF4]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915D0]
-      - [0x218, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A2C, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x218, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3534, c, RoomEffect_JointTriangleFlow]
       - [0x3BF4, c, RoomEffect_M123GlowBurstFlow]
       - [0x4630, c, RoomEffect_JointBeacon_80193618]

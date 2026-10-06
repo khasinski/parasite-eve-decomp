@@ -35,13 +35,10 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m387_chrysler]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_80190020]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915FC]
       - [0x1E4, .rodata, func_801925C4]
-      - [0x244, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A58, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x244, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3560, c, func_80192548]
       - [0x3568, c, func_80192550]
       - [0x35DC, c, func_801925C4]

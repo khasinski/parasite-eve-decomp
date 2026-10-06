@@ -35,9 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m167_sewer2]
-      - [0x2C, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x130, rodata, RoomLib_HandlerEArgsPad_80190C5C]
-      - [0x134, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x2C, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x204, rodata, RoomLib_HandlerCArgsData_80192238]
       - [0x204, c, func_8018F1EC]
       - [0x230, c, RoomLib_Spawn6_8018F218]
@@ -52,8 +50,7 @@ segments:
       - [0x590, c, func_8018F578]
       - [0x8D0, c, func_8018F8B8]
       - [0xD88, c, func_8018FD70]
-      - [0xE80, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x2694, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xE80, c, ../room_lib/RoomLib_ActorClasses]
       - [0x419C, data, D_80193184]
       - [0x41A8, data, RoomLib_TableA_8018F244]
       - [0x41B4, data, D_8019319C]

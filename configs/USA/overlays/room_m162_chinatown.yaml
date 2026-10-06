@@ -35,12 +35,9 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m162_chinatown]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFD4]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915B0]
-      - [0x1F8, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A0C, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x1F8, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3514, c, RoomEffect_HomingSparkParticle_801924FC]
       - [0x3A80, c, RoomEffect_FlashSpriteController_80192A68]
       - [0x4130, c, RoomLib_SetArgs3_80193118]

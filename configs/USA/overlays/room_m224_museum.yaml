@@ -35,14 +35,11 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m224_museum]
-      - [0xC, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x110, rodata, RoomLib_HandlerEArgsPad_80190014]
-      - [0x114, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915F0]
       - [0x204, .rodata, RoomEffect_BurstSparkParticle_80192F00]
       - [0x230, rodata, RoomEffect_BurstSparkParticle_80192F00_pad]
-      - [0x238, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x1A4C, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x238, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3554, c, func_8019253C]
       - [0x3834, c, RoomEffect_SpawnRingController_8019281C]
       - [0x3F18, c, RoomEffect_BurstSparkParticle_80192F00]

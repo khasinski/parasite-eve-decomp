@@ -39,9 +39,7 @@ segments:
         type: rodatabin
         name: scene_e08_header
         dir: scene_e08
-      - [0x80, .rodata, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x184, rodata, RoomLib_HandlerEArgsPad]
-      - [0x188, .rodata, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x80, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x258, c, func_8018F240]
       - [0x260, c, func_8018F248]
       - [0x28C, c, RoomLib_Spawn6_8018F274]
@@ -139,8 +137,7 @@ segments:
       - [0x5DE8, c, func_80194DD0]
       - [0x5DF0, c, Scene_DrawArmGlow_80194DD8]
       - [0x6228, c, func_80195210]
-      - [0x6370, c, ../room_lib/RoomLib_ActorClassesDE]
-      - [0x7B84, c, ../room_lib/RoomLib_ActorClassesBCA]
+      - [0x6370, c, ../room_lib/RoomLib_ActorClasses]
       - [0x968C, data]
   - [0x9800]
 # source slice: scanner
