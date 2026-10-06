@@ -141,7 +141,7 @@ callbacks:
     if (g_DsPollCallback && g_DsReadSysEnabled.enabled)
         g_DsPollCallback();
     {
-        register DsReadStatusBlock *read asm("$4") = &g_DsReadStatusBlock;
+        DsReadStatusBlock *read = &g_DsReadStatusBlock;
                 if ((read->status == 1 && !read->eventFlags.bit1) || read->status == 3) {
             if (g_CdRomCmdTimeout <= 0) {
                 g_CdRomCommandEventValue = 33;
