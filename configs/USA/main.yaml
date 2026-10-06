@@ -1444,8 +1444,8 @@ segments:
       - [0xC6A9C, c, engine/FieldEng_SpiralSprite]
       - [0xC721C, c, engine/FieldEng_RingPulse]
       - [0xC7458, c, engine/FieldEng_BouncingGlow]
-      - [0xC78C0, c, engine/func_800D70C0]
-      - [0xC79B8, c, engine/RoomEffect_FanSweepSpark_800D71B8]
+      # Ember drift callback and the fan-sweep spark instance (helper evidence).
+      - [0xC78C0, c, engine/FieldEng_EmberSparks]
       - [0xC7D1C, c, engine/FieldEng_FanSweepEmitter]
       - [0xC821C, c, engine/FieldEng_ArcingEmitter]
       - [0xC8678, c, engine/FieldEng_OrbitingEffect]

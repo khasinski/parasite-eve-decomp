@@ -1,9 +1,12 @@
-typedef short s16;
+#include "pe1/room_ember_burst.h"
+#include "pe1/gte.h"
+
+/* Rising ember sparks: the drifting ember callback and the fan-sweep
+ * spark template instance. */
 
 extern int D_800E27EC;
 extern char D_800E17E0;
 
-int rand(void);
 void func_800CF3AC(void *arg0, void *arg1, int arg2);
 void func_800D1DEC(void *arg0, void *arg1, int arg2, int arg3);
 
@@ -32,3 +35,14 @@ int func_800D70C0(int mode, s16 *state) {
 
     return 0;
 }
+
+#define ROOM_FAN_SWEEP_SPARK_NAME func_800D71B8
+#define ROOM_FAN_SWEEP_SPARK_COLOR D_800C22D4
+#define ROOM_FAN_SWEEP_SPARK_ANCHOR D_800E21E0
+#define ROOM_FAN_SWEEP_SPARK_TRAIL D_800E21E8
+#define ROOM_FAN_SWEEP_SPARK_COS rcos
+#define ROOM_FAN_SWEEP_SPARK_SIN rsin
+#define ROOM_FAN_SWEEP_SPARK_RAND rand
+#define ROOM_FAN_SWEEP_SPARK_PALETTE_LIT 7
+#define ROOM_FAN_SWEEP_SPARK_PALETTE_BASE 3
+#include "../../overlays/room_lib/RoomEffect_FanSweepSpark.inc"
