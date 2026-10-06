@@ -598,55 +598,26 @@ typedef struct RoomLibPacked8 {
 
 extern void *func_8006DC18(int type);
 
+/* Sprite packet template of the twelve-element effect; each room that
+ * links RoomLib_TwelveElementEffect defines the two templates and the
+ * sprite table in its data. */
+typedef struct RoomTwelveEffectPacket {
+    unsigned char r, g, b;        /* 0x00 */
+    unsigned char pad03;
+    unsigned char code;           /* 0x04 */
+    unsigned char mode;           /* 0x05 */
+    unsigned char zero;           /* 0x06 */
+    unsigned char pad07;
+    short offset;                 /* 0x08 */
+    short depth;                  /* 0x0A */
+} RoomTwelveEffectPacket;
+
+extern RoomTwelveEffectPacket RoomLib_TwelveEffectPrimaryPacket;
+extern RoomTwelveEffectPacket RoomLib_TwelveEffectSecondaryPacket;
+extern unsigned char RoomLib_TwelveEffectTable[];
+
 #define ROOMLIB_JOIN_RAW(a, b) a##b
 #define ROOMLIB_JOIN(a, b) ROOMLIB_JOIN_RAW(a, b)
-
-#define ROOMLIB_INIT_EFFECT_PALETTE_B(name, colorA, colorB) \
-    extern unsigned char ROOMLIB_JOIN(colorA, 0); \
-    extern unsigned char ROOMLIB_JOIN(colorA, 1); \
-    extern unsigned char ROOMLIB_JOIN(colorA, 2); \
-    extern unsigned char ROOMLIB_JOIN(colorA, 4); \
-    extern unsigned char ROOMLIB_JOIN(colorA, 5); \
-    extern unsigned char ROOMLIB_JOIN(colorA, 6); \
-    extern short ROOMLIB_JOIN(colorA, 8); \
-    extern short ROOMLIB_JOIN(colorA, A); \
-    extern unsigned char ROOMLIB_JOIN(colorB, 0); \
-    extern unsigned char ROOMLIB_JOIN(colorB, 1); \
-    extern unsigned char ROOMLIB_JOIN(colorB, 2); \
-    extern unsigned char ROOMLIB_JOIN(colorB, 4); \
-    extern unsigned char ROOMLIB_JOIN(colorB, 5); \
-    extern unsigned char ROOMLIB_JOIN(colorB, 6); \
-    extern short ROOMLIB_JOIN(colorB, 8); \
-    extern short ROOMLIB_JOIN(colorB, A); \
-    void name(char *obj, void *unused, char *state) { \
-        char *owner; \
-        RoomLibFxMatrixWords *words; \
-        func_800C2B40(state); \
-        *(void **)(state + 0x24) = func_8006DC18(0xB); \
-        owner = *(char **)(obj + 8); \
-        *(char **)state = owner; \
-        words = *(RoomLibFxMatrixWords **)(owner + 0x238); \
-        *(RoomLibFxMatrixWords *)(state + 4) = *words; \
-        *(short *)(state + 0x28) = 0x28; \
-        *(short *)(state + 0x2A) = 0; \
-        *(short *)(state + 0x2C) = 0; \
-        ROOMLIB_JOIN(colorB, 4) = 4; \
-        ROOMLIB_JOIN(colorB, 5) = 1; \
-        ROOMLIB_JOIN(colorB, 8) = 0; \
-        ROOMLIB_JOIN(colorB, A) = 0x80; \
-        ROOMLIB_JOIN(colorB, 0) = 0x80; \
-        ROOMLIB_JOIN(colorB, 1) = 0x80; \
-        ROOMLIB_JOIN(colorB, 2) = 0x80; \
-        ROOMLIB_JOIN(colorB, 6) = 0; \
-        ROOMLIB_JOIN(colorA, 4) = 8; \
-        ROOMLIB_JOIN(colorA, 5) = 2; \
-        ROOMLIB_JOIN(colorA, 8) = 0; \
-        ROOMLIB_JOIN(colorA, A) = 0x30; \
-        ROOMLIB_JOIN(colorA, 0) = 0x80; \
-        ROOMLIB_JOIN(colorA, 1) = 0x80; \
-        ROOMLIB_JOIN(colorA, 2) = 0x80; \
-        ROOMLIB_JOIN(colorA, 6) = 0; \
-    }
 
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void func_800DFE94(void *a0, void *a1, void *a2);
