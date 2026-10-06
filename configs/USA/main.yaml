@@ -331,9 +331,8 @@ segments:
       # Pool reset and free-list setup share the entity pool globals and record block.
       - [0x25710, c, entity/Entity_PoolInit]
       - [0x25838, c, scene/Scene_LoadMap]
+      # Per-frame entity driver and the actor list passes it runs: position integration, rollback, parent following, garbage collection, callbacks and animation sequences (G0296).
       - [0x25D58, c, entity/Entity_FrameUpdate]
-      # Per-frame actor list passes: position integration, rollback, parent following, garbage collection, callbacks and animation sequences (G0296).
-      - [0x26484, c, entity/Entity_FramePasses]
       - [0x26AB8, c, entity/Entity_AllocationBlocks]
       - [0x26C48, c, main/Scene_UpdateEntityPositions]
 
