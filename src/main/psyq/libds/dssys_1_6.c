@@ -1,6 +1,8 @@
 /* ASSEMBLER: GNU */
-/* Psy-Q LIBDS DSSYS_1.OBJ: LIBDS_DSSYS_1_text_8B8, LIBDS_DSSYS_1_text_A9C. */
+/* Psy-Q LIBDS DSSYS_1.OBJ, part 6 of 11: LIBDS_DSSYS_1_text_8B8, LIBDS_DSSYS_1_text_A9C, LIBDS_DSSYS_1_text_D24. */
 #include "pe1/psyq_ds.h"
+#include "common.h"
+#include "pe1/psyq_cd.h"
 
 /* Contiguous private routines from Psy-Q LIBDS/DSSYS_1.OBJ:
  * text_8B8 is at 0x80080220 and text_A9C follows at 0x80080404.
@@ -222,4 +224,50 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
         }
     }
 done:;
+}
+
+extern CdRomEventCommandState D_8009B558;
+
+void LIBDS_DSSYS_1_text_D24(int event, u8 *result) {
+    u32 event_reg;
+    register CdRomEventCommandState *cmd_state asm("$6");
+    int value;
+    int status;
+    CdRomCommandState *ready;
+
+    event_reg = event & 0xFF;
+    if (event_reg == 2) {
+        cmd_state = &D_8009B558;
+        asm volatile("" : "=r"(cmd_state) : "0"(cmd_state));
+        status = cmd_state->pendingCommand;
+        value = 0xE;
+        if (status == value) {
+            value = cmd_state->command.read.commandMode;
+            status = cmd_state->pendingParamBytes[0];
+            if (((value ^ status) & 0x80) != 0) {
+                cmd_state->command.read.command = 0xF;
+                cmd_state->command.read.status = event_reg;
+                cmd_state->command.read.syncResult = 3;
+            }
+            cmd_state->command.read.commandMode = status;
+        }
+    }
+
+    status = event & 0xFF;
+    if (status == 5) {
+        ready = &g_CdSeekState;
+        asm volatile("" : "=r"(ready) : "0"(ready));
+        if (ready->eventStatus & 0x10) {
+            ready->read.status = 2;
+            ready->read.command = 12;
+            if (g_DsSyncCallback &&
+                ((CdRomSystemState *)((char *)ready -
+                    CDROM_SYSTEM_COMMAND_OFFSET))->enabled) {
+                g_DsSyncCallback(5, result);
+            }
+        } else {
+            ready->read.status = 1;
+            ready->read.command = 11;
+        }
+    }
 }

@@ -1,7 +1,10 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-/* Psy-Q LIBDS DSSYS_1.OBJ: LIBDS_DSSYS_1_text_368, LIBDS_DSSYS_1_text_4A4. */
+/* Psy-Q LIBDS DSSYS_1.OBJ, part 5 of 11: LIBDS_DSSYS_1_text_368, LIBDS_DSSYS_1_text_4A4, LIBDS_DSSYS_1_text_774, LIBDS_DSSYS_1_text_7FC. */
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
+
 extern void parcpy(void *, const void *);
 
 int LIBDS_DSSYS_1_text_368(unsigned char command, void *param) {
@@ -44,9 +47,7 @@ int LIBDS_DSSYS_1_text_368(unsigned char command, void *param) {
         }
     }
 }
-/* ASSEMBLER: GNU */
-#include "pe1/psyq_ds.h"
-void LIBDS_DSSYS_1_text_774(void);
+s32 LIBDS_DSSYS_1_text_774(void);
 int LIBDS_DSSYS_1_text_368(unsigned char, void *);
 #define READ(p)                                                                        \
     ((DsReadStatusBlock *)((u8 *)(p) - PE1_OFFSETOF(DsReadStatusBlock, syncResult)))
@@ -151,4 +152,74 @@ callbacks:
         }
     }
 done:;
+}
+
+void CD_flush(void);
+
+extern s32 D_8009B59C[];
+#define D_8009B59C (D_8009B59C[0])
+
+s32 LIBDS_DSSYS_1_text_774(void) {
+    void *base;
+    s32 value;
+    register s32 idx asm("$3");
+    s32 arg0;
+    s32 arg2;
+    s32 arg3;
+
+    CD_flush();
+    base = &D_8009B59C;
+        value = *(s32 *)base;
+    idx = *(u8 *)((char *)base - 0x44);
+    value += 1;
+    idx = idx << 2;
+    *(s32 *)base = value;
+        {
+        /* g_CdRomCmdLongTimeoutTable is at 0x8009B5A4 in the USA image. */
+        u32 table_page = 0x800A0000u;
+        asm volatile("" : "=r"(table_page) : "0"(table_page));
+        value = *(s32 *)(table_page + idx - 0x4A5Cu);
+    }
+    idx = 0x1E;
+    if (value != 0) {
+        idx = 0x3C0;
+    }
+    arg0 = *(u8 *)((char *)base - 0x44);
+    arg2 = 0;
+    *(s32 *)((char *)base - 4) = idx;
+    value = *(s32 *)((char *)base - 0x3C);
+    arg3 = 1;
+    CD_cw(arg0, (void *)value, (u8 *)arg2, arg3);
+    return 0;
+}
+
+extern int D_8009B598[];
+extern void LIBDS_DSSYS_1_text_EA4(int);
+extern void LIBDS_DSSYS_1_text_8B8(int, void *);
+extern void LIBDS_DSSYS_1_text_A9C(int, void *);
+
+void LIBDS_DSSYS_1_text_7FC(int inputEvent, void *inputResult) {
+    void *result = inputResult;
+    int event = inputEvent;
+    int *state;
+
+    LIBDS_DSSYS_1_text_EA4((unsigned char)event);
+    /* The timeout symbol anchors the surrounding CD command state. */
+    state = D_8009B598;
+    state[1] = 0;
+    state[0] = 0;
+    if (((unsigned char *)state)[-44] & 0x10) event = 5;
+    switch (state[-10]) {
+    case 0x1F:
+        LIBDS_DSSYS_1_text_8B8((unsigned char)event, result);
+        break;
+    case 0x20:
+        LIBDS_DSSYS_1_text_A9C((unsigned char)event, result);
+        break;
+    default:
+        LIBDS_DSSYS_1_text_D24((unsigned char)event, result);
+        break;
+    }
+    state = D_8009B598;
+    if (!state[0]) state[-10] = 0x21;
 }

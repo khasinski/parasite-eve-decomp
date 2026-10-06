@@ -1,10 +1,12 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-/* Psy-Q LIBDS DSSYS_1.OBJ: DS_reset_members. */
-/* Retail keeps one base address for each initialization block. */
-
+/* Psy-Q LIBDS DSSYS_1.OBJ, part 2 of 11: DS_reset_members. */
 #include "common.h"
 #include "pe1/psyq_cd.h"
+
+/* Retail keeps one base address for each initialization block. */
+
 
 extern u_int D_8009B560[3];
 

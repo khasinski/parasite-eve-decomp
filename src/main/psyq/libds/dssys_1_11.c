@@ -1,7 +1,7 @@
-/* GCC_VERSION: 2.8.1 */
 /* ASSEMBLER: GNU */
+/* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-/* Psy-Q LIBDS DSSYS_1.OBJ: tipDsSystem. */
+/* Psy-Q LIBDS DSSYS_1.OBJ, part 11 of 11: tipDsSystem and the object's zero tail. */
 #include "pe1/psyq_ds.h"
 
 extern char D_80011D74[];
@@ -58,3 +58,8 @@ void tipDsSystem(void) {
     }
     printf(D_80011E4C, busy);
 }
+
+unsigned int LIBDS_DSSYS_1_pad[] __attribute__((section(".text"))) = {
+    0x00000000,
+    0x00000000,
+};

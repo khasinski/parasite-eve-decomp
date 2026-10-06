@@ -1,10 +1,10 @@
-/* Psy-Q LIBDS DSSYS_1.OBJ: DS_stop. */
-#include "common.h"
-#include "pe1/psyq_cd.h"
-
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-
+/* Psy-Q LIBDS DSSYS_1.OBJ, part 9 of 11: DS_stop, DS_restart, DS_system_active. */
+#include "common.h"
+#include "pe1/psyq_cd.h"
+#include "pe1/cdrom.h"
 
 void CD_flush(void);
 
@@ -40,4 +40,19 @@ abortPending:
             slot->command = 0xB;
         }
     }
+}
+
+void DS_restart(void) {
+    int enabled;
+    enabled = 1;
+    g_DsReadSysEnabled.enabled = enabled;
+}
+
+int DS_system_active(void) {
+    int scratch;
+    int enabled;
+
+    /* Keep $at live so the load uses $v0 as both base and destination. */
+    enabled = g_DsReadSysEnabled.enabled;
+    return enabled;
 }

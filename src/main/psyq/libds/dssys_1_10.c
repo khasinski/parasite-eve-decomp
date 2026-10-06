@@ -1,8 +1,7 @@
-/* Psy-Q LIBDS DSSYS_1.OBJ: parcpy, rescpy. */
-
+/* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_1.OBJ, part 10 of 11: parcpy, rescpy. */
 #include "include_asm.h"
 #include "pe1/psyq_cd.h"
-
 
 void parcpy(unsigned char *dst, unsigned char *src) {
     int i;
