@@ -85,8 +85,7 @@ int Battle_ProcessActionSlot(BattleEntity *entity)
                             result = 0;
                         }
                         /* Preserve the core flag reload across iterations. */
-                        asm volatile("" : : : "memory");
-                    }
+                                            }
                 }
                 goto done;
             }
@@ -100,8 +99,7 @@ int Battle_ProcessActionSlot(BattleEntity *entity)
             {
                 int green = color;
                 /* Keep the green channel in a2 at the call boundary. */
-                asm volatile("" : "=r"(green) : "0"(green));
-                Render_FadeEntityColor(&actor->renderObject, color, green, color);
+                                Render_FadeEntityColor(&actor->renderObject, color, green, color);
                 result = 0;
             }
         }

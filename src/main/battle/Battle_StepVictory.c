@@ -77,8 +77,7 @@ int Battle_StepVictory(void)
         Render_FadeEntityColor(&D_8009D254->renderObject, 255, 255, 255);
         {
             register u8 *visible = &D_800B0D8A;
-            asm volatile("" : "=r"(visible) : "0"(visible));
-            *visible = 1;
+                        *visible = 1;
             object = (RenderObjectEntity *)(visible - PE1_OFFSETOF(RenderObjectEntity, variant_visible));
         }
         Anim_SetInterpRate(object, 30);

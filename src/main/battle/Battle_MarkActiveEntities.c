@@ -176,8 +176,7 @@ void Battle_MarkActiveEntities(BattleTarget *table, int selected_index)
       linked_kind = 1;
       group_kind = 4;
       /* Match debt: materialize both kinds before loading the active actor. */
-      asm volatile("" : : "r"(linked_kind), "r"(group_kind));
-      active = D_8009D254[0];
+            active = D_8009D254[0];
       for (; table[slot].actor != 0; slot++)
     {
       MarkKinds(table[slot].actor, group_kind, linked_kind, active);

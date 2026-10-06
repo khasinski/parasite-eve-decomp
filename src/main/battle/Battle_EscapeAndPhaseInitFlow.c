@@ -1318,15 +1318,13 @@ void Battle_StartDeathAnim(void) {
     D_800B01B0 = c2;
     c2 = 2;
     g_BattleModeState = c2;
-    __asm__ __volatile__("");
-    {
+        {
         s32 d2e8;
         d2e8 = g_FieldMoveLock_r[0];
                 D_800B01A8 = c5;
         D_800B01B8 = c5;
         p254 = g_PlayerEntity;
-        __asm__ __volatile__("" :: "r"(p254));
-        D_800B01AA = c3;
+                D_800B01AA = c3;
         D_800B01BA = c3;
         c3 = ~0x100;
                 D_800B01A2 = c6;

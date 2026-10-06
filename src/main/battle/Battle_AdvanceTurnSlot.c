@@ -34,8 +34,7 @@ static inline void RewindEqual(int initial)
         D_800BE830[(u8)current - 1].field06)
         return;
     do {
-        asm volatile("" : "=m"(D_8009CE3C) : "m"(D_8009CE3C));
-        D_8009CE3C--;
+                D_8009CE3C--;
     } while (D_8009CE3C != 0 &&
         D_800BE830[D_8009CE3C].field06 ==
         D_800BE830[D_8009CE3C - 1].field06);
@@ -64,8 +63,7 @@ void Battle_AdvanceTurnSlot(void)
             RewindEqual(savedIndex);
             RestorePending(savedIndex);
         } else {
-            asm volatile("" : "=r"(savedIndex) : "0"(savedIndex));
-            RewindTurn(savedIndex);
+                        RewindTurn(savedIndex);
         }
         D_8009D1DC = D_8009D278[0]->action->turnWord & 15;
     } else if (kind == 2) {
@@ -89,8 +87,7 @@ void Battle_AdvanceTurnSlot(void)
             u8 current;
             D_8009CE3C = savedIndex - 1;
             for (;;) {
-                asm volatile("" : "=m"(D_8009CE3C) : "m"(D_8009CE3C));
-                current = D_8009CE3C;
+                                current = D_8009CE3C;
                 if (current == 0 ||
                     D_800BE830[current].field06 != D_800BE830[current - 1].field06)
                     break;

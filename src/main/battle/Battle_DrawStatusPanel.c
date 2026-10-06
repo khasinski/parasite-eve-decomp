@@ -39,10 +39,8 @@ void Battle_DrawStatusPanel(s32 mode, BattleStatusPanel *input) {
         register s32 slotIndex asm("$4") = g_BattlePanelPacketIndex;
         register s32 x asm("$6") = panel->x;
         register s32 y asm("$7");
-        asm("" : : "r"(x) : "memory");
-        timer = panel->timer;
-        asm("" : : "r"(x), "r"(timer) : "memory");
-        y = panel->y;
+                timer = panel->timer;
+                y = panel->y;
         *(D_800B01CC + ((slotIndex * 0x8C) + (frame * 0x578))) = timer * 4;
         asm("" : : : "memory");
         screenX = x - 16;
