@@ -760,8 +760,9 @@ segments:
       # keeps Render_SetCDDCSlot's --expand-div profile.
       - [0x59394, c, render/Render_FrameUpdateAndScreenState]
       - [0x5994C, c, asset/Asset_LoadTimTextures]
-      - [0x59D94, c, pm/Pm_RunPrimary]
-      - [0x59E60, c, pm/Pm_RunBatch]
+      # Primary and secondary bank drivers: contiguous default-profile pair
+      # sharing the game-state gating flags.
+      - [0x59D94, c, pm/Pm_RunBanks]
       - [0x59EF0, c, asset/Asset_UnloadTableEntries]
       # Disc-image discovery and boot notice use the same mount state.
       - [0x5A0D4, c, main/Render_InitDisplayLists]
