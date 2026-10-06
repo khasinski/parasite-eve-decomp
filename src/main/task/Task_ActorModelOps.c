@@ -1,10 +1,13 @@
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+/* Script opcodes: draw the current actor's model through a caller-supplied
+ * GTE matrix, and the render-mode switch wait that pops the script cursor.
+ * Contiguous -G8 pair. */
 #include "pe1/render_lighting.h"
 #include "pe1/global_slot.h"
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
 
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
@@ -152,4 +155,32 @@ int Task_SetGteMatrix(int **args) {
     U32_AT(flag_actor, 0x98) = flags & 0xF7FFFFFF;
 success:
     return 1;
+}
+
+extern int g_RenderStateFlags[];
+extern int g_SceneDataTable0;
+extern int *g_TaskNodePool;
+
+int Boot_CheckModeSwitch(void) {
+    int mode = g_RenderStateFlags[0] & 7;
+
+    if (mode == 4) {
+        goto ret_one;
+    }
+    if (mode != 0) {
+        goto pop_state;
+    }
+
+ret_one:
+    return 1;
+
+pop_state:
+    {
+        int cursor = g_SceneDataTable0;
+        int *node = g_TaskNodePool;
+        cursor -= 8;
+        g_SceneDataTable0 = cursor;
+        node[4] = 1;
+        return 0;
+    }
 }
