@@ -663,9 +663,8 @@ segments:
       - [0x4F358, c, gpu/Draw_GlyphSprites]
       # Text rendering, cursor saves, table lookup, and wrapping share one source unit.
       - [0x4F6D4, c, gpu/Draw_TextRenderingFlow]
-      - [0x50044, c, gpu/func_8005F844]
-      # Digit sprites, signed numbers, text glyphs, and the stat bar share draw state.
-      - [0x50074, c, gpu/Draw_NumberAndLevelBarFlow]
+      # Number style selection, digit sprites, signed numbers, text glyphs and the stat bar share draw state.
+      - [0x50044, c, gpu/Draw_NumberAndLevelBarFlow]
       - [0x51844, c, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
       # Screen wipes, gradients and the colour triangle/quad packet allocators (G0762).
