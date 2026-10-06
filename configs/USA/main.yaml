@@ -1128,9 +1128,8 @@ segments:
       # Psy-Q LIBDS DSSYS_3.OBJ: mixer, sector, position and debug accessors.
       - [0x712C4, c, psyq/libds/dssys_3]
       - [0x71530, pad]
-      - [0x71534, c, psyq/libds/DsControlF]
-      - [0x7155C, c, psyq/libds/DsControl]
-      - [0x7162C, c, psyq/libds/dssys_4_pad]
+      # Psy-Q LIBDS DSSYS_4.OBJ: DsControlF, DsControl, DsControlB.
+      - [0x71534, c, psyq/libds/dssys_4]
       - [0x71634, c, psyq/libds/DsRead]
       - [0x71764, c, psyq/libds/DS_read_cbsync]
       - [0x71798, c, psyq/libds/DS_read_cbready]

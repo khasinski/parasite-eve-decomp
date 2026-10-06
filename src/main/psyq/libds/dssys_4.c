@@ -1,12 +1,15 @@
-/* GCC_VERSION: 2.8.1 */
-/* Psy-Q LIBDS DSSYS_4.OBJ: DsControl, DsControlB. */
+/* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_4.OBJ: DsControlF, DsControl, DsControlB and the object's zero tail. */
 #include "pe1/psyq_ds_queue.h"
+
+int DsControlF(u_char command, u_char *parameter) {
+    return DsCommand(command, parameter, 0, 0);
+}
 
 int DsControl(unsigned char command, void *param, void *result) {
     int request;
     DslCB callback = 0;
     unsigned char status;
-    asm("" : "+r"(callback));
     request = DsCommand(command, param, callback, 0);
     if (!request) return 0;
     do {
@@ -19,7 +22,6 @@ int DsControlB(unsigned char command, void *param, void *result) {
     int request;
     DslCB callback = 0;
     unsigned char status;
-    asm("" : "+r"(callback));
     request = DsCommand(command, param, callback, 0);
     if (!request) return 0;
     do {
@@ -27,3 +29,8 @@ int DsControlB(unsigned char command, void *param, void *result) {
     } while (!status);
     return status == 2;
 }
+
+unsigned int LIBDS_DSSYS_4_pad[] __attribute__((section(".text"))) = {
+    0x00000000,
+    0x00000000,
+};
