@@ -1,11 +1,10 @@
-/* CC1_FLAGS: -fno-schedule-insns2 */
-/* Boot-time system initialization: InitSystem and the subsystem and global
- * reset it is followed by. Contiguous pair; -fno-schedule-insns2 is the
- * subsystem reset's option and leaves InitSystem unchanged. The display
- * reset that follows does change under it and stays separate. */
+/* Boot-time system initialization: InitSystem, the subsystem and global
+ * reset it is followed by, the start-up display reset, the vsync callback and
+ * the pad start-up (G0341/G0342). */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_spu_api.h"
 #include "pe1/psyq_callbacks.h"
+#include "pe1/psyq_gpu.h"
 #include "common.h"
 #include "../../../tools/m2c/m2c_macros.h"
 #include "pe1/font.h"
@@ -44,8 +43,7 @@ M2C_UNK Save_PostInitStub();
 M2C_UNK Task_ClearSfxTable();
 M2C_UNK CdRom_InitScreenState();
 M2C_UNK Task_InitGpuHwRegs();
-extern s32 g_ActiveDrawSlot[];
-#define g_ActiveDrawSlot (g_ActiveDrawSlot[0])
+extern int g_ActiveDrawSlot;
 extern s32 g_GameStateFlags[];
 #define g_GameStateFlags (g_GameStateFlags[0])
 extern s32 g_SceneDispatchCur[];
@@ -64,12 +62,10 @@ void Boot_InitSubsystems(void) {
     g_GameStateFlags = 0;
     g_FrameRngCounter = 0;
     g_ActiveDrawSlot = 0;
-    var_s0 = 0;
     Task_InitGpuHwRegs();
-    do {
-        var_s0 += 1;
+    for (var_s0 = 0; var_s0 < 0x7D0U; var_s0++) {
         Task_GpuFlushPrimQueue();
-    } while (var_s0 < 0x7D0U);
+    }
     Boot_BuildRenderFlagTable();
     SsInit();
     VSyncCallback(NULL);
@@ -83,4 +79,103 @@ void Boot_InitSubsystems(void) {
     Entity_ResetAllPools();
     Task_ClearSfxTable();
     Menu_ConsumeEquipSlotFlag();
+}
+
+
+extern u8 D_800BCDC8[];
+extern u8 D_800BCE91;
+extern u8 D_800BCEA5;
+extern u16 D_800BCE9E;
+extern u16 D_800BCE8A;
+extern u16 D_800BCE9C;
+extern u16 D_800BCE88;
+extern u16 D_800BCEA2;
+extern u16 D_800BCE8E;
+extern u8 D_800BCE3C;
+extern u8 D_800BCDE0;
+extern u8 D_800BCE3A;
+extern u8 D_800BCDDE;
+extern u8 D_800BCE3B;
+extern u8 D_800BCDDF;
+extern u16 D_800BCE38;
+extern u16 D_800BCDDC;
+extern u8 D_800BCE3D;
+extern u8 D_800BCDE1;
+extern u8 D_800BCE3E;
+extern u8 D_800BCDE2;
+extern u8 D_800BCE3F;
+extern u8 D_800BCDE3;
+
+void ResetGraph(int arg0);
+void SetGraphDebug(int level);
+void SetDispMask(int mask);
+void ClearImage(s16 *rect, int r, int g, int b);
+void SetDefDispEnv(void *env, int x, int y, int w, int h);
+void SetDefDrawEnv(void *env, int x, int y, int w, int h);
+
+void Render_ResetScene(int width, int height)
+{
+    s16 rect[4];
+    u8 *disp;
+    u8 *draw;
+
+    ResetGraph(0);
+    SetGraphDebug(0);
+    SetDispMask(0);
+
+    rect[2] = 0x3FF;
+    rect[3] = 0x200;
+    rect[0] = 0;
+    rect[1] = 0;
+    ClearImage(rect, 0, 0, 1);
+
+    disp = &D_800BCE91;
+    *disp = 1;
+    D_800BCEA5 = 1;
+    SetDefDispEnv(disp - 0x11, 0, height, width, height);
+    SetDefDispEnv(disp + 3, 0, 0, width, height);
+
+    draw = D_800BCDC8;
+    D_800BCE9E = 8;
+    D_800BCE8A = 8;
+    D_800BCE9C = 0;
+    D_800BCE88 = 0;
+    D_800BCE8E = D_800BCEA2 = height;
+    SetDefDrawEnv(draw, 0, 0, width, height);
+    SetDefDrawEnv(draw + 0x5C, 0, height, width, height);
+
+    D_800BCE3C = 1;
+    D_800BCDE0 = 1;
+    D_800BCE3A = 1;
+    D_800BCDDE = 1;
+    D_800BCE3B = 0;
+    D_800BCDDF = 0;
+    D_800BCE38 = 0;
+    D_800BCDDC = 0;
+    D_800BCE3D = 0;
+    D_800BCDE1 = 0;
+    D_800BCE3E = 0;
+    D_800BCDE2 = 0;
+    D_800BCE3F = 0;
+    D_800BCDE3 = 0;
+    g_ActiveDrawSlot = 0;
+
+    PutDispEnv((DISPENV *)(disp - 0x11));
+}
+
+void Scene_TickTimers(void);
+
+extern char g_AnalogStickState[];
+
+void PadInitDirect(char *arg0, char *arg1);
+void PadStartCom(void);
+
+void Boot_VsyncCallback(void) {
+    Task_GpuFlushPrimQueue();
+    Scene_TickTimers();
+}
+
+void Boot_InitMemCard(void) {
+    PadInitDirect(g_AnalogStickState, g_AnalogStickState + 0x22);
+    PadStartCom();
 }

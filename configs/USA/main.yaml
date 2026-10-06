@@ -389,12 +389,9 @@ segments:
       # Render_IncrementCounter's counter word lives in .text; it is data,
       # not a function (docs/CONVENTIONS.md, text-resident data).
       - {start: 0x2EE0C, type: data, name: render/Render_Counter, linker_section_order: .text, linker_section: .code_data}
-      # InitSystem and the subsystem reset: contiguous start-up pair
-      # (main_tu_evidence G0342 also joins the display reset and callbacks,
-      # but -fno-schedule-insns2 reorders the display reset).
+      # InitSystem, the subsystem reset, the start-up display reset, the vsync
+      # callback and the pad/memory-card start-up (G0341/G0342).
       - [0x2EE10, c, boot/Boot_InitSystemFlow]
-      # Start-up display reset, the vsync callback and the pad/memory-card start-up (G0341).
-      - [0x2EF54, c, boot/Boot_DisplayResetAndCallbacks]
       # Render-flag table builder and the per-frame pad and state transition handler share private state (G0343).
       - [0x2F174, c, boot/Boot_RenderFlagsAndPadInput]
       # GPU pipeline init, the fast scene flush and the field frame loop share helpers (G0344).
@@ -699,12 +696,11 @@ segments:
       - [0x56370, c, render/Render_CameraViewportFlow]
       - [0x57760, c, field/Geo_LoadMeshEntry]
       - [0x579C8, c, field/Geo_TransformPoint]
-      # Sprite entry setters, the geometry mesh list build and draw, and the screen fade and tint (G0833/G0835).
+      # Sprite entry setters, the geometry mesh list build and draw, the screen
+      # fade and tint, background scroll/parallax and room/primitive colour
+      # drawing (G0833/G0835). One -fno-strength-reduce unit: the scroll loop
+      # walks its entry pointer itself.
       - [0x57A94, c, render/Render_MeshListAndFade]
-      # Background scroll/parallax and room/primitive colour drawing (helper
-      # evidence); Scene_IsBattleMode needs strength reduction, so the
-      # -fno-strength-reduce fade unit ends before it.
-      - [0x5861C, c, render/Render_ScrollAndRoomDraw]
       - [0x58F10, c, render/Render_SortOt]
       # Per-frame camera preparation and render update, the screen-tint reset and
       # the tint/scroll slot step share the D_800BCF88 scroll state with its
