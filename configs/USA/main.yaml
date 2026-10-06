@@ -370,9 +370,8 @@ segments:
       - [0x2A098, c, menu/Menu_FindSelectedEquipSlotItem]
       - [0x2A170, c, menu/Menu_ResetEquipSlotState]
       - [0x2A19C, c, main/Scene_CheckFlagBits]
-      - [0x2A374, c, anim/Anim_BuildRotationMatrices]
-      # Byte and halfword bone-rotation decoders: one helper set, same options (helper evidence).
-      - [0x2A524, c, anim/Anim_DecodeBoneRotations]
+      # Bone rotation matrices and the byte and halfword rotation decoders (G0315).
+      - [0x2A374, c, anim/Anim_BoneRotations]
       # Rigid, skinned and morph vertex transforms: adjacent GTE vertex passes over
       # the same render-object vertex buffers; the rigid and morph passes compile
       # identically under the skinned pass's -G8 profile, which the unit uses.
