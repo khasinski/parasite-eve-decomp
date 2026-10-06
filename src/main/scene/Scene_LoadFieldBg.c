@@ -3,7 +3,7 @@
 #include "pe1/scene_assets.h"
 #include "pe1/cdrom.h"
 #include "pe1/pe_image.h"
-#include "pe1/psyq_tim.h"
+#include "pe1/asset_tim.h"
 #include "pe1/menu_memcard_display.h"
 #include "pe1/render_prim.h"
 #include "pe1/field_bg_load.h"
@@ -81,7 +81,7 @@ retry3:
     status = 1;
     do {
         if (!done) {
-            Gpu_LoadTimImage(state->bg_tim);
+            Asset_LoadTimImage(state->bg_tim);
             for (slot = 0; slot < 2; slot++) {
                 D_80091648[slot].tpage = BG_SLOT_TPAGE(D_80091648[slot].x, D_80091648[slot].y);
                 D_80091648[slot].clut = BG_SLOT_CLUT(D_80091648[slot].clut_x, D_80091648[slot].clut_y);
@@ -102,7 +102,7 @@ retry4:
     do {
         if (!done) {
             done = 1;
-            Gpu_LoadTimImage(state->hud_tim);
+            Asset_LoadTimImage(state->hud_tim);
             Battle_DrawHPBar();
         }
         if (status == -1)

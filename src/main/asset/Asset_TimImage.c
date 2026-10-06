@@ -1,6 +1,10 @@
-#include "pe1/psyq_tim.h"
+/* Game-side TIM container helpers: upload a TIM's image and optional CLUT,
+ * and return its CLUT/image rectangles and pixel pointers. No Psy-Q
+ * signature of any SDK version matches these bytes; they are linked as the
+ * last game object, directly before the LIBC veneers. */
+#include "pe1/asset_tim.h"
 
-int *Gpu_LoadTimImage(TimFile *tim) {
+int *Asset_LoadTimImage(TimFile *tim) {
     TimBlock *clut;
     TimBlock *image;
     int *pixels;
@@ -21,14 +25,14 @@ int *Gpu_LoadTimImage(TimFile *tim) {
     return pixels;
 }
 
-RECT *Str_GetTableEntryA(TimFile *tim) {
+RECT *Asset_GetTimClutRect(TimFile *tim) {
     if (tim->flags & 8) {
         return &tim->first_block.rect;
     }
     return 0;
 }
 
-RECT *Widget_GetDataPtr(TimFile *tim) {
+RECT *Asset_GetTimImageRect(TimFile *tim) {
     TimBlock *image;
     register int length asm("$3");
 
@@ -42,7 +46,7 @@ RECT *Widget_GetDataPtr(TimFile *tim) {
     return &image->rect;
 }
 
-int *Str_GetTableEntryB(TimFile *tim) {
+int *Asset_GetTimImagePixels(TimFile *tim) {
     TimBlock *image;
     register int length asm("$3");
 
@@ -56,7 +60,7 @@ int *Str_GetTableEntryB(TimFile *tim) {
     return image->pixels;
 }
 
-int *Str_GetTableEntryC(TimFile *tim) {
+int *Asset_GetTimClutPixels(TimFile *tim) {
     if (tim->flags & 8) {
         return tim->first_block.pixels;
     }

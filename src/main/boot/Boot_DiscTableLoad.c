@@ -3,7 +3,7 @@
 #include "common.h"
 #include "pe1/cdrom.h"
 #include "pe1/cdrom_buffers.h"
-#include "pe1/psyq_tim.h"
+#include "pe1/asset_tim.h"
 #include "pe1/scene_assets.h"
 #include "include_asm.h"
 
@@ -83,7 +83,7 @@ retry_first_load:
     main_table = state[0x57];
     for (i = 0; i < 3; i++) {
         table = ((short)i << 2) + main_table;
-        Gpu_LoadTimImage((TimFile *)(main_table + *(int *)table));
+        Asset_LoadTimImage((TimFile *)(main_table + *(int *)table));
     }
 
     if (D_800A77FC & 0x2000) {
@@ -146,7 +146,7 @@ large_load_done:
     large_table = state[0x5B];
     for (i = 0; i < 0x106; i++) {
         table = ((short)i << 2) + large_table;
-        Gpu_LoadTimImage((TimFile *)(large_table + *(int *)table));
+        Asset_LoadTimImage((TimFile *)(large_table + *(int *)table));
     }
 
     DrawSync(0);

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "pe1/cdrom.h"
-#include "pe1/psyq_tim.h"
+#include "pe1/asset_tim.h"
 s32 DrawSync(s32 arg0);
 extern s8 D_800B0CE0;
 extern s8 g_LoadedTexturePageId;
@@ -44,7 +44,7 @@ s32 Overlay_StreamTexturePage(void)
       }
     }
     while (1);
-    Gpu_LoadTimImage(*((TimFile **) (state + 0x194)));
+    Asset_LoadTimImage(*((TimFile **) (state + 0x194)));
     state[9] = state[8];
   }
   return 0;

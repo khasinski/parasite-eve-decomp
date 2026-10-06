@@ -31,7 +31,6 @@ void MoveImage(RECT *rect, int x, int y);
 void ClearOTagR(u32 *table, int length);
 void DrawOTag(u32 *table);
 DRAWENV *PutDrawEnv(DRAWENV *env);
-int *Gpu_LoadTimImage(void *tim);
 void Boot_BuildRenderFlagTable(void);
 void Render_SetupFogLayer(void *source);
 void ResetGraph(int mode);

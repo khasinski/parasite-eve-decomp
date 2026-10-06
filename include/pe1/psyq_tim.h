@@ -17,11 +17,5 @@ typedef struct TimFile {
 } TimFile;
 
 int LoadImage(RECT *rect, void *pixels);
-int *Gpu_LoadTimImage(TimFile *tim);
-/* Existing project symbols: CLUT rect, image rect, image data, CLUT data. */
-RECT *Str_GetTableEntryA(TimFile *tim);
-RECT *Widget_GetDataPtr(TimFile *tim);
-int *Str_GetTableEntryB(TimFile *tim);
-int *Str_GetTableEntryC(TimFile *tim);
 
 #endif

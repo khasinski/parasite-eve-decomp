@@ -1,7 +1,7 @@
 #include "pe1/psyq_gpu.h"
 #include "pe1/cdrom_buffers.h"
 #include "common.h"
-#include "pe1/psyq_tim.h"
+#include "pe1/asset_tim.h"
 
 void VSync(int arg0);
 void SetDispMask(int arg0);
@@ -205,6 +205,6 @@ void Gpu_LoadTimTable(int base, int count) {
     for (i = 0; i < count; i++) {
         int ptr = (unsigned int)((short)i * 4) + (unsigned int)base;
         int offset = *(int *)ptr;
-        Gpu_LoadTimImage((TimFile *)((unsigned int)base + (unsigned int)offset));
+        Asset_LoadTimImage((TimFile *)((unsigned int)base + (unsigned int)offset));
     }
 }

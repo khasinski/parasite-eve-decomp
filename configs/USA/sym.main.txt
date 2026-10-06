@@ -67,7 +67,7 @@ Menu_SaveOverlayDraw = 0x80034DE0; // type:func
 Menu_CreateActionSubmenu = 0x8004AF3C; // type:func
 Menu_SetSlotEntry = 0x80065AD4; // type:func
 Menu_InitGlobals = 0x80065B70; // type:func
-Widget_GetDataPtr = 0x80071964; // type:func
+Asset_GetTimImageRect = 0x80071964; // type:func
 Scene_Init = 0x80071034; // type:func
 
 // String / barcode encoding.
@@ -749,7 +749,7 @@ Sys_Shutdown = 0x8006A25C; // type:func
 Akao_SendTableCommand = 0x8006DF50; // type:func
 Str_ParseBase32Id = 0x8006E3D4; // type:func
 Str_ParseMapNumber = 0x8006E454; // type:func
-Gpu_LoadTimImage = 0x800718D0; // type:func
+Asset_LoadTimImage = 0x800718D0; // type:func
 _comp_mant = 0x80073244; // type:func
 puts = 0x80073C5C; // type:func
 setjmp = 0x80074354; // type:func
