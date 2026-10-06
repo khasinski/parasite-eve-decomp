@@ -73,3 +73,7 @@ RoomLib_HandlerG = 0x8019280C; // type:func
 RoomLib_HandlerGFloorWalker = 0x80192940; // type:func
 RoomLib_ReleaseHandlerG = 0x80192D00; // type:func
 RoomLib_HandlerGNop6 = 0x80192D1C; // type:func
+RoomLib_UpdateTimedRender = 0x801939C8; // type:func
+RoomLib_ControlTimedSpawn = 0x80193B60; // type:func
+RoomLib_TimedRenderTable = 0x80193FE4;
+g_PlayerEntity = 0x8009D254; // absolute:True

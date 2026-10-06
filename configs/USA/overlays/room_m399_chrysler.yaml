@@ -36,7 +36,7 @@ segments:
     subsegments:
       - [0x0, rodata, room_m399_chrysler]
       - [0x14, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - [0x1EC, rodata, RoomLib_HandlerCArgsData_801925A8]
+      - [0x1EC, .rodata, ../room_lib/RoomLib_TimedSpawn]
       - [0x1F4, c, func_8018F1DC]
       - [0x220, c, RoomLib_Spawn6_8018F208]
       - [0x24C, c, RoomLib_RegisterTable_8018F234]
@@ -52,8 +52,7 @@ segments:
       - [0xDC4, c, RoomLib_UpdateDebrisTriplet_8018FDAC]
       - [0x11F0, c, ../room_lib/RoomLib_ActorClasses]
       - [0x450C, c, ../room_lib/RoomLib_FloorWalkerClass]
-      - [0x4CFC, c, RoomLib_UpdateTimedRender_80193CE4]
-      - [0x4E94, c, RoomLib_ControlTimedSpawn_80193E7C]
+      - [0x4CFC, c, ../room_lib/RoomLib_TimedSpawn]
       - [0x51D8, data, D_801941C0]
       - [0x51E4, data, RoomLib_TableA_8018F234]
       - [0x51F0, data, D_801941D8]

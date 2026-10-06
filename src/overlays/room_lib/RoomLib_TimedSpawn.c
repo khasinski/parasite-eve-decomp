@@ -1,4 +1,65 @@
+/*
+ * Timed spawns: the sprite callback and the controller that spawns it every
+ * sixth frame and flashes the scene on frame 7. The two functions follow
+ * each other in eight hospital and Chrysler rooms; the unit's rodata is the
+ * callback's seed initialiser.
+ */
 #include "common.h"
+#include "pe1/gte.h"
+#include "pe1/room_fx.h"
+
+/* The colour ramp table each room defines in its data. */
+extern char RoomLib_TimedRenderTable;
+extern RoomSpriteMatrix *D_800BCFA4;
+extern int D_800E27EC;
+
+extern void func_800CF3AC(void *table, RoomFxSeed8 *work, int frame);
+extern int rsin(int angle);
+extern void func_800D0728(RoomFxTimedRenderState *state, int arg1, int arg2,
+                          int arg3, RoomFxSeed8 *arg4, int arg5,
+                          int arg6, int arg7, RoomFxSeed8 *work, int arg9,
+                          int arg10);
+
+int RoomLib_UpdateTimedRender(int mode, RoomFxTimedRenderState *state) {
+    RoomFxSeed8 work;
+    RoomFxSeed8 seed = {{0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00}};
+    RoomFxSeed8 *seedPtr;
+    RoomSpriteMatrix **matrixSlot;
+    int angle;
+
+    seedPtr = &seed;
+    switch (mode) {
+    case 1:
+        if (state->disabled != 0) {
+            goto ret0;
+        }
+        state->frame++;
+        if ((short)state->frame < 24) {
+            goto ret0;
+        }
+        goto ret1;
+    case 2:
+        if (state->disabled != 0) {
+            goto disabled;
+        }
+        matrixSlot = &D_800BCFA4;
+        gte_ldrotmatrix(*matrixSlot);
+        gte_ldtransmatrix(*matrixSlot);
+        func_800CF3AC(&RoomLib_TimedRenderTable, &work,
+                      (short)state->frame);
+        angle = rsin((D_800E27EC << 10) / 24);
+        func_800D0728(state, 0x578, 0x640, 0x14, seedPtr, angle, angle, 0,
+                      &work, 0x80, 1);
+        goto ret0;
+    }
+ret0:
+    return 0;
+ret1:
+    return 1;
+disabled:
+    return 0;
+}
+
 
 typedef struct RoomTimedSpawnPosition {
     u16 x;
@@ -62,17 +123,8 @@ int func_800CE560(void *arg0, int arg1, int arg2, void *callback);
 int func_800D3FD8(void);
 void Akao_SendTableCommand(void *owner, int id, int value, int volume, int pan);
 
-extern void ROOMLIB_TIMED_SPAWN_CALLBACK(void);
 
-#ifndef ROOMLIB_TIMED_SPAWN_ACTOR_PTR
-#define ROOMLIB_TIMED_SPAWN_ACTOR_PTR g_PlayerEntity
-#endif
-
-#ifndef ROOMLIB_TIMED_SPAWN_FRAME_COUNT
-#define ROOMLIB_TIMED_SPAWN_FRAME_COUNT D_800942EC
-#endif
-
-int ROOMLIB_CONTROL_TIMED_SPAWN_NAME(int mode, RoomTimedSpawnState *state) {
+int RoomLib_ControlTimedSpawn(int mode, RoomTimedSpawnState *state) {
     void *actor;
     int tick;
     int value;
@@ -112,7 +164,7 @@ mode0:
         Akao_SendTableCommand(D_800B0E64.owner, 0x588, value, 0x80, 0x7F);
     }
     return func_800CE560(((void **)D_800F33E0)[2], 0xC, 8,
-                         ROOMLIB_TIMED_SPAWN_CALLBACK);
+                         RoomLib_UpdateTimedRender);
 
 mode1:
     tick = D_800E27EC;
@@ -122,7 +174,7 @@ mode1:
             *(u16 *)((char *)actor + 0) = state->position.x;
             *(u16 *)((char *)actor + 2) = state->position.y;
             *(u16 *)((char *)actor + 4) = state->position.z;
-            ground = ROOMLIB_TIMED_SPAWN_FRAME_COUNT;
+            ground = D_800942EC;
             *(s16 *)((char *)actor + 8) = 0;
             *(s16 *)((char *)actor + 0xA) = 0;
             *(u16 *)((char *)actor + 2) = ground;
@@ -135,7 +187,7 @@ mode1:
         if ((*(u32 *)*(void **)((void **)root)[2] & 0x3F000000) ==
             0x01000000) {
             void *object;
-            RoomTimedSpawnEngine *engine = *(RoomTimedSpawnEngine **)ROOMLIB_TIMED_SPAWN_ACTOR_PTR;
+            RoomTimedSpawnEngine *engine = *(RoomTimedSpawnEngine **)g_PlayerEntity;
             engine->flags |= 0x4000;
 
             object = *(void **)((void **)root)[2];

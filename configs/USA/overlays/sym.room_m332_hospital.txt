@@ -66,3 +66,6 @@ RoomLib_HandlerG = 0x801927C8; // type:func
 RoomLib_HandlerGFloorWalker = 0x801928FC; // type:func
 RoomLib_ReleaseHandlerG = 0x80192CBC; // type:func
 RoomLib_HandlerGNop6 = 0x80192CD8; // type:func
+RoomLib_UpdateTimedRender = 0x80192CE0; // type:func
+RoomLib_ControlTimedSpawn = 0x80192E78; // type:func
+RoomLib_TimedRenderTable = 0x801932A0;

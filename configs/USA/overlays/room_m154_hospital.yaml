@@ -36,7 +36,7 @@ segments:
     subsegments:
       - [0x0, rodata, room_m154_hospital]
       - [0x5C, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - [0x234, rodata, RoomLib_HandlerCArgsData_80192AB8]
+      - [0x234, .rodata, ../room_lib/RoomLib_TimedSpawn]
       - [0x23C, c, func_8018F224]
       - [0x244, c, RoomLib_PlantTable_8018F22C]
       - [0x270, c, RoomLib_Spawn6_8018F258]
@@ -64,8 +64,7 @@ segments:
       - [0x1624, c, RoomLib_UpdateTrailParticle_8019060C]
       - [0x1700, c, ../room_lib/RoomLib_ActorClasses]
       - [0x4A1C, c, ../room_lib/RoomLib_FloorWalkerClass]
-      - [0x520C, c, RoomLib_UpdateTimedRender_801941F4]
-      - [0x53A4, c, RoomLib_ControlTimedSpawn_8019438C]
+      - [0x520C, c, ../room_lib/RoomLib_TimedSpawn]
       - [0x56E8, c, RoomEffect_IndexedPaletteSprite]
       - [0x5828, c, RoomEffect_HomingProjectile_80194810]
       - [0x613C, c, func_80195124]

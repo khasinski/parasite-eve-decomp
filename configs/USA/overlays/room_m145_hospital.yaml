@@ -36,11 +36,10 @@ segments:
     subsegments:
       - [0x0, rodata, room_m145_hospital]
       - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915A4]
+      - [0x1E4, .rodata, ../room_lib/RoomLib_TimedSpawn]
       - [0x1EC, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3508, c, ../room_lib/RoomLib_FloorWalkerClass]
-      - [0x3CF8, c, RoomLib_UpdateTimedRender_80192CE0]
-      - [0x3E90, c, RoomLib_ControlTimedSpawn_80192E78]
+      - [0x3CF8, c, ../room_lib/RoomLib_TimedSpawn]
       - [0x41D4, data, D_801931BC]
       - [0x4298, data, D_80193280]
       - start: 0x42B8
