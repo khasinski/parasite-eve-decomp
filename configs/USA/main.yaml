@@ -74,7 +74,7 @@ segments:
       - [0x8A0, .rodata, main/Boot_MemCardStepInit]
       - [0x990, .rodata, main/Entity_GetPositionByType]
       - [0x9AC, rodata, main/rodata_0009AC]
-      - [0x9B0, .rodata, main/Akao_ProcessCommand]
+      - [0x9B0, .rodata, task/Task_ItemAndSoundOps]
       - [0xE8C, rodata, main/rodata_000E8C]
       - [0xE90, .rodata, task/Task_RunQueue]
       - [0xEA4, rodata, main/rodata_000EA4]
@@ -178,9 +178,9 @@ segments:
       - [0x5E48, c, task/Task_GetAngleToEntity]
       - [0x5F90, c, main/MapSelectionFlow]
       - [0x62B8, c, task/Task_SetActorScreenPos]
-      # Startup-menu phase controller.
-      - [0x62F0, c, boot/Boot_InitPhase1]
-      - [0x65AC, c, main/Akao_ProcessCommand]
+      # Memory-card dialog, received-item, inventory and AKAO/CD sound
+      # opcodes: contiguous -G8 handlers; only the sound command has rodata.
+      - [0x62F0, c, task/Task_ItemAndSoundOps]
       - [0x7110, c, task/Task_DispatchScriptCmd]
       - [0x75F8, c, task/task6]
       # Pending-node launch controller for equip and save/load menus.
