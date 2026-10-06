@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE MTX_07: TransMatrix. */
 #include "pe1/gte_types.h"
 
 GteMatrix *TransMatrix(GteMatrix *matrix, const int *v) {

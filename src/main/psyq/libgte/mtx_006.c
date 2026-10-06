@@ -1,7 +1,6 @@
 /* ASSEMBLER: GNU */
 /*
- * PSY-Q LIBGTE MTX_006: PushMatrix and PopMatrix
- * (PopMatrix). Assembler source: the matrix-stack pointer MSP and stack
+ * PSY-Q LIBGTE MTX_006: PushMatrix and PopMatrix. Assembler source: the matrix-stack pointer MSP and stack
  * MSTACK are object statics, ra is parked in SAVERA around the overflow
  * printf, and the counter steps with trapping addi. PSY-Q 3.5 mtx_00.o has
  * the same routines with the local labels CONTpush and CONTpop; its assembler

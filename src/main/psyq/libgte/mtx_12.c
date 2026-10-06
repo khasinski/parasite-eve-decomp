@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE MTX_12: SetTransMatrix. */
 void SetTransMatrix(int *m) {
     register int tx asm("$8") = m[5];
     register int ty asm("$9") = m[6];

@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* PSY-Q LIBMATH MULDF3 (second unit, see muldf3.c): _mul_mant_d. */
 #include "pe1/math64.h"
 
 /* Four 16-bit partial products, with the two cross terms accumulated by

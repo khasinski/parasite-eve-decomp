@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE SMP_04: RotTrans. */
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 

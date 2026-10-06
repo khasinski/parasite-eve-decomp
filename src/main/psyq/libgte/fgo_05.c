@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBGTE FGO_05: RotMatrixY. */
 #include "pe1/gte_types.h"
 #include "pe1/gte_sine_table.h"
 #include "pe1/psyq_nop.h"

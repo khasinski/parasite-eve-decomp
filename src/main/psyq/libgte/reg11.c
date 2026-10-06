@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE REG11: SetFarColor. */
 void SetFarColor(int r, int g, int b) {
     r <<= 4;
     g <<= 4;

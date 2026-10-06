@@ -1,12 +1,12 @@
 /* ASSEMBLER: GNU */
 /*
- * PSY-Q LIBGTE PATCHGTE: _patch_gte. Assembler
- * source: ra is parked in a static word, the B0 table is fetched inline
- * through the t2/t1 BIOS call protocol, and the copy loops run over
- * instruction templates kept in the object's text section. The installer
- * compares the kernel exception prologue with LIBGTE_PATCHGTE_text_AC and, on
- * a match, overwrites it with LIBGTE_PATCHGTE_text_C4; LIBGTE_PATCHGTE_text_DC ends the second
- * template. The templates are never executed at their link address, so they
+ * PSY-Q LIBGTE PATCHGTE: _patch_gte. Assembler source: ra is parked in a
+ * static word, the B0 table is fetched inline through the t2/t1 BIOS call
+ * protocol, and the copy loops run over instruction templates kept in the
+ * object's text section. The installer compares the kernel exception
+ * prologue with the template at signature label text_AC
+ * (LIBGTE_PATCHGTE_text_AC) and, on a match, overwrites it with the one at
+ * text_C4; text_DC ends the second template. The templates are never executed at their link address, so they
  * are the data segment psyq/libgte/PATCHGTE_templates. PSY-Q 3.5 patchgte.o
  * has the same structure (_patch_GTE.._patch_GTE_end in .text, copy loop at
  * assembler label 1$) without the comparison pass.

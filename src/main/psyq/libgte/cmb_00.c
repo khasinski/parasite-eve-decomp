@@ -1,4 +1,4 @@
-
+/* PSY-Q LIBGTE CMB_00: RotTransPers4. */
 #include "common.h"
 #include "pe1/gte.h"
 

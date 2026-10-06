@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* PSY-Q LIBMATH MAINASU: _mainasu. */
 #include "common.h"
 #include "pe1/math64.h"
 

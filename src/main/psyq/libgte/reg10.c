@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE REG10: SetBackColor. */
 void SetBackColor(int r, int g, int b) {
     r <<= 4;
     g <<= 4;

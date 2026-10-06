@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE CMB_06: RotAverageNclip3. */
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 

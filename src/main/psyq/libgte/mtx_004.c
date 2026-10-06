@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE MTX_004: ApplyMatrixLV. */
 #include "pe1/gte_types.h"
 #include "pe1/gte.h"
 

@@ -1,8 +1,10 @@
 /* ASSEMBLER: GNU */
 #include "pe1/math64.h"
 
-/* Psy-Q LIBMATH MULDF3.OBJ: __muldf3, retained under its historical symbol.
- * The adjacent _mul_mant_d helper still uses a separate GCC 2.8.1 unit. */
+/* PSY-Q LIBMATH MULDF3: __muldf3. The same object's _mul_mant_d is the
+ * separate unit _mul_mant_d.c: this function matches only with GCC 2.7.2 and
+ * the helper only with GCC 2.8.1, so one translation unit cannot reproduce
+ * both. */
 double __muldf3(double x, double y)
 {
     struct {

@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBMATH ADDDF3: __adddf3. */
 #include "pe1/math64.h"
 double __adddf3(double x, double y) {
     struct {

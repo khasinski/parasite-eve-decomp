@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE REG12: SetGeomOffset. */
 void SetGeomOffset(int x, int y) {
     x <<= 16;
     y <<= 16;

@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE MTX_000: MulMatrix0. */
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 

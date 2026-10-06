@@ -1,5 +1,6 @@
 /* ASSEMBLER: GNU */
 /* GAS_VERSION: 2.7 */
+/* PSY-Q LIBGTE RATAN: ratan2. */
 #include "common.h"
 extern s16 atan_table[] __asm__("D_8009A6EC");
 

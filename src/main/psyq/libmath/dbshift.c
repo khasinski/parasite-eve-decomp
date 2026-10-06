@@ -1,5 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
-
+/* PSY-Q LIBMATH DBSHIFT: _dbl_shift. */
 #include "pe1/math64.h"
 
 /* A nonzero direction selects sign-extending right shifts. Counts <= 0

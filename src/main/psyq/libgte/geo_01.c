@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBGTE GEO_01: rcos. */
 /* Quarter-wave table views used by the original cosine object. */
 extern short D_8009589C[], D_8009509C[], D_8009409C[];
 

@@ -1,3 +1,7 @@
+/*
+ * PSY-Q LIBGTE MSC06: LoadAverage12, LoadAverage0, LoadAverageShort12,
+ * LoadAverageShort0, LoadAverageByte and LoadAverageCol.
+ */
 #include "pe1/gte.h"
 
 void LoadAverage12(void *first, void *second, int first_scale, int second_scale,

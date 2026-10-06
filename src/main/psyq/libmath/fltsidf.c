@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* PSY-Q LIBMATH FLTSIDF: __floatsidf. */
 #include "pe1/math64.h"
 
 /* Normalize the magnitude, then pack the IEEE-754 exponent and fraction.

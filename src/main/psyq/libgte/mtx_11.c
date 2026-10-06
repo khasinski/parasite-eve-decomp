@@ -1,3 +1,4 @@
+/* PSY-Q LIBGTE MTX_11: SetColorMatrix. */
 #include "pe1/gte.h"
 
 void SetColorMatrix(int *m) {

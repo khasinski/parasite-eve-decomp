@@ -1,3 +1,7 @@
+/*
+ * PSY-Q LIBGTE SMP_00: LightColor, DpqColorLight, DpqColor3, Intpl, Square12,
+ * Square0, AverageZ3, AverageZ4, OuterProduct12, OuterProduct0 and Lzc.
+ */
 #include "pe1/gte.h"
 
 void LightColor(void *input, void *output) {

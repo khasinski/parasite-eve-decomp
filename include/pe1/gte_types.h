@@ -56,6 +56,9 @@ GteMatrix *ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
 int ratan2(int y, int x);
 int SquareRoot0(int value);
 void VectorNormal(GteVector *vector, GteVector *unit);
+void SetFogNearFar(int near, int far, int h);
+void SetDQA(int dqa);
+void SetDQB(int dqb);
 
 PE1_STATIC_ASSERT(sizeof(GteMatrix) == 32, gte_matrix_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GteMatrix, t) == 20, gte_matrix_translation_offset);

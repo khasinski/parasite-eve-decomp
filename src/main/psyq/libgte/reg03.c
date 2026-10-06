@@ -1,3 +1,8 @@
+/*
+ * PSY-Q LIBGTE REG03: SetVertex0, SetVertex1, SetVertex2, SetVertexTri,
+ * SetRGBfifo, SetIR123, SetIR0, SetSZfifo3, SetSZfifo4, SetSXSYfifo, SetRii,
+ * SetMAC123, SetData32, SetDQA and SetDQB.
+ */
 #include "pe1/gte.h"
 
 void SetVertex0(void *v) {
