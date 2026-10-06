@@ -1,13 +1,49 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: --use-comm-section -G8 */
+#include "common.h"
 #include "pe1/menu_widget.h"
 
-extern int g_MenuWidgetColumnLayoutMode;
-extern signed char g_MenuWidgetColumnLayoutTable[][4];
-
+int g_MenuWidgetColumnLayoutMode;
+extern s8 g_MenuWidgetColumnLayoutTable[][4];
+void bzero(void *ptr, int size);
 extern int g_DrawTextPosX;
-
 void Draw_PrintCenteredTextInWidth(int arg0, int arg1);
+
+/* Saved cursor/scroll positions of menu widgets (one 4-byte slot per
+ * aux_index): reset, mode, save and restore. Sys_InitStateBuffer (historical
+ * name) is the unconditional reset; the eight slots set to -1 start with no
+ * saved column. */
+
+void Sys_InitStateBuffer(void) {
+    bzero(g_MenuWidgetColumnLayoutTable, 0x120);
+    g_MenuWidgetColumnLayoutTable[6][0] = -1;
+    g_MenuWidgetColumnLayoutTable[16][0] = -1;
+    g_MenuWidgetColumnLayoutTable[20][0] = -1;
+    g_MenuWidgetColumnLayoutTable[22][0] = -1;
+    g_MenuWidgetColumnLayoutTable[24][0] = -1;
+    g_MenuWidgetColumnLayoutTable[25][0] = -1;
+    g_MenuWidgetColumnLayoutTable[49][0] = -1;
+    g_MenuWidgetColumnLayoutTable[53][0] = -1;
+}
+
+void MenuWidget_SetColumnLayoutMode(int arg0) {
+    g_MenuWidgetColumnLayoutMode = arg0;
+    if (arg0 == 0) {
+        bzero(g_MenuWidgetColumnLayoutTable, 0x120);
+        g_MenuWidgetColumnLayoutTable[6][0] = -1;
+        g_MenuWidgetColumnLayoutTable[16][0] = -1;
+        g_MenuWidgetColumnLayoutTable[20][0] = -1;
+        g_MenuWidgetColumnLayoutTable[22][0] = -1;
+        g_MenuWidgetColumnLayoutTable[24][0] = -1;
+        g_MenuWidgetColumnLayoutTable[25][0] = -1;
+        g_MenuWidgetColumnLayoutTable[49][0] = -1;
+        g_MenuWidgetColumnLayoutTable[53][0] = -1;
+    }
+}
+
+int MenuWidget_GetColumnLayoutMode(void) {
+    return g_MenuWidgetColumnLayoutMode;
+}
 
 void MenuWidget_SaveColumnLayout(MenuWidgetNode *node) {
     int index;

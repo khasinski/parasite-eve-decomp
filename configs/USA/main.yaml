@@ -713,9 +713,8 @@ segments:
       - [0x54530, c, menu/MenuWidget_CursorClamp]
       - [0x5460C, c, main/Menu_StepScrollCursor]
       - [0x54FD0, c, main/Draw_SetPrimCallback]
-      - [0x55164, c, sys/Sys_InitStateBuffer]
-      - [0x551D0, c, menu/menu_widget7]
-      - [0x55254, c, menu/menu_widget8]
+      # Widget column-layout table: reset, mode, save and restore share the table and its mode word.
+      - [0x55164, c, menu/MenuWidget_ColumnLayout]
       - [0x55454, c, menu/MenuWidget_DrawCenteredTableText]
       - [0x55480, c, menu/Draw_DropShadow]
       - [0x55508, c, menu/Draw_SwapPrimBuffers]
