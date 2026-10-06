@@ -1,8 +1,11 @@
+/* MASPSX_FLAGS: --expand-div */
+/*
+ * The seeker spark of scenes e03, e06, e07 and e27: one function, linked
+ * right after the room library. Its rodata is the two colour initialisers.
+ */
+#include "common.h"
 #include "pe1/room_spark.h"
 #include "pe1/gte.h"
-#ifndef ROOMEFFECT_SEEKER_SPARK_FUNC
-#error "ROOMEFFECT_SEEKER_SPARK_FUNC must name the room entry point"
-#endif
 
 /* First object of the primary channel's pool: its packet flags. */
 typedef struct RoomSeekerObject {
@@ -27,8 +30,6 @@ typedef struct RoomSeekerSparkParams {
     s16 distance;
 } RoomSeekerSparkParams;
 
-extern RenderColor D_8018F1CC;
-extern RenderColor D_8018F1D0;
 extern RoomSeekerBattleEntity *D_8009D254;
 extern void *D_8009D248;
 extern u16 D_8009D1CC;
@@ -38,11 +39,11 @@ extern int func_800C6B90(void *position, int radius);
 /* Seeker spark: flies along its heading dropping trail sparks, bursts on
  * the player (flagging the battle actor) and dies off the walkable floor;
  * trail sparks drift, slow and bounce on the floor for eight frames. */
-int ROOMEFFECT_SEEKER_SPARK_FUNC(int mode, RoomDampedSpark *spark,
-                                 RoomSeekerSparkParams *params) {
+int RoomEffect_SeekerSparkCallback(int mode, RoomDampedSpark *spark,
+                                   RoomSeekerSparkParams *params) {
     GteShortVector delta;
-    RenderColor color = D_8018F1CC;
-    RenderColor glow = D_8018F1D0;
+    RenderColor color = {0xC8, 0x64, 0x00, 0x00};
+    RenderColor glow = {0xC8, 0xC8, 0x96, 0x00};
     RoomDampedSpark *child;
     int intensity;
     int scale;
@@ -206,5 +207,3 @@ int ROOMEFFECT_SEEKER_SPARK_FUNC(int mode, RoomDampedSpark *spark,
     }
     return 0;
 }
-
-#undef ROOMEFFECT_SEEKER_SPARK_FUNC

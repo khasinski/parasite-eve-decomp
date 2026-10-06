@@ -70,3 +70,4 @@ RoomLib_HandlerA = 0x80192248; // type:func
 RoomLib_HandlerF = 0x8019235C; // type:func
 RoomLib_ReleaseHandlerA = 0x801924DC; // type:func
 RoomLib_HandlerANop6 = 0x801924F8; // type:func
+RoomEffect_SeekerSparkCallback = 0x80192500; // type:func
