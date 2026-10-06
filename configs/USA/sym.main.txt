@@ -1793,6 +1793,7 @@ LoadTPage = 0x80074774; // type:func
 DrawOTag2 = 0x80077904; // type:func
 InitPAD = 0x8007DF50; // type:func
 DsControl = 0x80080D5C; // type:func
+DsControlB = 0x80080DC4; // type:func
 PadEnableCom = 0x800829C4; // type:func
 SpuSetIRQCallback = 0x80085D84; // type:func
 
