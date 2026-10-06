@@ -1,6 +1,10 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+
+/* Active-list commands from the item menus and the pending command result
+ * (D_8009D010) that the menu loop polls and clears. */
+
 extern u8 D_8009D254[];
 extern u8 *D_8009D1E0;
 extern int D_8009D010;
@@ -12,8 +16,10 @@ void Battle_DispatchSpecialAction(int);
 void Inv_SelectActiveList(int);
 void BattleCmd_LoadWeaponModifiers(void);
 void MenuWidget_InitPool(void);
+
 struct WeaponBlock { u32 word[6]; };
 struct ArmorBlock { u32 word[2]; };
+
 void Inv_SetActiveList(int mode, int *slot) {
     u8 *active;
     int *selection;
@@ -105,4 +111,12 @@ void Inv_SetActiveList(int mode, int *slot) {
     default: break;
     }
     if (D_8009D010) MenuWidget_InitPool();
+}
+
+int Menu_GetCommandResult(void) {
+    return D_8009D010;
+}
+
+void Menu_ClearCommandResult(void) {
+    D_8009D010 = 0;
 }
