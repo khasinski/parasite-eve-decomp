@@ -61,7 +61,7 @@ typedef struct RoomM023Template {
 extern RoomM023EventState *D_800E2368;
 extern RoomM023Channel *D_800F32D0, *D_800F33E0;
 extern RoomM023Template D_8018EFF4;
-extern GteShortVector D_80190758;
+extern GteShortVector g_RoomScriptRecord;
 extern u16 D_800E11E4[];
 
 extern int func_800CE560(void *pool, int size, int count, void *callback);

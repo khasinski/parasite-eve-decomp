@@ -1,1 +1,2 @@
-D_80190758 = 0x80190758;
+g_RoomScriptRecord = 0x80190758;
+RoomLib_SetTaskVar0 = 0x80190644; // type:func

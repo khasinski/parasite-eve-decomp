@@ -55,3 +55,5 @@ RoomLib_ReleaseHandlerA = 0x801924F8; // type:func
 RoomLib_HandlerANop6 = 0x80192514; // type:func
 RoomLib_SetArg1 = 0x801953D4; // type:func
 g_RoomScriptArg = 0x801956BC;
+RoomLib_SetTaskVar0 = 0x80195350; // type:func
+g_RoomScriptRecord = 0x80195684;

@@ -13,7 +13,7 @@ typedef RoomM023DriftPulseCallbackView RoomDriftPulseState;
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDriftPulseState, vz) == 0x0C,
                   room_drift_pulse_vz_offset);
 
-extern GteShortVector D_80190758;
+extern GteShortVector g_RoomScriptRecord;
 int func_80077AA4(int, int);
 int rcos(int angle);
 

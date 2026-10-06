@@ -32,12 +32,12 @@ int func_80192BDC(int mode, RoomM123PulsingParticle *particle) {
             if (kind == 4 && D_800F3428) palette += 4;
             clut = func_80077AA4(0x20, palette);
             func_800CEE20(&position, 0, 0x1000, 0x1000,
-                          D_800F336A * 2 + 0xD8, clut, 3, D_80195684,
+                          D_800F336A * 2 + 0xD8, clut, 3, g_RoomScriptRecord,
                           &color);
             matrixSlot = &D_800BCFA4;
             gte_ldrotmatrix(matrixSlot->value);
             gte_ldtransmatrix(matrixSlot->value);
-            func_800D1DEC(&position, &color, D_80195684, 1);
+            func_800D1DEC(&position, &color, g_RoomScriptRecord, 1);
             /* Retail re-tests the frame here; the blended tail only runs
              * from frame 16 on. */
             if ((s16)particle->frame < 16) break;
@@ -48,7 +48,7 @@ int func_80192BDC(int mode, RoomM123PulsingParticle *particle) {
         func_800CF3AC(D_801954BC, &color, 0x30 - (scale * 48) / 1024);
         blend = rcos(((s16)particle->frame - 16) << 5);
         LoadAverageShort12(&position, &D_80195690, blend, 0x1000 - blend, &output);
-        func_800D2B58(&output, &position, &color, 0, D_80195684, 0, 1);
+        func_800D2B58(&output, &position, &color, 0, g_RoomScriptRecord, 0, 1);
         break;
     }
     return 0;
@@ -162,7 +162,7 @@ int func_80192F0C(int mode, RoomM123GlowBurst *burst) {
         func_800D004C(&position, 700, 700, 0x10, 0, 0x1000, 0x1000, &color, 0, 0x40, 1);
         func_800CF3AC(D_801954E4, &color, D_800E27EC * 48 / 40);
         func_800D004C(&position, 0xA0, 0xA0, 8, 0, 0x1000, 0x1000, &color, 0, 0x80, 1);
-        D_80195684 = burst->timer;
+        g_RoomScriptRecord = burst->timer;
         D_80195690.x = position.x;
         D_80195690.y = position.y;
         D_80195690.z = position.z;

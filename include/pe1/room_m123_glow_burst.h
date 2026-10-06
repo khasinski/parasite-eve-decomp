@@ -18,7 +18,7 @@ typedef struct RoomM123BurstTemplate {
 } RoomM123BurstTemplate;
 
 extern RoomM123BurstTemplate D_8018F1E0;
-extern s16 D_80195684;
+extern s16 g_RoomScriptRecord;
 /* Joint angles published for the pulsing particles: written by the joint
  * transform as a vector, read back by the flare sweep as a rotation. */
 typedef union RoomM123JointAngles {
