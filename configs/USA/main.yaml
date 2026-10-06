@@ -1440,9 +1440,8 @@ segments:
       - [0xC78C0, c, engine/FieldEng_EmberSparks]
       - [0xC7D1C, c, engine/FieldEng_FanSweepEmitter]
       - [0xC821C, c, engine/FieldEng_ArcingEmitter]
-      - [0xC8678, c, engine/FieldEng_OrbitingEffect]
-      - [0xC9178, c, engine/FieldEng_VerticalEffect]
-      - [0xC9514, c, engine/FieldEng_HelicalEffect]
+      # Orbiting, vertical and helical effect callbacks share draw helpers and literals (G1588).
+      - [0xC8678, c, engine/FieldEng_OrbitalEffects]
       - [0xC9D54, c, engine/FieldEng_DampedSpark]
       - [0xCA28C, c, engine/FieldEng_SpinningModel]
       - [0xCA65C, c, engine/FieldEng_BallisticSprite]
