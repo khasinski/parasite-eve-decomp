@@ -405,8 +405,8 @@ segments:
       # (main_tu_evidence G0342 also joins the display reset and callbacks,
       # but -fno-schedule-insns2 reorders the display reset).
       - [0x2EE10, c, boot/Boot_InitSystemFlow]
-      - [0x2EF54, c, render/Render_ResetScene]
-      - [0x2F11C, c, boot/Boot_VsyncAndPadCallbacks]
+      # Start-up display reset, the vsync callback and the pad/memory-card start-up (G0341).
+      - [0x2EF54, c, boot/Boot_DisplayResetAndCallbacks]
       # Render-flag table builder and its only helper: contiguous; the
       # helper's lone array reference is absolute under -G8 as well.
       - [0x2F174, c, boot/Boot_RenderFlagTable]
