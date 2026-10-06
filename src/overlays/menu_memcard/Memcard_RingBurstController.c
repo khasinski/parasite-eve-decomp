@@ -20,7 +20,7 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
 
     switch (mode) {
     case 0:
-        func_800CE870(D_8009D254, 0, &burst->x);
+        func_800CE870((char *)D_8009D254, 0, &burst->x);
         func_8006DDCC(0x4B7, 0, burst->x, burst->y, burst->z);
         burst->state = 0;
         burst->timer = 0;

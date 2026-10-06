@@ -74,7 +74,6 @@ extern void func_800C7098(void *asset, int r, int g, int b);
 extern void func_800C6FA0(void *asset, int brightness);
 extern void func_800C71E4(void *asset, void *matrix);
 extern void func_800C6F4C(void *asset);
-extern RoomModelBurstParticle *func_800CE610_burst(void *pool) __asm__("func_800CE610");
 
 /* Controller that loads a model asset, spawns one particle per frame while
  * brightening, and draws a growing sprite pair, the actor's sprite and the
@@ -117,7 +116,7 @@ int ROOMEFFECT_MODEL_BURST_FUNC(int mode, s16 *state) {
             D_800F3368.tpage = tpage;
             func_800CF4B4(3, D_800E27EC * 2, ROOMEFFECT_MODEL_BURST_LAYER);
         }
-        child = func_800CE610_burst(D_800F33E0->pool);
+        child = func_800CE610(D_800F33E0->pool);
         if (child) {
             child->x = func_80071A54();
             child->y = func_80071A54();

@@ -79,7 +79,6 @@ extern void func_800CE8F0(void *pool, int index, void *offset, void *position);
 extern void func_800D1384(void *from, void *to, int width, void *color0,
                           void *color1, int alpha, void *trail, int mode);
 extern u8 *D_800E22D4;
-extern void *D_8009D254;
 extern s32 func_80077A64(s32, s32, s32, s32);
 extern void func_800C6EC0(int tpage, int clut);
 extern void func_800C6ED8(int);

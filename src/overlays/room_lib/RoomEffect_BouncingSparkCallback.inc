@@ -88,7 +88,7 @@ int ROOMEFFECT_BOUNCING_SPARK_FUNC(int mode, RoomDampedSpark *spark) {
             matrixSlot = &D_800BCFA4;
             gte_ldrotmatrix(matrixSlot->value);
             gte_ldtransmatrix(matrixSlot->value);
-            func_800D2104(spark, &shade, 0x80, 0xFF);
+            func_800D2104((GteShortVector *)spark, (u8 *)&shade, 0x80, 0xFF);
             break;
         case 2: {
             u16 clut;

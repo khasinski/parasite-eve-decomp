@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "pe1/field_collision.h"
 
 /* Room spark particles: damped velocity, gravity and a floor bounce against
  * the frame-count driven floor height. */
@@ -37,10 +38,8 @@ typedef struct RoomSparkFrameTick {
 extern RoomSparkFrameTick g_FrameCount16;
 extern int rsin(int angle);
 extern int rcos(int angle);
-extern int rsin(int angle);
-extern int rcos(int angle);
 extern u16 func_80077AA4(int, int);
-extern void func_800D2104(void *position, void *color, int size, int alpha);
+void func_800D2104(GteShortVector *position, u8 *color, int scale, int abr);
 
 /* Particle pools reached through the two effect channels. */
 typedef struct RoomSparkChannel {
@@ -52,7 +51,7 @@ extern RoomSparkChannel *D_800F32D0, *D_800F33E0;
 extern RoomSparkChannel *D_800942E4;
 extern u16 D_800E11EA;
 extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern RoomDampedSpark *func_800CE610(void *pool);
+extern void *func_800CE610(void *pool);
 extern int func_80071A54(void);
 extern int func_800D3FD8(void);
 extern int func_800D3F64(int sound, int handle);
@@ -142,8 +141,37 @@ typedef struct RoomSparkNode {
 } RoomSparkNode;
 
 extern RoomSparkEventState *D_800E2368;
+
+/* The active battle entity: a spark that reaches it flags its actor. */
+typedef struct RoomSparkActor {
+    u8 reserved[0x4C];
+    u32 flags;                    /* 0x4C */
+} RoomSparkActor;
+
+/* 16.16 world coordinate; the integer half is read as a bitfield. */
+typedef union RoomSparkCoord {
+    s32 word;
+    struct {
+        int fraction : 16;
+        int integer : 16;
+    } part;
+} RoomSparkCoord;
+
+typedef struct RoomSparkBattleEntity {
+    RoomSparkActor *actor;        /* 0x00 */
+    u8 pad04[0x24];
+    RoomSparkCoord x;             /* 0x28 */
+    RoomSparkCoord y;             /* 0x2C */
+    RoomSparkCoord z;             /* 0x30 */
+} RoomSparkBattleEntity;
+
+extern RoomSparkBattleEntity *D_8009D254;
+/* Walkable floor polygons and their count, for func_8001CAB0. */
+extern PolygonVertex *D_8009D248;
+extern u16 D_8009D1CC;
+extern int func_8001CAB0(int x, int z, void *map, int flags);
+extern int func_800C6B90(void *position, int radius);
 extern u16 D_800E11FA;
-extern RoomCometSpark *func_800CE610_comet(void *pool) __asm__("func_800CE610");
 
 /* Bouncing spark: the damped spark layout with a rise acceleration in the
  * word the damped spark leaves reserved. */
@@ -159,7 +187,6 @@ typedef struct RoomBounceSpark {
 
 PE1_STATIC_ASSERT(sizeof(RoomBounceSpark) == 0x14, room_bounce_spark_size);
 
-extern RoomBounceSpark *func_800CE610_bounce(void *pool) __asm__("func_800CE610");
 
 /* Beam spark: a line drawn from the actor to a tip that is blended towards
  * the target, with a scaled model drawn at the target. */

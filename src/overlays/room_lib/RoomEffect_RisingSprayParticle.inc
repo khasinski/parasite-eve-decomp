@@ -5,12 +5,6 @@
 #error "ROOMEFFECT_RISING_SPRAY_PARTICLE_FUNC must name the particle callback"
 #endif
 
-extern RoomSprayBattleEntity *D_8009D254;
-extern void *D_8009D248;
-extern u16 D_8009D1CC;
-extern int func_8001CAB0(int x, int z, void *map, int flags);
-extern int func_800C6B90(void *position, int radius);
-
 /* Spray spark: rises along a swirling path and knocks the player back when
  * it reaches them, then hovers, or falls and bounces off the floor; drawn
  * as a spinning glow with a floor shadow, a fading glow or a shrinking

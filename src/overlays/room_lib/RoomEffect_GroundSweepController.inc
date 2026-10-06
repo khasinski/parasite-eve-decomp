@@ -26,14 +26,12 @@ typedef RoomSoundSlot RoomGroundSweepSoundSlot;
 extern RoomGroundSweepSoundSlot D_800B0E64_slot __asm__("D_800B0E64");
 extern int func_8006DF50_handle(void *channel, int id, int value, int volume,
                                 int pan) __asm__("func_8006DF50");
-extern RoomGroundSweepBattleEntity *D_8009D254;
 extern s32 D_800E27EC;
 extern s32 ROOMEFFECT_GROUND_SWEEP_SIDE;
 extern GteShortVector ROOMEFFECT_GROUND_SWEEP_OFFSET;
 extern RenderColor ROOMEFFECT_GROUND_SWEEP_COLOR_A;
 extern RenderColor ROOMEFFECT_GROUND_SWEEP_COLOR_B;
 extern int ROOMEFFECT_GROUND_SWEEP_CALLBACK(int mode, RoomGroundSweepMark *mark);
-extern int func_800C6B90(void *position, int radius);
 extern void func_800866A4(int handle, int arg);
 extern void func_800CFAA8(void *from, void *to, void *angles);
 extern void func_800CFD50(void *angles, void *out, int speed);

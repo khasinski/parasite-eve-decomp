@@ -15,7 +15,6 @@
 #endif
 
 extern s32 D_800E27EC;
-extern void *D_8009D254;
 extern RenderColor ROOMEFFECT_ORBIT_BURST_COLOR;
 extern GteShortVector ROOMEFFECT_ORBIT_BURST_ORIGIN;
 extern int ROOMEFFECT_ORBIT_BURST_CALLBACK(int mode, RoomOrbitTrailParticle *p);
@@ -33,7 +32,7 @@ int ROOMEFFECT_ORBIT_BURST_FUNC(int mode, RoomOrbitTrailBurst *burst) {
     case 0:
         burst->counterB = 0;
         burst->counterA = 0;
-        func_800CE870(D_8009D254, 0, (s16 *)burst);
+        func_800CE870((char *)D_8009D254, 0, (s16 *)burst);
         func_800D3F64(0x596, func_800D3FD8());
         return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
                              ROOMEFFECT_ORBIT_BURST_CALLBACK);

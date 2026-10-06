@@ -10,8 +10,6 @@ typedef union RoomOrbitSpinBurstTilt {
     GteRotation rotation;
 } RoomOrbitSpinBurstTilt;
 
-extern char *D_8009D254;
-
 /* Glow sprite with an explicit sprite size; the eighth argument is zero at
  * every known call site. */
 void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,

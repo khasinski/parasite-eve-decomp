@@ -44,7 +44,7 @@ int ROOMEFFECT_COMET_SPARK_CTRL_FUNC(int mode, RoomCometSparkAnchor *anchor) {
             origin.y += anchor->y;
             origin.z += anchor->z;
             origin.y = D_800942EC.count;
-            child = func_800CE610_comet(D_800F33E0->pool);
+            child = func_800CE610(D_800F33E0->pool);
             if (child) {
                 child->vx = origin.x;
                 child->vy = origin.y;
@@ -52,7 +52,7 @@ int ROOMEFFECT_COMET_SPARK_CTRL_FUNC(int mode, RoomCometSparkAnchor *anchor) {
                 child->state = 0;
                 child->timer = 0;
             }
-            child = func_800CE610_comet(D_800F33E0->pool);
+            child = func_800CE610(D_800F33E0->pool);
             if (child) {
                 child->x = origin.x;
                 child->y = origin.y;
@@ -61,7 +61,7 @@ int ROOMEFFECT_COMET_SPARK_CTRL_FUNC(int mode, RoomCometSparkAnchor *anchor) {
                 child->timer = 0;
             }
             for (i = 0; i < 8; i++) {
-                child = func_800CE610_comet(D_800F33E0->pool);
+                child = func_800CE610(D_800F33E0->pool);
                 if (child) {
                     child->x = origin.x;
                     child->y = origin.y;

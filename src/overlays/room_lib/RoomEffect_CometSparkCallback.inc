@@ -30,22 +30,11 @@ typedef struct RoomCometSparkTrail {
 
 extern RoomCometSparkTrail ROOMEFFECT_COMET_SPARK_TRAIL;
 
-/* Battle actor flags and the primary packet word the burst hit sets. */
-typedef struct RoomCometSparkActor {
-    u8 reserved[0x4C];
-    u32 flags;                    /* 0x4C */
-} RoomCometSparkActor;
-
-typedef struct RoomCometSparkBattleEntity {
-    RoomCometSparkActor *actor;
-} RoomCometSparkBattleEntity;
-
+/* The primary packet word the burst hit sets. */
 typedef struct RoomCometSparkPacket {
     u32 code;
 } RoomCometSparkPacket;
 
-extern RoomCometSparkBattleEntity *D_8009D254;
-extern int func_800C6B90(void *position, int radius);
 extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo,
                           void *out);
 extern void func_800D3114(void *trail, int count, int length, int arg3, int arg4,

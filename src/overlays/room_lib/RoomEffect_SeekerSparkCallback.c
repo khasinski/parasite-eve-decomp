@@ -16,25 +16,11 @@ typedef struct RoomSeekerPool {
     RoomSeekerObject *object;
 } RoomSeekerPool;
 
-typedef struct RoomSeekerActor {
-    u8 reserved[0x4C];
-    u32 flags;                    /* 0x4C */
-} RoomSeekerActor;
-
-typedef struct RoomSeekerBattleEntity {
-    RoomSeekerActor *actor;
-} RoomSeekerBattleEntity;
-
 /* Seeker spawner parameters: the step length along the heading. */
 typedef struct RoomSeekerSparkParams {
     s16 distance;
 } RoomSeekerSparkParams;
 
-extern RoomSeekerBattleEntity *D_8009D254;
-extern void *D_8009D248;
-extern u16 D_8009D1CC;
-extern int func_8001CAB0(int x, int z, void *map, int flags);
-extern int func_800C6B90(void *position, int radius);
 
 /* Seeker spark: flies along its heading dropping trail sparks, bursts on
  * the player (flagging the battle actor) and dies off the walkable floor;

@@ -28,7 +28,7 @@ int func_801934AC(int mode, u16 *counter) {
     pool = D_800F32D0->pool;
     func_800CE8F0(pool, 4, &template, position);
     pool = D_800F32D0->pool;
-    func_800CE9D4(pool, 4, target);
+    func_800CE9D4((struct RoomFxTransformOwner *)pool, 4, (GteShortVector *)target);
     target[0] -= 0xDC;
     if (D_800E27EC < 110 && (D_800E27EC & 1)) {
         pool = D_800F33E0->pool;
@@ -43,7 +43,7 @@ int func_801934AC(int mode, u16 *counter) {
             angles[2] = target[2];
             spread = func_80071A54() & 0x1F;
             angles[1] += spread - 0x10;
-            func_800CFB7C(angles, distance, &child->vx);
+            func_800CFB7C((GteShortVector *)angles, distance, (GteShortVector *)&child->vx);
             child->parity = *counter & 1;
             child->state = 0;
             child->timer = 0;
@@ -56,17 +56,16 @@ int func_801934AC(int mode, u16 *counter) {
     {
         int idx = D_800E11EA;
         int palette;
-        D_800F3368 = 32;
-        D_800F336A = 2;
-        D_800F3376 = 32;
-        D_800F3378 = 32;
+        D_800F3368.parameter00 = 32;
+        D_800F3368.parameter02 = 2;
+        D_800F3368.extent_x = 32;
+        D_800F3368.extent_y = 32;
         palette = D_800E2850[idx];
-        PE1_COMPILER_MEMORY_BARRIER();
-        D_800F336C = 3;
-        D_800F336E = 0;
-        D_800F3372 = 0;
-        D_800F3374 = 8;
-        D_800F3370 = palette;
+        D_800F3368.palette = 3;
+        D_800F3368.parameter06 = 0;
+        D_800F3368.parameter0A = 0;
+        D_800F3368.depth = 8;
+        D_800F3368.tpage = palette;
     }
         break;
     }

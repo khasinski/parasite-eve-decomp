@@ -39,13 +39,4 @@ typedef struct RoomGroundSweepHitPool {
     RoomGroundSweepHitObject *object;
 } RoomGroundSweepHitPool;
 
-typedef struct RoomGroundSweepActor {
-    u8 reserved[0x4C];
-    u32 flags;                    /* 0x4C */
-} RoomGroundSweepActor;
-
-typedef struct RoomGroundSweepBattleEntity {
-    RoomGroundSweepActor *actor;
-} RoomGroundSweepBattleEntity;
-
 #endif

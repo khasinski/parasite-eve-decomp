@@ -27,13 +27,4 @@ typedef struct RoomSprayHitPool {
     RoomSprayHitObject *object;
 } RoomSprayHitPool;
 
-typedef struct RoomSprayActor {
-    u8 reserved[0x4C];
-    u32 flags;                    /* 0x4C */
-} RoomSprayActor;
-
-typedef struct RoomSprayBattleEntity {
-    RoomSprayActor *actor;
-} RoomSprayBattleEntity;
-
 #endif

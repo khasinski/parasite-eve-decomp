@@ -83,7 +83,7 @@ int Memcard_CrossFlashController(int mode, MemcardCrossFlash *flash) {
                 child->timer = 0;
             }
             if ((flash->timer & 7) == 0) {
-                func_800CE870(D_8009D254, 0, (s16 *)&from);
+                func_800CE870((char *)D_8009D254, 0, (s16 *)&from);
                 child = func_800CE610(D_800F33E0->pool);
                 if (child) {
                     child->x = from.x;

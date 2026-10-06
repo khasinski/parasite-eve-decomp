@@ -5,6 +5,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "pe1/render_prim.h"
+#include "pe1/room_spark.h"
 
 /* Room burst that spits a ring of bounce particles, draws a line from its
  * anchor to a point swept along the actor, then shrinks away. */
@@ -63,62 +64,9 @@ typedef struct RoomLineBurstColor {
     u8 r, g, b, code;
 } RoomLineBurstColor;
 
-typedef struct RoomLineBurstChannel {
-    s32 reserved[2];
-    char *pool;                   /* 0x08 */
-} RoomLineBurstChannel;
-
-typedef struct RoomLineBurstNode {
-    u8 reserved[0x18];
-    u8 *state;                    /* 0x18 */
-} RoomLineBurstNode;
-
-typedef struct RoomLineBurstEventState {
-    u8 reserved[0xD];
-    u8 active;                    /* 0x0D */
-} RoomLineBurstEventState;
-
-typedef struct RoomLineBurstActor {
-    u8 reserved[0x4C];
-    u32 flags;                    /* 0x4C */
-} RoomLineBurstActor;
-
-typedef struct RoomLineBurstBattleEntity {
-    RoomLineBurstActor *actor;
-} RoomLineBurstBattleEntity;
-
-typedef struct RoomLineBurstFrameTick {
-    u16 count;
-} RoomLineBurstFrameTick;
-
-extern RoomLineBurstChannel *D_800F32D0, *D_800F33E0;
-extern RoomLineBurstEventState *D_800E2368;
-extern RoomLineBurstBattleEntity *D_8009D254;
-extern RoomLineBurstFrameTick D_800942EC;
-/* The same frame counter under its other label, read signed by the
- * particles as their floor height. */
-typedef struct RoomLineBurstFloor {
-    s16 height;
-} RoomLineBurstFloor;
-extern RoomLineBurstFloor g_FrameCount16;
-extern void *D_8009D248;
-extern u16 D_8009D1CC;
 extern char *D_800B0E58[];
 extern u16 D_800E11EC;
 extern u16 D_800E11E8;
-
-extern int func_800D3FD8(void);
-extern int func_800D3F64(int sound, int handle);
-extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern void func_800CE8F0(void *pool, int index, void *template, void *position);
-
-extern RoomLineBurstParticle *func_800CE610(void *pool);
-extern int rcos(int angle);
-extern int rsin(int angle);
 extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo, void *out);
-extern int func_80071A54(void);
-extern int func_8001CAB0(int x, int z, void *vertices, int count);
-extern int func_800C6B90(void *position, int radius);
-extern u16 func_80077AA4(int, int);
 
 #endif

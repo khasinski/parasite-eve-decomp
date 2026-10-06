@@ -38,7 +38,7 @@ int ROOMEFFECT_ORBIT_SPIN_BURST_FUNC(int mode, RoomOrbitTrailBurst *burst) {
         burst->counterA = 0;
         func_800D3F64(0x5DF, func_800D3FD8());
         func_800D3F64(0x5E0, 0x80);
-        func_800CE870(D_8009D254, 0, (s16 *)burst);
+        func_800CE870((char *)D_8009D254, 0, (s16 *)burst);
         return func_800CE560(D_800F33E0->pool, 0x14, 0x3C,
                              ROOMEFFECT_ORBIT_SPIN_BURST_CALLBACK);
     case 1:

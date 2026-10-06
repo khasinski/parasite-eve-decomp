@@ -57,7 +57,7 @@ void ROOMEFFECT_GLOW_ORB_DRAW_FUNC(RoomGlowOrbObject *object, u8 *slot, RoomGlow
         point.y = D_8009D254->y.part.integer;
         point.z = D_8009D254->z.part.integer;
         if (func_800C61A8(&point, &matrix) != 0 && FieldEng_GetStatus(object) == 3) {
-            D_8009D254->state->flags |= 0x4000;
+            D_8009D254->actor->flags |= 0x4000;
             if (object->link != 0) {
                 **object->link |= 0x80000000;
             }

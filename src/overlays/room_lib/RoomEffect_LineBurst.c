@@ -46,10 +46,10 @@ int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
         state->px = params->x;
         state->py = params->y;
         state->pz = params->z;
-        state->py = D_800942EC.count;
+        state->py = g_FrameCount16.count;
         func_800D3F64(0x57B, func_800D3FD8());
         if (D_800E2368->active) {
-            RoomLineBurstNode **slot = (RoomLineBurstNode **)D_800F32D0->pool;
+            RoomSparkNode **slot = (RoomSparkNode **)D_800F32D0->pool;
             if (slot && *slot) {
                 u8 *flag = (*slot)->state;
                 if (*flag == 1) *flag = 2;
@@ -136,7 +136,7 @@ int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
             if (state->countdown != 0) state->countdown--;
             if (func_800C6B90(&state->px, 0x104) && state->countdown == 0) {
                 if (D_800E2368->active) {
-                    RoomLineBurstChannel *channel = D_800F32D0;
+                    RoomSparkChannel *channel = D_800F32D0;
                     u32 *entry;
                     if ((**(u32 **)channel->pool & 0x3F000000) == 0x01000000) {
                         D_8009D254->actor->flags |= 0x4000;
