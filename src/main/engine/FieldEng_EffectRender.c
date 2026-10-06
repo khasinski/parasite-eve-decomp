@@ -1,8 +1,8 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
+#include "pe1/field_glow_sprite.h"
 #include "pe1/gte_types.h"
 
-void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
 extern u16 D_800E2322;
@@ -46,10 +46,9 @@ int func_800C8870(void *arg0, void *arg1, u8 *anim) {
     localScale[2] = scale;
 
     ScaleMatrix(&matrix, (const GteVector *)localScale);
-    func_800C42A4((u8 *)field_s3 - 10, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((u8 *)field_s3 - 10), &matrix, 1);
 }
 
-void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
 extern GteShortVector D_800C2174;
@@ -83,10 +82,9 @@ int func_800C8970(void *arg0, void *arg1, u8 *anim) {
     scaleCopy = scale;
 
     ScaleMatrix(&matrix, &scaleCopy);
-    func_800C42A4((u8 *)field - 10, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((u8 *)field - 10), &matrix, 0);
 }
 
-void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
 
@@ -115,7 +113,7 @@ int func_800C8A88(void *arg0, void *arg1, u8 *anim) {
     scaleCopy = scale;
 
     ScaleMatrix(&matrix, &scaleCopy);
-    func_800C42A4((u8 *)field - 10, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((u8 *)field - 10), &matrix, 0);
 }
 
 int func_800C8BB4(void *arg0, u8 *state) {

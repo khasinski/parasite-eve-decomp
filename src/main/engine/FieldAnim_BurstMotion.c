@@ -1,6 +1,6 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
-void func_800C42A4(void *arg0, void *arg1, int arg2);
+#include "pe1/field_glow_sprite.h"
 
 extern u16 D_800E27EA;
 extern int D_800F348C;
@@ -22,7 +22,7 @@ int func_800CD50C(void *arg0, void *arg1, u8 *anim) {
     D_800F3490 = *(s16 *)(anim + 0xA);
     D_800F3494 = *(s16 *)(anim + 0xC);
     *field_v1 = *(u16 *)(anim + 0x4);
-    func_800C42A4((u8 *)field_v1 - 10, base_a1 - 5, 1);
+    func_800C42A4((FieldGlowSprite *)((u8 *)field_v1 - 10), (GteMatrix *)(base_a1 - 5), 1);
 }
 
 

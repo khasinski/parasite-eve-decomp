@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/field_sprite_state.h"
+#include "pe1/field_glow_sprite.h"
 
 /* Field engine glow layers: a placed axis matrix turned by fixed spins
  * and drawn as scaled sprites through func_800C42A4. Three two-layer
@@ -18,23 +19,6 @@ typedef struct FieldGlowLayers {
     /* 0x0E */ u8 pad0E[2];
     /* 0x10 */ GteMatrix matrix;
 } FieldGlowLayers;
-
-/* Sprite parameter block (0x10 bytes) drawn by func_800C42A4: colour,
- * texture cell (16x16 grid), CLUT slot, flip flags (1 = U, 2 = V), depth
- * offset and the brightness the colour is scaled by. */
-typedef struct FieldGlowSprite {
-    /* 0x00 */ u8 r;
-    /* 0x01 */ u8 g;
-    /* 0x02 */ u8 b;
-    /* 0x03 */ u8 pad03;
-    /* 0x04 */ u8 cell;
-    /* 0x05 */ u8 clut;
-    /* 0x06 */ u8 flip;
-    /* 0x07 */ u8 pad07;
-    /* 0x08 */ s16 offset;
-    /* 0x0A */ u16 depth;
-    /* 0x0C */ u8 pad0C[4];
-} FieldGlowSprite;
 
 extern FieldGlowSprite D_800F3498;
 extern FieldGlowSprite D_800F34A8;
@@ -58,7 +42,5 @@ extern GteShortVector D_800C21DC;
 extern GteShortVector D_800C21E4;
 extern GteShortVector D_800C21EC;
 extern GteVector D_800C21F4;
-
-void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *matrix, u8 mode);
 
 #endif

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
+#include "pe1/field_glow_sprite.h"
 /* CC1_FLAGS: -fno-schedule-insns */
 
-void func_800C42A4(void *arg0, void *arg1, int arg2);
 
 extern u8 D_800E2254;
 extern int D_800F33D4;
@@ -46,7 +46,7 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
     asm volatile("" ::: "$17");
     field_s1 = &D_800F32C4;
     *color_a3 = (shade * 2) - 0x80;
-    func_800C42A4(call_a0, call_a1, call_a2);
+    func_800C42A4((FieldGlowSprite *)call_a0, (GteMatrix *)call_a1, call_a2);
 
     func_800C3238(3);
 
@@ -63,6 +63,6 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
         asm volatile("" : "=r"(value_v0) : "0"(value_v0));
         field_s1[2] = value_v0;
         i++;
-        func_800C42A4(call_a0, call_a1, call_a2);
+        func_800C42A4((FieldGlowSprite *)call_a0, (GteMatrix *)call_a1, call_a2);
     } while ((i & 0xFFFFU) < 2);
 }
