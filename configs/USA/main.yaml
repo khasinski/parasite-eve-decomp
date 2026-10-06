@@ -668,9 +668,8 @@ segments:
       - [0x50074, c, gpu/Draw_NumberAndLevelBarFlow]
       - [0x51844, c, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
-      # Color rectangles, wipe edges, gradient setup, and packet emission share one -G8 renderer TU.
+      # Screen wipes, gradients and the colour triangle/quad packet allocators (G0762).
       - [0x51D3C, c, gpu/Draw_WipeAndGradient]
-      - [0x52890, c, gpu/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
       - [0x52ABC, c, main/Draw_AllocColorTriGradient]
       # Pool initialization and node allocation use the same free/active-list state.
