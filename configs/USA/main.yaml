@@ -71,7 +71,7 @@ segments:
       # Expression and FieldActor Vec3 getter/setter switch tables.
       - [0x800, .rodata, task/Task_ValueOps]
       - [0x89C, rodata, main/rodata_00089C]
-      - [0x8A0, .rodata, main/Boot_MemCardStepInit]
+      - [0x8A0, .rodata, boot/Boot_MemCardStepInit]
       - [0x990, .rodata, main/Entity_GetPositionByType]
       - [0x9AC, rodata, main/rodata_0009AC]
       - [0x9B0, .rodata, task/Task_ItemAndSoundOps]
@@ -93,11 +93,11 @@ segments:
       - [0x10F0, .rodata, battle/Battle_StepVictory]
       - [0x1110, .rodata, battle/Battle_StepPostBattle]
       - [0x1128, rodata, main/rodata_001128]
-      - [0x1288, .rodata, main/Entity_TriggerAnimEvent]
+      - [0x1288, .rodata, entity/Entity_TriggerAnimEvent]
       - [0x12C8, .rodata, battle/Battle_ContextAccess]
       - [0x1324, rodata, main/rodata_001324]
       - [0x1328, .rodata, battle/Battle_GetEnemyContextField]
-      - [0x1490, .rodata, main/Entity_WriteFieldByCmd]
+      - [0x1490, .rodata, entity/Entity_WriteFieldByCmd]
       - [0x15E4, .rodata, main/Battle_StatusPrimitiveFlow]
       - [0x15FC, rodata, main/rodata_0015FC]
       - [0x164C, .rodata, main/Battle_DrawStatusOverlay]
@@ -105,7 +105,7 @@ segments:
       - [0x1694, rodata, main/rodata_001694]
       - [0x1734, .rodata, memcard/MemCard_PortAndSaveFlow]
       - [0x17AC, .rodata, menu/Menu_SaveBgDraw]
-      - [0x17CC, .rodata, main/Menu_StepItemSelectScreen]
+      - [0x17CC, .rodata, menu/Menu_StepItemSelectScreen]
       - [0x17F0, rodata, main/rodata_0017F0]
       - [0x17F4, .rodata, menu/Menu_InventoryBonusPointFlow]
       - [0x1830, rodata, main/rodata_001830]
@@ -129,7 +129,7 @@ segments:
       - [0x1BB0, .rodata, main/Scene_LoadTextureAndPlayer]
       - [0x1BF0, .rodata, main/Scene_LoadEntityTextures]
       # Both sector-state jump tables now belong to the shared object.
-      - [0x1C28, .rodata, main/CD_SectorReadFlow]
+      - [0x1C28, .rodata, cdrom/CD_SectorReadFlow]
       - [0x1D08, .rodata, main/CD_SeekToTrack]
       - [0x1E0C, rodata, main/rodata_001E0C]
       - [0x1E1C, .rodata, psyq/libc/sprintf]
@@ -166,8 +166,8 @@ segments:
       # Task-node, point-motion, and camera tracking share the active entity cache.
       - [0x39E8, c, task/Task_NodeActions]
       # Field-actor query and distance routines share their actor globals.
-      - [0x4A28, c, main/Entity_QueryAndDistance]
-      - [0x4CFC, c, main/Boot_MemCardStepInit]
+      - [0x4A28, c, entity/Entity_QueryAndDistance]
+      - [0x4CFC, c, boot/Boot_MemCardStepInit]
       - [0x4E94, c, main/Entity_GetPositionByType]
       - [0x50E0, c, main/Camera_AngleMotionFlow]
       - [0x55A0, c, task/task5]
@@ -312,10 +312,10 @@ segments:
       - [0x1FE58, c, battle/Battle_AyaEquipStateFlow]
       - [0x1FFD8, c, battle/Battle_EnemySlotLifecycle]
       - [0x20210, c, task/Task_BattleAnimEntries]
-      - [0x202F8, c, main/Entity_TriggerAnimEvent]
+      - [0x202F8, c, entity/Entity_TriggerAnimEvent]
       - [0x20678, c, battle/Battle_ContextAccess]
       - [0x2090C, c, battle/Battle_GetEnemyContextField]
-      - [0x20A20, c, main/Entity_WriteFieldByCmd]
+      - [0x20A20, c, entity/Entity_WriteFieldByCmd]
       - [0x20D34, c, battle/Battle_AngleAndDistanceFlow]
       # Random drop and enemy spawn checks share combatant state and rand().
       - [0x20E40, c, battle/Battle_RandomChecks]
@@ -335,7 +335,7 @@ segments:
       - [0x255E0, c, menu/Menu_SaveOverlayDraw]
       # Pool reset and free-list setup share the entity pool globals and record block.
       - [0x25710, c, entity/Entity_PoolInit]
-      - [0x25838, c, main/Scene_LoadMap]
+      - [0x25838, c, scene/Scene_LoadMap]
       - [0x25D58, c, entity/Entity_FrameUpdate]
       - [0x26484, c, entity/Entity_PositionIntegration]
       # Hierarchy rollback, parent following, garbage collection and the task-node passes
@@ -364,7 +364,7 @@ segments:
       - [0x28064, c, menu/Menu_GetEquipSlotIndex]
       - [0x28070, c, menu/Menu_DrawTextboxEntries]
       - [0x29110, c, gpu/misc10]
-      - [0x29154, c, main/func_80038954]
+      - [0x29154, c, render/func_80038954]
       # The glyph loader keeps -fno-schedule-insns, which changes its
       # neighbours, so it stays a unit of its own.
       - [0x291DC, c, render/Render_FontGlyphLoad]
@@ -392,7 +392,7 @@ segments:
       # identically under the skinned pass's -G8 profile, which the unit uses.
       - [0x2A888, c, render/Render_VertexTransforms]
       - [0x2B714, c, render/Render_EntityAndTexturedQuadFlow]
-      - [0x2BF08, c, main/Render_BuildEntityMatrix]
+      - [0x2BF08, c, render/Render_BuildEntityMatrix]
       # Object drawing and its CLUT-table update (helper evidence across the
       # object-draw span); Render_UpdateClutTable compiles identically under
       # Render_DrawObject's -G8 profile. The -fno-schedule-insns variant that
@@ -407,7 +407,7 @@ segments:
       - [0x2D850, c, main/Render_SetupEntityPrims]
       - [0x2E02C, c, util/Util_ReturnTrue]
       - [0x2E034, c, render/Render_DrawWithAnim]
-      - [0x2E14C, c, main/Render_InitPrimBlock]
+      - [0x2E14C, c, render/Render_InitPrimBlock]
       # Render-object state helpers: frame-matrix copies, table initialisation,
       # animation attach/clear/lookup, bone transform setup, texture-coordinate
       # offsets and the frame counter over RenderObjectEntity; contiguous
@@ -453,7 +453,7 @@ segments:
       - [0x340EC, c, menu/Menu_CreateInventoryTabView]
       - [0x3430C, c, menu/Menu_DrawStatusPanel]
       - [0x34464, c, menu/Menu_DrawStatsList]
-      - [0x345A4, c, main/Menu_StepItemSelectScreen]
+      - [0x345A4, c, menu/Menu_StepItemSelectScreen]
       # Equip-screen construction and item-confirm handler share selection state.
       # Equip/inventory list screen, list input, count header and item action submenu: private data and helpers join the run.
       - [0x34974, c, menu/Menu_EquipScreenFlow]
@@ -466,12 +466,12 @@ segments:
       - [0x35BE8, c, menu/Menu_DrawAmmoSpendPanel]
       # Equip-item selection view construction and stat preview renderer.
       - [0x35C2C, c, menu/Menu_EquipItemSelectionFlow]
-      - [0x3650C, c, main/Menu_StepSkillScreen]
+      - [0x3650C, c, menu/Menu_StepSkillScreen]
       - [0x366E4, c, menu/Menu_CreateInventoryListView]
       - [0x367A4, c, menu/Menu_DrawItemDetailPanel]
       - [0x36A0C, c, menu/Menu_InventoryPageInputHandler]
       - [0x36B34, c, event/Evt_DeferredExec]
-      - [0x36B78, c, main/Menu_StepSkillList]
+      - [0x36B78, c, menu/Menu_StepSkillList]
       - [0x36D74, c, menu/Menu_OnEquipConfirm]
       - [0x372BC, c, menu/Menu_CreateSkillActionScreen]
       - [0x37358, c, menu/Menu_SkillActionHandler]
@@ -483,7 +483,7 @@ segments:
       - [0x37F8C, c, menu/Menu_ItemActionFlow]
       - [0x38E54, c, menu/Menu_StepSaveLoadScreen]
       - [0x39038, c, menu/Menu_SaveLoadNavigate]
-      - [0x39118, c, main/Menu_StepInventoryRoot]
+      - [0x39118, c, menu/Menu_StepInventoryRoot]
       - [0x39724, c, menu/Menu_AlignEquipPanels]
       - [0x3985C, c, menu/Menu_DrawBonusPointSlotValue]
       - [0x398B0, c, menu/Menu_ExitBonusPointAllocation]
@@ -506,7 +506,7 @@ segments:
       - [0x3DCA0, c, menu/Menu_IsMemCardDialogOpen]
       - [0x3DCC4, c, menu/Menu_SaveSlotListView]
       - [0x3DE90, c, menu/Menu_DrawSaveSlotPortLabel]
-      - [0x3DED4, c, main/Menu_StepSaveSelect]
+      - [0x3DED4, c, menu/Menu_StepSaveSelect]
       - [0x3E178, c, menu/Menu_CreateMemCardProgressWidget]
       - [0x3E1D8, c, menu/Menu_DestroyMemCardProgressWidget]
       - [0x3E204, c, memcard/MemCard_DrawProgress]
@@ -589,7 +589,7 @@ segments:
       - [0x42F0C, c, akao/Akao_SetBgmVolumeFade]
       - [0x42F64, c, menu/Menu_ActionSubmenuSelection]
       - [0x4308C, c, time/game_time]
-      - [0x430F0, c, main/Inv_SetDefaultItemId]
+      - [0x430F0, c, item/Inv_SetDefaultItemId]
       - [0x4332C, c, item/Inv_ScrambleGrid]
       - [0x433CC, c, util/util]
       - [0x436B0, c, item/inv]
@@ -628,7 +628,7 @@ segments:
       - [0x45F60, c, item/Inv_ItemActions]
       - [0x48410, c, item/Inv_ActiveListController]
       - [0x486CC, c, menu/menu_get]
-      - [0x48830, c, main/Inv_TransferItem]
+      - [0x48830, c, item/Inv_TransferItem]
       - [0x48B3C, c, item/Inv_CanAddActiveListItemToAya]
       - [0x492A8, c, menu/Menu_DrawArmorItemDetail]
       - [0x493BC, c, item/Inv_LookupItemData]
@@ -679,7 +679,7 @@ segments:
       # no split evidence (identical under the common section).
       - [0x4F094, c, gpu/Draw_TextCursorAndColor]
       # Full and default rectangle allocators share one -G8 packet object.
-      - [0x4F1C8, c, main/Draw_AllocRect]
+      - [0x4F1C8, c, gpu/Draw_AllocRect]
       # Text dimming, sprite packet allocation, glyph emission and the glyph
       # advance setter: the emitter reads the dim flag and allocates through the
       # sprite pool; contiguous -G8 range with no split evidence (identical under
@@ -694,13 +694,13 @@ segments:
       - [0x51CA0, c, gpu/draw3]
       # Color rectangles, wipe edges, gradient setup, and packet emission share one -G8 renderer TU.
       - [0x51D3C, c, gpu/Draw_WipeAndGradient]
-      - [0x52890, c, main/Draw_AllocColorTri]
+      - [0x52890, c, gpu/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
       - [0x52ABC, c, main/Draw_AllocColorTriGradient]
       # Pool initialization and node allocation use the same free/active-list state.
       - [0x52D68, c, menu/MenuWidget_Pool]
       - [0x52E9C, c, menu/MenuWidget_DestroyNodeRecursive]
-      - [0x53030, c, main/Draw_PushPrimToList]
+      - [0x53030, c, gpu/Draw_PushPrimToList]
       - [0x531B0, c, menu/MenuWidget_HasActiveNodes]
       - [0x531BC, c, menu/menu_widget]
       - [0x5327C, c, gpu/Draw_FlushPrimList]
@@ -717,8 +717,8 @@ segments:
       - [0x53CD4, c, menu/MenuWidget_DrawListFlow]
       # Cursor bounds and scrolling use one MenuWidgetNode viewport model.
       - [0x54530, c, menu/MenuWidget_CursorClamp]
-      - [0x5460C, c, main/Menu_StepScrollCursor]
-      - [0x54FD0, c, main/Draw_SetPrimCallback]
+      - [0x5460C, c, menu/Menu_StepScrollCursor]
+      - [0x54FD0, c, gpu/Draw_SetPrimCallback]
       # Widget column-layout table: reset, mode, save and restore share the table and its mode word.
       - [0x55164, c, menu/MenuWidget_ColumnLayout]
       - [0x55454, c, menu/MenuWidget_DrawCenteredTableText]
@@ -744,8 +744,8 @@ segments:
       # split evidence). Render_SetScrollMode's -G8 is inert (all its symbols are
       # 16-byte views), so the unit uses the --expand-div profile.
       - [0x569EC, c, render/Render_CameraAndScreenTransition]
-      - [0x57760, c, main/Geo_LoadMeshEntry]
-      - [0x579C8, c, main/Geo_TransformPoint]
+      - [0x57760, c, field/Geo_LoadMeshEntry]
+      - [0x579C8, c, field/Geo_TransformPoint]
       # Geometry-entry sprite drawing, the entry visibility/scroll/mirror/position
       # setters and the mesh-list renderer address the same GeomState entry table
       # (helper evidence; no split evidence). Each member is identical under the
@@ -784,7 +784,7 @@ segments:
       # layout and the scene voice-bank reset defined beside it (helper/call/private
       # evidence over all three; no split evidence).
       - [0x5AE4C, c, boot/Boot_GameStateInit]
-      - [0x5B1E4, c, main/Scene_LoadSceneData]
+      - [0x5B1E4, c, scene/Scene_LoadSceneData]
       - [0x5B540, c, main/Scene_LoadFieldBg]
       - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]
       - [0x5BCF8, c, gpu/Scene_LoadRoom]
@@ -796,7 +796,7 @@ segments:
       - [0x5CDBC, c, main/Scene_LoadEntityTextures]
       - [0x5D468, c, gpu/Scene_UpdateBgDraw]
       # The range scanner repeatedly drives the shared CD sector-read state.
-      - [0x5D5A4, c, main/CD_SectorReadFlow]
+      - [0x5D5A4, c, cdrom/CD_SectorReadFlow]
       - [0x5DA4C, c, akao/Akao_ResetPositionalState]
       - [0x5DAB8, c, main/CD_SeekToTrack]
       # Audio slot registration and the two lookups share the scene audio keys.

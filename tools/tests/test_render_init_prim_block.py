@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class RenderInitPrimBlockTests(unittest.TestCase):
     def test_plain_source(self):
-        source = (ROOT/'src/main/main/Render_InitPrimBlock.c').read_text()
+        source = (ROOT/'src/main/render/Render_InitPrimBlock.c').read_text()
         self.assertNotRegex(source, r'\b(?:asm|__asm__|INCLUDE_ASM|REGALLOC_BARRIER)\b')
 
     @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and
