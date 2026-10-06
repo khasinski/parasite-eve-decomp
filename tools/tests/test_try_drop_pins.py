@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Lines whose pin match used to swallow every asm except the last one.
 CLAUSE_LINES = (
-    ("src/main/psyq/libpad/padportd_outputs.c", 6, ('asm("$7")', 'asm("$6")')),
+    ("src/main/psyq/libpad/padportd_5.c", 6, ('asm("$7")', 'asm("$6")')),
     ("src/main/render/Render_DrawObject.c", 94, ('asm("$20")', 'asm("$21")', 'asm("$22")')),
     ("src/main/render/Render_SetupBoneTransforms.c", 137, ('asm("$12")', 'asm("$13")')),
     (

@@ -1,3 +1,4 @@
+/* PSY-Q LIBC MEMMOVE (byte-identical to LIBC2 MEMMOVE): memmove. */
 void *memmove(void *dst, const void *src, int len) {
     unsigned char *out = dst;
     const unsigned char *in = src;

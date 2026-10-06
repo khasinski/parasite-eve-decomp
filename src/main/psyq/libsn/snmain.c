@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBSN SNMAIN: __SN_ENTRY_POINT, __main, __do_global_dtors. */
 /*
  * PSY-Q LIBSN SNMAIN: SN Systems' startup object. __SN_ENTRY_POINT clears
  * the BSS, derives the stack and heap from the executable header, keeps ra in

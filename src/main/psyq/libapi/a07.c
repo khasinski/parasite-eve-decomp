@@ -1,0 +1,6 @@
+/* PSY-Q LIBAPI A07: DeliverEvent. */
+#include "pe1/psyq_bios.h"
+
+PSYQ_BIOS_TRAMPOLINE(DeliverEvent, 0xB0, 0x7);
+
+static unsigned int tail_alignment_64240[] __attribute__((section(".text"))) = { 0x00000000 };

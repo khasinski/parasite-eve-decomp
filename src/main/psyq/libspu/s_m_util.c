@@ -1,3 +1,4 @@
+/* PSY-Q LIBSPU S_M_UTIL: _SpuIsInAllocateArea, _SpuIsInAllocateArea_. */
 #include "pe1/psyq_spu_internal.h"
 
 s32 _SpuIsInAllocateArea(u32 addr) {

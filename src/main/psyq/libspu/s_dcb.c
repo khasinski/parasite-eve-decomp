@@ -1,3 +1,4 @@
+/* PSY-Q LIBSPU S_DCB: _SpuDataCallback. */
 #include "pe1/psyq_callbacks.h"
 #include "pe1/psyq_spu_internal.h"
 

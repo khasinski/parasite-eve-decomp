@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* PSY-Q LIBC QSORT (byte-identical to LIBC2 QSORT): qsort, Mem_SwapBuffers. */
 #include "common.h"
 void Mem_SwapBuffers(void *, void *, unsigned int);
 

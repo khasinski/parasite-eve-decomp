@@ -1,3 +1,4 @@
+/* PSY-Q LIBSPU S_CRWA: SpuClearReverbWorkArea. */
 /* SPDX-License-Identifier: MIT */
 /* Adapted from sozud/psy-q-decomp src/spu/s_crwa.c; see THIRD_PARTY_NOTICES.md. */
 /* GCC_VERSION: 2.8.1 */

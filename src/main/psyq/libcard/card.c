@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* PSY-Q LIBCARD CARD: _card_clear. */
 
 void _new_card(int arg0);
 void _card_write(int arg0, int arg1, int arg2);

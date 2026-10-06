@@ -15,7 +15,7 @@ class PsyqProvenanceTests(unittest.TestCase):
     def test_original_asm_and_c_have_the_same_sdk_identity(self):
         evidence = [record()]
         before = identity([(0x80001000, 0x40)], 'main/memcard/mem_1000', evidence)
-        after = identity([(0x80001000, 0x40)], 'main/psyq/libpad/DirFailAuto', evidence)
+        after = identity([(0x80001000, 0x40)], 'main/psyq/libpad/padseqd_4', evidence)
         self.assertEqual(before, after)
         self.assertEqual(after, 'main/psyq/libpad/PADSEQD/_dirFailAuto')
 

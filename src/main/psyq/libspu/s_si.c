@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBSPU S_SI: SpuSetIRQ. */
 #include "pe1/psyq_spu_internal.h"
 
 extern char D_8001208C[];

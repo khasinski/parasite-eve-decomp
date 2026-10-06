@@ -14,7 +14,7 @@ CASES = [('psyq/libmath/dbshift',
   'f5ef0b49b72cac65d49205ac7b5aff69bc77a89b1374c3a4f7d0a6b091f66076',
   'SECTIONS { .text 0x80072ea4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('psyq/libapi/Sys_FirstFileHookCallback',
+ ('psyq/libapi/first_2',
   256,
   'a6a416fc6d48b744dabdcde64ae5b8ba6287596747e601a0b1bc22cc1eef1711',
   'D_800A32D0 = 0x800A32D0;\n'

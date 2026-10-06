@@ -1,10 +1,12 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBAPI CHCLRPAD: _remove_ChgclrPAD. */
+#include "pe1/psyq_asm.h"
+
 /*
  * PSY-Q LIBAPI CHCLRPAD: _remove_ChgclrPAD. Assembler
  * source with the same static ra slot, inline B0 table call and trapping addi
  * as LIBAPI PATCH.
  */
-#include "pe1/psyq_asm.h"
 
 PSYQ_ASM_OBJECT(LIBAPI, CHCLRPAD)
 
@@ -36,3 +38,8 @@ PSYQ_ASM_FUNCTION(_remove_ChgclrPAD,
     "    nop\n"
     "    jr      $ra\n"
     "    nop\n");
+
+unsigned int gap_pad_Pad_StopHandler_tail_6EB0C[] __attribute__((section(".text"))) = {
+    0x00000000,
+    0x00000000,
+};

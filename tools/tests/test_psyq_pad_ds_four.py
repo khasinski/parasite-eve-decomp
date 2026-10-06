@@ -9,13 +9,13 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libpad/DirFailAuto',
+CASES = [('libpad/padseqd_4',
   220,
   '47e8a6fba0fec4977c4010c8939c74c7c6df252963140491477700e6124c0c7e',
   'D_8009B728 = 0x8009B728;\n'
   'SECTIONS { .text 0x80084eb0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libpad/PadReadPayload',
+ ('libpad/padcmd_4',
   628,
   'ba83b67dddbf9a9076dfcba0b38d448dbf688b2b114704e9ccf1f1732f54736d',
   'D_800A5AD0 = 0x800A5AD0;\n'

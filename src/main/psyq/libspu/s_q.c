@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBSPU S_Q: SpuQuit. */
 #include "pe1/psyq_spu_internal.h"
 
 extern int EnterCriticalSection(void);

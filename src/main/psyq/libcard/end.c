@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBCARD END: _ExitCard. */
 /*
  * PSY-Q LIBCARD END: _ExitCard. Assembler source with the same static ra
  * slot and inline C0 table call as LIBCARD PATCH. It copies the three-NOP

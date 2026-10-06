@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* PSY-Q LIBSPU S_INI: _SpuInit, SpuStart. */
 /* Complete LIBSPU S_INI.OBJ code; object alignment stays in the manifest. */
 #include "pe1/psyq_bios.h"
 #include "pe1/psyq_callbacks.h"

@@ -13,7 +13,7 @@ CASES = [('libcd/c_004',
   228,
   'ce310e8f04723acbf9226a2db3c5ddb151b86678f24e94aeb51b6648e25df94c',
   'g_CdStreamRingReadSlot = 0x800BE9E4;\ng_CdRingBufPtr = 0x800C0DC8;\nD_800A3490 = 0x800A3490;\nD_800BE998 = 0x800BE998;\ng_StrDataReadyCallback = 0x800B0CC8;\nD_800A3494 = 0x800A3494;\ng_CdStreamDataReadyFlag = 0x800B89F4;\nD_800A8020 = 0x800A8020;\nCdPosToInt_Local = 0x8007AA34;\nCdIntToPos_Local = 0x8007A930;\nSECTIONS { .text 0x8007c214 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
- ('libapi/v_wait',
+ ('libetc/vsync_2',
   152,
   'd9e7e8c8bdce7a66b51154f3f3109caca27f68c5e6f8b469f716d4bfbd806277',
   'g_VSyncCount = 0x800956AC;\n'

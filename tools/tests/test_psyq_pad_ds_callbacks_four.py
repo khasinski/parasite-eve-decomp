@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libpad/padportd_outputs',
+CASES = [('libpad/padportd_5',
   636,
   'cdd89c8623bb223d4d99006bab00bf286d6194f37e2685f4fa855a0d88db5b28',
   'bzero = 0x80071A24;\n'
@@ -50,7 +50,7 @@ CASES = [('libpad/padportd_outputs',
   'Render_AllocParticleNode = 0x8007EE84;\n'
   'SECTIONS { .text 0x80081e70 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libpad/padif_transfer',
+ ('libpad/padif_3',
   892,
   'a435b3916bf94b1ffe701eb59664b0f9a9b3b57710343a2f3e1a7f39070089c3',
   'D_8009B730 = 0x8009B730;\n'

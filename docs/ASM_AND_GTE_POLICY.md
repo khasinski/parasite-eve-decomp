@@ -228,9 +228,9 @@ comparisons.
 | LIBGTE MTX_003 | `psyq/libgte/mtx_003.c` | `CompMatrix` | PSY-Q 3.5 `mtx_00.o` CompMatrix: 88/88 words identical; trapping `add` for the translation. |
 | LIBGTE MTX_006 | `psyq/libgte/mtx_006.c` | `Gte_PushMatrix`, `Gte_PopMatrix` | Static matrix stack and SAVERA slot; PSY-Q 3.5 `mtx_00.o` has the same routines with local labels CONTpush/CONTpop, but its assembler moved the SAVERA `lui` into the branch delay slot. |
 | LIBGTE PATCHGTE | `psyq/libgte/patchgte.c` (+ `PATCHGTE_templates` data) | `St_InstallDmaHandler` (_patch_gte) | PSY-Q 3.5 `patchgte.o`: same static-ra installer, inline B0 call and `.text` instruction templates (`_patch_GTE` to `_patch_GTE_end`, copy loop at assembler label `1$`). |
-| LIBAPI PATCH | `psyq/libapi/patch_pad.c` | `_patch_pad` | Static `ra` slot, inline B0 call, trapping `addi`. EnablePAD/DisablePAD of the same object remain C in `psyq/libapi/EnablePAD.c`. |
+| LIBAPI PATCH | `psyq/libapi/patch_2.c` | `_patch_pad` | Static `ra` slot, inline B0 call, trapping `addi`. EnablePAD/DisablePAD of the same object remain C in `psyq/libapi/patch.c`. |
 | LIBAPI CHCLRPAD | `psyq/libapi/chclrpad.c` | `_remove_ChgclrPAD` | Static `ra` slot, inline B0 call, trapping `addi`. |
-| LIBCARD PATCH | `psyq/libcard/patch_head.c`, `psyq/libcard/patch_card.c` | `func_8007E344`, `func_8007E3C8`, `_patch_card`, `_patch_card2` | Kernel patch image copied to 0xDF80 that runs with BIOS-supplied `v0`/`v1`. The installers use a static `ra` slot and inline C0/B0 calls. CardPatchFunctions, `func_8007E3B4` and `_copy_memcard_patch` of the same object remain C. |
+| LIBCARD PATCH | `psyq/libcard/patch.c`, `psyq/libcard/patch_3.c` | `func_8007E344`, `func_8007E3C8`, `_patch_card`, `_patch_card2` | Kernel patch image copied to 0xDF80 that runs with BIOS-supplied `v0`/`v1`. The installers use a static `ra` slot and inline C0/B0 calls. CardPatchFunctions, `func_8007E3B4` and `_copy_memcard_patch` of the same object remain C. |
 | LIBCARD END | `psyq/libcard/end.c` (+ `END_templates` data) | `_ExitCard` | Static `ra` slot, inline C0 call; copies a three-NOP template into the C0 table. |
 
 ## Game-side assembler
@@ -1703,7 +1703,7 @@ delay slot naturally. The accepted source uses the equivalent `if/else`.
 Simply deleting the barrier while retaining the unconditional OR schedules
 that OR before the DMA register writes and leaves a nop in the branch slot.
 
-All four functions in `psyq/libspu/spu_transfer.c` compare at 100% against
+All four functions in `psyq/libspu/spu_3.c` compare at 100% against
 the prior SHA-verified object. The entire TU now contains no pins, barriers
 or instruction assembly. Full main and all 191 overlay SHA checks pass.
 
@@ -2143,8 +2143,8 @@ host pointer-width substitutions and passes.
 
 `EnterCriticalSection` (0x80072714) and `ExitCriticalSection` (0x80072724)
 are adjacent 16-byte assembled BIOS boundaries. Each retail body loads a0
-with selector 1 or 2, executes `syscall 0`, and returns through ra. Their
-combined C translation unit is `psyq/libapi/critical_section.c`.
+with selector 1 or 2, executes `syscall 0`, and returns through ra. They are the
+LIBAPI objects A36 and A37, `psyq/libapi/a36.c` and `psyq/libapi/a37.c`.
 
 `PSYQ_BIOS_SYSCALL` in `include/pe1/psyq_bios.h` owns only the single syscall
 instruction. C sets the selector and returns the result; the compiler emits

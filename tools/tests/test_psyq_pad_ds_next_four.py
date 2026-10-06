@@ -27,7 +27,7 @@ CASES = [('libds/dssys1_sync_poll',
   'SECTIONS { .text 0x80080220 : SUBALIGN(4) { *(.text .text.*) }'
   '.rodata 0x80011D0C : SUBALIGN(4) { *(.rodata .rodata.*) }'
   '/DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
- ('libpad/padseqd_response',
+ ('libpad/padseqd_3',
   612,
   '47c760223bf315e045fd97140986def718e5d1852e262838a9e3760a18a433b8',
   'CardObj_IsTransferActive = 0x80084F8C;\n'
@@ -49,7 +49,7 @@ CASES = [('libds/dssys1_sync_poll',
   'CdRom_TryIssueCmd = 0x8007FB44;\n'
   'SECTIONS { .text 0x8007e964 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libpad/PadInitSioMode',
+ ('libpad/padmain_6',
   532,
   '38dae3a9445d323f640baf1405b4c53ff44fc742dc7298f0d2a062266e1be513',
   'D_8009B788 = 0x8009B788;\n'

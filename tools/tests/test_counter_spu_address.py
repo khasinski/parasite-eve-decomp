@@ -19,7 +19,7 @@ CASES = [('libapi/counter',
   'D_8009B7D4 = 0x8009B7D4;\n'
   'SECTIONS { .text 0x80085814 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libspu/spu_register_write',
+ ('libspu/spu_4',
   460,
   '60a11aca2eea89f6e73cd2bd905014a7c52910c713da57126c5b6ca40704c835',
   '_spu_RXX = 0x8009B3FC;\n'

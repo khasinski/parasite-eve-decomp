@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libpad/PadStartCom',
+CASES = [('libpad/padmain_4',
   204,
   '076b8ee57e1d1411d223e73ccc826bf4bd9094e504ed1881540730f58d14f197',
   'D_8009B75C = 0x8009B75C;\n'
@@ -25,7 +25,7 @@ CASES = [('libpad/PadStartCom',
   'D_800A5AC0 = 0x800A5AC0;\n'
   'SECTIONS { .text 0x80082cf0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libpad/padmain_sio',
+ ('libpad/padmain_7',
   672,
   '7f8dcf592cc711bce3302338a4485ae1c66ea0d7a67818fd2263cc2aee1daecf',
   'D_8009B768 = 0x8009B768;\n'
@@ -40,7 +40,7 @@ CASES = [('libpad/PadStartCom',
   'D_8009B784 = 0x8009B784;\n'
   'SECTIONS { .text 0x80083014 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libapi/FirstFileHook',
+ ('libapi/first',
   412,
   'fb4487ddf042d75ff65995232a434817de7de7f5b772bee5593ad0e2e850e24a',
   'D_800A32D8 = 0x800A32D8;\n'
@@ -71,7 +71,7 @@ class PsyqPadFirstfileTests(unittest.TestCase):
                 self.assertEqual(len(code), size)
                 self.assertEqual(hashlib.sha256(code).hexdigest(), digest)
 
-                if name == "libpad/padmain_sio":
+                if name == "libpad/padmain_7":
                     self.assertEqual(hashlib.sha256(code[:200]).hexdigest(),
                                      "c3ba3f12547108abdc045aa509fd58c8873482a66bffc381af9b3dc6c01861dc")
                     self.assertEqual(hashlib.sha256(code[200:]).hexdigest(),

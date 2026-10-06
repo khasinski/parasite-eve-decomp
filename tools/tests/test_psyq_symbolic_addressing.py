@@ -12,13 +12,13 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
-CASES = [('src/main/psyq/libapi/SetInitPadFlag.c',
+CASES = [('src/main/psyq/libapi/pad.c',
   12,
   'ca0784dda126a1b868badf58f4bd44bd84e74b24a56a401ce8b0a61727f7dfe6',
   'g_InitPadFlag = 0x8009B4AC;\n'
   'SECTIONS { .text 0x8007dea4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/psyq/libpad/setRC2wait.c',
+ ('src/main/psyq/libpad/waitrc2.c',
   32,
   '6c5f1e66aa6c297b2aba4b3f46bfe2c7dcc0a5388227831c9d8b0748b638a10b',
   'g_TimerTimeoutLimit = 0x800bd02c;\n'
@@ -58,7 +58,7 @@ CASES = [('src/main/psyq/libapi/SetInitPadFlag.c',
   'DeliverEvent = 0x80073a34;\n'
   'SECTIONS { .text 0x800739c4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/psyq/libpad/_padInitDirSeq.c',
+ ('src/main/psyq/libpad/padseqd.c',
   52,
   '9f58f31b9a795eeb97b583930590eef95892a1ba629c367c21ddde091ea87eb1',
   'func_80084B78 = 0x80084b78;\n'

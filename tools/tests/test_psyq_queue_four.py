@@ -51,7 +51,7 @@ CASES = [('libds/DsCommand',
   'Util_Copy8 = 0x80080998;\n'
   'SECTIONS { .text 0x8007f418 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libcard/CopyMemcardPatch',
+ ('libcard/patch_4',
   52,
   '0bc985425d463a2e112f769b960b427690574663c0f7db56c71594c0467fb564',
   'func_8007E344 = 0x8007E344;\n'

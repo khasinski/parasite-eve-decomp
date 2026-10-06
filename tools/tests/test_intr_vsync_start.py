@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class IntrVSyncStartTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_clears_handlers_installs_vsync_trap_and_returns_registrar(self):
-        source = (ROOT / "src/main/psyq/libetc/startIntrVSync.c").read_text()
+        source = (ROOT / "src/main/psyq/libetc/intr_vb.c").read_text()
         harness = source + r'''
 #include <assert.h>
 void handler(void) {}

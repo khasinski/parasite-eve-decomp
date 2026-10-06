@@ -1,3 +1,4 @@
+/* PSY-Q LIBSPU S_M_INIT: SpuInitMalloc. */
 #include "pe1/psyq_spu_internal.h"
 
 long SpuInitMalloc(long num, char *top) {

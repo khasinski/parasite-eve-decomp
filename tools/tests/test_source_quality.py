@@ -105,8 +105,9 @@ class SourceQualityTests(unittest.TestCase):
 
     def test_critical_section_syscalls_keep_bios_classification(self):
         root = pathlib.Path(__file__).resolve().parents[2]
-        self.assertEqual(source_quality.classify(
-            root / "src/main/psyq/libapi/critical_section.c"), "original_asm")
+        for name in ("a36.c", "a37.c"):
+            self.assertEqual(source_quality.classify(
+                root / "src/main/psyq/libapi" / name), "original_asm")
         self.assertEqual(self.classify(
             "int f(void) { PSYQ_BIOS_SYSCALL(result, selector); return result; }"),
             "original_asm")
@@ -380,9 +381,9 @@ class SourceQualityTests(unittest.TestCase):
         root = pathlib.Path(__file__).resolve().parents[2] / "src/main/psyq"
         for name in ("libsn/snmain.c", "libgte/InitGeom.c", "libgte/msc01.c",
                      "libgte/msc02.c", "libgte/mtx_003.c", "libgte/mtx_006.c",
-                     "libgte/patchgte.c", "libapi/patch_pad.c",
-                     "libapi/chclrpad.c", "libcard/patch_head.c",
-                     "libcard/patch_card.c", "libcard/end.c"):
+                     "libgte/patchgte.c", "libapi/patch_2.c",
+                     "libapi/chclrpad.c", "libcard/patch.c",
+                     "libcard/patch_3.c", "libcard/end.c"):
             with self.subTest(name=name):
                 self.assertEqual(source_quality.classify(root / name),
                                  "original_asm")
