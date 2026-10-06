@@ -43,19 +43,22 @@ extern s16 D_800942EC;
 void ROOMLIB_UPDATE_TRAIL_PARTICLE_NAME(
     void *unused, RoomLibTrailTrigger *trigger, RoomLibTrailParticle *object) {
     RoomLibTrailHistoryEntry *history;
-    register RoomLibTrailCursor *trail asm("$8");
+    RoomLibTrailCursor *trail;
     int count;
 
     count = 5;
     trail = &object->trailView.cursor;
     history = &object->history[5];
-    do {
-        *history = history[-1];
-        history--;
-        trail->next = trail->current;
-        count--;
-        trail = (RoomLibTrailCursor *)((u8 *)trail - 2);
-    } while (count != 0);
+    /* A do-while strength-reduces the cursor and moves it out of $t0. */
+shiftTrail:
+    *history = history[-1];
+    history--;
+    trail->next = trail->current;
+    count--;
+    trail = (RoomLibTrailCursor *)((u8 *)trail - 2);
+    if (count != 0) {
+        goto shiftTrail;
+    }
 
     *(u16 *)object->storage.x += (s16)*(u16 *)object->storage.deltaX >> 8;
     *(u16 *)object->storage.y += (s16)*(u16 *)object->storage.deltaY >> 8;
