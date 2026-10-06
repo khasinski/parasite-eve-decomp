@@ -1,9 +1,5 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SetArgs3_80193118 = 0x80193118; // type:func
-RoomSlotA_80193118 = 0x8019328C;
-RoomSlotB_80193118 = 0x80193290;
-RoomSlotC_80193118 = 0x80193294;
 RoomLib_HandlerDNop0 = 0x8018F1E0; // type:func
 RoomLib_InitHandlerD = 0x8018F1E8; // type:func
 RoomLib_ConfigureHandlerD = 0x8018F288; // type:func
@@ -60,3 +56,5 @@ RoomLib_HandlerANop6 = 0x801924F4; // type:func
 RoomEffect_HomingSpark = 0x801924FC; // type:func
 RoomEffect_FlashSpriteController = 0x80192A68; // type:func
 g_RoomFlashColorRamp = 0x80193234;
+RoomLib_SetArgs3 = 0x80193118; // type:func
+g_RoomScriptArgs = 0x8019328C;

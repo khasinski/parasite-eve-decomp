@@ -1,7 +1,3 @@
-RoomLib_SetArgs3_8018FC68 = 0x8018FC68; // type:func
-RoomSlotA_8018FC68 = 0x80190B8C;
-RoomSlotB_8018FC68 = 0x80190B90;
-RoomSlotC_8018FC68 = 0x80190B94;
 RoomLib_SlotSet_80190A7C = 0x80190A7C; // type:func
 RoomLib_SlotTable = 0x80190B98;
 g_FrameCount16 = 0x800942EC;
@@ -9,3 +5,5 @@ RoomEffect_OrbitFlareDrift = 0x8018F018; // type:func
 RoomEffect_OrbitFlareController = 0x8018F220; // type:func
 RoomEffect_LineBurstParticle = 0x8018FC8C; // type:func
 RoomEffect_LineBurstController = 0x80190028; // type:func
+RoomLib_SetArgs3 = 0x8018FC68; // type:func
+g_RoomScriptArgs = 0x80190B8C;

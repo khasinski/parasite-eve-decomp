@@ -36,4 +36,10 @@ int RoomLib_RegisterDrawList(void *o);
 int RoomLib_RegisterPairedTables(void *o);
 int RoomLib_CloseTarget(struct RoomEnt *o);
 
+/* Arguments the scene script hands the room's effects (the script's
+ * RoomLib_SetArgs3 call); three words in each room's data. */
+extern int g_RoomScriptArgs[3];
+
+int *RoomLib_SetArgs3(int unused, int a, int b, int c);
+
 #endif

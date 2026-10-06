@@ -40,7 +40,7 @@ segments:
       - [0x1F0, .rodata, ../room_lib/RoomEffect_SparkRingBurst]
       - [0x244, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3560, c, ../room_lib/RoomEffect_SoundBurst]
-      - [0x3C80, c, RoomLib_SetArgs3_80192C68]
+      - [0x3C80, c, ../room_lib/RoomLib_SetArgs3]
       - [0x3CA4, c, ../room_lib/RoomEffect_SparkRingBurst]
       - [0x5738, data, D_80194720]
       - [0x5770, data, D_80194758]

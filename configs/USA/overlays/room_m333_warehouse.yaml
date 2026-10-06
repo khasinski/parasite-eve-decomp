@@ -40,7 +40,7 @@ segments:
       - [0x1F4, .rodata, ../room_lib/RoomEffect_LineBurst]
       - [0x208, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3524, c, ../room_lib/RoomEffect_OrbitFlare]
-      - [0x4174, c, RoomLib_SetArgs3_8019315C]
+      - [0x4174, c, ../room_lib/RoomLib_SetArgs3]
       - [0x4198, c, ../room_lib/RoomEffect_LineBurst]
       - [0x4F88, c, RoomLib_SlotSet_80193F70]
       - [0x4FCC, data, D_80193FB4]

@@ -1,9 +1,5 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SetArgs3_80192C68 = 0x80192C68; // type:func
-RoomSlotA_80192C68 = 0x801948F4;
-RoomSlotB_80192C68 = 0x801948F8;
-RoomSlotC_80192C68 = 0x801948FC;
 RoomLib_HandlerDNop0 = 0x8018F22C; // type:func
 RoomLib_InitHandlerD = 0x8018F234; // type:func
 RoomLib_ConfigureHandlerD = 0x8018F2D4; // type:func
@@ -66,3 +62,5 @@ RoomEffect_BurstSparkSpawner = 0x8019442C; // type:func
 RoomEffect_SetSparkSlot = 0x80194710; // type:func
 g_RoomSparkRingColorRamp = 0x80194844;
 g_RoomSparkSlot = 0x80194900;
+RoomLib_SetArgs3 = 0x80192C68; // type:func
+g_RoomScriptArgs = 0x801948F4;

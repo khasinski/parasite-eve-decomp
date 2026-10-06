@@ -38,7 +38,7 @@ segments:
       - [0xC, .rodata, ../room_lib/RoomEffect_OrbitFlare]
       - [0x1C, .rodata, ../room_lib/RoomEffect_LineBurst]
       - [0x30, c, ../room_lib/RoomEffect_OrbitFlare]
-      - [0xC80, c, RoomLib_SetArgs3_8018FC68]
+      - [0xC80, c, ../room_lib/RoomLib_SetArgs3]
       - [0xCA4, c, ../room_lib/RoomEffect_LineBurst]
       - [0x1A94, c, RoomLib_SlotSet_80190A7C]
       - [0x1AD8, data, D_80190AC0]

@@ -42,7 +42,7 @@ segments:
       - [0x1E4, .rodata, ../room_lib/RoomEffect_HomingFlash]
       - [0x1F8, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3514, c, ../room_lib/RoomEffect_HomingFlash]
-      - [0x4130, c, RoomLib_SetArgs3_80193118]
+      - [0x4130, c, ../room_lib/RoomLib_SetArgs3]
       - [0x4154, data, D_8019313C]
       - [0x418C, data, D_80193174]
       - [0x41FC, data, D_801931E4]

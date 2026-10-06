@@ -1,9 +1,5 @@
 FieldEng_GetSlot = 0x800C22F8;
 FieldEng_Spawn6 = 0x800C2AF0;
-RoomLib_SetArgs3_80191168 = 0x80191168; // type:func
-RoomSlotA_80191170 = 0x80192130;
-RoomSlotB_80191170 = 0x80192134;
-RoomSlotC_80191170 = 0x80192138;
 rand = 0x80071A54; // type:func
 rsin = 0x80077CF4; // type:func
 rcos = 0x80077DC4; // type:func
@@ -50,3 +46,5 @@ g_RoomEruptionDebrisPacket = 0x80192170;
 g_RoomEruptionShadowPacket = 0x80192180;
 g_RoomEruptionRingPacket = 0x80192190;
 g_RoomEruptionDebrisDepth = 0x8019217A;
+RoomLib_SetArgs3 = 0x80191168; // type:func
+g_RoomScriptArgs = 0x80192130;

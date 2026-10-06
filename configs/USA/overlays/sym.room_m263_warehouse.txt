@@ -1,9 +1,5 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SetArgs3_8019315C = 0x8019315C; // type:func
-RoomSlotA_8019315C = 0x80194128;
-RoomSlotB_8019315C = 0x8019412C;
-RoomSlotC_8019315C = 0x80194130;
 RoomLib_SlotSet_80193F70 = 0x80193F70; // type:func
 RoomLib_SlotTable = 0x80194134;
 g_FrameCount16 = 0x800942EC;
@@ -64,3 +60,5 @@ RoomEffect_OrbitFlareDrift = 0x8019250C; // type:func
 RoomEffect_OrbitFlareController = 0x80192714; // type:func
 RoomEffect_LineBurstParticle = 0x80193180; // type:func
 RoomEffect_LineBurstController = 0x8019351C; // type:func
+RoomLib_SetArgs3 = 0x8019315C; // type:func
+g_RoomScriptArgs = 0x80194128;

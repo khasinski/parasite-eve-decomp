@@ -52,7 +52,7 @@ segments:
       - [0x200, c, func_8018F1E8]
       - [0x208, c, ../room_lib/RoomEffect_GroundEruption]
       - [0x1530, c, ../room_lib/RoomEffect_OrbitFlare]
-      - [0x2180, c, RoomLib_SetArgs3_80191168]
+      - [0x2180, c, ../room_lib/RoomLib_SetArgs3]
       - [0x21A4, c, RoomEffect_HomingProjectile]
       - [0x2F90, data]
   - [0x3000]

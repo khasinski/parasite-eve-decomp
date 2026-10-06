@@ -1,9 +1,5 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SetArgs3_80192C14 = 0x80192C14; // type:func
-RoomSlotA_80192C14 = 0x80192D3C;
-RoomSlotB_80192C14 = 0x80192D40;
-RoomSlotC_80192C14 = 0x80192D44;
 RoomLib_HandlerDNop0 = 0x8018F1D8; // type:func
 RoomLib_InitHandlerD = 0x8018F1E0; // type:func
 RoomLib_ConfigureHandlerD = 0x8018F280; // type:func
@@ -59,3 +55,5 @@ RoomLib_ReleaseHandlerA = 0x801924D0; // type:func
 RoomLib_HandlerANop6 = 0x801924EC; // type:func
 RoomEffect_SoundBurstParticle = 0x801924F4; // type:func
 RoomEffect_SoundBurstController = 0x801928EC; // type:func
+RoomLib_SetArgs3 = 0x80192C14; // type:func
+g_RoomScriptArgs = 0x80192D3C;
