@@ -783,9 +783,10 @@ segments:
       - [0x5AAE8, c, gpu/func_8006A2E8]
       - [0x5AB18, c, akao/Akao_LoadVoiceBank]
       - [0x5ADBC, c, main/func_8006A5BC]
-      - [0x5AE4C, c, gpu/func_8006A64C]
-      - [0x5AE74, c, akao/Akao_ClearVoiceBank]
-      - [0x5B0D4, c, boot/Boot_InitMemoryLayout]
+      # Boot game-state init: Boot_InitGameState (called from main) runs the memory
+      # layout and the scene voice-bank reset defined beside it (helper/call/private
+      # evidence over all three; no split evidence).
+      - [0x5AE4C, c, boot/Boot_GameStateInit]
       - [0x5B1E4, c, main/Scene_LoadSceneData]
       - [0x5B540, c, main/Scene_LoadFieldBg]
       - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]

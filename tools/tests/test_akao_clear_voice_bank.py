@@ -8,6 +8,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 ENTRY = 0x8006A674
+UNIT = 0x8006A64C
 EXIT = 0x80010000
 STATE = 0x800B0CD8
 PAIRS = 0x80094488
@@ -38,20 +39,23 @@ class AkaoClearVoiceBankTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             work = pathlib.Path(directory)
             obj, elf, binary = (work / name for name in ("akao.o", "akao.elf", "akao.bin"))
-            subprocess.run(["tools/scripts/cc.sh", "src/main/akao/Akao_ClearVoiceBank.c", str(obj)],
+            subprocess.run(["tools/scripts/cc.sh", "src/main/boot/Boot_GameStateInit.c", str(obj)],
                            cwd=ROOT, check=True, capture_output=True)
             (work / "akao.ld").write_text(
                 "g_GameState = 0x800B0CD8;\n"
                 "D_80094488 = 0x80094488;\n"
                 "_gp = 0x8009CD70;\n"
-                "SECTIONS { .text 0x8006A674 : SUBALIGN(4) { *(.text) } "
+                "SECTIONS { .text 0x8006A64C : SUBALIGN(4) { *(.text) } "
                 "/DISCARD/ : { *(.reginfo) *(.mdebug) *(.pdr) } }\n"
             )
-            subprocess.run(["mipsel-none-elf-ld", "-EL", "-T", str(work / "akao.ld"),
+            # The unit's other functions reference symbols this check does not
+            # need; only the reset routine's slice is compared.
+            subprocess.run(["mipsel-none-elf-ld", "-EL", "--unresolved-symbols=ignore-all",
+                            "-T", str(work / "akao.ld"),
                             str(obj), "-o", str(elf)], check=True, capture_output=True)
             subprocess.run(["mipsel-none-elf-objcopy", "-O", "binary", "-j", ".text",
                             str(elf), str(binary)], check=True, capture_output=True)
-            compiled = binary.read_bytes()
+            compiled = binary.read_bytes()[ENTRY - UNIT:ENTRY - UNIT + len(retail)]
         self.assertEqual(compiled, retail)
 
         saved_regs = [UC_MIPS_REG_S0, UC_MIPS_REG_S1, UC_MIPS_REG_S2,
