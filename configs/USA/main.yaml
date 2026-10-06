@@ -965,7 +965,7 @@ segments:
       - [0x67DE8, c, psyq/libgpu/dma_transfer]
       - [0x68200, c, psyq/libgpu/Gpu_RestoreDmaCallback]
       - [0x68228, c, psyq/libgpu/GPU_memset]
-      - [0x68254, c, gpu/GPU_cw]
+      - [0x68254, c, psyq/libapi/c73]
       # Paired libgpu texture-page and CLUT identifier encoders.
       - [0x68264, c, psyq/libgpu/GetTPage]
       - [0x682C4, c, psyq/libgpu/p06]
