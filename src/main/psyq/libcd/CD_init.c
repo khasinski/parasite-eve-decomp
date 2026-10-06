@@ -13,8 +13,7 @@ int CD_init(void) {
     register int arg asm("$5");
 
     puts(D_80011C08);
-    asm volatile("" : "=r"(zero));
-    printf(D_80011C14, D_8009B298);
+        printf(D_80011C14, D_8009B298);
     g_CdLastCom = 0;
     g_CdMode = 0;
     D_8009AFB8 = 0;
