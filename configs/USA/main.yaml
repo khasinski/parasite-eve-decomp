@@ -407,10 +407,8 @@ segments:
       - [0x2EE10, c, boot/Boot_InitSystemFlow]
       # Start-up display reset, the vsync callback and the pad/memory-card start-up (G0341).
       - [0x2EF54, c, boot/Boot_DisplayResetAndCallbacks]
-      # Render-flag table builder and its only helper: contiguous; the
-      # helper's lone array reference is absolute under -G8 as well.
-      - [0x2F174, c, boot/Boot_RenderFlagTable]
-      - [0x2F304, c, field/Field_HandleStateTransition]
+      # Render-flag table builder and the per-frame pad and state transition handler share private state (G0343).
+      - [0x2F174, c, boot/Boot_RenderFlagsAndPadInput]
       - [0x2F874, c, gpu/Gpu_InitPipeline]
       # Scene flush and field frame loop: contiguous -G8 pair; the loop ends
       # with the same flush sequence (main_tu_evidence G0346).
