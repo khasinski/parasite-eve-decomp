@@ -1166,16 +1166,8 @@ segments:
       # Psy-Q LIBPAD PADMAIN.OBJ (0x800829C4..0x800835A4): VSync hooks, SIO setup and transfer.
       - [0x731C4, c, psyq/libpad/padmain]
       - [0x73DA0, pad] # zero word after MemCard_TransferWait's jr ra
+      # Psy-Q LIBPAD PADCMD.OBJ (0x800835A4..0x80083F00): actuator setup and command emitters.
       - [0x73DA4, c, psyq/libpad/padcmd]
-      # Read-layout advance, sizing, and transfer start share CardObj state.
-      - [0x73E44, c, psyq/libpad/padcmd_2]
-      - [0x7409C, c, psyq/libpad/padcmd_3]
-      # Command-4D setup and emission share CardObj::field_20.
-      - [0x743B8, c, psyq/libpad/padcmd_4]
-      - [0x7443C, c, psyq/libpad/padcmd_5]
-      - [0x74504, c, psyq/libpad/padcmd_6]
-      # Read-ID dispatch and command emitters share one CardObj command ABI.
-      - [0x7459C, c, psyq/libpad/padcmd_7]
       - [0x746F8, pad]
       - [0x74704, c, psyq/libpad/padif]
       # Command emission, response-size decoding, and acknowledgment share the write protocol.

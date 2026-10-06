@@ -80,5 +80,9 @@ PE1_STATIC_ASSERT(sizeof(CardObj) == 0xF0, card_obj_size);
 extern CardObj *g_MemCardObjArray;
 extern int g_MemCardCommandByte;
 extern CardObj *(*g_MemCardObjLookupFn)(int channel);
+/* Transfer-busy predicate that _padInitDirSeq installs. Unprototyped:
+ * _padSetMainMode passes the port object, _padLoadActInfo calls it
+ * without setting a0. */
+extern int (*g_MemCardIsTransferActiveFn)();
 
 #endif /* PE1_CARD_OBJ_H */

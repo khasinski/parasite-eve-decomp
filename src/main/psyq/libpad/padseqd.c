@@ -9,7 +9,6 @@ void LIBPAD_PADSEQD_text_108(CardObj *port);
 
 /* LIBPAD hook slots that _padInitDirSeq points at this object's routines. */
 extern int (*g_MemCardStateDispatchFn)(CardObj *obj);
-extern int (*g_MemCardIsTransferActiveFn)(CardObj *obj);
 extern void (*g_MemCardResponseHandler)(CardObj *port);
 
 void _padInitDirSeq(void) {
