@@ -7,6 +7,9 @@ declarations of one name conflict when their normalized types differ;
 parameter names, whitespace, array bounds and `extern` are ignored, so a
 prototype repeated with other parameter names is not a conflict. A name
 bound to another symbol with `__asm__("...")` is reported under its C name.
+D_/func_ names at overlay addresses (0x80100000 and up) name a different
+symbol in each overlay, so they conflict only within one overlay (a header
+counts towards every overlay whose sources include it).
 
 Usage: decl_conflicts.py [--count] [--name SYM] [--exclude PATH_PREFIX ...]
 
@@ -254,6 +257,74 @@ def scan(excludes):
     return decls
 
 
+# Overlay addresses: the same D_/func_ name in two overlays names two
+# different symbols, so such names only conflict within one overlay.
+OVERLAY_NAME = re.compile(r"^(?:D|func|jtbl)_(80[0-9A-F]{6})")
+OVERLAY_BASE = 0x80100000
+INCLUDE = re.compile(r'^\s*#\s*include\s+"([^"]+)"', re.M)
+
+
+def overlay_scopes():
+    """Map each include/ header to the overlay source dirs that include it."""
+    direct = collections.defaultdict(set)   # header -> overlay dirs
+    nested = collections.defaultdict(set)   # header -> headers including it
+    for path in (ROOT / "include").rglob("*.h"):
+        rel = path.relative_to(ROOT / "include").as_posix()
+        for inc in INCLUDE.findall(path.read_text(errors="replace")):
+            nested[inc].add(rel)
+    for path in (ROOT / "src" / "overlays").rglob("*"):
+        if path.suffix not in SUFFIXES or not path.is_file():
+            continue
+        ov = path.relative_to(ROOT / "src" / "overlays").parts[0]
+        for inc in INCLUDE.findall(path.read_text(errors="replace")):
+            direct[inc].add(ov)
+    scopes = {}
+
+    def resolve(header, seen):
+        if header in scopes:
+            return scopes[header]
+        out = set(direct.get(header, ()))
+        for parent in nested.get(header, ()):
+            if parent not in seen:
+                out |= resolve(parent, seen | {parent})
+        return out
+
+    for header in set(direct) | set(nested):
+        scopes[header] = resolve(header, {header})
+    return scopes
+
+
+def location_scopes(loc, scopes):
+    path = loc.rsplit(":", 1)[0]
+    if path.startswith("src/overlays/"):
+        return {path.split("/")[2]}
+    if path.startswith("include/"):
+        return scopes.get(path[len("include/"):]) or {path}
+    return {"main"}
+
+
+def find_conflicts(decls):
+    """Symbols with more than one type, overlay names compared per overlay."""
+    scopes = None
+    conflicts = {}
+    for name, types in decls.items():
+        if len(types) < 2:
+            continue
+        m = OVERLAY_NAME.match(name)
+        if m and int(m.group(1), 16) >= OVERLAY_BASE:
+            if scopes is None:
+                scopes = overlay_scopes()
+            per_scope = collections.defaultdict(set)
+            for typ, where in types.items():
+                for loc in where:
+                    for scope in location_scopes(loc, scopes):
+                        per_scope[scope].add(typ)
+            if not any(len(t) > 1 for t in per_scope.values()):
+                continue
+        conflicts[name] = types
+    return conflicts
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--count", action="store_true", help="print only the count")
@@ -262,7 +333,7 @@ def main() -> int:
                     help="skip files under this path prefix (repeatable)")
     args = ap.parse_args()
     decls = scan(args.exclude)
-    conflicts = {n: t for n, t in decls.items() if len(t) > 1}
+    conflicts = find_conflicts(decls)
     if not args.count:
         for name in sorted(conflicts):
             if args.name and name not in args.name:
