@@ -3,27 +3,18 @@
  * throw controller that drives the actor's throw animation and seeds the
  * model, and the entry the scene script sets the launch parameters with.
  *
- * room_m141, room_m146, room_m153, room_m154, room_m328 and scene_e02 link
- * these four functions in this order as the last code of the overlay, with
- * the same 0x28 bytes of seeds in their data; this unit is that object,
- * compiled into each of them. scene_e04 and scene_e05 link the same code,
- * but their seeds lie past the end of their extracted image, so they include
- * this file with ROOM_HOMING_PROJECTILE_EXTERNAL_SEEDS defined and name the
- * seeds in their symbol files. The launch parameters live in each room's
- * own data (g_RoomHomingLaunch).
+ * room_m141, room_m146, room_m153, room_m154, room_m328, scene_e02, scene_e04
+ * and scene_e05 link these four functions in this order as the last code of
+ * the overlay; this unit is that object, compiled into each of them. The six
+ * rooms and scene_e02 also carry the same 0x28 bytes of seeds in their data
+ * (RoomEffect_HomingProjectileSeeds.c); the seeds of scene_e04 and scene_e05
+ * lie past the end of their extracted image and are named in their symbol
+ * files. The launch parameters live in each room's own data
+ * (g_RoomHomingLaunch).
  */
 #include "pe1/room_homing_model.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/gte.h"
-
-#ifndef ROOM_HOMING_PROJECTILE_EXTERNAL_SEEDS
-GteRotation g_RoomHomingSparkRotation = { 0x400, 0, 0, 1 };
-RenderColor g_RoomHomingSparkColor = { 0x50, 0x20, 0, 0 };
-s16 g_RoomHomingReportFields[5] = { 0, 1, 2, 5, 6 };
-GteRotation g_RoomHomingRingRotation = { 0x400, 0, 0, 1 };
-RenderColor g_RoomHomingRingInner = { 0x20, 0x10, 8, 0 };
-RenderColor g_RoomHomingRingOuter = { 0, 0, 0, 0 };
-#endif
 
 /* Spark left where the projectile bounces: lives eight frames, drawn as a
  * pulsing sprite in the current palette. */

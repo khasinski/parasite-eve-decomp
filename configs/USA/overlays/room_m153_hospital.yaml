@@ -56,7 +56,7 @@ segments:
       - [0x6680, data, D_80195668]
       - [0x66A0, data, D_80195688]
       - [0x66D8, data, D_801956C0]
-      - [0x66F0, .data, ../room_lib/RoomEffect_HomingProjectile]
+      - [0x66F0, .data, ../room_lib/RoomEffect_HomingProjectileSeeds]
       - [0x6718, data, D_80195700]
       - [0x6750, data, g_RoomHomingLaunch]
       - [0x6770, data, D_80195758]

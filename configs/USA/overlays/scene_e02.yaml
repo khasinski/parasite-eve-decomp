@@ -49,7 +49,7 @@ segments:
       - [0x5674, c, ../room_lib/RoomLib_SetArgs3]
       - [0x5698, c, ../room_lib/RoomEffect_HomingProjectile]
       - [0x6484, data]
-      - [0x6680, .data, ../room_lib/RoomEffect_HomingProjectile]
+      - [0x6680, .data, ../room_lib/RoomEffect_HomingProjectileSeeds]
       - [0x66A8, data]
   - [0x6800]
 # source slice: scanner

@@ -50,7 +50,7 @@ segments:
       - [0x30BC, data, D_801920A4]
       - [0x30E0, data, D_801920C8]
       - [0x3118, data, D_80192100]
-      - [0x3130, .data, ../room_lib/RoomEffect_HomingProjectile]
+      - [0x3130, .data, ../room_lib/RoomEffect_HomingProjectileSeeds]
       - [0x3158, data, D_80192140]
       - [0x3190, data, RoomLib_PairA]
       - [0x3194, data, RoomLib_PairB]

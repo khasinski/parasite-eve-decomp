@@ -61,7 +61,7 @@ segments:
       - [0x357C, data, D_80192564]
       - [0x3598, data, RoomLib_TableB_80190548]
       - [0x35E4, data, D_801925CC]
-      - [0x35FC, .data, ../room_lib/RoomEffect_HomingProjectile]
+      - [0x35FC, .data, ../room_lib/RoomEffect_HomingProjectileSeeds]
       - [0x3624, data, D_8019260C]
       - [0x3660, data, g_RoomHomingLaunch]
       - [0x3680, data, D_80192668]
