@@ -25,3 +25,5 @@ D_801910AE = 0x801910AE;
 D_801910B0 = 0x801910B0;
 D_801910B2 = 0x801910B2;
 D_801910B4 = 0x801910B4;
+RoomEffect_LineBurstParticle = 0x801900A8; // type:func
+RoomEffect_LineBurstController = 0x80190444; // type:func

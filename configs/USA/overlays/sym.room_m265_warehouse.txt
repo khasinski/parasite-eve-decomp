@@ -62,3 +62,5 @@ RoomLib_ReleaseHandlerA = 0x801924E8; // type:func
 RoomLib_HandlerANop6 = 0x80192504; // type:func
 RoomEffect_OrbitFlareDrift = 0x8019250C; // type:func
 RoomEffect_OrbitFlareController = 0x80192714; // type:func
+RoomEffect_LineBurstParticle = 0x80193180; // type:func
+RoomEffect_LineBurstController = 0x8019351C; // type:func

@@ -72,3 +72,5 @@ RoomLib_HandlerA = 0x80193398; // type:func
 RoomLib_HandlerF = 0x801934AC; // type:func
 RoomLib_ReleaseHandlerA = 0x8019362C; // type:func
 RoomLib_HandlerANop6 = 0x80193648; // type:func
+RoomEffect_LineBurstParticle = 0x80193650; // type:func
+RoomEffect_LineBurstController = 0x801939EC; // type:func

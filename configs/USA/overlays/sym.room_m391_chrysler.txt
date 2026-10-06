@@ -75,3 +75,5 @@ RoomLib_ThreeParticleTable = 0x801943B4;
 RoomLib_ThreeParticlePacket = 0x80194558;
 RoomLib_ThreeParticleFloorPacket = 0x80194548;
 RoomLib_ThreeParticleAlpha = 0x80194562;
+RoomEffect_LineBurstParticle = 0x80193500; // type:func
+RoomEffect_LineBurstController = 0x8019389C; // type:func

@@ -36,7 +36,7 @@ segments:
     subsegments:
       - [0x0, rodata, room_m392_chrysler]
       - [0x44, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - [0x21C, rodata, RoomLib_HandlerCArgsData_80192704]
+      - [0x21C, .rodata, ../room_lib/RoomEffect_LineBurst]
       - [0x230, c, func_8018F218]
       - [0x238, c, RoomLib_PlantTable_8018F220]
       - [0x264, c, RoomLib_Spawn6_8018F24C]
@@ -60,8 +60,7 @@ segments:
       - [0x1160, c, RoomLib_RenderParticleDepths_80190148]
       - [0x1270, c, RoomLib_ParticleStep_80190258]
       - [0x134C, c, ../room_lib/RoomLib_ActorClasses]
-      - [0x4668, c, func_80193650]
-      - [0x4A04, c, RoomEffect_LineBurstController_801939EC]
+      - [0x4668, c, ../room_lib/RoomEffect_LineBurst]
       - [0x5458, c, RoomLib_SlotSet_80194440]
       - [0x549C, data, D_80194484]
       - [0x54B4, data, RoomLib_TableA_8018F278]

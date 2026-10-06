@@ -1,4 +1,14 @@
-#include "common.h"
+/*
+ * Bounce particle: state 0 bounces along the floor and draws a fading
+ * sprite, state 1 rises to the floor height and draws a coloured tile.
+ * Instantiated by the line burst unit (RoomEffect_LineBurst.c) and by the
+ * burst orb rooms, which differ only in gravity, CLUT column and frame base.
+ *
+ * The includer names the function (ROOMLIB_UPDATE_BOUNCE_RENDER_NAME) and
+ * the tile colour constant (ROOMLIB_BOUNCE_RENDER_BLOB).
+ */
+#include "pe1/room_line_burst.h"
+#include "pe1/field_tile.h"
 #include "pe1/gte.h"
 
 #ifndef ROOMLIB_BOUNCE_GRAVITY
@@ -11,39 +21,10 @@
 #define ROOMLIB_BOUNCE_FRAME_BASE 0xC8
 #endif
 
-typedef struct RoomBlob4 {
-    char b[4];
-} RoomBlob4;
+extern const RoomLineBurstColor ROOMLIB_BOUNCE_RENDER_BLOB;
 
-typedef struct RoomBounceFx {
-    short x;
-    short y;
-    short z;
-    short pad6;
-    short vx;
-    short vy;
-    short vz;
-    short ay;
-    short state;
-    short timer;
-} RoomBounceFx;
-
-extern RoomBlob4 ROOMLIB_BOUNCE_RENDER_BLOB;
-extern short g_FrameCount16;
-extern short D_800F336A;
-extern unsigned short D_800F336C;
-extern unsigned short D_800E1204[];
-extern int D_800F3428;
-extern void *D_800BCFA4;
-
-int rsin(int angle);
-int rcos(int angle);
-int func_80077AA4(int width, int texture);
-int func_800CEE20();
-int func_800D2104();
-
-int ROOMLIB_UPDATE_BOUNCE_RENDER_NAME(int mode, RoomBounceFx *fx) {
-    RoomBlob4 blob;
+int ROOMLIB_UPDATE_BOUNCE_RENDER_NAME(int mode, RoomLineBurstParticle *fx) {
+    RoomLineBurstColor blob;
     int saved0;
     int saved2;
 
@@ -72,6 +53,7 @@ updateBounce:
         int vz;
         int rawVy;
         int nextVy;
+        /* Pinned: unpinned, the height lands in another register than retail's. */
         register int y asm("$2");
 
         fx->timer++;
@@ -88,18 +70,14 @@ updateBounce:
             vz += 511;
         }
         rawVy = (unsigned short)fx->vy;
-        PE1_COMPILER_USE(rawVy);
         fx->vz = vz >> 9;
         PE1_COMPILER_MEMORY_BARRIER();
         y = fx->y;
-        PE1_COMPILER_USE(y);
         nextVy = rawVy - ROOMLIB_BOUNCE_GRAVITY;
         fx->vy = nextVy;
-        PE1_COMPILER_MEMORY_BARRIER();
-        if (y >= g_FrameCount16) {
+        if (y >= g_FrameCount16.height) {
             int bounce;
 
-            PE1_COMPILER_MEMORY_BARRIER();
             bounce = (nextVy << 16) >> 16;
             bounce = -bounce;
             fx->vy = bounce;
@@ -114,9 +92,8 @@ updateRise:
         fx->timer++;
         fx->y += fx->vy;
         fx->vy += fx->ay;
-        PE1_COMPILER_MEMORY_BARRIER();
-        if (fx->y >= g_FrameCount16) {
-            fx->y = g_FrameCount16;
+        if (fx->y >= g_FrameCount16.height) {
+            fx->y = g_FrameCount16.height;
         }
         if (fx->timer < 32) {
             goto ret0;
@@ -137,6 +114,7 @@ drawBounce:
     {
         int sinValue;
         int scale;
+        /* Pinned: unpinned, the angle and fade take other registers than retail's. */
         register int angle asm("$4");
         register int fade asm("$2");
         int texture;
@@ -158,7 +136,7 @@ drawBounce:
             texture += 4;
         }
         texture = func_80077AA4(ROOMLIB_BOUNCE_CLUT_X, texture);
-        func_800CEE20(fx, 0, saved2, saved2,
+        func_800CEE20((GteShortVector *)fx, 0, saved2, saved2,
                       D_800F336A * (fx->timer / 6) + ROOMLIB_BOUNCE_FRAME_BASE,
                       (unsigned short)texture, 1, saved0, 0);
         goto ret0;
@@ -166,7 +144,7 @@ drawBounce:
 drawRise:
     {
         int angle;
-        void **matrixSlot;
+        RenderMatrixSlot *matrixSlot;
 
         angle = rcos(fx->timer << 5);
         if (angle < 0) {
@@ -174,9 +152,9 @@ drawRise:
         }
         saved0 = angle >> 5;
         matrixSlot = &D_800BCFA4;
-        gte_ldrotmatrix(*matrixSlot);
-        gte_ldtransmatrix(*matrixSlot);
-        func_800D2104(fx, (void *)saved2, saved0, 1);
+        gte_ldrotmatrix(matrixSlot->value);
+        gte_ldtransmatrix(matrixSlot->value);
+        func_800D2104((GteShortVector *)fx, (u8 *)saved2, saved0, 1);
     }
 ret0:
     return 0;

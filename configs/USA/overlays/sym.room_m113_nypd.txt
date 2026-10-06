@@ -7,3 +7,5 @@ RoomLib_SlotTable = 0x80190B98;
 g_FrameCount16 = 0x800942EC;
 RoomEffect_OrbitFlareDrift = 0x8018F018; // type:func
 RoomEffect_OrbitFlareController = 0x8018F220; // type:func
+RoomEffect_LineBurstParticle = 0x8018FC8C; // type:func
+RoomEffect_LineBurstController = 0x80190028; // type:func

@@ -1,7 +1,3 @@
-#define rsin rsin
-#define rcos rcos
-#define func_80077AA4 GetClut
-#define D_800BCFA4 g_GeomVramPacketDst
 #define ROOMLIB_UPDATE_BOUNCE_RENDER_NAME func_80190BF8
 #define ROOMLIB_BOUNCE_RENDER_BLOB D_8018F044
 #define ROOMLIB_BOUNCE_GRAVITY 3

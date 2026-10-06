@@ -1,31 +1,34 @@
+/* MASPSX_FLAGS: --expand-div */
+/*
+ * The line burst: a controller anchored on the actor that spits bounce
+ * particles, sweeps a line from its anchor to a sprite point, rings it with
+ * particles, holds a shrinking glow that tags the player and fades out.
+ *
+ * Fourteen room overlays link the same two functions in this order, with the
+ * particle colour, the anchor template and the sprite rotation as the only
+ * read-only data; this unit is that object, compiled into each of them.
+ */
 #include "pe1/room_line_burst.h"
 #include "pe1/gte.h"
-#ifndef ROOMEFFECT_LINE_BURST_FUNC
-#error "ROOMEFFECT_LINE_BURST_FUNC must name the room entry point"
-#endif
-#ifndef ROOMEFFECT_LINE_BURST_CALLBACK
-#error "ROOMEFFECT_LINE_BURST_CALLBACK must name the particle callback"
-#endif
-#ifndef ROOMEFFECT_LINE_BURST_TEMPLATE
-#error "ROOMEFFECT_LINE_BURST_TEMPLATE must name the anchor template"
-#endif
-#ifndef ROOMEFFECT_LINE_BURST_ROTATION
-#error "ROOMEFFECT_LINE_BURST_ROTATION must name the sprite rotation"
-#endif
 
-extern RoomLineBurstWords8 ROOMEFFECT_LINE_BURST_TEMPLATE;
-extern RoomLineBurstWords8 ROOMEFFECT_LINE_BURST_ROTATION;
-extern int ROOMEFFECT_LINE_BURST_CALLBACK();
+static const RoomLineBurstColor s_LineBurstParticleColor = { 0x80, 0x80, 0x80, 0 };
+static const RoomLineBurstWords8 s_LineBurstAnchorTemplate = { { 0, 0xFF88 } };
+static const RoomLineBurstWords8 s_LineBurstSpriteRotation = { { 0x400, 0x10000 } };
+
+/* The burst's bounce particle. */
+#define ROOMLIB_UPDATE_BOUNCE_RENDER_NAME RoomEffect_LineBurstParticle
+#define ROOMLIB_BOUNCE_RENDER_BLOB s_LineBurstParticleColor
+#include "RoomLib_UpdateBounceRender.inc"
 
 /* Four-phase burst anchored on the actor: a pair of bounce particles and a
  * line swept from the anchor to the sprite point, a ring of eight particles
  * once the line arrives, a shrinking glow that tags the player while it
  * holds, then a fade.  Mode 2 projects the line through RTPT into a LINE_F2
  * packet and draws the glow sprite. */
-int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
-                               RoomLineBurstParams *params) {
-    RoomLineBurstWords8 template = ROOMEFFECT_LINE_BURST_TEMPLATE;
-    RoomLineBurstWords8 rotation = ROOMEFFECT_LINE_BURST_ROTATION;
+int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
+                                   RoomLineBurstParams *params) {
+    RoomLineBurstWords8 template = s_LineBurstAnchorTemplate;
+    RoomLineBurstWords8 rotation = s_LineBurstSpriteRotation;
     s16 target[4];
     int otz;
     int weight;
@@ -53,7 +56,7 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
             }
         }
         return func_800CE560(D_800F33E0->pool, 0x14, 0x18,
-                             ROOMEFFECT_LINE_BURST_CALLBACK);
+                             RoomEffect_LineBurstParticle);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 0x13, &template, state);
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0, target);
@@ -216,8 +219,3 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
     }
     return 0;
 }
-
-#undef ROOMEFFECT_LINE_BURST_FUNC
-#undef ROOMEFFECT_LINE_BURST_CALLBACK
-#undef ROOMEFFECT_LINE_BURST_TEMPLATE
-#undef ROOMEFFECT_LINE_BURST_ROTATION

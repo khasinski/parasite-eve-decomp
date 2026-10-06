@@ -58,6 +58,11 @@ typedef struct RoomLineBurstWords8 {
     s32 word[2];
 } __attribute__((packed)) RoomLineBurstWords8;
 
+/* Tile colour of a rising particle, copied to the stack unaligned. */
+typedef struct RoomLineBurstColor {
+    u8 r, g, b, code;
+} RoomLineBurstColor;
+
 typedef struct RoomLineBurstChannel {
     s32 reserved[2];
     char *pool;                   /* 0x08 */
@@ -90,6 +95,12 @@ extern RoomLineBurstChannel *D_800F32D0, *D_800F33E0;
 extern RoomLineBurstEventState *D_800E2368;
 extern RoomLineBurstBattleEntity *D_8009D254;
 extern RoomLineBurstFrameTick D_800942EC;
+/* The same frame counter under its other label, read signed by the
+ * particles as their floor height. */
+typedef struct RoomLineBurstFloor {
+    s16 height;
+} RoomLineBurstFloor;
+extern RoomLineBurstFloor g_FrameCount16;
 extern void *D_8009D248;
 extern u16 D_8009D1CC;
 extern char *D_800B0E58[];
