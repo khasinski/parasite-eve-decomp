@@ -25,7 +25,7 @@ class SceneSetStoryDayTests(unittest.TestCase):
                        D_800B0CE5=state+13, D_800B0CE6=state+14)
         with tempfile.TemporaryDirectory() as directory:
             work = Path(directory)
-            source = ROOT/'src/main/gpu/Scene_SetStoryDay.c'
+            source = ROOT/'src/main/scene/Scene_SetStoryDay.c'
             subprocess.run([str(ROOT/'tools/scripts/cc.sh'),str(source),str(work/'test.o')],check=True,capture_output=True)
             script = 'SECTIONS { .text 0x8006C4C4 : SUBALIGN(4) { *(.text) } /DISCARD/ : { *(.reginfo) *(.mdebug) *(.pdr) *(.MIPS.abiflags) } }\n'
             (work/'test.ld').write_text(script+'\n'.join(f'{name} = 0x{address:X};' for name,address in symbols.items()))
