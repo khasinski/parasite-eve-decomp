@@ -1,7 +1,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 
-int func_800C62DC(GteShortVector *from, void *to);
+int func_800C62DC(GteShortVector *from, GteShortVector *to);
 extern char *D_8009D254;
 
 int func_800C6B20(void *arg0) {
@@ -53,7 +53,7 @@ int func_800C6B90(s16 *pos, int extraRadius) {
 }
 
 #include "common.h"
-int FieldEng_GetStatus(char *obj);
+int FieldEng_GetStatus(void *obj);
 
 extern char *D_8009D254;
 

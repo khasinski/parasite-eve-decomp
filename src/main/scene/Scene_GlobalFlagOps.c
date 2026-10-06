@@ -8,7 +8,7 @@ extern int g_BattleModeState;
 extern FieldActor *g_CurrentEntity;
 
 void *Battle_GetContextField(int arg0);
-void *Battle_GetEnemyContextField(void *arg0, int arg1);
+void *Battle_GetEnemyContextField(FieldActor *arg0, int arg1);
 
 int Scene_TestGlobalFlags(int **arg0) {
     int flags;

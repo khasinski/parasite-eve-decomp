@@ -2,11 +2,10 @@
 /* Psy-Q LIBDS DSSYS_1.OBJ, part 8 of 11: LIBDS_DSSYS_1_text_EA4. */
 #include "common.h"
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds_queue.h"
 
 extern DsDecodedEventFlags D_8009B588;
 extern u32 D_8009B624[];
-
-void rescpy(u8 *dst, u8 *src);
 
 void LIBDS_DSSYS_1_text_EA4(int event, u8 *data) {
     u8 *data_reg;

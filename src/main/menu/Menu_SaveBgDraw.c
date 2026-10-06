@@ -9,7 +9,7 @@ int g_MenuSaveBgFadeState;
 int g_MenuSaveBgFadeHeight;
 extern u32 g_RenderFrontBufferBase[];
 
-int StoreImage(RECT *rect, u32 *p);
+int StoreImage(RECT *rect, void *p);
 void Menu_SaveBgApplyFadeStep(void);
 
 int g_MenuSaveBgFadeState;

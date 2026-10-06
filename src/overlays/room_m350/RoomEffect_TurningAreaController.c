@@ -31,7 +31,9 @@ extern int func_800DFE20(int *,int *),FieldEng_VecToAngle(int *,int *),rcos(int)
 extern int GetTPage(int,int,int,int),GetClut(int,int);
 extern void GsSetOrign(int,int),func_800C6ED8(int),func_800C6EF8(void *),func_800C6FA0(void *,int);
 extern void memset(void *,int,int),ScaleMatrix(Matrix *,Scale *),func_800C71E4(void *,Matrix *),func_800C6F4C(void *);
-extern void func_800D0E88(Vector *,Vector *,int,int,void *,void *,void *,int,int);
+extern void func_800D0E88(GteShortVector *, struct GteRotation *, int, int,
+                          struct RenderColor *, struct RenderColor *,
+                          struct RenderColor *, int, int);
 int func_801960C4(int event,State *state)
 {
     union { struct { Vector vertices[4]; int area; } collision; Matrix matrix; } local;

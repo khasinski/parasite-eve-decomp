@@ -17,7 +17,7 @@ extern u32 D_800A7770[];
 
 int Math_FixedMul(int lhs, int rhs);
 int Math_FixedDivide(int a, int b);
-void Entity_FindFloor(u8 *entity);
+void Entity_FindFloor(FieldActor *entity);
 
 typedef struct ExprOpArgs {
     int *op;

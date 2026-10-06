@@ -22,6 +22,6 @@ typedef struct FieldChainRecord {
     /* 0x14 */ GteMatrix matrix;
 } FieldChainRecord;
 
-void OuterProduct0(void *matrix_column, void *vector, void *output);
+void OuterProduct0(GteVector *matrix_column, GteVector *vector, GteVector *output);
 
 #endif

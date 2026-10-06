@@ -5,7 +5,8 @@ extern FieldActor *D_8009D254;
 extern char D_8018F1CC[];
 
 extern void func_800CE870();
-extern void func_80071A74();
+/* printf. */
+int func_80071A74(const char *format, ...);
 
 FieldActor *func_80192560(int type_id, int sub_id, int unused) {
     FieldActor *actor;

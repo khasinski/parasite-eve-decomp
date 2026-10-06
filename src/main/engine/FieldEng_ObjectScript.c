@@ -4,7 +4,7 @@
 /* Field engine objects: clearing an object's script state and dispatch
  * slots, and the two per-frame passes over the 0x40 dispatch slots. */
 
-int FieldEng_GetStatus(char *obj);
+int FieldEng_GetStatus(void *obj);
 int func_800C2DA0(u16 slot);
 int printf(char *fmt);
 

@@ -1,6 +1,4 @@
-#include "common.h"
-extern s32 func_8010C308(void);
-extern s32 func_8010C430(void);
+#include "pe1/sys_reset.h"
 
 s32 func_8010C03C(s32 mode) {
     s32 result;

@@ -193,7 +193,7 @@ typedef struct RoomTwelveEffectDrawStack {
 void ApplyMatrix(RoomSpriteMatrix *matrix, void *position, int *translation);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 int func_8001CAB0(int x, int z, int arg2, int arg3);
-int func_800C61A8(s16 *point, RoomSpriteMatrix *matrix);
+int func_800C61A8(GteShortVector *point, GteMatrix *matrix);
 
 extern int D_8009D248;
 extern u16 D_8009D1CC;

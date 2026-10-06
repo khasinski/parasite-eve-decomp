@@ -6,9 +6,9 @@
 #include "m2c_macros.h"
 
 #include "pe1/psyq_gpu.h"
+#include "pe1/draw_area.h"
 
 M2C_UNK BoundsCheck_AssertStub();
-void SetDrawArea(GpuCmdPacket *, RECT *);
 extern u32 g_ActiveDrawBuffer;
 extern s32 g_DrawPacketBufferBase;
 extern s32 g_DrawBufferIndex;
@@ -52,9 +52,9 @@ void Draw_AllocPrimRectFull(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #include "m2c_macros.h"
 
 #include "pe1/psyq_gpu.h"
+#include "pe1/draw_area.h"
 
 M2C_UNK BoundsCheck_AssertStub();
-void SetDrawArea(GpuCmdPacket *, RECT *);
 extern u32 g_ActiveDrawBuffer;
 extern s32 g_DrawPacketBufferBase;
 extern s32 g_DrawBufferIndex;

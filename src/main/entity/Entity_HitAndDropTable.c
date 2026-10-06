@@ -142,7 +142,7 @@ extern u8 g_BattleHitActionMode[];
 extern u8 g_BattleHitActionSubmode[];
 extern u32 g_BattleHitActionParam[];
 
-s32 Battle_CalcRelativeAngle(void *arg0, void *actor);
+int Battle_CalcRelativeAngle(BattleEntity *arg0, BattleEntity *actor);
 void Entity_SetActionMode(void *actor, s32 bucket);
 void Asset_Find08Alt(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 

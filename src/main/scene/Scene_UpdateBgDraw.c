@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/entity_frame_update.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -24,9 +25,6 @@ extern struct { char _[16]; } D_800B89F8_o __asm__("D_800B89F8");
 #define D_800B89F8 ((u32 *)&D_800B89F8_o)
 
 void Render_SetGteScreenOffset(void);
-void Render_TransformVertices(u8 *actor);
-void Render_TransformMorphVertices(u8 *actor, u32 *view_matrix);
-void Render_DrawEntity(u8 *actor, u32 *view_matrix);
 void Render_ResetGteScreenOffset(void);
 
 int Scene_UpdateBgDraw(void) {

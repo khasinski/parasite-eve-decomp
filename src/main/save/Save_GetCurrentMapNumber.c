@@ -6,7 +6,7 @@ typedef struct TempPoint {
 extern int g_SceneDispatchToken;
 
 int Str_EncodeBase32(char *out, unsigned int value);
-int Str_ParseMapNumber(signed char *arg0);
+int Str_ParseMapNumber(char *arg0);
 
 int Save_GetCurrentMapNumber(void) {
     TempPoint point;

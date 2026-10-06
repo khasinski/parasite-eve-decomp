@@ -10,6 +10,7 @@ extern s32 D_8010DA90[];
 extern char D_8010BD18[];
 extern char D_8010BD28[];
 extern char D_8010BCFC[];
+extern char D_8010BD38[];
 extern s32 *volatile *D_8010DB1C;
 extern volatile u32 *D_8010DB20;
 extern volatile u32 *D_8010DB24;
@@ -23,7 +24,9 @@ extern volatile u32 *D_8010DB54;
 void func_8010C1EC(s32 *data, u32 size);
 int func_8010C308(void);
 int func_8010C39C(void);
-void func_8010C448(char *message);
-void func_80071A74(void *message, int mode);
+int func_8010C430(void);
+int func_8010C448(char *message);
+/* printf. */
+int func_80071A74(const char *format, ...);
 
 #endif

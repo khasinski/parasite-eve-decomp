@@ -15,7 +15,7 @@ extern u32 *D_8009D11C;
 
 int Battle_GetStateFlag1(void);
 void BoundsCheck_AssertStub(int arg0);
-void SetDrawTPage(char *packet, int drawTexture, int dither, int tpage);
+void SetDrawTPage(void *packet, int drawTexture, int dither, int tpage);
 
 void Draw_AllocColorQuad(int width, int height) {
     int w = width;

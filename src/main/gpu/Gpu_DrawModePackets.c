@@ -8,7 +8,7 @@ typedef struct GpuModeSprtPacket {
 } GpuModeSprtPacket;
 
 void SetDrawTPage(void *p, int dfe, int dtd, int tpage);
-void SetSprt(unsigned char *arg0);
+void SetSprt(void *arg0);
 int MargePrim(void *arg0, void *arg1);
 void exit(int code);
 

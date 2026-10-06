@@ -314,7 +314,7 @@ typedef RenderDrawModePacket DrawModePrim;
 
 
 int VSync(int mode);
-void SetDrawTPage(char *packet, int dfe, int dtd, int tpage);
+void SetDrawTPage(void *packet, int dfe, int dtd, int tpage);
 
 void Draw_AllocColorTri(int width, int height, int pulse) {
     TilePrim *tile;
