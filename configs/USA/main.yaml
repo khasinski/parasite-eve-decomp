@@ -773,8 +773,9 @@ segments:
       - [0x59EF0, c, asset/Asset_UnloadTableEntries]
       # Disc-image discovery and boot notice use the same mount state.
       - [0x5A0D4, c, main/Render_InitDisplayLists]
-      - [0x5A8E8, c, main/Akao_StepVoiceTable]
-      - [0x5AA5C, c, sys/Sys_Shutdown]
+      # End-of-frame overlay pass and soft-reset shutdown: contiguous
+      # default-profile pair, both called from the field frame loop.
+      - [0x5A8E8, c, sys/Sys_FrameOverlayAndShutdown]
       - [0x5AAE8, c, gpu/func_8006A2E8]
       - [0x5AB18, c, akao/Akao_LoadVoiceBank]
       - [0x5ADBC, c, main/func_8006A5BC]
