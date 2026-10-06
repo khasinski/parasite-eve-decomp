@@ -416,8 +416,10 @@ segments:
       # Render_IncrementCounter's counter word lives in .text; it is data,
       # not a function (docs/CONVENTIONS.md, text-resident data).
       - {start: 0x2EE0C, type: data, name: render/Render_Counter, linker_section_order: .text, linker_section: .code_data}
-      - [0x2EE10, c, boot/InitSystem]
-      - [0x2EE80, c, boot/Boot_InitSubsystems]
+      # InitSystem and the subsystem reset: contiguous start-up pair
+      # (main_tu_evidence G0342 also joins the display reset and callbacks,
+      # but -fno-schedule-insns2 reorders the display reset).
+      - [0x2EE10, c, boot/Boot_InitSystemFlow]
       - [0x2EF54, c, main/Render_ResetScene]
       - [0x2F11C, c, boot/boot]
       # Render-flag table builder and its only helper: contiguous; the
