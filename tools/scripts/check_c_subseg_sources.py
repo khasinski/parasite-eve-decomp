@@ -41,15 +41,21 @@ def iter_subsegments(config: dict):
             yield from segment.get("subsegments", [])
 
 
-def configured_source_entries(config_paths=CONFIGS):
-    """(manifest, source) for every C subsegment, with `..` resolved."""
+# A C unit can also be linked only through a section subsegment (`.data`,
+# `.rodata`): a data-only unit has no code to list as `c`.
+SECTION_KINDS = (".data", ".rodata", ".sdata", ".bss")
+
+
+def configured_source_entries(config_paths=CONFIGS, kinds=("c",)):
+    """(manifest, source) for every subsegment of the given kinds, with `..`
+    resolved."""
     result = []
     for path in config_paths:
         config = yaml.safe_load(path.read_text())
         source_root = ROOT / config["options"]["src_path"]
         for subsegment in iter_subsegments(config):
             if (isinstance(subsegment, list) and len(subsegment) >= 3
-                    and subsegment[1] == "c"):
+                    and subsegment[1] in kinds):
                 source = pathlib.Path(os.path.normpath(
                     source_root / f"{subsegment[2]}.c"))
                 result.append((path, source))
@@ -57,7 +63,8 @@ def configured_source_entries(config_paths=CONFIGS):
 
 
 def configured_sources(config_paths=CONFIGS) -> set[pathlib.Path]:
-    return {source for _manifest, source in configured_source_entries(config_paths)}
+    entries = configured_source_entries(config_paths, ("c",) + SECTION_KINDS)
+    return {source for _manifest, source in entries}
 
 
 def duplicate_configured_sources(config_paths=CONFIGS) -> set[pathlib.Path]:
