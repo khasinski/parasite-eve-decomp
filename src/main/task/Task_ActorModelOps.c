@@ -19,22 +19,22 @@
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
-extern u8 *D2F0_setup[] __asm__("D_8009D2F0");
-extern u8 *D2F0_matrix[] __asm__("D_8009D2F0");
-extern u8 *D2F0_axis1[] __asm__("D_8009D2F0");
-extern u8 *D2F0_axis2[] __asm__("D_8009D2F0");
-extern u8 *D2F0_translation[] __asm__("D_8009D2F0");
-extern u8 *D2F0_color0[] __asm__("D_8009D2F0");
-extern u8 *D2F0_color1[] __asm__("D_8009D2F0");
-extern u8 *D2F0_color2[] __asm__("D_8009D2F0");
-extern u8 *D2F0_render0[] __asm__("D_8009D2F0");
-extern u8 *D2F0_render1[] __asm__("D_8009D2F0");
-extern u8 *D2F0_render2[] __asm__("D_8009D2F0");
-extern u8 *D2F0_render3[] __asm__("D_8009D2F0");
-extern u8 *D2F0_render4[] __asm__("D_8009D2F0");
-extern u8 *D2F0_render5[] __asm__("D_8009D2F0");
-extern u8 *D2F0_flags[] __asm__("D_8009D2F0");
-extern u8 *D2F0_redraw[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_setup[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_matrix[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_axis1[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_axis2[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_translation[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_color0[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_color1[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_color2[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_render0[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_render1[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_render2[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_render3[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_render4[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_render5[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_flags[] __asm__("D_8009D2F0");
+extern FieldActor *D2F0_redraw[] __asm__("D_8009D2F0");
 extern Pe1GlobalSlot CDDC_draw0 __asm__("D_8009CDDC");
 extern Pe1GlobalSlot CDDC_toggle0_load __asm__("D_8009CDDC");
 extern Pe1GlobalSlot CDDC_toggle0_store __asm__("D_8009CDDC");
@@ -50,11 +50,11 @@ int Anim_BuildRotationMatrices(RenderObjectEntity *object, void *action, int fra
 void Render_TransformVertices(RenderObjectEntity *object);
 
 int Task_SetGteMatrix(int **args) {
-    u8 *setup_actor;
-    u8 *matrix_actor;
-    u8 *color_actor;
-    u8 *render_actor;
-    u8 *flag_actor;
+    FieldActor *setup_actor;
+    FieldActor *matrix_actor;
+    FieldActor *color_actor;
+    FieldActor *render_actor;
+    FieldActor *flag_actor;
     GteMatrix scale_matrix;
     register GteMatrix *first_matrix asm("$3");
     GteMatrix *second_matrix;
@@ -68,20 +68,20 @@ int Task_SetGteMatrix(int **args) {
     u32 flags;
 
     setup_actor = D2F0_setup[0];
-    S32_AT(setup_actor, 0x1FC) = S16_AT(setup_actor, 0x2A);
-    S32_AT(setup_actor, 0x200) = S16_AT(setup_actor, 0x2E);
-    S32_AT(setup_actor, 0x204) = S16_AT(setup_actor, 0x32);
+    setup_actor->render_object.model_matrix.translation[0] = S16_AT(setup_actor, 0x2A);
+    setup_actor->render_object.model_matrix.translation[1] = S16_AT(setup_actor, 0x2E);
+    setup_actor->render_object.model_matrix.translation[2] = S16_AT(setup_actor, 0x32);
     U16_AT(setup_actor, 0x1E0) = U16_AT(setup_actor, 0x38);
     U16_AT(setup_actor, 0x1E2) = U16_AT(setup_actor, 0x3A);
     U16_AT(setup_actor, 0x1E4) = U16_AT(setup_actor, 0x3C);
-    RotMatrix((GteShortVector *)(setup_actor + 0x1E0),
-              (GteMatrix *)(setup_actor + 0x1E8));
+    RotMatrix((GteShortVector *)((u8 *)setup_actor + 0x1E0),
+              (GteMatrix *)&setup_actor->render_object.model_matrix);
 
     matrix_actor = D2F0_matrix[0];
-    scale_matrix.m[0][0] = U16_AT(matrix_actor, 0x26);
-    scale_matrix.m[1][1] = U16_AT(matrix_actor, 0x26);
-    scale_matrix.m[2][2] = U16_AT(matrix_actor, 0x26);
-    first_matrix = (GteMatrix *)(matrix_actor + 0x1E8);
+    scale_matrix.m[0][0] = matrix_actor->move_speed;
+    scale_matrix.m[1][1] = matrix_actor->move_speed;
+    scale_matrix.m[2][2] = matrix_actor->move_speed;
+    first_matrix = (GteMatrix *)&matrix_actor->render_object.model_matrix;
     scale_matrix.t[2] = 0;
     scale_matrix.t[1] = 0;
     scale_matrix.t[0] = 0;
@@ -98,14 +98,14 @@ int Task_SetGteMatrix(int **args) {
     gte_stir123_column(first_matrix);
 
     gte_ldrtir12_matrix_column(&scale_matrix.m[0][1]);
-    second_matrix = (GteMatrix *)(D2F0_axis1[0] + 0x1E8);
+    second_matrix = (GteMatrix *)&D2F0_axis1[0]->render_object.model_matrix;
     gte_stir123_column_at(&second_matrix->m[0][1]);
 
     gte_ldrtir12_matrix_column(&scale_matrix.m[0][2]);
-    third_matrix = (GteMatrix *)(D2F0_axis2[0] + 0x1E8);
+    third_matrix = (GteMatrix *)&D2F0_axis2[0]->render_object.model_matrix;
     gte_stir123_column_at(&third_matrix->m[0][2]);
 
-    translation_matrix = (GteMatrix *)(D2F0_translation[0] + 0x1E8);
+    translation_matrix = (GteMatrix *)&D2F0_translation[0]->render_object.model_matrix;
     gte_ldtransmatrix(translation_matrix);
     gte_ldv0_word3_at(scale_matrix.t);
     gte_cop2_hazard_slot();
@@ -116,27 +116,27 @@ int Task_SetGteMatrix(int **args) {
     gte_swc2_11_8(translation_matrix->t);
 
     color_actor = D2F0_color0[0];
-    U8_AT(color_actor, 0x23C) = *args[0];
-    U8_AT(D2F0_color1[0], 0x23D) = *args[1];
-    U8_AT(D2F0_color2[0], 0x23E) = *args[2];
+    color_actor->render_object.shade = *args[0];
+    D2F0_color1[0]->render_object.lightNegativeY = *args[1];
+    D2F0_color2[0]->render_object.lightPositiveY = *args[2];
 
-    Render_InitRoomPrimState(D2F0_render0[0] + 0x1B4);
+    Render_InitRoomPrimState(&D2F0_render0[0]->render_object);
     render_actor = D2F0_render1[0];
-    Anim_BuildRotationMatrices(render_actor + 0x1B4,
-                               PTR_AT(render_actor, 0x1B0), 0, 1);
-    Render_TransformVertices(D2F0_render2[0] + 0x1B4);
-    Render_TransformSkinnedVertices(D2F0_render3[0] + 0x1B4, D_800B89F8);
-    Render_DrawObject(D2F0_render4[0] + 0x1B4, D_800BEA40.words);
-    Render_UpdateClutTable(D2F0_render5[0] + 0x1B4, 1,
+    Anim_BuildRotationMatrices(&render_actor->render_object,
+                               render_actor->action_data, 0, 1);
+    Render_TransformVertices(&D2F0_render2[0]->render_object);
+    Render_TransformSkinnedVertices(&D2F0_render3[0]->render_object, D_800B89F8);
+    Render_DrawObject(&D2F0_render4[0]->render_object, D_800BEA40.words);
+    Render_UpdateClutTable(&D2F0_render5[0]->render_object, 1,
                            (s16)CDDC_draw0.value.signed_value);
 
-    flags = U32_AT(flag_actor = D2F0_flags[0], 0x98);
+    flags = (flag_actor = D2F0_flags[0])->flags;
     if ((flags & 0x10000000) != 0) {
         first_draw_slot = CDDC_toggle0_load.value.signed_value;
         first_draw_slot ^= 1;
         CDDC_toggle0_store.value.signed_value = first_draw_slot;
-        Render_DrawObject(flag_actor + 0x1B4, D_800BEA40.words);
-        Render_UpdateClutTable(D2F0_redraw[0] + 0x1B4, 1,
+        Render_DrawObject(&flag_actor->render_object, D_800BEA40.words);
+        Render_UpdateClutTable(&D2F0_redraw[0]->render_object, 1,
                                (s16)CDDC_draw1.value.signed_value);
         second_draw_slot = CDDC_toggle1_load.value.signed_value;
         second_draw_slot ^= 1;
@@ -146,13 +146,13 @@ int Task_SetGteMatrix(int **args) {
     if ((flags & 0x08000000) == 0) {
         result = 0;
         script_ptr = D_8009CE00;
-        U32_AT(flag_actor, 0x98) = flags | 0x08000000;
+        flag_actor->flags = flags | 0x08000000;
         task_state = D_8009D300;
         D_8009CE00 = script_ptr - 5;
         S32_AT(task_state, 0x10) = 1;
         return result;
     }
-    U32_AT(flag_actor, 0x98) = flags & 0xF7FFFFFF;
+    flag_actor->flags = flags & 0xF7FFFFFF;
 success:
     return 1;
 }
