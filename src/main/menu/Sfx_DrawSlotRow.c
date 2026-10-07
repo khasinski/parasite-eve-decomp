@@ -112,7 +112,7 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
     temp_v1 = g_InvItemPtr[arg0];
     var_a1 = NULL;
     if ((temp_v1 - 0x100) < 0x80U) {
-        temp_v1_2 = (ItemDataRecord *)((temp_v1 << 5) + g_EquipItemDataTable);
+        temp_v1_2 = &((ItemDataRecord *)g_EquipItemDataTable)[temp_v1];
         if (temp_v1_2->flags & 0x10) {
             var_a1 = g_EquipItemDataTable + 0x31F8;
             if (temp_v1_2->kind == 9) {
@@ -139,7 +139,7 @@ block_8:
         temp_v1_3 = g_InvItemPtr[arg0];
         temp_a1 = temp_v1_3;
         if ((temp_v1_3 - 0x100) < 0x80U) {
-            var_v0 = (ItemDataRecord *)((temp_v1_3 << 5) + g_EquipItemDataTable);
+            var_v0 = &((ItemDataRecord *)g_EquipItemDataTable)[temp_v1_3];
         } else {
             temp_a0 = temp_v1_3 - 1;
             if (temp_a0 < 0xFFU) {
