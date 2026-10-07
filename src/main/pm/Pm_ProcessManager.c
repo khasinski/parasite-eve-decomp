@@ -359,14 +359,12 @@ int Pm_Start(int arg0) {
 #undef PE1_GAME_STATE_LEGACY_RAW_VIEW
 
 int Pm_Exec(int arg0) {
-    register int offset asm("$2");
     char *entry;
     int state;
     int cmd;
     PmCommand *handler;
     int (*callback)(PmSlotHeader *);
     PmCommand **table;
-    int table_offset;
     unsigned int i;
 
     if ((unsigned int)arg0 >= 0x16) {
@@ -383,9 +381,7 @@ int Pm_Exec(int arg0) {
         offset_hi -= idx;
         entry = g_PmSlotTable2Raw + (offset_hi << 2);
     } else {
-        offset = (((((arg0 * 4) + arg0) << 5) + arg0) << 2) - arg0;
-        offset <<= 2;
-        entry = g_PmSlotTableRaw + offset;
+        entry = (char *)&g_PmSlotTableTyped[arg0];
     }
 
     state = *(u8 *)entry;
@@ -417,9 +413,7 @@ int Pm_Exec(int arg0) {
                 offset_hi -= idx;
                 cleanup = g_PmSlotTable2Raw + (offset_hi << 2);
             } else {
-                offset = (((((arg0 * 4) + arg0) << 5) + arg0) << 2) - arg0;
-                offset <<= 2;
-                cleanup = g_PmSlotTableRaw + offset;
+                cleanup = (char *)&g_PmSlotTableTyped[arg0];
             }
             if (*(u8 *)(cleanup + 1) == 0x72) {
                 for (i = 0x6C; i < 0x73; i++) {
@@ -450,8 +444,7 @@ int Pm_Exec(int arg0) {
     }
 
     table = g_PmCmdHandlerTable;
-    table_offset = cmd << 2;
-    handler = *(PmCommand **)(table_offset + (int)table);
+    handler = table[cmd];
     if (handler == 0) {
         return -0x15;
     }
