@@ -1,3 +1,4 @@
+#include "pe1/inventory.h"
 extern unsigned char D_800C0EAC[];
 extern unsigned char D_800C0EB1[];
 extern short D_800C1F80[];
@@ -6,9 +7,9 @@ extern short D_800923F8[];
 extern int D_800A77F0[];
 
 void Inv_RebuildSelectionBitset(void) {
-    unsigned char *entry;
-    register unsigned char *limit_tmp asm("$3");
-    register unsigned char *end asm("$5");
+    ItemDataRecord *entry;
+    register ItemDataRecord *limit_tmp asm("$3");
+    register ItemDataRecord *end asm("$5");
     short *list;
     short *range;
     short *range_stop_ptr;
@@ -19,13 +20,13 @@ void Inv_RebuildSelectionBitset(void) {
     int *table;
     int *table_base;
 
-    entry = D_800C0EAC;
-    limit_tmp = entry + 0x1000;
+    entry = (ItemDataRecord *)D_800C0EAC;
+    limit_tmp = entry + 0x80;
     if (entry < limit_tmp) {
         end = limit_tmp;
         do {
-            entry[5] &= 0xF7;
-            entry += 0x20;
+            entry->flags &= 0xF7;
+            entry++;
         } while (entry < end);
     }
 
@@ -65,16 +66,16 @@ void Inv_RebuildSelectionBitset(void) {
         } while (range < range_end);
     }
 
-    entry = D_800C0EAC;
-    limit_tmp = entry + 0x1000;
+    entry = (ItemDataRecord *)D_800C0EAC;
+    limit_tmp = entry + 0x80;
     if (entry < limit_tmp) {
         end = limit_tmp;
         do {
-            if ((entry[5] & 0x18) == 0) {
-                entry[0] = 0;
+            if ((entry->flags & 0x18) == 0) {
+                entry->pad_00[0] = 0;
             }
-            entry[5] &= 0xF7;
-            entry += 0x20;
+            entry->flags &= 0xF7;
+            entry++;
         } while (entry < end);
     }
 }
