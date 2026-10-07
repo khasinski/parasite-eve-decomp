@@ -57,7 +57,6 @@ void Draw_AllocColorQuad(int width, int height) {
     u32 modeTag;
     u32 secondTag;
     register u32 linkHigh asm("$2");
-    register u32 secondMaskTop asm("$5");
     int darkColor;
     int darkerColor;
 
@@ -183,10 +182,10 @@ second_done:
     D_8009D110 = darkColor;
     D_8009D114 = darkerColor;
     D_8009D10C = 0;
-    secondMaskTop = 0xFF000000;
+    tileMask24 = 0xFF000000;
     ot = D_8009D11C;
-    packet->tag = (secondTag & secondMaskTop) | (*ot & mask24);
-    linkHigh = *ot & secondMaskTop;
+    packet->tag = (secondTag & tileMask24) | (*ot & mask24);
+    linkHigh = *ot & tileMask24;
     old = D_8009D100;
     *ot = linkHigh | ((u32)packet & mask24);
 
