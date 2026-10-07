@@ -20,7 +20,7 @@ void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,
     int r, g, b;
     int u, v;
     int width, height;
-    register int clut asm("$19");
+    int clut;
     int page;
     int intensity;
     register RenderColor *color;

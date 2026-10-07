@@ -32,7 +32,7 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
         matrix.m[2][0] = matrix.m[2][1] = 0;
     RotMatrixZ(y, &matrix);
     {
-        register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)&matrix;
+        const GteMatrixWords *words = (const GteMatrixWords *)&matrix;
         gte_ldrotmatrix(words);
     }
     gte_lwc2_0_0(&offset);
