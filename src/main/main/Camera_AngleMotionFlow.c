@@ -18,8 +18,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNode, target1c) == 0x1C,
 /* MASPSX_FLAGS: -G8 */
 
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
-#define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
-#define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 
 extern Pe1GlobalSlot D_8009D254;
 extern FieldActor *D_8009D2F0[];
@@ -156,14 +154,12 @@ int Camera_TrackRelativeOffset(int **args) {
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
 extern s32 g_SceneDataTable0;
-extern void * g_CurrentEntity[];
+extern FieldActor *g_CurrentEntity[];
 #define g_CurrentEntity (g_CurrentEntity[0])
 extern TaskNode *g_TaskNodePool;
 
-s32 Camera_StepAngleFade(u8 *arg0) {
+s32 Camera_StepAngleFade(s32 **arg0) {
     register s32 temp_a1 asm("$5");
     s32 ta1c;
     register s32 ta1b asm("$6");
@@ -197,7 +193,7 @@ s32 Camera_StepAngleFade(u8 *arg0) {
     s32 temp_v0_2;
     s32 tve;
     TaskNode *p24;
-    u8 *p26;
+    FieldActor *p26;
     s32 t3aa;
     register s32 sumb asm("$2");
     s32 tmask4;
@@ -208,15 +204,15 @@ s32 Camera_StepAngleFade(u8 *arg0) {
     s32 temp_v0_3;
     s32 temp_v0_4;
 
-    t3araw = M2C_FIELD(g_CurrentEntity, u16 *, 0x3A);
+    t3araw = (u16)g_CurrentEntity->rot_y;
     temp_a1 = t3araw & 0xFFF;
     p300 = g_TaskNodePool;
     temp_t1 = p300->flags;
     ta1c = temp_a1;
     if (!(temp_t1 & 0x20)) {
         ta1b = temp_a1;
-                tv0p = M2C_FIELD(arg0, s32 **, 0);
-        pa3 = M2C_FIELD(arg0, u16 **, 4);
+                tv0p = arg0[0];
+        pa3 = (u16 *)arg0[1];
         tv0 = *tv0p;
         temp_a3 = *pa3;
         temp_v1x = tv0 & 0xFFF;
@@ -310,17 +306,17 @@ block_21:
     }
 block_24:
     p24 = g_TaskNodePool;
-    M2C_FIELD(g_CurrentEntity, u16 *, 0x3A) = (u16) tv0c;
+    g_CurrentEntity->rot_y = (u16) tv0c;
     p24->flags = (u16) (p24->flags & 0xFFDF);
     ret = 1;
     goto exit;
 block_26:
     ret = 0;
         p26 = g_CurrentEntity;
-    t3aa = M2C_FIELD(p26, u16 *, 0x3A);
+    t3aa = (u16)p26->rot_y;
     g_SceneDataTable0 -= 0x10;
     t3aa = t3aa + ta12c;
-    M2C_FIELD(p26, u16 *, 0x3A) = (u16) t3aa;
+    p26->rot_y = (u16) t3aa;
     g_TaskNodePool->active = 1;
 exit:
     return ret;
