@@ -1,11 +1,14 @@
-extern void *g_FieldEngineObject __asm__("D_800F32D0");
+#include "pe1/field_anim.h"
+#include "pe1/field_actor.h"
+
+extern FieldAnimObjectPrefix *g_FieldEngineObject __asm__("D_800F32D0");
 
 void Asset_Find08w(int arg0, int arg1, int arg2, int arg3, int arg4);
 
 void func_800D3F64(int arg0, int arg1) {
-    int **ctx;
-    register int *child asm("$3");
-    register int *node asm("$2");
+    FieldAnimObjectPrefix *ctx;
+    register FieldActor *child asm("$3");
+    register RenderMatrix *node asm("$2");
     volatile short sx;
     volatile short sy;
     volatile short sz;
@@ -14,37 +17,35 @@ void func_800D3F64(int arg0, int arg1) {
     int z;
 
     ctx = g_FieldEngineObject;
-    child = ctx[2];
-    node = (int *)child[0x8E];
-    x = node[5];
+    child = ctx->actor;
+    node = child->render_object.matrices;
+    x = node->translation[0];
     sx = x;
     asm volatile("" ::: "memory");
     x = (short)x;
-    node = (int *)child[0x8E];
-    y = node[6];
+    node = child->render_object.matrices;
+    y = node->translation[1];
     sy = y;
     asm volatile("" ::: "memory");
     y = (short)y;
-    node = (int *)child[0x8E];
-    z = node[7];
+    node = child->render_object.matrices;
+    z = node->translation[2];
     sz = z;
     z = (short)z;
     Asset_Find08w(arg0, arg1, x, y, z);
 }
 
 
-extern void *g_FieldEngineObject __asm__("D_800F32D0");
-
 int func_800D3FD8(void) {
-    int **ctx;
-    int *node;
+    FieldAnimObjectPrefix *ctx;
+    FieldActorState *node;
     int value;
 
     ctx = g_FieldEngineObject;
-    node = (int *)ctx[2][0];
+    node = ctx->actor->state;
     value = 0x80;
     if (node != 0) {
-        value = node[2];
+        value = node->progress;
         if (value >= 0x41) {
             value = 0x80;
         }
