@@ -14,7 +14,7 @@ extern int D_800A76C8;
 extern int D_800A76CC;
 extern char * volatile g_GeomState;
 extern int g_CollisionPlaneTable;
-extern char *g_CollisionDb;
+extern CollisionDatabase *g_CollisionDb;
 /* Camera base angles at 0x800BD020. As a record, the second argument load
  * stays behind the first store: GCC 2.7 lets a varying array load pass a
  * store to a fixed scalar, but not to a structure member. */
@@ -295,7 +295,7 @@ int Task_SetObjEntryFlag80(int **arg0) {
     int value;
     if (g_CollisionPlaneTable == 0) {
         int index;
-        char *base;
+        CollisionDatabase *base;
         int *arg = arg0[0];
 
         index = *arg;
@@ -303,12 +303,12 @@ int Task_SetObjEntryFlag80(int **arg0) {
         base = g_CollisionDb;
         asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 11);
-        base_entry = *(char **)(base + 0x1C);
+        base_entry = base->triangles.pointer;
         /* Keep the base load branch-local while allowing the final shift into the jump delay slot. */
         entry = (char *)((int)entry << 1);
     } else {
         register int index asm("$2");
-        char *base;
+        CollisionDatabase *base;
         int *arg = arg0[0];
 
         index = *arg;
@@ -316,7 +316,7 @@ int Task_SetObjEntryFlag80(int **arg0) {
         base = g_CollisionDb;
         asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 7);
-        base_entry = *(char **)(base + 0x1C);
+        base_entry = base->triangles.pointer;
         /* Keep the base load branch-local without materializing the add before the join. */
         asm volatile("" : : "r"(base_entry));
         entry = (char *)((int)entry << 2);
@@ -334,7 +334,7 @@ int Task_ClearObjEntryFlag80(int **arg0) {
     int value;
     if (g_CollisionPlaneTable == 0) {
         int index;
-        char *base;
+        CollisionDatabase *base;
         int *arg = arg0[0];
 
         index = *arg;
@@ -342,12 +342,12 @@ int Task_ClearObjEntryFlag80(int **arg0) {
         base = g_CollisionDb;
         asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 11);
-        base_entry = *(char **)(base + 0x1C);
+        base_entry = base->triangles.pointer;
         /* Keep the base load branch-local while allowing the final shift into the jump delay slot. */
         entry = (char *)((int)entry << 1);
     } else {
         register int index asm("$2");
-        char *base;
+        CollisionDatabase *base;
         int *arg = arg0[0];
 
         index = *arg;
@@ -355,7 +355,7 @@ int Task_ClearObjEntryFlag80(int **arg0) {
         base = g_CollisionDb;
         asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 7);
-        base_entry = *(char **)(base + 0x1C);
+        base_entry = base->triangles.pointer;
         /* Keep the base load branch-local without materializing the add before the join. */
         asm volatile("" : : "r"(base_entry));
         entry = (char *)((int)entry << 2);
