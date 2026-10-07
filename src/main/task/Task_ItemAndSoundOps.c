@@ -8,10 +8,11 @@
 #include "pe1/scene_transition.h"
 #include "pe1/menu_inventory.h"
 #include "common.h"
+#include "pe1/task_node.h"
 
 extern int g_GameState[];
 extern int g_SceneDataTable0;
-extern int *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 extern int g_GameStateFlags[];
 extern int g_GameStateFlagsWrite[] asm("g_GameStateFlags");
 
@@ -35,7 +36,7 @@ int Task_OpenMemCardDialog(void) {
     int cursor;
 
     if ((state[0] & 0x1000) == 0) {
-        node = g_TaskNodePool;
+        node = (int *)g_TaskNodePool;
         flags = *(unsigned short *)(node + 2);
         if (flags & 0x20) {
             goto finish;
@@ -55,18 +56,18 @@ finish:
     Menu_OpenStartupMemCardDialog();
     {
         register int ret asm("$2") = state[0];
-        int *tail_node = g_TaskNodePool;
+        TaskNode *tail_node = g_TaskNodePool;
 
         int tail_flags;
         asm volatile("" : : "r"(ret), "r"(tail_node));
         ret |= 0x9000;
         state[0] = ret;
         ret = g_GameStateFlags[0];
-        tail_flags = *(unsigned short *)(tail_node + 2);
+        tail_flags = tail_node->flags;
         ret |= 4;
         tail_flags &= 0xFFDF;
         g_GameStateFlagsWrite[0] = ret;
-        *(unsigned short *)(tail_node + 2) = tail_flags;
+        tail_node->flags = tail_flags;
         asm volatile("" : : : "$2", "memory");
         return 1;
     }
@@ -83,7 +84,7 @@ int Task_ShowReceivedItem(int **arg0) {
         goto ret_one;
     }
 
-    node = g_TaskNodePool;
+    node = (int *)g_TaskNodePool;
     flags = *(unsigned short *)(node + 2);
     if (flags & 0x20) {
         goto finish;
@@ -100,18 +101,18 @@ finish:
     Menu_CreateItemUsePanel(**saved);
     {
         register int ret asm("$2") = state[0];
-        int *tail_node = g_TaskNodePool;
+        TaskNode *tail_node = g_TaskNodePool;
 
         int tail_flags;
         asm volatile("" : : "r"(ret), "r"(tail_node));
         ret |= 0x9000;
         state[0] = ret;
         ret = g_GameStateFlags[0];
-        tail_flags = *(unsigned short *)(tail_node + 2);
+        tail_flags = tail_node->flags;
         ret |= 4;
         tail_flags &= 0xFFDF;
         g_GameStateFlagsWrite[0] = ret;
-        *(unsigned short *)(tail_node + 2) = tail_flags;
+        tail_node->flags = tail_flags;
     }
 
 ret_one:
@@ -120,14 +121,14 @@ ret_one:
 
 int Task_RunInvCommand(int **arg0) {
     int **saved = arg0;
-    int *node;
+    TaskNode *node;
     int flags;
     int cursor;
     int temp;
 
     {
-        int *first_node = g_TaskNodePool;
-        if ((*(unsigned short *)(first_node + 2) & 0x20) == 0) {
+        TaskNode *first_node = g_TaskNodePool;
+        if ((first_node->flags & 0x20) == 0) {
             goto call_builder;
         }
     }
@@ -141,15 +142,15 @@ call_builder:
 
 after_builder:
     if (MenuWidget_HasActiveNodes() != 0) {
-        int *active_node = g_TaskNodePool;
+        TaskNode *active_node = g_TaskNodePool;
         node = active_node;
-        flags = *(unsigned short *)(node + 2);
+        flags = node->flags;
         if (flags & 0x20) {
             goto set_pending;
         }
         {
             int *state = g_GameState;
-            *(unsigned short *)(node + 2) = flags | 0x20;
+            node->flags = flags | 0x20;
             state[0] |= 0x9000;
             Render_BeginSceneLoad();
         }
@@ -163,7 +164,7 @@ pop_state:
         node = g_TaskNodePool;
         cursor -= 0x1C;
         g_SceneDataTable0 = cursor;
-        node[4] = 1;
+        node->active = 1;
         return 0;
     }
 
@@ -171,10 +172,10 @@ pop_state:
     if (temp != 0) {
         *saved[3] = temp;
         {
-            int *clear_node = g_TaskNodePool;
-            register int clear_flags asm("$2") = *(unsigned short *)(clear_node + 2);
+            TaskNode *clear_node = g_TaskNodePool;
+            register int clear_flags asm("$2") = clear_node->flags;
             clear_flags &= 0xFFDF;
-            *(unsigned short *)(clear_node + 2) = clear_flags;
+            clear_node->flags = clear_flags;
         }
         return 1;
     }
