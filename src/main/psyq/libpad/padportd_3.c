@@ -36,9 +36,9 @@ int MemCard_DmaCompleteCallback(int result) {
     int offset;
     int nextResult;
 
-    asm("" : "=r"(objects) : "0"(&D_800A5B70[0]));
+    objects = &D_800A5B70[0];
     ignoredResult = -9;
-    asm("" : "=r"(channelResults) : "0"(&D_8009B77C[0]));
+    channelResults = &D_8009B77C[0];
 
     do {
         index = D_8009B764;
