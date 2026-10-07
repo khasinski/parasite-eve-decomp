@@ -21,11 +21,10 @@ int Task_RotateEntityAngle(int **arg0) {
     ptr = g_CurrentEntity;
     {
         int signed_value;
-        register int copy asm("$3");
         signed_value = *(short *)(ptr + 0x3A);
-        copy = signed_value;
+        value = signed_value;
         if (signed_value < 0) {
-            signed_value = copy + 0x1000;
+            signed_value = value + 0x1000;
             *(u16 *)(ptr + 0x3A) = signed_value;
         }
     }
