@@ -252,12 +252,10 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
                 return;
             }
             {
-                register s16 *xy0 asm("$4") = &packet->x0;
-                register s16 *xy1 asm("$3") = &packet->x1;
+                s16 *xy0 = &packet->x0;
+                s16 *xy1 = &packet->x1;
                 s16 *xy2 = &packet->x2;
-                gte_stsxy0(xy0);
-                gte_stsxy1(xy1);
-                gte_stsxy2(xy2);
+                gte_stsxy3(xy0, xy1, xy2);
             }
             gte_cop2_hazard_slot();
             gte_cop2_hazard_slot();
@@ -575,12 +573,10 @@ void func_800D2370(GteShortVector *position, GteRotation *rotation,
     gte_stmac0(&depth);
     if (depth != 0) {
         {
-            register s16 *xy0 asm("$4") = &packet->x0;
-            register s16 *xy1 asm("$3") = &packet->x1;
+            s16 *xy0 = &packet->x0;
+            s16 *xy1 = &packet->x1;
             s16 *xy2 = &packet->x2;
-            gte_stsxy0(xy0);
-            gte_stsxy1(xy1);
-            gte_stsxy2(xy2);
+            gte_stsxy3(xy0, xy1, xy2);
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
