@@ -67,28 +67,28 @@
         {                                                                                          \
             u16 *column = (u16 *)(src) + 1;                                     \
             \
-            asm volatile("" : "=r"(column) : "0"(column)); \
+            \
             Render_XformLoadAxis(column);                                                          \
             column = (u16 *)(dst) + 1;                                                             \
             \
-            asm volatile("" : "=r"(column) : "0"(column)); \
+            \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             register u16 *column asm("$2") = (u16 *)(src) + 2;                                     \
             \
-            asm volatile("" : "=r"(column) : "0"(column)); \
+            \
             Render_XformLoadAxis(column);                                                          \
             column = (u16 *)(dst) + 2;                                                             \
             \
-            asm volatile("" : "=r"(column) : "0"(column)); \
+            \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             u16 *packed;                                                        \
             if (S8_AT(commands, 0) == 0) {                                                         \
                 packed = (u16 *)((s32 *)(src) + 5);                                                \
-                __asm__("" : "=r"(packed) : "0"(packed));                                          \
+                \
                 gte_ldlv0(packed);                                                                 \
             } else {                                                                               \
                 gte_ldlv0(zero0);                                                                  \
@@ -168,21 +168,21 @@
         {                                                                                          \
             u16 *column = (u16 *)((actor) + 0x34);                              \
             \
-            asm volatile("" : "=r"(column) : "0"(column)); \
+            \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             u16 *column = (u16 *)((actor) + 0x36);                              \
             \
-            asm volatile("" : "=r"(column) : "0"(column)); \
+            \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             u16 *column = (u16 *)((actor) + 0x38);                              \
             \
-            asm volatile("" : "=r"(column) : "0"(column)); \
+            \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
@@ -193,7 +193,7 @@
         Render_XformLoadTrans(parent_matrix);                                                      \
         {                                                                                          \
             u16 *packed = (u16 *)((actor) + 0x48);                              \
-            __asm__("" : "=r"(packed) : "0"(packed));                                              \
+            \
             gte_ldlv0(packed);                                                                     \
             gte_rt();                                                                              \
             gte_stlvl(packed);                                                                     \
@@ -203,13 +203,13 @@
 void Render_TransformVertices(RenderObjectEntity *input) {
     u8 *actor = (u8 *)input;
     s32 *zero0 = (s32 *)0x1F800000;
-    register s32 *zero4 asm("$18") = (s32 *)0x1F800004;
+    s32 *zero4 = (s32 *)0x1F800004;
     s32 *zero8 = (s32 *)0x1F800008;
     s32 *matrix_stack = (s32 *)0x1F80000C;
     register s32 *stack_top asm("$17");
     u8 *commands;
-    register u8 *out_matrix asm("$6");
-    register u8 *out_vertices asm("$9");
+    u8 *out_matrix;
+    u8 *out_vertices;
     u8 *header;
     s32 *current_matrix;
     s32 *src_matrix;
@@ -320,7 +320,7 @@ void Render_TransformVertices(RenderObjectEntity *input) {
         gte_rt();                                                                                  \
         {                                                                                          \
             u8 *output = (u8 *)(dst);                                           \
-            asm("" : "=r"(output) : "0"(output));                                                  \
+            \
             gte_stsv(output);                                                                      \
         }                                                                                          \
     }
@@ -352,28 +352,28 @@ void Render_TransformVertices(RenderObjectEntity *input) {
         Skinned_StoreAxis((s16 *)(out_matrix));                                                    \
         {                                                                                          \
             u16 *src = (u16 *)(bone_expr) + 1;                                  \
-            asm volatile("" : "=r"(src) : "0"(src)); \
+            \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
                 register s16 *dst asm("$9") = (s16 *)0x1F800002;                                   \
-                asm volatile("" : "=r"(dst) : "0"(dst)); \
+                \
                 Skinned_StoreAxis(dst);                                                            \
             }                                                                                      \
         }                                                                                          \
         {                                                                                          \
             u16 *src = (u16 *)(bone_expr) + 2;                                  \
-            asm volatile("" : "=r"(src) : "0"(src)); \
+            \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
                 register s16 *dst asm("$9") = (s16 *)0x1F800004;                                   \
-                asm volatile("" : "=r"(dst) : "0"(dst)); \
+                \
                 Skinned_StoreAxis(dst);                                                            \
             }                                                                                      \
         }                                                                                          \
         Render_SkinnedLoadTrans(view_matrix);                                                      \
         {                                                                                          \
             u8 *src = (u8 *)(bone_expr) + 20;                                   \
-            asm("" : "=r"(src) : "0"(src));                                                        \
+            \
             gte_ldlv0(src);                                                                        \
             gte_rt();                                                                              \
             {                                                                                      \
@@ -417,8 +417,7 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
         matrix = (s32 *)((u8 *)actor->matrices + index * 32);
         Render_SkinnedLoadFullMatrix(matrix);
     }
-    asm("" : "=r"(scratch_matrix) : "0"(scratch_matrix));
-    {
+        {
         int value = header->anchor_y;
         D_8009CD9A = value;
     }
