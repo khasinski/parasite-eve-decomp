@@ -11,7 +11,7 @@ TaskNode *Task_AllocNode(int arg0, TaskNode *arg1) {
     TaskNode *node;
     TaskNode *next;
     unsigned short seq;
-    register int one asm("$3");
+    unsigned short value;
 
     node = g_TaskNodeFreeListHead;
     next = node->next;
@@ -31,15 +31,15 @@ TaskNode *Task_AllocNode(int arg0, TaskNode *arg1) {
     }
 
     seq = g_TaskNodeSeqCounter;
-    one = 1;
+    value = 1;
     node->trigger_value = 0;
     node->current = arg0;
     node->next_value = 0;
-    node->active = one;
+    node->active = value;
     node->flags = 0;
-    one = seq + 1;
+    value = seq + 1;
     node->seq = seq;
-    g_TaskNodeSeqCounter = one;
+    g_TaskNodeSeqCounter = value;
 
     return node;
 }
@@ -63,7 +63,7 @@ void Task_GarbageCollectNodes(void) {
                 TaskNode *node;
                 TaskNode *next;
 
-                node = (TaskNode *)group->task_node_lists[i];
+                node = group->task_node_lists[i];
                 if (node != 0) {
                     do {
                         next = node->next;
@@ -71,8 +71,7 @@ void Task_GarbageCollectNodes(void) {
                             if (node->prev != 0) {
                                 node->prev->next = next;
                             } else {
-                                group->task_node_lists[i] =
-                                    next;
+                                group->task_node_lists[i] = next;
                             }
 
                             if (node->next != 0) {
