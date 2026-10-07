@@ -92,13 +92,9 @@ void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,
     width = width * scale_x / 8192;
     height = height * scale_y / 8192;
     {
-        register s32 z asm("$12");
         s32 *depthOut = &depth;
         asm volatile("" : "=r"(depthOut) : "0"(depthOut));
-        gte_getsz3(z);
-        gte_cop2_hazard_slot();
-        z >>= 2;
-        *depthOut = z;
+        gte_stszotz(depthOut);
 
     }
     depth -= (u16)D_800F3368.depth;

@@ -114,12 +114,9 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
         gte_cop2_hazard_slot();
         gte_avsz3_command();
         {
-            register s32 z asm("$12");
             register u32 *out asm("$5") = &depth;
             asm volatile("" : "=r"(out) : "0"(out));
-            gte_getsz3(z);
-            gte_cop2_hazard_slot();
-            *out = z >> 2;
+            gte_stszotz(out);
         }
         depth -= bias;
         if (depth < 0x1000) {
@@ -263,10 +260,7 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
             gte_cop2_hazard_slot();
             gte_avsz3_command();
             {
-                register s32 z asm("$12");
-                gte_getsz3(z);
-                gte_cop2_hazard_slot();
-                *depthOut = z >> 2;
+                gte_stszotz(depthOut);
             }
             depth -= bias;
             if (depth >= 0x1000) {
@@ -407,13 +401,9 @@ void func_800D1DEC(void *position, void *colorArg, int scale, int abr)
     glow->b >>= 2;
     gte_stsxy2(&point->x);
     {
-        register s32 z asm("$12");
         s32 *out = (s32 *)&depth;
         asm volatile("" : "=r"(out) : "0"(out));
-        gte_getsz3(z);
-        gte_cop2_hazard_slot();
-        z >>= 2;
-        *out = z;
+        gte_stszotz(out);
     }
     depth -= (u16)D_800F3374;
     if (depth < 0x1000) {
@@ -463,13 +453,9 @@ void func_800D2104(GteShortVector *position, u8 *color, int scale, int abr)
     tile->b = color[2] * scale / 128;
     gte_stsxy2(&tile->x);
     {
-        register s32 z asm("$12");
         s32 *out = (s32 *)&depth;
         asm volatile("" : "=r"(out) : "0"(out));
-        gte_getsz3(z);
-        gte_cop2_hazard_slot();
-        z >>= 2;
-        *out = z;
+        gte_stszotz(out);
     }
     depth -= (u16)D_800F3374;
     if (depth < 0x1000) {
@@ -599,12 +585,9 @@ void func_800D2370(GteShortVector *position, GteRotation *rotation,
         gte_cop2_hazard_slot();
         gte_avsz3_command();
         {
-            register s32 z asm("$12");
             register u32 *out asm("$5") = &depth;
             asm volatile("" : "=r"(out) : "0"(out));
-            gte_getsz3(z);
-            gte_cop2_hazard_slot();
-            *out = z >> 2;
+            gte_stszotz(out);
         }
         depth -= bias;
         if (depth < 0x1000) {

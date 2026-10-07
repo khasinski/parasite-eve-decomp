@@ -40,15 +40,11 @@ void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
     line->g0 = color0[1] * scale0 / 128;
     line->b0 = color0[2] * scale0 / 128;
     {
-        register s32 z asm("$12");
         s32 *out;
         asm volatile("" : : : "memory");
         out = (s32 *)&depth[0];
         asm volatile("" : "=r"(out) : "0"(out));
-        gte_getsz3(z);
-        gte_cop2_hazard_slot();
-        z >>= 2;
-        *out = z;
+        gte_stszotz(out);
     }
     gte_stsxy2(&line->x0);
     line->tag.length = 4;
@@ -62,15 +58,11 @@ void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
     line->g1 = color1[1] * scale1 / 128;
     line->b1 = color1[2] * scale0 / 128;
     {
-        register s32 z asm("$12");
         s32 *out;
         asm volatile("" : : : "memory");
         out = (s32 *)&depth[1];
         asm volatile("" : "=r"(out) : "0"(out));
-        gte_getsz3(z);
-        gte_cop2_hazard_slot();
-        z >>= 2;
-        *out = z;
+        gte_stszotz(out);
     }
     gte_stsxy2(&line->x1);
     depth[0] = (int)(depth[0] + depth[1]) / 2 - (u16)D_800F3374;

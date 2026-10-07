@@ -344,11 +344,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
                 break;
             }
             {
-                register s32 z asm("$12");
-                gte_getsz3(z);
-                gte_cop2_hazard_slot();
-                z >>= 2;
-                *depthOut = z;
+                gte_stszotz(depthOut);
                 asm("" : : "m"(*depthOut) : "$2", "memory");
             }
             {
@@ -1109,12 +1105,9 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
         gte_cop2_hazard_slot();
         gte_avsz3_command();
         {
-            register s32 z asm("$12");
             u32 *out = &depth;
             asm volatile("" : "=r"(out) : "0"(out));
-            gte_getsz3(z);
-            gte_cop2_hazard_slot();
-            *out = z >> 2;
+            gte_stszotz(out);
         }
         {
             GteShortVector *last = &vertices[3];

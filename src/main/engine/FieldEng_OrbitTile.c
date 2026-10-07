@@ -51,13 +51,9 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
     glow->b >>= 2;
     gte_stsxy2(&point->x);
     {
-        register s32 z asm("$12");
         s32 *out = (s32 *)&depth;
         asm volatile("" : "=r"(out) : "0"(out));
-        gte_getsz3(z);
-        gte_cop2_hazard_slot();
-        z >>= 2;
-        *out = z;
+        gte_stszotz(out);
     }
     depth -= (u16)D_800F3374;
     if (depth < 0x1000) {
