@@ -34,7 +34,6 @@ void StCdInterrupt(void) {
     u32 *copySource;
     register u32 frame;
     register u32 subheaderIndex;
-    register u32 discardIndex asm("$4");
     register u32 copyIndex asm("$4");
     register u32 dmaControl;
     u8 *subheaderByte;
@@ -79,11 +78,11 @@ void StCdInterrupt(void) {
                     subheaderIndex += 1;
                     *subheaderByte = *D_8009B334;
                 } while (subheaderIndex < 4U);
-                discardIndex = 0;
+                copyIndex = 0;
                 do {
                     *D_8009B334;
-                    discardIndex += 1;
-                } while (discardIndex < 8U);
+                    copyIndex += 1;
+                } while (copyIndex < 8U);
             }
             dmaControl = 0x11000000;
             if (D_800C0DB8 != 0) {
