@@ -1,15 +1,15 @@
 #include "pe1/menu_inventory.h"
+#include "pe1/menu_draw_list.h"
 
 int Inv_GetPackedListItem(int arg0);
 int BattleCmd_GetRemainingAmmo(int *out);
 int Inv_GetSlotHighlightState(int arg0, int arg1);
 void Draw_AllocColorQuad(int arg0, int arg1);
-void Menu_DrawModNameItem(void) __asm__("func_80050B48");
-void MenuWidget_DrawList(int arg0, void (*callback)(void));
+void Menu_DrawModNameItem(int index) __asm__("func_80050B48");
 
-void Menu_DrawEquipModList(int arg0) {
+void Menu_DrawEquipModList(MenuWidgetNode *arg0) {
     int temp;
-    int saved_arg;
+    MenuWidgetNode *saved_arg;
     int var_s0;
     int var_s1;
     int ret;
