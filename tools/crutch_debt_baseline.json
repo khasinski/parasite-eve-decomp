@@ -19,7 +19,7 @@
     "pins": 1411,
     "pointer_integer_casts": 544,
     "postpass": 0,
-    "raw_offset_dereferences": 1302,
+    "raw_offset_dereferences": 1301,
     "stack_reserves": 8,
     "stack_switch_macros": 1,
     "statement_expressions": 3,
