@@ -36,9 +36,9 @@ int CD_getsector(void *destination, int words) {
 
     {
         volatile u32 *request = D_8009B28C;
-        register u32 requestValue asm("$2") = 0x1325;
+        dmaCommand = 0x1325;
 
-        *request = requestValue;
+        *request = dmaCommand;
     }
     return 0;
 }
