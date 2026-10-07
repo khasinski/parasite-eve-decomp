@@ -31,44 +31,26 @@ int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth) {
     asm volatile("" : "=r"(bound) : "0"(bound));
     comparison = truncated < bound;
     screenY += y;
-    if (comparison) {
-        goto clamp_x;
+    if (!comparison) {
+        bound = current->ot12;
+        minimum = bound;
+        asm volatile("" : "=r"(bound) : "0"(bound));
+        comparison = bound < truncated;
     }
-    bound = current->ot12;
-    minimum = bound;
-    asm volatile("" : "=r"(bound) : "0"(bound));
-    comparison = bound < truncated;
-    if (comparison) {
-        goto clamp_x;
-    }
-    goto x_done;
-
-clamp_x:
-    screenX = minimum;
-
-x_done:
+    screenX = comparison ? minimum : screenX;
     shifted = (unsigned int)screenY << 16;
     bound = current->ot14;
     truncated = (int)shifted >> 16;
     minimum = bound;
     asm volatile("" : "=r"(bound) : "0"(bound));
     comparison = truncated < bound;
-    if (comparison) {
-        goto clamp_y;
+    if (!comparison) {
+        bound = current->ot16;
+        minimum = bound;
+        asm volatile("" : "=r"(bound) : "0"(bound));
+        comparison = bound < truncated;
     }
-    bound = current->ot16;
-    minimum = bound;
-    asm volatile("" : "=r"(bound) : "0"(bound));
-    comparison = bound < truncated;
-    if (comparison) {
-        goto clamp_y;
-    }
-    goto y_done;
-
-clamp_y:
-    screenY = minimum;
-
-y_done:
+    screenY = comparison ? minimum : screenY;
     current->scr_x = screenX;
     current->scr_y = screenY;
     mask = 0xFFF000FF;
