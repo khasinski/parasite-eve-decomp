@@ -217,7 +217,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
     s32 depth;
     s32 *depthOut;
     FieldStripPacket *packet;
-    register GteMatrix *view asm("$8");
+    GteMatrix *view;
     GteShortVector *vertex;
     int r;
     register int g asm("$3");
@@ -473,8 +473,7 @@ void FieldEng_TransformTranslation(const GteShortVector *input,
 
     asm volatile("" : "=r"(slot) : "0"(slot));
     matrix = (GteMatrixWords *)*slot;
-    asm("" : : "r"(matrix));
-    gte_ldrotmatrix(matrix);
+        gte_ldrotmatrix(matrix);
     gte_ldtransmatrix(matrix);
 
     gte_lwc2_0_0(input);
@@ -548,10 +547,10 @@ void func_800CF844(GteShortVector *origin, GteShortVector *out, int radius,
     GteMatrix rotation;
     GteMatrix rollMatrix;
     GteMatrixWords *matrix;
-    register GteMatrixWords *rolled asm("$16");
+    GteMatrixWords *rolled;
     register GteMatrixWords *camera asm("$8");
     GteMatrix **slot;
-    register GteShortVector *rotationAngles asm("$4");
+    GteShortVector *rotationAngles;
 
     rollMatrix = D_800C2270;
     forward.y = 0;
@@ -560,8 +559,7 @@ void func_800CF844(GteShortVector *origin, GteShortVector *out, int radius,
     rotationAngles = angles;
     matrix = (GteMatrixWords *)&rotation;
     RotMatrixYXZ(rotationAngles, (GteMatrix *)matrix);
-    asm volatile("" : "=r"(matrix) : "0"(matrix) : "memory");
-    gte_ldrotmatrix(matrix);
+        gte_ldrotmatrix(matrix);
     rotation.t[0] = 0;
     rotation.t[1] = 0;
     rotation.t[2] = 0;
@@ -580,8 +578,7 @@ void func_800CF844(GteShortVector *origin, GteShortVector *out, int radius,
     rolled = (GteMatrixWords *)&rollMatrix;
     RotMatrixZ(roll, (GteMatrix *)rolled);
     MulRotMatrix((GteMatrix *)rolled);
-    asm volatile("" : "=r"(rolled) : "0"(rolled) : "memory");
-    gte_ldrotmatrix(rolled);
+        gte_ldrotmatrix(rolled);
     gte_ldtransmatrix(matrix);
     gte_lwc2_0_0(&side);
     gte_lwc2_1_4(&side);
@@ -632,17 +629,15 @@ void func_800CFB7C(GteShortVector *input, s16 distance, GteShortVector *out)
     GteVector result;
     GteMatrixWords local;
     GteMatrixWords *matrix;
-    register const GteMatrixWords *saved asm("$19") = (const GteMatrixWords *)D_800BCFA4.value;
+    const GteMatrixWords *saved = (const GteMatrixWords *)D_800BCFA4.value;
 
-    asm("" : : "r"(out), "r"(distance) : "$16");
-    matrix = &local;
+        matrix = &local;
     input->z = 0;
     rotation.x = input->x;
     rotation.y = input->y;
     rotation.z = input->z;
     RotMatrixYXZ(&rotation, (GteMatrix *)matrix);
-    asm volatile("" : "=r"(matrix) : "0"(matrix) : "memory");
-    gte_ldrotmatrix(matrix);
+        gte_ldrotmatrix(matrix);
     local.tx = 0;
     local.ty = 0;
     local.tz = 0;
@@ -855,8 +850,7 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
     bias = (u16)D_800F3374;
     view = D_800BCFA4.value;
     /* Preserve position/color allocation without pinning the arguments. */
-    asm("" : : "r"(position));
-    if (color0 == 0) {
+        if (color0 == 0) {
         centre.r = centre.g = centre.b = 0;
     } else {
         centre.r = color0->r * intensity / 128;
@@ -1016,8 +1010,7 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
     bias = (u16)D_800F3374;
     view = D_800BCFA4.value;
     /* Preserve the position/color register allocation without argument pins. */
-    asm("" : : "r"(position));
-    if (color0 == 0) {
+        if (color0 == 0) {
         innerColor.r = innerColor.g = innerColor.b = 0;
     } else {
         innerColor.r = color0->r * intensity / 128;
