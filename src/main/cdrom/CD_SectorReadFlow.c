@@ -42,17 +42,16 @@ int CD_ReadSectors(unsigned kind, unsigned int index, int channel, void *buffer,
             {
                 u8 *table = (u8 *)root;
                 u32 first;
-                register u32 length asm("$5");
                 register u32 start asm("$3");
                 entries = table + byteOffset;
                 first = *(u16 *)entry;
                 asm("" : "=r"(first) : "0"(first), "r"(entries) : "memory");
-                length = *(volatile u16 *)(entries + 6);
-                asm("" : "=r"(length) : "0"(length) : "memory");
-                length -= entry[0];
+                scaledIndex = *(volatile u16 *)(entries + 6);
+                asm("" : "=r"(scaledIndex) : "0"(scaledIndex) : "memory");
+                scaledIndex -= entry[0];
                 transferValue = *archiveLba + first;
                 start = state->pe_image_base_lba + transferValue;
-                D_8009D174 = length;
+                D_8009D174 = scaledIndex;
                 D_8009D178 = D_8009D174;
                 isSequence = kind == 0;
                 D_8009D170 = start;
