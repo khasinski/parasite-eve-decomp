@@ -114,9 +114,12 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
         gte_cop2_hazard_slot();
         gte_avsz3_command();
         {
+            register s32 z asm("$12");
             register u32 *out asm("$5") = &depth;
             asm volatile("" : "=r"(out) : "0"(out));
-            gte_stszotz(out);
+            gte_getsz3(z);
+            gte_cop2_hazard_slot();
+            *out = z >> 2;
         }
         depth -= bias;
         if (depth < 0x1000) {
