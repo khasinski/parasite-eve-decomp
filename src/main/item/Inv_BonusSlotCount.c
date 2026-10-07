@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern int g_StatScaleBase[];
+#include "pe1/stat_modifiers.h"
 
 extern int g_InvBonusSlotCount;
 
