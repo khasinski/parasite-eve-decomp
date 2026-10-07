@@ -1,12 +1,12 @@
 #include "common.h"
 #include "pe1/inventory.h"
+#include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 void Draw_StatePush(void);
 void Draw_StatePop(void);
 void Draw_AllocSprite(int glyph);
-void Draw_OffsetCursor(int x, int y);
 void Draw_PrintRawText(u8 *text);
 void Draw_PrintNumberWidth3Unk(int value);
 
@@ -77,7 +77,6 @@ done:
 }
 
 extern unsigned char g_CursorRenderDataBlock[];
-void *Str_LookupTable8(unsigned int arg0);
 void Sfx_CursorRenderData(ItemDataRecord *record) {
     u8 *cursor;
 
@@ -94,14 +93,10 @@ void Sfx_CursorRenderData(ItemDataRecord *record) {
 }
 
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
 
-void *Str_LookupTable8(u32);
 extern s32 g_InvCategoryBaseItemId;
 extern s16 *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
-extern u8 g_KeyItemDataTable[] __asm__("g_KeyItemDataTable");
-extern u8 g_EquipItemDataTable[] __asm__("g_EquipItemDataTable");
 
 void Sfx_DrawActiveListSlot(s32 arg0) {
     s16 temp_v1;
@@ -109,22 +104,22 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
     register s32 temp_a1 asm("$5");
     u32 temp_a0;
     register u32 var_a0 asm("$4");
-    void *temp_v1_2;
-    void *var_a1;
-    void *var_v0;
-    void *saved_a1;
+    ItemDataRecord *temp_v1_2;
+    u8 *var_a1;
+    ItemDataRecord *var_v0;
+    u8 *saved_a1;
 
     temp_v1 = g_InvItemPtr[arg0];
     var_a1 = NULL;
     if ((temp_v1 - 0x100) < 0x80U) {
-        temp_v1_2 = (temp_v1 << 5) + g_EquipItemDataTable;
-        if (M2C_FIELD(temp_v1_2, u8 *, 5) & 0x10) {
+        temp_v1_2 = (ItemDataRecord *)((temp_v1 << 5) + g_EquipItemDataTable);
+        if (temp_v1_2->flags & 0x10) {
             var_a1 = g_EquipItemDataTable + 0x31F8;
-            if (M2C_FIELD(temp_v1_2, u8 *, 6) == 9) {
+            if (temp_v1_2->kind == 9) {
                 var_a1 = g_EquipItemDataTable + 0x3208;
             }
         } else {
-            var_a0 = M2C_FIELD(temp_v1_2, u8 *, 4) - 1;
+            var_a0 = temp_v1_2->itemId - 1;
             goto block_8;
         }
     } else {
@@ -144,14 +139,14 @@ block_8:
         temp_v1_3 = g_InvItemPtr[arg0];
         temp_a1 = temp_v1_3;
         if ((temp_v1_3 - 0x100) < 0x80U) {
-            var_v0 = (temp_v1_3 << 5) + g_EquipItemDataTable;
+            var_v0 = (ItemDataRecord *)((temp_v1_3 << 5) + g_EquipItemDataTable);
         } else {
             temp_a0 = temp_v1_3 - 1;
             if (temp_a0 < 0xFFU) {
                 var_v0 = Item_LookupBaseData(temp_a0);
             } else if ((temp_a1 - 0x200) < 9U) {
                 temp_v1_3 = temp_a1 << 5;
-                var_v0 = temp_v1_3 + g_KeyItemDataTable;
+                var_v0 = (ItemDataRecord *)(temp_v1_3 + g_KeyItemDataTable);
             } else {
                 goto block_17;
             }
@@ -161,6 +156,6 @@ block_17:
         var_v0 = NULL;
     }
     if (var_v0 != NULL) {
-        Sfx_DrawSlotRow((ItemDataRecord *)var_v0, saved_a1);
+        Sfx_DrawSlotRow(var_v0, saved_a1);
     }
 }
