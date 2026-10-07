@@ -22,7 +22,7 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     register u16 *outColumn1 asm("$20");
     u16 *outColumn2;
     const s32 *translation;
-    register s32 *outTranslation asm("$21");
+    s32 *outTranslation;
     register GteShortVector *nextSpin asm("$23");
     GteShortVector *thirdSpin;
     GteShortVector *fourthSpin;

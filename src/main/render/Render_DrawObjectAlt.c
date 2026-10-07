@@ -32,7 +32,7 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
     RenderObjectPart *part;
     s32 i;
     register s32 partOffset asm("$24");
-    register int *matrix asm("$25");
+    int *matrix;
     s32 limitShift;
     s32 count;
     u32 frameReserve[4];
