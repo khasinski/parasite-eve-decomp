@@ -20,7 +20,7 @@ extern u32 D_800B1640[];
 
 void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *projectionMatrix) {
     RenderObjectEntity *entity = input;
-    register s32 *projectMatrix asm("$16") = projectionMatrix;
+    s32 *projectMatrix = projectionMatrix;
     s16 savedLimit = limit;
     s32 changed;
     register volatile RenderVec3s *scratch asm("$24") = (RenderVec3s *)0x1F800000;
