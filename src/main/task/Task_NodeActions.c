@@ -234,7 +234,7 @@ int Task_TurnTowardPointStep(int **arg0) {
     int y;
     int step;
     int angle;
-    register int stepped asm("$6");
+    int stepped;
     int original;
 
     {
