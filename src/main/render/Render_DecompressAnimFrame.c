@@ -115,11 +115,7 @@ extern s16 *D_8009CDD4;
 #define Anim_StoreAxis(dst) gte_stclmv((dst))
 
 
-#define AnimLoadVector(source) \
-    do { \
-        asm volatile("" : "=r"(source) : "0"(source)); \
-        gte_ldlv0(source); \
-    } while (0)
+#define AnimLoadVector(source) gte_ldlv0(source)
 
 s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32 arg3, u32 *arg4, u8 *arg5) {
     struct _m2c_stack_Render_DecompressAnimFrame stack;
@@ -211,12 +207,10 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     gte_ldrotmatrix(matrix_value);
     {
         short *column = &stack.matrix.rotation[0][0];
-        asm volatile("" : "=r"(column) : "0"(column));
         Anim_LoadAxis(column);
         Anim_StoreAxis(column);
         {
             u16 *src = (u16 *)&stack.matrix.rotation[0][1];
-            asm volatile("" : "=r"(src) : "0"(src));
             {
                 volatile s16 *out = (volatile s16 *)src;
                 Anim_LoadAxis(src);
@@ -225,7 +219,6 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
         }
         {
             u16 *src = (u16 *)&stack.matrix.rotation[0][2];
-            asm volatile("" : "=r"(src) : "0"(src));
             {
                 volatile s16 *out = (volatile s16 *)src;
                 Anim_LoadAxis(src);
