@@ -78,7 +78,7 @@ void RoomEffect_GroundEruptionInit(char *owner, void *arg1, char *state) {
         g_RoomEruptionShadowPacket.mode = two;
     }
     g_RoomEruptionDebrisPacket.code = 0x47;
-    asm volatile("" : "=r"(modeB) : "0"(5));
+    modeB = 5;
     PE1_COMPILER_LAUNDER(workState);
     workState += 4;
     PE1_COMPILER_LAUNDER(workState);
@@ -179,7 +179,7 @@ void RoomEffect_GroundEruptionTransformColumn(void *arg0, void *arg1,
     char *workState;
     char *owner;
 
-    asm("" : "=r"(workState) : "0"(state));
+    workState = state;
     owner = func_800C2B50();
     stack.seed = s_EruptionColumnSeed;
 
@@ -416,7 +416,7 @@ void RoomEffect_GroundEruptionDrawRing(void *arg0, void *arg1, char *state) {
     int ownerZ;
     u8 code;
 
-    asm("" : "=r"(workState) : "0"(state));
+    workState = state;
     rawOwner = func_800C2B50();
     i = 0;
     PE1_COMPILER_USE(i);
