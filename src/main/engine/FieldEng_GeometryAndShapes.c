@@ -932,12 +932,10 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
         gte_rtpt_command();
         *packet = template;
         {
-            register s16 *xy0 asm("$4") = &packet->x0;
-            register s16 *xy1 asm("$3") = &packet->x1;
+            s16 *xy0 = &packet->x0;
+            s16 *xy1 = &packet->x1;
             s16 *xy2 = &packet->x2;
-            gte_stsxy0(xy0);
-            gte_stsxy1(xy1);
-            gte_stsxy2(xy2);
+            gte_stsxy3(xy0, xy1, xy2);
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
@@ -1094,12 +1092,10 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
         gte_rtpt_command();
         *packet = template;
         {
-            register s16 *xy0 asm("$4") = &packet->x0;
-            register s16 *xy1 asm("$3") = &packet->x1;
+            s16 *xy0 = &packet->x0;
+            s16 *xy1 = &packet->x1;
             s16 *xy2 = &packet->x2;
-            gte_stsxy0(xy0);
-            gte_stsxy1(xy1);
-            gte_stsxy2(xy2);
+            gte_stsxy3(xy0, xy1, xy2);
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
