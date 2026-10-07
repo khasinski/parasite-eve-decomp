@@ -34,8 +34,7 @@ int func_800C689C(GteShortVector *tri)
     {
         register const GteVector *edge asm("$8");
         edge = &D_800E2844->edge[0];
-        asm volatile("" : "=r"(edge) : "0"(edge));
-        gte_ldopv1_psyq(edge);
+                gte_ldopv1_psyq(edge);
     }
     {
         register const GteVector *relative asm("$8");
@@ -65,8 +64,7 @@ int func_800C689C(GteShortVector *tri)
     {
         const GteVector *edge;
         edge = &second->edge[1];
-        asm volatile("" : "=r"(edge) : "0"(edge));
-        gte_ldopv1_psyq(edge);
+                gte_ldopv1_psyq(edge);
     }
     {
         const GteVector *relative;
@@ -93,8 +91,7 @@ int func_800C689C(GteShortVector *tri)
     {
         const GteVector *edge;
         edge = &third->edge[2];
-        asm volatile("" : "=r"(edge) : "0"(edge));
-        gte_ldopv1_psyq(edge);
+                gte_ldopv1_psyq(edge);
     }
     {
         const GteVector *relative;
