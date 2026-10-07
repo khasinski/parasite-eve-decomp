@@ -9,17 +9,16 @@ MathU64 *_mul_mant_d(MathU64 *out, unsigned int left, unsigned int right) {
     volatile MathU64 result;
     MathU64 part;
     register unsigned int low asm("$18") = left & 0xFFFF;
-    register unsigned int rightLow asm("$2");
     register unsigned int firstProduct;
     register unsigned int product asm("$2");
     register MathU64 *resultPtr;
 
     asm("" : "=r"(low), "=r"(right) : "0"(low), "1"(right));
-    rightLow = right & 0xFFFF;
-    firstProduct = low * rightLow;
+    product = right & 0xFFFF;
+    firstProduct = low * product;
     asm("" : "=r"(firstProduct) : "0"(firstProduct), "r"(low));
     left >>= 16;
-    product = left * rightLow;
+    product = left * product;
     resultPtr = (MathU64 *)&result;
     asm("" : "=r"(resultPtr) : "0"(resultPtr));
     result.hi = 0;
