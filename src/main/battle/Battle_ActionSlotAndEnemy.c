@@ -17,8 +17,6 @@ extern BattleEntity *D_800B8A90[];
 #define LOAD_RESULT (D_8009D208_absolute.value)
 int Battle_ProcessActionSlot(BattleEntity *actor)
 {
-    /* Materialize the actor pointer before the prologue saves registers. */
-    asm volatile("" : : "r"(actor));
     {
         EnemyCombatant *state = (EnemyCombatant *)actor->core;
         int phase = state->coreFlags & 0x6000;
