@@ -207,7 +207,6 @@ int Render_FindAnimEntry(RenderObjectEntity *arg0, int arg1, s32 *out) {
 #define Bone_StoreVec(output_expr)                                                                 \
     {                                                                                              \
         s16 *out = (s16 *)(output_expr);                                                           \
-        asm volatile("" : "=r"(out) : "0"(out)); \
         gte_stsv(out); \
     }
 void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
