@@ -405,7 +405,6 @@ void func_800D1DEC(void *position, void *colorArg, int scale, int abr)
     gte_stsxy2(&point->x);
     {
         s32 *out = (s32 *)&depth;
-        asm volatile("" : "=r"(out) : "0"(out));
         gte_stszotz(out);
     }
     depth -= (u16)D_800F3374;
@@ -457,7 +456,6 @@ void func_800D2104(GteShortVector *position, u8 *color, int scale, int abr)
     gte_stsxy2(&tile->x);
     {
         s32 *out = (s32 *)&depth;
-        asm volatile("" : "=r"(out) : "0"(out));
         gte_stszotz(out);
     }
     depth -= (u16)D_800F3374;
@@ -588,8 +586,7 @@ void func_800D2370(GteShortVector *position, GteRotation *rotation,
         gte_cop2_hazard_slot();
         gte_avsz3_command();
         {
-            register u32 *out asm("$5") = &depth;
-            asm volatile("" : "=r"(out) : "0"(out));
+            u32 *out = &depth;
             gte_stszotz(out);
         }
         depth -= bias;

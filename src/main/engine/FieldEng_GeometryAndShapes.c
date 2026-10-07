@@ -1106,7 +1106,6 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
         gte_avsz3_command();
         {
             u32 *out = &depth;
-            asm volatile("" : "=r"(out) : "0"(out));
             gte_stszotz(out);
         }
         {

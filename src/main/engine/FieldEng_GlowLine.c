@@ -41,9 +41,7 @@ void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
     line->b0 = color0[2] * scale0 / 128;
     {
         s32 *out;
-        asm volatile("" : : : "memory");
         out = (s32 *)&depth[0];
-        asm volatile("" : "=r"(out) : "0"(out));
         gte_stszotz(out);
     }
     gte_stsxy2(&line->x0);
@@ -59,9 +57,7 @@ void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
     line->b1 = color1[2] * scale0 / 128;
     {
         s32 *out;
-        asm volatile("" : : : "memory");
         out = (s32 *)&depth[1];
-        asm volatile("" : "=r"(out) : "0"(out));
         gte_stszotz(out);
     }
     gte_stsxy2(&line->x1);

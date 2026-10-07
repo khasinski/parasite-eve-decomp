@@ -52,7 +52,6 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
     gte_stsxy2(&point->x);
     {
         s32 *out = (s32 *)&depth;
-        asm volatile("" : "=r"(out) : "0"(out));
         gte_stszotz(out);
     }
     depth -= (u16)D_800F3374;
