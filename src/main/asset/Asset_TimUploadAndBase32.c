@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/asset_key_record.h"
 #include "pe1/psyq_tim.h"
 #include "pe1/scene_assets.h"
 
@@ -136,7 +137,7 @@ void *Asset_FindTable08ByU32Key(void *arg0, s32 arg1) {
     u32 mask;
     register u8 *table asm("$2");
     u32 descriptor;
-    register u8 *record asm("$6");
+    register AssetU32KeyRecord *record asm("$6");
     register s32 none asm("$7");
     register u32 i asm("$8");
     u32 data_mask;
@@ -153,14 +154,14 @@ void *Asset_FindTable08ByU32Key(void *arg0, s32 arg1) {
 
     if (descriptor != 0) {
         data_mask = 0xFFFFFF;
-        record = table;
+        record = (AssetU32KeyRecord *)table;
         do {
-            if (*(s32 *)(record + 8) == arg1) {
-                return (u8 *)arg0 + (*(u32 *)(record + 4) & data_mask);
+            if (record->key == arg1) {
+                return (u8 *)arg0 + (record->packedOffset & data_mask);
             }
             i++;
             if (i < descriptor) {
-                record += 0xC;
+                record++;
                 continue;
             }
             break;
