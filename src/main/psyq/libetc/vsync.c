@@ -15,7 +15,6 @@ int VSync(int mode) {
     register int target asm("$2");
     int frames;
     int next;
-    int one;
     volatile u32 sample;
 
     status = *gpu_status;
@@ -36,11 +35,8 @@ int VSync(int mode) {
     v_wait(target, frames);
     status = *gpu_status;
     next = g_VSyncCount;
-    /* Keep the frame argument after the counter load and distinct from +1. */
-    __asm__ volatile("" : : "r"(next) : "$5");
-    one = 1;
-    __asm__ volatile("" : "=r"(one) : "0"(one));
-    v_wait(next + 1, one);
+    next++;
+    v_wait(next, 1);
     if (status & 0x400000) {
         while (!((status ^ *gpu_status) & 0x80000000)) {}
     }
