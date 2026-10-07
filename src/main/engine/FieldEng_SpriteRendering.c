@@ -430,8 +430,8 @@ void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *placement, u8 mode)
     register GteShortVector *v0 asm("$9");
     register GteShortVector *v1 asm("$10");
     register GteShortVector *v2 asm("$11");
-    register s16 *xy0 asm("$4");
-    register s16 *xy1 asm("$3");
+    register s16 *xy0;
+    register s16 *xy1;
     s16 *xy2;
     FieldStripPacket *packet;
     GteShortVector position;
@@ -582,8 +582,8 @@ void func_800C499C(FieldShadedQuadColors *colors, GteMatrix *placement,
     register GteShortVector *v0 asm("$9");
     register GteShortVector *v1 asm("$10");
     register GteShortVector *v2 asm("$11");
-    register s16 *xy0 asm("$4");
-    register s16 *xy1 asm("$3");
+    register s16 *xy0;
+    register s16 *xy1;
     s16 *xy2;
     FieldShadedQuadPacket *packet;
     GteShortVector position;
