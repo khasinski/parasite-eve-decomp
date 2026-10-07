@@ -8,17 +8,18 @@ void Draw_AllocColorQuad(int arg0, int arg1);
 void Menu_DrawModNameItem(int index) __asm__("func_80050B48");
 
 void Menu_DrawEquipModList(MenuWidgetNode *arg0) {
-    int temp;
+    int ammo;
     MenuWidgetNode *saved_arg;
-    int var_s0;
-    int var_s1;
-    int ret;
+    int remaining;
+    int item;
 
     saved_arg = arg0;
-    var_s1 = Inv_GetPackedListItem(MenuWidget_GridCellIndex(arg0));
-    var_s0 = BattleCmd_GetRemainingAmmo(&temp);
-    asm volatile("" : "=r"(var_s0) : "0"(var_s0));
-    ret = Inv_GetSlotHighlightState(var_s1, var_s0);
-    Draw_AllocColorQuad(var_s0 - ret, temp);
+    item = Inv_GetPackedListItem(MenuWidget_GridCellIndex(arg0));
+    remaining = BattleCmd_GetRemainingAmmo(&ammo);
+    {
+        int highlighted = Inv_GetSlotHighlightState(item, remaining);
+        remaining -= highlighted;
+    }
+    Draw_AllocColorQuad(remaining, ammo);
     MenuWidget_DrawList(saved_arg, Menu_DrawModNameItem);
 }
