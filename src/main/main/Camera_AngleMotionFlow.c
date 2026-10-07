@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/global_slot.h"
 #include "pe1/task_node.h"
+#include "pe1/field_actor.h"
 
 PE1_STATIC_ASSERT(sizeof(TaskNode) == 0x2C, camera_task_node_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNode, flags) == 0x08,
@@ -21,7 +22,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNode, target1c) == 0x1C,
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 
 extern Pe1GlobalSlot D_8009D254;
-extern u8 *D_8009D2F0[];
+extern FieldActor *D_8009D2F0[];
 extern TaskNode *D_8009D300;
 extern int *D_8009CE00;
 
@@ -31,8 +32,8 @@ int rsin(int angle);
 int rcos(int angle);
 
 int Camera_TrackRelativeOffset(int **args) {
-    u8 *speed_entity;
-    u8 *motion_entity;
+    FieldActor *speed_entity;
+    FieldActor *motion_entity;
     TaskNode *init_state;
     TaskNode *camera_state;
     int movement_speed;
@@ -51,14 +52,14 @@ int Camera_TrackRelativeOffset(int **args) {
     int movement_distance;
 
     speed_entity = D_8009D2F0[0];
-    current_x = S32_AT(speed_entity, 0x28);
-    current_z = S32_AT(speed_entity, 0x30);
+    current_x = speed_entity->pos_x;
+    current_z = speed_entity->pos_z;
     if (speed_entity != D_8009D254.value.pointer) {
-        movement_speed = S32_AT(speed_entity, 0x20);
+        movement_speed = speed_entity->move_factor;
     } else {
-        movement_speed = Math_FixedMul(0x50000, S32_AT(speed_entity, 0x20));
+        movement_speed = Math_FixedMul(0x50000, speed_entity->move_factor);
     }
-    movement_speed = Math_FixedMul(movement_speed, U16_AT(D_8009D2F0[0], 0x26) << 4);
+    movement_speed = Math_FixedMul(movement_speed, D_8009D2F0[0]->move_speed << 4);
 
     init_state = D_8009D300;
     if ((init_state->flags & 0x20) == 0) {
@@ -66,7 +67,7 @@ int Camera_TrackRelativeOffset(int **args) {
         target_x = current_x + *args[0];
         target_z = current_z + *args[1];
         init_state->flags |= 0x20;
-        S32_AT(init_state, 0x20) = 0;
+        init_state->field_20 = 0;
         init_state->target14 = turn_speed;
         init_state->target1c = target_z;
         init_state->target18.coordinate = target_x;
@@ -81,7 +82,7 @@ int Camera_TrackRelativeOffset(int **args) {
     target_angle &= 0xFFF;
     desired_angle = target_angle;
     if (turn_speed != 0) {
-        current_angle = S16_AT(D_8009D2F0[0], 0x3A);
+        current_angle = D_8009D2F0[0]->rot_y;
         if (current_angle < desired_angle) {
             angle_difference = desired_angle - current_angle;
             if (angle_difference < 0x800) {
@@ -124,10 +125,10 @@ int Camera_TrackRelativeOffset(int **args) {
             }
         }
         target_angle &= 0xFFF;
-        S16_AT(D_8009D2F0[0], 0x3A) = target_angle;
+        D_8009D2F0[0]->rot_y = target_angle;
     }
 
-    S32_AT(D_8009D2F0[0], 0x68) = Math_FixedMul(-movement_speed, rsin(target_angle) << 4);
+    D_8009D2F0[0]->motion_x = Math_FixedMul(-movement_speed, rsin(target_angle) << 4);
     movement_z = Math_FixedMul(-movement_speed, rcos(target_angle) << 4);
     current_x = (target_x - current_x) >> 16;
     current_z = (target_z - current_z) >> 16;
@@ -136,13 +137,13 @@ int Camera_TrackRelativeOffset(int **args) {
     current_x = S16_AT(motion_entity, 0x6A);
     current_z = movement_z >> 16;
     movement_distance = current_x * current_x + current_z * current_z;
-    S32_AT(motion_entity, 0x70) = movement_z;
+    motion_entity->motion_z = movement_z;
     if (movement_distance >= remaining_distance) {
         camera_state = D_8009D300;
-        S32_AT(motion_entity, 0x28) = target_x;
-        S32_AT(motion_entity, 0x30) = target_z;
-        S32_AT(motion_entity, 0x68) = 0;
-        S32_AT(motion_entity, 0x70) = 0;
+        motion_entity->pos_x = target_x;
+        motion_entity->pos_z = target_z;
+        motion_entity->motion_x = 0;
+        motion_entity->motion_z = 0;
         camera_state->flags &= 0xFFDF;
         return 1;
     } else {
