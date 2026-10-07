@@ -6,14 +6,12 @@
  * contiguous and share the node pool and g_SceneDataTable1 state. */
 
 #include "pe1/reloc_block.h"
+#include "pe1/task_node.h"
 
-extern int g_TaskNodeFreeListHead;
+extern TaskNode *g_TaskNodeFreeListHead;
 extern int g_SceneDataTable0;
-extern int g_TaskNodePool;
-extern short g_TaskNodeSeqCounter;
-extern int D_8009D310[72][11];
-extern int D_8009D334[72][11];
-extern int D_8009DF68[];
+extern TaskNode *g_TaskNodePool;
+extern unsigned short g_TaskNodeSeqCounter;
 extern int g_TaskNodeActiveFlags[64];
 extern int g_TaskScriptOperandTable[16];
 
@@ -121,14 +119,14 @@ void Task_InitNodeFreeList(void) {
 
     i = 0;
     g_TaskNodePool = 0;
-    g_TaskNodeFreeListHead = (int)D_8009D310;
+    g_TaskNodeFreeListHead = D_8009D310;
 
     do {
-        D_8009D334[i][0] = (int)&D_8009D310[i + 1][0];
+        D_8009D310[i].next = &D_8009D310[i + 1];
         i++;
     } while (i < 0x47);
 
-    D_8009DF68[0] = 0;
+    D_8009D310[71].next = 0;
 
     i = 0;
     do {
