@@ -4,43 +4,39 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-#include "include_asm.h"
 
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
 
 void MenuWidget_SetColumnLayout(void *node, int value);
 void MenuWidget_ClearColumnLayout(void *node);
 
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;
-extern struct { char _[16]; } func_8004620C_o __asm__("Menu_InventoryPageInputHandler");
-#define Menu_InventoryPageInputHandler (func_8004620C_o)
-extern struct { char _[16]; } func_8004F9A0_o __asm__("Menu_DrawUsableItemActionList");
-#define Menu_DrawUsableItemActionList (func_8004F9A0_o)
+int Menu_InventoryPageInputHandler(MenuWidgetNode *root, u32 flags);
+void Menu_DrawUsableItemActionList(int arg0);
 
-void Menu_CreateInventoryListView(s32 parent) {
-    void *root;
-    void *node;
+void Menu_CreateInventoryListView(MenuWidgetNode *parent) {
+    MenuWidgetNode *root;
+    MenuWidgetNode *node;
     s32 flags;
     s32 is_layout_locked;
 
     root = MenuWidget_CreateSimpleNode(6, parent, 0, 0);
     node = MenuWidget_CreateNode(6, root, root);
-    M2C_FIELD(root, void **, 0x2C) = &Menu_InventoryPageInputHandler;
-    M2C_FIELD(root, s32 *, 0x40) = 1;
-    M2C_FIELD(node, void **, 0x30) = &Menu_DrawUsableItemActionList;
+    root->update = (void (*)())Menu_InventoryPageInputHandler;
+    root->disabled = 1;
+    node->draw = Menu_DrawUsableItemActionList;
     asm("" : : : "memory");
-    flags = M2C_FIELD(node, s32 *, 0x64);
+    flags = node->layout_flags;
     is_layout_locked = g_MenuLayoutLocked;
     flags |= 0x80;
-    M2C_FIELD(node, s32 *, 0x64) = flags;
+    node->layout_flags = flags;
     if (is_layout_locked != 0) {
         MenuWidget_ClearColumnLayout(node);
     } else if (g_InvItemUsableFlag == 0) {
         MenuWidget_SetColumnLayout(node, 0x14);
     }
-    if (M2C_FIELD(node, s32 *, 0x44) >= 0) {
+    if (node->cursor_x >= 0) {
         MenuWidget_SetCurrentNode(node);
     }
 }
