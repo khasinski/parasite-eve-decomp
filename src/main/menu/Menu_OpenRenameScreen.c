@@ -87,11 +87,10 @@ void Menu_OpenRenameScreen(s32 arg0) {
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 void Sfx_CursorRenderData(ItemDataRecord *record);
-M2C_UNK Draw_OffsetCursor();
-M2C_UNK Draw_AllocSprite();
-s32 Draw_MeasureTextWidth();
-M2C_UNK Draw_PrintRawText();
-M2C_UNK Draw_EmitWipeBarRect();
+#include "pe1/text.h"
+#include "pe1/draw_state.h"
+void Draw_PrintRawText(u8 *text);
+void Draw_EmitWipeBarRect(int width, int height, int mode);
 
 void Menu_DrawSaveMetadataPreview(void);
 
