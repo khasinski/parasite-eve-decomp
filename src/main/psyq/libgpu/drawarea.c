@@ -8,7 +8,6 @@ int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) {
     register int clamped_x asm("$2");
     int signed_coord;
     register int packed_y asm("$3");
-    register int x_mask asm("$2");
     int cmd_base;
     int shifted;
     int limit;
@@ -40,18 +39,17 @@ int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) {
     packed_y = y & 0x3FF;
 
     packed_y <<= 10;
-    x_mask = x & 0x3FF;
+    clamped_x = x & 0x3FF;
     cmd_base = 0xE3000000;
-    x_mask |= cmd_base;
-    x_mask = packed_y | x_mask;
-    return x_mask;
+    clamped_x |= cmd_base;
+    clamped_x = packed_y | clamped_x;
+    return clamped_x;
 }
 
 int Gpu_BuildDrawAreaBottomRightCmd(int x, int y) {
     register int clamped_x asm("$2");
     int signed_coord;
     register int packed_y asm("$3");
-    register int x_mask asm("$2");
     int cmd_base;
     int shifted;
     int limit;
@@ -83,9 +81,9 @@ int Gpu_BuildDrawAreaBottomRightCmd(int x, int y) {
     packed_y = y & 0x3FF;
 
     packed_y <<= 10;
-    x_mask = x & 0x3FF;
+    clamped_x = x & 0x3FF;
     cmd_base = 0xE4000000;
-    x_mask |= cmd_base;
-    x_mask = packed_y | x_mask;
-    return x_mask;
+    clamped_x |= cmd_base;
+    clamped_x = packed_y | clamped_x;
+    return clamped_x;
 }
