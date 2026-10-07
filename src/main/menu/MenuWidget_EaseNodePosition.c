@@ -1,22 +1,21 @@
-#include "common.h"
+#include "pe1/menu_widget.h"
 /* MASPSX_FLAGS: --expand-div */
 
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
-void MenuWidget_EaseNodePosition(void *arg0) {
+void MenuWidget_EaseNodePosition(MenuWidgetNode *arg0) {
     s32 temp_a2;
     s32 temp_v1;
     s32 temp_v1_2;
-    void *temp_a1;
+    MenuWidgetNode *temp_a1;
 
-    temp_a1 = M2C_FIELD(arg0, void **, 0x34);
+    temp_a1 = ((MenuWidgetListNavigation *)arg0)->list;
     if (arg0 != NULL) {
-        temp_v1 = M2C_FIELD(temp_a1, s32 *, 0x38);
-        temp_a2 = M2C_FIELD(temp_a1, s32 *, 0x58);
+        temp_v1 = temp_a1->visible_rows;
+        temp_a2 = temp_a1->y_limit;
         if (temp_v1 < temp_a2) {
-            M2C_FIELD(arg0, s32 *, 0x3C) = ((M2C_FIELD(temp_a1, s32 *, 0x40) * temp_v1 * temp_v1) / temp_a2);
-            temp_v1_2 = M2C_FIELD(temp_a1, s32 *, 0x40);
-            M2C_FIELD(arg0, s32 *, 0x38) = ((temp_v1_2 * M2C_FIELD(temp_a1, s32 *, 0x38) * ((temp_v1_2 * M2C_FIELD(temp_a1, s32 *, 0x5C)) - M2C_FIELD(temp_a1, s32 *, 0x60))) / (M2C_FIELD(temp_a1, s32 *, 0x58) * temp_v1_2));
+            arg0->draw_state = ((temp_a1->disabled * temp_v1 * temp_v1) / temp_a2);
+            temp_v1_2 = temp_a1->disabled;
+            arg0->visible_rows = ((temp_v1_2 * temp_a1->visible_rows * ((temp_v1_2 * temp_a1->scroll_y) - temp_a1->scroll_adjust)) / (temp_a1->y_limit * temp_v1_2));
         }
     }
 }
