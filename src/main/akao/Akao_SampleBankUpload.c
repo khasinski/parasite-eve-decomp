@@ -71,10 +71,8 @@ int Spu_SetStreamModeA(void) {
     return 0;
 }
 
-int Akao_StepNoteSequencer(unsigned char *cursor, unsigned size)
+int Akao_StepNoteSequencer(unsigned char *input, unsigned available)
 {
-    register unsigned char *input asm("$16") = cursor;
-    register unsigned available asm("$18") = size;
     unsigned char *instruments;
     unsigned payload_size;
     unsigned count;
