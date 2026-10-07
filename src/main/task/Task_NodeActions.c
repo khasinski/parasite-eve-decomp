@@ -294,22 +294,21 @@ have_args:
 
     {
         int current = original;
-        register int out asm("$6") = stepped;
         int delta;
 
         if (current < angle) {
             delta = angle - current;
             if (delta < 0x800) {
                 if (step < delta) {
-                    out = current + step;
+                    stepped = current + step;
                 }
             } else if (step < delta) {
-                out = current - step;
-                if (out < 0) {
+                stepped = current - step;
+                if (stepped < 0) {
                     int wrap = current + 0x1000;
                     wrap = wrap - angle;
                     if (wrap < step) {
-                        out = angle;
+                        stepped = angle;
                     }
                 }
             }
@@ -317,20 +316,19 @@ have_args:
             delta = current - angle;
             if (delta < 0x800) {
                 if (step < delta) {
-                    out = current - step;
+                    stepped = current - step;
                 }
             } else if (step < delta) {
-                out = current + step;
-                if (out >= 0x1001) {
+                stepped = current + step;
+                if (stepped >= 0x1001) {
                     int wrap = angle + 0x1000;
                     wrap = wrap - current;
                     if (wrap < step) {
-                        out = angle;
+                        stepped = angle;
                     }
                 }
             }
         }
-        stepped = out;
     }
     {
         FieldActor *state;
