@@ -928,7 +928,6 @@ void Spu_RestoreVoiceFromStereoSlot(AkaoTrack *track, int stereo_voice_index) {
     int idx_arg;
     int flags_arg;
     AkaoVoiceParams *call_params;
-    int index;
     register u32 left asm("$3");
     u32 right;
     register u32 flags asm("$3");
@@ -941,13 +940,7 @@ void Spu_RestoreVoiceFromStereoSlot(AkaoTrack *track, int stereo_voice_index) {
     mask = 0x1FF93;
     idx_arg = index_reg;
     asm volatile("" : "=r"(idx_arg) : "0"(idx_arg));
-    index = idx_arg;
-    index = index << 3;
-    index += idx_arg;
-    index = index << 3;
-    index -= idx_arg;
-    index = index << 2;
-    stereo = (AkaoTrack *)((int)&g_AkaoVoiceStateTable + index);
+    stereo = &g_AkaoVoiceStateTable[idx_arg];
     flags_arg = track_reg->flags;
     asm volatile("" : "=r"(flags_arg) : "0"(flags_arg));
     left = (unsigned short)stereo->volume_left;
