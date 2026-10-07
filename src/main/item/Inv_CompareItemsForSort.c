@@ -3,7 +3,7 @@
 
 #include "pe1/inventory_sort.h"
 
-extern ItemDataRecord *(*g_InvLookupPtr)(short);
+extern ItemDataRecord *(*g_InvLookupPtr)(int);
 
 int Inv_CompareItemsForSort(const short *leftIndex, const short *rightIndex) {
     ItemDataRecord *left;
@@ -82,7 +82,7 @@ left_item_is_empty:
 #include "pe1/inventory.h"
 
 extern s32 D_8009D0A0;
-extern ItemDataRecord *(*g_InvLookupPtr)(s16) __asm__("D_8009D0B4");
+extern ItemDataRecord *(*g_InvLookupPtr)(int) __asm__("D_8009D0B4");
 
 int Inv_CompareItemsByStatForSort(s16 *leftIndex, s16 *rightIndex)
 {
@@ -138,7 +138,7 @@ extern s32 D_8009D0A0;
 extern s32 D_8009D0A4;
 extern u16 *g_InvSortListBase;
 extern s32 g_InvSortListCount;
-extern ItemDataRecord *(*g_InvLookupPtr)(s16);
+extern ItemDataRecord *(*g_InvLookupPtr)(int);
 
 void Inv_SortWeaponSubrange(void) {
     u16 *var_s0;
@@ -192,7 +192,7 @@ extern s32 D_8009D0A0;
 extern s32 D_8009D0A8;
 extern u16 *g_InvSortListBase;
 extern s32 g_InvSortListCount;
-extern ItemDataRecord *(*g_InvLookupPtr)(s16);
+extern ItemDataRecord *(*g_InvLookupPtr)(int);
 
 void Inv_SortAmmoSubrange(void) {
     u16 *var_s0;
