@@ -301,7 +301,6 @@ int Pm_SetGetState(int arg0, int arg1, int arg2) {
 }
 
 int Pm_Start(int arg0) {
-    int offset;
     register int cmd asm("$5");
     PmCommand *handler;
     int (*callback)(void);
@@ -322,9 +321,7 @@ int Pm_Start(int arg0) {
         offset_hi -= idx;
         arg0 = (int)((char *)g_PmSlotTable2 + (offset_hi << 2));
     } else {
-        offset = (((((arg0 * 4) + arg0) << 5) + arg0) << 2) - arg0;
-        offset <<= 2;
-        arg0 = (int)((char *)g_PmSlotTable + offset);
+        arg0 = (int)&g_PmSlotTableTyped[arg0];
     }
 
     if ((unsigned int)(*(u8 *)arg0 - 1) >= 2U) {
@@ -463,7 +460,6 @@ int Pm_Stop(int arg0, int arg1, int arg2) {
     PmCommand *handler;
     int (*callback)(void);
     int result;
-    register int offset asm("$2");
     int orig;
     unsigned int i;
 
@@ -482,9 +478,7 @@ int Pm_Stop(int arg0, int arg1, int arg2) {
         offset_hi -= idx;
         arg0 = (int)(g_PmSlotTable2Raw + (offset_hi << 2));
     } else {
-        offset = (((((orig * 4) + orig) << 5) + orig) << 2) - orig;
-        offset <<= 2;
-        arg0 = (int)(g_PmSlotTableRaw + offset);
+        arg0 = (int)&g_PmSlotTableTyped[orig];
     }
     state = *(u8 *)arg0;
     if ((state == 0) || (state == 6)) {
@@ -526,9 +520,7 @@ int Pm_Stop(int arg0, int arg1, int arg2) {
             offset_hi -= idx;
             arg1 = (int)(g_PmSlotTable2Raw + (offset_hi << 2));
         } else {
-            offset = (((((orig * 4) + orig) << 5) + orig) << 2) - orig;
-            offset <<= 2;
-            arg1 = (int)(g_PmSlotTableRaw + offset);
+            arg1 = (int)&g_PmSlotTableTyped[orig];
         }
         if (*(u8 *)(arg1 + 1) == 0x72) {
             for (i = 0x6C; i < 0x73; i++) {
