@@ -29,6 +29,7 @@ extern u32 D_8009B578;
                           CDROM_SYSTEM_READ_COMMAND_OFFSET))
 
 void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
+    u8 *commandByte;
     register int event = inEvent;
     register u8 *result = inResult;
     register int masked = (u8)event;
@@ -54,9 +55,9 @@ void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
                 state->command.read.command = 11;
             }
             {
-                register u8 *mode asm("$3") = &D_8009B581;
-                asm("" : "=r"(mode) : "0"(mode));
-                *mode = STATE_FROM_MODE(mode)->pendingParamBytes[0];
+                commandByte = &D_8009B581;
+                asm("" : "=r"(commandByte) : "0"(commandByte));
+                *commandByte = STATE_FROM_MODE(commandByte)->pendingParamBytes[0];
             }
             goto dispatch;
         }
@@ -77,17 +78,17 @@ void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
             break;
         case 21:
         case 22: {
-            register u8 *retry asm("$3") = &D_8009B586;
-            asm("" : "=r"(retry) : "0"(retry));
-            *retry = STATE_FROM_RETRY(retry)->pendingCommand;
+            commandByte = &D_8009B586;
+            asm("" : "=r"(commandByte) : "0"(commandByte));
+            *commandByte = STATE_FROM_RETRY(commandByte)->pendingCommand;
             break;
         }
         case 3:
         case 6:
         case 27: {
-            register u8 *param asm("$3") = &D_8009B587;
-            asm("" : "=r"(param) : "0"(param));
-            *param = STATE_FROM_PARAM(param)->pendingCommand;
+            commandByte = &D_8009B587;
+            asm("" : "=r"(commandByte) : "0"(commandByte));
+            *commandByte = STATE_FROM_PARAM(commandByte)->pendingCommand;
             break;
         }
         }
