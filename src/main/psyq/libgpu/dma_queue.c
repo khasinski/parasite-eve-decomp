@@ -38,8 +38,7 @@ int Gpu_SwapDisplayBuffers(void (*function)(u32, u32), u32 *source, int size, u3
         register u32 status;
         register u32 mask;
         if (D_80095874 != D_80095878) goto queued;
-        status = *D_80095860;
-        asm volatile("" : "=r"(status) : "0"(status));
+        status = *(volatile u32 *)D_80095860;
         mask = 0x01000000;
         if (status & mask) goto queued;
         if (state->drawSyncCallback) goto queued;
@@ -148,9 +147,8 @@ int Gpu_SetDisplayBuffer(void) {
     }
     SetIntrMask(D_80095880);
     if (D_80095874 == D_80095878) {
-        register u32 status = *D_80095860;
+        register u32 status = *(volatile u32 *)D_80095860;
         u32 mask;
-        asm volatile("" : "=r"(status) : "0"(status));
         mask = 0x01000000;
         if (!(status & mask)) {
             register u32 *pending = &D_8009574C.syncCallbackPending;
