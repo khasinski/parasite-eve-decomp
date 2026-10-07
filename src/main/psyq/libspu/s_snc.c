@@ -4,8 +4,6 @@
 long SpuSetNoiseClock(long clock) {
     register int input asm("$2");
     int value;
-    register int bits asm("$2");
-    int ret;
     SpuRegs *state;
     u16 flags;
 
@@ -19,15 +17,14 @@ long SpuSetNoiseClock(long clock) {
     }
 
     state = _spu_RXX;
-    bits = value & 0x3F;
-    bits <<= 8;
+    input = value & 0x3F;
+    input <<= 8;
     flags = state->spucnt;
     flags &= 0xC0FF;
-    flags |= bits;
+    flags |= input;
     /* Ordinary store view preserves the SDK write in the return delay slot. */
     *(u16 *)&state->spucnt = flags;
-    ret = value;
-    return ret;
+    return value;
 }
 
 unsigned int gap_akao_Spu_SetGlobalVolumeField1AA_tail_7A700[] __attribute__((section(".text"))) = {
