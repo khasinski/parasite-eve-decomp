@@ -16,7 +16,7 @@ long RotTransPers3(void *v0, void *v1, void *v2, void *sxy0,
     gte_ldv0(v0);
     gte_ldv1(v1);
     gte_ldv2(v2);
-    gte_rtpt_separate();
+    gte_rtpt();
     gte_bind_separate_outputs(sxy1, sxy2, p, flag);
     gte_stsxy3(sxy0, gte_out1, gte_out2);
     gte_stir0(gte_depth_out);
