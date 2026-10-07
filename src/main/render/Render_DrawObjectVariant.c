@@ -90,9 +90,6 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
                     }
                     Render_LoadObjectMatrix(matrix);
                     for (; vertexIndex < part->vertex_count; vertices++) {
-                        register s32 x asm("$12");
-                        register s32 yy asm("$13");
-                        register s32 z asm("$14");
                         gte_lwc2_0_0(vertices);
                         gte_lwc2_1_4(vertices);
                         gte_cop2_hazard_slot();
@@ -100,12 +97,7 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
                         gte_mvmva_rotation_v0_translation_sf12();
                         vertexIndex++;
                         clut++;
-                        gte_mfc2_9(x);
-                        gte_mfc2_10(yy);
-                        gte_mfc2_11(z);
-                        scratch->x = x;
-                        scratch->y = yy;
-                        scratch->z = z;
+                        gte_stsv(scratch);
                         if (threshold < scratch->y) {
                             *clut = *projected;
                             changed++;

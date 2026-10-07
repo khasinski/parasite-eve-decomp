@@ -207,15 +207,8 @@ int Render_FindAnimEntry(RenderObjectEntity *arg0, int arg1, s32 *out) {
 #define Bone_StoreVec(output_expr)                                                                 \
     {                                                                                              \
         s16 *out = (s16 *)(output_expr);                                                           \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
         asm volatile("" : "=r"(out) : "0"(out)); \
-        gte_mfc2_9(x); \
-        gte_mfc2_10(y); \
-        gte_mfc2_11(z); \
-        out[0] = x; \
-        out[1] = y; \
-        out[2] = z; \
-        asm volatile("" : : : "memory");                                                                             \
+        gte_stsv(out); \
     }
 void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     s32 *scratch = (s32 *)0x1F800000;
@@ -271,13 +264,7 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     matrix += 5;
 
     {
-        register u32 low asm("$12"), high asm("$13");
-        high = ((const u16 *)matrix)[2];
-        low = ((const u16 *)matrix)[0];
-        high <<= 16;
-        low |= high;
-        gte_mtc2_0(low);
-        gte_lwc2_1_8(matrix);
+        gte_ldlv0(matrix);
         gte_rt();
         {
             register s32 *dst asm("$9") = (s32 *)0x1F800014;

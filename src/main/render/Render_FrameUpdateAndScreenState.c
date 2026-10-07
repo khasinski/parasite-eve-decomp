@@ -37,13 +37,8 @@ int Render_PrepareFrame(void) {
         register unsigned int cy asm("$7") = 112;
         /* C offset shifts; pins and the empty constraint retain scheduling. */
         {
-            register u32 ofx asm("$12");
-            register u32 ofy asm("$13");
             asm("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy));
-            ofx = (u32)cx << 16;
-            ofy = cy << 16;
-            gte_ctc2_24(ofx);
-            gte_ctc2_25(ofy);
+            gte_SetGeomOffset(cx, cy);
         }
     }
     {

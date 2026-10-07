@@ -112,30 +112,13 @@ extern s16 *D_8009CDD4;
         gte_mvmva_light_ir_sf0(); \
     }
 
-#define Anim_StoreAxis(dst) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        gte_mfc2_9(x); \
-        gte_mfc2_10(y); \
-        gte_mfc2_11(z); \
-        (dst)[0] = x; \
-        (dst)[3] = y; \
-        (dst)[6] = z; \
-        asm volatile("" : : : "memory"); \
-    }
+#define Anim_StoreAxis(dst) gte_stclmv((dst))
 
 
 #define AnimLoadVector(source) \
     do { \
-        register unsigned int packed asm("$12"); \
-        register unsigned int high asm("$13"); \
         asm volatile("" : "=r"(source) : "0"(source)); \
-        high = ((volatile unsigned short *)source)[2]; \
-        packed = ((unsigned short *)source)[0]; \
-        high <<= 16; \
-        packed |= high; \
-        gte_mtc2_0(packed); \
-        gte_lwc2_1_8(source); \
+        gte_ldlv0(source); \
     } while (0)
 
 s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32 arg3, u32 *arg4, u8 *arg5) {
