@@ -218,14 +218,13 @@ int Render_FindAnimEntry(RenderObjectEntity *arg0, int arg1, s32 *out) {
         asm volatile("" : : : "memory");                                                                             \
     }
 void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
-    register s32 *scratch asm("$8") = (s32 *)0x1F800000;
+    s32 *scratch = (s32 *)0x1F800000;
     RenderObjectEntity *actor = input;
     s32 *view = view_input;
     RenderObjectEntity *source;
     int index;
-    register s32 *matrix asm("$6");
-    asm("" : "=r"(scratch) : "0"(scratch));
-    source = actor->animation_source;
+    s32 *matrix;
+        source = actor->animation_source;
     index = (s16)actor->table_index;
     matrix = (s32 *)source->matrices;
     {
@@ -254,22 +253,18 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     Bone_StoreAxis((s16 *)scratch);
     {
         u16 *src = (u16 *)matrix + 1;
-        asm volatile("" : "=r"(src) : "0"(src));
-        Bone_LoadAxis(src);
+                Bone_LoadAxis(src);
         {
             register s16 *dst asm("$9") = (s16 *)0x1F800002;
-            asm volatile("" : "=r"(dst) : "0"(dst));
-            Bone_StoreAxis(dst);
+                        Bone_StoreAxis(dst);
         }
     }
     {
         u16 *src = (u16 *)matrix + 2;
-        asm volatile("" : "=r"(src) : "0"(src));
-        Bone_LoadAxis(src);
+                Bone_LoadAxis(src);
         {
             register s16 *dst asm("$9") = (s16 *)0x1F800004;
-            asm volatile("" : "=r"(dst) : "0"(dst));
-            Bone_StoreAxis(dst);
+                        Bone_StoreAxis(dst);
         }
     }
     BoneLoadTrans(view);
