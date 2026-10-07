@@ -47,7 +47,6 @@ int Task_SpawnChildNode(int **args) {
         entry->active = 1;
         entry->seq = seq;
         entry->flags = 0;
-        asm volatile("" : "=r"(value) : "0"(value));
         value <<= 1;
         value += base;
         entry->current = value;
@@ -234,7 +233,7 @@ int Task_TurnTowardPointStep(int **arg0) {
     int x;
     int y;
     int step;
-    register int angle asm("$3");
+    int angle;
     register int stepped asm("$6");
     int original;
 
