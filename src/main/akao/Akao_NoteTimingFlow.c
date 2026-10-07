@@ -20,7 +20,7 @@ void Seq_ApplyGlobalPitch(void) {
     unsigned short value = D_8009D2B6;
     char *regs;
 
-    __asm__("" : "=r"(regs) : "0"(&D_800C0D90));
+    regs = &D_800C0D90;
     *(int *)regs = 0x1C0;
     D_800C0DA4 = 0;
     D_800C0DA2 = value;
