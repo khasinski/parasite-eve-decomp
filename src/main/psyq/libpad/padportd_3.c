@@ -42,14 +42,13 @@ int MemCard_DmaCompleteCallback(int result) {
 
     do {
         index = D_8009B764;
-        offset = ((index << 4) - index) << 4;
+        offset = index * sizeof(CardObj);
         obj = (CardObj *)(offset + (int)objects);
 
         if (callbackResult != ignoredResult) {
             if (callbackResult == 0) {
                 asm("" : "+r"(callbackResult));
-                offset = index << 2;
-                *(int *)(offset + (int)channelResults) = 0;
+                channelResults[index] = 0;
             } else {
                 _dirFailAuto(obj);
                 CardObj_SwapByteField(obj);
