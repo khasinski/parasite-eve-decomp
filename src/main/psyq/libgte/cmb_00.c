@@ -9,7 +9,9 @@ long RotTransPers4(void *v0, void *v1, void *v2, void *v3,
     int first_flags;
     register int flags asm("$8");
     int result;
-    gte_declare_three_outputs();
+    register void *gte_out0 asm("$8");
+    register void *gte_out1 asm("$9");
+    register void *gte_out2 asm("$10");
 
     gte_ldv0(v0);
     gte_ldv1(v1);
