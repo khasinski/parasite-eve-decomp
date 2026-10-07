@@ -15,8 +15,7 @@ void func_80195E4C(int index, int unused1, int unused2, int source)
 {
     FxCommonVec3 point;
     GteShortVector scratch;
-    register int rawIndex asm("$17") = index;
-    short savedIndex = rawIndex;
+    short savedIndex = index;
     int lookup;
     int result;
     int shortIndex;
@@ -34,7 +33,7 @@ void func_80195E4C(int index, int unused1, int unused2, int source)
     D_8019C040 = result - 2;
     D_8019C050 = 0;
     D_8019C041 = 0;
-    D_8019C042 = rawIndex;
+    D_8019C042 = savedIndex;
     D_8019C02C = 0;
     D_8019C330 = point.x;
     D_8019C334 = point.y;
