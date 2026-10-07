@@ -45,12 +45,16 @@ typedef struct FieldAnimTaskTable {
     u16 sizes[8];
 } FieldAnimTaskTable;
 
-/* Task program registered in D_800E1044: dispatch table plus its script. */
+/* Task program registered in D_800E1044: dispatch table, initializer and script. */
 typedef struct FieldAnimTaskProgram {
     FieldAnimTaskTable table;
-    u8 reserved30[4];
+    int (*initialize)(int, int, int, int);
     u16 *script;
 } FieldAnimTaskProgram;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskProgram, initialize) == 0x30,
+                  field_anim_program_initializer);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskProgram, script) == 0x34,
+                  field_anim_program_script);
 extern char D_800C2244[]; /* "TS No Thread No.%d\n" */
 
 typedef struct FieldAnimTaskContext {
@@ -142,6 +146,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskOwner, tasks.flags) == 0x19,
                   field_anim_owner_flags);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskOwner, tasks.table) == 0x8C,
                   field_anim_owner_table);
+int func_800D4620(FieldAnimTaskOwner *owner);
+int func_800D4698(FieldAnimTaskOwner *owner, int skip,
+                  int arg2, int arg3, int arg4, int arg5);
 int func_800D4704(FieldAnimTaskOwner *owner);
 extern FieldAnimObjectPrefix *D_800F32D0;
 extern s16 D_800E2214[3];
