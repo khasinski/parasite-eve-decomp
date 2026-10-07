@@ -835,8 +835,7 @@ int Render_DrawRoom(RenderShadowActor *actor)
     *(volatile u32 *)&local.words[7] = last;
     local.matrix.t[2] = 0;
     {
-        asm volatile("" : "=r"(matrix) : "0"(matrix));
-        gte_ldrotmatrix(matrix);
+                gte_ldrotmatrix(matrix);
         gte_ldtransmatrix(matrix);
     }
     gte_lwc2_0_0(&corner);
@@ -903,36 +902,26 @@ int Render_DrawRoom(RenderShadowActor *actor)
 
         gte_ldrotmatrix(cameraRot);
         column = (const u16 *)&local.matrix;
-        asm volatile("" : "=r"(column) : "0"(column));
-        gte_ldclmv(column);
+                gte_ldclmv(column);
         gte_rtir();
         firstColumn = (u16 *)&world;
-        asm volatile("" : "=r"(firstColumn) : "0"(firstColumn));
-        gte_stclmv(firstColumn);
-        asm volatile("" : : : "memory");
-        column = (const u16 *)&local.matrix + 1;
-        asm volatile("" : "=r"(column) : "0"(column));
-        gte_ldclmv(column);
+                gte_stclmv(firstColumn);
+                column = (const u16 *)&local.matrix + 1;
+                gte_ldclmv(column);
         gte_rtir();
         outColumn = (u16 *)&world + 1;
-        asm volatile("" : "=r"(outColumn) : "0"(outColumn));
-        gte_stclmv(outColumn);
-        asm volatile("" : : : "memory");
-        column = (const u16 *)&local.matrix + 2;
-        asm volatile("" : "=r"(column) : "0"(column));
-        gte_ldclmv(column);
+                gte_stclmv(outColumn);
+                column = (const u16 *)&local.matrix + 2;
+                gte_ldclmv(column);
         gte_rtir();
         outColumn = (u16 *)&world + 2;
-        asm volatile("" : "=r"(outColumn) : "0"(outColumn));
-        gte_stclmv(outColumn);
+                gte_stclmv(outColumn);
         /* Transform placement translation with the camera matrix. */
-        asm volatile("" : : : "memory");
-        cameraTrans = cameraRot;
+                cameraTrans = cameraRot;
 
         gte_ldtransmatrix(cameraTrans);
         translation = local.matrix.t;
-        asm volatile("" : "=r"(translation) : "0"(translation));
-        gte_ldlv0(translation);
+                gte_ldlv0(translation);
         gte_rt();
         outTranslation = world.t;
         gte_swc2_9_0(outTranslation);
@@ -1008,8 +997,7 @@ int Render_DrawRoom(RenderShadowActor *actor)
     }
     /* These registers are already saved by the function. Excluding them
      * from reload leaves t0 available for the multiply-high temporary. */
-    asm volatile("" : : : "$17", "$18", "$19", "$20", "$21", "$22", "$23");
-    return 0;
+        return 0;
 }
 
 void Render_SetPrimColour(PrimObj *obj, unsigned char a, unsigned char b, unsigned char c) {
