@@ -22,7 +22,7 @@ void *Inv_LookupActiveListDisplayData(s32 index) {
     itemId = ((s16 *)g_InvItemPtr)[index];
     displayData = NULL;
     if ((itemId - 0x100) < 0x80U) {
-        entry = (itemId << 5) + g_EquipItemDataTable;
+        entry = &((ItemDataRecord *)g_EquipItemDataTable)[itemId];
         if (entry->flags & 0x10) {
             displayData = g_EquipItemDataTable + 0x31F8;
             if (entry->kind == 9) {
