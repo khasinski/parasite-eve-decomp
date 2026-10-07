@@ -11,6 +11,7 @@ extern u32 D_8009580C;
 
 u32 *ClearOTag(u32 *ot, int count) {
     u32 mask;
+    u32 linkMask;
     u32 *result;
     u32 *terminator;
     u32 address;
@@ -21,12 +22,12 @@ u32 *ClearOTag(u32 *ot, int count) {
     }
 
     if (--count) {
-        register u32 linkMask asm("$5") = 0xFFFFFF;
-        u32 sizeMask = 0xFF000000;
         do {
             --count;
+            linkMask = 0xFFFFFF;
             ((u8 *)ot)[3] = 0;
-            *ot = (*ot & sizeMask) | ((u32)(ot + 1) & linkMask);
+            mask = 0xFF000000;
+            *ot = (*ot & mask) | ((u32)(ot + 1) & linkMask);
             ++ot;
         } while (count);
     }
