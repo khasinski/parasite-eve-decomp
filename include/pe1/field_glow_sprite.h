@@ -21,6 +21,12 @@ typedef struct FieldGlowSprite {
     /* 0x0C */ u8 pad0C[4];
 } FieldGlowSprite;
 
+/* Shared sprite presets initialized by func_800C7BA0. */
+extern FieldGlowSprite D_800E22D8;
+extern FieldGlowSprite D_800E2318;
+extern FieldGlowSprite D_800F3498;
+extern FieldGlowSprite D_800F34D8;
+
 /* Draws one scaled glow sprite at the matrix translation (engine/
  * FieldEng_SpriteRendering.c). */
 void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *matrix, u8 mode);

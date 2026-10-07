@@ -20,7 +20,6 @@ typedef struct FieldGlowLayers {
     /* 0x10 */ GteMatrix matrix;
 } FieldGlowLayers;
 
-extern FieldGlowSprite D_800F3498;
 extern FieldGlowSprite D_800F34A8;
 extern FieldGlowSprite D_800F34B8;
 extern FieldGlowSprite D_800F34C8;

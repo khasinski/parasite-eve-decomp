@@ -219,7 +219,6 @@ void func_800C8268(void) {
 void *memset(void *dest, int value, unsigned int count);
 
 extern s16 D_800E0888[];
-extern u8 D_800E22D8;
 
 int func_800C8270(void *arg0, void *arg1, u8 *anim) {
     GteMatrix matrix;
@@ -252,5 +251,5 @@ int func_800C8270(void *arg0, void *arg1, u8 *anim) {
     scaleCopy = scale;
 
     ScaleMatrix(&matrix, &scaleCopy);
-    func_800C42A4((FieldGlowSprite *)&D_800E22D8, &matrix, 1);
+    func_800C42A4(&D_800E22D8, &matrix, 1);
 }
