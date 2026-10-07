@@ -46,9 +46,7 @@ int RotAverageNclip4(const GteShortVector *v0, const GteShortVector *v1,
         goto done;
     }
 positive:
-    gte_stsxy0(sxy0Ptr);
-    gte_stsxy1(sxy1Ptr);
-    gte_stsxy2(sxy2Ptr);
+    gte_stsxy3(sxy0Ptr, sxy1Ptr, sxy2Ptr);
     gte_lwc2_0_0(v3);
     gte_lwc2_1_4(v3);
     gte_cop2_hazard_slot();
