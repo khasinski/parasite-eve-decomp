@@ -79,29 +79,12 @@ int func_800DC058(int mode, FieldAnimTwinModel *state)
         {
             GteMatrix **slot;
             const GteMatrixWords *matrix;
-            register u32 a asm("$12");
-            register u32 b asm("$13");
-            register u32 c asm("$14");
             slot = &D_800BCFA4.value;
             asm volatile("" : "=r"(slot) : "0"(slot));
             matrix = (const GteMatrixWords *)*slot;
             asm volatile("" : "=r"(matrix) : "0"(matrix) : "$2", "$3", "$4", "$5", "$6", "$7", "$8");
-            a = matrix->r11_r12;
-            b = matrix->r13_r21;
-            gte_ctc2_0(a);
-            gte_ctc2_1(b);
-            a = matrix->r22_r23;
-            b = matrix->r31_r32;
-            c = matrix->r33_pad;
-            gte_ctc2_2(a);
-            gte_ctc2_3(b);
-            gte_ctc2_4(c);
-            a = matrix->tx;
-            b = matrix->ty;
-            gte_ctc2_5(a);
-            c = matrix->tz;
-            gte_ctc2_6(b);
-            gte_ctc2_7(c);
+            gte_ldrotmatrix(matrix);
+            gte_ldtransmatrix(matrix);
         }
         {
             int tpage = (u16)(D_800E2850[D_800E11E4[9]] | GetTPage(0, 3, 0, 0));

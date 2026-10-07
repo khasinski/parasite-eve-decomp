@@ -186,31 +186,9 @@ int Render_FindAnimEntry(RenderObjectEntity *arg0, int arg1, s32 *out) {
  * address/memory constraints. Physical scratchpad addresses and pointer
  * casts remain. CPU loads, stores and vector packing are C; GTE transfers
  * and commands use individual macros. */
-#define BoneLoadRotMatrix(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (matrix)[0]; \
-        y = (matrix)[1]; \
-        gte_ctc2_0(x); \
-        gte_ctc2_1(y); \
-        x = (matrix)[2]; \
-        y = (matrix)[3]; \
-        z = (matrix)[4]; \
-        gte_ctc2_2(x); \
-        gte_ctc2_3(y); \
-        gte_ctc2_4(z); \
-    }
+#define BoneLoadRotMatrix(matrix) gte_ldrotmatrix((const GteMatrixWords *)(matrix))
 
-#define BoneLoadTrans(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (matrix)[5]; \
-        y = (matrix)[6]; \
-        gte_ctc2_5(x); \
-        z = (matrix)[7]; \
-        gte_ctc2_6(y); \
-        gte_ctc2_7(z); \
-    }
+#define BoneLoadTrans(matrix) gte_ldtransmatrix((const GteMatrixWords *)(matrix))
 
 #define BoneLoadFullMatrix(matrix)                                                                 \
     {                                                                                              \
@@ -220,27 +198,11 @@ int Render_FindAnimEntry(RenderObjectEntity *arg0, int arg1, s32 *out) {
 
 #define Bone_LoadAxis(src) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (src)[0]; \
-        y = (src)[3]; \
-        z = (src)[6]; \
-        gte_mtc2_9(x); \
-        gte_mtc2_10(y); \
-        gte_mtc2_11(z); \
+        gte_ldclmv((src)); \
         gte_rtir(); \
     }
 
-#define Bone_StoreAxis(dst) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        gte_mfc2_9(x); \
-        gte_mfc2_10(y); \
-        gte_mfc2_11(z); \
-        (dst)[0] = x; \
-        (dst)[3] = y; \
-        (dst)[6] = z; \
-        asm volatile("" : : : "memory"); \
-    }
+#define Bone_StoreAxis(dst) gte_stclmv((dst))
 
 #define Bone_StoreVec(output_expr)                                                                 \
     {                                                                                              \

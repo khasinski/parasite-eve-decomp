@@ -99,42 +99,14 @@ void SetDrawTPage(void *, s32, s32, s32);
 extern u32 *D_8009CDD0;
 extern s16 *D_8009CDD4;
 
-#define AnimLoadRotMatrix(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = ((const u32 *)(matrix))[0]; \
-        y = ((const u32 *)(matrix))[1]; \
-        gte_ctc2_0(x); \
-        gte_ctc2_1(y); \
-        x = ((const u32 *)(matrix))[2]; \
-        y = ((const u32 *)(matrix))[3]; \
-        z = ((const u32 *)(matrix))[4]; \
-        gte_ctc2_2(x); \
-        gte_ctc2_3(y); \
-        gte_ctc2_4(z); \
-    }
+#define AnimLoadRotMatrix(matrix) gte_ldrotmatrix((const GteMatrixWords *)(matrix))
 
-#define AnimLoadTrans(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = ((const u32 *)(matrix))[5]; \
-        y = ((const u32 *)(matrix))[6]; \
-        gte_ctc2_5(x); \
-        z = ((const u32 *)(matrix))[7]; \
-        gte_ctc2_6(y); \
-        gte_ctc2_7(z); \
-    }
+#define AnimLoadTrans(matrix) gte_ldtransmatrix((const GteMatrixWords *)(matrix))
 
 
 #define Anim_LoadAxis(src) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = ((const u16 *)(src))[0]; \
-        y = ((const u16 *)(src))[3]; \
-        z = ((const u16 *)(src))[6]; \
-        gte_mtc2_9(x); \
-        gte_mtc2_10(y); \
-        gte_mtc2_11(z); \
+        gte_ldclmv((src)); \
         gte_cop2_hazard_slot(); \
         gte_cop2_hazard_slot(); \
         gte_mvmva_light_ir_sf0(); \

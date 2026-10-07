@@ -9,25 +9,7 @@
 extern RenderVec3s D_80091A58[];
 extern u32 D_8009CDA0;
 
-#define Draw_LoadMatrix(m, n)                                                                      \
-    {                                                                                              \
-        register s32 x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        x = m[0];                                                                                  \
-        y = m[1];                                                                                  \
-        gte_ctc2_##n(x);                                                                           \
-        LIGHT_NEXT(y);                                                                             \
-        x = m[2];                                                                                  \
-        y = m[3];                                                                                  \
-        z = m[4];                                                                                  \
-        LIGHT_2(x);                                                                                \
-        LIGHT_3(y);                                                                                \
-        LIGHT_4(z);                                                                                \
-    }
-#define LIGHT_NEXT gte_ctc2_1
-#define LIGHT_2 gte_ctc2_2
-#define LIGHT_3 gte_ctc2_3
-#define LIGHT_4 gte_ctc2_4
-#define Draw_LoadRotation(m) Draw_LoadMatrix(m, 0)
+#define Draw_LoadRotation(m) gte_ldrotmatrix((const GteMatrixWords *)(m))
 #define Draw_LoadLight(m)                                                                          \
     {                                                                                              \
         register s32 x asm("$12"), y asm("$13"), z asm("$14");                                     \
@@ -46,26 +28,14 @@ extern u32 D_8009CDA0;
  * Each address constraint is instantiated for all three matrix columns. */
 #define Draw_LoadAxis(src) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
         asm volatile("" : "=r"((src)) : "0"((src))); \
-        x = (src)[0]; \
-        y = (src)[3]; \
-        z = (src)[6]; \
-        gte_mtc2_9(x); \
-        gte_mtc2_10(y); \
-        gte_mtc2_11(z); \
+        gte_ldclmv((src)); \
         gte_rtir(); \
     }
 #define Draw_StoreAxis(dst) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
         asm volatile("" : "=r"((dst)) : "0"((dst))); \
-        gte_mfc2_9(x); \
-        gte_mfc2_10(y); \
-        gte_mfc2_11(z); \
-        (dst)[0] = x; \
-        (dst)[3] = y; \
-        (dst)[6] = z; \
+        gte_stclmv((dst)); \
         asm volatile("" : : : "memory"); \
     }
 #define Draw_StoreColours(out)                                                                     \

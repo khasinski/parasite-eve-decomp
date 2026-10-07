@@ -2,17 +2,14 @@
 #include "pe1/field_tri_test.h"
 #include "pe1/gte.h"
 
-/* Matching debt: 7 register pins and 5 empty constraints.
- * Vector loads are C; each GTE transfer uses an individual macro. */
+/* Matching debt: 4 register pins and 5 empty constraints.
+ * Diagonal loads use gte_ldopv1_psyq; the other vector loads stay C. */
 int func_800C689C(GteShortVector *tri)
 {
     int playerX;
     register int playerZ asm("$6");
     int pointZ, vertexZ;
     GteShortVector point;
-    register u32 opX asm("$12");
-    register u32 opY asm("$13");
-    register u32 opZ asm("$14");
     FieldTriScratch *second;
     FieldTriScratch *third;
     FieldTriScratch *result;
@@ -38,12 +35,7 @@ int func_800C689C(GteShortVector *tri)
         register const GteVector *edge asm("$8");
         edge = &D_800E2844->edge[0];
         asm volatile("" : "=r"(edge) : "0"(edge));
-        opX = edge->x;
-        opY = edge->y;
-        gte_ctc2_0(opX);
-        opZ = edge->z;
-        gte_ctc2_2(opY);
-        gte_ctc2_4(opZ);
+        gte_ldopv1_psyq(edge);
     }
     {
         register const GteVector *relative asm("$8");
@@ -74,12 +66,7 @@ int func_800C689C(GteShortVector *tri)
         const GteVector *edge;
         edge = &second->edge[1];
         asm volatile("" : "=r"(edge) : "0"(edge));
-        opX = edge->x;
-        opY = edge->y;
-        gte_ctc2_0(opX);
-        opZ = edge->z;
-        gte_ctc2_2(opY);
-        gte_ctc2_4(opZ);
+        gte_ldopv1_psyq(edge);
     }
     {
         const GteVector *relative;
@@ -107,12 +94,7 @@ int func_800C689C(GteShortVector *tri)
         const GteVector *edge;
         edge = &third->edge[2];
         asm volatile("" : "=r"(edge) : "0"(edge));
-        opX = edge->x;
-        opY = edge->y;
-        gte_ctc2_0(opX);
-        opZ = edge->z;
-        gte_ctc2_2(opY);
-        gte_ctc2_4(opZ);
+        gte_ldopv1_psyq(edge);
     }
     {
         const GteVector *relative;

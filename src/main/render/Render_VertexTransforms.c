@@ -58,11 +58,7 @@
         gte_rtir(); \
     }
 
-#define Render_XformStoreAxis(dst) \
-    { \
-        gte_stclmv((dst)); \
-        asm volatile("" : : : "memory"); \
-    }
+#define Render_XformStoreAxis(dst) gte_stclmv((dst))
 
 #define Render_XformBuildChildMatrix(src, dst, include_translation)                                \
     {                                                                                              \
@@ -486,16 +482,7 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
         gte_ctc2_4(z);                                                                             \
     }
 
-#define MorphLoadTrans(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (matrix)[5]; \
-        y = (matrix)[6]; \
-        gte_ctc2_5(x); \
-        z = (matrix)[7]; \
-        gte_ctc2_6(y); \
-        gte_ctc2_7(z); \
-    }
+#define MorphLoadTrans(matrix) gte_ldtransmatrix((const GteMatrixWords *)(matrix))
 
 #define MorphLoadFullMatrix(matrix)                                                                \
     {                                                                                              \

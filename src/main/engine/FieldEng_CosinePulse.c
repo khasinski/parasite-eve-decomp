@@ -80,30 +80,13 @@ int func_800D5A00(int mode, RenderArcingEmitter *state)
         {
             GteMatrix **slot;
             const GteMatrixWords *matrix;
-            register s32 a asm("$12");
-            register s32 b asm("$13");
-            register s32 c asm("$14");
             asm volatile("" : : : "memory");
             slot = &D_800BCFA4.value;
             asm volatile("" : "=r"(slot) : "0"(slot));
             matrix = (const GteMatrixWords *)*slot;
             asm("" : "=r"(matrix) : "0"(matrix) : "$2", "$3", "$4", "$5", "$6", "$7");
-            a = matrix->r11_r12;
-            b = matrix->r13_r21;
-            gte_ctc2_0(a);
-            gte_ctc2_1(b);
-            a = matrix->r22_r23;
-            b = matrix->r31_r32;
-            c = matrix->r33_pad;
-            gte_ctc2_2(a);
-            gte_ctc2_3(b);
-            gte_ctc2_4(c);
-            a = matrix->tx;
-            b = matrix->ty;
-            gte_ctc2_5(a);
-            c = matrix->tz;
-            gte_ctc2_6(b);
-            gte_ctc2_7(c);
+            gte_ldrotmatrix(matrix);
+            gte_ldtransmatrix(matrix);
         }
         FieldEng_TransformTranslation(&state->position, 0);
         /* Exclude other reload temporaries without emitting instructions. */

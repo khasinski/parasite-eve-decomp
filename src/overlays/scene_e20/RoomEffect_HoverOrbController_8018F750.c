@@ -299,15 +299,9 @@ render: {
         register SceneE20Matrix **matrixAddress asm("$5") = &D_800BCFA4;
         {
             u32 *matrixWords;
-            register u32 a asm("$12"); register u32 b asm("$13"); register u32 c asm("$14");
-                        asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
-                        a=matrixWords[0]; b=matrixWords[1];
-            gte_ctc2_0(a); gte_ctc2_1(b);
-            a=matrixWords[2]; b=matrixWords[3]; c=matrixWords[4];
-            gte_ctc2_2(a); gte_ctc2_3(b); gte_ctc2_4(c);
-            a=matrixWords[5]; b=matrixWords[6];
-            gte_ctc2_5(a); c=matrixWords[7];
-            gte_ctc2_6(b); gte_ctc2_7(c);
+            asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
+            gte_ldrotmatrix((const GteMatrixWords *)matrixWords);
+            gte_ldtransmatrix((const GteMatrixWords *)matrixWords);
         }
         textureIndex = D_800E11EA;
         D_800F3368 = 0x20;
@@ -323,16 +317,10 @@ render: {
         D_800F3370 = texturePage;
         {
             u32 *matrixWords;
-            register u32 a asm("$12"); register u32 b asm("$13"); register u32 c asm("$14");
-                        asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
+            asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
             asm volatile("" : : "r"(matrixAddress));
-            a=matrixWords[0]; b=matrixWords[1];
-            gte_ctc2_0(a); gte_ctc2_1(b);
-            a=matrixWords[2]; b=matrixWords[3]; c=matrixWords[4];
-            gte_ctc2_2(a); gte_ctc2_3(b); gte_ctc2_4(c);
-            a=matrixWords[5]; b=matrixWords[6];
-            gte_ctc2_5(a); c=matrixWords[7];
-            gte_ctc2_6(b); gte_ctc2_7(c);
+            gte_ldrotmatrix((const GteMatrixWords *)matrixWords);
+            gte_ldtransmatrix((const GteMatrixWords *)matrixWords);
         }
         flashColor = oddColor;
         if (!(D_800E27EC & 1)) flashColor = evenColor;

@@ -776,13 +776,10 @@ int Scene_IsBattleMode(void)
 
 /* Builds the ground-aligned shadow transform for `actor` and links its
  * shadow quad, projected from a square of the model's shadow radius.
- * Matching debt: 3 register pins and 18 empty constraints. GTE transfers
- * and commands are wrapped individually; matrix arithmetic and loads are C. */
+ * Matching debt: the remaining empty constraints. Rotation, column, and
+ * translation windows use the stock GTE macros. */
 int Render_DrawRoom(RenderShadowActor *actor)
 {
-    register u32 a asm("$12");
-    register u32 b asm("$13");
-    register u32 c asm("$14");
     GteShortVector origin;
     GteShortVector corner;
     GteVector axis;
@@ -839,22 +836,8 @@ int Render_DrawRoom(RenderShadowActor *actor)
     local.matrix.t[2] = 0;
     {
         asm volatile("" : "=r"(matrix) : "0"(matrix));
-        a = matrix->r11_r12;
-        b = matrix->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = matrix->r22_r23;
-        b = matrix->r31_r32;
-        c = matrix->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = matrix->tx;
-        b = matrix->ty;
-        gte_ctc2_5(a);
-        c = matrix->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(matrix);
+        gte_ldtransmatrix(matrix);
     }
     gte_lwc2_0_0(&corner);
     gte_lwc2_1_4(&corner);
@@ -886,12 +869,7 @@ int Render_DrawRoom(RenderShadowActor *actor)
     {
         const GteVector *vector = &normal;
         asm volatile("" : "=r"(vector) : "0"(vector));
-        a = vector->x;
-        b = vector->y;
-        gte_ctc2_0(a);
-        c = vector->z;
-        gte_ctc2_2(b);
-        gte_ctc2_4(c);
+        gte_ldopv1_psyq(vector);
     }
     gte_ldir3_precise(&up);
     gte_ldir1_precise(&up);
@@ -923,96 +901,39 @@ int Render_DrawRoom(RenderShadowActor *actor)
         asm volatile("" : : : "$3", "$4", "$5", "$6", "$7");
         asm volatile("" : "=r"(cameraRot) : "0"(cameraRot));
 
-        a = cameraRot->r11_r12;
-        b = cameraRot->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = cameraRot->r22_r23;
-        b = cameraRot->r31_r32;
-        c = cameraRot->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
+        gte_ldrotmatrix(cameraRot);
         column = (const u16 *)&local.matrix;
         asm volatile("" : "=r"(column) : "0"(column));
-        a = column[0];
-        b = column[3];
-        c = column[6];
-        gte_mtc2_9(a);
-        gte_mtc2_10(b);
-        gte_mtc2_11(c);
-        gte_cop2_hazard_slot();
-        gte_cop2_hazard_slot();
-        gte_mvmva_rotation_ir_sf12();
+        gte_ldclmv(column);
+        gte_rtir();
         firstColumn = (u16 *)&world;
         asm volatile("" : "=r"(firstColumn) : "0"(firstColumn));
-        gte_mfc2_9(a);
-        gte_mfc2_10(b);
-        gte_mfc2_11(c);
-        firstColumn[0] = a;
-        firstColumn[3] = b;
-        firstColumn[6] = c;
+        gte_stclmv(firstColumn);
         asm volatile("" : : : "memory");
         column = (const u16 *)&local.matrix + 1;
         asm volatile("" : "=r"(column) : "0"(column));
-        a = column[0];
-        b = column[3];
-        c = column[6];
-        gte_mtc2_9(a);
-        gte_mtc2_10(b);
-        gte_mtc2_11(c);
-        gte_cop2_hazard_slot();
-        gte_cop2_hazard_slot();
-        gte_mvmva_rotation_ir_sf12();
+        gte_ldclmv(column);
+        gte_rtir();
         outColumn = (u16 *)&world + 1;
         asm volatile("" : "=r"(outColumn) : "0"(outColumn));
-        gte_mfc2_9(a);
-        gte_mfc2_10(b);
-        gte_mfc2_11(c);
-        outColumn[0] = a;
-        outColumn[3] = b;
-        outColumn[6] = c;
+        gte_stclmv(outColumn);
         asm volatile("" : : : "memory");
         column = (const u16 *)&local.matrix + 2;
         asm volatile("" : "=r"(column) : "0"(column));
-        a = column[0];
-        b = column[3];
-        c = column[6];
-        gte_mtc2_9(a);
-        gte_mtc2_10(b);
-        gte_mtc2_11(c);
-        gte_cop2_hazard_slot();
-        gte_cop2_hazard_slot();
-        gte_mvmva_rotation_ir_sf12();
+        gte_ldclmv(column);
+        gte_rtir();
         outColumn = (u16 *)&world + 2;
         asm volatile("" : "=r"(outColumn) : "0"(outColumn));
-        gte_mfc2_9(a);
-        gte_mfc2_10(b);
-        gte_mfc2_11(c);
-        outColumn[0] = a;
-        outColumn[3] = b;
-        outColumn[6] = c;
+        gte_stclmv(outColumn);
         /* Transform placement translation with the camera matrix. */
         asm volatile("" : : : "memory");
         cameraTrans = cameraRot;
 
-        a = cameraTrans->tx;
-        b = cameraTrans->ty;
-        gte_ctc2_5(a);
-        c = cameraTrans->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldtransmatrix(cameraTrans);
         translation = local.matrix.t;
         asm volatile("" : "=r"(translation) : "0"(translation));
-        b = ((const u16 *)translation)[2];
-        a = ((const u16 *)translation)[0];
-        b <<= 16;
-        a |= b;
-        gte_mtc2_0(a);
-        gte_lwc2_1_8(translation);
-        gte_cop2_hazard_slot();
-        gte_cop2_hazard_slot();
-        gte_mvmva_rotation_v0_translation_sf12();
+        gte_ldlv0(translation);
+        gte_rt();
         outTranslation = world.t;
         gte_swc2_9_0(outTranslation);
         gte_swc2_10_4(outTranslation);

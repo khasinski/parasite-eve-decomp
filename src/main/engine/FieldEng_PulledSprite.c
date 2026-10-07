@@ -63,28 +63,10 @@ void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,
     {
         register RenderMatrixSlot *slot = &D_800BCFA4;
         register const u32 *words asm("$11");
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
         asm volatile("" : "=r"(slot) : "0"(slot));
         words = (u32 *)slot->value;
-
-        a = words[0];
-        b = words[1];
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = words[2];
-        b = words[3];
-        c = words[4];
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = words[5];
-        b = words[6];
-        gte_ctc2_5(a);
-        c = words[7];
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix((const GteMatrixWords *)words);
+        gte_ldtransmatrix((const GteMatrixWords *)words);
     }
     gte_lwc2_0_0(position);
     gte_lwc2_1_4(position);

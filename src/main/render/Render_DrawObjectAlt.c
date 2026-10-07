@@ -11,43 +11,15 @@ extern s16 D_8009CDDC;
 
 #define Render_LoadObjectMatrix(matrix) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (matrix)[0]; \
-        y = (matrix)[1]; \
-        gte_ctc2_0(x); \
-        gte_ctc2_1(y); \
-        x = (matrix)[2]; \
-        y = (matrix)[3]; \
-        z = (matrix)[4]; \
-        gte_ctc2_2(x); \
-        gte_ctc2_3(y); \
-        gte_ctc2_4(z); \
-        x = (matrix)[5]; \
-        y = (matrix)[6]; \
-        gte_ctc2_5(x); \
-        z = (matrix)[7]; \
-        gte_ctc2_6(y); \
-        gte_ctc2_7(z); \
+        gte_ldrotmatrix((const GteMatrixWords *)(matrix)); \
+        gte_ldtransmatrix((const GteMatrixWords *)(matrix)); \
     }
 
 #define Render_TransformVertex(src, dst)                                                           \
     {                                                                                              \
-        register s32 x asm("$12");                                                                 \
-        register s32 y asm("$13");                                                                 \
-        register s32 z asm("$14");                                                                 \
-                                                                                                   \
-        gte_lwc2_0_0(src);                                                                         \
-        gte_lwc2_1_4(src);                                                                         \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_mvmva_rotation_v0_translation_sf12();                                                  \
-        gte_mfc2_9(x);                                                                             \
-        gte_mfc2_10(y);                                                                            \
-        gte_mfc2_11(z);                                                                            \
-                                                                                                   \
-        dst->x = x;                                                                                \
-        dst->y = y;                                                                                \
-        dst->z = z;                                                                                \
+        gte_ldv0(src);                                                                             \
+        gte_rt();                                                                                  \
+        gte_stsv(dst);                                                                             \
     }
 
 void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green, u8 blue) {

@@ -450,7 +450,6 @@ void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *placement, u8 mode)
         firstColumn = (u16 *)&D_800F33B4->matrix;
         asm volatile("" : "=r"(firstColumn) : "0"(firstColumn));
         gte_stclmv(firstColumn);
-        asm volatile("" : : : "memory");
         column = (const u16 *)placement + 1;
         asm volatile("" : "=r"(column) : "0"(column));
         gte_ldclmv(column);
@@ -458,7 +457,6 @@ void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *placement, u8 mode)
         outColumn = (u16 *)&D_800F33B4->matrix + 1;
         asm volatile("" : "=r"(outColumn) : "0"(outColumn));
         gte_stclmv(outColumn);
-        asm volatile("" : : : "memory");
         column = (const u16 *)placement + 2;
         asm volatile("" : "=r"(column) : "0"(column));
         gte_ldclmv(column);
@@ -612,7 +610,6 @@ void func_800C499C(FieldShadedQuadColors *colors, GteMatrix *placement,
         firstColumn = (u16 *)&D_800F33B4->matrix;
         asm volatile("" : "=r"(firstColumn) : "0"(firstColumn));
         gte_stclmv(firstColumn);
-        asm volatile("" : : : "memory");
         column = (const u16 *)placement + 1;
         asm volatile("" : "=r"(column) : "0"(column));
         gte_ldclmv(column);
@@ -620,7 +617,6 @@ void func_800C499C(FieldShadedQuadColors *colors, GteMatrix *placement,
         outColumn = (u16 *)&D_800F33B4->matrix + 1;
         asm volatile("" : "=r"(outColumn) : "0"(outColumn));
         gte_stclmv(outColumn);
-        asm volatile("" : : : "memory");
         column = (const u16 *)placement + 2;
         asm volatile("" : "=r"(column) : "0"(column));
         gte_ldclmv(column);
@@ -777,7 +773,6 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
         firstColumn = (u16 *)&D_800F33B4->matrix;
         asm volatile("" : "=r"(firstColumn) : "0"(firstColumn));
         gte_stclmv(firstColumn);
-        asm volatile("" : : : "memory");
         column = (const u16 *)placement + 1;
         asm volatile("" : "=r"(column) : "0"(column));
         gte_ldclmv(column);
@@ -785,7 +780,6 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
         outColumn = (u16 *)&D_800F33B4->matrix + 1;
         asm volatile("" : "=r"(outColumn) : "0"(outColumn));
         gte_stclmv(outColumn);
-        asm volatile("" : : : "memory");
         column = (const u16 *)placement + 2;
         asm volatile("" : "=r"(column) : "0"(column));
         gte_ldclmv(column);
@@ -975,29 +969,12 @@ void func_800C5A40(FieldTexturedStrip *strip)
         {
             GteMatrix **slot;
             register const GteMatrixWords *matrix asm("$8");
-            register u32 a asm("$12");
-            register u32 b asm("$13");
-            register u32 c asm("$14");
             asm volatile("" : : : "memory");
             slot = &D_800BCFA4.value;
             asm volatile("" : "=r"(slot) : "0"(slot));
             matrix = (const GteMatrixWords *)*slot;
-            a = matrix->r11_r12;
-            b = matrix->r13_r21;
-            gte_ctc2_0(a);
-            gte_ctc2_1(b);
-            a = matrix->r22_r23;
-            b = matrix->r31_r32;
-            c = matrix->r33_pad;
-            gte_ctc2_2(a);
-            gte_ctc2_3(b);
-            gte_ctc2_4(c);
-            a = matrix->tx;
-            b = matrix->ty;
-            gte_ctc2_5(a);
-            c = matrix->tz;
-            gte_ctc2_6(b);
-            gte_ctc2_7(c);
+            gte_ldrotmatrix(matrix);
+            gte_ldtransmatrix(matrix);
         }
         depth = RotTransPers4(&quad[0], &quad[1], &quad[2], &quad[3],
                               &packet->x0, &packet->x1, &packet->x2,
