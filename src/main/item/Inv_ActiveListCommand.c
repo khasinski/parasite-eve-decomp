@@ -72,7 +72,6 @@ void Inv_SetActiveList(int mode, int *slot) {
             register int mask asm("$4") = -0x400;
             int kind;
             int encoded;
-            register u32 flag_mask asm("$2");
             u32 flags2;
             register u32 shifted asm("$2");
             word = (word & mask) | (item->ammo & 0x3FF);
@@ -91,8 +90,8 @@ void Inv_SetActiveList(int mode, int *slot) {
                 else encoded = kind - 18;
             }
             flags2 = *(u32 *)(data+0xC);
-            flag_mask = 0xFFCFFFFF;
-            flags2 &= flag_mask;
+            shifted = 0xFFCFFFFF;
+            flags2 &= shifted;
             shifted = encoded & 3;
             shifted <<= 20;
             flags2 |= shifted;
