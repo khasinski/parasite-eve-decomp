@@ -1,5 +1,6 @@
 /* CC1_FLAGS: -fno-schedule-insns */
 #include "fx_common.h"
+#include "fx_common_motion.h"
 
 void func_80195BC8(FxCommonShortVec3 *a, FxCommonShortVec3 *b, int bi, int ai)
 {
@@ -9,17 +10,17 @@ void func_80195BC8(FxCommonShortVec3 *a, FxCommonShortVec3 *b, int bi, int ai)
     register int pinnedBy asm("$8");
 
     x = b->x;
-    pinnedBx = D_8019C810;
-    pinnedBy = D_8019C814;
+    pinnedBx = g_FxCommonMotionPosition0.x;
+    pinnedBy = g_FxCommonMotionPosition0.y;
     D_8019C08C = x - pinnedBx;
     y = b->y;
-    bz = D_8019C818;
+    bz = g_FxCommonMotionPosition0.z;
     D_8019C090 = y - pinnedBy;
     z = b->z;
     D_8019C0AC = pinnedBx;
-    ax = D_8019C330;
+    ax = g_FxCommonMotionPosition1.x;
     D_8019C0AE = pinnedBy;
-    ay = D_8019C334;
+    ay = g_FxCommonMotionPosition1.y;
     D_8019C09C = 0;
     D_8019C0A0 = 0;
     D_8019C0A4 = 0;
@@ -36,7 +37,7 @@ void func_80195BC8(FxCommonShortVec3 *a, FxCommonShortVec3 *b, int bi, int ai)
     u = a->x;
     D_8019C05C = u - ax;
     v = a->y;
-    az = D_8019C338;
+    az = g_FxCommonMotionPosition1.z;
     D_8019C060 = v - ay;
     one = 1;
     D_8019C054 = one << bi;
