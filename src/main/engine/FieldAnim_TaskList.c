@@ -1,12 +1,8 @@
-#include "pe1/field_anim_callback_list.h"
+#include "pe1/field_anim.h"
 
 extern int D_800B0E18;
 extern int D_800B0E1C;
 extern int D_800B1630;
-typedef unsigned short u16;
-typedef signed short s16;
-typedef FieldAnimCallbackListCallback FieldAnimTaskCallback;
-extern char *D_800F33E0;
 
 int func_800CE4F8(int index) {
     int ret;
@@ -70,7 +66,7 @@ int func_800CE5AC(void *arg0, int arg1, int arg2, int arg3, void *arg4) {
 
     i = 0;
     stride = arg2 + 4;
-    header = *(char **)((char *)D_800F33E0 + 8) + arg1;
+    header = D_800F33E0->end + arg1;
     list = (FieldAnimCallbackList *)header;
     entry = header + 0xC;
 
@@ -104,14 +100,14 @@ void *func_800CE610(char *list) {
     base = list;
     asm volatile("" : "=r"(base) : "0"(base));
     entry = list + 0xC;
-        slot_or_count = *(int *)(ret + 0x4);
-    stride = *(int *)(ret + 0x0);
+        slot_or_count = ((FieldAnimCallbackList *)ret)->count;
+    stride = ((FieldAnimCallbackList *)ret)->stride;
     i = 0;
     if (slot_or_count > 0) {
         count = slot_or_count;
 loop:
         slot_or_count = (int)entry;
-        if (*(s16 *)entry == 0) {
+        if (((FieldAnimCallbackListEntry *)entry)->active == 0) {
             goto found;
         }
         i++;
@@ -121,11 +117,11 @@ loop:
         }
 
 found:
-        ret = (void *)(i < *(int *)(base + 0x4));
+        ret = (void *)(i < ((FieldAnimCallbackList *)base)->count);
         if (ret != 0) {
             ret = entry + 0x4;
-            *(s16 *)slot_or_count = 1;
-            *(s16 *)(slot_or_count + 0x2) = 0;
+            ((FieldAnimCallbackListEntry *)slot_or_count)->active = 1;
+            ((FieldAnimCallbackListEntry *)slot_or_count)->age = 0;
             return ret;
         }
     }
@@ -134,18 +130,18 @@ found:
 }
 
 extern int D_800E27EC;
-extern char *D_800E2368;
-int func_800CE688(char *list)
+int func_800CE688(void *data)
 {
+  char *list = data;
   int frame_pad[2];
   int old_context = D_800E27EC;
   char *entry = list + 0xC;
   char *timer;
   int i = 0;
   register int active = 0;
-  register int (*callback)(int, void *, int) = *((int (**)(int, void *, int)) (list + 0x8));
-  int count = *((int *) (list + 0x4));
-  register int stride = *((int *) (list + 0x0));
+  register FieldAnimTaskCallback callback = ((FieldAnimCallbackList *)list)->callback;
+  int count = ((FieldAnimCallbackList *)list)->count;
+  register int stride = ((FieldAnimCallbackList *)list)->stride;
   if (count > 0)
   {
     timer = list + 0xE;
@@ -155,7 +151,7 @@ int func_800CE688(char *list)
       {
         active++;
         D_800E27EC = *((s16 *) timer);
-        if (callback(1, entry + 0x4, *((int *) (D_800E2368 + 0x8))) != 0)
+        if (callback(1, entry + 0x4, D_800E2368->argument) != 0)
         {
           *((s16 *) entry) = 0;
         }
@@ -168,7 +164,7 @@ int func_800CE688(char *list)
       timer += stride;
       entry += stride;
     }
-    while (i < (*((int *) (list + 0x4))));
+    while (i < (((FieldAnimCallbackList *)list)->count));
   }
   if (list)
   {
@@ -190,10 +186,10 @@ int func_800CE78C(char *list)
   char *payload;
   int i = 0;
   register int active = 0;
-  register int (*callback)(int, void *, int) = *((int (**)(int, void *, int)) (list + 0x8));
+  register FieldAnimTaskCallback callback = ((FieldAnimCallbackList *)list)->callback;
   int new_var;
-  int count = *((int *) (list + 0x4));
-  register int stride = *((int *) (list + 0x0));
+  int count = ((FieldAnimCallbackList *)list)->count;
+  register int stride = ((FieldAnimCallbackList *)list)->stride;
   new_var = 0;
   if (count > new_var)
   {
@@ -204,13 +200,13 @@ int func_800CE78C(char *list)
       {
         active++;
         D_800E27EC = *((s16 *) (payload - 0x2));
-        callback(2, payload, *((int *) (D_800E2368 + 0x8)));
+        callback(2, payload, D_800E2368->argument);
       }
       i++;
       payload += stride;
       entry += stride;
     }
-    while (i < (*((int *) (list + 0x4))));
+    while (i < (((FieldAnimCallbackList *)list)->count));
   }
   D_800E27EC = old_context;
   return active;

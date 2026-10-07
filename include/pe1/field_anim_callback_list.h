@@ -1,7 +1,7 @@
 #ifndef PE1_FIELD_ANIM_CALLBACK_LIST_H
 #define PE1_FIELD_ANIM_CALLBACK_LIST_H
 
-typedef int (*FieldAnimCallbackListCallback)(int mode, void *state);
+typedef int (*FieldAnimCallbackListCallback)(int mode, void *state, int argument);
 
 typedef struct FieldAnimCallbackListEntry {
     signed short active;
