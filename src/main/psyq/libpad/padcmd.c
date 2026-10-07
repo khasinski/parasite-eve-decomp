@@ -323,13 +323,12 @@ int _padSetActAlign(CardObj *obj, int command) {
     if (result != 0) {
         result = 0;
     } else {
-        result = 1;
-        asm volatile("" : "=r"(result) : "0"(result));
         active = 1;
         obj->field_46 = active;
         obj->fn_14 = func_80083C20;
         obj->field_20 = command;
         obj->fn_18 = func_80083C3C;
+        result = 1;
     }
     return result;
 }
