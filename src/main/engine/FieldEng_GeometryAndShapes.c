@@ -335,9 +335,9 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
                 register s16 *p1 = &packet->x1;
                 register s16 *p2 asm("$2") = &packet->x2;
                 asm volatile("" : "=r"(p0), "=r"(p1), "=r"(p2) : "0"(p0), "1"(p1), "2"(p2));
-                gte_stsxy0_precise(p0);
-                gte_stsxy1_precise(p1);
-                gte_stsxy2_precise(p2);
+                gte_stsxy0(p0);
+                gte_stsxy1(p1);
+                gte_stsxy2(p2);
             }
                         gte_stmac0(depthOut);
             if (depth == 0) {
@@ -935,9 +935,9 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
             register s16 *xy0 asm("$4") = &packet->x0;
             register s16 *xy1 asm("$3") = &packet->x1;
             s16 *xy2 = &packet->x2;
-            gte_stsxy0_precise(xy0);
-            gte_stsxy1_precise(xy1);
-            gte_stsxy2_precise(xy2);
+            gte_stsxy0(xy0);
+            gte_stsxy1(xy1);
+            gte_stsxy2(xy2);
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
@@ -1097,9 +1097,9 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
             register s16 *xy0 asm("$4") = &packet->x0;
             register s16 *xy1 asm("$3") = &packet->x1;
             s16 *xy2 = &packet->x2;
-            gte_stsxy0_precise(xy0);
-            gte_stsxy1_precise(xy1);
-            gte_stsxy2_precise(xy2);
+            gte_stsxy0(xy0);
+            gte_stsxy1(xy1);
+            gte_stsxy2(xy2);
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();

@@ -106,9 +106,9 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
             register s16 *xy0 asm("$4") = &packet->x0;
             register s16 *xy1 asm("$3") = &packet->x1;
             s16 *xy2 = &packet->x2;
-            gte_stsxy0_precise(xy0);
-            gte_stsxy1_precise(xy1);
-            gte_stsxy2_precise(xy2);
+            gte_stsxy0(xy0);
+            gte_stsxy1(xy1);
+            gte_stsxy2(xy2);
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
@@ -255,9 +255,9 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
                 register s16 *xy0 asm("$4") = &packet->x0;
                 register s16 *xy1 asm("$3") = &packet->x1;
                 s16 *xy2 = &packet->x2;
-                gte_stsxy0_precise(xy0);
-                gte_stsxy1_precise(xy1);
-                gte_stsxy2_precise(xy2);
+                gte_stsxy0(xy0);
+                gte_stsxy1(xy1);
+                gte_stsxy2(xy2);
             }
             gte_cop2_hazard_slot();
             gte_cop2_hazard_slot();
@@ -578,9 +578,9 @@ void func_800D2370(GteShortVector *position, GteRotation *rotation,
             register s16 *xy0 asm("$4") = &packet->x0;
             register s16 *xy1 asm("$3") = &packet->x1;
             s16 *xy2 = &packet->x2;
-            gte_stsxy0_precise(xy0);
-            gte_stsxy1_precise(xy1);
-            gte_stsxy2_precise(xy2);
+            gte_stsxy0(xy0);
+            gte_stsxy1(xy1);
+            gte_stsxy2(xy2);
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
