@@ -824,7 +824,6 @@ int Render_DrawRoom(RenderShadowActor *actor)
     local.words[6] = source->words[6];
     last = source->words[7];
     corner.z = 0x1000;
-    asm volatile("" : : "m"(corner.z), "r"(last));
     matrix = (const GteMatrixWords *)local.words;
     local.words[0] = first;
     corner.x = 0;
