@@ -674,7 +674,6 @@ s32 Pm_StopUpperHalf(void) {
     u32 marker;
     u32 clear_index;
     u32 *clear_ptr;
-    register s32 mask asm("$3");
     register s32 game_state asm("$2");
 
     loop_index = 0;
@@ -716,9 +715,8 @@ s32 Pm_StopUpperHalf(void) {
                 clear_index++;
                 clear_ptr++;
             } while (clear_index < 0x73U);
-            mask = 0xFFFEFFFF;
             game_state = D_800B0CD8_r[0];
-            game_state &= mask;
+            game_state &= 0xFFFEFFFF;
             D_800B0CD8_w[0] = game_state;
             fill = 0xFF;
 
@@ -752,7 +750,6 @@ s32 Pm_StopLowerHalf(void) {
     u32 marker;
     u32 clear_index;
     u32 *clear_ptr;
-    register s32 mask asm("$3");
     register s32 game_state asm("$2");
 
     slot = 0;
@@ -793,9 +790,8 @@ s32 Pm_StopLowerHalf(void) {
                 clear_index++;
                 clear_ptr++;
             } while (clear_index < 0x73U);
-            mask = 0xFFFEFFFF;
             game_state = D_800B0CD8_r[0];
-            game_state &= mask;
+            game_state &= 0xFFFEFFFF;
             D_800B0CD8_w[0] = game_state;
             fill = 0xFF;
 
