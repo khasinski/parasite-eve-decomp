@@ -12,24 +12,20 @@ M2C_UNK func_80047678();
 void Menu_OpenItemList(void);
 int Battle_IsInputAllowedWrapped(void);
 extern s32 g_MenuLayoutLocked;
-extern M2C_UNK Menu_SetupSkillSubmenu[];
-#define Menu_SetupSkillSubmenu (Menu_SetupSkillSubmenu[0])
+void Menu_SetupSkillSubmenu(int arg0);
 
-s32 Menu_StepSkillScreen(void *arg0, s32 arg1) {
-    void *parg0;
+s32 Menu_StepSkillScreen(MenuWidgetNode *arg0, s32 arg1) {
+    MenuWidgetNode *parg0;
     s32 parg1;
     s32 tv4k;
-    s32 temp_v0;
-    register void *temp_s0 asm("$16");
-    register void *temp_v0_2 asm("$16");
-    register void *temp_v0_3 asm("$18");
-    register void *temp_v0_4 asm("$16");
-    register void *temp_v0_5 asm("$16");
+    MenuWidgetNode *temp_v0;
+    register MenuWidgetNode *node asm("$16");
+    register MenuWidgetNode *temp_v0_3 asm("$18");
     register s32 cm1 asm("$17");
 
     parg0 = arg0;
     parg1 = arg1;
-    temp_s0 = MenuWidget_GetChild(arg0, NULL);
+    node = MenuWidget_GetChild(arg0, NULL);
     if (parg1 & 0x10000) {
         if (Inv_GetPackedListCount() != 0) {
             if (g_MenuLayoutLocked != 0) {
@@ -38,10 +34,10 @@ s32 Menu_StepSkillScreen(void *arg0, s32 arg1) {
             }
             if (Battle_IsInputAllowedWrapped() != 0) {
                 temp_v0 = MenuWidget_CreateSimpleNode(0x35, 0, 0, 0);
-                M2C_FIELD(MenuWidget_CreateNode(0x35, temp_v0, temp_v0), M2C_UNK **, 0x30) = &Menu_SetupSkillSubmenu;
-                temp_v0_2 = MenuWidget_FindByModeAndSelectedBase(2, 7);
-                                M2C_FIELD(temp_v0_2, s32 *, 0x44) = 0;
-                MenuWidget_SetCurrentNode(temp_v0_2);
+                (MenuWidget_CreateNode(0x35, temp_v0, temp_v0))->draw = &Menu_SetupSkillSubmenu;
+                node = MenuWidget_FindByModeAndSelectedBase(2, 7);
+                node->cursor_x = 0;
+                MenuWidget_SetCurrentNode(node);
                 Menu_PlayConfirmSound();
                 return 1;
             }
@@ -59,7 +55,7 @@ block_6:
         MenuWidget_NavScrollTo(7);
         MenuWidget_DestroyNode(parg0);
         temp_v0_3 = MenuWidget_FindByModeAndSelectedBase(1, 6);
-                if (temp_v0_3 != NULL) {
+        if (temp_v0_3 != NULL) {
             MenuWidget_DestroyNode(temp_v0_3);
             Menu_CreateBonusPointAllocationView();
             Menu_PlayCancelSound();
@@ -71,16 +67,16 @@ block_6:
     tv4k = parg1 & 0x4000;
     if (tv4k && (MenuWidget_IsCursorYClear(MenuWidget_FindByModeAndSelectedBase(1, 6)) != 0)) {
         cm1 = -1;
-                M2C_FIELD(temp_s0, s32 *, 0x44) = cm1;
-        temp_v0_4 = MenuWidget_GetChild(parg0, 1);
-                if (temp_v0_4 != NULL) {
-            M2C_FIELD(temp_v0_4, s32 *, 0x44) = cm1;
+        node->cursor_x = cm1;
+        node = MenuWidget_GetChild(parg0, 1);
+        if (node != NULL) {
+            node->cursor_x = cm1;
         }
-        temp_v0_5 = MenuWidget_FindByModeAndSelectedBase(2, 6);
-                if (temp_v0_5 != NULL) {
-            M2C_FIELD(temp_v0_5, s32 *, 0x48) = 0;
-            M2C_FIELD(temp_v0_5, s32 *, 0x44) = 0;
-            MenuWidget_SetCurrentNode(temp_v0_5);
+        node = MenuWidget_FindByModeAndSelectedBase(2, 6);
+        if (node != NULL) {
+            node->cursor_y = 0;
+            node->cursor_x = 0;
+            MenuWidget_SetCurrentNode(node);
         }
         Menu_PlayMoveSound();
     }
