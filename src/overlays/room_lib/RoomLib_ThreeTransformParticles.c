@@ -128,7 +128,8 @@ void RoomLib_InitThreeTransformParticles(void *owner, void *unused,
     int *value;
     int randomValue;
 
-    asm("" : "=r"(callOwner), "=r"(workState) : "0"(owner), "1"(state));
+    callOwner = owner;
+    workState = state;
     clockResult = func_800C2B50();
     parameterIndex = 3;
     clock = clockResult;
@@ -275,7 +276,7 @@ void RoomLib_DrawThreeTransformParticles(void *unused, s16 *args, char *state) {
     int computedScale;
     int baseScale;
 
-    asm("" : "=r"(workState) : "0"(state));
+    workState = state;
     stack.args = args;
     clock = func_800C2B50();
     stack.seed = s_ThreeParticleSeed;
