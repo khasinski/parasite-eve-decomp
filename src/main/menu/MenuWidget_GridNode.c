@@ -41,18 +41,15 @@ MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void) {
 void BoundsCheck_AssertStub(int arg0);
 void MenuWidget_ApplyColumnLayout(void *node);
 
-#define W(base, off) (*(s32 *)((char *)(base) + (off)))
-#define DESCRIPTOR_FIELD(base, type, member) \
-    (*(type *)((char *)(base) + PE1_OFFSETOF(MenuWidgetGridDescriptor, member)))
 
 void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
     s32 mode = arg0;
     register void *parent_arg asm("$20") = arg1;
     void *parent = arg2;
     MenuWidgetGridDescriptor *desc;
-    void *node;
-    void *next;
-    void *old_head;
+    MenuWidgetNode *node;
+    MenuWidgetNode *next;
+    MenuWidgetNode *old_head;
     int tmp;
 
     desc = MenuWidget_LookupGridDescriptor(mode);
@@ -65,14 +62,14 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
         BoundsCheck_AssertStub(0xA);
     }
 
-    next = (void *)W(node, 0);
+    next = node->next;
     old_head = g_MenuWidgetActiveListHead;
     g_MenuWidgetActiveListHead = node;
-    W(node, 4) = (s32)parent_arg;
-    W(node, 0x2C) = 0;
-    W(node, 0x30) = 0;
+    node->parent = parent_arg;
+    node->update = 0;
+    node->draw = 0;
     g_MenuWidgetFreeListHead = next;
-    W(node, 0) = (s32)old_head;
+    node->next = old_head;
 
     {
         int i;
@@ -87,11 +84,11 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
         } while (i >= 0);
     }
 
-    W(node, 0x1C) = 0;
-    W(node, 0x18) = 0;
-    W(node, 0x24) = 0;
-    W(node, 0x20) = 0;
-    W(node, 0x28) = 0;
+    node->y = 0;
+    node->x = 0;
+    node->selected_base = 0;
+    node->mode = 0;
+    node->flags = 0;
 
     if (parent != 0) {
         int i;
@@ -119,53 +116,52 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
         BoundsCheck_AssertStub(0xF);
     }
 
-    W(node, 0x20) = 2;
-    W(node, 0x70) = mode;
-    W(node, 0x24) = mode;
+    node->mode = 2;
+    node->aux_index = mode;
+    node->selected_base = mode;
     {
         int t;
         int u;
 
-        t = DESCRIPTOR_FIELD(desc, s32, x);
-        W(node, 0x18) = t;
-        u = DESCRIPTOR_FIELD(desc, s32, y);
+        t = desc->x;
+        node->x = t;
+        u = desc->y;
         t = (s32)Menu_StepScrollCursor;
-        W(node, 0x2C) = t;
-        W(node, 0x1C) = u;
-        t = DESCRIPTOR_FIELD(desc, s32, gridWidth);
-        W(node, 0x54) = t;
-        W(node, 0x34) = t;
-        t = DESCRIPTOR_FIELD(desc, s32, visibleRows);
-        W(node, 0x6C) = t;
-        W(node, 0x38) = t;
-        t = DESCRIPTOR_FIELD(desc, s32, yLimit);
-        W(node, 0x58) = t;
-        t = DESCRIPTOR_FIELD(desc, s32, initialDrawState);
-        W(node, 0x3C) = t;
-        u = DESCRIPTOR_FIELD(desc, s32, initialDisabled);
+        node->update = (void (*)())t;
+        node->y = u;
+        t = desc->gridWidth;
+        node->x_limit = t;
+        node->grid_width = t;
+        t = desc->visibleRows;
+        node->visible_rows_mirror = t;
+        node->visible_rows = t;
+        t = desc->yLimit;
+        node->y_limit = t;
+        t = desc->initialDrawState;
+        node->draw_state = t;
+        u = desc->initialDisabled;
         tmp = u;
     }
-    W(node, 0x48) = 0;
-    W(node, 0x44) = 0;
-    W(node, 0x50) = -1;
-    W(node, 0x4C) = -1;
-    W(node, 0x5C) = 0;
-    W(node, 0x60) = 0;
-    W(node, 0x40) = tmp;
-    tmp = DESCRIPTOR_FIELD(desc, s32, layoutFlags);
-    W(node, 0x7C) = 0;
-    W(node, 0x78) = 0;
-    W(node, 0x84) = 0;
-    W(node, 0x88) = 0;
-    W(node, 0x68) = 0;
-    W(node, 0x64) = tmp;
-    W(node, 0x8C) = 0;
-    W(node, 0x80) = 0;
-    if (W(node, 0x38) < W(node, 0x58)) {
+    node->cursor_y = 0;
+    node->cursor_x = 0;
+    node->target_y = -1;
+    node->target_x = -1;
+    node->scroll_y = 0;
+    node->scroll_adjust = 0;
+    node->disabled = tmp;
+    tmp = desc->layoutFlags;
+    node->linkedNext = 0;
+    node->linkedPrevious = 0;
+    node->itemAction = 0;
+    node->refreshItems = 0;
+    node->has_scroll = 0;
+    node->layout_flags = tmp;
+    node->selectionAvailable = 0;
+    node->popup_node = 0;
+    if (node->visible_rows < node->y_limit) {
         Draw_SwapPrimBuffers(node);
     }
     MenuWidget_ApplyColumnLayout(node);
     return node;
 }
 
-#undef DESCRIPTOR_FIELD
