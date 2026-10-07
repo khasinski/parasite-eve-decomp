@@ -114,6 +114,19 @@ ORDER = [
 HEAVY = [key for key in ORDER if key not in ("gotos", "original_asm_units", "game_asm_units")]
 
 
+# Count fixed-register declarations hidden in GTE helpers per invocation, just
+# as if the declaration were written at the call site. Keep these weights in
+# sync with include/pe1/gte.h; XYZ includes the two XY staging registers.
+GTE_DECLARATION_PINS = {
+    "gte_declare_three_outputs": 3,
+    "gte_declare_separate_outputs": 6,
+    "gte_declare_rt4_results": 3,
+    "gte_declare_xy_staging": 2,
+    "gte_declare_xyz_staging": 3,
+    "gte_declare_shift12": 1,
+}
+
+
 def subsystem_of(rel: pathlib.PurePath) -> str:
     parts = rel.parts
     if parts[:2] == ("src", "overlays"):
@@ -141,6 +154,10 @@ def collect_debt(source_root: pathlib.Path = SRC,
         text = strip_comments(path.read_text(errors="ignore"))
         sub = subsystem_of(pathlib.PurePath(rel))
         counts = {k: len(PATTERNS[k].findall(text)) for k in ORDER}
+        counts["pins"] += sum(
+            weight * len(re.findall(r"\b" + name + r"\s*\(", text))
+            for name, weight in GTE_DECLARATION_PINS.items()
+        )
         kind = classify(path) if path.suffix == ".c" else None
         counts["asm_constrained_units"] = int(kind == "asm_constrained")
         game_asm = kind == "original_asm" and bool(GAME_ASM_USE.search(text))
