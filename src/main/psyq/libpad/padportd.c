@@ -52,7 +52,7 @@ int PadInitDirect(u8 *output0, u8 *output1) {
     g_MemCardCommandByte = 0;
     _padInitDirSeq();
 
-    asm("" : "=r"(obj) : "0"(&D_800A5B70[0]));
+    obj = &D_800A5B70[0];
     D_8009B724 = MemCard_DmaCompleteCallback;
     g_MemCardObjResetFn = CardObj_ResetFields;
     D_8009B72C = CardObj_ReadPayloadByte;
