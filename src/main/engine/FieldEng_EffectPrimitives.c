@@ -478,14 +478,13 @@ void func_800D2104(GteShortVector *position, u8 *color, int scale, int abr)
  * `position`, turned by `rotation`, gouraud shaded from color0 (near edge)
  * to color1 (far edge) at intensity/128 and textured with the cell at
  * (u, v); mode 0xFF draws it opaque, anything else semi-transparent.
- * Matching debt: eight register pins and two empty constraints. The camera
+ * Matching debt: seven register pins and two empty constraints. The camera
  * and local matrix uploads are gte_ldrotmatrix and gte_ldtransmatrix. */
 void func_800D2370(GteShortVector *position, GteRotation *rotation,
                    int length, int breadth, int u, int v, int texture_width,
                    int texture_height, int clut, RenderColor *color0,
-                   RenderColor *color1, int intensity, int modeArg)
+                   RenderColor *color1, int intensity, int mode)
 {
-    register int mode asm("$21") = modeArg;
     GteShortVector corners[4];
     RenderColor black;
     GteMatrix matrix;
