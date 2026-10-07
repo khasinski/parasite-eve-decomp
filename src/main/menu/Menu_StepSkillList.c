@@ -22,20 +22,17 @@ void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_MenuEquipMode;
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;
-extern M2C_UNK Menu_StepEquipConfirm[];
-#define Menu_StepEquipConfirm (Menu_StepEquipConfirm[0])
-extern M2C_UNK Menu_DrawEquipSelectionList[];
-#define Menu_DrawEquipSelectionList (Menu_DrawEquipSelectionList[0])
+int Menu_StepEquipConfirm(MenuWidgetNode *node, int input);
+void Menu_DrawEquipSelectionList(MenuWidgetNode *node);
 
-void Menu_StepSkillList(s32 arg0, s32 arg1) {
+void Menu_StepSkillList(MenuWidgetNode *arg0, s32 arg1) {
     M2C_UNK var_a0_2;
-    s32 saved_arg0 = arg0;
+    MenuWidgetNode *saved_arg0 = arg0;
     s32 saved_arg1 = arg1;
     s32 temp_v0;
     s32 temp_shift;
-    void *temp_s0;
-    register void *temp_v0_2 asm("$17");
-    register void *temp_v0_3 asm("$17");
+    MenuWidgetNode *child;
+    MenuWidgetNode *parent;
 
     if (g_MenuLayoutLocked != 0) {
         temp_v0 = Inv_RestoreSelection(0);
@@ -50,8 +47,8 @@ void Menu_StepSkillList(s32 arg0, s32 arg1) {
             }
             Inv_BuildFilteredPackedListExcluding(mask, temp_v0);
         }
-        temp_v0_2 = MenuWidget_FindByModeAndSelectedBase(1, 0x2F);
-        MenuWidget_OffsetPosition(temp_v0_2, 0xB4 - M2C_FIELD(temp_v0_2, s32 *, 0x18), 0xA4 - M2C_FIELD(temp_v0_2, s32 *, 0x1C));
+        parent = MenuWidget_FindByModeAndSelectedBase(1, 0x2F);
+        MenuWidget_OffsetPosition(parent, 0xB4 - parent->x, 0xA4 - parent->y);
     } else {
         var_a0_2 = 0x200;
         if (g_InvItemUsableFlag != 0) {
@@ -60,34 +57,34 @@ void Menu_StepSkillList(s32 arg0, s32 arg1) {
         Inv_BuildFilteredPackedList(var_a0_2);
     }
     if ((g_MenuEquipMode != 0) || (Inv_GetPackedListCount() != 0)) {
-        temp_v0_3 = MenuWidget_CreateSimpleNode(7, saved_arg0, 0, 0);
-        temp_s0 = MenuWidget_CreateNode(7, temp_v0_3, temp_v0_3);
-        M2C_FIELD(temp_v0_3, M2C_UNK **, 0x2C) = &Menu_StepEquipConfirm;
+        parent = MenuWidget_CreateSimpleNode(7, saved_arg0, 0, 0);
+        child = MenuWidget_CreateNode(7, parent, parent);
+        parent->update = (void (*)())Menu_StepEquipConfirm;
         {
             s32 temp_v1 = g_MenuLayoutLocked;
-            M2C_FIELD(temp_s0, M2C_UNK **, 0x30) = &Menu_DrawEquipSelectionList;
+            child->draw = &Menu_DrawEquipSelectionList;
             if (temp_v1 != 0) {
-                MenuWidget_ClearColumnLayout(temp_s0);
+                MenuWidget_ClearColumnLayout(child);
             }
         }
         if (g_InvItemUsableFlag == 0) {
-            func_80064B74(temp_s0, 0x13);
+            func_80064B74(child, 0x13);
         }
         if (saved_arg1 == 0) {
-            M2C_FIELD(temp_s0, s32 *, 0x44) = -1;
+            child->cursor_x = -1;
         } else {
-            M2C_FIELD(temp_s0, s32 *, 0x44) = 0;
+            child->cursor_x = 0;
         }
-        if (M2C_FIELD(temp_s0, s32 *, 0x48) < 0) {
-            M2C_FIELD(temp_s0, s32 *, 0x48) = 0;
+        if (child->cursor_y < 0) {
+            child->cursor_y = 0;
         }
-        if (M2C_FIELD(temp_s0, s32 *, 0x44) >= 0) {
-            MenuWidget_SetCurrentNode(temp_s0);
+        if (child->cursor_x >= 0) {
+            MenuWidget_SetCurrentNode(child);
         }
-        Draw_SetPrimCallback(temp_s0, Inv_GetPackedListCount());
+        Draw_SetPrimCallback(child, Inv_GetPackedListCount());
         if (g_MenuEquipMode != 0) {
-            M2C_FIELD(temp_s0, s32 *, 0x44) = -1;
-            MenuWidget_OffsetPosition(temp_v0_3, 0, 0x14);
+            child->cursor_x = -1;
+            MenuWidget_OffsetPosition(parent, 0, 0x14);
         }
         Menu_PlayConfirmSound();
         return;
