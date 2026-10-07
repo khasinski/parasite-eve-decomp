@@ -26,41 +26,41 @@ void Window_SetBoundsByMode(int mode);
 
 int Inv_FindItem(unsigned int arg0) {
     int result;
-    register unsigned char *limit asm("$18");
-    unsigned char *slot;
-    unsigned char *entry;
+    register ItemDataRecord *limit asm("$18");
+    ItemDataRecord *slot;
+    ItemDataRecord *entry;
     short *item;
     short *end;
     register int value asm("$3");
     register int savedValue asm("$5");
     int index;
     register int delta asm("$2");
-    unsigned char *base;
+    ItemDataRecord *base;
     unsigned int count;
 
     result = arg0;
-    slot = (u8 *)g_InvItemSlotArray;
-    if (slot < (u8 *)g_InvItemSlotArray + 0x1000) {
+    slot = g_InvItemSlotArray;
+    if (slot < g_InvItemSlotArray + 0x80) {
         while (1) {
-            if (ITEM_FIELD(slot, u8 *, itemId) == result) {
+            if (slot->itemId == result) {
                 break;
             }
-            slot += 0x20;
-            if (slot >= (u8 *)g_InvItemSlotArray + 0x1000) {
+            slot++;
+            if (slot >= g_InvItemSlotArray + 0x80) {
                 break;
             }
         }
 
-        limit = D_800C1EAC;
+        limit = (ItemDataRecord *)D_800C1EAC;
         if (slot < limit) {
-            g_InvItemPtr = (int)(limit - 0x1064);
+            g_InvItemPtr = (int)((u8 *)limit - 0x1064);
             count = Inv_GetAyaSlotLimit();
             g_InvSelectionBits = (int)g_AyaItemSelectionBits;
             g_InvSelectionBitWords = 2;
             asm volatile("" : "=r"(slot), "=r"(limit), "=r"(count) : "0"(slot), "1"(limit), "2"(count));
 
-            base = limit - 0x1000;
-            value = ((slot - base) >> 5) + 0x100;
+            base = limit - 0x80;
+            value = (slot - base) + 0x100;
             item = (short *)g_InvItemPtr;
             g_InvSlotLimit = count;
             end = item + count;
@@ -89,12 +89,12 @@ int Inv_FindItem(unsigned int arg0) {
                     asm volatile("" : "=r"(value) : "0"(value));
                     savedValue = value;
                     if ((unsigned int)(value - 0x100) < 0x80) {
-                        entry = g_EquipItemDataTable + value * 0x20;
+                        entry = &((ItemDataRecord *)g_EquipItemDataTable)[value];
                     } else if ((unsigned int)(value - 1) < 0xFF) {
                         entry = Item_LookupBaseData(value - 1);
                     } else if ((unsigned int)(delta = savedValue - 0x200) < 9) {
                         value = savedValue << 5;
-                        entry = g_KeyItemDataTable + value;
+                        entry = (ItemDataRecord *)(g_KeyItemDataTable + value);
                     } else {
                         entry = 0;
                     }
@@ -104,7 +104,7 @@ int Inv_FindItem(unsigned int arg0) {
 
                 value = 0;
                 if (entry != 0) {
-                    value = ITEM_FIELD(entry, u8 *, kind);
+                    value = entry->kind;
                 }
 
                 if (value != 0) {
