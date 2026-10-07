@@ -116,15 +116,20 @@ void LoadAverageByte(void *first, void *second, int first_scale,
                      int second_scale, void * volatile output) {
     int lzcr;
     register unsigned char *out asm("$13");
-    gte_declare_xy_staging();
-    gte_declare_shift12();
+    register int gte_x asm("$8");
+    register int gte_y asm("$9");
+    register int gte_shift asm("$11");
 
     gte_load_byte2(first);
-    gte_ldir0_ir12(first_scale);
+    gte_ldir0(first_scale);
+    gte_mtc2_9(gte_x);
+    gte_mtc2_10(gte_y);
     gte_gpf0();
     gte_load_byte2(second);
     gte_getlzcr_now(lzcr);
-    gte_ldir0_ir12(second_scale);
+    gte_ldir0(second_scale);
+    gte_mtc2_9(gte_x);
+    gte_mtc2_10(gte_y);
     gte_set_shift12();
     gte_gpl0_now();
     out = output;
@@ -140,15 +145,23 @@ void LoadAverageCol(void *first, void *second, int first_scale,
                     int second_scale, void * volatile output) {
     int lzcr;
     register unsigned char *out asm("$13");
-    gte_declare_xyz_staging();
-    gte_declare_shift12();
+    register int gte_x asm("$8");
+    register int gte_y asm("$9");
+    register int gte_z asm("$10");
+    register int gte_shift asm("$11");
 
     gte_load_byte3(first);
-    gte_ldir0_ir123(first_scale);
+    gte_ldir0(first_scale);
+    gte_mtc2_9(gte_x);
+    gte_mtc2_10(gte_y);
+    gte_mtc2_11(gte_z);
     gte_gpf0();
     gte_load_byte3(second);
     gte_getlzcr_now(lzcr);
-    gte_ldir0_ir123(second_scale);
+    gte_ldir0(second_scale);
+    gte_mtc2_9(gte_x);
+    gte_mtc2_10(gte_y);
+    gte_mtc2_11(gte_z);
     gte_set_shift12();
     gte_gpl0_now();
     out = output;
