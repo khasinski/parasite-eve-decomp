@@ -61,7 +61,7 @@ void Menu_OpenSaveLoadEntryPoint(int arg0);
 int Task_OpenSaveLoadMenu(int **arg0) {
     int *state = g_GameState;
     int **saved = arg0;
-    int *node;
+    TaskNode *node;
     int flags;
     int cursor;
 
@@ -69,8 +69,8 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         goto ret_zero;
     }
 
-    node = g_TaskNodePool;
-    flags = *(unsigned short *)(node + 2);
+    node = (TaskNode *)g_TaskNodePool;
+    flags = node->flags;
     if (flags & 0x20) {
         Render_BeginSceneLoad();
         Menu_OpenSaveLoadEntryPoint(**saved);
@@ -91,7 +91,7 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         }
     } else {
         cursor = g_SceneDataTable0;
-        *(unsigned short *)(node + 2) = flags | 0x20;
+        node->flags = flags | 0x20;
         cursor -= 0xC;
         g_SceneDataTable0 = cursor;
     }
