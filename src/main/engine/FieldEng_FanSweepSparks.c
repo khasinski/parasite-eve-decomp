@@ -82,28 +82,11 @@ int func_800D751C(int mode, FieldFanSweep *sweep)
         {
             GteMatrix **slot;
             register const GteMatrixWords *matrix asm("$8");
-            register u32 a asm("$12");
-            register u32 b asm("$13");
-            register u32 c asm("$14");
             slot = &D_800BCFA4.value;
             asm volatile("" : "=r"(slot) : "0"(slot));
             matrix = (const GteMatrixWords *)*slot;
-            a = matrix->r11_r12;
-            b = matrix->r13_r21;
-            gte_ctc2_0(a);
-            gte_ctc2_1(b);
-            a = matrix->r22_r23;
-            b = matrix->r31_r32;
-            c = matrix->r33_pad;
-            gte_ctc2_2(a);
-            gte_ctc2_3(b);
-            gte_ctc2_4(c);
-            a = matrix->tx;
-            b = matrix->ty;
-            gte_ctc2_5(a);
-            c = matrix->tz;
-            gte_ctc2_6(b);
-            gte_ctc2_7(c);
+            gte_ldrotmatrix(matrix);
+            gte_ldtransmatrix(matrix);
         }
         D_800F3368.depth = 8;
         func_800CE78C(sweep->pool);

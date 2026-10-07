@@ -11,8 +11,8 @@
  * away along local Z, turned by `rotation` and shaded per corner from
  * color0..color2 at intensity/128; mode 0xFF draws it opaque, anything
  * else adds a semi-transparent draw mode.
- * Matching debt: twelve register pins and four empty constraints. CPU
- * loads and depth arithmetic are C; every GTE instruction is separate. */
+ * Matching debt: six register pins and two empty constraints. The camera
+ * and local matrix uploads are gte_ldrotmatrix and gte_ldtransmatrix. */
 void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
                    int breadth, RenderColor *color0, RenderColor *color1,
                    RenderColor *color2, int intensity, int mode)
@@ -39,26 +39,8 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
     view = D_800BCFA4.value;
     {
         const GteMatrixWords *words = (const GteMatrixWords *)(view);
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        asm volatile("" : "=r"(words) : "0"(words));
-        a = words->r11_r12;
-        b = words->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = words->r22_r23;
-        b = words->r31_r32;
-        c = words->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = words->tx;
-        b = words->ty;
-        gte_ctc2_5(a);
-        c = words->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(words);
+        gte_ldtransmatrix(words);
     }
     gte_lwc2_0_0(position);
     gte_lwc2_1_4(position);
@@ -80,26 +62,8 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
     MulRotMatrix(&matrix);
     {
         register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)(&matrix);
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        asm volatile("" : "=r"(words) : "0"(words));
-        a = words->r11_r12;
-        b = words->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = words->r22_r23;
-        b = words->r31_r32;
-        c = words->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = words->tx;
-        b = words->ty;
-        gte_ctc2_5(a);
-        c = words->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(words);
+        gte_ldtransmatrix(words);
     }
     {
         GteShortVector *v0;
@@ -183,8 +147,8 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
  * color1 (tail side) at scale/128. A missing head repeats the previous
  * pair; count >= 1000 instead clears the first count - 999 pairs. Mode
  * 0xFF draws opaque, anything else semi-transparent.
- * Matching debt: eight register pins and one empty pointer constraint. CPU
- * matrix loads and depth arithmetic are C; each GTE instruction is separate. */
+ * Matching debt: five register pins and one empty pointer constraint. The
+ * camera upload is gte_ldrotmatrix and gte_ldtransmatrix. */
 void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
                    u8 *color0, u8 *color1, int scale, FieldTrailPair *history,
                    int mode)
@@ -259,26 +223,8 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
         tailColor[2] = color1[2] * scale / 128;
     }
     {
-        const GteMatrixWords *words = (const GteMatrixWords *)(view);
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        a = words->r11_r12;
-        b = words->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = words->r22_r23;
-        b = words->r31_r32;
-        c = words->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = words->tx;
-        b = words->ty;
-        gte_ctc2_5(a);
-        c = words->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix((const GteMatrixWords *)view);
+        gte_ldtransmatrix((const GteMatrixWords *)view);
     }
     for (i = 0; i < count; i++, history++, packet++) {
         u32 *depthOut = &depth;
@@ -548,8 +494,8 @@ void func_800D2104(GteShortVector *position, u8 *color, int scale, int abr)
  * `position`, turned by `rotation`, gouraud shaded from color0 (near edge)
  * to color1 (far edge) at intensity/128 and textured with the cell at
  * (u, v); mode 0xFF draws it opaque, anything else semi-transparent.
- * Matching debt: fourteen register pins and four empty constraints. CPU
- * matrix loads and depth arithmetic are C; each GTE instruction is separate. */
+ * Matching debt: eight register pins and two empty constraints. The camera
+ * and local matrix uploads are gte_ldrotmatrix and gte_ldtransmatrix. */
 void func_800D2370(GteShortVector *position, GteRotation *rotation,
                    int length, int breadth, int u, int v, int texture_width,
                    int texture_height, int clut, RenderColor *color0,
@@ -584,26 +530,8 @@ void func_800D2370(GteShortVector *position, GteRotation *rotation,
     packet->clut = clut;
     {
         register const GteMatrixWords *words asm("$19") = (const GteMatrixWords *)(view);
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        asm volatile("" : "=r"(words) : "0"(words));
-        a = words->r11_r12;
-        b = words->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = words->r22_r23;
-        b = words->r31_r32;
-        c = words->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = words->tx;
-        b = words->ty;
-        gte_ctc2_5(a);
-        c = words->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(words);
+        gte_ldtransmatrix(words);
     }
     gte_lwc2_0_0(position);
     gte_lwc2_1_4(position);
@@ -626,26 +554,8 @@ void func_800D2370(GteShortVector *position, GteRotation *rotation,
     MulRotMatrix(&matrix);
     {
         register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)(&matrix);
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        asm volatile("" : "=r"(words) : "0"(words));
-        a = words->r11_r12;
-        b = words->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = words->r22_r23;
-        b = words->r31_r32;
-        c = words->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = words->tx;
-        b = words->ty;
-        gte_ctc2_5(a);
-        c = words->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(words);
+        gte_ldtransmatrix(words);
     }
     {
         GteShortVector *v0;

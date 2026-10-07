@@ -4,9 +4,8 @@
 
 /* Haloed point at distance `x` from the view origin rotated by `y` about Z.
  * The halo is always drawn semi-transparent; `mode` is not read.
- * Matching debt: five pins and two empty pointer constraints. Matrix loads,
- * depth shift and depth store are C; GTE instructions and hazard nops are
- * individually wrapped. */
+ * Matching debt: two pins and one empty pointer constraint. The rotation
+ * upload is gte_ldrotmatrix. */
 void func_800D27FC(int x, int y, void *color, int scale, int mode)
 {
     GteShortVector offset;
@@ -34,20 +33,7 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
     RotMatrixZ(y, &matrix);
     {
         register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)&matrix;
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        asm volatile("" : "=r"(words) : "0"(words));
-        a = words->r11_r12;
-        b = words->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = words->r22_r23;
-        b = words->r31_r32;
-        c = words->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
+        gte_ldrotmatrix(words);
     }
     gte_lwc2_0_0(&offset);
     gte_lwc2_1_4(&offset);
