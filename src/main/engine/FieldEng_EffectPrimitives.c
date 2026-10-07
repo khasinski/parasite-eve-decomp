@@ -32,8 +32,7 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
     black = D_800C22A0;
     bias = (u16)D_800F3374;
     /* Keep intensity in s6 without pinning the later draw-mode lifetime. */
-    asm("" : : "r"(intensity));
-
+    
     packet = (FieldG3Packet *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
     D_8009CDD8 += sizeof(FieldG3Packet);
     view = D_800BCFA4.value;
@@ -61,7 +60,7 @@ void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
     RotMatrixYXZ((GteShortVector *)rotation, &matrix);
     MulRotMatrix(&matrix);
     {
-        register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)(&matrix);
+        const GteMatrixWords *words = (const GteMatrixWords *)(&matrix);
         gte_ldrotmatrix(words);
         gte_ldtransmatrix(words);
     }
@@ -162,7 +161,7 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
     FieldTileAddress table;
     FieldTileAddress ot;
     FieldTileAddress link;
-    register GteMatrix *view asm("$15");
+    GteMatrix *view;
     int bias;
     u32 i;
     u32 last;
@@ -553,7 +552,7 @@ void func_800D2370(GteShortVector *position, GteRotation *rotation,
     RotMatrixYXZ((GteShortVector *)rotation, &matrix);
     MulRotMatrix(&matrix);
     {
-        register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)(&matrix);
+        const GteMatrixWords *words = (const GteMatrixWords *)(&matrix);
         gte_ldrotmatrix(words);
         gte_ldtransmatrix(words);
     }
