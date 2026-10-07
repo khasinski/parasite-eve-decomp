@@ -56,7 +56,7 @@ void BattleCmd_UndoPending(void) {
         entry_tmp = top - 1;
         opcode = (top - 1)->header.word;
         D_8009D014 = entry_tmp;
-        asm volatile("" : "=r"(entry) : "0"(entry_tmp));
+        entry = entry_tmp;
 
         switch (opcode) {
         case 0:
