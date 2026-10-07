@@ -51,13 +51,7 @@ void DS_start_callback(unsigned int value) {
 }
 
 u32 DS_system_status(u32 mode) {
-    u32 offset;
-    u32 table_page;
-
-    offset = mode << 2;
-    /* g_DsReadStatusBlock is at 0x8009B574 in the USA image. */
-    table_page = 0x800A0000u;
-    return *(u32 *)(table_page + offset - 0x4A8Cu);
+    return ((u32 *)&g_DsReadStatusBlock)[mode];
 }
 
 extern unsigned char g_CdLastCmd;
