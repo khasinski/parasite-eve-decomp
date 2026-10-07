@@ -18,7 +18,6 @@
 #define STATE_FROM_PARAM(p)                                                            \
     ((CdRomEventCommandState *)((u8 *)(p) - PE1_OFFSETOF(CdRomEventCommandState,       \
                                                          command.read.commandParam)))
-extern u8 D_8009B581, D_8009B586, D_8009B587;
 extern CdlLOC D_8009B582;
 
 extern u32 D_8009B578;
@@ -55,7 +54,7 @@ void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
                 state->command.read.command = 11;
             }
             {
-                commandByte = &D_8009B581;
+                commandByte = &g_CdRomEventCommandState.command.read.commandMode;
                 asm("" : "=r"(commandByte) : "0"(commandByte));
                 *commandByte = STATE_FROM_MODE(commandByte)->pendingParamBytes[0];
             }
@@ -78,7 +77,7 @@ void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
             break;
         case 21:
         case 22: {
-            commandByte = &D_8009B586;
+            commandByte = &g_CdRomEventCommandState.command.read.retryCount;
             asm("" : "=r"(commandByte) : "0"(commandByte));
             *commandByte = STATE_FROM_RETRY(commandByte)->pendingCommand;
             break;
@@ -86,7 +85,7 @@ void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
         case 3:
         case 6:
         case 27: {
-            commandByte = &D_8009B587;
+            commandByte = &g_CdRomEventCommandState.command.read.commandParam;
             asm("" : "=r"(commandByte) : "0"(commandByte));
             *commandByte = STATE_FROM_PARAM(commandByte)->pendingCommand;
             break;
