@@ -3,14 +3,10 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-#include "include_asm.h"
 
 void BoundsCheck_AssertStub(int arg0);
 MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void);
 
-#define W(base, off) (*(s32 *)((char *)(base) + (off)))
-#define DESCRIPTOR_FIELD(base, type, member) \
-    (*(type *)((char *)(base) + PE1_OFFSETOF(MenuWidgetSimpleDescriptor, member)))
 
 void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     s32 mode = arg0;
@@ -18,9 +14,9 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     void *parent = arg2;
     s32 arg_flag = arg3;
     MenuWidgetSimpleDescriptor *desc;
-    void *node;
-    void *next;
-    void *old_head;
+    MenuWidgetNode *node;
+    MenuWidgetNode *next;
+    MenuWidgetNode *old_head;
 
     desc = MenuWidget_LookupSimpleDescriptor(mode);
     if (desc == 0) {
@@ -32,14 +28,14 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
         BoundsCheck_AssertStub(0xA);
     }
 
-    next = (void *)W(node, 0);
+    next = node->next;
     old_head = g_MenuWidgetActiveListHead;
     g_MenuWidgetActiveListHead = node;
-    W(node, 4) = (s32)parent_arg;
-    W(node, 0x2C) = 0;
-    W(node, 0x30) = 0;
+    node->parent = parent_arg;
+    node->update = 0;
+    node->draw = 0;
     g_MenuWidgetFreeListHead = next;
-    W(node, 0) = (s32)old_head;
+    node->next = old_head;
 
     {
         int i;
@@ -54,11 +50,11 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
         } while (i >= 0);
     }
 
-    W(node, 0x1C) = 0;
-    W(node, 0x18) = 0;
-    W(node, 0x24) = 0;
-    W(node, 0x20) = 0;
-    W(node, 0x28) = 0;
+    node->y = 0;
+    node->x = 0;
+    node->selected_base = 0;
+    node->mode = 0;
+    node->flags = 0;
 
     if (parent != 0) {
         int i;
@@ -87,42 +83,42 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     }
 
     if (arg_flag == 0) {
-        void *found;
+        MenuWidgetNode *found;
 
         found = MenuWidget_FindLastMode1WithCursorX();
         if (found != 0) {
-            void *head;
-            void *found_next;
-            void *node_next;
+            MenuWidgetNode *head;
+            MenuWidgetNode *found_next;
+            MenuWidgetNode *node_next;
 
             head = g_MenuWidgetActiveListHead;
-            found_next = (void *)W(found, 0);
-            node_next = (void *)W(head, 0);
-            W(head, 0) = (s32)found_next;
-            W(found, 0) = (s32)head;
+            found_next = found->next;
+            node_next = head->next;
+            head->next = found_next;
+            found->next = head;
             g_MenuWidgetActiveListHead = node_next;
         }
     }
 
-    W(node, 0x20) = 1;
-    W(node, 0x24) = mode;
-    if (DESCRIPTOR_FIELD(desc, s32, x) != 0) {
-        W(node, 0x18) = DESCRIPTOR_FIELD(desc, s32, x);
-        W(node, 0x1C) = DESCRIPTOR_FIELD(desc, s32, y);
+    node->mode = 1;
+    node->selected_base = mode;
+    if (desc->x != 0) {
+        node->x = desc->x;
+        node->y = desc->y;
     } else {
         register int x_base asm("$2");
         int width;
         int half_h;
         int flag;
 
-        width = DESCRIPTOR_FIELD(desc, s32, width);
+        width = desc->width;
         x_base = 0xA0;
         width >>= 1;
         x_base -= width;
-        W(node, 0x18) = x_base;
+        node->x = x_base;
 
-        x_base = DESCRIPTOR_FIELD(desc, s32, height);
-        flag = DESCRIPTOR_FIELD(desc, s32, y);
+        x_base = desc->height;
+        flag = desc->y;
         half_h = x_base >> 1;
         if (flag != 0) {
             x_base = 0x50;
@@ -130,17 +126,16 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
             x_base = 0x78;
         }
         x_base -= half_h;
-        W(node, 0x1C) = x_base;
+        node->y = x_base;
     }
 
-    W(node, 0x34) = DESCRIPTOR_FIELD(desc, s32, width);
-    W(node, 0x38) = DESCRIPTOR_FIELD(desc, s32, height);
-    W(node, 0x3C) = 0;
-    W(node, 0x40) = 0;
-    W(node, 0x44) = arg_flag;
-    W(node, 0x48) = 0;
-    W(node, 0x4C) = 0;
+    node->grid_width = desc->width;
+    node->visible_rows = desc->height;
+    node->draw_state = 0;
+    node->disabled = 0;
+    node->cursor_x = arg_flag;
+    node->cursor_y = 0;
+    node->target_x = 0;
     return node;
 }
 
-#undef DESCRIPTOR_FIELD
