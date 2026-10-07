@@ -27,12 +27,12 @@ void Field_GetMapEntry(RenderObjectEntity *arg0, s32 arg1) {
             v0 = t0->header->packet34_count;
             a2 = t0->primitive_buffer;
             if (v0 != 0) {
-                v0 = ((((a3 << 1) + a3) << 2) + a3) << 2;
+                v0 = a3 * 0x34;
                 goto has_entry;
             } else {
                 v0 = t0->header->packet28_count;
                 if (v0 != 0) {
-                    v0 = ((a3 << 2) + a3) << 3;
+                    v0 = a3 * 0x28;
 has_entry:
                     v0 = (s32) ((u8 *) v0 + (s32) a2);
                     v0 = ((RenderPacketState *)v0)->page_bits;
@@ -46,8 +46,7 @@ has_entry:
                 v0 = a0 << 3;
                 v1 = g_RenderPageDeltaTable;
                 v0 = (s32) ((u8 *)v1 + v0);
-                v1 = (void *)(t1 << 1);
-                a0 = *(s16 *)((u8 *)v1 + v0);
+                a0 = ((s16 *)v0)[t1];
                 v0 = t0->header->packet34_count;
                 a1 = 0;
                 if (v0 > 0) {
