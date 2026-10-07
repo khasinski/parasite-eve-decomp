@@ -339,8 +339,7 @@ int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
     ApplyMatrixSV(*(char **)(data + 0x238) + 0x260, &in1, out_s2);
     *(u16 *)(anim_s0 + 0x10) = field_s1[0] + out.x;
     y_base_v0 = D_800E2362;
-    asm volatile("" : "=r"(y_base_v0) : "0"(y_base_v0));
-    y_out_v1 = out.y;
+        y_out_v1 = out.y;
     *(u16 *)(anim_s0 + 0x12) = y_base_v0 + y_out_v1;
     z_base_v1 = D_800E2364;
     z_out_a0 = out.z;
