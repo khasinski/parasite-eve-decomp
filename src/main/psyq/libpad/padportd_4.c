@@ -176,9 +176,7 @@ int CardObj_GetChannelId(CardObj *entry) {
             return value;
         }
         value += 0x10;
-        do {
-            candidate += 1;
-        } while (0);
+        candidate += 1;
     }
 
     return 0xFF;
