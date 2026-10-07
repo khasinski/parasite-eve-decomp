@@ -97,6 +97,7 @@ return_zero:
 int _padGetActSize(CardObj *arg0) {
     int first;
     int second;
+    int responseBytes;
     int base;
     int raw_first;
     int raw_second;
@@ -106,12 +107,11 @@ int _padGetActSize(CardObj *arg0) {
     base = arg0->field_ec;
 
     first = raw_first + 1;
-    asm volatile("" : "=r"(first) : "0"(first));
     first >>= 1;
     first <<= 2;
 
-    second = (raw_second << 2) + raw_second;
-    second = (second + 3) & 0xFFC;
+    responseBytes = (raw_second << 2) + raw_second;
+    second = (responseBytes + 3) & 0xFFC;
     second += 4;
 
     first += second;
