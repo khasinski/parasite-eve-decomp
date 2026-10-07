@@ -250,7 +250,7 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
             }
         }
         {
-            register GteMatrix *transMatrix asm("$4") = *matrix_slot;
+            GteMatrix *transMatrix = *matrix_slot;
             AnimLoadTrans(transMatrix);
         }
         {
