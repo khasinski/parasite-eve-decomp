@@ -15,10 +15,9 @@ extern BattleEntity *D_800B8A90[];
 #define QUEUE_COUNT_READ (D_8009D23C_read.value)
 #define QUEUE_COUNT_WRITE (D_8009D23C_write.value)
 #define LOAD_RESULT (D_8009D208_absolute.value)
-int Battle_ProcessActionSlot(BattleEntity *entity)
+int Battle_ProcessActionSlot(BattleEntity *actor)
 {
-    register BattleEntity *actor asm("$7") = entity;
-    /* Fix the entity pointer in a3 before the prologue saves registers. */
+    /* Materialize the actor pointer before the prologue saves registers. */
     asm volatile("" : : "r"(actor));
     {
         EnemyCombatant *state = (EnemyCombatant *)actor->core;

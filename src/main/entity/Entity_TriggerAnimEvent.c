@@ -1,11 +1,10 @@
 #include "pe1/battle_entity_anim.h"
 
-/* Six register pins preserve retail register
+/* Five register pins preserve retail register
  * lifetimes and mask/address scheduling with stock GCC and maspsx. */
 
-int Entity_TriggerAnimEvent(BattleEntity *input, u8 slot)
+int Entity_TriggerAnimEvent(BattleEntity *entity, u8 slot)
 {
-    register BattleEntity *entity asm("$6") = input;
     int result = 0;
     register EntityAnimEventCore *initial asm("$3") = entity->core;
     register EntityAnimEventCore *core asm("$16");
