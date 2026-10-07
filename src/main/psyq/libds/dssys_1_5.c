@@ -19,19 +19,19 @@ int LIBDS_DSSYS_1_text_368(unsigned char command, void *param) {
         state->pendingParams = copy;
     } else state->pendingParams = 0;
     timeout = &g_CdRomCmdTimeout;
-    timeout[0] = g_CdRomCmdLongTimeoutTable[((unsigned char *)timeout)[-64]] ? 960 : 30;
-    timeout[1] = 0;
-    switch (((unsigned char *)timeout)[-64]) {
+    CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->command.read.readyResult = g_CdRomCmdLongTimeoutTable[CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->pendingCommand] ? 960 : 30;
+    CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->command.retryAttempts = 0;
+    switch (CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->pendingCommand) {
     case 7:
-        if (((unsigned char *)timeout)[-13] == 1) {
-            ((unsigned char *)timeout)[-64] = 1;
-            timeout[-14] = 0;
+        if (CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->command.read.eventFlags.bit1 == 1) {
+            CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->pendingCommand = 1;
+            CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->pendingParams = 0;
         }
         break;
     case 8:
-        if (((unsigned char *)timeout)[-13] != 1) {
-            ((unsigned char *)timeout)[-64] = 1;
-            timeout[-14] = 0;
+        if (CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->command.read.eventFlags.bit1 != 1) {
+            CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->pendingCommand = 1;
+            CDROM_EVENT_STATE_FROM_TIMEOUT(timeout)->pendingParams = 0;
         }
         break;
     }

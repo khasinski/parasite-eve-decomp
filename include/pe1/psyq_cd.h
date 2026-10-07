@@ -282,6 +282,11 @@ extern int g_CdRomCmdTimeout __asm__("D_8009B598");
 extern int g_CdRomCmdRetryState __asm__("D_8009B59C");
 extern int g_CdRomCmdLongTimeoutTable[];
 
+/* Recover the shared command window from its timeout/ready-result word. */
+#define CDROM_EVENT_STATE_FROM_TIMEOUT(pointer) \
+    ((CdRomEventCommandState *)((char *)(pointer) - \
+        PE1_OFFSETOF(CdRomEventCommandState, command.read.readyResult)))
+
 /* This word is also the base address used by CQ_execute. */
 extern int g_CdDsReadIndex;
 
