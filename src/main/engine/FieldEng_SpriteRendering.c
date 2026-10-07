@@ -545,9 +545,7 @@ void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *placement, u8 mode)
         xy0 = &packet->x0;
         xy1 = &packet->x1;
         xy2 = &packet->x2;
-        gte_stsxy0_precise(xy0);
-        gte_stsxy1_precise(xy1);
-        gte_stsxy2_precise(xy2);
+        gte_stsxy3(xy0, xy1, xy2);
         v0 = &D_800F3328;
         gte_lwc2_0_0(v0);
         gte_lwc2_1_4(v0);
@@ -669,9 +667,7 @@ void func_800C499C(FieldShadedQuadColors *colors, GteMatrix *placement,
         xy0 = &packet->x0;
         xy1 = &packet->x1;
         xy2 = &packet->x2;
-        gte_stsxy0_precise(xy0);
-        gte_stsxy1_precise(xy1);
-        gte_stsxy2_precise(xy2);
+        gte_stsxy3(xy0, xy1, xy2);
         v0 = &D_800F3328;
         gte_lwc2_0_0(v0);
         gte_lwc2_1_4(v0);
