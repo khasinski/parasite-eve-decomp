@@ -49,7 +49,7 @@ extern u32 D_8009CDA0;
 void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *view) {
     RenderObjectEntity *entity = input;
     s32 *viewMatrix = (s32 *)view;
-    register u32 *baseColour asm("$18") = (u32 *)0x1F800000;
+    u32 *baseColour = (u32 *)0x1F800000;
     register s16 *lightMatrix asm("$5") = (s16 *)0x1F800004;
     register RenderVec3s *normals asm("$16");
     register s32 offset asm("$17");
