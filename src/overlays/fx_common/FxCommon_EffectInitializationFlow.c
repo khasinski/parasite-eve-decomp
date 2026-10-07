@@ -83,7 +83,7 @@ void func_80196498(void)
     s32 pointIndex;
     FxCommonPoint8 *pointList;
     FxCommonMotionVec motion;
-    FxCommonShortVec shortMotion;
+    GteShortVector shortMotion;
     s32 variantBase;
     s32 textureIndexOrHasPoints;
     u8 *resourceTableData;

@@ -115,6 +115,7 @@ PE1_STATIC_ASSERT(sizeof(FxCommonPacketCursor) == 0x24,
 typedef union FxCommonTransformSeed {
     RoomFxSeed8 room;
     s16 component[4];
+    GteShortVector angles;
 } FxCommonTransformSeed;
 
 typedef struct FxCommonTransformNode {
@@ -262,7 +263,7 @@ void func_800752AC(void *allocation, int size);
 s16 func_80193B5C(s16 value);
 void *func_8006EC6C(void *data, int count);
 int func_8018F55C(u32 position, int radius, void *allocation,
-                   FxCommonMotionVec *vector, void *extra);
+                   FxCommonMotionVec *vector, GteShortVector *angles);
 int func_8006DF50(void *resource, int arg1, int arg2, int arg3, int enabled);
 void *PushMatrix(void);
 void CompMatrix(RoomSpriteMatrix *left, RoomSpriteMatrix *right,

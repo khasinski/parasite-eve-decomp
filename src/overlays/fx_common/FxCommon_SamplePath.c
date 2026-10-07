@@ -7,7 +7,7 @@
  * and a yaw/bank pair derived from the two neighbouring segment headings,
  * and returns the path's point count. */
 int func_8018F55C(u32 position, int index, void *table,
-                  FxCommonMotionVec *out, void *extra)
+                  FxCommonMotionVec *out, GteShortVector *extra)
 {
     GteVector start;
     GteVector middle;
@@ -18,7 +18,7 @@ int func_8018F55C(u32 position, int index, void *table,
     FxCommonOffsetByte *base;
     FxCommonOffsetByte *cursor;
     FxCommonPathPoint *points;
-    s16 *angles;
+    GteShortVector *angles;
     int fraction;
     int segment;
     int next;
@@ -77,15 +77,15 @@ int func_8018F55C(u32 position, int index, void *table,
     delta = nextYaw - yaw;
     delta *= fraction;
     bank = (yaw - nextYaw) >> 3;
-    angles[2] = bank;
-    angles[0] = 0;
-    angles[1] = yaw + (delta >> 8);
+    angles->z = bank;
+    angles->x = 0;
+    angles->y = yaw + (delta >> 8);
     if (bank > 0x80)
-        angles[2] = 0x80;
-    if (angles[2] < -0x80)
-        angles[2] = -0x80;
-    if (angles[2] >= -3 && angles[2] <= 3)
-        angles[2] = 0;
+        angles->z = 0x80;
+    if (angles->z < -0x80)
+        angles->z = -0x80;
+    if (angles->z >= -3 && angles->z <= 3)
+        angles->z = 0;
 
     start.x <<= 8;
     start.y <<= 8;

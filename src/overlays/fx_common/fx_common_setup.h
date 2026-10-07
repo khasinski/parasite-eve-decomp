@@ -3,8 +3,6 @@
 
 #include "fx_common.h"
 
-typedef struct FxCommonShortVec { s16 x, y, z, pad; } FxCommonShortVec;
-
 typedef struct FxTextureSetup { s16 x,y,w,h,tpage,clut; s32 reserved; } FxTextureSetup;
 typedef char FxTextureSetupSizeCheck[sizeof(FxTextureSetup)==16 ? 1 : -1];
 typedef char FxTextureSetupTpageCheck[(u32)&((FxTextureSetup*)0)->tpage==8 ? 1 : -1];

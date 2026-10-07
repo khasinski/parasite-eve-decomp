@@ -7,11 +7,11 @@ void func_801942FC(void)
     FxCommonMotionVec mode1NextSample;
     FxCommonMotionVec mode2Sample;
     FxCommonMotionVec mode2NextSample;
-    FxCommonShortVec shortA;
-    FxCommonShortVec shortB;
-    FxCommonShortVec sampleExtra;
+    GteShortVector shortA;
+    GteShortVector shortB;
+    GteShortVector sampleExtra;
     FxCommonMotionVec motionSample;
-    FxCommonShortVec motionExtra;
+    GteShortVector motionExtra;
     s32 copyX;
     s32 copyZ;
     s32 currentX;

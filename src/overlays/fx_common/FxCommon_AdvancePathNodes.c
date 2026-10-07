@@ -9,10 +9,10 @@ void func_80193478(void)
 
     func_8018F55C(D_8019C038, 0x4A, func_8006EC6C(&D_801D0260, 2),
                   (FxCommonMotionVec *)g_FxCommonPathNodes[4]->matrix.t,
-                  &g_FxCommonPathNodes[4]->seed);
+                  &g_FxCommonPathNodes[4]->seed.angles);
     func_8018F55C(D_8019C038, 0x4B, func_8006EC6C(&D_801D0260, 2),
                   (FxCommonMotionVec *)g_FxCommonPathNodes[5]->matrix.t,
-                  &g_FxCommonPathNodes[5]->seed);
+                  &g_FxCommonPathNodes[5]->seed.angles);
     func_8018F55C(D_8019C03C, 0x4C, func_8006EC6C(&D_801D0260, 2),
                   (FxCommonMotionVec *)g_FxCommonPathNodes[0]->matrix.t, &bank0);
     func_8018F55C(D_8019C03C, 0x4D, func_8006EC6C(&D_801D0260, 2),

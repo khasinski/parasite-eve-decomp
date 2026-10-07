@@ -5,13 +5,13 @@
  * interleaved vector reads, and snapshot stores; tracked in crutch debt. */
 void func_80195994(s32 index, s32 first, s32 second, s32 source) {
     FxCommonMotionVec point;
-    s32 extra[2];
+    GteShortVector extra;
     s32 rawIndex = index;
     s32 offset;
     register s32 firstValue asm("$18");
     s32 secondValue;
     u8 *table = &D_801D0260;
-    s32 *extraPtr;
+    GteShortVector *extraPtr;
     register s32 sourceValue asm("$22");
     register void *lookupTable asm("$4");
     register s32 lookupCount asm("$5");
@@ -38,7 +38,7 @@ void func_80195994(s32 index, s32 first, s32 second, s32 source) {
     asm("" : "=r"(secondValue) : "0"(second), "r"(lookupTable), "r"(lookupCount), "r"(sourceValue));
     base = func_8006EC6C(lookupTable, lookupCount);
     offset = (s16)rawIndex * 52;
-    extraPtr = extra;
+    extraPtr = &extra;
     func_8018F55C(sourceValue, D_801EA378[offset], base, &point, extraPtr);
 
     nextTable = table;
