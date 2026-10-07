@@ -331,13 +331,10 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
             gte_rtpt_command();
             *packet = template;
             {
-                register s16 *p0 asm("$4") = &packet->x0;
-                register s16 *p1 = &packet->x1;
-                register s16 *p2 asm("$2") = &packet->x2;
-                asm volatile("" : "=r"(p0), "=r"(p1), "=r"(p2) : "0"(p0), "1"(p1), "2"(p2));
-                gte_stsxy0(p0);
-                gte_stsxy1(p1);
-                gte_stsxy2(p2);
+                s16 *p0 = &packet->x0;
+                s16 *p1 = &packet->x1;
+                s16 *p2 = &packet->x2;
+                gte_stsxy3(p0, p1, p2);
             }
                         gte_stmac0(depthOut);
             if (depth == 0) {
@@ -903,7 +900,6 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
     radii[1] = height;
     for (i = 0; i < segments; i++, packet++) {
         /* Prevent a separate induction pointer for packet->code. */
-        asm volatile("" : "=r"(packet) : "0"(packet));
         angle = (i << 12) / segments;
         next = ((i + 1) << 12) / segments;
         vertices[1].x = rcos(angle) * radii[i & 1] / 4096;
@@ -1062,7 +1058,6 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
     vertices[0].z = vertices[1].z = vertices[2].z = vertices[3].z = 0;
     for (i = 0; i < segments; i++, packet++) {
         /* Prevent a separate induction pointer for packet->code. */
-        asm volatile("" : "=r"(packet) : "0"(packet));
         angle = (i << 12) / segments;
         next = ((i + 1) << 12) / segments;
         vertices[0].x = rcos(angle) * outer / 4096;
