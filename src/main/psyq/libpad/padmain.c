@@ -290,9 +290,8 @@ s32 _padSioRW(CardObj *inObj, s32 inByte) {
     register s32 outgoing = inByte;
     register s32 received asm("$4");
     register s32 deviceId;
-    register s32 initialByte asm("$17");
     register u32 baud;
-    register s32 replyByte asm("$17");
+    s32 replyByte;
     register s32 result asm("$2");
 
     if (outgoing < 0) {
@@ -301,7 +300,7 @@ s32 _padSioRW(CardObj *inObj, s32 inByte) {
         port->response_index = 0xFF;
         port->payload_index = 1;
         *port->field_40 = ~outgoing;
-        initialByte = received & 0xFF;
+        replyByte = received & 0xFF;
         if (!(D_8009B788->status & 1)) {
             do {
 
@@ -312,7 +311,7 @@ s32 _padSioRW(CardObj *inObj, s32 inByte) {
         } while (chkRC2wait() == 0);
         result = ~outgoing;
         D_8009B788->data = result;
-        result = initialByte;
+        result = replyByte;
         goto done;
     }
     {
