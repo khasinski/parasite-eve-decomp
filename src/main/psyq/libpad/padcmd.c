@@ -342,7 +342,7 @@ void CardObj_EmitCommand4D(CardObj *arg0) {
 }
 
 #define NULL ((void *)0)
-s32 Render_CheckParticleBounds(void *arg0) {
+s32 Render_CheckParticleBounds(CardObj *arg0) {
     s32 i;
     s32 ff;
     s32 offset;
@@ -350,15 +350,15 @@ s32 Render_CheckParticleBounds(void *arg0) {
     s32 matched;
     register s32 n asm("$3");
     s32 needed;
-    register void *out asm("$6");
+    register u8 *out asm("$6");
     register s32 limit asm("$2");
 
     i = 0;
-    if (M2C_FIELD(arg0, u8 *, 0xE9) != 0) {
+    if (arg0->field_e9 != 0) {
         ff = 0xFF;
         offset = 0;
         do {
-            cursor = M2C_FIELD(arg0, u8 **, 0x20);
+            cursor = (u8 *)arg0->field_20;
             matched = 0;
             n = 5;
             do {
@@ -367,31 +367,31 @@ s32 Render_CheckParticleBounds(void *arg0) {
                 }
                 n -= 1;
             } while (n >= 0);
-            needed = M2C_FIELD(offset + M2C_FIELD(arg0, s32 *, 4), u8 *, 2);
-            cursor = M2C_FIELD(arg0, u8 **, 0x20);
+            needed = ((PadCapabilityRecord *)(offset + (u32)arg0->field_04))->bytes[2];
+            cursor = (u8 *)arg0->field_20;
             n = 0;
             if (needed == 0) {
                 needed = 1;
             }
-            out = arg0;
+            out = (u8 *)arg0;
             do {
                 if (*cursor++ == i) {
                     if (matched < needed) {
-                        M2C_FIELD(out, u8 *, 0x5D) = ff;
+                        out[PE1_OFFSETOF(CardObj, field_5d)] = ff;
                         matched -= 1;
                     } else {
-                        M2C_FIELD(out, u8 *, 0x5D) = i;
+                        out[PE1_OFFSETOF(CardObj, field_5d)] = i;
                     }
                 }
                 n += 1;
                 out += 1;
             } while (n < 6);
-            limit = M2C_FIELD(arg0, u8 *, 0xE9);
+            limit = arg0->field_e9;
             i += 1;
             offset += 5;
         } while (i < limit);
     }
-    M2C_FIELD(arg0, u8 *, 0x46) = 0xFE;
+    arg0->field_46 = 0xFE;
     return 0;
 }
 
