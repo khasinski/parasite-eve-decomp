@@ -145,11 +145,9 @@ s32 CdRom_InitScreenState(void) {
         q += 8;
     } while (i < 2);
 
-    tmp2 = 0;
-    asm volatile("" : : "r"(tmp2));
     *(u16 *)(base + 0x6E) = 0;
     *(u16 *)(base + 0x70) = 0;
-    return tmp2;
+    return 0;
 }
 
 /* Re-evaluate the ordering pointer after the packet-tag write. */
