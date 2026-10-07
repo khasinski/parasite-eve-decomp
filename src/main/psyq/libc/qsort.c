@@ -38,17 +38,16 @@ void qsort(void *base, unsigned int count, unsigned int size,
 }
 
 void Mem_SwapBuffers(void *arg0, void *arg1, u32 len) {
-    register u8 *left asm("$8") = arg0;
-    u8 *right = arg1;
     u32 i;
 
-    asm volatile("" : "=r"(left) : "0"(left));
     i = 0;
     if (len != 0) {
         do {
+            register u8 *left = arg0;
             u8 *left_ptr;
             u8 *right_ptr;
             u8 left_value;
+            u8 *right = arg1;
             u8 right_value;
 
             left_ptr = left + i;
