@@ -41,7 +41,7 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     void *var_a1;
     register void *var_v1 asm("$3");
     MenuWidgetNode *temp_s2;
-    void *temp_s1;
+    MenuWidgetNode *temp_s1;
 
     temp_s2 = arg0;
     temp_s1 = arg1;
@@ -92,10 +92,7 @@ loop_6:
         }
 block_8:
         if (var_v0 != 0) {
-            void *temp_v0;
-            temp_v0 = (void *) (var_a0_2 * 4);
-            temp_v0 = (void *) ((s32) temp_v0 + temp_s1);
-            M2C_FIELD(temp_v0, void **, 8) = temp_s0;
+            temp_s1->children[var_a0_2] = temp_s0;
         } else {
             BoundsCheck_AssertStub(0xB, var_a1);
         }
