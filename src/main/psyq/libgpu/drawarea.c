@@ -33,19 +33,12 @@ int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) {
     if (signed_coord >= 0) {
         exceeds_limit = D_80095752 - 1 < signed_coord;
         limit = (u16)D_80095752;
-        if (exceeds_limit) {
-            y = limit - 1;
-            goto y_clamped;
-        }
-        packed_y = y & 0x3FF;
-        goto y_done;
+        y = exceeds_limit ? limit - 1 : y;
+    } else {
+        y = 0;
     }
-    y = 0;
-
-y_clamped:
     packed_y = y & 0x3FF;
 
-y_done:
     packed_y <<= 10;
     x_mask = x & 0x3FF;
     cmd_base = 0xE3000000;
@@ -83,19 +76,12 @@ int Gpu_BuildDrawAreaBottomRightCmd(int x, int y) {
     if (signed_coord >= 0) {
         exceeds_limit = D_80095752 - 1 < signed_coord;
         limit = (u16)D_80095752;
-        if (exceeds_limit) {
-            y = limit - 1;
-            goto y_clamped;
-        }
-        packed_y = y & 0x3FF;
-        goto y_done;
+        y = exceeds_limit ? limit - 1 : y;
+    } else {
+        y = 0;
     }
-    y = 0;
-
-y_clamped:
     packed_y = y & 0x3FF;
 
-y_done:
     packed_y <<= 10;
     x_mask = x & 0x3FF;
     cmd_base = 0xE4000000;
