@@ -192,12 +192,10 @@ retry:
 
 
 int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) {
-    int offset;
-    char *entry;
+    PmSlotHeader *entry;
     int cmd;
     PmCommand *handler;
     PmCommand **table;
-    int table_offset;
     PmSendCallback callback;
 
     if ((unsigned int)arg0 >= 0x16) {
@@ -212,14 +210,12 @@ int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) {
         offset_hi += idx;
         offset_hi <<= 2;
         offset_hi -= idx;
-        entry = (char *)g_PmSlotTable2 + (offset_hi << 2);
+        entry = (PmSlotHeader *)((char *)g_PmSlotTable2 + (offset_hi << 2));
     } else {
-        offset = (((((arg0 * 4) + arg0) << 5) + arg0) << 2) - arg0;
-        offset <<= 2;
-        entry = (char *)g_PmSlotTable + offset;
+        entry = &g_PmSlotTableTyped[arg0].header;
     }
 
-    cmd = *(u8 *)(entry + 1);
+    cmd = entry->command;
     if ((unsigned int)cmd >= 0xC0) {
         return -0xB;
     }
@@ -228,8 +224,7 @@ int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) {
     }
 
     table = g_PmCmdHandlerTable;
-    table_offset = cmd << 2;
-    handler = *(PmCommand **)(table_offset + (int)table);
+    handler = table[cmd];
     if (handler == 0) {
         return -0xC;
     }
@@ -239,19 +234,17 @@ int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) {
     }
 
     if ((arg1 == 1) && (arg2 == 0)) {
-        *arg3 = *(u8 *)(entry + 2);
-        *arg4 = *(u8 *)(entry + 3);
-        *arg5 = *(int *)(entry + 4);
+        *arg3 = entry->field02;
+        *arg4 = entry->field03;
+        *arg5 = entry->ticks;
     }
 
     {
         register PmCommand **reload_table asm("$3");
-        int reload_offset;
         reload_table = g_PmCmdHandlerTable;
-        reload_offset = cmd << 2;
-        handler = *(PmCommand **)(reload_offset + (u32)reload_table);
+        handler = reload_table[cmd];
         /* The table can change through arg3..arg5, so reload before calling. */
-        return handler->send((PmSlotHeader *)entry, arg1, arg2, arg3, arg4, arg5);
+        return handler->send(entry, arg1, arg2, arg3, arg4, arg5);
     }
 }
 
