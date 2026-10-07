@@ -174,12 +174,7 @@ s32 LIBDS_DSSYS_1_text_774(void) {
     value += 1;
     idx = idx << 2;
     *(s32 *)base = value;
-        {
-        /* g_CdRomCmdLongTimeoutTable is at 0x8009B5A4 in the USA image. */
-        u32 table_page = 0x800A0000u;
-        asm volatile("" : "=r"(table_page) : "0"(table_page));
-        value = *(s32 *)(table_page + idx - 0x4A5Cu);
-    }
+    value = *(s32 *)((char *)g_CdRomCmdLongTimeoutTable + idx);
     idx = 0x1E;
     if (value != 0) {
         idx = 0x3C0;
