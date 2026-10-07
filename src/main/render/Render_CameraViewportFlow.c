@@ -188,11 +188,10 @@ int Render_SetViewport(s16 *position) {
         local.point[2] = value;
     }
     {
-        register unsigned int cy asm("$15") = 112;
+        unsigned int cy = 112;
         /* C offset shifts; pins and the empty constraint retain scheduling. */
         {
-            asm volatile("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy));
-            gte_SetGeomOffset(cx, cy);
+                        gte_SetGeomOffset(cx, cy);
         }
     }
     {
@@ -495,11 +494,10 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         /* Narrow volatile register retains GCC's retail 24-byte frame.
          * This is a matching constraint, not evidence of the original type. */
         register volatile unsigned short cx asm("$10") = 160;
-        register unsigned int cy asm("$11") = 112;
+        unsigned int cy = 112;
         /* C offset shifts; pins and the empty constraint retain scheduling. */
         {
-            asm volatile("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy));
-            gte_SetGeomOffset(cx, cy);
+                        gte_SetGeomOffset(cx, cy);
         }
     }
     {
@@ -792,8 +790,7 @@ int Render_DrawSprite(void)
     rotation.matrix.m[2][0] = -sine;
     rotation.matrix.m[1][1] = 4096;
     axis.z = 4096;
-    asm volatile("" : : : "memory");
-    rotation.matrix.m[0][0] = cosine;
+        rotation.matrix.m[0][0] = cosine;
     rotation.matrix.m[2][2] = cosine;
     rotation.matrix.t[0] = rotation.matrix.t[1] = rotation.matrix.t[2] = 0;
     rotation.matrix.m[0][1] = rotation.matrix.m[1][0] = rotation.matrix.m[1][2] = rotation.matrix.m[2][1] = 0;
@@ -802,8 +799,7 @@ int Render_DrawSprite(void)
     {
         const GteMatrixWords *matrix;
         matrix = (const GteMatrixWords *)rotation.words;
-        asm volatile("" : "=r"(matrix) : "0"(matrix));
-        gte_ldrotmatrix(matrix);
+                gte_ldrotmatrix(matrix);
         gte_ldtransmatrix(matrix);
     }
     gte_lwc2_0_0(&axis);
@@ -817,12 +813,10 @@ int Render_DrawSprite(void)
     {
         GteVector *source;
         up.y = 4096;
-        asm volatile("" : : : "memory");
-        source = &up;
+                source = &up;
         up.x = 0;
         up.z = 0;
-        asm volatile("" : "=r"(source) : "0"(source));
-        gte_ldopv1_psyq(source);
+                gte_ldopv1_psyq(source);
     }
     {
         gte_ldopv2(&forward);
@@ -832,9 +826,8 @@ int Render_DrawSprite(void)
         gte_swc2_27_8(&right);
     }
     {
-        register GteVector *source asm("$3") = &forward;
-        asm volatile("" : "=r"(source) : "0"(source));
-        gte_ldopv1_psyq(source);
+        GteVector *source = &forward;
+                gte_ldopv1_psyq(source);
     }
     {
         gte_ldopv2(&right);
