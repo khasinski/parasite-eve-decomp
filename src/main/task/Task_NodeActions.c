@@ -117,33 +117,33 @@ int Task_SetEntityActionAndWait(int **arg0) {
         node->flags = flags | 0x20;
         ptr = arg0[0];
         {
-            char *state;
+            FieldActor *state;
             state = g_CurrentEntity[0];
             mode = *(u16 *)ptr;
-            Entity_SetActionMode(state, mode);
+            Entity_SetActionMode((char *)state, mode);
         }
         {
-            char *state;
+            FieldActor *state;
             state = g_CurrentEntityAfterAction[0];
-            *(int *)(state + 0x98) &= -0x101;
+            state->flags &= -0x101;
         }
         goto pop_state;
     } else {
-        char *state;
+        FieldActor *state;
         int keep;
 
         state = g_CurrentEntity[0];
-        if (*(u8 *)(state + 0xF) == 0) {
+        if (state->action == 0) {
             goto finish;
         }
-        if (*(int *)(state + 0x1C) >= 0) {
-            register unsigned int lhs asm("$2") = *(unsigned int *)(state + 0x14);
-            unsigned int rhs = *(unsigned int *)(state + 0x18);
+        if (state->anim_step >= 0) {
+            register unsigned int lhs asm("$2") = (u32)state->anim.fixed;
+            unsigned int rhs = (u32)state->anim_prev;
             int result = lhs < rhs;
             keep = result;
         } else {
-            unsigned int rhs = *(unsigned int *)(state + 0x14);
-            unsigned int lhs = *(unsigned int *)(state + 0x18);
+            unsigned int rhs = (u32)state->anim.fixed;
+            unsigned int lhs = (u32)state->anim_prev;
             int result = lhs < rhs;
             keep = result;
         }
@@ -159,10 +159,10 @@ finish:
 pop_state:
     {
         int cursor = g_SceneDataTable0;
-        int *active_node = (int *)g_TaskNodePool;
+        TaskNode *active_node = g_TaskNodePool;
         cursor -= 0xC;
         g_SceneDataTable0 = cursor;
-        ((TaskNode *)active_node)->active = 1;
+        active_node->active = 1;
         return 0;
     }
 }
