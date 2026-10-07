@@ -50,9 +50,8 @@ int Entity_FindNodeById(unsigned short **arg0) {
     unsigned int search_id;
     FieldActor *base;
 
-    node = g_TaskNodePool;
-    asm volatile("" : "=r"(node) : "0"(node));
     id = *arg0[0];
+    node = g_TaskNodePool;
     if (node->seq == id) {
         node->flags |= 0x10;
         return 0;
