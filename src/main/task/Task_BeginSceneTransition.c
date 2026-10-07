@@ -38,18 +38,18 @@ finish:
     Menu_OpenEquipScreen(**saved);
     {
         register int ret asm("$2") = state[0];
-        int *tail_node = g_TaskNodePool;
+        TaskNode *tail_node = (TaskNode *)g_TaskNodePool;
 
         int tail_flags;
         asm volatile("" : : "r"(ret), "r"(tail_node));
         ret |= 0x9000;
         state[0] = ret;
         ret = g_GameStateFlags[0];
-        tail_flags = *(unsigned short *)(tail_node + 2);
+        tail_flags = tail_node->flags;
         ret |= 4;
         tail_flags &= 0xFFDF;
         g_GameStateFlagsWrite[0] = ret;
-        *(unsigned short *)(tail_node + 2) = tail_flags;
+        tail_node->flags = tail_flags;
     }
 
 ret_one:
@@ -76,18 +76,18 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         Menu_OpenSaveLoadEntryPoint(**saved);
         {
             register int ret asm("$2") = state[0];
-            int *tail_node = g_TaskNodePool;
+            TaskNode *tail_node = (TaskNode *)g_TaskNodePool;
             int tail_flags;
 
             asm volatile("" : : "r"(ret), "r"(tail_node));
             ret |= 0x9000;
             state[0] = ret;
             ret = g_GameStateFlags[0];
-            tail_flags = *(unsigned short *)(tail_node + 2);
+            tail_flags = tail_node->flags;
             ret |= 4;
             tail_flags &= 0xFFDF;
             g_GameStateFlagsWrite[0] = ret;
-            *(unsigned short *)(tail_node + 2) = tail_flags;
+            tail_node->flags = tail_flags;
         }
     } else {
         cursor = g_SceneDataTable0;
@@ -97,10 +97,10 @@ int Task_OpenSaveLoadMenu(int **arg0) {
     }
 
     {
-        int *mark_node = g_TaskNodePool;
+        TaskNode *mark_node = (TaskNode *)g_TaskNodePool;
         int one = 1;
 
-        ((TaskNode *)mark_node)->active = one;
+        mark_node->active = one;
     }
 
 ret_zero:
