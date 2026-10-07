@@ -356,7 +356,7 @@ int Pm_Start(int arg0) {
 #undef PE1_GAME_STATE_LEGACY_RAW_VIEW
 
 int Pm_Exec(int arg0) {
-    char *entry;
+    PmSlotHeader *entry;
     int state;
     int cmd;
     PmCommand *handler;
@@ -376,12 +376,12 @@ int Pm_Exec(int arg0) {
         offset_hi += idx;
         offset_hi <<= 2;
         offset_hi -= idx;
-        entry = g_PmSlotTable2Raw + (offset_hi << 2);
+        entry = (PmSlotHeader *)(g_PmSlotTable2Raw + (offset_hi << 2));
     } else {
-        entry = (char *)&g_PmSlotTableTyped[arg0];
+        entry = &g_PmSlotTableTyped[arg0].header;
     }
 
-    state = *(u8 *)entry;
+    state = entry->state;
     if (((unsigned int)(state - 1) >= 2U) && ((unsigned int)(state - 4) >= 2U)) {
         return 0;
     }
@@ -389,16 +389,16 @@ int Pm_Exec(int arg0) {
     {
         int state2;
         asm volatile("" ::: "memory");
-        state2 = *(u8 *)entry;
+        state2 = entry->state;
         state = state2;
     }
     if (state == 4) {
-        *(u8 *)entry = 5;
+        entry->state = 5;
         return 0;
     }
     if (state == 5) {
         if ((unsigned int)arg0 < 0x16) {
-            char *cleanup;
+            PmSlotHeader *cleanup;
 
             if ((unsigned int)arg0 >= 0xB) {
                 int idx;
@@ -408,31 +408,31 @@ int Pm_Exec(int arg0) {
                 offset_hi += idx;
                 offset_hi <<= 2;
                 offset_hi -= idx;
-                cleanup = g_PmSlotTable2Raw + (offset_hi << 2);
+                cleanup = (PmSlotHeader *)(g_PmSlotTable2Raw + (offset_hi << 2));
             } else {
-                cleanup = (char *)&g_PmSlotTableTyped[arg0];
+                cleanup = &g_PmSlotTableTyped[arg0].header;
             }
-            if (*(u8 *)(cleanup + 1) == 0x72) {
+            if (cleanup->command == 0x72) {
                 for (i = 0x6C; i < 0x73; i++) {
                     g_PmAuxiliaryPointerTable.entries[i - 0x6C] = 0;
                 }
                 g_GameState &= 0xFFFEFFFF;
             }
-            *(u8 *)cleanup = 0;
-            *(u8 *)(cleanup + 1) = -1;
-            *(u8 *)(cleanup + 2) = -1;
-            *(u8 *)(cleanup + 3) = -1;
-            *(int *)(cleanup + 4) = 0;
-            *(int *)(cleanup + 8) = 0;
+            cleanup->state = 0;
+            cleanup->command = -1;
+            cleanup->field02 = -1;
+            cleanup->field03 = -1;
+            cleanup->ticks = 0;
+            cleanup->owner = 0;
         }
         return 0;
     }
 
     if (state == 1) {
-        *(u8 *)entry = 2;
+        entry->state = 2;
     }
 
-    cmd = *(u8 *)(entry + 1);
+    cmd = entry->command;
     if ((unsigned int)cmd >= 0xC0) {
         return -0x14;
     }
@@ -447,8 +447,8 @@ int Pm_Exec(int arg0) {
     }
     callback = handler->execute;
     if (callback != 0) {
-        int ret = callback((PmSlotHeader *)entry);
-        *(int *)(entry + 4) = *(int *)(entry + 4) + 1;
+        int ret = callback(entry);
+        entry->ticks = entry->ticks + 1;
         return ret;
     }
 
