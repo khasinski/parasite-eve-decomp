@@ -109,6 +109,11 @@ int DS_cw_system(int arg0) {
         return 0;
     }
     asm volatile("" : "=r"(ptr) : "0"(ptr));
-    ptr[-10] = 0x20;
+    {
+        volatile CdRomCommandState *command =
+            (volatile CdRomCommandState *)((char *)ptr -
+                PE1_OFFSETOF(CdRomCommandState, read.readyResult));
+        command->eventValue = 0x20;
+    }
     return LIBDS_DSSYS_1_text_368(arg0 & 0xFF);
 }
