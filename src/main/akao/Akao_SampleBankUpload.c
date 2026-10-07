@@ -79,7 +79,7 @@ int Akao_StepNoteSequencer(unsigned char *input, unsigned available)
     unsigned address;
     unsigned address_offset;
     unsigned upload_size;
-    register unsigned after_header asm("$2");
+    unsigned after_header;
     unsigned char *rebase_instruments;
     unsigned rebase_address;
     unsigned next_address;
