@@ -29,7 +29,7 @@ void func_80190460(void *unused0, void *unused1, char *effect) {
     scale = base;
     asm volatile("" : : "r"(scale));
     func_800C2EAC(*(u8 *)(owner + 0x24));
-    asm volatile("" : "=r"(position) : "0"(scale));
+    position = scale;
     func_800C3098(0x10);
     func_800C3238(2);
 
