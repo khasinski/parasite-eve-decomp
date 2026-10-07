@@ -216,7 +216,7 @@ void RoomLib_DrawTwelveElementEffect(void *unused0, void *unused1,
     register int pointValue asm("$2");
     RoomSpriteMatrix *transformArg;
 
-    asm("" : "=r"(workState) : "0"(state));
+    workState = state;
     clock = func_800C2B50();
     stack.seed = s_TwelveEffectDrawSeed;
     stack.localMatrix.m[2][2] = 0x1000;
