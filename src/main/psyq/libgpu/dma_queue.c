@@ -227,9 +227,7 @@ int Gpu_SetDisplayBuffer(void);
 int Gpu_DmaTimeoutCheck(void);
 
 static __inline__ unsigned int readGpuStatus(void) {
-    unsigned int status = *D_80095854;
-    asm volatile("" : "+r"(status));
-    return status;
+    return *(volatile u32 *)D_80095854;
 }
 
 int Gpu_DrainDmaQueue(int mode) {
