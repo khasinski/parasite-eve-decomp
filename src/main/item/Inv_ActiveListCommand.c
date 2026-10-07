@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+#include "pe1/battle.h"
 #include "pe1/inventory.h"
 
 /* Active-list commands from the item menus and the pending command result
@@ -18,11 +19,10 @@ void Inv_SelectActiveList(int);
 void BattleCmd_LoadWeaponModifiers(void);
 void MenuWidget_InitPool(void);
 
-struct WeaponBlock { u32 word[6]; };
 struct ArmorBlock { u32 word[2]; };
 
 void Inv_SetActiveList(int mode, int *slot) {
-    u8 *active;
+    Combatant *active;
     int *selection;
     u8 *entity;
     int value;
@@ -33,7 +33,7 @@ void Inv_SetActiveList(int mode, int *slot) {
     if (entity) {
         value = *(int *)entity;
         present = value != 0;
-            active = (u8 *)(value & -present);
+            active = (Combatant *)(value & -present);
     }
     switch (mode) {
     case 0:
@@ -46,7 +46,7 @@ void Inv_SetActiveList(int mode, int *slot) {
         if (active) {
             u8 *out = D_8009D1E0;
             if (out) {
-                *(struct WeaponBlock *)out = *(struct WeaponBlock *)(*(u8 **)(active+0x68));
+                *(BattleAction *)out = *(BattleAction *)(active->action);
                 Inv_BuildWeaponList(0, D_8009D1E0);
             }
             if (Menu_GetBattleEquipMode()) D_8009D010 = 0x197;
@@ -57,7 +57,7 @@ void Inv_SetActiveList(int mode, int *slot) {
         if (active) {
             u8 *out = D_8009D1E0;
             if (out) {
-                *(struct ArmorBlock *)out = *(struct ArmorBlock *)(*(u8 **)(active+0x6C));
+                *(struct ArmorBlock *)out = *(struct ArmorBlock *)(active->attributes);
                 Inv_BuildArmorList(D_8009D1E0);
             }
             if (Menu_GetBattleEquipMode()) D_8009D010 = 0x198;
@@ -66,19 +66,19 @@ void Inv_SetActiveList(int mode, int *slot) {
         break;
     case 5:
         if (active) {
-            register u8 *data asm("$5") = *(u8 **)(active + 0x68);
+            register BattleAction *data asm("$5") = active->action;
             ItemDataRecord *item = *(ItemDataRecord **)selection;
-            register u32 word asm("$3") = *(u32 *)(data + 0xC);
+            register u32 word asm("$3") = data->attackWord;
             register int mask asm("$4") = -0x400;
             int kind;
             int encoded;
             u32 flags2;
             register u32 shifted asm("$2");
             word = (word & mask) | (item->ammo & 0x3FF);
-            *(u32 *)(data + 0xC) = word;
+            data->attackWord = word;
                     item = *(ItemDataRecord **)selection;
             kind = item->kind;
-            data = *(u8 **)(active + 0x68);
+            data = active->action;
             if (kind != 0 && (unsigned)kind < 8) {
                 asm volatile("" ::: "memory");
                 encoded = kind - 4;
@@ -89,13 +89,13 @@ void Inv_SetActiveList(int mode, int *slot) {
                 if ((unsigned)kind < 19) encoded = 0;
                 else encoded = kind - 18;
             }
-            flags2 = *(u32 *)(data+0xC);
+            flags2 = data->attackWord;
             shifted = 0xFFCFFFFF;
             flags2 &= shifted;
             shifted = encoded & 3;
             shifted <<= 20;
             flags2 |= shifted;
-            *(u32 *)(data+0xC) = flags2;
+            data->attackWord = flags2;
         }
         break;
     case 8: D_8009D010 = 0x199; break;
