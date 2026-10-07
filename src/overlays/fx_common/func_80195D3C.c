@@ -1,7 +1,5 @@
 #include "fx_common_vectors.h"
-
-typedef FxCommonVec3 FxVec3;
-typedef FxCommonVec2 FxVec2;
+#include "pe1/gte_types.h"
 
 extern char D_801D0260[];
 extern unsigned char D_8019C040, D_8019C041, D_8019C042;
@@ -9,12 +7,12 @@ extern int D_8019C810, D_8019C814, D_8019C818;
 extern int D_8019C330, D_8019C334, D_8019C338;
 
 extern int func_8006EC6C(void *, int);
-extern int func_8018F55C(int, int, int, FxVec3 *, FxVec2 *);
+extern int func_8018F55C(int, int, int, FxCommonVec3 *, GteShortVector *);
 
 void func_80195D3C(void)
 {
-    FxVec3 point;
-    FxVec2 scratch;
+    FxCommonVec3 point;
+    GteShortVector scratch;
     int lookup;
 
     if (D_8019C040 > 1) {
