@@ -1,4 +1,5 @@
 #include "fx_common.h"
+#include "fx_common_motion.h"
 
 /* Pins and empty scheduling barriers preserve the retail argument setup,
  * interleaved vector reads, and snapshot stores; tracked in crutch debt. */
@@ -43,12 +44,12 @@ void func_80195994(s32 index, s32 first, s32 second, s32 source) {
     nextTable = table;
     firstValue &= 0xff;
     px = point.x;
-    bx = D_8019C810;
+    bx = g_FxCommonMotionPosition0.x;
     asm volatile("" : : "r"(bx) : "memory");
     py = point.y;
-    by = D_8019C814;
+    by = g_FxCommonMotionPosition0.y;
     pz = point.z;
-    bz = D_8019C818;
+    bz = g_FxCommonMotionPosition0.z;
     rawIndex = 1;
     D_8019C056 = firstValue;
     firstValue = rawIndex << firstValue;
@@ -73,15 +74,15 @@ void func_80195994(s32 index, s32 first, s32 second, s32 source) {
     asm volatile("" : "=r"(secondValue) : "0"(secondValue));
     secondValue &= 0xff;
     qx = point.x;
-    ax = D_8019C330;
+    ax = g_FxCommonMotionPosition1.x;
     asm volatile("" : : "r"(ax) : "memory");
     qy = point.y;
     asm volatile("" : : "r"(qy) : "memory");
-    ay = D_8019C334;
+    ay = g_FxCommonMotionPosition1.y;
     asm volatile("" : : "r"(ay) : "memory");
     qz = point.z;
     asm volatile("" : : "r"(qz) : "memory");
-    az = D_8019C338;
+    az = g_FxCommonMotionPosition1.z;
     asm volatile("" : : "r"(az) : "memory");
     rawIndex = 1;
     rawIndex <<= secondValue;
