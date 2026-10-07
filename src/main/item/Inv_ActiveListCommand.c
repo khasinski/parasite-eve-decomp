@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+#include "pe1/inventory.h"
 
 /* Active-list commands from the item menus and the pending command result
  * (D_8009D010) that the menu loop polls and clears. */
@@ -66,7 +67,7 @@ void Inv_SetActiveList(int mode, int *slot) {
     case 5:
         if (active) {
             register u8 *data asm("$5") = *(u8 **)(active + 0x68);
-            u8 *item = *(u8 **)selection;
+            ItemDataRecord *item = *(ItemDataRecord **)selection;
             register u32 word asm("$3") = *(u32 *)(data + 0xC);
             register int mask asm("$4") = -0x400;
             int kind;
@@ -74,18 +75,18 @@ void Inv_SetActiveList(int mode, int *slot) {
             register u32 flag_mask asm("$2");
             u32 flags2;
             register u32 shifted asm("$2");
-            word = (word & mask) | (*(u16 *)(item + 0xA) & 0x3FF);
+            word = (word & mask) | (item->ammo & 0x3FF);
             *(u32 *)(data + 0xC) = word;
-                    item = *(u8 **)selection;
-            kind = item[6];
+                    item = *(ItemDataRecord **)selection;
+            kind = item->kind;
             data = *(u8 **)(active + 0x68);
             if (kind != 0 && (unsigned)kind < 8) {
                 asm volatile("" ::: "memory");
                 encoded = kind - 4;
                 if (encoded <= 0) encoded = 1;
             } else {
-                            item = *(u8 **)selection;
-                kind = item[6];
+                            item = *(ItemDataRecord **)selection;
+                kind = item->kind;
                 if ((unsigned)kind < 19) encoded = 0;
                 else encoded = kind - 18;
             }
