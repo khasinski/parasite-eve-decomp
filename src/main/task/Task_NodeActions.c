@@ -25,7 +25,7 @@ int Task_SpawnChildNode(int **args) {
 
     if ((node->flags & 3) != 0) {
         register int *value_ptr asm("$2");
-        register int *state asm("$5");
+        register FieldActor *state asm("$5");
         TaskNode *entry;
         u16 seq;
         register int value asm("$4");
@@ -33,12 +33,12 @@ int Task_SpawnChildNode(int **args) {
         TaskNode *next;
 
         value_ptr = args[0];
-        state = (int *)g_CurrentEntity[0];
+        state = g_CurrentEntity[0];
         entry = g_TaskNodeFreeListHead;
         seq = g_TaskNodeSeqCounter;
         value = *value_ptr;
-        base = state[0x9C / 4];
-        asm volatile("" : "=r"(entry) : "0"(entry), "r"(value), "r"(base));
+        base = (int)state->script_base;
+        asm volatile("" : "=r"(entry) : "0"(entry));
         next = entry->next;
         entry->prev = 0;
         entry->next = 0;
@@ -52,7 +52,7 @@ int Task_SpawnChildNode(int **args) {
         value += base;
         entry->current = value;
         {
-            TaskNode *head = (TaskNode *)state[0xA8 / 4];
+            TaskNode *head = state->task_node_lists[2];
             seq++;
             g_TaskNodeSeqCounter = seq;
             g_TaskNodeFreeListHead = next;
@@ -60,19 +60,19 @@ int Task_SpawnChildNode(int **args) {
             if (head != 0) {
                 head->prev = entry;
             }
-            ((TaskNode **)g_CurrentEntity[0])[0xA8 / 4] = entry;
+            g_CurrentEntity[0]->task_node_lists[2] = entry;
         }
     } else {
         register TaskNode *entry asm("$5") = g_TaskNodeFreeListHead;
         register int *value_ptr asm("$2") = args[0];
-        register int *state asm("$4") = g_CurrentEntity[0];
+        register FieldActor *state asm("$4") = g_CurrentEntity[0];
         TaskNode *next = entry->next;
         int value;
 
         value = *value_ptr;
         g_TaskNodeFreeListHead = next;
         asm volatile("" : : : "memory");
-        value = (value << 1) + state[0x9C / 4];
+        value = (value << 1) + (int)state->script_base;
         if (node != 0) {
             entry->prev = node;
             next = node->next;
