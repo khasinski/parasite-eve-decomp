@@ -8,16 +8,16 @@
 extern void parcpy(void *, const void *);
 
 int LIBDS_DSSYS_1_text_368(unsigned char command, void *param) {
-    unsigned char *state;
+    CdRomEventCommandState *state;
     int *timeout;
     CD_flush();
-    state = (unsigned char *)&g_CdRomEventCommandState;
-    state[0] = command;
+    state = &g_CdRomEventCommandState;
+    state->pendingCommand = command;
     if (param) {
-        unsigned char *copy = state + 1;
+        unsigned char *copy = state->pendingParamBytes;
         parcpy(copy, param);
-        *(void **)(state + 8) = copy;
-    } else *(void **)(state + 8) = 0;
+        state->pendingParams = copy;
+    } else state->pendingParams = 0;
     timeout = &g_CdRomCmdTimeout;
     timeout[0] = g_CdRomCmdLongTimeoutTable[((unsigned char *)timeout)[-64]] ? 960 : 30;
     timeout[1] = 0;
@@ -36,13 +36,13 @@ int LIBDS_DSSYS_1_text_368(unsigned char command, void *param) {
         break;
     }
     {
-        unsigned char *current = (unsigned char *)&g_CdRomEventCommandState;
-        if (CD_cw(current[0], *(void **)(current + 8), 0, 1)) {
-            *(int *)(current + 68) = 0;
-            *(int *)(current + 64) = 0;
+        CdRomEventCommandState *current = &g_CdRomEventCommandState;
+        if (CD_cw(current->pendingCommand, current->pendingParams, 0, 1)) {
+            current->command.retryAttempts = 0;
+            current->command.read.readyResult = 0;
             return 0;
         } else {
-            current[40] = current[0];
+            current->command.read.lastCommand = current->pendingCommand;
             return 1;
         }
     }
