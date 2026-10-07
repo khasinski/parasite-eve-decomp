@@ -32,7 +32,7 @@ int MemCard_DmaCompleteCallback(int result) {
     CardObj *obj;
     int index;
     register MemCardTransferControl *control asm("$2");
-    register int limit asm("$2");
+    int limit;
     int offset;
     int nextResult;
 
@@ -62,7 +62,7 @@ int MemCard_DmaCompleteCallback(int result) {
         D_8009B768 = 0;
         asm volatile("" : : : "memory");
         control->status = 0;
-        asm("" : "=r"(limit) : "0"(g_MemCardPort2Present));
+        limit = g_MemCardPort2Present;
         index += 1;
         g_MemCardDmaStoredIndex = index;
         asm volatile("" : : : "memory");
