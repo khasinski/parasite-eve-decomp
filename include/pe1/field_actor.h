@@ -2,6 +2,7 @@
 #define PE1_FIELD_ACTOR_H
 
 #include "common.h"
+#include "pe1/task_node.h"
 #include "pe1/render_object.h"
 
 typedef struct FieldActorState FieldActorState;
@@ -59,7 +60,7 @@ typedef struct FieldActor {
     /* 0x094 */ unsigned char pad_094[0x04];
     /* 0x098 */ unsigned int flags;
     /* 0x09C */ unsigned char *script_base; /* base of the entity's 16-bit scene script */
-    /* 0x0A0 */ struct FieldActorNode *task_node_lists[3]; /* 3 task-node list heads (Entity_MarkNodeFree) */
+    /* 0x0A0 */ TaskNode *task_node_lists[3]; /* 3 task-node list heads (Entity_MarkNodeFree) */
     /* 0x0AC */ unsigned char pad_0AC[0xE0];
     /* 0x18C */ struct FieldActor *parent; /* parent actor; child copies its pos/rot when flags & 0x400000 */
     /* 0x190 */ void (*frame_callback)(struct FieldActor *actor); /* run first every frame */
@@ -206,15 +207,6 @@ typedef struct FieldMoveTarget {
     unsigned char padA6[0x03];
     unsigned char enabled;       /* 0xA9 */
 } FieldMoveTarget;
-/* Task/scene node: elements of the per-entity task_node_lists and g_TaskNodePool.
- * Walked and freed by Entity_MarkNodeFree. */
-typedef struct FieldActorNode {
-    /* 0x00 */ unsigned char pad_00[0x08];
-    /* 0x08 */ unsigned short flags;   /* |= 0x10 marks the node free (Entity_MarkNodeFree) */
-    /* 0x0A */ unsigned char pad_0A[0x1A];
-    /* 0x24 */ struct FieldActorNode *next;
-} FieldActorNode;
-
 #define FIELD_ACTOR_POS_X 0x28
 #define FIELD_ACTOR_POS_Y 0x2C
 #define FIELD_ACTOR_POS_Z 0x30

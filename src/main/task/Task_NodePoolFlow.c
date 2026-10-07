@@ -72,7 +72,7 @@ void Task_GarbageCollectNodes(void) {
                                 node->prev->next = next;
                             } else {
                                 group->task_node_lists[i] =
-                                    (struct FieldActorNode *)next;
+                                    next;
                             }
 
                             if (node->next != 0) {

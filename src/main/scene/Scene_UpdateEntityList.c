@@ -16,7 +16,7 @@ static inline void Start(FieldActor *actor, FieldSfxQueueEntry *event)
     node->next = (TaskNode *)actor->task_node_lists[2];
     if (node->next)
         node->next->prev = node;
-    actor->task_node_lists[2] = (struct FieldActorNode *)node;
+    actor->task_node_lists[2] = node;
 }
 
 void Scene_UpdateEntityList(void)

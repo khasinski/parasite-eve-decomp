@@ -38,7 +38,7 @@ static inline void Scene_LinkContactTask(FieldActor *self, FieldActor *other)
                 node->next = head;
                 head->prev = node;
             }
-            self->task_node_lists[1] = (struct FieldActorNode *)node;
+            self->task_node_lists[1] = node;
         }
     }
 }

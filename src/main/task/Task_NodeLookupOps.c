@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/task_node.h"
+#include "pe1/field_actor.h"
 
 extern int g_SceneDataTable0;
 extern TaskNode *g_TaskNodePool;
@@ -39,15 +40,15 @@ int Task_GetNodeTargets18_1C(int **arg0) {
 #include "pe1/task_node.h"
 
 extern TaskNode *g_TaskNodePool;
-extern char *g_CurrentEntity[];
+extern FieldActor *g_CurrentEntity[];
 
 int Entity_FindNodeById(unsigned short **arg0) {
     TaskNode *node;
     TaskNode *cur;
-    register unsigned int id asm("$2");
+    unsigned short id;
     unsigned int bucket;
     unsigned int search_id;
-    char *base;
+    FieldActor *base;
 
     node = g_TaskNodePool;
     asm volatile("" : "=r"(node) : "0"(node));
@@ -61,7 +62,7 @@ int Entity_FindNodeById(unsigned short **arg0) {
     search_id = id;
     bucket = 0;
     do {
-        cur = *(TaskNode **)(base + 0xA0 + ((bucket & 0xFF) * 4));
+        cur = base->task_node_lists[bucket & 0xFF];
         while (cur != 0) {
             if (cur->seq == search_id) {
                 cur->flags |= 0x10;
