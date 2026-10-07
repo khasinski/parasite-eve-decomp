@@ -195,7 +195,7 @@ int DrawSync(int arg0) {
     }
 
     callbacks = D_80095744;
-    callbacks->callback3C(arg0);
+    return callbacks->callback3C(arg0);
 }
 
 extern char D_800118B8[], D_800118A4[], D_80011898[];
