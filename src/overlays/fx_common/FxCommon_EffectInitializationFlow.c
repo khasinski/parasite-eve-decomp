@@ -466,7 +466,7 @@ void func_80196498(void)
         FxCommonNode *node = g_FxCommonType26Nodes[3];
         /* Keep the resource-offset constant after the final node loads. */
         asm("" : : "r"(subtypeFixed), "r"(node));
-        asm volatile("" : "=r"(resourceOffset) : "0"(4), "r"(node));
+        resourceOffset = 4;
         node->state[1] = 0x1B58;
     }
     g_FxCommonType26Nodes[3]->state[2] = 0xBB8;
