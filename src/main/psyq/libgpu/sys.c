@@ -187,18 +187,16 @@ void SetDispMask(int mask) {
 extern char D_80011884[];
 
 int DrawSync(int arg0) {
-    register int saved asm("$16");
     void (*fn)(char *, int);
     GpuCallbacks *callbacks;
 
-    saved = arg0;
     if (D_8009574C.queueState.debugLevel >= 2) {
         fn = D_80095748;
-        fn(D_80011884, saved);
+        fn(D_80011884, arg0);
     }
 
     callbacks = D_80095744;
-    callbacks->callback3C(saved);
+    callbacks->callback3C(arg0);
 }
 
 extern char D_800118B8[], D_800118A4[], D_80011898[];
