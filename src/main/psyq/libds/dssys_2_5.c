@@ -453,9 +453,8 @@ void DsFlush(void) {
         p->parameter = 0;
         p->callback = 0;
         p->count = 0;
-        asm volatile("" : "=r"(i) : "0"(i));
-        i++;
         p++;
+        i++;
     }
 
     DsEndReadySystem();
