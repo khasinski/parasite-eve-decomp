@@ -51,34 +51,22 @@ not_found:
     }
 found:
     sel = *args[0];
-    if (sel == 1) {
-        goto case1;
-    }
-    if (sel < 2) {
-        if (sel == 0) {
-            goto case0;
-        }
+    switch (sel) {
+    case 0:
+        *args[3] = node->mode;
+        break;
+    case 1:
+        *args[3] = node->flags;
+        break;
+    case 2:
+        *args[3] = (s16)node->anim.parts.integer;
+        break;
+    case 3:
+        *args[3] = node->action;
+        break;
+    default:
         return 1;
     }
-    if (sel == 2) {
-        goto case2;
-    }
-    if (sel == 3) {
-        goto case3;
-    }
-    return 1;
-case0:
-    *args[3] = node->mode;
-    goto done;
-case1:
-    *args[3] = node->flags;
-    goto done;
-case2:
-    *args[3] = (s16)node->anim.parts.integer;
-    goto done;
-case3:
-    *args[3] = node->action;
-done:
     return 1;
 }
 
