@@ -43,13 +43,7 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
         return value;
     default:
     {
-        SpuRegs *base;
-        u32 addr;
-
-        base = _spu_RXX;
-        addr = offset * 2;
-        addr = addr + (u32) base;
-        *(u16 *)addr = shifted;
+        ((u16 *)_spu_RXX)[offset] = shifted;
         return value;
     }
     }
