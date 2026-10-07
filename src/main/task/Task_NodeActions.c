@@ -267,15 +267,15 @@ cached_args:
 
 have_args:
     {
-        char *state;
+        FieldActor *state;
         register int dx asm("$6");
         int dy;
         register int tmp asm("$2");
 
         state = g_CurrentEntityForDirection[0];
-        tmp = *(int *)(state + 0x28);
+        tmp = state->pos_x;
         dx = (tmp - x) >> 16;
-        dy = (*(int *)(state + 0x30) - y) >> 16;
+        dy = (state->pos_z - y) >> 16;
         if ((dx | dy) == 0) {
             return 1;
         }
@@ -283,10 +283,10 @@ have_args:
     }
 
     {
-        char *state;
+        FieldActor *state;
         state = g_CurrentEntity[0];
         angle &= 0xFFF;
-        original = *(short *)(state + 0x3A);
+        original = state->rot_y;
     }
     stepped = angle;
     if (angle == original) {
@@ -295,12 +295,11 @@ have_args:
 
     {
         int current = original;
-        register int desired asm("$3") = angle;
         register int out asm("$6") = stepped;
         int delta;
 
-        if (current < desired) {
-            delta = desired - current;
+        if (current < angle) {
+            delta = angle - current;
             if (delta < 0x800) {
                 if (step < delta) {
                     out = current + step;
@@ -309,14 +308,14 @@ have_args:
                 out = current - step;
                 if (out < 0) {
                     int wrap = current + 0x1000;
-                    wrap = wrap - desired;
+                    wrap = wrap - angle;
                     if (wrap < step) {
-                        out = desired;
+                        out = angle;
                     }
                 }
             }
         } else {
-            delta = current - desired;
+            delta = current - angle;
             if (delta < 0x800) {
                 if (step < delta) {
                     out = current - step;
@@ -324,10 +323,10 @@ have_args:
             } else if (step < delta) {
                 out = current + step;
                 if (out >= 0x1001) {
-                    int wrap = desired + 0x1000;
+                    int wrap = angle + 0x1000;
                     wrap = wrap - current;
                     if (wrap < step) {
-                        out = desired;
+                        out = angle;
                     }
                 }
             }
@@ -335,26 +334,26 @@ have_args:
         stepped = out;
     }
     {
-        char *state;
+        FieldActor *state;
         state = g_CurrentEntity[0];
         stepped &= 0xFFF;
-        *(u16 *)(state + 0x3A) = stepped;
+        state->rot_y = stepped;
     }
     if (stepped != angle) {
         int cursor = g_SceneDataTable0;
-        char *active = g_TaskNodePool;
+        TaskNode *active = g_TaskNodePool;
         cursor -= 0x14;
         g_SceneDataTable0 = cursor;
-        ((TaskNode *)active)->active = 1;
+        active->active = 1;
         return 0;
     }
 
 finish:
     {
-        char *active = g_TaskNodePool;
-        int f = *(u16 *)(active + 8);
+        TaskNode *active = g_TaskNodePool;
+        int f = active->flags;
         f &= 0xFFDF;
-        *(u16 *)(active + 8) = f;
+        active->flags = f;
         return 1;
     }
 }
