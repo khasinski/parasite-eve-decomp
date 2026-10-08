@@ -263,34 +263,33 @@ int func_800CD980(void) {
     func_800CEDA8(0);
 }
 
-int func_800CDA5C(void *arg0, void *arg1, FieldAnimSparkPoint *anim) {
+int func_800CDA5C(void *arg0, void *arg1, FieldAnimSparkCloud *anim) {
     u16 *base = &D_800E27F0.x;
     u16 *base_s4;
     int i = 0;
-    u8 *entry;
     int value;
 
-    anim->position.x = base[0];
-    anim->position.y = D_800E27F0.y;
-    anim->position.z = D_800E27F0.z;
-    anim->displacement.x = (rand() % 201) - 0x64;
-    anim->displacement.y = (rand() % 101) - 0x32;
+    anim->center.position.x = base[0];
+    anim->center.position.y = D_800E27F0.y;
+    anim->center.position.z = D_800E27F0.z;
+    anim->center.displacement.x = (rand() % 201) - 0x64;
+    anim->center.displacement.y = (rand() % 101) - 0x32;
 
     base_s4 = base;
-    anim->brightness = 0x7F;
-    anim->displacement.z = 0;
-    anim->scaleStep = 0;
+    anim->center.brightness = 0x7F;
+    anim->center.displacement.z = 0;
+    anim->center.scaleStep = 0;
 
     do {
-        entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
-        *(u16 *)(entry + 0x10) = base_s4[0];
-        *(u16 *)(entry + 0x20) = base_s4[1];
-        *(u16 *)(entry + 0x30) = base_s4[2];
-        *(u16 *)(entry + 0x40) = (rand() % 50) - 0x19;
+        unsigned int slot = i & 0xFFFF;
+        anim->position[0][slot] = base_s4[0];
+        anim->position[1][slot] = base_s4[1];
+        anim->position[2][slot] = base_s4[2];
+        anim->velocity[0][slot] = (rand() % 50) - 0x19;
         value = (rand() % 50) - 0x19;
         i++;
-        *(u16 *)(entry + 0x60) = 0;
-        *(u16 *)(entry + 0x50) = value;
+        anim->velocity[2][slot] = 0;
+        anim->velocity[1][slot] = value;
     } while ((unsigned int)(i & 0xFFFF) < 8U);
 }
 
@@ -313,41 +312,40 @@ void func_800CDD04(void) {
 #include "pe1/field_billboard.h"
 
 
-int func_800CDD0C(void *arg0, void *arg1, FieldAnimSparkPoint *anim) {
+int func_800CDD0C(void *arg0, void *arg1, FieldAnimSparkCloud *anim) {
     u16 lhs_v0;
     FieldBillboard *output;
     u16 rhs_v1;
     unsigned int i;
-    u8 *entry;
 
     func_800C2EAC(3);
     func_800C3098(0x100);
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    lhs_v0 = anim->position.x;
-    rhs_v1 = anim->displacement.x;
+    lhs_v0 = anim->center.position.x;
+    rhs_v1 = anim->center.displacement.x;
     output = &D_800E27B0.billboard;
     lhs_v0 += rhs_v1;
     output->position.x = lhs_v0;
-    D_800E27B0.oriented.position.y = anim->position.y + anim->displacement.y;
-    D_800E27B0.oriented.position.z = anim->position.z + anim->displacement.z;
-    D_800E27B0.oriented.scale.x = ((s8)anim->scaleStep * 8) + 0x20C;
-    D_800E27B0.oriented.scale.y = ((s8)anim->scaleStep * 8) + 0x20C;
-    D_800E27B0.oriented.scale.z = ((s8)anim->scaleStep * 8) + 0x20C;
-    D_800E27B0.oriented.brightness = (s8)anim->brightness;
+    D_800E27B0.oriented.position.y = anim->center.position.y + anim->center.displacement.y;
+    D_800E27B0.oriented.position.z = anim->center.position.z + anim->center.displacement.z;
+    D_800E27B0.oriented.scale.x = ((s8)anim->center.scaleStep * 8) + 0x20C;
+    D_800E27B0.oriented.scale.y = ((s8)anim->center.scaleStep * 8) + 0x20C;
+    D_800E27B0.oriented.scale.z = ((s8)anim->center.scaleStep * 8) + 0x20C;
+    D_800E27B0.oriented.brightness = (s8)anim->center.brightness;
 
     func_800C3B04(output);
     func_800C3098(0x10);
 
     i = 0;
     do {
-        entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
-        D_800E2770.billboard.position.x = *(u16 *)(entry + 0x10) + anim->displacement.x;
-        D_800E2770.billboard.position.y = *(u16 *)(entry + 0x20) + anim->displacement.y;
-        D_800E2770.billboard.position.z = *(u16 *)(entry + 0x30) + anim->displacement.z;
+        unsigned int slot = i & 0xFFFF;
+        D_800E2770.billboard.position.x = anim->position[0][slot] + anim->center.displacement.x;
+        D_800E2770.billboard.position.y = anim->position[1][slot] + anim->center.displacement.y;
+        D_800E2770.billboard.position.z = anim->position[2][slot] + anim->center.displacement.z;
         i++;
-        D_800E2770.billboard.brightness = (s8)anim->brightness;
+        D_800E2770.billboard.brightness = (s8)anim->center.brightness;
         func_800C3B04(&D_800E2770.billboard);
     } while ((i & 0xFFFF) < 8);
 }
@@ -380,22 +378,22 @@ int func_800CDF40(void *arg0, u8 *state) {
     return ret;
 }
 
-int func_800CDF4C(void *arg0, u8 *state, FieldAnimSparkPoint *anim) {
+int func_800CDF4C(void *arg0, u8 *state, FieldAnimSparkCloud *anim) {
     unsigned int i = 0;
 
-    anim->brightness -= 0x10;
-    anim->scaleStep += 0xC;
+    anim->center.brightness -= 0x10;
+    anim->center.scaleStep += 0xC;
 
     do {
-        u8 *entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
+        unsigned int slot = i & 0xFFFF;
 
         i++;
-        *(u16 *)(entry + 0x10) = *(u16 *)(entry + 0x10) + *(u16 *)(entry + 0x40);
-        *(u16 *)(entry + 0x20) = *(u16 *)(entry + 0x20) + *(u16 *)(entry + 0x50);
-        *(u16 *)(entry + 0x30) = *(u16 *)(entry + 0x30) + *(u16 *)(entry + 0x60);
+        anim->position[0][slot] = anim->position[0][slot] + anim->velocity[0][slot];
+        anim->position[1][slot] = anim->position[1][slot] + anim->velocity[1][slot];
+        anim->position[2][slot] = anim->position[2][slot] + anim->velocity[2][slot];
     } while ((i & 0xFFFF) < 8);
 
-    if ((signed char)anim->brightness < 0x10) {
+    if ((signed char)anim->center.brightness < 0x10) {
         state[1] = 2;
     }
 }

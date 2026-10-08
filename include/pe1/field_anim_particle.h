@@ -61,6 +61,19 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimSparkPoint, displacement) == 0xA,
 PE1_STATIC_ASSERT(sizeof(FieldAnimSparkPoint) == 0x10,
                   field_anim_spark_point_size);
 
+/* Eight sparks stored by coordinate, followed by matching displacements. */
+typedef struct FieldAnimSparkCloud {
+    FieldAnimSparkPoint center;
+    u16 position[3][8];
+    u16 velocity[3][8];
+} FieldAnimSparkCloud;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimSparkCloud, position) == 0x10,
+                  field_anim_spark_cloud_position);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimSparkCloud, velocity) == 0x40,
+                  field_anim_spark_cloud_velocity);
+PE1_STATIC_ASSERT(sizeof(FieldAnimSparkCloud) == 0x70,
+                  field_anim_spark_cloud_size);
+
 /* Six-frame spark: randomized position, fixed brightness and age-driven draw. */
 typedef struct FieldAnimTimedSpark {
     u8 reserved00;
