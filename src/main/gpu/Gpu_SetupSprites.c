@@ -161,6 +161,7 @@ void Gpu_DrawStatusIcons(void) {
     char *s4;
     u8 mode;
     int bits;
+    register int code asm("$5");
 
     s1 = g_ActiveActor[0];
     mode = g_MenuActiveMode;
@@ -184,7 +185,6 @@ void Gpu_DrawStatusIcons(void) {
         int bits0;
         bits0 = *(int *)(s1 + 0x4C) & 0xC;
         if (bits0 != 0) {
-            register int code asm("$5");
             code = bits0 ^ 0xC;
             code = code < 1;
             code <<= 2;
@@ -198,7 +198,6 @@ void Gpu_DrawStatusIcons(void) {
         bits = tmp & 0x30;
     }
     if (bits != 0) {
-        register int code asm("$5");
         code = 1;
         if (bits == 0x30) {
             code = 5;
@@ -212,7 +211,6 @@ void Gpu_DrawStatusIcons(void) {
         bits = tmp & 0xC0;
     }
     if (bits != 0) {
-        register int code asm("$5");
         code = 2;
         if (bits == 0xC0) {
             code = 6;
@@ -226,7 +224,6 @@ void Gpu_DrawStatusIcons(void) {
         bits = tmp & 3;
     }
     if (bits != 0) {
-        register int code asm("$5");
         code = 3;
         if (bits == 3) {
             code = 7;
