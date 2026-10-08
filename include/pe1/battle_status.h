@@ -94,9 +94,6 @@ extern BattleStatusPointerPrim D_8009E4D8[2];
 /* Frame counter; drives the pointer's rotation. */
 extern u32 D_8009D250;
 
-void SetRotMatrix(GteMatrix *matrix);
-GteMatrix *TransMatrix(GteMatrix *matrix, GteVector *translation);
-void SetTransMatrix(GteMatrix *matrix);
 void RotTrans(const GteShortVector *v, GteVector *out, s32 *flag);
 
 PE1_STATIC_ASSERT(sizeof(BattleStatusPointerPrim) == 0x14,

@@ -1,10 +1,10 @@
 /* PSY-Q LIBGTE MTX_07: TransMatrix. */
 #include "pe1/gte_types.h"
 
-GteMatrix *TransMatrix(GteMatrix *m, const int *v) {
-    register int x asm("$8") = v[0];
-    register int y asm("$9") = v[1];
-    register int z asm("$10") = v[2];
+GteMatrix *TransMatrix(GteMatrix *m, const GteVector *v) {
+    register int x asm("$8") = v->x;
+    register int y asm("$9") = v->y;
+    register int z asm("$10") = v->z;
     GteMatrix *ret;
     m->t[0] = x;
     m->t[1] = y;

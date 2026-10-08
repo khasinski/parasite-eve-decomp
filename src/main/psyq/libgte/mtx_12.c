@@ -1,10 +1,13 @@
 /* PSY-Q LIBGTE MTX_12: SetTransMatrix. */
-void SetTransMatrix(int *m) {
-    register int tx asm("$8") = m[5];
-    register int ty asm("$9") = m[6];
-    register int tz asm("$10") = m[7];
+#include "pe1/gte.h"
+#include "pe1/gte_types.h"
 
-    asm volatile("ctc2 %0,$5" : : "r"(tx));
-    asm volatile("ctc2 %0,$6" : : "r"(ty));
-    asm volatile("ctc2 %0,$7" : : "r"(tz));
+void SetTransMatrix(const GteMatrix *m) {
+    register int tx asm("$8") = m->t[0];
+    register int ty asm("$9") = m->t[1];
+    register int tz asm("$10") = m->t[2];
+
+    gte_ctc2_5(tx);
+    gte_ctc2_6(ty);
+    gte_ctc2_7(tz);
 }

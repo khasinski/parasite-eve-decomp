@@ -54,8 +54,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderShadowActor, render_flags) == 0x250,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderShadowActor, shadow_quads) == 0x278,
                   render_shadow_actor_quads);
 
-void SetRotMatrix(GteMatrix *matrix);
-void SetTransMatrix(GteMatrix *matrix);
 int RotTransPers(GteShortVector *vector, s32 *sxy, s32 *p, s32 *flag);
 int Render_DrawRoom(RenderShadowActor *actor);
 

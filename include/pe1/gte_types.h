@@ -53,6 +53,11 @@ GteVector *ApplyMatrixLV(const GteMatrix *matrix, const GteVector *v,
 void LoadAverageShort12(void *first, void *second, int first_scale,
                         int second_scale, void *output);
 GteMatrix *ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
+GteMatrix *TransMatrix(GteMatrix *matrix, const GteVector *translation);
+void SetRotMatrix(const GteMatrix *matrix);
+void SetLightMatrix(const GteMatrix *matrix);
+void SetColorMatrix(const GteMatrix *matrix);
+void SetTransMatrix(const GteMatrix *matrix);
 int ratan2(int y, int x);
 int SquareRoot0(int value);
 void VectorNormal(GteVector *vector, GteVector *unit);
