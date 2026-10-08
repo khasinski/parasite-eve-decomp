@@ -1,4 +1,5 @@
 #include "pe1/psyq_gpu.h"
+#include "pe1/render_packets.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -14,17 +15,17 @@ int Gpu_CheckDrawStatus(void);
 
 extern int g_GameState[];
 extern int g_ActiveDrawSlot;
-extern char g_RenderDispEnvArray[];
-extern char g_RenderDrawEnvArray[];
+extern DISPENV g_RenderDispEnvArray[];
+extern DRAWENV g_RenderDrawEnvArray[];
 
 #define D_800B0CD8_WORD (g_GameState[0])
 
-static inline char *DispAddress(int index) {
-    return g_RenderDispEnvArray + index * 20;
+static inline DISPENV *DispAddress(int index) {
+    return &g_RenderDispEnvArray[index];
 }
 
-static inline char *DrawAddress(int index) {
-    return g_RenderDrawEnvArray + index * 92;
+static inline DRAWENV *DrawAddress(int index) {
+    return &g_RenderDrawEnvArray[index];
 }
 
 void Gpu_RenderFrame(void) {
@@ -48,7 +49,7 @@ void Gpu_RenderFrame(void) {
     ResetGraph(1);
 
     idx = g_ActiveDrawSlot;
-    PutDispEnv((DISPENV *)DispAddress(idx));
+    PutDispEnv(DispAddress(idx));
 
     status = Gpu_CheckDrawStatus();
     if ((status << 24) != 0) {
@@ -68,24 +69,17 @@ draw_direct:
 
 draw_buffer:
     {
-        int idx_b;
-        register int tmp asm("$2");
-        int arg0;
-        int arg1;
-        char *base;
+        int drawSlot;
+        char *bufferEntry;
+        int pointerOffset;
+        char *orderingTable;
 
-        idx_b = g_ActiveDrawSlot;
-        tmp = idx_b << 2;
+        drawSlot = g_ActiveDrawSlot;
+        pointerOffset = drawSlot << 2;
         asm volatile("" : "=r"(state_ptr) : "0"(state_ptr));
-        tmp = (int)state_ptr + tmp;
-        arg1 = (idx_b << 1) + idx_b;
-        arg1 <<= 3;
-        arg1 -= idx_b;
-        arg1 <<= 2;
-        arg0 = *(int *)(tmp + 0x160);
-        base = g_RenderDrawEnvArray;
-        arg1 += (int)base;
-        DrawOTagEnv((void *)(arg0 + 0x3FFC), (DRAWENV *)arg1);
+        bufferEntry = (char *)state_ptr + pointerOffset;
+        orderingTable = ((RenderBufferPrefix *)(bufferEntry + 0x160))->ordering[0];
+        DrawOTagEnv(orderingTable + 0x3FFC, &g_RenderDrawEnvArray[drawSlot]);
     }
 
 done:
