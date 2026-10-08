@@ -165,7 +165,7 @@ int func_800D8388(int mode, RenderOrbitingEmitter *state)
     return 0;
 }
 
-/* Matching debt: four register pins and one empty slot-address barrier.
+/* Matching debt: three register pins.
  * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D868C(int mode, RenderOrbitingEmitter *state)
 {
@@ -205,12 +205,9 @@ int func_800D868C(int mode, RenderOrbitingEmitter *state)
     case 2:
         {
             GteMatrix **slot;
-            register const GteMatrixWords *matrix asm("$8");
             slot = &D_800BCFA4.value;
-            asm volatile("" : "=r"(slot) : "0"(slot));
-            matrix = (const GteMatrixWords *)*slot;
-            gte_ldrotmatrix(matrix);
-            gte_ldtransmatrix(matrix);
+            gte_ldrotmatrix((const GteMatrixWords *)*slot);
+            gte_ldtransmatrix((const GteMatrixWords *)*slot);
         }
         D_800F3368.parameter00 = 16;
         D_800F3368.parameter02 = 1;
@@ -424,7 +421,7 @@ int func_800D8E74(int mode, RenderHelicalEffect *state)
     return 0;
 }
 
-/* Matching debt: four register pins and one empty slot-address constraint.
+/* Matching debt: three register pins.
  * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D927C(int mode, RenderOrbitingEmitter *state)
 {
@@ -462,12 +459,9 @@ int func_800D927C(int mode, RenderOrbitingEmitter *state)
     case 2:
         {
             GteMatrix **slot;
-            register const GteMatrixWords *matrix asm("$8");
             slot = &D_800BCFA4.value;
-            asm volatile("" : "=r"(slot) : "0"(slot));
-            matrix = (const GteMatrixWords *)*slot;
-            gte_ldrotmatrix(matrix);
-            gte_ldtransmatrix(matrix);
+            gte_ldrotmatrix((const GteMatrixWords *)*slot);
+            gte_ldtransmatrix((const GteMatrixWords *)*slot);
         }
         D_800F3368.parameter00 = 16;
         D_800F3368.parameter02 = 1;

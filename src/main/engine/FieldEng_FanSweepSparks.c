@@ -49,7 +49,7 @@ int func_800D70C0(int mode, s16 *state) {
 /* Fan sweep controller: opens a spark pool and a trail pool, launches a
  * spark on a turning angle every other frame for 32 frames, updates the
  * trail for 70 frames and publishes its pool for the sparks.
- * Matching debt: four register pins and one empty slot-address barrier.
+ * Matching debt: three register pins.
  * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D751C(int mode, FieldFanSweep *sweep)
 {
@@ -81,12 +81,9 @@ int func_800D751C(int mode, FieldFanSweep *sweep)
     case 2:
         {
             GteMatrix **slot;
-            register const GteMatrixWords *matrix asm("$8");
             slot = &D_800BCFA4.value;
-            asm volatile("" : "=r"(slot) : "0"(slot));
-            matrix = (const GteMatrixWords *)*slot;
-            gte_ldrotmatrix(matrix);
-            gte_ldtransmatrix(matrix);
+            gte_ldrotmatrix((const GteMatrixWords *)*slot);
+            gte_ldtransmatrix((const GteMatrixWords *)*slot);
         }
         D_800F3368.depth = 8;
         func_800CE78C(sweep->pool);

@@ -39,7 +39,7 @@ int func_800D9554(int mode, RenderDampedSpark *state)
     return 0;
 }
 
-/* Matching debt: four register pins and one empty slot-address barrier.
+/* Matching debt: three register pins.
  * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D96F4(int mode, RenderSparkEmitter *state)
 {
@@ -98,12 +98,9 @@ int func_800D96F4(int mode, RenderSparkEmitter *state)
         }
         {
             GteMatrix **slot;
-            register const GteMatrixWords *matrix asm("$8");
             slot = &D_800BCFA4.value;
-            asm volatile("" : "=r"(slot) : "0"(slot));
-            matrix = (const GteMatrixWords *)*slot;
-            gte_ldrotmatrix(matrix);
-            gte_ldtransmatrix(matrix);
+            gte_ldrotmatrix((const GteMatrixWords *)*slot);
+            gte_ldtransmatrix((const GteMatrixWords *)*slot);
         }
         D_800F3368.depth = 8;
         break;
