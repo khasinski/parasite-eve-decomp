@@ -44,6 +44,23 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTwoPointMotion, velocity) == 0x20,
 PE1_STATIC_ASSERT(sizeof(FieldAnimTwoPointMotion) == 0x30,
                   field_anim_two_point_motion_size);
 
+/* Spark setup, draw and fade callbacks share this 0x10-byte prefix.
+ * Position and displacement arithmetic wraps at sixteen bits. */
+typedef struct FieldAnimSparkPoint {
+    u8 reserved00;
+    u8 brightness;
+    u8 reserved02;
+    u8 scaleStep;
+    struct { u16 x, y, z; } position;
+    struct { u16 x, y, z; } displacement;
+} FieldAnimSparkPoint;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimSparkPoint, position) == 4,
+                  field_anim_spark_position);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimSparkPoint, displacement) == 0xA,
+                  field_anim_spark_displacement);
+PE1_STATIC_ASSERT(sizeof(FieldAnimSparkPoint) == 0x10,
+                  field_anim_spark_point_size);
+
 /* Single glow point used by transformed and fixed-position emitters. */
 typedef struct FieldAnimGlowPoint {
     u8 reserved00[4];

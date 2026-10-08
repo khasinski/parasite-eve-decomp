@@ -294,17 +294,17 @@ int func_800CDA5C(void *arg0, void *arg1, u8 *anim) {
     } while ((unsigned int)(i & 0xFFFF) < 8U);
 }
 
-int func_800CDC24(void *arg0, void *arg1, u8 *anim) {
+int func_800CDC24(void *arg0, void *arg1, FieldAnimSparkPoint *anim) {
     int value;
 
-    *(u16 *)(anim + 0x4) = D_800E27F0.x;
-    *(u16 *)(anim + 0x6) = D_800E27F0.y;
-    *(u16 *)(anim + 0x8) = D_800E27F0.z;
-    anim[1] = 0x7F;
-    *(u16 *)(anim + 0xA) = (rand() % 201) - 0x64;
+    anim->position.x = D_800E27F0.x;
+    anim->position.y = D_800E27F0.y;
+    anim->position.z = D_800E27F0.z;
+    anim->brightness = 0x7F;
+    anim->displacement.x = (rand() % 201) - 0x64;
     value = rand();
-    *(u16 *)(anim + 0xE) = 0;
-    *(u16 *)(anim + 0xC) = (value % 101) - 0x32;
+    anim->displacement.z = 0;
+    anim->displacement.y = (value % 101) - 0x32;
 }
 
 void func_800CDD04(void) {
@@ -313,7 +313,7 @@ void func_800CDD04(void) {
 #include "pe1/field_billboard.h"
 
 
-int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
+int func_800CDD0C(void *arg0, void *arg1, FieldAnimSparkPoint *anim) {
     u16 lhs_v0;
     FieldBillboard *output;
     u16 rhs_v1;
@@ -325,17 +325,17 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    lhs_v0 = *(u16 *)(anim + 0x4);
-    rhs_v1 = *(u16 *)(anim + 0xA);
+    lhs_v0 = anim->position.x;
+    rhs_v1 = anim->displacement.x;
     output = &D_800E27B0.billboard;
     lhs_v0 += rhs_v1;
     output->position.x = lhs_v0;
-    D_800E27B0.oriented.position.y = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
-    D_800E27B0.oriented.position.z = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
-    D_800E27B0.oriented.scale.x = ((s8)anim[3] * 8) + 0x20C;
-    D_800E27B0.oriented.scale.y = ((s8)anim[3] * 8) + 0x20C;
-    D_800E27B0.oriented.scale.z = ((s8)anim[3] * 8) + 0x20C;
-    D_800E27B0.oriented.brightness = (s8)anim[1];
+    D_800E27B0.oriented.position.y = anim->position.y + anim->displacement.y;
+    D_800E27B0.oriented.position.z = anim->position.z + anim->displacement.z;
+    D_800E27B0.oriented.scale.x = ((s8)anim->scaleStep * 8) + 0x20C;
+    D_800E27B0.oriented.scale.y = ((s8)anim->scaleStep * 8) + 0x20C;
+    D_800E27B0.oriented.scale.z = ((s8)anim->scaleStep * 8) + 0x20C;
+    D_800E27B0.oriented.brightness = (s8)anim->brightness;
 
     func_800C3B04(output);
     func_800C3098(0x10);
@@ -343,17 +343,17 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
     i = 0;
     do {
         entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
-        D_800E2770.billboard.position.x = *(u16 *)(entry + 0x10) + *(u16 *)(anim + 0xA);
-        D_800E2770.billboard.position.y = *(u16 *)(entry + 0x20) + *(u16 *)(anim + 0xC);
-        D_800E2770.billboard.position.z = *(u16 *)(entry + 0x30) + *(u16 *)(anim + 0xE);
+        D_800E2770.billboard.position.x = *(u16 *)(entry + 0x10) + anim->displacement.x;
+        D_800E2770.billboard.position.y = *(u16 *)(entry + 0x20) + anim->displacement.y;
+        D_800E2770.billboard.position.z = *(u16 *)(entry + 0x30) + anim->displacement.z;
         i++;
-        D_800E2770.billboard.brightness = (s8)anim[1];
+        D_800E2770.billboard.brightness = (s8)anim->brightness;
         func_800C3B04(&D_800E2770.billboard);
     } while ((i & 0xFFFF) < 8);
 }
 
 
-int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
+int func_800CDE90(void *arg0, void *arg1, FieldAnimSparkPoint *anim) {
     u16 lhs_v0;
     FieldBillboard *output;
     u16 rhs_v1;
@@ -363,14 +363,14 @@ int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(3);
 
-    lhs_v0 = *(u16 *)(anim + 0x4);
-    rhs_v1 = *(u16 *)(anim + 0xA);
+    lhs_v0 = anim->position.x;
+    rhs_v1 = anim->displacement.x;
     output = &D_800F33E8.billboard;
     lhs_v0 += rhs_v1;
     output->position.x = lhs_v0;
-    D_800F33E8.oriented.position.y = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
-    D_800F33E8.oriented.position.z = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
-    D_800F33E8.oriented.brightness = (s8)anim[1];
+    D_800F33E8.oriented.position.y = anim->position.y + anim->displacement.y;
+    D_800F33E8.oriented.position.z = anim->position.z + anim->displacement.z;
+    D_800F33E8.oriented.brightness = (s8)anim->brightness;
     func_800C3B04(output);
 }
 
@@ -400,23 +400,23 @@ int func_800CDF4C(void *arg0, u8 *state, u8 *anim) {
     }
 }
 
-int func_800CDFE0(void *arg0, u8 *state, u8 *anim) {
+int func_800CDFE0(void *arg0, u8 *state, FieldAnimSparkPoint *anim) {
     int value = rand() % 11;
     int jitter;
-    u8 *output;
-    u16 positionY = *(u16 *)(anim + 0x6);
-    int brightness = anim[1];
-    int positionX = *(u16 *)(anim + 0x4);
+    FieldAnimSparkPoint *output;
+    u16 positionY = anim->position.y;
+    int brightness = anim->brightness;
+    int positionX = anim->position.x;
     positionY -= 4;
     brightness -= 3;
     output = anim;
     positionX -= 5;
-    *(u16 *)(output + 0x6) = positionY;
-    output[1] = brightness;
+    output->position.y = positionY;
+    output->brightness = brightness;
     jitter = value;
     value = 3;
     positionX += jitter;
-    *(u16 *)(anim + 0x4) = positionX;
+    anim->position.x = positionX;
     if (value > (signed char)brightness) {
         state[1] = 2;
     }
