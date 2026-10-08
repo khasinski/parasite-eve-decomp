@@ -162,9 +162,8 @@ void Battle_DrawHPBar(void) {
     RenderGouraudQuad *greenGradient;
     RenderSpritePacket *temp_s1_7;
     RenderGouraudQuad *pinkGradient;
-    register DrawGlyphDescriptor *labelGlyph asm("$19");
+    DrawGlyphDescriptor *glyph;
     RenderSpritePacket *temp_s3_3;
-    register DrawGlyphDescriptor *digitGlyph asm("$19");
     RenderSpritePacket *temp_v1;
 
     shades = *(const HudShades *)D_8009CD90;
@@ -172,8 +171,8 @@ void Battle_DrawHPBar(void) {
     hudClut = GetClut(0x130, 0x1F8);
     bufferIndex = 0;
     do {
-        labelGlyph = Draw_LookupGlyphDescriptor(0x8B);
-        asm("" : "=r"(labelGlyph) : "0"(labelGlyph));
+        glyph = Draw_LookupGlyphDescriptor(0x8B);
+        asm("" : "=r"(glyph) : "0"(glyph));
         temp_s1 = bufferIndex * 0x28;
         labelQuad = temp_s1 + D_800BE9F0;
         SetPolyFT4(labelQuad);
@@ -182,23 +181,23 @@ void Battle_DrawHPBar(void) {
             register s32 pa1 asm("$5");
             register s32 pa2 asm("$6");
             register s32 pa3 asm("$7");
-            labelQuad->u0 = labelGlyph->u;
-            labelQuad->v0 = labelGlyph->v;
-            labelQuad->u1 = labelGlyph->u + labelGlyph->width;
-            labelQuad->v1 = labelGlyph->v;
-            labelQuad->u2 = labelGlyph->u;
-            labelQuad->v2 = labelGlyph->v + labelGlyph->height;
-            labelQuad->u3 = labelGlyph->u + labelGlyph->width;
+            labelQuad->u0 = glyph->u;
+            labelQuad->v0 = glyph->v;
+            labelQuad->u1 = glyph->u + glyph->width;
+            labelQuad->v1 = glyph->v;
+            labelQuad->u2 = glyph->u;
+            labelQuad->v2 = glyph->v + glyph->height;
+            labelQuad->u3 = glyph->u + glyph->width;
             pa0 = 0;
             pa1 = 0;
             pa2 = 0x1C0;
             pa3 = 0;
             asm volatile("" :  : "r"(pa0), "r"(pa1), "r"(pa2), "r"(pa3) : "$22");
             i = 0;
-            labelQuad->v3 = labelGlyph->v + labelGlyph->height;
+            labelQuad->v3 = glyph->v + glyph->height;
             *(u16 *)(D_800BEA06 + temp_s1) = GetTPage(pa0, pa1, pa2, pa3);
         }
-        *(u16 *)(D_800BE9FE + temp_s1) = labelGlyph->clut;
+        *(u16 *)(D_800BE9FE + temp_s1) = glyph->clut;
         labelQuad->x0 = 0;
         highBlue = 0x82;
 
@@ -527,18 +526,18 @@ loop_18:
         temp_s0_30->color.bytes.b = 0;
 
 loop_20:
-        digitGlyph = Draw_LookupGlyphDescriptor(((u8)i) + 0x6A);
-        asm("" : "=r"(digitGlyph) : "0"(digitGlyph));
+        glyph = Draw_LookupGlyphDescriptor(((u8)i) + 0x6A);
+        asm("" : "=r"(glyph) : "0"(glyph));
         pageCode = GetTPage(0, 0, 0x1C0, 0);
         temp_s0_31 = ((u8)i) * 0x1C;
         Gpu_InitDrawModeSprtPacket(temp_s4_3 + (temp_s0_31 + glyphBase), pageCode);
         temp_s0_32 = temp_s4_3 + temp_s0_31;
         temp_v1 = temp_s0_32 + body6;
-        temp_v1->u = (u8) digitGlyph->u;
-        temp_v1->v = (u8) digitGlyph->v;
-        *(u16 *)(D_8009E976 + temp_s0_32) = digitGlyph->clut;
-        temp_v1->width = (s16) digitGlyph->width;
-        glyphHeight = digitGlyph->height;
+        temp_v1->u = (u8) glyph->u;
+        temp_v1->v = (u8) glyph->v;
+        *(u16 *)(D_8009E976 + temp_s0_32) = glyph->clut;
+        temp_v1->width = (s16) glyph->width;
+        glyphHeight = glyph->height;
         i += 1;
         temp_v1->color.bytes.r = 0x80;
         temp_v1->color.bytes.g = 0x80;
