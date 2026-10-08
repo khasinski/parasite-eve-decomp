@@ -80,11 +80,9 @@ int func_800CC92C(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
 }
 
 #include "common.h"
-int func_800CC974(void *arg0, FieldEngSlot *state, u8 *anim) {
+int func_800CC974(void *arg0, FieldEngSlot *state, FieldAnimRadialParticles *anim) {
     int i;
     FieldEngSlot *state_t2;
-    register u8 *timer_t0 asm("$8");
-    register u8 *entry_a3 asm("$7");
     register int dx asm("$3");
     int dy;
     register int dz asm("$5");
@@ -93,40 +91,35 @@ int func_800CC974(void *arg0, FieldEngSlot *state, u8 *anim) {
         state_t2 = state;
     asm volatile("" : "=r"(state_t2) : "0"(state_t2));
     i = 0;
-    if ((signed char)anim[2] > 0) {
-        timer_t0 = anim;
-        asm volatile("" : "=r"(timer_t0) : "0"(timer_t0));
-        entry_a3 = anim;
+    if ((signed char)anim->count > 0) {
         do {
             register int pos asm("$2");
             register int angle asm("$3");
 
-            i++;
-            dx = *(short *)(entry_a3 + 0xA6) >> 9;
-            pos = *(u16 *)(entry_a3 + 0x26);
-            dy = *(short *)(entry_a3 + 0xA8) >> 9;
-            dz = *(short *)(entry_a3 + 0xAA) >> 9;
+            dx = anim->velocity[i].x >> 9;
+            pos = anim->points[i].position.x;
+            dy = anim->velocity[i].y >> 9;
+            dz = anim->velocity[i].z >> 9;
             pos += dx;
-            *(u16 *)(entry_a3 + 0x26) = pos;
-            pos = *(u16 *)(entry_a3 + 0x28);
-            angle = *(u16 *)(entry_a3 + 0xA8);
+            anim->points[i].position.x = pos;
+            pos = anim->points[i].position.y;
+            angle = (u16)anim->velocity[i].y;
             pos += dy;
-            *(u16 *)(entry_a3 + 0x28) = pos;
-            pos = *(u16 *)(entry_a3 + 0x2A);
+            anim->points[i].position.y = pos;
+            pos = anim->points[i].position.z;
             angle += 0xB4;
-            *(u16 *)(entry_a3 + 0xA8) = angle;
+            anim->velocity[i].y = angle;
             pos += dz;
-            *(u16 *)(entry_a3 + 0x2A) = pos;
-            pos = *(u16 *)(timer_t0 + 0x6);
-            entry_a3 += 8;
+            anim->points[i].position.z = pos;
+            pos = anim->extent[i];
             pos += 0x18;
-            *(u16 *)(timer_t0 + 0x6) = pos;
-            timer_t0 += 2;
-        } while (i < (signed char)anim[2]);
+            anim->extent[i] = pos;
+            i++;
+        } while (i < anim->count);
     }
 
-    anim[1] -= 2;
-    if (anim[1] < 2) {
+    anim->scale -= 2;
+    if (anim->scale < 2) {
         state_t2->flag = 2;
     }
     asm volatile("" : : "r"(&frame));

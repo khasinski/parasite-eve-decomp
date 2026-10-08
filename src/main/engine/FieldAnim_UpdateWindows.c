@@ -59,15 +59,12 @@ int func_800CC480(void *arg0, FieldEngSlot *params, FieldAnimPointSprite *anim) 
 
 #include "common.h"
 
-/* CC1_FLAGS: -fno-strength-reduce */
 
 
-#define FIELD_ANIM_EXTENT_OFFSET 6
 
-void FieldAnim_ProcessInterleavedPoints(void *arg0, void *arg1, s8 *anim) {
+void FieldAnim_ProcessInterleavedPoints(void *arg0, void *arg1, FieldAnimRadialParticles *anim) {
     volatile int stack_pad;
     FieldAnimPointTriple *out;
-    u8 *entry;
     unsigned int i;
 
     func_800C2EAC(3);
@@ -75,34 +72,26 @@ void FieldAnim_ProcessInterleavedPoints(void *arg0, void *arg1, s8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    D_800E2260.extent_x = *(short *)(anim + FIELD_ANIM_EXTENT_OFFSET);
-    D_800E2260.extent_y = *(short *)(anim + FIELD_ANIM_EXTENT_OFFSET);
-    D_800E2260.extent_z = *(short *)(anim + FIELD_ANIM_EXTENT_OFFSET);
-    D_800E2260.scale = (u8)anim[1];
+    D_800E2260.extent_x = *(s16 *)&anim->extent[0];
+    D_800E2260.extent_y = *(s16 *)&anim->extent[0];
+    D_800E2260.extent_z = *(s16 *)&anim->extent[0];
+    D_800E2260.scale = anim->scale;
 
-    if (anim[2] != 0) {
+    if (anim->count != 0) {
         i = 0;
         out = &D_800E2260.point;
-        entry = (u8 *)anim;
         /* This one-shot block preserves retail GCC's s1/s2 allocation. */
         do {
             do {
-                FieldAnimInterleavedWindow *window;
-
-                window = (FieldAnimInterleavedWindow *)entry;
-                out->x = window->point.x;
-                out->y = window->point.y;
-                out->z = window->point.z;
+                out->x = anim->points[i].position.x;
+                out->y = anim->points[i].position.y;
+                out->z = anim->points[i].position.z;
                 func_800C3B04((FieldBillboard *)out);
                 i++;
-                entry += 8;
-            } while (i < anim[2]);
+            } while (i < anim->count);
         } while (0);
     }
 }
-
-#include "common.h"
-
 
 int func_800CC644(void *arg0, void *arg1, FieldAnimPointSprite *anim) {
     u16 value_v0;

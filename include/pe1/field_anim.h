@@ -242,6 +242,34 @@ PE1_STATIC_ASSERT(sizeof(FieldAnimScatteredParticles) == 0xC8,
 
 void func_800CC2C4(void *arg0, void *arg1, FieldAnimScatteredParticles *state);
 
+/* Radial emitter: sixteen halfword extents followed by two arrays of
+ * eight-byte XYZ records. Setup selects eight or sixteen active points;
+ * the script allocation table reserves 0x126 bytes for this payload. */
+typedef struct FieldAnimRadialPoint {
+    FieldAnimPointTriple position;
+    u16 reserved06;
+} FieldAnimRadialPoint;
+
+typedef struct FieldAnimRadialParticles {
+    u8 reserved00;
+    u8 scale;
+    s8 count;
+    u8 reserved03[3];
+    u16 extent[16];
+    FieldAnimRadialPoint points[16];
+    GteShortVector velocity[16];
+} FieldAnimRadialParticles;
+
+PE1_STATIC_ASSERT(sizeof(FieldAnimRadialPoint) == 8, field_anim_radial_point_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimRadialParticles, extent) == 6,
+                  field_anim_radial_extent);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimRadialParticles, points) == 0x26,
+                  field_anim_radial_points);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimRadialParticles, velocity) == 0xA6,
+                  field_anim_radial_velocity);
+PE1_STATIC_ASSERT(sizeof(FieldAnimRadialParticles) == 0x126,
+                  field_anim_radial_particles_size);
+
 typedef struct FieldAnimPointState {
     FieldAnimPointTriple point;
     u8 unused_06[0x22];
@@ -257,11 +285,6 @@ typedef struct FieldAnimInterleavedState {
     u8 unused_1C[0xC];
     short scale;
 } FieldAnimInterleavedState;
-
-typedef struct FieldAnimInterleavedWindow {
-    u8 unused_00[0x26];
-    FieldAnimPointTriple point;
-} FieldAnimInterleavedWindow;
 
 typedef struct FieldAnimBurstWindow {
     u8 unused_00[0x10];
