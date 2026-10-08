@@ -18,14 +18,29 @@ typedef struct SceneAssetDirectory {
     unsigned int reserved;
     /* Low 22 bits: byte offset from the blob; high 10 bits: record count. */
     unsigned int entries;
-    unsigned int reserved08;
+    unsigned int keyEntries; /* 0x08: word-keyed records */
     unsigned int bankRootEntries; /* 0x0C */
     unsigned int bankRowEntries;  /* 0x10 */
     unsigned int reserved14[5];
     unsigned int timEntries; /* 0x28: same offset/count encoding */
-    unsigned int reserved2c;
+    unsigned int streamEntries; /* 0x2C: keyed CD stream records */
     unsigned int trackEntries; /* 0x30: same offset/count encoding */
 } SceneAssetDirectory;
+
+/* Stream records share the keyed offset prefix used by asset lookup. */
+typedef struct SceneCdStreamRecord {
+    u32 reserved;
+    u32 offset; /* Low 24 bits: byte offset in the loaded blob. */
+    u8 cdIndex;
+    u8 reserved09;
+    u16 key;
+} SceneCdStreamRecord;
+
+PE1_STATIC_ASSERT(sizeof(SceneCdStreamRecord) == 12, scene_cd_stream_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneCdStreamRecord, cdIndex) == 8,
+                  scene_cd_stream_index_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneCdStreamRecord, key) == 10,
+                  scene_cd_stream_key_offset);
 
 typedef struct SceneTrackRecord {
     u32 size;   /* Low 24 bits: bytes copied to the selected bank workspace. */
@@ -115,6 +130,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_init_subphase) == 0xEE,
 PE1_STATIC_ASSERT(sizeof(SceneTrackRecord) == 12, scene_track_record_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneTrackRecord, bank) == 8, scene_track_bank_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneTrackRecord, key) == 10, scene_track_key_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetDirectory, keyEntries) == 0x08,
+                  scene_asset_key_entries_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetDirectory, streamEntries) == 0x2C,
+                  scene_asset_stream_entries_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetDirectory, trackEntries) == 0x30,
                   scene_track_entries_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_audio.tracks.banks) == 0xDA,
@@ -205,6 +224,8 @@ typedef struct SceneBankResetPair {
 } SceneBankResetPair;
 extern SceneBankResetPair D_80094488[4];
 void *Asset_FindTable08ByU32Key(void *base, s32 key);
+void *Asset_FindTable2CByU16Key(char *base, int key);
+void *Asset_FindTable30ByU16Key(char *base, int key);
 void Akao_LoadVoiceBankAlt(void);
 void Akao_ClearVoiceBank(void);
 

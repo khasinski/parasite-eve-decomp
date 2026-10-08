@@ -120,7 +120,7 @@ retry:
         state->cd_range_read_mode = 0;
         for (i = 0; i < 3; i++)
             state->scene_object_tables[i] = 0;
-        streamEntries = directory->reserved2c;
+        streamEntries = directory->streamEntries;
         if (streamEntries & 0xffc00000) {
             SceneCdStreamRecord *first = SCENE_ASSET_AT(view, streamEntries & 0x3fffff);
             i = 0;
@@ -128,7 +128,7 @@ retry:
                 do {
                     state->scene_object_tables[i] = SCENE_ASSET_AT(view, first[i].offset & 0xffffff);
                     i++;
-                } while (i < directory->reserved2c >> 22);
+                } while (i < directory->streamEntries >> 22);
             }
             state->cd_range_read_mode = first->cdIndex;
         }
@@ -173,7 +173,7 @@ retry:
         state->cd_range_read_mode = 0;
         for (i = 0; i < 3; i++)
             state->scene_object_tables[i] = 0;
-        streamEntries = directory->reserved2c;
+        streamEntries = directory->streamEntries;
         if (streamEntries & 0xffc00000) {
             SceneCdStreamRecord *first = SCENE_ASSET_AT(view, streamEntries & 0x3fffff);
             i = 0;
@@ -181,7 +181,7 @@ retry:
                 do {
                     state->scene_object_tables[i] = SCENE_ASSET_AT(view, first[i].offset & 0xffffff);
                     i++;
-                } while (i < directory->reserved2c >> 22);
+                } while (i < directory->streamEntries >> 22);
             }
             state->cd_range_read_mode = first->cdIndex;
         }

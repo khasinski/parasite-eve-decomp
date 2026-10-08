@@ -13,14 +13,6 @@
  * scene render object from the loaded bank.
  */
 
-/* Records of SceneAssetDirectory.reserved2c: offsets plus the CD read index. */
-typedef struct SceneCdStreamRecord {
-    u32 reserved;
-    u32 offset; /* Low 24 bits: byte offset in the loaded blob. */
-    u8 cdIndex;
-    u8 trailing[3];
-} SceneCdStreamRecord;
-
 extern u8 g_SceneAreaType;
 extern s8 D_800B0CE4;
 extern u32 g_PeImageBaseLba;

@@ -146,7 +146,8 @@ void *Asset_FindTable08ByU32Key(void *arg0, s32 arg1) {
     asm volatile("" : : "r"(frame));
 
     mask = 0x3FFFFF;
-    descriptor = *(u32 *)((u8 *)arg0 + *(u32 *)((u8 *)arg0 + 4) + 8);
+    descriptor = ((SceneAssetDirectory *)SceneAsset_ResolveOffset(arg0,
+        ((SceneAssetBlob *)arg0)->directoryOffset))->keyEntries;
     i = 0;
     none = 0;
     table = (u8 *)arg0 + (descriptor & mask);
