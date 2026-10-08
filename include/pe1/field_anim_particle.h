@@ -29,6 +29,18 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimMovingParticle, velocity) == 0x10,
 PE1_STATIC_ASSERT(sizeof(FieldAnimMovingParticle) == 0x18,
                   field_anim_moving_particle_size);
 
+/* Single glow point used by transformed and fixed-position emitters. */
+typedef struct FieldAnimGlowPoint {
+    u8 reserved00[4];
+    u16 brightness;
+    s16 scale;
+    FieldAnimParticlePosition position;
+} FieldAnimGlowPoint;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimGlowPoint, position) == 8,
+                  field_anim_glow_point_position);
+PE1_STATIC_ASSERT(sizeof(FieldAnimGlowPoint) == 0x10,
+                  field_anim_glow_point_size);
+
 /* Two independently transformed points rendered with the same glow scale. */
 typedef struct FieldAnimTwinGlow {
     u8 reserved00[4];

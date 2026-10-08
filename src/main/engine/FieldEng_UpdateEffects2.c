@@ -109,7 +109,7 @@ int func_800C90A4(void *arg0, void *arg1, FieldAnimMatrixGlow *anim) {
 
 extern GteShortVector D_800C217C;
 
-int func_800C91A8(void *arg0, void *arg1, u8 *anim) {
+int func_800C91A8(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     GteShortVector in;
     GteShortVector out;
 
@@ -120,13 +120,13 @@ int func_800C91A8(void *arg0, void *arg1, u8 *anim) {
         u16 y;
         u16 z;
 
-        *(u16 *)(anim + 0x8) = D_800E2350.x + out.x;
+        anim->position.x = D_800E2350.x + out.x;
         y = D_800E2350.y + out.y;
-        *(u16 *)(anim + 0xA) = y;
+        anim->position.y = y;
         z = D_800E2350.z + out.z;
-        *(u16 *)(anim + 0x4) = 0x7F;
-        *(u16 *)(anim + 0x6) = 0;
-        *(u16 *)(anim + 0xC) = z;
+        anim->brightness = 0x7F;
+        anim->scale = 0;
+        anim->position.z = z;
     }
 }
 

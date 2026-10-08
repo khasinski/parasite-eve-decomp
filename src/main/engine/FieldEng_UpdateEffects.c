@@ -110,7 +110,7 @@ int func_800C7F60(void *arg0, void *arg1, FieldAnimMatrixGlow *anim) {
 
 extern GteShortVector D_800C214C;
 
-int func_800C8064(void *arg0, void *arg1, u8 *anim) {
+int func_800C8064(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     GteShortVector in;
     GteShortVector out;
     char *model;
@@ -120,26 +120,26 @@ int func_800C8064(void *arg0, void *arg1, u8 *anim) {
     model = *(char **)(D_800E279C + 0x238);
     ApplyMatrixSV(model + 0x260, &in, &out);
 
-    *(u16 *)(anim + 0x8) = D_800E2348.x + out.x;
-    *(u16 *)(anim + 0xA) = D_800E2348.y + out.y;
-    *(u16 *)(anim + 0xC) = D_800E2348.z + out.z;
-    *(u16 *)(anim + 0x4) = 0x7F;
-    *(u16 *)(anim + 0x6) = 0;
+    anim->position.x = D_800E2348.x + out.x;
+    anim->position.y = D_800E2348.y + out.y;
+    anim->position.z = D_800E2348.z + out.z;
+    anim->brightness = 0x7F;
+    anim->scale = 0;
 }
 
 
-int func_800C811C(void *arg0, void *arg1, u8 *anim) {
+int func_800C811C(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     char *entity_v1 = D_8009D254;
     int value;
     int z_v1;
 
-    *(u16 *)(anim + 0x8) = D_800E2348.x;
+    anim->position.x = D_800E2348.x;
     value = *(s16 *)(entity_v1 + 0x2E);
-    *(u16 *)(anim + 0xA) = value;
+    anim->position.y = value;
     z_v1 = D_800E2348.z;
-    *(u16 *)(anim + 0x4) = 0x7F;
-    *(u16 *)(anim + 0x6) = 0x224;
-    *(u16 *)(anim + 0xC) = z_v1;
+    anim->brightness = 0x7F;
+    anim->scale = 0x224;
+    anim->position.z = z_v1;
 }
 
 extern char D_800E08E8[];

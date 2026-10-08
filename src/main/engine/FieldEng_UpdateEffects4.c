@@ -292,19 +292,19 @@ int func_800CAA38(void *arg0, void *arg1, FieldAnimTwinGlow *anim) {
 
 #include "common.h"
 
-int func_800CAB88(void *arg0, void *arg1, u8 *anim) {
+int func_800CAB88(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     u16 x = D_800E2360.x;
     char *data = D_8009D254;
     int y;
     u16 z;
 
-    *(u16 *)(anim + 0x8) = x;
+    anim->position.x = x;
     y = *(s16 *)(data + 0x2E);
-    *(u16 *)(anim + 0xA) = y;
+    anim->position.y = y;
     z = D_800E2360.z;
-    *(u16 *)(anim + 0x4) = 0x7F;
-    *(u16 *)(anim + 0x6) = 0x224;
-    *(u16 *)(anim + 0xC) = z;
+    anim->brightness = 0x7F;
+    anim->scale = 0x224;
+    anim->position.z = z;
 }
 
 #include "common.h"

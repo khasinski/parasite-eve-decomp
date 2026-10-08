@@ -9,7 +9,7 @@ void *memset(void *dest, int value, unsigned int count);
 
 extern u16 D_800E2332;
 
-int func_800C9868(void *arg0, void *arg1, u8 *anim) {
+int func_800C9868(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     u16 *field_s3 = &D_800E2332;
     GteMatrix matrix;
     int scale;
@@ -21,8 +21,8 @@ int func_800C9868(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    scale = *(s16 *)(anim + 0x6) + 0x170;
-    field = *(u16 *)(anim + 0x4);
+    scale = anim->scale + 0x170;
+    field = anim->brightness;
 
     matrix.m[2][2] = 0x1000;
     matrix.m[1][1] = 0x1000;
@@ -38,9 +38,9 @@ int func_800C9868(void *arg0, void *arg1, u8 *anim) {
     matrix.m[0][1] = 0;
 
     *field_s3 = field;
-    matrix.t[0] = *(s16 *)(anim + 0x8);
-    matrix.t[1] = *(s16 *)(anim + 0xA);
-    matrix.t[2] = *(s16 *)(anim + 0xC);
+    matrix.t[0] = (s16)anim->position.x;
+    matrix.t[1] = (s16)anim->position.y;
+    matrix.t[2] = (s16)anim->position.z;
 
     memset(localScale, 0, sizeof(localScale));
     localScale[0] = scale;
