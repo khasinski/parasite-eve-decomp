@@ -1,3 +1,4 @@
+#include "pe1/gpu_command_builders.h"
 
 int Gpu_BuildDrawModeCmd(int arg0, int arg1, int arg2) {
     int bits;

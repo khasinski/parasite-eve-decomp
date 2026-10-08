@@ -15,13 +15,18 @@ class GpuPacketInitTests(unittest.TestCase):
         harness = source + r'''
 #include <assert.h>
 static int mode_calls, window_calls;
+GpuCallbacks *D_80095744;
+char g_GpuActiveDispEnv[0x14];
+int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) { return 0; }
+int Gpu_BuildDrawAreaBottomRightCmd(int x, int y) { return 0; }
+unsigned int Gpu_BuildDrawOffsetCmd(unsigned int x, unsigned int y) { return 0; }
 int Gpu_BuildDrawModeCmd(int a, int b, int c) {
     assert(a == 7 && b == 9 && c == 0x5678);
     ++mode_calls;
     return 0xE1005678;
 }
-int Gpu_BuildTexWindowCmd(int a) {
-    assert(a == 11);
+unsigned int Gpu_BuildTexWindowCmd(GpuTextureWindowRectBytes *a) {
+    assert(a == (GpuTextureWindowRectBytes *)11);
     ++window_calls;
     return 0xE2000011;
 }

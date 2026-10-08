@@ -1,3 +1,4 @@
+#include "pe1/gpu_command_builders.h"
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
@@ -28,10 +29,7 @@ int GetODE(void) {
     return D_80095744->callback() < 0;
 }
 
-int Gpu_BuildTexWindowCmd(int arg0);
 
-int Gpu_BuildDrawAreaTopLeftCmd(int x, int y);
-int Gpu_BuildDrawAreaBottomRightCmd(int x, int y);
 
 typedef signed short s16_1;
 
@@ -40,11 +38,10 @@ typedef struct {
     s16_1 y;
 } Point;
 
-int Gpu_BuildDrawOffsetCmd(int x, int y);
 
 void SetTexWindow(GpuCmdPacket *arg0, int arg1) {
     arg0->u0.head.code = 2;
-    arg0->field4 = Gpu_BuildTexWindowCmd(arg1);
+    arg0->field4 = Gpu_BuildTexWindowCmd((GpuTextureWindowRectBytes *)arg1);
     arg0->field8 = 0;
 }
 
@@ -73,11 +70,9 @@ void SetDrawStp(void *arg0, int arg1) {
     *(int *)((char *)arg0 + 8) = 0;
 }
 
-int Gpu_BuildDrawModeCmd(int arg0, int arg1, int arg2);
-int Gpu_BuildTexWindowCmd(int arg0);
 
 void SetDrawMode(GpuCmdPacket *arg0, int arg1, int arg2, int arg3, int arg4) {
     arg0->u0.head.code = 2;
     arg0->field4 = Gpu_BuildDrawModeCmd(arg1, arg2, arg3 & 0xFFFF);
-    arg0->field8 = Gpu_BuildTexWindowCmd(arg4);
+    arg0->field8 = Gpu_BuildTexWindowCmd((GpuTextureWindowRectBytes *)arg4);
 }

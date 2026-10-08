@@ -1,3 +1,4 @@
+#include "pe1/gpu_command_builders.h"
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
@@ -10,14 +11,6 @@
 #include "common.h"
 #include "pe1/psyq_types.h"
 
-typedef struct {
-    u8 x;
-    u8 pad1;
-    u8 y;
-    u8 pad3;
-    s16 w;
-    s16 h;
-} TexWindow;
 
 typedef struct GpuTexWindowWork {
     volatile int slots[4];
@@ -33,7 +26,7 @@ unsigned int Gpu_BuildDrawOffsetCmd(unsigned int arg0, unsigned int arg1) {
     return arg1 | arg0;
 }
 
-u32 Gpu_BuildTexWindowCmd(TexWindow *tw) {
+u32 Gpu_BuildTexWindowCmd(GpuTextureWindowRectBytes *tw) {
     int x;
     int y;
     int w;
@@ -46,11 +39,11 @@ u32 Gpu_BuildTexWindowCmd(TexWindow *tw) {
     if (tw == 0) {
         result = 0;
     } else {
-        x = tw->x >> 3;
+        x = tw->xLow >> 3;
         g_GpuTexWindowWork->slots[0] = x;
         w = ((-tw->w) & 0xFF) >> 3;
         g_GpuTexWindowWork->slots[2] = w;
-        y = tw->y >> 3;
+        y = tw->yLow >> 3;
         g_GpuTexWindowWork->slots[1] = y;
         y <<= 15;
         h_raw = tw->h;

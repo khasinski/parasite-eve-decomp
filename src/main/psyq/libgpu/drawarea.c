@@ -1,3 +1,4 @@
+#include "pe1/gpu_command_builders.h"
 #include "common.h"
 /* CC1_FLAGS: -O1 */
 

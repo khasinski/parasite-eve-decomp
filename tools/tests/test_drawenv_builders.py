@@ -16,11 +16,11 @@ class DrawEnvBuilderTests(unittest.TestCase):
 #include <string.h>
 #include "src/main/psyq/libgpu/SetDrawEnv.c"
 GpuDebugState D_8009574C;
-unsigned int Gpu_BuildDrawAreaTopLeftCmd(short x, short y) { return 1; }
-unsigned int Gpu_BuildDrawAreaBottomRightCmd(short x, short y) { return 2; }
-unsigned int Gpu_BuildDrawOffsetCmd(short x, short y) { return 3; }
-unsigned int Gpu_BuildDrawModeCmd(int a, int b, int c) { return 4; }
-unsigned int Gpu_BuildTexWindowCmd(RECT *rect) { return 5; }
+int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) { return 1; }
+int Gpu_BuildDrawAreaBottomRightCmd(int x, int y) { return 2; }
+unsigned int Gpu_BuildDrawOffsetCmd(unsigned int x, unsigned int y) { return 3; }
+int Gpu_BuildDrawModeCmd(int a, int b, int c) { return 4; }
+unsigned int Gpu_BuildTexWindowCmd(GpuTextureWindowRectBytes *rect) { return 5; }
 static unsigned int pair(short x, short y) {
     return (unsigned short)x | ((unsigned int)(unsigned short)y << 16);
 }

@@ -1,12 +1,8 @@
+#include "pe1/gpu_command_builders.h"
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_gpu.h"
 #include "pe1/gpu_state.h"
-unsigned int Gpu_BuildDrawAreaTopLeftCmd(short, short);
-unsigned int Gpu_BuildDrawAreaBottomRightCmd(short, short);
-unsigned int Gpu_BuildDrawOffsetCmd(short, short);
-unsigned int Gpu_BuildDrawModeCmd(int, int, int);
-unsigned int Gpu_BuildTexWindowCmd(RECT *);
 
 void SetDrawEnv(DR_ENV *packet, DRAWENV *env)
 {
@@ -15,10 +11,10 @@ void SetDrawEnv(DR_ENV *packet, DRAWENV *env)
     int n;
     words[1] = Gpu_BuildDrawAreaTopLeftCmd(env->clip.x, env->clip.y);
     words[2] = Gpu_BuildDrawAreaBottomRightCmd(
-        env->clip.w + env->clip.x - 1, env->clip.y + env->clip.h - 1);
+        (short)(env->clip.w + env->clip.x - 1), (short)(env->clip.y + env->clip.h - 1));
     words[3] = Gpu_BuildDrawOffsetCmd(env->ofs[0], env->ofs[1]);
     words[4] = Gpu_BuildDrawModeCmd(env->dfe, env->dtd, env->tpage);
-    words[5] = Gpu_BuildTexWindowCmd(&env->tw);
+    words[5] = Gpu_BuildTexWindowCmd((GpuTextureWindowRectBytes *)&env->tw);
     words[6] = 0xE6000000;
     n = 7;
     if (env->isbg) {
@@ -44,10 +40,10 @@ void Gpu_SetDrawEnvBack(DR_ENV *packet, DRAWENV *env)
     int n;
     words[1] = Gpu_BuildDrawAreaTopLeftCmd(env->clip.x, env->clip.y);
     words[2] = Gpu_BuildDrawAreaBottomRightCmd(
-        env->clip.w + env->clip.x - 1, env->clip.y + env->clip.h - 1);
+        (short)(env->clip.w + env->clip.x - 1), (short)(env->clip.y + env->clip.h - 1));
     words[3] = Gpu_BuildDrawOffsetCmd(env->ofs[0], env->ofs[1]);
     words[4] = Gpu_BuildDrawModeCmd(env->dfe, env->dtd, env->tpage);
-    words[5] = Gpu_BuildTexWindowCmd(&env->tw);
+    words[5] = Gpu_BuildTexWindowCmd((GpuTextureWindowRectBytes *)&env->tw);
     words[6] = 0xE6000000;
     n = 7;
     if (env->isbg) {
