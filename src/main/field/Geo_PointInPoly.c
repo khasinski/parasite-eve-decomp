@@ -3,12 +3,12 @@
 int Geo_PointInPoly(int x, int z, const PolygonVertex *vertices, unsigned short count)
 {
     unsigned short i;
-    /* Matching debt: the accumulator and edge-test result need distinct
-     * register assignments on stock GCC 2.7.2. No instruction ASM. */
+    /* Matching debt: the parity accumulator remains pinned on stock GCC
+     * 2.7.2. The edge comparison result is an ordinary flag. */
     register int inside asm("$11");
     int previousX, previousZ, currentX, currentZ;
     int cross, dz;
-    register int intersects asm("$2");
+    short intersects;
     x >>= 16;
     z >>= 16;
     i = 0;
