@@ -29,8 +29,9 @@ void Draw_PushPrimToList(void *arg0) {
     s32 t0;
     u32 t1;
     void (*f)();
-    register s32 tf asm("$3");
-    register s32 tg asm("$2");
+    s32 offsetX, offsetY;
+    s32 cursorX;
+    u32 cursorY;
 
     var_s0 = arg0;
     temp_a1 = g_TextCursorStackPtr;
@@ -43,14 +44,14 @@ void Draw_PushPrimToList(void *arg0) {
     } else {
         BoundsCheck_AssertStub(2, temp_a1);
     }
-    tf = ((MenuWidgetNode *)var_s0)->x;
-    tg = g_TextCursorX;
+    offsetX = ((MenuWidgetNode *)var_s0)->x;
+    cursorX = g_TextCursorX;
     f = ((MenuWidgetNode *)var_s0)->draw;
-    temp_a2 = tg + tf;
-    tf = ((MenuWidgetNode *)var_s0)->y;
-    tg = g_TextCursorY;
+    temp_a2 = cursorX + offsetX;
+    offsetY = ((MenuWidgetNode *)var_s0)->y;
+    cursorY = g_TextCursorY;
     g_TextCursorX = temp_a2;
-    temp_a1_2 = tg + tf;
+    temp_a1_2 = cursorY + offsetY;
     g_TextCursorY = temp_a1_2;
     var_s1 = 0;
     if (f != NULL) {
