@@ -10,7 +10,6 @@ void dma_execute(int channel, u32 address, int blockCount, int blockSize,
     int i = 0;
     register CdDmaInterruptRegister *interruptRegister asm("$3");
     u32 bits;
-    int newBlockSize;
     u32 blockControl;
     register int shift asm("$6");
     volatile u32 readback;
@@ -44,12 +43,11 @@ void dma_execute(int channel, u32 address, int blockCount, int blockSize,
     shift = channel << 2;
     asm volatile("" : "=r"(shift) : "0"(shift));
     shift += 3;
-    newBlockSize = blockSize;
     priorityBit = 1 << shift;
     shift = *D_8009B344;
     dma = (volatile u32 *)0x1F801080;
     dma += channel << 2;
-    blockControl = (blockCount << 16) | newBlockSize;
+    blockControl = (blockCount << 16) | blockSize;
     *D_8009B344 = shift | priorityBit;
     *dma++ = address;
     *dma++ = blockControl;

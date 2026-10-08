@@ -7,7 +7,7 @@
 
 int CD_getsector(void *destination, int words) {
     volatile u8 *status;
-    register u32 dmaCommand asm("$2");
+    u32 ready;
 
     *D_8009B27C = 0;
     *D_8009B288 = 0x80;
@@ -19,11 +19,10 @@ int CD_getsector(void *destination, int words) {
 
     status = D_8009B27C;
     do {
-        dmaCommand = *status & 0x40;
-    } while (!dmaCommand);
-    dmaCommand = 0x11000000;
+        ready = *status & 0x40;
+    } while (!ready);
 
-    *D_8009B2C0 = dmaCommand;
+    *D_8009B2C0 = 0x11000000;
     {
         volatile u32 *control = D_8009B2C0;
         if (*control & 0x1000000) {
@@ -36,9 +35,8 @@ int CD_getsector(void *destination, int words) {
 
     {
         volatile u32 *request = D_8009B28C;
-        dmaCommand = 0x1325;
 
-        *request = dmaCommand;
+        *request = 0x1325;
     }
     return 0;
 }
