@@ -410,7 +410,7 @@ s32 Menu_StepParasiteScreen(MenuWidgetNode *arg0, s32 arg1) {
     s32 *statMultipliers;
     s32 temp_v0;
     register s32 temp_v1 asm("$3");
-    register s32 temp_bonus asm("$4");
+    s32 value;
     s32 var_a0;
     s32 var_a2_old;
     s32 var_a2;
@@ -424,7 +424,8 @@ s32 Menu_StepParasiteScreen(MenuWidgetNode *arg0, s32 arg1) {
             while (var_a2_old < g_MenuLevelDisplayTarget) {
                 var_a0 = var_a2_old + 1;
                 g_MenuLevelDisplayValue = var_a0;
-                if (Aya_UnlockParasiteSpellById(var_a0) != 0) {
+                value = Aya_UnlockParasiteSpellById(var_a0);
+                if (value != 0) {
                     break;
                 }
                 var_a2_old = g_MenuLevelDisplayValue;
@@ -446,10 +447,10 @@ s32 Menu_StepParasiteScreen(MenuWidgetNode *arg0, s32 arg1) {
             } while (var_a2 < 9);
             temp_v0 = g_MenuLevelDisplayValue;
             temp_v1 = g_MenuHpMaxDisplayValue;
-            temp_bonus = g_BonusPointDisplayValue;
+            value = g_BonusPointDisplayValue;
             g_AyaSaveLevel = (s8) temp_v0;
             g_AyaHpMax = (s16) temp_v1;
-            g_AyaBonusPoints = temp_bonus;
+            g_AyaBonusPoints = value;
             Inv_RecalcSlotStats();
             MenuWidget_DestroyNode(arg0);
             MenuWidget_DestroyNode(MenuWidget_FindByModeAndSelectedBase(1, 0x1E));
