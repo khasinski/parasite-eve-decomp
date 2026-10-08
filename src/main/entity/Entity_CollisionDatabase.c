@@ -63,15 +63,15 @@ void Entity_ResetStateGlobals(void) {
 }
 
 void Entity_RelocateSceneData(void) {
-    char *base;
+    CollisionDatabase *base;
     register char *loaded asm("$2");
     char frame[8];
     u32 offset;
 
     loaded = D_800B1620[0];
-    base = loaded;
-    offset = *(u32 *)(base + 0x18);
-    g_CollisionDb = base;
+    base = (CollisionDatabase *)loaded;
+    offset = *(u32 *)&base->vertices;
+    g_CollisionDb = (char *)base;
 
     if (!(0x80000000U < offset)) {
         goto relocate;
@@ -81,19 +81,19 @@ void Entity_RelocateSceneData(void) {
         char *value20;
         char *table;
 
-        value20 = *(char **)(base + 0x20);
-        table = base + 0x28;
+        value20 = (char *)base->planes.pointer;
+        table = (char *)base->regions;
         g_RegionHeightTable = table;
         g_CollisionPlaneTable = value20;
     }
     return;
 
 relocate:
-    *(u32 *)(base + 0x18) = (u32)base + offset;
-    *(u32 *)(base + 0x1C) = (u32)base + *(u32 *)(base + 0x1C);
-    *(u32 *)(base + 0x24) = (u32)base + *(u32 *)(base + 0x24);
-    if (*(u32 *)(base + 0x20) != 0) {
-        *(u32 *)(base + 0x20) = (u32)base + *(u32 *)(base + 0x20);
+    base->vertices.word = (u32)base + offset;
+    base->triangles.word = (u32)base + base->triangles.word;
+    base->rampEdges.word = (u32)base + base->rampEdges.word;
+    if (base->planes.word != 0) {
+        base->planes.word = (u32)base + base->planes.word;
     }
 
     {
