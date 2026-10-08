@@ -7,22 +7,26 @@ int rsin(int arg0);
 int rcos(int arg0);
 int Math_FixedMul(int arg0, int arg1);
 
-int Entity_PolarToPosition(int **arg0) {
+int Entity_PolarToPosition(int **arg0)
+{
     int **args;
     short angle;
     int radius;
-    register int *ptr asm("$2");
+    int *ptr;
     register int value asm("$2");
+    int radiusInput;
+    int *angleInput;
     FieldActor *current_v1;
     FieldActor *current_v0;
     int base;
-
     args = arg0;
-    ptr = args[1];
+    angleInput = args[1];
+    ptr = angleInput;
     value = *ptr;
     angle = 0x1400 - value;
     ptr = args[0];
-    radius = *ptr;
+    radiusInput = *ptr;
+    radius = radiusInput;
     value = rcos(angle);
     radius = -radius;
     value = Math_FixedMul(radius, value << 4);
@@ -38,7 +42,6 @@ int Entity_PolarToPosition(int **arg0) {
         dst = args[3];
         *dst = value;
     }
-
     {
         int *dst;
         dst = args[2];
@@ -47,7 +50,6 @@ int Entity_PolarToPosition(int **arg0) {
         value += current_v1->pos_x;
         *dst = value;
     }
-
     {
         int *dst;
         int loaded;
