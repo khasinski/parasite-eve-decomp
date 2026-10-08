@@ -1,15 +1,11 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
+#include "pe1/field_anim.h"
 /* CC1_FLAGS: -fno-schedule-insns */
 
 
 extern u8 D_800E2254;
-extern int D_800F33D4;
-extern int D_800F33D8;
-extern int D_800F33DC;
-extern int D_800F32C4;
-extern u8 D_800F3460;
 
 int func_800CD404(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s2 = anim;
@@ -32,26 +28,26 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
 
     color_a3 = &D_800E2254;
         call_a0 = color_a3 - 4;
-        position_v0 = &D_800F33D4;
+        position_v0 = &D_800F33C0.t[0];
     value_v1 = *(s16 *)(anim_s2 + 0x8);
     call_a1 = position_v0 - 5;
     position_v0[0] = value_v1;
     value_v0 = *(s16 *)(anim_s2 + 0xA);
     call_a2 = 1;
-    D_800F33D8 = value_v0;
+    D_800F33C0.t[1] = value_v0;
     value_v0 = *(s16 *)(anim_s2 + 0xC);
     i = 0;
-    D_800F33DC = value_v0;
+    D_800F33C0.t[2] = value_v0;
     shade = anim_s2[3];
     asm volatile("" ::: "$17");
-    field_s1 = &D_800F32C4;
+    field_s1 = &D_800F32B0.t[0];
     *color_a3 = (shade * 2) - 0x80;
     func_800C42A4((FieldGlowSprite *)call_a0, (GteMatrix *)call_a1, call_a2);
 
     func_800C3238(3);
 
     do {
-        call_a0 = &D_800F3460;
+        call_a0 = (u8 *)&D_800F3460;
                 entry_v0 = (int)(anim_s2 + ((i & 0xFFFF) * 8));
         value_v1 = *(s16 *)(entry_v0 + 0x10);
         call_a1 = field_s1 - 5;
