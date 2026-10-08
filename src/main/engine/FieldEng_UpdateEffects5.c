@@ -9,10 +9,9 @@
 
 void *memset(void *dest, int value, unsigned int count);
 
-extern u16 D_800E2342;
 
 int func_800CB750(void *arg0, void *arg1, FieldAnimTwinGlow *anim) {
-    u16 *field_s4 = &D_800E2342;
+    u16 *field_s4 = &D_800E2338.depth;
     GteMatrix matrix;
     int scale;
     u16 field;
@@ -84,11 +83,10 @@ int func_800CB750(void *arg0, void *arg1, FieldAnimTwinGlow *anim) {
 void *memset(void *dest, int value, unsigned int count);
 
 extern GteShortVector D_800C2204;
-extern s16 D_800F34F2;
 
 int func_800CB8E0(void *arg0, void *arg1, FieldAnimMovingParticle *anim) {
     s16 *position;
-    u16 *field = &D_800F34F2;
+    u16 *field = &D_800F34E8.depth;
     GteMatrix matrix;
     GteShortVector rot;
     GteVector scaleCopy;
@@ -125,7 +123,7 @@ void *memset(void *dest, int value, unsigned int count);
 
 
 int func_800CB9F8(void *arg0, void *arg1, FieldAnimMatrixGlow *anim) {
-    u16 *field = &D_800F34F2;
+    u16 *field = &D_800F34E8.depth;
     GteMatrix matrix;
     GteVector scaleCopy;
     GteVector scale;

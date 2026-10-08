@@ -10,6 +10,8 @@
  * column, and translation windows use the stock GTE macros. */
 void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 {
+    int halfBrightness;
+    u16 brightness;
     GteMatrix *workMatrix;
     register GteMatrix *stepMatrix asm("$18");
 
@@ -46,8 +48,9 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     func_800C3098(0x10);
     func_800C2FF0(0x20, 0x10);
     func_800C3238(2);
-    D_800F34D0 = -10;
-    D_800F34D2 = (s16)glow->depth >> 1;
+    halfBrightness = (s16)glow->depth >> 1;
+    D_800F34C8.offset = -10;
+    D_800F34C8.depth = halfBrightness;
 
     RotMatrixYXZ(&spinA, &rotation);
     stepMatrix = &rotation;
@@ -132,8 +135,9 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     ScaleMatrix(workMatrix, &scaleB);
     func_800C42A4(&D_800F34C8, workMatrix, 0);
 
-    D_800F34D0 = -50;
-    D_800F34D2 = glow->depth;
+    brightness = glow->depth;
+    D_800F34C8.offset = -50;
+    D_800F34C8.depth = brightness;
 
     RotMatrixYXZ(thirdSpin, stepMatrix);
     matrix = glow->matrix;

@@ -21,11 +21,6 @@ typedef struct FieldGlowLayers {
 } FieldGlowLayers;
 
 extern FieldGlowSprite D_800F34A8;
-extern FieldGlowSprite D_800F34B8;
-extern FieldGlowSprite D_800F34C8;
-/* The four-layer glow writes D_800F34C8's offset and depth as scalars. */
-extern s16 D_800F34D0;
-extern s16 D_800F34D2;
 
 extern GteShortVector D_800C2154;
 extern GteShortVector D_800C215C;
