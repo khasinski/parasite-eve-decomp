@@ -240,23 +240,22 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     Bone_StoreVec(&actor->rotation_overrides[0].x);
     Bone_StoreVec(&actor->hit_cylinder.value0);
     Bone_StoreVec(&actor->target_x);
-    BoneLoadRotMatrix(view);
-    Bone_LoadAxis((u16 *)matrix);
-    Bone_StoreAxis((s16 *)scratch);
     {
-        u16 *src = (u16 *)matrix + 1;
-                Bone_LoadAxis(src);
+        register s16 *column asm("$9");
+        BoneLoadRotMatrix(view);
+        Bone_LoadAxis((u16 *)matrix);
+        Bone_StoreAxis((s16 *)scratch);
         {
-            register s16 *dst asm("$9") = (s16 *)0x1F800002;
-                        Bone_StoreAxis(dst);
+            u16 *src = (u16 *)matrix + 1;
+            Bone_LoadAxis(src);
+            column = (s16 *)0x1F800002;
+            Bone_StoreAxis(column);
         }
-    }
-    {
-        u16 *src = (u16 *)matrix + 2;
-                Bone_LoadAxis(src);
         {
-            register s16 *dst asm("$9") = (s16 *)0x1F800004;
-                        Bone_StoreAxis(dst);
+            u16 *src = (u16 *)matrix + 2;
+            Bone_LoadAxis(src);
+            column = (s16 *)0x1F800004;
+            Bone_StoreAxis(column);
         }
     }
     BoneLoadTrans(view);
