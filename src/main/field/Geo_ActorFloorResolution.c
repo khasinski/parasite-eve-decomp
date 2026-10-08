@@ -131,12 +131,12 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
 
         idx = index_v1 & 0xFFFF;
         base = (char *)g_CollisionDb;
-        base = *(char **)(base + 0x1C);
-        entry = base + (idx * 22);
+        base = (char *)((CollisionDatabase *)base)->triangles.pointer;
+        entry = (char *)&((CollisionTriangleXZ *)base)[idx];
         actor_s2->collisionFace = entry;
         actor_s2->collisionFaceMirror = entry;
         table = g_RegionHeightTable;
-        value = *(short *)(*(char **)(table + ((u8)entry[1] * 4)));
+        value = *(short *)(*(char **)(table + (((CollisionFace *)entry)->region * 4)));
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
         value <<= 16;
@@ -153,21 +153,21 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
         offset = idx << 3;
         base = (char *)g_CollisionDb;
         offset -= idx;
-        entry_s0 = *(char **)(base + 0x1C);
+        entry_s0 = (char *)((CollisionDatabase *)base)->triangles.pointer;
         offset <<= 2;
         entry_s0 += offset;
         actor_s2->collisionFace = entry_s0;
         actor_s2->collisionFaceMirror = entry_s0;
         {
             int id_v1;
-            id_v1 = *(u16 *)(entry_s0 + 2);
+            id_v1 = ((CollisionFace *)entry_s0)->plane;
             id = id_v1;
         }
-        first = Math_FixedMul(*(int *)(table_base + (id * 12) + 0), actor_s2->posX.fixed);
-        id = *(u16 *)(entry_s0 + 2);
-        second = Math_FixedMul(*(int *)(g_CollisionPlaneTable + (id * 12) + 8), actor_s2->posZ.fixed);
-        id = *(u16 *)(entry_s0 + 2);
-        value = Math_FixedMul(*(int *)(entry_s0 + 4) - first - second, *(int *)(g_CollisionPlaneTable + (id * 12) + 4));
+        first = Math_FixedMul(((CollisionPlane *)table_base)[id].a, actor_s2->posX.fixed);
+        id = ((CollisionFace *)entry_s0)->plane;
+        second = Math_FixedMul(((CollisionPlane *)g_CollisionPlaneTable)[id].c, actor_s2->posZ.fixed);
+        id = ((CollisionFace *)entry_s0)->plane;
+        value = Math_FixedMul(((CollisionFace *)entry_s0)->distance - first - second, ((CollisionPlane *)g_CollisionPlaneTable)[id].inverseB);
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
         asm volatile("" : : "r"(arg_y), "r"(arg_z));
