@@ -34,10 +34,9 @@ int Render_PrepareFrame(void) {
     {
         /* Narrow volatile input preserves the retail stack frame in GCC 2.7.2. */
         register volatile unsigned short cx asm("$6") = 160;
-        register unsigned int cy asm("$7") = 112;
-        /* C offset shifts; pins and the empty constraint retain scheduling. */
+        unsigned int cy = 112;
+        /* C offset shifts; the narrow X input retains the required allocation. */
         {
-            asm("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy));
             gte_SetGeomOffset(cx, cy);
         }
     }
