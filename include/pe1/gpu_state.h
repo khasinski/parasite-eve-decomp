@@ -25,6 +25,24 @@ typedef struct GpuDebugState {
     /* 0x0C */ void (*drawSyncCallback)();
 } GpuDebugState;
 
+#define PE1_GPU_STATE_STATIC_ASSERT(expr, name) \
+    typedef char pe1_gpu_state_assert_##name[(expr) ? 1 : -1]
+#define PE1_GPU_STATE_OFFSETOF(type, member) ((unsigned int)&(((type *)0)->member))
+
+/* Complete SYS.OBJ state, including its cached drawing/display settings. */
+typedef struct GpuSystemState {
+    GpuDebugState status;
+    DRAWENV drawCache;
+    DISPENV displayCache;
+} GpuSystemState;
+
+PE1_GPU_STATE_STATIC_ASSERT(PE1_GPU_STATE_OFFSETOF(GpuSystemState, drawCache) == 0x10, gpu_draw_cache_offset);
+PE1_GPU_STATE_STATIC_ASSERT(PE1_GPU_STATE_OFFSETOF(GpuSystemState, displayCache) == 0x6C, gpu_display_cache_offset);
+PE1_GPU_STATE_STATIC_ASSERT(sizeof(GpuSystemState) == 0x80, gpu_system_state_size);
+
+#undef PE1_GPU_STATE_OFFSETOF
+#undef PE1_GPU_STATE_STATIC_ASSERT
+
 extern GpuCallbacks *D_80095744;
 extern GpuDebugPrintf D_80095748;
 extern GpuDebugState D_8009574C;

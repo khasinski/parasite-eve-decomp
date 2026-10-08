@@ -21,17 +21,6 @@
 #include "include_asm.h"
 #include "pe1/psyq_gpu.h"
 
-typedef struct GpuState {
-    volatile unsigned char variant;
-    unsigned char queue;
-    unsigned char debug;
-    unsigned char padding;
-    unsigned short width, height;
-    int pending;
-    void (*done)(void);
-    unsigned char drawCache[0x5C];
-    unsigned char displayCache[0x14];
-} GpuState;
 extern unsigned char D_8009574E;
 extern unsigned char D_80095704[];
 extern char D_800117E0[], D_80011800[];
@@ -44,8 +33,9 @@ void GPU_cw(unsigned int);
 int Gpu_InitDmaQueue(int);
 
 int ResetGraph(int mode) {
-    GpuState *state;
+    GpuSystemState *state;
     void *drawCache;
+    volatile unsigned char *gpuType;
     switch (mode & 7) {
     case 0:
     case 3:
@@ -55,24 +45,22 @@ int ResetGraph(int mode) {
 
             format = D_800117E0;
             version = D_80095704;
-            printf(format, version, (GpuState *)&D_8009574C);
+            printf(format, version, (GpuSystemState *)&D_8009574C);
         }
     case 5:
-        state = (GpuState *)&D_8009574C;
-        GPU_memset(state, 0, 0x80);
+        state = (GpuSystemState *)&D_8009574C;
+        gpuType = &state->status.type;
+        GPU_memset(state, 0, sizeof(*state));
         ResetCallback();
         GPU_cw((unsigned int)D_80095744 & 0xFFFFFF);
-        state->variant = Gpu_InitDmaQueue(mode);
-        drawCache = state->drawCache;
-        state->queue = 1;
-        {
-            unsigned int offset = state->variant * 4;
-            state->width = *(unsigned short *)((unsigned char *)D_800957CC + offset);
-        }
-        state->height = D_800957D8[state->variant][0];
-        GPU_memset(drawCache, -1, 0x5C);
-        GPU_memset(state->displayCache, -1, 0x14);
-        return state->variant;
+        *gpuType = Gpu_InitDmaQueue(mode);
+        drawCache = &state->drawCache;
+        state->status.queueState.queue = 1;
+        state->status.width = D_800957CC[*gpuType][0];
+        state->status.height = D_800957D8[*gpuType][0];
+        GPU_memset(drawCache, -1, sizeof(state->drawCache));
+        GPU_memset(&state->displayCache, -1, sizeof(state->displayCache));
+        return *gpuType;
     default:
         if (D_8009574E >= 2) D_80095748(D_80011800, mode);
         return D_80095744->reset(1);
