@@ -11,7 +11,7 @@ void *memset(void *dest, int value, unsigned int count);
 
 extern u16 D_800E2342;
 
-int func_800CB750(void *arg0, void *arg1, u8 *anim) {
+int func_800CB750(void *arg0, void *arg1, FieldAnimTwinGlow *anim) {
     u16 *field_s4 = &D_800E2342;
     GteMatrix matrix;
     int scale;
@@ -24,8 +24,8 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    scale = *(s16 *)(anim + 0x6) + 0x42C;
-    field = *(u16 *)(anim + 0x4);
+    scale = anim->scale + 0x42C;
+    field = anim->brightness;
 
     matrix.m[2][2] = 0x1000;
     matrix.m[1][1] = 0x1000;
@@ -41,9 +41,9 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     matrix.m[0][1] = 0;
 
     *field_s4 = field;
-    matrix.t[0] = *(s16 *)(anim + 0x8);
-    matrix.t[1] = *(s16 *)(anim + 0xA);
-    matrix.t[2] = *(s16 *)(anim + 0xC);
+    matrix.t[0] = (s16)anim->position[0].x;
+    matrix.t[1] = (s16)anim->position[0].y;
+    matrix.t[2] = (s16)anim->position[0].z;
 
     memset(localScale, 0, sizeof(localScale));
     localScale[0] = scale;
@@ -66,9 +66,9 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
 
-    matrix.t[0] = *(s16 *)(anim + 0x10);
-    matrix.t[1] = *(s16 *)(anim + 0x12);
-    matrix.t[2] = *(s16 *)(anim + 0x14);
+    matrix.t[0] = (s16)anim->position[1].x;
+    matrix.t[1] = (s16)anim->position[1].y;
+    matrix.t[2] = (s16)anim->position[1].z;
 
     memset(localScale2, 0, sizeof(localScale2));
     localScale2[0] = scale;

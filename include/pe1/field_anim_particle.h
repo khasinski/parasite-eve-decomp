@@ -29,6 +29,18 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimMovingParticle, velocity) == 0x10,
 PE1_STATIC_ASSERT(sizeof(FieldAnimMovingParticle) == 0x18,
                   field_anim_moving_particle_size);
 
+/* Two independently transformed points rendered with the same glow scale. */
+typedef struct FieldAnimTwinGlow {
+    u8 reserved00[4];
+    u16 brightness;
+    s16 scale;
+    FieldAnimParticlePosition position[2];
+} FieldAnimTwinGlow;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTwinGlow, position) == 8,
+                  field_anim_twin_glow_position);
+PE1_STATIC_ASSERT(sizeof(FieldAnimTwinGlow) == 0x18,
+                  field_anim_twin_glow_size);
+
 extern FieldAnimParticlePosition D_800E2348, D_800E2350, D_800E2358, D_800E2360;
 
 #endif
