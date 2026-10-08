@@ -268,8 +268,6 @@ int func_8006DF50(void *resource, int arg1, int arg2, int arg3, int enabled);
 void *PushMatrix(void);
 void CompMatrix(RoomSpriteMatrix *left, RoomSpriteMatrix *right,
                    RoomSpriteMatrix *result);
-void SetTransMatrix(void *matrix);
-void SetRotMatrix(void *matrix);
 int PopMatrix(void);
 void func_8006DFA8(FxCommonShortVec3 *input, int *outA, int *outB);
 void func_800868F0(void *object, int index, int value);

@@ -80,8 +80,6 @@ extern FxCommonNode *D_801EA588;
 extern FxCommonNode *D_801EA58C;
 void func_800371B0(void *);
 void SetFogNearFar(int,int,int);
-void SetLightMatrix(void *);
-void SetColorMatrix(void *);
 void SetBackColor(int,int,int);
 void SetFarColor(int,int,int);
 void func_80190998(void);
