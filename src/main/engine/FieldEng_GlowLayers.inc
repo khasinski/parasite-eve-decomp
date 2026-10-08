@@ -8,7 +8,7 @@
 #include "pe1/field_glow_layers.h"
 #include "pe1/gte.h"
 
-/* Matching debt: 5 register pins and 6 empty constraints.
+/* Matching debt: 4 register pins and 6 empty constraints.
  * Matrix arithmetic and loads are C; GTE instructions are wrapped separately.
  * Volatile column reads retain each rotation load instead of caching values
  * across the two compositions. */
@@ -16,7 +16,6 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
 {
     register GteMatrix *workMatrix asm("$16");
     register GteMatrix *stepMatrix asm("$18");
-    register u16 *firstColumn asm("$16");
     register const volatile u16 *column1 asm("$19");
     const volatile u16 *column2;
     register u16 *outColumn1 asm("$20");
@@ -55,9 +54,8 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     gte_ldrotmatrix((const GteMatrixWords *)workMatrix);
     gte_ldclmv((const u16 *)stepMatrix);
     gte_rtir();
-    firstColumn = (u16 *)workMatrix;
 
-    gte_stclmv(firstColumn);
+    gte_stclmv((u16 *)workMatrix);
     column1 = (const volatile u16 *)&rotation + 1;
     gte_ldclmv(column1);
     gte_rtir();
@@ -96,9 +94,8 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     gte_ldrotmatrix((const GteMatrixWords *)workMatrix);
     gte_ldclmv((const u16 *)stepMatrix);
     gte_rtir();
-    firstColumn = (u16 *)workMatrix;
 
-    gte_stclmv(firstColumn);
+    gte_stclmv((u16 *)workMatrix);
     gte_ldclmv(column1);
     gte_rtir();
     gte_stclmv(outColumn1);
