@@ -63,7 +63,6 @@ void Draw_PushPrimToList(void *arg0) {
             BoundsCheck_AssertStub(2, temp_a1_2, temp_a2);
         }
         ((MenuWidgetNode *)var_s0)->draw(var_s0);
-        __asm__ volatile("");
         if ((u32) &g_TextCursorStackBottom < g_TextCursorStackPtr) {
             temp_v0 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -8);
             temp_a0 = M2C_FIELD(g_TextCursorStackPtr, u32 *, -4);
