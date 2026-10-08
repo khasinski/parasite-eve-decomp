@@ -64,7 +64,7 @@ int Akao_Cmd_24(void *header, int arg1, int arg2, int arg3) {
     }
 
     g_AkaoCmd.opcode = 0x24;
-    g_AkaoCmd.arg0.value = (int)((unsigned char *)header + 4);
+    g_AkaoCmd.arg0.command_data = ((AkaoFilePrefix *)header)->contents;
     g_AkaoCmd.arg1 = arg1 & 0xFFFFFF;
     g_AkaoCmd.arg2 = arg2 & 0xFF;
     g_AkaoCmd.arg3 = arg3 & 0x7F;

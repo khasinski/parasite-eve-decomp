@@ -2,6 +2,7 @@
 #define PE1_AKAO_COMMANDS_H
 
 #include "pe1/akao/queue.h"
+#include "pe1/akao/file_header.h"
 
 typedef signed char AkaoCommandS8;
 
@@ -71,6 +72,8 @@ typedef struct AkaoStagedCommand {
         int value;
         /* sample load opcodes 0x10/0x12/0x19: address of the sample header */
         unsigned short *sample_header;
+        /* opcode 0x24: buffer contents following the shared magic word */
+        unsigned char *command_data;
     } arg0;
     /* 0x08 */ int arg1;
     /* 0x0C */ int arg2;
@@ -89,7 +92,6 @@ extern AkaoSequenceCounter D_8009CDF0;
 int Akao_EnqueueStagedCommand(void);
 
 /* Returns the header validation difference, or the queued sequence number. */
-int Spu_ValidateSampleHeader(void *header);
 int Akao_Cmd_24(void *header, int arg1, int arg2, int arg3);
 
 #endif

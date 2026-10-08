@@ -23,7 +23,7 @@ extern volatile s32 g_SpuTransferStatus;
 
 int Spu_ValidateSampleHeader(void *arg0)
 {
-    return *(int *)arg0 + 0xB0BEB4BF;
+    return ((AkaoFilePrefix *)arg0)->magic + 0xB0BEB4BF;
 }
 
 void Spu_ClearTransferCallback(void) {
