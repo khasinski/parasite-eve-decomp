@@ -2,8 +2,9 @@
 #include "pe1/psyq_spu_internal.h"
 
 long SpuSetNoiseClock(long clock) {
-    register int input asm("$2");
+    int input;
     int value;
+    int clockBits;
     SpuRegs *state;
     u16 flags;
 
@@ -21,7 +22,8 @@ long SpuSetNoiseClock(long clock) {
     input <<= 8;
     flags = state->spucnt;
     flags &= 0xC0FF;
-    flags |= input;
+    clockBits = (u16)input;
+    flags |= clockBits;
     /* Ordinary store view preserves the SDK write in the return delay slot. */
     *(u16 *)&state->spucnt = flags;
     return value;
