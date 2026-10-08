@@ -8,7 +8,7 @@ ItemDataRecord *Item_LookupBaseData(unsigned int index)
 {
     int *endPtr;
     int base;
-    register unsigned int offset;
+    unsigned int offset;
     int end;
 
     endPtr = D_800A8038;
@@ -20,9 +20,7 @@ ItemDataRecord *Item_LookupBaseData(unsigned int index)
     }
 
     offset = index << 5;
-    asm volatile("" : "=r"(offset) : "0"(offset));
-    endPtr = (int *)((char *)endPtr - 0x10);
-    return (ItemDataRecord *)(base + (offset + (int)endPtr));
+    return (ItemDataRecord *)((char *)D_800A8038 - 0x10 + base + offset);
 }
 
 
