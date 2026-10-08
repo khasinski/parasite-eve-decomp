@@ -47,7 +47,7 @@ s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
     RoomFxSeed8 *obj;
     int index;
     register int work asm("$3");
-    register int value2 asm("$2");
+    u16 value2;
     u16 value3;
     u16 value1;
 
@@ -79,7 +79,6 @@ s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
         D_800F3376 = work;
         D_800F3378 = work;
         index <<= 1;
-        PE1_COMPILER_USE(work);
         work = *(u16 *)((u8 *)D_800E2850 + index);
         value3 = 3;
         D_800F336C = value3;
