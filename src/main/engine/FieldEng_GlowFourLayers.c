@@ -5,12 +5,12 @@
 
 /* Four-layer variant of the field glow: two pairs of fixed spins, the
  * second pair pushed further out and drawn at the full depth.
- * Matching debt: 7 register pins and the remaining empty constraints.
+ * Matching debt: 6 register pins and the remaining empty constraints.
  * Explicit spin address aliases retain the retail spill order. Rotation,
  * column, and translation windows use the stock GTE macros. */
 void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 {
-    register GteMatrix *workMatrix asm("$16");
+    GteMatrix *workMatrix;
     register GteMatrix *stepMatrix asm("$18");
 
     GteShortVector *spinCAddress;
@@ -61,7 +61,6 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     nextSpin = &spinB;
     thirdSpin = spinCAddress;
     fourthSpin = spinDAddress;
-    asm volatile("" : : : "memory");
     workMatrix = &matrix;
 
 
