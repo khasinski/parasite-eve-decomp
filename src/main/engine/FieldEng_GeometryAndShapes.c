@@ -339,7 +339,6 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
             }
             {
                 gte_stszotz(depthOut);
-                asm("" : : "m"(*depthOut) : "$2", "memory");
             }
             {
                 register GteShortVector *v3 = &vertex[3];
