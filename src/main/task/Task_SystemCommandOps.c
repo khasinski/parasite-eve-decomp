@@ -321,8 +321,8 @@ int Task_SetObjEntryFlag80(int **arg0) {
         entry = (char *)((int)entry << 2);
     }
     entry = (char *)((int)entry + (int)base_entry);
-        value = *entry | 0x80;
-    *entry = value;
+    value = ((CollisionTriangleHeader *)entry)->kind | 0x80;
+    ((CollisionTriangleHeader *)entry)->kind = value;
     asm volatile("" : : : "memory");
     return 1;
 }
@@ -360,8 +360,8 @@ int Task_ClearObjEntryFlag80(int **arg0) {
         entry = (char *)((int)entry << 2);
     }
     entry = (char *)((int)entry + (int)base_entry);
-        value = *entry & 0x7F;
-    *entry = value;
+    value = ((CollisionTriangleHeader *)entry)->kind & 0x7F;
+    ((CollisionTriangleHeader *)entry)->kind = value;
     asm volatile("" : : : "memory");
     return 1;
 }
