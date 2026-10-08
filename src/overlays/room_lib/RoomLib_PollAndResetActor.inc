@@ -48,8 +48,8 @@ s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
     int index;
     register int work asm("$3");
     register int value2 asm("$2");
-    register int value3 asm("$2");
-    register int value1 asm("$2");
+    u16 value3;
+    u16 value1;
 
     switch (state) {
     case 0:
