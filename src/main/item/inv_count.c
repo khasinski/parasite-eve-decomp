@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 
 int g_InvSlotLimit;
 
@@ -9,11 +10,9 @@ int Inv_GetActiveListItemType(int arg0);
 
 extern short g_WayneStorageItems[];
 
-extern short g_AyaInventoryItems[];
-int g_InvItemPtr;
+s16 *g_InvItemPtr;
 int g_InvSlotLimit;
-int g_InvSelectionBits;
-extern int g_AyaItemSelectionBits[];
+u32 *g_InvSelectionBits;
 int g_InvSelectionBitWords;
 
 int Inv_GetAyaSlotLimit(void);
@@ -62,13 +61,13 @@ int Inv_CountTotal(void) {
     short *end;
     int count;
 
-    g_InvItemPtr = (int)g_AyaInventoryItems;
+    g_InvItemPtr = g_AyaInventoryItems;
     count = 0;
     g_InvSlotLimit = Inv_GetAyaSlotLimit();
-    g_InvSelectionBits = (int)g_AyaItemSelectionBits;
+    g_InvSelectionBits = g_AyaItemSelectionBits;
     g_InvSelectionBitWords = 2;
 
-    item = (short *)g_InvItemPtr;
+    item = g_InvItemPtr;
     end = item + g_InvSlotLimit;
     while (item < end) {
         count += *item != 0;
