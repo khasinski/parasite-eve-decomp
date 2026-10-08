@@ -41,6 +41,17 @@ void *Aya_GetParasiteSpellUnlockTable(void);
 /* Written at new game (Inv_InitNewGameInventory) and on level-up            */
 /* (Aya_SetTotalExp); read across menu/battle/inventory code.                */
 /* ------------------------------------------------------------------------- */
+/* Seven growth categories, plus two opaque halfwords copied by the
+ * parasite-screen commit loop. Keep that nine-word transfer inside the
+ * declared object without assigning semantics to the trailing words. */
+typedef union AyaStatAllocationWords {
+    u16 levels[7];
+    u16 transfer[9];
+} AyaStatAllocationWords;
+
+PE1_STATIC_ASSERT(sizeof(AyaStatAllocationWords) == 0x12,
+                  aya_stat_allocation_words_size);
+
 typedef struct AyaSaveState {
     /* 0x00 */ u32 total_exp;            /* g_AyaSaveTotalExp: total accumulated EXP [CONFIRMED 0 at new game] */
     /* 0x04 */ u8  pad_04[0x02];
@@ -64,9 +75,9 @@ typedef struct AyaSaveState {
      * func_8005DB8C) and read via the g_AyaStat* accessors. These are the
      * bonus-point allocation levels per category (all 0 at new game ->
      * every status stat shows "1"), NOT the final combat values. */
-    /* 0x28 */ u16 stat_allocations[7]; /* Growth categories 0..6. */
+    /* 0x28 */ AyaStatAllocationWords stats;
 
-    /* 0x36 */ u8  pad_36[0x0A];
+    /* 0x3A */ u8  pad_3A[6];
     /* 0x40 */ u16 menu_clamp_value;     /* D_800C0E40  [CONFIRMED 0x3D] set via Menu_ClampRange(0x3D) at init */
     /* 0x42 */ u8  pad_42[2];
     /* 0x44 */ u32 blend_color;         /* Saved draw blend color, initialized to 0x404040. */
@@ -79,7 +90,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, inventory_items) == 0x48,
                   aya_inventory_items_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, blend_color) == 0x44,
                   aya_saved_blend_color_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, stat_allocations) == 0x28,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, stats.levels) == 0x28,
                   aya_stat_allocations_offset);
 PE1_STATIC_ASSERT(sizeof(AyaSaveState) == 0xAC, aya_save_state_prefix_size);
 extern AyaSaveState D_800C0E00;

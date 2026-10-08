@@ -1,3 +1,4 @@
+#include "pe1/menu_bonus_stats.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "pe1/menu_inventory_root.h"
@@ -104,7 +105,7 @@ void Menu_StepInventoryRoot(int mode, int list, int item)
             for (stat = 0; stat < 7; stat++) {
                 D_800A18D8[stat] = *source++;
                 D_800A18FC[stat] = 0;
-                Stat_QueryLevelAndSubLevel(stat, D_800A18D8[stat], &D_800A18B4[stat], 0);
+                Stat_QueryLevelAndSubLevel(stat, D_800A18D8[stat], &D_800A18B4.queryResults[stat], 0);
             }
         }
         D_8009CF80 = 0;
@@ -220,8 +221,6 @@ void MenuWidget_NavScrollTo(s32 selected_base);
 extern s32 g_MenuBattleStatusOverlayActive;
 extern s32 g_MenuEquipMode;
 extern s32 g_MenuItemRenameMode;
-extern s32 g_BonusPointStatDeltas[];
-#define g_BonusPointStatDeltas (g_BonusPointStatDeltas[0])
 extern u16 g_AyaStatAgility[];
 #define g_AyaStatAgility (g_AyaStatAgility[0])
 extern s32 g_AyaBonusPoints[];
@@ -902,7 +901,6 @@ extern int D_8009CFD0;
 extern int D_8009CFD8;
 extern int D_8009CFDC;
 extern int D_8009CF68;
-extern int D_800A18D8[];
 extern signed char D_800C0E22[];
 
 extern int Inv_RestoreSelection(unsigned int index);

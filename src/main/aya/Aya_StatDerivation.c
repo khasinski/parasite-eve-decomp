@@ -5,7 +5,7 @@
 #include "pe1/battle_modifiers.h"
 
 void Inv_RecalcSlotStats(void) {
-    s16 *p = (s16 *)D_800C0E00.stat_allocations;
+    s16 *p = (s16 *)D_800C0E00.stats.levels;
     int level, hp;
     Combatant *actor;
     AyaLevelStats *row;

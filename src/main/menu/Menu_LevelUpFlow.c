@@ -1,3 +1,4 @@
+#include "pe1/menu_bonus_stats.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -33,9 +34,6 @@ extern int g_MenuHpMaxDisplayValue, g_MenuHpMaxDisplayTarget;
 extern int g_BonusPointDisplayValue, g_MenuBonusPointDisplayTarget;
 extern int g_BonusPointBarAnimStep, g_BonusPointBarAnimProgress;
 extern int g_MenuBonusPointBarAnimActive;
-extern int g_BonusPointStatQueryResults[];
-extern int g_BonusPointStatDeltas[];
-extern int g_BonusPointStatMultipliers[];
 extern u8 D_800922F4[];
 extern s32 g_AyaSaveTotalExp[];
 #define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
@@ -45,7 +43,6 @@ extern u16 D1E_write[16] __asm__("D_800C0E1E");
 extern u16 D1E_bonus[16] __asm__("D_800C0E1E");
 /* This loop sign-extends the stat allocations (lh in the original). */
 extern s16 D_800C0E28_signed[7] __asm__("D_800C0E28");
-extern struct { char bytes[32]; } stat_out_alias __asm__("D_800A18B4");
 
 extern AyaSaveState D_800C0E00_array[] __asm__("D_800C0E00");
 extern u8 aya_level_view[16] __asm__("D_800C0E0A");
@@ -99,7 +96,7 @@ void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     i = 0;
     do {
         g_BonusPointStatDeltas[i] = *stat_src++;
-        Stat_QueryLevelAndSubLevel(i, g_BonusPointStatDeltas[i], (s32 *)((u8 *)&stat_out_alias + i * 4), 0);
+        Stat_QueryLevelAndSubLevel(i, g_BonusPointStatDeltas[i], &D_800A18B4.queryResults[i], 0);
         g_BonusPointStatMultipliers[i] = (g_MenuLevelDisplayTarget - g_MenuLevelDisplayValue) * 10;
         i++;
     } while (i < 7);
@@ -246,7 +243,7 @@ void Menu_InitBonusPointAllocState(int gained_points) {
     }
     g_MenuBonusPointDisplayTarget = D_800C0E00.bonus_points + gained_points;
 
-    source = (s16 *)D_800C0E00.stat_allocations;
+    source = (s16 *)D_800C0E00.stats.levels;
     stat = 0;
     multipliers = g_BonusPointStatMultipliers;
     query_results = g_BonusPointStatQueryResults;
@@ -406,13 +403,11 @@ void Menu_DrawBonusPointAnimFrame(void) {
         Akao_FlushBgmVolumeFade();
     }
 }
-extern s16 g_AyaStatAgility[];
-#define g_AyaStatAgility (g_AyaStatAgility[0])
 
 s32 Menu_StepParasiteScreen(MenuWidgetNode *arg0, s32 arg1) {
-    u8 *var_a3;
-    u8 *var_a0_2;
-    u8 *var_a1;
+    u16 *statDestination;
+    s32 *statDeltas;
+    s32 *statMultipliers;
     s32 temp_v0;
     register s32 temp_v1 asm("$3");
     register s32 temp_bonus asm("$4");
@@ -435,19 +430,19 @@ s32 Menu_StepParasiteScreen(MenuWidgetNode *arg0, s32 arg1) {
                 var_a2_old = g_MenuLevelDisplayValue;
             }
         } else {
-            var_a3 = (u8 *)&g_AyaStatAgility;
+            statDestination = D_800C0E00.stats.transfer;
             var_a2 = 0;
-            var_a1 = (u8 *)&g_BonusPointStatMultipliers;
-            var_a0_2 = (u8 *)&g_BonusPointStatDeltas;
+            statMultipliers = g_BonusPointStatMultipliers;
+            statDeltas = g_BonusPointStatDeltas;
             do {
-                temp_v1 = M2C_FIELD(var_a1, s32 *, 0);
-                var_a1 += 4;
-                temp_v0 = M2C_FIELD(var_a0_2, s32 *, 0);
-                var_a0_2 += 4;
+                temp_v1 = *statMultipliers;
+                statMultipliers++;
+                temp_v0 = *statDeltas;
+                statDeltas++;
                 var_a2 += 1;
                 temp_v0 += temp_v1;
-                M2C_FIELD(var_a3, s16 *, 0) = temp_v0;
-                var_a3 += 2;
+                *statDestination = temp_v0;
+                statDestination++;
             } while (var_a2 < 9);
             temp_v0 = g_MenuLevelDisplayValue;
             temp_v1 = g_MenuHpMaxDisplayValue;

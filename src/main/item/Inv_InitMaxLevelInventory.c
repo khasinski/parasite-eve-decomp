@@ -45,7 +45,7 @@ void Inv_InitMaxLevelInventory(s32 arg0) {
     levelStats = Aya_LookupLevelStats(0x62);
     unlockedSpells = 0xFFFFF;
     save = (AyaSaveState *)((u8 *)items - PE1_OFFSETOF(AyaSaveState, inventory_items));
-    nextStat = save->stat_allocations;
+    nextStat = save->stats.levels;
     maxHp = levelStats->hp;
     category = 0;
     g_AyaParasiteSpellFlags = unlockedSpells;

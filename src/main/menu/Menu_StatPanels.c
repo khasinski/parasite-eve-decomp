@@ -1,3 +1,4 @@
+#include "pe1/menu_bonus_stats.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
@@ -59,9 +60,6 @@ void Menu_CreateInventoryTabView(void) {
 extern u8 D_80092258[];
 extern u8 D_80092298[];
 extern s32 g_BonusPointDisplayValue;
-extern int g_BonusPointStatQueryResults[];
-extern int g_BonusPointStatDeltas[];
-extern int g_BonusPointStatMultipliers[];
 extern u16 g_AyaStatAgility[];
 #define g_AyaStatAgility (g_AyaStatAgility[0])
 void Menu_DrawStatusPanel(void);
