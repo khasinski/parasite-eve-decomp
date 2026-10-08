@@ -26,8 +26,6 @@ extern s32 D_8009CF9C;
 extern s32 D_8009D008;
 extern short D_800C0E46[];
 void Inv_ResetActiveList(void);
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *selected_base);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 int Menu_GetBattleEquipMode(void);
 void Menu_CreateBonusPointAllocationView(void);

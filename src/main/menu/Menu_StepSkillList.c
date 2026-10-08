@@ -15,8 +15,6 @@ int Inv_GetPackedListCount(void);
 void Inv_BuildFilteredPackedList(int mask);
 void Inv_BuildFilteredPackedListExcluding(int mask, int excluded);
 int Inv_RestoreSelection(unsigned int index);
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
 M2C_UNK func_80064B74();
 void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_MenuEquipMode;

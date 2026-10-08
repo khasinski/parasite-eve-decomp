@@ -1,8 +1,8 @@
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/menu_context_help.h"
 
-void *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
 void Menu_DrawContextHelpText(MenuWidgetNode *panel);
 
 void Menu_CreateContextHelpPanel(void) {

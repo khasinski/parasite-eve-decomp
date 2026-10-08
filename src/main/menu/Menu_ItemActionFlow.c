@@ -37,7 +37,6 @@ void Draw_StatePop(void);
 void Sfx_DrawActiveListSlot(int arg0);
 #define NULL ((void *)0)
 s32 func_80052F0C();
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *arg1, MenuWidgetNode *arg2);
 void Menu_DrawEquipStats(void);
 extern void Menu_DrawEquipStatsDelta(ItemDataRecord *data);
 extern void Draw_PrintNumberWidth4Unk(int arg0);
@@ -68,7 +67,6 @@ void Menu_StepInventoryRoot(s32 arg0, s32 arg1, s32 arg2);
 void Menu_PlayMoveSound(void);
 void Inv_BuildStorageDisplay(void);
 void MenuWidget_NavScrollTo(s32 selected_base);
-extern MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *arg1, int arg2, int arg3);
 extern void Menu_DrawUsableItemActionList2(void);
 extern void Inv_SelectActiveList(int arg0);
 extern MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);

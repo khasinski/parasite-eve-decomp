@@ -11,8 +11,6 @@ M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 void Menu_CreateBonusPointAllocationView(void);
 M2C_UNK Menu_CreateContextHelpPanel();                            /* extern */
 s32 Menu_GetBattleEquipMode();                                /* extern */
-void *MenuWidget_CreateSimpleNode(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-void *MenuWidget_CreateNode(M2C_UNK, void *, void *);       /* extern */
 extern s32 g_MenuItemContextFlag;
 extern s32 g_MenuBattleStatusOverlayActive;
 extern s32 g_MenuSelectionLocked;
@@ -61,7 +59,6 @@ void Menu_CreateInventoryTabView(void) {
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 void Stat_QueryLevelAndSubLevel(int category, int value, int *level, int *sublevel);
-void *MenuWidget_CreateSimpleNode();
 extern M2C_UNK D_80092258[];
 #define D_80092258 (D_80092258[0])
 extern M2C_UNK D_80092298[];

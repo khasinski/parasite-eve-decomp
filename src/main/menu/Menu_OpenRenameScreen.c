@@ -8,8 +8,6 @@
 #include "../../../tools/m2c/m2c_macros.h"
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode();
 extern M2C_UNK D_80092354[];
 #define D_80092354 (D_80092354[0])
 extern M2C_UNK D_80092380[];
@@ -47,7 +45,7 @@ void Menu_OpenRenameScreen(s32 arg0) {
         var_a3 = MenuWidget_CreateNode(0x18, temp_v0, temp_v0);
         (var_a3)->draw = &Menu_DrawMemCardSlot2List;
         (var_a3)->y = ((var_a3)->y - 0x34);
-        var_a3 = MenuWidget_CreateNode(0x19, temp_v0, temp_v0, var_a3);
+        var_a3 = MenuWidget_CreateNode(0x19, temp_v0, temp_v0);
         (var_a3)->draw = &Menu_DrawMemCardSlot3List;
         (var_a3)->y = ((var_a3)->y - 0x34);
     } else {

@@ -10,8 +10,6 @@ void MenuWidget_ClearCursorY(MenuWidgetNode *);
 void MenuWidget_ClampScroll(MenuWidgetNode *);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *);
 MenuWidgetNode *MenuWidget_GetCurrentNode(void);
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int, MenuWidgetNode *, int, int);
-MenuWidgetNode *MenuWidget_CreateNode(int, MenuWidgetNode *, MenuWidgetNode *);
 void MenuWidget_DestroyNode(MenuWidgetNode *);
 void MenuWidget_NavScrollTo(int);
 int Inv_GetPackedListCount(void);

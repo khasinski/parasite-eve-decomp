@@ -1,3 +1,4 @@
+#include "pe1/menu_widget.h"
 #include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --dont-expand-li */
@@ -5,8 +6,6 @@
 
 #include "include_asm.h"
 
-void *MenuWidget_CreateSimpleNode(void *state, int parent, int arg2, int arg3);
-void *MenuWidget_CreateNode(void *state, void *parent, void *selected);
 void MenuWidget_SetCurrentNode(void *node);
 void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCursorY(void *node);

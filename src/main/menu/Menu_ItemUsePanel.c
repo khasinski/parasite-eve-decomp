@@ -12,8 +12,6 @@ void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void *Inv_LookupData();
 void Queue_Init(void);
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
 void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_InvItemUsableFlag;
 u8 *g_MenuSelectedItemData;

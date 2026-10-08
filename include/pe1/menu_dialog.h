@@ -3,10 +3,6 @@
 
 #include "pe1/menu_inventory.h"
 
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent,
-                                           int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent,
-                                     MenuWidgetNode *sibling);
 void Menu_DrawNotificationText(MenuWidgetNode *node);
 void Menu_DrawTwoLineDialogText(void);
 void Menu_DrawNotificationDialogContent(void);

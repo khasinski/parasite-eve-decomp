@@ -42,10 +42,10 @@ void BoundsCheck_AssertStub(int arg0);
 void MenuWidget_ApplyColumnLayout(void *node);
 
 
-void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
+MenuWidgetNode *MenuWidget_CreateNode(s32 arg0, MenuWidgetNode *arg1, MenuWidgetNode *arg2) {
     s32 mode = arg0;
-    register void *parent_arg asm("$20") = arg1;
-    void *parent = arg2;
+    register MenuWidgetNode *parent_arg asm("$20") = arg1;
+    MenuWidgetNode *parent = arg2;
     MenuWidgetGridDescriptor *desc;
     MenuWidgetNode *node;
     MenuWidgetNode *next;
@@ -92,21 +92,16 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
 
     if (parent != 0) {
         int i;
-        register s32 *ptr asm("$3");
+        register MenuWidgetNode **ptr asm("$3");
 
         i = 0;
-        ptr = (s32 *)parent;
+        ptr = (MenuWidgetNode **)parent;
         while (i < 4 && ptr[2] != 0) {
             i++;
             ptr++;
         }
         if (i < 4) {
-            s32 *slot;
-
-            slot = (s32 *)(i << 2);
-            slot = (s32 *)((int)slot + (int)parent);
-
-            slot[2] = (s32)node;
+            parent->children[i] = node;
         } else {
             BoundsCheck_AssertStub(0xB);
         }

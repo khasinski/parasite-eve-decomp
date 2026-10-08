@@ -12,8 +12,6 @@ void Menu_CreateContextHelpPanel(void);
 s32 Inv_GetAyaSlotLimit();
 void Menu_SetBattleEquipMode(int mode);
 void Queue_Init(void);
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
 extern s32 g_MenuSelectionLocked;
 extern s32 g_MenuActionSubmenuOpen;
 extern s32 D_8009CF5C;

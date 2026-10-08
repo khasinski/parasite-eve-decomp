@@ -42,6 +42,13 @@ typedef struct MenuWidgetNode {
     int (*selectionAvailable)(int index); /* +0x8C item-slot filter callback. */
 } MenuWidgetNode;
 
+/* parent is recorded for input dispatch; attachTo supplies a free child slot.
+ * The simple node's last argument initializes cursor_x. */
+MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent,
+                                           MenuWidgetNode *attachTo, int cursorX);
+MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent,
+                                     MenuWidgetNode *attachTo);
+
 /* Input dispatch walks the parent chain and treats update as a status-returning
  * handler. Most other callers use update as a generic deferred callback. */
 typedef int (*MenuWidgetInputHandler)(MenuWidgetNode *node, int flags);

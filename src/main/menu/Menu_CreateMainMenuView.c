@@ -2,7 +2,6 @@
 #include "pe1/menu_widget.h"
 #include "pe1/menu_dialog.h"
 
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *arg1, MenuWidgetNode *arg2);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 int Menu_MainMenuInputHandler(MenuWidgetNode *arg0, u32 arg1);
 void Menu_DrawMainMenuList(void);
@@ -72,7 +71,6 @@ int Menu_MainMenuInputHandler(MenuWidgetNode *arg0, u32 arg1) {
 
 #include "pe1/menu_widget.h"
 
-extern MenuWidgetNode *MenuWidget_CreateNode(int arg0, MenuWidgetNode *arg1, MenuWidgetNode *arg2);
 extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *arg0, int arg1);
 extern int MenuWidget_GridCellIndex(MenuWidgetNode *arg0);
 extern void MenuWidget_DestroyNode(MenuWidgetNode *arg0);

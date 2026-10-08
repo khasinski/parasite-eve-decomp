@@ -9,8 +9,6 @@ void *MenuWidget_FindByModeAndSelectedBase(M2C_UNK, M2C_UNK); /* extern */
 s32 MenuWidget_FindLastMode1WithCursorX();          /* extern */
 M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 M2C_UNK Queue_Init();                            /* extern */
-void *MenuWidget_CreateSimpleNode(s32, void *, M2C_UNK, M2C_UNK); /* extern */
-void *MenuWidget_CreateNode(s32, void *, void *);           /* extern */
 s32 MenuWidget_GridCellIndex(void *);                          /* extern */
 extern s32 g_SaveSelectedSlot;
 extern M2C_UNK (*g_MenuDeferredCallback)();

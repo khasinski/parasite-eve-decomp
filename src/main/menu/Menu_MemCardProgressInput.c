@@ -1,11 +1,10 @@
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "pe1/menu_inventory.h"
 #include "pe1/menu_dialog.h"
 #include "pe1/text.h"
 
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int kind, MenuWidgetNode *parent, int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode(int kind, MenuWidgetNode *parent, MenuWidgetNode *sibling);
 void MenuWidget_SaveAndSetCurrentNode(MenuWidgetNode *arg0);
 int MemCard_GetActivePort(void);
 void Inv_SelectActiveList(int list);

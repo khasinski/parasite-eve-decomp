@@ -1,3 +1,4 @@
+#include "pe1/menu_widget.h"
 #include "common.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
@@ -5,8 +6,6 @@ s32 MenuWidget_FindByModeAndSelectedBase(M2C_UNK, M2C_UNK); /* extern */
 s32 MenuWidget_GetCurrentNode();                    /* extern */
 M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 M2C_UNK MenuWidget_SetCursorY(s32);                 /* extern */
-void *MenuWidget_CreateSimpleNode(M2C_UNK, s32, M2C_UNK, M2C_UNK); /* extern */
-void *MenuWidget_CreateNode(M2C_UNK, void *, void *);       /* extern */
 void Menu_DrawSkillSelectionList(int arg0);
 extern M2C_UNK Menu_HandleAyaInventorySelectionInput[];
 #define Menu_HandleAyaInventorySelectionInput (Menu_HandleAyaInventorySelectionInput[0])
