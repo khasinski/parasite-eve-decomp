@@ -23,12 +23,11 @@ int func_800CC440(void *arg0, void *arg1, u8 *anim) {
 int func_800CC480(void *arg0, FieldEngSlot *params, FieldAnimPointSprite *anim) {
     short *base_a0;
     FieldBillboard *output;
-    int init_a0 = 3;
-    register FieldAnimPointSprite *anim_s1 asm("$17") = anim;
+    FieldAnimPointSprite *pointData = anim;
     u32 value_v0;
     int value_v1;
 
-    func_800C2EAC(init_a0);
+    func_800C2EAC(3);
     func_800C3098(0x10);
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
@@ -45,15 +44,15 @@ int func_800CC480(void *arg0, FieldEngSlot *params, FieldAnimPointSprite *anim) 
 
     base_a0 = (short *)&D_800F3430.oriented.brightness;
     base_a0[0] = value_v1;
-    value_v0 = anim_s1->point.x;
+    value_v0 = pointData->point.x;
     output = (FieldBillboard *)((u8 *)base_a0 -
         PE1_OFFSETOF(FieldBillboard, brightness));
     output->position.x = value_v0;
-    D_800F3430.oriented.position.y = anim_s1->point.y;
-    D_800F3430.oriented.position.z = anim_s1->point.z;
-    D_800F3430.oriented.scale.x = anim_s1->extent;
-    D_800F3430.oriented.scale.y = anim_s1->extent * 2;
-    D_800F3430.oriented.scale.z = anim_s1->extent;
+    D_800F3430.oriented.position.y = pointData->point.y;
+    D_800F3430.oriented.position.z = pointData->point.z;
+    D_800F3430.oriented.scale.x = pointData->extent;
+    D_800F3430.oriented.scale.y = pointData->extent * 2;
+    D_800F3430.oriented.scale.z = pointData->extent;
     func_800C3B04(output);
 }
 
