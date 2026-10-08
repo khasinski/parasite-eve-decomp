@@ -12,4 +12,12 @@ typedef struct GameTimerEntry {
 
 PE1_STATIC_ASSERT(sizeof(GameTimerEntry) == 0x0C, game_timer_entry_size);
 
+/* Interior symbol naming timer zero's current word. Counter words follow
+ * the three-word stride of GameTimerEntry, rather than a packed int array. */
+extern int g_GameTimeTable;
+extern int g_PlayTimeSeconds;
+#define GAME_TIME_COUNTER(index) \
+    (((GameTimerEntry *)((char *)&g_GameTimeTable - \
+        PE1_OFFSETOF(GameTimerEntry, current)))[index].current)
+
 #endif

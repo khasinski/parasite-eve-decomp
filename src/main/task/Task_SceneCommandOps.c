@@ -10,7 +10,7 @@
 extern FieldActor *g_CurrentEntity;
 extern FieldActor *g_FieldActorListHead;
 extern FieldActor *g_PlayerEntity;
-extern int g_GameTimeTable[];
+#include "pe1/game_timers.h"
 
 int rsin(int arg0);
 int rcos(int arg0);
@@ -86,7 +86,7 @@ int Task_ResetEntityAnimSlot(short **arg0) {
 }
 
 int Task_GetFloorTableValue(int **arg0) {
-    *arg0[1] = g_GameTimeTable[*arg0[0] * 3];
+    *arg0[1] = GAME_TIME_COUNTER(*arg0[0]);
     return 1;
 }
 

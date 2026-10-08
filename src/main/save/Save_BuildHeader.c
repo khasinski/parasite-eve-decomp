@@ -1,7 +1,6 @@
 #include "common.h"
 extern u16 g_InvCategoryItemTable[];
-extern int g_GameTimeTable;
-extern int g_PlayTimeSeconds;
+#include "pe1/game_timers.h"
 extern int g_PlayTimeFrameCounter;
 extern u16 D_800C1EAC[];
 extern int g_SavedDrawBlendColor;
