@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+#include "pe1/collision_database.h"
 
 /* The room collision database: clearing the per-room collision state and
  * relocating the loaded database's offsets into pointers. */
@@ -96,7 +97,7 @@ relocate:
     }
 
     {
-        char *actor;
+        CollisionDatabase *actor;
         u32 *dst;
         u32 i;
         u32 *src;
@@ -106,19 +107,19 @@ relocate:
         register u32 count asm("$3");
         register u32 entry asm("$4");
 
-        actor = g_CollisionDb;
+        actor = (CollisionDatabase *)g_CollisionDb;
         i = 0;
-        value20 = *(char **)(actor + 0x20);
-        value24 = *(char **)(actor + 0x24);
-        half = *(u16 *)(actor + 8);
-        dst = (u32 *)(actor + 0x28);
+        value20 = (char *)actor->planes.pointer;
+        value24 = (char *)actor->rampEdges.pointer;
+        half = actor->visitedWordCount;
+        dst = (u32 *)actor->regions;
         g_RegionHeightTable = (char *)dst;
         half >>= 5;
         g_CollisionPlaneTable = value20;
-        count = *(u16 *)(actor + 2);
+        count = actor->regionCount;
         half++;
         g_SceneDataTable2 = value24;
-        *(u16 *)(actor + 8) = half;
+        actor->visitedWordCount = half;
 
         if (count != 0) {
             src = (u32 *)actor;
@@ -129,7 +130,7 @@ relocate:
                 entry = entry + (u32)actor;
                 *dst = entry;
                 dst++;
-            } while (i < *(u16 *)(actor + 2));
+            } while (i < actor->regionCount);
         }
     }
 }
