@@ -66,24 +66,24 @@ int func_800CC878(void *arg0, void *arg1, u8 *anim) {
 }
 
 #include "common.h"
-int func_800CC92C(void *arg0, u8 *state, u8 *anim) {
+int func_800CC92C(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
     u16 value;
     register int frame asm("$3");
 
-    value = *(u16 *)(anim + 6);
-    frame = anim[3];
-    *(u16 *)(anim + 6) = value;
-    value = *(u16 *)(anim + 8);
+    value = anim->point.x;
+    frame = anim->scale;
+    anim->point.x = value;
+    value = anim->point.y;
     frame -= 2;
-    anim[3] = frame;
+    anim->scale = frame;
     asm("" ::: "memory");
-    frame = *(signed char *)(anim + 3);
+    frame = (s8)anim->scale;
     value -= 0xA;
-    *(u16 *)(anim + 8) = value;
-    value = *(u16 *)(anim + 4);
+    anim->point.y = value;
+    value = (u16)anim->extent;
     frame = frame < 0x1E;
     value += 0x1E;
-    *(u16 *)(anim + 4) = value;
+    anim->extent = value;
     if (frame) {
         state[1] = 2;
     }
@@ -143,75 +143,72 @@ int func_800CC974(void *arg0, u8 *state, u8 *anim) {
 }
 
 #include "common.h"
-int func_800CCA40(void *arg0, u8 *state, u8 *anim) {
-    anim[3] -= 2;
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) + 0x28;
-    if (*(s8 *)(anim + 3) < 0x1E) {
+int func_800CCA40(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
+    anim->scale -= 2;
+    anim->extent = (u16)anim->extent + 0x28;
+    if ((s8)anim->scale < 0x1E) {
         state[1] = 2;
     }
 }
 
 #include "common.h"
-int func_800CCA78(void *arg0, u8 *state, u8 *anim) {
-    anim[3] -= 6;
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) + 0xB4;
-    if (*(s8 *)(anim + 3) < 0x1E) {
+int func_800CCA78(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
+    anim->scale -= 6;
+    anim->extent = (u16)anim->extent + 0xB4;
+    if ((s8)anim->scale < 0x1E) {
         state[1] = 2;
     }
 }
 
 #include "common.h"
-int func_800CCAB0(void *arg0, u8 *state, u8 *anim) {
+int func_800CCAB0(void *arg0, u8 *state, FieldAnimScatteredParticles *anim) {
     int i;
     u8 *state_t1;
-    register u8 *entry_a3 asm("$7");
     register int dx asm("$3");
     int dy;
     register int dz asm("$5");
     int frame;
 
-        state_t1 = state;
+    state_t1 = state;
     asm volatile("" : "=r"(state_t1) : "0"(state_t1));
     i = 0;
-    if (*(short *)(anim + 0x4) > 0) {
-        entry_a3 = anim;
+    if (anim->points.count > 0) {
         do {
             register int pos asm("$2");
-            register int angle asm("$3");
+            register int verticalVelocity asm("$3");
 
-            i++;
-            dx = *(short *)(entry_a3 + 0x68) >> 8;
-            pos = *(u16 *)(entry_a3 + 0x8);
-            dy = *(short *)(entry_a3 + 0x88) >> 8;
-            dz = *(short *)(entry_a3 + 0xA8) >> 8;
+            dx = anim->velocity_x[i] >> 8;
+            pos = anim->points.x[i];
+            dy = anim->velocity_y[i] >> 8;
+            dz = anim->velocity_z[i] >> 8;
             pos += dx;
-            *(u16 *)(entry_a3 + 0x8) = pos;
-            pos = *(u16 *)(entry_a3 + 0x28);
-            angle = *(u16 *)(entry_a3 + 0x88);
+            anim->points.x[i] = pos;
+            pos = anim->points.y[i];
+            verticalVelocity = (u16)anim->velocity_y[i];
             pos += dy;
-            *(u16 *)(entry_a3 + 0x28) = pos;
-            pos = *(u16 *)(entry_a3 + 0x48);
-            angle += 0xB4;
-            *(u16 *)(entry_a3 + 0x88) = angle;
+            anim->points.y[i] = pos;
+            pos = anim->points.z[i];
+            verticalVelocity += 0xB4;
+            anim->velocity_y[i] = verticalVelocity;
             pos += dz;
-            *(u16 *)(entry_a3 + 0x48) = pos;
-            entry_a3 += 2;
-        } while (i < *(short *)(anim + 0x4));
+            anim->points.z[i] = pos;
+            i++;
+        } while (i < anim->points.count);
     }
 
-    anim[3] -= 2;
-    if ((signed char)anim[3] < 2) {
+    anim->points.scale -= 2;
+    if ((signed char)anim->points.scale < 2) {
         state_t1[1] = 2;
     }
     asm volatile("" : : "r"(&frame));
 }
 
 #include "common.h"
-int func_800CCB6C(void *arg0, u8 *state, u8 *anim) {
-    anim[3] -= 8;
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) + 0x1A4;
-    if (*(s8 *)(anim + 3) < 0x14) {
-        anim[3] = 0;
+int func_800CCB6C(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
+    anim->scale -= 8;
+    anim->extent = (u16)anim->extent + 0x1A4;
+    if ((s8)anim->scale < 0x14) {
+        anim->scale = 0;
         state[1] = 2;
     }
 }

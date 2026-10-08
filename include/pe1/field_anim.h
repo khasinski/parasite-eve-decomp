@@ -190,6 +190,24 @@ typedef struct FieldAnimPointTriple {
     u16 z;
 } FieldAnimPointTriple;
 
+/* Single-point sprite payload: setup stores a position and extent, render
+ * copies the extent to all three axes, and update fades scale while growing
+ * the extent. This differs from the array payload below: +4 is an extent,
+ * and the position begins at +6. */
+typedef struct FieldAnimPointSprite {
+    u8 reserved00[3];
+    u8 scale;
+    s16 extent;
+    FieldAnimPointTriple point;
+} FieldAnimPointSprite;
+
+PE1_STATIC_ASSERT(sizeof(FieldAnimPointSprite) == 12,
+                  field_anim_point_sprite_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimPointSprite, extent) == 4,
+                  field_anim_point_sprite_extent);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimPointSprite, point) == 6,
+                  field_anim_point_sprite_position);
+
 typedef struct FieldAnimPointData {
     u8 unused_00[3];
     u8 scale;
