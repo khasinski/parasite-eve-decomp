@@ -12,7 +12,7 @@ int Entity_CallAction(int **arg0) {
     int arg2;
     int arg1;
     int arg3;
-    int base;
+    u8 *base;
     register FieldActor *current asm("$2");
     int result;
 
@@ -24,7 +24,7 @@ int Entity_CallAction(int **arg0) {
     current = g_CurrentEntity;
         arg1 = *(int *)arg1_ptr;
         arg3 = *(u16 *)arg2_ptr;
-    base = (int)current->script_base;
+    base = current->script_base;
     arg0_ptr = args[0];
     arg2 <<= 1;
     result = Geo_PointInPoly(*arg0_ptr, arg1, (const PolygonVertex *)(base + arg2), arg3);
