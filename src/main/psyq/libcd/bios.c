@@ -14,7 +14,6 @@ typedef struct CdInitVolFrame {
 
 register CdInitVolFrame *g_CdInitVolFrame asm("$29");
 register int g_CdInitVolValue asm("$2");
-register volatile void *g_CdInitVolIo asm("$3");
 
 /* BIOS_1.OBJ state. CdSetDebug and DsSetDebug exchange the debug level at
  * +0x0C (CD_debug); nothing in this executable references the word at +0x08. */
@@ -173,58 +172,59 @@ CdBiosHardwareState g_CdBiosHardwareState
     };
 
 int CD_initvol(void) {
-    g_CdInitVolIo = D_8009B290;
-    g_CdInitVolValue = ((u16 *)g_CdInitVolIo)[0x1B8 / 2];
+    volatile void *io;
+    io = D_8009B290;
+    g_CdInitVolValue = ((u16 *)io)[0x1B8 / 2];
     g_CdInitVolFrame--;
     if (g_CdInitVolValue != 0) {
         goto set_default;
     }
-    g_CdInitVolValue = ((u16 *)g_CdInitVolIo)[0x1BA / 2];
+    g_CdInitVolValue = ((u16 *)io)[0x1BA / 2];
     if (g_CdInitVolValue != 0) {
         g_CdInitVolValue = 0x3FFF;
         goto store_common;
     }
     g_CdInitVolValue = 0x3FFF;
-    ((u16 *)g_CdInitVolIo)[0x180 / 2] = g_CdInitVolValue;
-    ((u16 *)g_CdInitVolIo)[0x182 / 2] = g_CdInitVolValue;
-    g_CdInitVolIo = D_8009B290;
+    ((u16 *)io)[0x180 / 2] = g_CdInitVolValue;
+    ((u16 *)io)[0x182 / 2] = g_CdInitVolValue;
+    io = D_8009B290;
 
 set_default:
     g_CdInitVolValue = 0x3FFF;
 
 store_common:
-    ((u16 *)g_CdInitVolIo)[0x1B0 / 2] = g_CdInitVolValue;
-    ((u16 *)g_CdInitVolIo)[0x1B2 / 2] = g_CdInitVolValue;
+    ((u16 *)io)[0x1B0 / 2] = g_CdInitVolValue;
+    ((u16 *)io)[0x1B2 / 2] = g_CdInitVolValue;
     g_CdInitVolValue = 0xC001;
-    ((u16 *)g_CdInitVolIo)[0x1AA / 2] = g_CdInitVolValue;
+    ((u16 *)io)[0x1AA / 2] = g_CdInitVolValue;
 
-    g_CdInitVolIo = g_CdRegIndexBase;
+    io = g_CdRegIndexBase;
     g_CdInitVolValue = 0x80;
     g_CdInitVolFrame->packet[2] = g_CdInitVolValue;
     g_CdInitVolFrame->packet[0] = g_CdInitVolValue;
     g_CdInitVolValue = 2;
     g_CdInitVolFrame->packet[3] = 0;
     g_CdInitVolFrame->packet[1] = 0;
-    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)io = g_CdInitVolValue;
 
-    g_CdInitVolIo = g_CdRegDataWrite;
+    io = g_CdRegDataWrite;
     g_CdInitVolValue = g_CdInitVolFrame->packet[0];
-    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
-    g_CdInitVolIo = g_CdRegResponse;
+    *(volatile u8 *)io = g_CdInitVolValue;
+    io = g_CdRegResponse;
     g_CdInitVolValue = g_CdInitVolFrame->packet[1];
-    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
-    g_CdInitVolIo = g_CdRegIndexBase;
+    *(volatile u8 *)io = g_CdInitVolValue;
+    io = g_CdRegIndexBase;
     g_CdInitVolValue = 3;
-    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
-    g_CdInitVolIo = g_CdRegPort1;
+    *(volatile u8 *)io = g_CdInitVolValue;
+    io = g_CdRegPort1;
     g_CdInitVolValue = g_CdInitVolFrame->packet[2];
-    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
-    g_CdInitVolIo = g_CdRegDataWrite;
+    *(volatile u8 *)io = g_CdInitVolValue;
+    io = g_CdRegDataWrite;
     g_CdInitVolValue = g_CdInitVolFrame->packet[3];
-    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
-    g_CdInitVolIo = g_CdRegResponse;
+    *(volatile u8 *)io = g_CdInitVolValue;
+    io = g_CdRegResponse;
     g_CdInitVolValue = 0x20;
-    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)io = g_CdInitVolValue;
 
     g_CdInitVolValue = 0;
     g_CdInitVolFrame++;
