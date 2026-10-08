@@ -111,7 +111,7 @@ block_15:
             if (var_a0_2 == 0) {
                 tsm = arg1 * 2;
                 temp_s0 = (s16 *)(tsm + (u8 *)&D_800A1FD4_o);
-                if (((u8) M2C_FIELD(Item_LookupBaseData(*temp_s0 - 1), u8 *, 6) >= 0x10U) && ((u8) M2C_FIELD(Item_LookupBaseData(*temp_s0 - 1), u8 *, 6) < 0x13U)) {
+                if ((Item_LookupBaseData(*temp_s0 - 1)->kind >= 0x10U) && (Item_LookupBaseData(*temp_s0 - 1)->kind < 0x13U)) {
                     var_s4 = Inv_CanAddActiveListItemToAya(arg1) == 0;
                 } else {
                     tla = (u8 *)&D_800A1FD4_o;
