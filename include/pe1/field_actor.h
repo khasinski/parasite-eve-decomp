@@ -101,6 +101,25 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_block) == 0x278,
                   field_actor_allocation_block_offset);
 PE1_STATIC_ASSERT(sizeof(FieldActor) == 0x27C, field_actor_size);
 
+/* Packed status values addressed by script selectors 0x64..0x6E. */
+typedef union FieldActorPackedStatus {
+    u32 raw;
+    struct {
+        u32 field64 : 2;
+        u32 field65 : 2;
+        u32 field66 : 2;
+        u32 field67 : 2;
+        u32 field68 : 2;
+        u32 field69 : 2;
+        u32 field6a : 2;
+        u32 field6b : 2;
+        u32 field6c : 2;
+        u32 field6d : 1;
+        u32 field6e : 5;
+        u32 reserved : 8;
+    } bits;
+} FieldActorPackedStatus;
+
 struct FieldActorState {
     /* 0x00 */ unsigned int core_flags;
     /* 0x04 */ union {
@@ -173,7 +192,7 @@ struct FieldActorState {
     /* 0xB0 */ short script_values_b0[6];
     /* 0xBC */ signed char script_valuebc;
     /* 0xBD */ unsigned char reservedbd[0x0F];
-    /* 0xCC */ unsigned int status_flags2;
+    /* 0xCC */ FieldActorPackedStatus status_flags2;
     /* 0xD0 */ short panel_c_value;
     /* 0xD2 */ unsigned short panel_c_x;
     /* 0xD4 */ unsigned short panel_c_y;
@@ -188,6 +207,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, script_value88) == 0x88,
                   field_actor_state_script_value88_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, behavior_mode) == 0xA4,
                   field_actor_state_behavior_mode_offset);
+PE1_STATIC_ASSERT(sizeof(FieldActorPackedStatus) == 4, field_actor_packed_status_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, status_flags2) == 0xCC,
                   field_actor_state_status_flags2_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, panel_c_timer) == 0xD6,

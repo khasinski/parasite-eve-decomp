@@ -2,10 +2,6 @@
 #include "pe1/field_actor.h"
 void Entity_WriteFieldByCmd(FieldActor *arg0, s32 arg1, s32 arg2) {
     s32 temp_a1;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v1;
-    register s32 var_v1_2 asm("$3");
     FieldActorState *temp_a0;
 
     temp_a0 = arg0->state;
@@ -124,76 +120,38 @@ void Entity_WriteFieldByCmd(FieldActor *arg0, s32 arg1, s32 arg2) {
     case 0x37:                                      /* switch 1 */
         temp_a0->script_values_b0[5] = arg2;
         return;
-    case 0x64:                                      /* switch 1 */
-        var_v1 = ~3;
-        var_v0 = temp_a0->status_flags2 & var_v1;
-        var_v1 = arg2 & 3;
-        goto block_51;
-    case 0x65:                                      /* switch 1 */
-        var_v1 = ~0xC;
-        var_v0 = temp_a0->status_flags2 & var_v1;
-        var_v1 = arg2 & 3;
-        var_v1 <<= 2;
-        goto block_51;
-    case 0x66:                                      /* switch 1 */
-        var_v1 = ~0x30;
-        var_v0 = temp_a0->status_flags2 & var_v1;
-        var_v1 = arg2 & 3;
-        var_v1 <<= 4;
-        goto block_51;
-    case 0x67:                                      /* switch 1 */
-        var_v1 = ~0xC0;
-        var_v0 = temp_a0->status_flags2 & var_v1;
-        var_v1 = arg2 & 3;
-        var_v1 <<= 6;
-        goto block_51;
-    case 0x68:                                      /* switch 1 */
-        var_v1 = ~0x300;
-        var_v0 = temp_a0->status_flags2 & var_v1;
-        var_v1 = arg2 & 3;
-        var_v1 <<= 8;
-        goto block_51;
-    case 0x69:                                      /* switch 1 */
-        var_v1 = ~0xC00;
-        var_v0 = temp_a0->status_flags2 & var_v1;
-        var_v1 = arg2 & 3;
-        var_v1 <<= 0xA;
-        goto block_51;
-    case 0x6A:                                      /* switch 1 */
-        var_v1 = ~0x3000;
-        var_v0 = temp_a0->status_flags2 & var_v1;
-        var_v1 = arg2 & 3;
-        var_v1 <<= 0xC;
-block_51:
-        var_v0 |= var_v1;
-        temp_a0->status_flags2 = var_v0;
+    case 0x64:
+        temp_a0->status_flags2.bits.field64 = arg2;
         return;
-    case 0x6B:                                      /* switch 1 */
-        var_v0_2 = 0xFFFF3FFF;
-        var_v1_2 = temp_a0->status_flags2 & var_v0_2;
-        var_v0_2 = arg2 & 3;
-        var_v0_2 <<= 0xE;
-        goto block_56;
-    case 0x6C:                                      /* switch 1 */
-        var_v0_2 = 0xFFFCFFFF;
-        var_v1_2 = temp_a0->status_flags2 & var_v0_2;
-        var_v0_2 = arg2 & 3;
-        var_v0_2 <<= 0x10;
-        goto block_56;
-    case 0x6D:                                      /* switch 1 */
-        var_v0_2 = 0xFFFBFFFF;
-        var_v1_2 = temp_a0->status_flags2 & var_v0_2;
-        var_v0_2 = arg2 & 1;
-        var_v0_2 <<= 0x12;
-        goto block_56;
-    case 0x6E:                                      /* switch 1 */
-        var_v0_2 = 0xFF07FFFF;
-        var_v1_2 = temp_a0->status_flags2 & var_v0_2;
-        var_v0_2 = arg2 & 0x1F;
-        var_v0_2 <<= 0x13;
-block_56:
-        var_v1_2 |= var_v0_2;
-        temp_a0->status_flags2 = var_v1_2;
+    case 0x65:
+        temp_a0->status_flags2.bits.field65 = arg2;
+        return;
+    case 0x66:
+        temp_a0->status_flags2.bits.field66 = arg2;
+        return;
+    case 0x67:
+        temp_a0->status_flags2.bits.field67 = arg2;
+        return;
+    case 0x68:
+        temp_a0->status_flags2.bits.field68 = arg2;
+        return;
+    case 0x69:
+        temp_a0->status_flags2.bits.field69 = arg2;
+        return;
+    case 0x6A:
+        temp_a0->status_flags2.bits.field6a = arg2;
+        return;
+    case 0x6B:
+        temp_a0->status_flags2.bits.field6b = arg2;
+        return;
+    case 0x6C:
+        temp_a0->status_flags2.bits.field6c = arg2;
+        return;
+    case 0x6D:
+        temp_a0->status_flags2.bits.field6d = arg2;
+        return;
+    case 0x6E:
+        temp_a0->status_flags2.bits.field6e = arg2;
         return;
     case 0x78:                                      /* switch 1 */
         temp_a0->panel_c_value = arg2;
