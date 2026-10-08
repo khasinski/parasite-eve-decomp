@@ -300,7 +300,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldBillboard, scaleX) == 0x10,
                   field_anim_billboard_scale);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldBillboard, brightness) == 0x28,
                   field_anim_billboard_brightness);
-extern FieldAnimSpriteState D_800F32E0, D_800F3338, D_800F3380;
+extern FieldAnimSpriteState D_800F32E0, D_800F3338, D_800F3380, D_800F3430;
 extern FieldAnimPointState D_800E2818;
 extern FieldAnimPointTriple D_800E27F8;
 

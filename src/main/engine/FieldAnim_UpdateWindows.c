@@ -18,19 +18,14 @@ int func_800CC440(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 
-extern u16 D_800F3432;
-extern u16 D_800F3434;
-extern int D_800F3440;
-extern int D_800F3444;
-extern int D_800F3448;
-extern short D_800F3458;
 
-int func_800CC480(void *arg0, u8 *params, u8 *anim) {
+int func_800CC480(void *arg0, u8 *params, FieldAnimPointSprite *anim) {
     short *base_a0;
+    FieldBillboard *output;
     int init_a0 = 3;
-    register u8 *anim_s1 asm("$17") = anim;
-    int value_v0;
-    register int value_v1 asm("$3");
+    register FieldAnimPointSprite *anim_s1 asm("$17") = anim;
+    u32 value_v0;
+    int value_v1;
 
     func_800C2EAC(init_a0);
     func_800C3098(0x10);
@@ -42,21 +37,23 @@ int func_800CC480(void *arg0, u8 *params, u8 *anim) {
     value_v1 <<= 1;
     value_v0 -= value_v1;
     value_v1 = value_v0;
-        value_v0 <<= 16;
-    if (value_v0 < 0) {
+    value_v0 <<= 16;
+    if (value_v0 > 0x7FFFFFFFU) {
         value_v1 = 0;
     }
 
-    base_a0 = &D_800F3458;
+    base_a0 = (short *)&D_800F3430.oriented.brightness;
     base_a0[0] = value_v1;
-    asm volatile("" : "=r"(base_a0) : "0"(base_a0));
-    base_a0[-20] = *(u16 *)(anim_s1 + 0x6);
-    D_800F3432 = *(u16 *)(anim_s1 + 0x8);
-    D_800F3434 = *(u16 *)(anim_s1 + 0xA);
-    D_800F3440 = *(short *)(anim_s1 + 0x4);
-    D_800F3444 = *(short *)(anim_s1 + 0x4) * 2;
-    D_800F3448 = *(short *)(anim_s1 + 0x4);
-    func_800C3B04((FieldBillboard *)(base_a0 - 20));
+    value_v0 = anim_s1->point.x;
+    output = (FieldBillboard *)((u8 *)base_a0 -
+        PE1_OFFSETOF(FieldBillboard, brightness));
+    output->position.x = value_v0;
+    D_800F3430.oriented.position.y = anim_s1->point.y;
+    D_800F3430.oriented.position.z = anim_s1->point.z;
+    D_800F3430.oriented.scale.x = anim_s1->extent;
+    D_800F3430.oriented.scale.y = anim_s1->extent * 2;
+    D_800F3430.oriented.scale.z = anim_s1->extent;
+    func_800C3B04(output);
 }
 
 #include "common.h"
