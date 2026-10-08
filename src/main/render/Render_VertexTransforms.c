@@ -521,25 +521,26 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
 
 #define Morph_Compose(view, matrix, scratch)                                                       \
     {                                                                                              \
+        register u16 *column asm("$2"); \
         MorphLoadRotMatrix(view);                                                                  \
         Morph_LoadAxis((u16 *)(matrix));                                                           \
         Morph_StoreAxis((s16 *)(scratch));                                                         \
         asm volatile("" : : : "memory");                                                           \
         {                                                                                          \
-            register u16 *src asm("$2") = (u16 *)(matrix) + 1;                                     \
-            asm("" : "=r"(src) : "0"(src));                                                        \
-            Morph_LoadAxis(src);                                                                   \
-            src = (u16 *)(scratch) + 1;                                                            \
-            asm("" : "=r"(src) : "0"(src));                                                        \
-            Morph_StoreAxis((s16 *)src);                                                           \
+            column = (u16 *)(matrix) + 1;                                     \
+            asm("" : "=r"(column) : "0"(column));                                                        \
+            Morph_LoadAxis(column);                                                                   \
+            column = (u16 *)(scratch) + 1;                                                            \
+            asm("" : "=r"(column) : "0"(column));                                                        \
+            Morph_StoreAxis((s16 *)column);                                                           \
         }                                                                                          \
         {                                                                                          \
-            register u16 *src asm("$2") = (u16 *)(matrix) + 2;                                     \
-            asm("" : "=r"(src) : "0"(src));                                                        \
-            Morph_LoadAxis(src);                                                                   \
-            src = (u16 *)(scratch) + 2;                                                            \
-            asm("" : "=r"(src) : "0"(src));                                                        \
-            Morph_StoreAxis((s16 *)src);                                                           \
+            column = (u16 *)(matrix) + 2;                                     \
+            asm("" : "=r"(column) : "0"(column));                                                        \
+            Morph_LoadAxis(column);                                                                   \
+            column = (u16 *)(scratch) + 2;                                                            \
+            asm("" : "=r"(column) : "0"(column));                                                        \
+            Morph_StoreAxis((s16 *)column);                                                           \
         }                                                                                          \
         MorphLoadTrans(view);                                                                      \
         {                                                                                          \
