@@ -9,7 +9,7 @@ int Math_FixedMul(int arg0, int arg1);
 
 int Entity_PolarToPosition(int **arg0) {
     int **args;
-    register int angle asm("$16");
+    short angle;
     int radius;
     register int *ptr asm("$2");
     register int value asm("$2");
@@ -21,7 +21,6 @@ int Entity_PolarToPosition(int **arg0) {
     ptr = args[1];
     value = *ptr;
     angle = 0x1400 - value;
-    angle = (angle << 16) >> 16;
     ptr = args[0];
     radius = *ptr;
     value = rcos(angle);
