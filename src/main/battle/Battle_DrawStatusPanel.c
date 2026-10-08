@@ -6,7 +6,7 @@
  * Each frame has ten panel slots (0x578 / 0x8C), each with five 28-byte
  * texture-page/sprite packets. Repeated byte stores deliberately retain
  * the original index reloads and separate symbol views.
- * Matching debt: 12 pins, four empty barriers, and 48 unused stack bytes.
+ * Matching debt: 11 pins, four empty barriers, and 48 unused stack bytes.
  * The stack reservation preserves the retail frame; its original purpose
  * is unknown. GCC rotates the digit-conversion condition into two blocks.
  */
@@ -25,7 +25,7 @@ void Battle_DrawStatusPanel(s32 mode, BattleStatusPanel *input) {
     s32 digitOffset;
     s32 digitPanelOffset;
     s32 signedDigitIndex;
-    register s32 colorOffset asm("$5");
+    s16 colorOffset;
     s8 nextDigit;
     s8 lastDigit;
     s32 timer;
