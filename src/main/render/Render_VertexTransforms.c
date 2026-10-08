@@ -347,6 +347,7 @@ void Render_TransformVertices(RenderObjectEntity *input) {
     }
 #define Render_SkinnedBuildMatrix(view_matrix, bone_expr, out_matrix, first_axis)                  \
     {                                                                                              \
+        register s16 *column asm("$9"); \
         Render_SkinnedLoadRotMatrix(view_matrix);                                                  \
         first_axis;                                                                                \
         Skinned_StoreAxis((s16 *)(out_matrix));                                                    \
@@ -355,9 +356,9 @@ void Render_TransformVertices(RenderObjectEntity *input) {
             \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
-                register s16 *dst asm("$9") = (s16 *)0x1F800002;                                   \
+                column = (s16 *)0x1F800002;                                   \
                 \
-                Skinned_StoreAxis(dst);                                                            \
+                Skinned_StoreAxis(column);                                                            \
             }                                                                                      \
         }                                                                                          \
         {                                                                                          \
@@ -365,9 +366,9 @@ void Render_TransformVertices(RenderObjectEntity *input) {
             \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
-                register s16 *dst asm("$9") = (s16 *)0x1F800004;                                   \
+                column = (s16 *)0x1F800004;                                   \
                 \
-                Skinned_StoreAxis(dst);                                                            \
+                Skinned_StoreAxis(column);                                                            \
             }                                                                                      \
         }                                                                                          \
         Render_SkinnedLoadTrans(view_matrix);                                                      \
