@@ -82,9 +82,8 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
                             vertices = (RenderVec3s *)((u8 *)vertexBase + vertexOffset);
                             first <<= 2;
                             {
-                                register u8 *clutBase asm("$2") = (u8 *)D_800B1638;
                                 s32 vertexCount = part->vertex_count;
-                                clut = clutBase + first;
+                                clut = (u8 *)D_800B1638 + first;
                                 vertexIndex = 0;
                                 if (vertexCount > 0) {
                                     clutBlue = clut + 2;
