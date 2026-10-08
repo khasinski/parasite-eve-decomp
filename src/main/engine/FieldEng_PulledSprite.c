@@ -3,7 +3,7 @@
 #include "pe1/render_prim.h"
 #include "pe1/field_pulled_sprite.h"
 
-/* Matching debt: six pins, four empty barriers and five volatile stack
+/* Matching debt: two empty barriers and five volatile stack
  * parameters. The volatile copies and entry memory barrier keep all register
  * saves before the ordered argument loads. Each argument is read exactly once.
  * Matrix loads and depth scaling/stores are C;
@@ -62,11 +62,8 @@ void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,
     }
     {
         register RenderMatrixSlot *slot = &D_800BCFA4;
-        register const u32 *words asm("$11");
-        asm volatile("" : "=r"(slot) : "0"(slot));
-        words = (u32 *)slot->value;
-        gte_ldrotmatrix((const GteMatrixWords *)words);
-        gte_ldtransmatrix((const GteMatrixWords *)words);
+        gte_ldrotmatrix((const GteMatrixWords *)slot->value);
+        gte_ldtransmatrix((const GteMatrixWords *)slot->value);
     }
     gte_lwc2_0_0(position);
     gte_lwc2_1_4(position);
@@ -93,7 +90,6 @@ void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,
     height = height * scale_y / 8192;
     {
         s32 *depthOut = &depth;
-        asm volatile("" : "=r"(depthOut) : "0"(depthOut));
         gte_stszotz(depthOut);
 
     }
