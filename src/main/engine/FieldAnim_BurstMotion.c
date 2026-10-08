@@ -76,7 +76,7 @@ int rand(void);
 int func_800CD678(void *arg0, u8 *state, u8 *anim) {
     s16 value = rand() % 11;
     u16 z = *(u16 *)(anim + 0xA);
-    register u16 x asm("$5") = *(u16 *)(anim + 0x4);
+    int x = *(u16 *)(anim + 0x4);
     u16 y = *(u16 *)(anim + 0x8);
     z -= 8;
     x -= 8;
