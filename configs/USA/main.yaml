@@ -560,9 +560,8 @@ segments:
       - [0x4402C, c, item/Inv_FindFirstEmptySlot]
       - [0x44168, c, item/Inv_InsertItem]
       - [0x4466C, c, item/Inv_CountByValue]
-      - [0x44720, c, item/inv_count]
-      - [0x4489C, c, item/Inv_FindItemById]
-      - [0x4495C, c, item/Inv_GetActiveListItemType]
+      # Counts and item-ID/kind queries share the active inventory list.
+      - [0x44720, c, item/Inv_ActiveListQueries]
       - [0x44A1C, c, item/Item_BaseType]
       - [0x44A88, c, item/inv_get]
       # Filtered active-list builders share one 0x280-byte -G8 inventory object.
