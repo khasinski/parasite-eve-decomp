@@ -39,8 +39,7 @@ int func_800D9554(int mode, RenderDampedSpark *state)
     return 0;
 }
 
-/* Matching debt: three register pins.
- * Matrix loads are C; each GTE transfer uses its individual macro. */
+/* Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D96F4(int mode, RenderSparkEmitter *state)
 {
     GteRotation rotation;

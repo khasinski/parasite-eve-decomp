@@ -49,7 +49,6 @@ int func_800D70C0(int mode, s16 *state) {
 /* Fan sweep controller: opens a spark pool and a trail pool, launches a
  * spark on a turning angle every other frame for 32 frames, updates the
  * trail for 70 frames and publishes its pool for the sparks.
- * Matching debt: three register pins.
  * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D751C(int mode, FieldFanSweep *sweep)
 {

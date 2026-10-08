@@ -165,8 +165,7 @@ int func_800D8388(int mode, RenderOrbitingEmitter *state)
     return 0;
 }
 
-/* Matching debt: three register pins.
- * Matrix loads are C; each GTE transfer uses its individual macro. */
+/* Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D868C(int mode, RenderOrbitingEmitter *state)
 {
     GteShortVector position;
@@ -421,8 +420,7 @@ int func_800D8E74(int mode, RenderHelicalEffect *state)
     return 0;
 }
 
-/* Matching debt: three register pins.
- * Matrix loads are C; each GTE transfer uses its individual macro. */
+/* Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D927C(int mode, RenderOrbitingEmitter *state)
 {
     RenderHelicalEffect *effect;
