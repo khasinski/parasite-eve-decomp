@@ -108,15 +108,8 @@ void FieldAnim_ProcessInterleavedPoints(void *arg0, void *arg1, s8 *anim) {
 #include "common.h"
 void func_800C3324(void);
 
-extern u16 D_800F32E0;
-extern u16 D_800F32E2;
-extern u16 D_800F32E4;
-extern int D_800F32F0;
-extern int D_800F32F4;
-extern int D_800F32F8;
-extern short D_800F3308;
 
-int func_800CC644(void *arg0, void *arg1, u8 *anim) {
+int func_800CC644(void *arg0, void *arg1, FieldAnimPointSprite *anim) {
     u16 value_v0;
     register u16 *output asm("$4");
     func_800C2EAC(3);
@@ -124,32 +117,25 @@ int func_800CC644(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(3);
 
-    value_v0 = *(u16 *)(anim + 0x6);
+    value_v0 = anim->point.x;
     asm("" : : "r"(value_v0) : "$4");
-    output = &D_800F32E0;
+    output = (u16 *)&D_800F32E0.oriented.position.x;
     asm("" : "=r"(output) : "0"(output));
     *output = value_v0;
-    D_800F32E2 = *(u16 *)(anim + 0x8);
-    D_800F32E4 = *(u16 *)(anim + 0xA);
-    D_800F32F0 = *(short *)(anim + 0x4);
-    D_800F32F4 = *(short *)(anim + 0x4);
-    D_800F32F8 = *(short *)(anim + 0x4);
-    D_800F3308 = (signed char)anim[3];
+    D_800F32E0.oriented.position.y = anim->point.y;
+    D_800F32E0.oriented.position.z = anim->point.z;
+    D_800F32E0.oriented.scale.x = anim->extent;
+    D_800F32E0.oriented.scale.y = anim->extent;
+    D_800F32E0.oriented.scale.z = anim->extent;
+    D_800F32E0.oriented.brightness = (signed char)anim->scale;
     func_800C3324();
 }
 
 #include "common.h"
 void func_800C3B04();
 
-extern u16 D_800F3380;
-extern u16 D_800F3382;
-extern u16 D_800F3384;
-extern int D_800F3390;
-extern int D_800F3394;
-extern int D_800F3398;
-extern short D_800F33A8;
 
-int func_800CC6F8(void *arg0, void *arg1, u8 *anim) {
+int func_800CC6F8(void *arg0, void *arg1, FieldAnimPointSprite *anim) {
     u16 value_v0;
     register u16 *output asm("$4");
     func_800C2EAC(3);
@@ -157,16 +143,16 @@ int func_800CC6F8(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    value_v0 = *(u16 *)(anim + 0x6);
+    value_v0 = anim->point.x;
     asm("" : : "r"(value_v0) : "$4");
-    output = &D_800F3380;
+    output = (u16 *)&D_800F3380.oriented.position.x;
     asm("" : "=r"(output) : "0"(output));
     *output = value_v0;
-    D_800F3382 = *(u16 *)(anim + 0x8);
-    D_800F3384 = *(u16 *)(anim + 0xA);
-    D_800F3390 = *(short *)(anim + 0x4);
-    D_800F3394 = *(short *)(anim + 0x4);
-    D_800F3398 = *(short *)(anim + 0x4);
-    D_800F33A8 = (signed char)anim[3];
+    D_800F3380.oriented.position.y = anim->point.y;
+    D_800F3380.oriented.position.z = anim->point.z;
+    D_800F3380.oriented.scale.x = anim->extent;
+    D_800F3380.oriented.scale.y = anim->extent;
+    D_800F3380.oriented.scale.z = anim->extent;
+    D_800F3380.oriented.brightness = (signed char)anim->scale;
     func_800C3B04();
 }

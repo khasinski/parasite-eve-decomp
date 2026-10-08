@@ -35,15 +35,8 @@ void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
 #include "common.h"
 void func_800C3324(void);
 
-extern u16 D_800F3338;
-extern u16 D_800F333A;
-extern u16 D_800F333C;
-extern int D_800F3348;
-extern int D_800F334C;
-extern int D_800F3350;
-extern short D_800F3360;
 
-int func_800CC878(void *arg0, void *arg1, u8 *anim) {
+int func_800CC878(void *arg0, void *arg1, FieldAnimPointSprite *anim) {
     u16 value_v0;
     register u16 *output asm("$4");
     func_800C2EAC(3);
@@ -51,17 +44,17 @@ int func_800CC878(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    value_v0 = *(u16 *)(anim + 0x6);
+    value_v0 = anim->point.x;
     asm("" : : "r"(value_v0) : "$4");
-    output = &D_800F3338;
+    output = (u16 *)&D_800F3338.oriented.position.x;
     asm("" : "=r"(output) : "0"(output));
     *output = value_v0;
-    D_800F333A = *(u16 *)(anim + 0x8);
-    D_800F333C = *(u16 *)(anim + 0xA);
-    D_800F3348 = *(short *)(anim + 0x4);
-    D_800F334C = *(short *)(anim + 0x4);
-    D_800F3350 = *(short *)(anim + 0x4);
-    D_800F3360 = (signed char)anim[3];
+    D_800F3338.oriented.position.y = anim->point.y;
+    D_800F3338.oriented.position.z = anim->point.z;
+    D_800F3338.oriented.scale.x = anim->extent;
+    D_800F3338.oriented.scale.y = anim->extent;
+    D_800F3338.oriented.scale.z = anim->extent;
+    D_800F3338.oriented.brightness = (signed char)anim->scale;
     func_800C3324();
 }
 

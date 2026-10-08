@@ -5,6 +5,8 @@
 #include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 #include "pe1/room_floor.h"
+#include "pe1/field_oriented_sprite.h"
+#include "pe1/field_billboard.h"
 
 /* Twelve-byte parameter blocks used by the burst render callbacks.
  * Byte 3 and halfword 6 are not written by setup. */
@@ -284,6 +286,21 @@ typedef union FieldAnimBurstData {
 } FieldAnimBurstData;
 
 extern FieldAnimInterleavedState D_800E2260;
+/* Both renderers consume the same sprite storage: the oriented path uses
+ * all three scale components, while the billboard path uses X and Y. */
+typedef union FieldAnimSpriteState {
+    FieldOrientedSprite oriented;
+    FieldBillboard billboard;
+} FieldAnimSpriteState;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldOrientedSprite, scale) == 0x10,
+                  field_anim_sprite_scale);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldOrientedSprite, brightness) == 0x28,
+                  field_anim_sprite_brightness);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldBillboard, scaleX) == 0x10,
+                  field_anim_billboard_scale);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldBillboard, brightness) == 0x28,
+                  field_anim_billboard_brightness);
+extern FieldAnimSpriteState D_800F32E0, D_800F3338, D_800F3380;
 extern FieldAnimPointState D_800E2818;
 extern FieldAnimPointTriple D_800E27F8;
 
