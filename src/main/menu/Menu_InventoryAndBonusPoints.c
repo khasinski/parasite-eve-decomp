@@ -903,7 +903,6 @@ extern int D_8009CFD8;
 extern int D_8009CFDC;
 extern int D_8009CF68;
 extern int D_800A18D8[];
-extern short D_800A1A0E[], D_800A1A10[], D_800A1A12[];
 extern signed char D_800C0E22[];
 
 extern int Inv_RestoreSelection(unsigned int index);
@@ -931,19 +930,19 @@ int Spend_BonusPoints(void *node, unsigned int buttons)
         changed = 0;
         switch (D_8009CFD0) {
         case 0: {
-            short *bonus = &D_800A1A0E[0];
+            short *bonus = &D_800A1A00.bonusStats[0];
             changed = *bonus < 999;
             *bonus += changed;
             break;
         }
         case 1: {
-            short *bonus = &D_800A1A10[0];
+            short *bonus = &D_800A1A00.bonusStats[1];
             changed = *bonus < 999;
             *bonus += changed;
             break;
         }
         case 2: {
-            short *bonus = &D_800A1A12[0];
+            short *bonus = &D_800A1A00.bonusStats[2];
             changed = *bonus < 999;
             *bonus += changed;
             break;
@@ -967,7 +966,7 @@ int Spend_BonusPoints(void *node, unsigned int buttons)
         D_8009CFAC = 1;
         switch (D_8009CFD0) {
         case 0: {
-            short *bonus = &D_800A1A0E[0];
+            short *bonus = &D_800A1A00.bonusStats[0];
             if (*bonus <= item->bonusStats[0]) {
                 goto error;
             }
@@ -982,7 +981,7 @@ int Spend_BonusPoints(void *node, unsigned int buttons)
             break;
         }
         case 1: {
-            short *bonus = &D_800A1A10[0];
+            short *bonus = &D_800A1A00.bonusStats[1];
             if (*bonus <= item->bonusStats[1]) {
                 goto error;
             }
@@ -997,7 +996,7 @@ int Spend_BonusPoints(void *node, unsigned int buttons)
             break;
         }
         case 2: {
-            short *bonus = &D_800A1A12[0];
+            short *bonus = &D_800A1A00.bonusStats[2];
             if (*bonus <= item->bonusStats[2]) {
                 goto error;
             }
