@@ -46,7 +46,8 @@ void *func_800CE610(void *arg0);
 s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
     RoomFxSeed8 *obj;
     int index;
-    register int work asm("$3");
+    u16 size;
+    u16 tableValue;
     u16 value2;
     u16 value3;
     u16 value1;
@@ -70,23 +71,23 @@ s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
         return 0;
     case 2:
         index = D_800E11FA;
-        work = 0x20;
-        D_800F3368 = work;
+        size = 0x20;
+        D_800F3368 = size;
         value2 = 2;
         D_800F336A = value2;
-        D_800F3376 = work;
-        D_800F3378 = work;
-        D_800F3376 = work;
-        D_800F3378 = work;
+        D_800F3376 = size;
+        D_800F3378 = size;
+        D_800F3376 = size;
+        D_800F3378 = size;
         index <<= 1;
-        work = *(u16 *)((u8 *)D_800E2850 + index);
+        tableValue = *(u16 *)((u8 *)D_800E2850 + index);
         value3 = 3;
         D_800F336C = value3;
         value1 = 1;
         D_800F336E = value1;
         D_800F3372 = 0;
         D_800F3374 = 0;
-        D_800F3370 = work;
+        D_800F3370 = tableValue;
         PE1_COMPILER_MEMORY_BARRIER();
         return 0;
     }
