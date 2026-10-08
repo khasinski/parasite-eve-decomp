@@ -401,21 +401,23 @@ int func_800CDF4C(void *arg0, u8 *state, u8 *anim) {
 }
 
 int func_800CDFE0(void *arg0, u8 *state, u8 *anim) {
-    s16 value = rand() % 11;
-    u16 z = *(u16 *)(anim + 0x6);
-    int counter = anim[1];
-    u16 x = *(u16 *)(anim + 0x4);
-    z -= 4;
-    counter -= 3;
-    x -= 5;
-    asm("" : "=r"(x) : "0"(x));
-
-    *(u16 *)(anim + 0x6) = z;
-    anim[1] = counter;
-    x += value;
-    *(u16 *)(anim + 0x4) = x;
-
-    if ((signed char)counter < 3) {
+    int value = rand() % 11;
+    int jitter;
+    u8 *output;
+    u16 positionY = *(u16 *)(anim + 0x6);
+    int brightness = anim[1];
+    int positionX = *(u16 *)(anim + 0x4);
+    positionY -= 4;
+    brightness -= 3;
+    output = anim;
+    positionX -= 5;
+    *(u16 *)(output + 0x6) = positionY;
+    output[1] = brightness;
+    jitter = value;
+    value = 3;
+    positionX += jitter;
+    *(u16 *)(anim + 0x4) = positionX;
+    if (value > (signed char)brightness) {
         state[1] = 2;
     }
 }
