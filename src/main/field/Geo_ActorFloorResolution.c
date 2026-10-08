@@ -136,7 +136,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
         actor_s2->collisionFace = entry;
         actor_s2->collisionFaceMirror = entry;
         table = g_RegionHeightTable;
-        value = *(short *)(*(char **)(table + (((CollisionFace *)entry)->region * 4)));
+        value = *(short *)(*(char **)(table + (((CollisionTriangleXZ *)entry)->header.region * 4)));
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
         value <<= 16;

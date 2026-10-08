@@ -19,14 +19,24 @@ typedef union CollisionVertexTable {
     CollisionVertexXYZ *xyz;
     u32 word;
 } CollisionVertexTable;
+/* The first word is byte-addressed in both triangle formats. Keeping this
+ * two-byte view separate from the sloped face also describes the 22-byte
+ * flat records, whose addresses need not be aligned to a 32-bit word. */
+typedef struct CollisionTriangleHeader {
+    u8 kind;
+    u8 region; /* flat mode: index into the height records */
+} CollisionTriangleHeader;
+
 /* Walkable triangles. Both formats are walked as halfword arrays: the
  * flat one keeps its vertex indices at [1..3] and its edge neighbours at
  * [7..9], the sloped one at [4..6] and [10..12]. */
 typedef union CollisionTriangleXZ {
+    CollisionTriangleHeader header;
     u16 words[11];
     u8 kind; /* bit 0x80: not walkable from a neighbour */
 } CollisionTriangleXZ;
 typedef union CollisionTriangleXYZ {
+    CollisionTriangleHeader header;
     u16 words[14];
     u8 kind;
 } CollisionTriangleXYZ;
@@ -52,6 +62,10 @@ typedef struct CollisionDatabase {
 
 
 extern CollisionDatabase *g_CollisionDb;
+
+PE1_STATIC_ASSERT(sizeof(CollisionTriangleHeader) == 2, collision_triangle_header_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionTriangleHeader, region) == 1,
+                  collision_triangle_region_offset);
 
 PE1_STATIC_ASSERT(sizeof(CollisionDatabase) == 0x28, collision_database_header_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionDatabase, regions) == 0x28,
