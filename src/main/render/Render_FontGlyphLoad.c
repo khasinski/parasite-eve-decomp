@@ -37,18 +37,14 @@ copy:
     source = D_800B0E6C;
     i = 0;
     bytePtr = source + sourceOffset;
-    PE1_COMPILER_LAUNDER(bytePtr);
     D_8009ECD8.groups.unknown[0] = *bytePtr;
     sourceOffset = offset + 2;
-    PE1_COMPILER_LAUNDER(sourceOffset);
     bytePtr = source + sourceOffset;
-    PE1_COMPILER_LAUNDER(bytePtr);
     sourceOffset = offset + 3;
     PE1_COMPILER_LAUNDER(sourceOffset);
     D_8009ECD8.groups.unknown[1] = *bytePtr;
     D_8009ECD8.groups.count = source[sourceOffset];
     sourceOffset = offset + 4;
-    PE1_COMPILER_LAUNDER(sourceOffset);
     for (i = 0; i < 24; i++, sourceOffset++)
         D_8009ECD8.groups.codes[i] = D_800B0E6C[sourceOffset];
     D_8009ECD8.slots.count = D_800B0E6C[sourceOffset++];
