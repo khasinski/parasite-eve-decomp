@@ -4,6 +4,7 @@
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
 #include "pe1/field_anim.h"
+#include "pe1/field_anim_particle.h"
 
 extern u16 D_800E27EA;
 
@@ -225,9 +226,6 @@ void Akao_Cmd_24(int arg0, int arg1, int arg2, int arg3);
 void func_800CEDA8(int arg0);
 
 extern int D_800E2804;
-extern u16 D_800E27F0;
-extern u16 D_800E27F2;
-extern u16 D_800E27F4;
 extern u8 D_800B0CE8;
 extern int D_800B0E14;
 
@@ -252,9 +250,9 @@ int func_800CD980(void) {
     *func_800C2B10(0xD) = index;
 
     data = (u8 *)D_800E2804;
-    D_800E27F0 = *(u16 *)(data + 0x268);
-    D_800E27F2 = *(u16 *)(data + 0x26A);
-    D_800E27F4 = *(u16 *)(data + 0x26C);
+    D_800E27F0.x = *(u16 *)(data + 0x268);
+    D_800E27F0.y = *(u16 *)(data + 0x26A);
+    D_800E27F0.z = *(u16 *)(data + 0x26C);
 
     if (D_800B0CE8 != 0) {
         Akao_Cmd_24(D_800B0E14, 0, 0x80, 0x7F);
@@ -264,15 +262,15 @@ int func_800CD980(void) {
 }
 
 int func_800CDA5C(void *arg0, void *arg1, u8 *anim) {
-    u16 *base = &D_800E27F0;
+    u16 *base = &D_800E27F0.x;
     u16 *base_s4;
     int i = 0;
     u8 *entry;
     int value;
 
     *(u16 *)(anim + 0x4) = base[0];
-    *(u16 *)(anim + 0x6) = D_800E27F2;
-    *(u16 *)(anim + 0x8) = D_800E27F4;
+    *(u16 *)(anim + 0x6) = D_800E27F0.y;
+    *(u16 *)(anim + 0x8) = D_800E27F0.z;
     *(u16 *)(anim + 0xA) = (rand() % 201) - 0x64;
     *(u16 *)(anim + 0xC) = (rand() % 101) - 0x32;
 
@@ -297,9 +295,9 @@ int func_800CDA5C(void *arg0, void *arg1, u8 *anim) {
 int func_800CDC24(void *arg0, void *arg1, u8 *anim) {
     int value;
 
-    *(u16 *)(anim + 0x4) = D_800E27F0;
-    *(u16 *)(anim + 0x6) = D_800E27F2;
-    *(u16 *)(anim + 0x8) = D_800E27F4;
+    *(u16 *)(anim + 0x4) = D_800E27F0.x;
+    *(u16 *)(anim + 0x6) = D_800E27F0.y;
+    *(u16 *)(anim + 0x8) = D_800E27F0.z;
     anim[1] = 0x7F;
     *(u16 *)(anim + 0xA) = (rand() % 201) - 0x64;
     value = rand();
@@ -503,9 +501,6 @@ int *func_800C2B28(int index);
 void func_800CEDA8(int arg0);
 
 extern int D_800E2848;
-extern u16 D_800E2808;
-extern u16 D_800E280A;
-extern u16 D_800E280C;
 
 int func_800CE1FC(void) {
     int index;
@@ -528,27 +523,27 @@ int func_800CE1FC(void) {
     *func_800C2B10(0xD) = index;
 
     data = (u8 *)D_800E2848;
-    D_800E2808 = *(u16 *)(data + 0x268);
-    D_800E280A = *(u16 *)(data + 0x26A);
-    D_800E280C = *(u16 *)(data + 0x26C);
+    D_800E2808.x = *(u16 *)(data + 0x268);
+    D_800E2808.y = *(u16 *)(data + 0x26A);
+    D_800E2808.z = *(u16 *)(data + 0x26C);
 
     func_800CEDA8(0);
 }
 
 int func_800CE2B4(void *arg0, void *arg1, u8 *anim) {
-    register int base asm("$5");
+    u16 base;
     register int r asm("$2");
 
     r = rand();
-    base = D_800E2808 - 0x28;
+    base = D_800E2808.x - 0x28;
     *(u16 *)(anim + 0x6) = base + (r % 80);
 
     r = rand();
-    base = D_800E280A - 0x28;
+    base = D_800E2808.y - 0x28;
     *(u16 *)(anim + 0x8) = base + (r % 80);
 
     r = rand();
-    base = D_800E280C;
+    base = D_800E2808.z;
 
     anim[1] = 0x7F;
     *(u16 *)(anim + 0x4) = 0;

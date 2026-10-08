@@ -66,6 +66,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimMatrixGlow, transform) == 0x10,
 PE1_STATIC_ASSERT(sizeof(FieldAnimMatrixGlow) == 0x30,
                   field_anim_matrix_glow_size);
 
+extern FieldAnimParticlePosition D_800E27F0, D_800E2808;
+
 extern FieldAnimParticlePosition D_800E2348, D_800E2350, D_800E2358, D_800E2360;
 
 #endif
