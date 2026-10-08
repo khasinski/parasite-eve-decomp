@@ -92,13 +92,14 @@ void Menu_SaveBgApplyFadeStep(void) {
     dst = g_GameState.save_background_destination;
 
     for (i = 0; i < (g_MenuSaveBgFadeHeight << 8); i++) {
-        register int color asm("$3") = *src++;
+        int pixel = *src++;
+        int color;
 
-        if (color != 0) {
-            register int r asm("$7") = color & 0x1F;
-            int g = (color >> 5) & 0x1F;
-            int b = (color >> 10) & 0x1F;
-            color &= 0x8000;
+        if (pixel != 0) {
+            register int r asm("$7") = pixel & 0x1F;
+            int g = (pixel >> 5) & 0x1F;
+            int b = (pixel >> 10) & 0x1F;
+            color = pixel & 0x8000;
 
             {
                 int mixed = r << 16;
