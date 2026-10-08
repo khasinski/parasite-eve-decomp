@@ -1,4 +1,5 @@
 #include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 #include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -8,7 +9,6 @@
 
 
 extern s32 g_InvCategoryBaseItemId;
-extern s32 g_InvItemPtr;
 extern u8 g_EquipItemDataTable[];
 
 void *Inv_LookupActiveListDisplayData(s32 index);
@@ -19,7 +19,7 @@ void *Inv_LookupActiveListDisplayData(s32 index) {
     ItemDataRecord *entry;
     void *displayData;
 
-    itemId = ((s16 *)g_InvItemPtr)[index];
+    itemId = g_InvItemPtr[index];
     displayData = NULL;
     if ((itemId - 0x100) < 0x80U) {
         entry = &((ItemDataRecord *)g_EquipItemDataTable)[itemId];

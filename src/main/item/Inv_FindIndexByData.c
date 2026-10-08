@@ -1,12 +1,9 @@
 #include "common.h"
 #include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern int g_InvSlotLimit __asm__("D_8009D050");
-extern int g_InvItemPtr __asm__("D_8009D048");
-extern u8 g_EquipItemDataTable[] __asm__("D_800BEEAC");
-extern u8 g_KeyItemDataTable[] __asm__("D_8009DE64");
 
 int Inv_FindIndexByData(void *needle) {
     int limit;
@@ -24,10 +21,10 @@ int Inv_FindIndexByData(void *needle) {
             if (index < 0 || index >= limit) {
                 data = 0;
             } else {
-                item_id = ((s16 *)g_InvItemPtr)[index];
+                item_id = g_InvItemPtr[index];
                 saved_item_id = item_id;
                 if ((unsigned int)(item_id - 0x100) < 0x80) {
-                    data = g_EquipItemDataTable + (item_id << 5);
+                    data = &D_800C0E20.equipment[item_id - 0x100];
                 } else {
                     offset = item_id - 1;
                     if ((unsigned int)offset < 0xFF) {
