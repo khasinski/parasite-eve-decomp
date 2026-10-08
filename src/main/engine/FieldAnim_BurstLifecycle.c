@@ -263,23 +263,23 @@ int func_800CD980(void) {
     func_800CEDA8(0);
 }
 
-int func_800CDA5C(void *arg0, void *arg1, u8 *anim) {
+int func_800CDA5C(void *arg0, void *arg1, FieldAnimSparkPoint *anim) {
     u16 *base = &D_800E27F0.x;
     u16 *base_s4;
     int i = 0;
     u8 *entry;
     int value;
 
-    *(u16 *)(anim + 0x4) = base[0];
-    *(u16 *)(anim + 0x6) = D_800E27F0.y;
-    *(u16 *)(anim + 0x8) = D_800E27F0.z;
-    *(u16 *)(anim + 0xA) = (rand() % 201) - 0x64;
-    *(u16 *)(anim + 0xC) = (rand() % 101) - 0x32;
+    anim->position.x = base[0];
+    anim->position.y = D_800E27F0.y;
+    anim->position.z = D_800E27F0.z;
+    anim->displacement.x = (rand() % 201) - 0x64;
+    anim->displacement.y = (rand() % 101) - 0x32;
 
     base_s4 = base;
-    anim[1] = 0x7F;
-    *(u16 *)(anim + 0xE) = 0;
-    anim[3] = 0;
+    anim->brightness = 0x7F;
+    anim->displacement.z = 0;
+    anim->scaleStep = 0;
 
     do {
         entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
@@ -380,11 +380,11 @@ int func_800CDF40(void *arg0, u8 *state) {
     return ret;
 }
 
-int func_800CDF4C(void *arg0, u8 *state, u8 *anim) {
+int func_800CDF4C(void *arg0, u8 *state, FieldAnimSparkPoint *anim) {
     unsigned int i = 0;
 
-    anim[1] -= 0x10;
-    anim[3] += 0xC;
+    anim->brightness -= 0x10;
+    anim->scaleStep += 0xC;
 
     do {
         u8 *entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
@@ -395,7 +395,7 @@ int func_800CDF4C(void *arg0, u8 *state, u8 *anim) {
         *(u16 *)(entry + 0x30) = *(u16 *)(entry + 0x30) + *(u16 *)(entry + 0x60);
     } while ((i & 0xFFFF) < 8);
 
-    if ((signed char)anim[1] < 0x10) {
+    if ((signed char)anim->brightness < 0x10) {
         state[1] = 2;
     }
 }
