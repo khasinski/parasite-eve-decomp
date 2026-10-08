@@ -30,7 +30,6 @@ void ClearImage(RECT *rect, int r, int g, int b);
 void MoveImage(RECT *rect, int x, int y);
 void ClearOTagR(u32 *table, int length);
 void DrawOTag(u32 *table);
-DRAWENV *PutDrawEnv(DRAWENV *env);
 void Boot_BuildRenderFlagTable(void);
 void Render_SetupFogLayer(void *source);
 void ResetGraph(int mode);

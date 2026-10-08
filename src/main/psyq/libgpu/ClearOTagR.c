@@ -87,7 +87,7 @@ DRAWENV *PutDrawEnv(DRAWENV *environment)
     Gpu_SetDrawEnvBack(packet, environment);
     packet->tag |= 0xFFFFFF;
     D_80095744->addque2(D_80095744->u18.packet, packet, 0x40, 0);
-    copy(state + 14, environment, 0x5C);
+    copy(state + 14, environment, sizeof(DRAWENV));
     return environment;
 }
 
@@ -103,16 +103,15 @@ void DrawOTagEnv(void *next, DRAWENV *environment)
     Gpu_SetDrawEnvBack(packet, environment);
     packet->tag = (packet->tag & 0xFF000000) | ((unsigned long)next & 0xFFFFFF);
     D_80095744->addque2(D_80095744->u18.packet, packet, 0x40, 0);
-    copy(state + 14, environment, 0x5C);
+    copy(state + 14, environment, sizeof(DRAWENV));
 }
 
 extern void *memcpy(void *dest, const void *src, unsigned int n);
-extern char D_8009575C[];
 
-void *GetDrawEnv(void *arg0) {
+DRAWENV *GetDrawEnv(DRAWENV *arg0) {
     void *(*fn)(void *, const void *, unsigned int);
 
     fn = memcpy;
-    fn(arg0, D_8009575C, 0x5C);
+    fn(arg0, &D_8009575C, sizeof(D_8009575C));
     return arg0;
 }

@@ -2,7 +2,6 @@
 #include "pe1/gpu_state.h"
 #include "pe1/psyq_gpu.h"
 extern unsigned char D_8009574E, D_8009574F;
-extern DISPENV D_800957B8;
 extern unsigned short D_800957C0[4];
 extern unsigned char D_80095848[];
 extern unsigned short D_80095820[], D_80095822[];
@@ -165,6 +164,6 @@ DISPENV *PutDispEnv(DISPENV *env) {
     }
     /* An unprototyped call keeps the SDK memcpy call instead of builtin expansion.
      * Pointers and the word-sized count keep the same argument ABI. */
-    ((void *(*)())memcpy)(&D_800957B8, e, 20);
+    ((void *(*)())memcpy)(&D_800957B8, e, sizeof(DISPENV));
     return e;
 }

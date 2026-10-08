@@ -83,6 +83,9 @@ PE1_GPU_STATIC_ASSERT(sizeof(GpuDisplayBufferRecord) == 0x78,
 #undef PE1_GPU_OFFSETOF
 #undef PE1_GPU_STATIC_ASSERT
 
+DRAWENV *GetDrawEnv(DRAWENV *env);
+DRAWENV *PutDrawEnv(DRAWENV *env);
+void DrawOTagEnv(void *next, DRAWENV *env);
 DISPENV *PutDispEnv(DISPENV *env);
 u_short GetClut(int x, int y);
 

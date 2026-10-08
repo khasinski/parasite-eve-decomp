@@ -3,6 +3,7 @@
 
 #include "pe1/gpu_callbacks.h"
 #include "pe1/psyq_callbacks.h"
+#include "pe1/psyq_gpu.h"
 
 /*
  * libgpu/sys.c state immediately following the GPU dispatch and debug-print
@@ -28,5 +29,9 @@ extern GpuCallbacks *D_80095744;
 extern GpuDebugPrintf D_80095748;
 extern GpuDebugState D_8009574C;
 extern char D_80011840[];
+
+/* SYS.OBJ caches: DRAWENV follows the 16-byte debug state, then DISPENV. */
+extern DRAWENV D_8009575C;
+extern DISPENV D_800957B8;
 
 #endif /* PE1_GPU_STATE_H */

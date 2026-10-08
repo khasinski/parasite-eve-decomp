@@ -15,7 +15,6 @@ extern int D_800A77F4;
 void Akao_Cmd_98_9A_9C(int arg0);
 void Akao_Cmd_99_9B_9D(int arg0);
 void DrawPrim(void *prim);
-DRAWENV *PutDrawEnv(DRAWENV *env);
 void DsReadBreak(void);
 void Akao_Cmd_D8(int arg0);
 void Akao_Cmd_F0(void);

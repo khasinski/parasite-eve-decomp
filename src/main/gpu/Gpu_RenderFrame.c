@@ -11,8 +11,6 @@ int Seq_GetElapsed(void);
 void SetDispMask(int arg0);
 void ResetGraph(int arg0);
 int Gpu_CheckDrawStatus(void);
-DRAWENV *PutDrawEnv(DRAWENV *env);
-void DrawOTagEnv(int arg0, void *arg1);
 
 extern int g_GameState[];
 extern int g_ActiveDrawSlot;
@@ -87,7 +85,7 @@ draw_buffer:
         arg0 = *(int *)(tmp + 0x160);
         base = g_RenderDrawEnvArray;
         arg1 += (int)base;
-        DrawOTagEnv(arg0 + 0x3FFC, (void *)arg1);
+        DrawOTagEnv((void *)(arg0 + 0x3FFC), (DRAWENV *)arg1);
     }
 
 done:
