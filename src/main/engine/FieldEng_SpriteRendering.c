@@ -316,13 +316,9 @@ void func_800C3B04(FieldBillboard *board)
     }
     {
         GteMatrix **slot;
-        /* Slot address stays in its own register; the loaded matrix is $t1. */
-        register const GteMatrixWords *matrix asm("$9");
         slot = &D_800BCFA4.value;
-        asm volatile("" : "=r"(slot) : "0"(slot));
-        matrix = (const GteMatrixWords *)*slot;
-        gte_ldrotmatrix(matrix);
-        gte_ldtransmatrix(matrix);
+        gte_ldrotmatrix((const GteMatrixWords *)*slot);
+        gte_ldtransmatrix((const GteMatrixWords *)*slot);
     }
     D_800E284C->depth = RotTransPers(&board->position, &D_800E284C->screen.word,
                                      &D_800E284C->p, &D_800E284C->flag);
