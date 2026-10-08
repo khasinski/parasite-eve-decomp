@@ -66,11 +66,10 @@ int func_800CC92C(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
     value = anim->point.y;
     frame -= 2;
     anim->scale = frame;
-    asm("" ::: "memory");
-    frame = (s8)anim->scale;
     value -= 0xA;
     anim->point.y = value;
     value = (u16)anim->extent;
+    frame = (s8)anim->scale;
     frame = frame < 0x1E;
     value += 0x1E;
     anim->extent = value;
