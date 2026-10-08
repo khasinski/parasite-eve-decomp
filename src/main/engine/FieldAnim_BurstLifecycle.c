@@ -1,0 +1,648 @@
+/* Burst and spark effect setup, draw and lifecycle callbacks. */
+
+#include "common.h"
+#include "pe1/field_sprite_state.h"
+#include "pe1/field_glow_sprite.h"
+#include "pe1/field_anim.h"
+
+extern u16 D_800E27EA;
+
+int func_800CD50C(void *arg0, void *arg1, u8 *anim) {
+    int *base_a1;
+    u16 *field_v1;
+
+    func_800C2EAC(3);
+    func_800C3098(0x10);
+    func_800C2FF0(0x20, 0x20);
+    func_800C3238(3);
+
+    base_a1 = &D_800F3478.t[0];
+    field_v1 = &D_800E27EA;
+    base_a1[0] = *(s16 *)(anim + 0x8);
+    D_800F3478.t[1] = *(s16 *)(anim + 0xA);
+    D_800F3478.t[2] = *(s16 *)(anim + 0xC);
+    *field_v1 = *(u16 *)(anim + 0x4);
+    func_800C42A4((FieldGlowSprite *)((u8 *)field_v1 - 10), (GteMatrix *)(base_a1 - 5), 1);
+}
+
+void func_800CD59C(void) {
+}
+
+int func_800CD5A4(void *arg0, u8 *state) {
+    int ret = 2;
+    state[1] = ret;
+    return ret;
+}
+
+int func_800CD5B0(void *arg0, u8 *state, u8 *anim) {
+    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) - 0xA;
+    *(u16 *)(anim + 6) = *(u16 *)(anim + 6) + 0x3C;
+    if (*(s16 *)(anim + 4) < 0x14) {
+        *(u16 *)(anim + 4) = 0;
+        state[1] = 2;
+    }
+}
+
+int func_800CD5EC(void *arg0, u8 *state, u8 *anim) {
+    unsigned int i = 0;
+
+    do {
+        u8 *entry = anim + ((i & 0xFFFF) * 8);
+
+        i++;
+        *(u16 *)(entry + 0x10) = *(u16 *)(entry + 0x10) + *(u16 *)(entry + 0x20);
+        *(u16 *)(entry + 0x12) = *(u16 *)(entry + 0x12) + *(u16 *)(entry + 0x22);
+        *(u16 *)(entry + 0x14) = *(u16 *)(entry + 0x14) + *(u16 *)(entry + 0x24);
+    } while ((i & 0xFFFF) < 2);
+
+    anim[3]++;
+    if ((signed char)anim[3] >= 8) {
+        state[1] = 2;
+    }
+}
+
+int rand(void);
+
+int func_800CD678(void *arg0, u8 *state, u8 *anim) {
+    s16 value = rand() % 11;
+    u16 z = *(u16 *)(anim + 0xA);
+    int x = *(u16 *)(anim + 0x4);
+    u16 y = *(u16 *)(anim + 0x8);
+    z -= 8;
+    x -= 8;
+    y -= 5;
+    asm("" : "=r"(y) : "0"(y));
+
+    *(u16 *)(anim + 0xA) = z;
+    *(u16 *)(anim + 0x4) = x;
+    y += value;
+    *(u16 *)(anim + 0x8) = y;
+
+    if ((short)x < 8) {
+        state[1] = 2;
+    }
+}
+
+int func_800CD71C(void *arg0, u8 *state) {
+    int ret = 2;
+    state[1] = ret;
+    return ret;
+}
+
+#include "pe1/field_engine_slot.h"
+
+extern int D_800E0F6C;
+
+extern int D_800F33F8;
+extern int D_800F33FC;
+extern int D_800F3400;
+extern u8 D_800F3408;
+extern u8 D_800F3409;
+extern u8 D_800F340A;
+extern u8 D_800F340C;
+extern u8 D_800F340D;
+extern short D_800F340E;
+extern short D_800F33F0;
+extern short D_800F33F2;
+extern short D_800F33F4;
+
+extern int D_800E2780;
+extern int D_800E2784;
+extern int D_800E2788;
+extern u8 D_800E2790;
+extern u8 D_800E2791;
+extern u8 D_800E2792;
+extern u8 D_800E2794;
+extern u8 D_800E2795;
+extern short D_800E2796;
+extern short D_800E2778;
+extern short D_800E277A;
+extern short D_800E277C;
+
+extern u8 D_800E27D0;
+extern u8 D_800E27D1;
+extern u8 D_800E27D2;
+extern u8 D_800E27D4;
+extern u8 D_800E27D5;
+extern short D_800E27D6;
+extern short D_800E27B8;
+extern short D_800E27BA;
+extern short D_800E27BC;
+
+int func_800CD728(char *object) {
+    void **slot = FieldEng_GetSlot(object);
+    int value;
+    register int byte2 asm("$4");
+
+    value = (int)&D_800E0F6C;
+    *slot = (void *)value;
+
+    value = 0x5F4;
+    D_800F33F8 = value;
+    D_800F33FC = value;
+    D_800F3400 = value;
+
+    value = 0x40;
+    byte2 = 0x20;
+    asm volatile("" : "=r"(byte2) : "0"(byte2));
+    D_800F340C = value;
+    value = -0x64;
+    D_800F340E = value;
+
+    value = 0x15;
+    D_800F3408 = value;
+
+    value = 0x46;
+    D_800E27D4 = value;
+
+    value = 0x30;
+    D_800E27D5 = value;
+
+    value = -0x6E;
+    D_800E27D6 = value;
+
+    value = 0xFF;
+    D_800E27D0 = value;
+
+    value = 0xB0;
+    D_800E27D1 = value;
+    D_800E27D2 = value;
+
+    value = 0xA4;
+    D_800E2780 = value;
+    D_800E2784 = value;
+
+    value = 0x108;
+    D_800E2788 = value;
+
+    value = 0x6E;
+    D_800E2794 = value;
+
+    value = 3;
+    D_800E2795 = value;
+
+    value = -0x96;
+    D_800E2796 = value;
+
+    value = 0x80;
+    D_800F33F0 = 0;
+    D_800F33F2 = 0;
+    D_800F33F4 = 0;
+    D_800F340D = byte2;
+    D_800F3409 = byte2;
+    D_800F340A = byte2;
+    D_800E27B8 = 0;
+    D_800E27BA = 0;
+    D_800E27BC = 0;
+    D_800E2778 = 0;
+    D_800E277A = 0;
+    D_800E277C = 0;
+    D_800E2790 = value;
+    D_800E2791 = value;
+    D_800E2792 = value;
+
+    return 0;
+}
+
+extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
+
+int func_800CD89C(int a, int b, int c, int d, int e, int f) {
+    FieldEng_Spawn6(a, b, c, d, e, f);
+    return 0;
+}
+
+extern char D_800E0F28[];
+extern void FieldEng_Register(void *o, void *table);
+
+int func_800CD8C8(void *o) {
+    FieldEng_Register(o, D_800E0F28);
+    return 0;
+}
+
+extern char D_800E0F38[];
+extern char D_800E0F18[];
+extern char D_800E0F48[];
+extern int func_800C251C(void *obj, void *table);
+extern int func_800C2758(void *obj, void *table, void *extra);
+extern int func_800CD960(u8 *state);
+
+int func_800CD8F0(void *obj) {
+    int first;
+    int second;
+    int status;
+
+    first = func_800C251C(obj, D_800E0F38);
+    second = func_800C2758(obj, D_800E0F18, D_800E0F48);
+    status = first | second;
+    if (status == -1) {
+        func_800CD960(obj);
+    }
+    return 0;
+}
+
+int func_800CD960(u8 *state) {
+    state[0] = 4;
+    return 0;
+}
+
+int func_800CD970(void) {
+    return 0;
+}
+
+int func_800CD978(void) {
+    return 0;
+}
+
+int *func_800C2B10(int index);
+int *func_800C2B28(int index);
+void Akao_Cmd_24(int arg0, int arg1, int arg2, int arg3);
+void func_800CEDA8(int arg0);
+
+extern int D_800E2804;
+extern u16 D_800E27F0;
+extern u16 D_800E27F2;
+extern u16 D_800E27F4;
+extern u8 D_800B0CE8;
+extern int D_800B0E14;
+
+int func_800CD980(void) {
+    int index;
+    int *table;
+    int *entry;
+    int *next;
+    u8 *data;
+
+    index = *func_800C2B10(0xD);
+    table = (int *)*func_800C2B28(1);
+    entry = (int *)table[index];
+    index++;
+    next = (int *)table[index];
+    D_800E2804 = (int)entry;
+
+    if (next == 0) {
+        *func_800C2B10(0xE) = 1;
+    }
+
+    *func_800C2B10(0xD) = index;
+
+    data = (u8 *)D_800E2804;
+    D_800E27F0 = *(u16 *)(data + 0x268);
+    D_800E27F2 = *(u16 *)(data + 0x26A);
+    D_800E27F4 = *(u16 *)(data + 0x26C);
+
+    if (D_800B0CE8 != 0) {
+        Akao_Cmd_24(D_800B0E14, 0, 0x80, 0x7F);
+    }
+
+    func_800CEDA8(0);
+}
+
+int func_800CDA5C(void *arg0, void *arg1, u8 *anim) {
+    u16 *base = &D_800E27F0;
+    u16 *base_s4;
+    int i = 0;
+    u8 *entry;
+    int value;
+
+    *(u16 *)(anim + 0x4) = base[0];
+    *(u16 *)(anim + 0x6) = D_800E27F2;
+    *(u16 *)(anim + 0x8) = D_800E27F4;
+    *(u16 *)(anim + 0xA) = (rand() % 201) - 0x64;
+    *(u16 *)(anim + 0xC) = (rand() % 101) - 0x32;
+
+    base_s4 = base;
+    anim[1] = 0x7F;
+    *(u16 *)(anim + 0xE) = 0;
+    anim[3] = 0;
+
+    do {
+        entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
+        *(u16 *)(entry + 0x10) = base_s4[0];
+        *(u16 *)(entry + 0x20) = base_s4[1];
+        *(u16 *)(entry + 0x30) = base_s4[2];
+        *(u16 *)(entry + 0x40) = (rand() % 50) - 0x19;
+        value = (rand() % 50) - 0x19;
+        i++;
+        *(u16 *)(entry + 0x60) = 0;
+        *(u16 *)(entry + 0x50) = value;
+    } while ((unsigned int)(i & 0xFFFF) < 8U);
+}
+
+int func_800CDC24(void *arg0, void *arg1, u8 *anim) {
+    int value;
+
+    *(u16 *)(anim + 0x4) = D_800E27F0;
+    *(u16 *)(anim + 0x6) = D_800E27F2;
+    *(u16 *)(anim + 0x8) = D_800E27F4;
+    anim[1] = 0x7F;
+    *(u16 *)(anim + 0xA) = (rand() % 201) - 0x64;
+    value = rand();
+    *(u16 *)(anim + 0xE) = 0;
+    *(u16 *)(anim + 0xC) = (value % 101) - 0x32;
+}
+
+void func_800CDD04(void) {
+}
+
+#include "pe1/field_billboard.h"
+
+extern u8 D_800E2770[];
+extern u16 D_800E27B0;
+extern u16 D_800E27B2;
+extern u16 D_800E27B4;
+extern int D_800E27C0;
+extern int D_800E27C4;
+extern int D_800E27C8;
+extern u16 D_800E27D8;
+
+int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
+    u16 lhs_v0;
+    FieldBillboard *output;
+    u16 rhs_v1;
+    unsigned int i;
+    u8 *entry;
+
+    func_800C2EAC(3);
+    func_800C3098(0x100);
+    func_800C2FF0(0x20, 0x20);
+    func_800C3238(2);
+
+    lhs_v0 = *(u16 *)(anim + 0x4);
+    rhs_v1 = *(u16 *)(anim + 0xA);
+    output = (FieldBillboard *)&D_800E27B0;
+    lhs_v0 += rhs_v1;
+    output->position.x = lhs_v0;
+    D_800E27B2 = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
+    D_800E27B4 = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
+    D_800E27C0 = ((s8)anim[3] * 8) + 0x20C;
+    D_800E27C4 = ((s8)anim[3] * 8) + 0x20C;
+    D_800E27C8 = ((s8)anim[3] * 8) + 0x20C;
+    D_800E27D8 = (s8)anim[1];
+
+    func_800C3B04(output);
+    func_800C3098(0x10);
+
+    i = 0;
+    do {
+        entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
+        *(u16 *)(D_800E2770 + 0x0) = *(u16 *)(entry + 0x10) + *(u16 *)(anim + 0xA);
+        *(u16 *)(D_800E2770 + 0x2) = *(u16 *)(entry + 0x20) + *(u16 *)(anim + 0xC);
+        *(u16 *)(D_800E2770 + 0x4) = *(u16 *)(entry + 0x30) + *(u16 *)(anim + 0xE);
+        i++;
+        *(u16 *)(D_800E2770 + 0x28) = (s8)anim[1];
+        func_800C3B04((FieldBillboard *)D_800E2770);
+    } while ((i & 0xFFFF) < 8);
+}
+
+extern u16 D_800F33E8;
+extern u16 D_800F33EA;
+extern u16 D_800F33EC;
+extern u16 D_800F3410;
+
+int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
+    u16 lhs_v0;
+    FieldBillboard *output;
+    u16 rhs_v1;
+
+    func_800C2EAC(3);
+    func_800C3098(0x100);
+    func_800C2FF0(0x20, 0x20);
+    func_800C3238(3);
+
+    lhs_v0 = *(u16 *)(anim + 0x4);
+    rhs_v1 = *(u16 *)(anim + 0xA);
+    output = (FieldBillboard *)&D_800F33E8;
+    lhs_v0 += rhs_v1;
+    output->position.x = lhs_v0;
+    D_800F33EA = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
+    D_800F33EC = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
+    D_800F3410 = (s8)anim[1];
+    func_800C3B04(output);
+}
+
+int func_800CDF40(void *arg0, u8 *state) {
+    int ret = 2;
+    state[1] = ret;
+    return ret;
+}
+
+int func_800CDF4C(void *arg0, u8 *state, u8 *anim) {
+    unsigned int i = 0;
+
+    anim[1] -= 0x10;
+    anim[3] += 0xC;
+
+    do {
+        u8 *entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
+
+        i++;
+        *(u16 *)(entry + 0x10) = *(u16 *)(entry + 0x10) + *(u16 *)(entry + 0x40);
+        *(u16 *)(entry + 0x20) = *(u16 *)(entry + 0x20) + *(u16 *)(entry + 0x50);
+        *(u16 *)(entry + 0x30) = *(u16 *)(entry + 0x30) + *(u16 *)(entry + 0x60);
+    } while ((i & 0xFFFF) < 8);
+
+    if ((signed char)anim[1] < 0x10) {
+        state[1] = 2;
+    }
+}
+
+int func_800CDFE0(void *arg0, u8 *state, u8 *anim) {
+    s16 value = rand() % 11;
+    u16 z = *(u16 *)(anim + 0x6);
+    int counter = anim[1];
+    u16 x = *(u16 *)(anim + 0x4);
+    z -= 4;
+    counter -= 3;
+    x -= 5;
+    asm("" : "=r"(x) : "0"(x));
+
+    *(u16 *)(anim + 0x6) = z;
+    anim[1] = counter;
+    x += value;
+    *(u16 *)(anim + 0x4) = x;
+
+    if ((signed char)counter < 3) {
+        state[1] = 2;
+    }
+}
+
+extern int D_800E0FFC;
+extern int D_800E22B8;
+extern int D_800E22BC;
+extern int D_800E22C0;
+extern short D_800E22B0;
+extern short D_800E22B2;
+extern short D_800E22B4;
+extern u8 D_800E22C8;
+extern u8 D_800E22C9;
+extern u8 D_800E22CA;
+extern u8 D_800E22CD;
+extern short D_800E22CE;
+int func_800CE084(char *object)
+{
+  void **slot = FieldEng_GetSlot(object);
+  register int value;
+  register void *slotData;
+  slotData = &D_800E0FFC;
+ do { *slot = slotData; value = 0x300; D_800E22B8 = value; D_800E22BC = value; } while (0);
+  D_800E22C0 = value;
+  value = 5;
+  D_800E22CD = value;
+  value = -0x64;
+  D_800E22CE = value;
+  value = 0x80;
+  D_800E22B0 = 0;
+  D_800E22B2 = 0;
+  D_800E22B4 = 0;
+  D_800E22C8 = value;
+  D_800E22C9 = value;
+  D_800E22CA = value;
+  return 0;
+}
+
+int func_800CE118(int a, int b, int c, int d, int e, int f) {
+    FieldEng_Spawn6(a, b, c, d, e, f);
+    return 0;
+}
+
+extern char D_800E0FC0[];
+
+int func_800CE144(void *o) {
+    FieldEng_Register(o, D_800E0FC0);
+    return 0;
+}
+
+extern char D_800E0FCC[];
+extern char D_800E0FB4[];
+extern char D_800E0FD8[];
+extern int func_800CE1DC(char *arg0);
+
+int func_800CE16C(void *obj) {
+    int first;
+    int second;
+    int status;
+
+    first = func_800C251C(obj, D_800E0FCC);
+    second = func_800C2758(obj, D_800E0FB4, D_800E0FD8);
+    status = first | second;
+    if (status == -1) {
+        func_800CE1DC(obj);
+    }
+    return 0;
+}
+
+int func_800CE1DC(char *arg0) {
+    *arg0 = 4;
+    return 0;
+}
+
+int func_800CE1EC(void) {
+    return 0;
+}
+
+int func_800CE1F4(void) {
+    return 0;
+}
+
+int *func_800C2B10(int index);
+int *func_800C2B28(int index);
+void func_800CEDA8(int arg0);
+
+extern int D_800E2848;
+extern u16 D_800E2808;
+extern u16 D_800E280A;
+extern u16 D_800E280C;
+
+int func_800CE1FC(void) {
+    int index;
+    int *table;
+    int *entry;
+    int *next;
+    u8 *data;
+
+    index = *func_800C2B10(0xD);
+    table = (int *)*func_800C2B28(1);
+    entry = (int *)table[index];
+    index++;
+    next = (int *)table[index];
+    D_800E2848 = (int)entry;
+
+    if (next == 0) {
+        *func_800C2B10(0xE) = 1;
+    }
+
+    *func_800C2B10(0xD) = index;
+
+    data = (u8 *)D_800E2848;
+    D_800E2808 = *(u16 *)(data + 0x268);
+    D_800E280A = *(u16 *)(data + 0x26A);
+    D_800E280C = *(u16 *)(data + 0x26C);
+
+    func_800CEDA8(0);
+}
+
+int func_800CE2B4(void *arg0, void *arg1, u8 *anim) {
+    register int base asm("$5");
+    register int r asm("$2");
+
+    r = rand();
+    base = D_800E2808 - 0x28;
+    *(u16 *)(anim + 0x6) = base + (r % 80);
+
+    r = rand();
+    base = D_800E280A - 0x28;
+    *(u16 *)(anim + 0x8) = base + (r % 80);
+
+    r = rand();
+    base = D_800E280C;
+
+    anim[1] = 0x7F;
+    *(u16 *)(anim + 0x4) = 0;
+    anim[3] = 0;
+    base -= 0x28;
+    *(u16 *)(anim + 0xA) = base + (r % 80);
+}
+
+void func_800CE3AC(void) {
+}
+
+extern u16 D_800E22A8;
+extern u16 D_800E22AA;
+extern u16 D_800E22AC;
+extern short D_800E22D0;
+extern signed char D_800E22CC;
+
+int func_800CE3B4(void *arg0, void *arg1, u8 *anim) {
+    u16 value_v0;
+    FieldBillboard *output;
+    func_800C2EAC(3);
+    func_800C3098(0x10);
+    func_800C2FF0(0x20, 0x20);
+    func_800C3238(2);
+
+    value_v0 = *(u16 *)(anim + 0x6);
+    output = (FieldBillboard *)&D_800E22A8;
+    output->position.x = value_v0;
+    D_800E22AA = *(u16 *)(anim + 0x8);
+    D_800E22AC = *(u16 *)(anim + 0xA);
+    D_800E22D0 = (signed char)anim[1];
+    D_800E22CC = (anim[3] * 2) - 0x60;
+
+    func_800C3B04(output);
+    func_800C3098(0x10);
+}
+
+int func_800CE464(void *arg0, char *arg1) {
+    int value;
+
+    value = 2;
+    arg1[1] = value;
+    return value;
+}
+
+void func_800CE470(void *arg0, char *arg1, unsigned char *arg2) {
+    arg2[3]++;
+    if ((signed char)arg2[3] == 6) {
+        arg1[1] = 2;
+    }
+}
