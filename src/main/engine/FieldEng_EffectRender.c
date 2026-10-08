@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_engine_slot.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
 #include "pe1/gte_types.h"
@@ -193,7 +194,6 @@ void func_800C8CF8(char *arg0, char *arg1, short *arg2) {
         arg1[1] = 2;
     }
 }
-void **FieldEng_GetSlot(void);
 
 extern int D_800E0A50;
 
@@ -224,14 +224,14 @@ extern u8 D_800E232E;
 extern s16 D_800E2330;
 extern s16 D_800E2332;
 
-int func_800C8D34(void) {
+int func_800C8D34(char *object) {
     int half;
     int shade;
     register int value asm("$3");
     register void *slotData asm("$3");
     void **slot;
 
-    slot = FieldEng_GetSlot();
+    slot = FieldEng_GetSlot(object);
     slotData = &D_800E0A50;
     *slot = slotData;
 

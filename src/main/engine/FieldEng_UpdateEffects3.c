@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_engine_slot.h"
 #include "pe1/field_anim_particle.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
@@ -112,19 +113,18 @@ int func_800C9A34(void *arg0, u8 *state, u8 *anim) {
         state[1] = 2;
     }
 }
-void **FieldEng_GetSlot(void);
 
 extern int D_800E0B38;
 
 
 
-int func_800C9A70(void) {
+int func_800C9A70(char *object) {
     int half;
     register int value asm("$3");
     register void *slotData asm("$3");
     void **slot;
 
-    slot = FieldEng_GetSlot();
+    slot = FieldEng_GetSlot(object);
     slotData = &D_800E0B38;
     *slot = slotData;
 

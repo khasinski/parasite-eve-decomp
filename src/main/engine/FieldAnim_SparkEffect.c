@@ -1,7 +1,7 @@
 #include "common.h"
+#include "pe1/field_engine_slot.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_billboard.h"
-void **FieldEng_GetSlot(void);
 extern int D_800E0FFC;
 extern int D_800E22B8;
 extern int D_800E22BC;
@@ -14,9 +14,9 @@ extern u8 D_800E22C9;
 extern u8 D_800E22CA;
 extern u8 D_800E22CD;
 extern short D_800E22CE;
-int func_800CE084(void)
+int func_800CE084(char *object)
 {
-  void **slot = FieldEng_GetSlot();
+  void **slot = FieldEng_GetSlot(object);
   register int value;
   register void *slotData;
   slotData = &D_800E0FFC;

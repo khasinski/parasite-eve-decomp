@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_engine_slot.h"
 #include "pe1/field_anim_particle.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
@@ -65,7 +66,6 @@ int func_800CA540(void *arg0, u8 *state, u8 *anim) {
 }
 
 #include "common.h"
-void **FieldEng_GetSlot(void);
 
 extern int D_800E0C88;
 
@@ -73,7 +73,7 @@ extern int D_800E0C88;
 
 
 
-int func_800CA574(void) {
+int func_800CA574(char *object) {
     int half_a2;
     register int half_a1 asm("$5");
     int shade_a0;
@@ -81,7 +81,7 @@ int func_800CA574(void) {
     register void *slotData asm("$3");
     void **slot;
 
-    slot = FieldEng_GetSlot();
+    slot = FieldEng_GetSlot(object);
     slotData = &D_800E0C88;
     *slot = slotData;
 

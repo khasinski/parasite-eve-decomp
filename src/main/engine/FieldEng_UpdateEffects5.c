@@ -245,7 +245,6 @@ int func_800CBC68(void *arg0, FieldEngSlot *state, u8 *anim) {
 #define S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 #define PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 
-extern u32 *FieldEng_GetSlot(int slot);
 
 extern u8 D_800E0D6C[];
 extern s16 D_800E2290_state __asm__("D_800E2290");
@@ -313,10 +312,10 @@ int func_800CBCA4(u8 *arg0) {
     register int z asm("$6");
     register int orange asm("$4");
     register int y_off asm("$4");
-    u32 *slot;
+    void **slot;
 
-    slot = FieldEng_GetSlot((int)arg0);
-    *slot = (u32)D_800E0D6C;
+    slot = FieldEng_GetSlot((char *)arg0);
+    *slot = D_800E0D6C;
     obj = PTR(arg0, 8);
 
     tmp = S16(obj, 0x2A);

@@ -47,7 +47,6 @@ typedef struct FieldEngDataState {
 extern FieldEngDataState *g_FieldEngineState __asm__("D_800E2248");
 extern FieldEngSlot *g_FieldEngineSlots __asm__("D_800F34F4");
 
-void **FieldEng_GetSlot(char *object);
 
 /* Shared XYZ origin consumed by field effect initializers. */
 struct FieldAnimPointTriple;

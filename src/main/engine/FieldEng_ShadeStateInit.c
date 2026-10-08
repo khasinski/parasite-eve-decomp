@@ -1,10 +1,10 @@
 #include "common.h"
+#include "pe1/field_engine_slot.h"
 #include "pe1/field_glow_sprite.h"
-void **FieldEng_GetSlot(void);
 
 extern int D_800E0928;
 
-int func_800C7BA0(void) {
+int func_800C7BA0(char *object) {
     int half_a2;
     register int half_a1 asm("$5");
     int shade_a0;
@@ -12,7 +12,7 @@ int func_800C7BA0(void) {
     register void *slotData asm("$3");
     void **slot;
 
-    slot = FieldEng_GetSlot();
+    slot = FieldEng_GetSlot(object);
     slotData = &D_800E0928;
     *slot = slotData;
 

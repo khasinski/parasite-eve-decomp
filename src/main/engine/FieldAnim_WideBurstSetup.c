@@ -1,5 +1,5 @@
 #include "common.h"
-void **FieldEng_GetSlot(void);
+#include "pe1/field_engine_slot.h"
 
 extern int D_800E0F6C;
 
@@ -39,8 +39,8 @@ extern short D_800E27B8;
 extern short D_800E27BA;
 extern short D_800E27BC;
 
-int func_800CD728(void) {
-    void **slot = FieldEng_GetSlot();
+int func_800CD728(char *object) {
+    void **slot = FieldEng_GetSlot(object);
     int value;
     register int byte2 asm("$4");
 
