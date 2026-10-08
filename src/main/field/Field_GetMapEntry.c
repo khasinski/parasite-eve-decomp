@@ -14,16 +14,17 @@ void Field_GetMapEntry(RenderObjectEntity *arg0, s32 arg1) {
     s32 a0;
     s32 a1;
     register s32 v0 asm("$2");
-    register void *v1 asm("$3");
+    RenderObjectHeader *header;
+    s16 (*deltas)[4];
     /* Retail reserves 16 unused bytes; their original purpose is unknown. */
     s32 stack_pad[4];
 
     t0 = arg0;
     asm("" : "=r"(t0) : "0"(t0));
-    v1 = t0->header;
+    header = t0->header;
     a3 = g_ActiveDrawSlot;
     a0 = 0;
-    if (v1 != NULL) {
+    if (header != NULL) {
         if (t0->draw_count != 0) {
             v0 = t0->header->packet34_count;
             a2 = t0->primitive_buffer;
@@ -44,8 +45,8 @@ has_entry:
             page = arg1;
             if (page != a0) {
                 v0 = a0 << 3;
-                v1 = g_RenderPageDeltaTable;
-                v0 = (s32) ((u8 *)v1 + v0);
+                deltas = g_RenderPageDeltaTable;
+                v0 = (s32) ((u8 *)deltas + v0);
                 a0 = ((s16 *)v0)[page];
                 v0 = t0->header->packet34_count;
                 a1 = 0;
@@ -53,9 +54,9 @@ has_entry:
                     v0 = ((((a3 << 1) + a3) << 2) + a3);
                     packetOffset = v0 << 2;
                     do {
-                        v1 = a2 + packetOffset;
-                        ((RenderPacketState *)v1)->page_bits =
-                            ((RenderPacketState *)v1)->page_bits + a0;
+                        RenderPacketState *packet = (RenderPacketState *)(a2 + packetOffset);
+                        packet->page_bits =
+                            packet->page_bits + a0;
                         v0 = t0->header->packet34_count;
                         __asm__ volatile("" ::: "memory");
                         a1 += 1;
@@ -68,9 +69,9 @@ has_entry:
                     v0 = (a3 << 2) + a3;
                     a3 = v0 << 3;
                     do {
-                        v1 = a2 + a3;
-                        ((RenderPacketState *)v1)->page_bits =
-                            ((RenderPacketState *)v1)->page_bits + a0;
+                        RenderPacketState *packet = (RenderPacketState *)(a2 + a3);
+                        packet->page_bits =
+                            packet->page_bits + a0;
                         v0 = t0->header->packet28_count;
                         __asm__ volatile("" ::: "memory");
                         a1 += 1;
