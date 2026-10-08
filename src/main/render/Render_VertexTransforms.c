@@ -403,6 +403,7 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
     u16 *scratch_vec = (u16 *)0x1F800020;
     s32 *scratch_matrix = (s32 *)0x1F800000;
     RenderObjectHeader *header;
+    register u8 *inputVector asm("$9");
     asm(""
         : "=r"(actor), "=r"(view_matrix), "=r"(scratch_vec)
         : "0"(actor), "1"(view_matrix), "2"(scratch_vec));
@@ -422,8 +423,8 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
         D_8009CD9A = value;
     }
     {
-        register u8 *vector asm("$9") = D_8009CD98;
-        Render_SkinnedTransformVec(vector, &actor->hit_cylinder.value0);
+        inputVector = D_8009CD98;
+        Render_SkinnedTransformVec(inputVector, &actor->hit_cylinder.value0);
     }
     {
         register s32 *matrix asm("$9") = (s32 *)(u8 *)actor->matrices;
@@ -446,8 +447,8 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
                               Skinned_RootAxis(actor));
     Render_SkinnedLoadFullMatrix(scratch_matrix);
     {
-        register u8 *point asm("$9") = (u8 *)actor->projection_origin;
-        Render_SkinnedProject(point, &actor->projected_x);
+        inputVector = (u8 *)actor->projection_origin;
+        Render_SkinnedProject(inputVector, &actor->projected_x);
     }
     Render_SkinnedBuildMatrix(view_matrix,
                               (s32 *)((u8 *)actor->matrices + (s16)actor->table_index * 32),
