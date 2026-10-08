@@ -182,7 +182,7 @@ void Spu_InitVoiceState(void) {
     U16(D_800C0D90, 0x1C) = 0;
     U32(D_800C0D90, 0x20) = 0;
     U32(D_800C0D90, 0x24) = 0;
-    SpuSetCommonAttr((SpuCommonSettings *)D_800C0D90);
+    SpuSetCommonAttr((SpuCommonAttr *)D_800C0D90);
 
     i = 0;
     voice_base = D_800B8AC0;

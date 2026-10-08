@@ -5,11 +5,7 @@
 
 
 extern unsigned short D_8009D2B6;
-extern SpuCommonSettings D_800C0D90;
 /* These field aliases keep the retail absolute stores byte-identical. */
-extern unsigned short D_800C0DA0;
-extern unsigned short D_800C0DA2;
-extern int D_800C0DA4;
 
 void Seq_GetGlobalPitch(unsigned int *out)
 {
@@ -18,14 +14,14 @@ void Seq_GetGlobalPitch(unsigned int *out)
 
 void Seq_ApplyGlobalPitch(void) {
     unsigned short value = D_8009D2B6;
-    char *regs;
+    SpuCommonAttr *regs;
 
-    regs = &D_800C0D90;
-    *(int *)regs = 0x1C0;
+    regs = (SpuCommonAttr *)D_800C0D90;
+    regs->mask = 0x1C0;
     D_800C0DA4 = 0;
     D_800C0DA2 = value;
     D_800C0DA0 = value;
-    SpuSetCommonAttr((SpuCommonSettings *)regs);
+    SpuSetCommonAttr(regs);
 }
 
 void Util_CopyWords(unsigned int *src, unsigned int *dst, unsigned int size)
