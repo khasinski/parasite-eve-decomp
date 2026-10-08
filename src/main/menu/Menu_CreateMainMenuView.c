@@ -22,7 +22,6 @@ void Menu_CreateMainMenuView(int arg0) {
 
 extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *arg0, int arg1);
 extern int MenuWidget_GridCellIndex(MenuWidgetNode *arg0);
-extern void MenuWidget_DestroyNode(MenuWidgetNode *arg0);
 extern void Menu_CreateActionSubmenu(MenuWidgetNode *arg0);
 extern void func_8004B03C(MenuWidgetNode *arg0);
 extern void Menu_OpenBlendColorScreen(MenuWidgetNode *arg0);
@@ -73,7 +72,6 @@ int Menu_MainMenuInputHandler(MenuWidgetNode *arg0, u32 arg1) {
 
 extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *arg0, int arg1);
 extern int MenuWidget_GridCellIndex(MenuWidgetNode *arg0);
-extern void MenuWidget_DestroyNode(MenuWidgetNode *arg0);
 extern void MenuWidget_SetCurrentNode(MenuWidgetNode *arg0);
 extern void Menu_PlayConfirmSound(void);
 extern void Menu_PlayCancelSound(void);

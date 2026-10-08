@@ -654,12 +654,8 @@ segments:
       - [0x531BC, c, menu/menu_widget]
       - [0x5327C, c, gpu/Draw_FlushPrimList]
       - [0x534B8, c, menu/menu_widget2]
-      - [0x5352C, c, menu/MenuWidget_CreateSimpleNode]
-      - [0x5371C, c, menu/MenuWidget_DestroyNode]
-      - [0x5373C, c, menu/menu_widget3]
-      - [0x537EC, c, menu/menu_widget4]
-      # Grid-node cursor helpers and construction share the MenuWidgetNode ABI.
-      - [0x53998, c, menu/MenuWidget_GridNode]
+      # Constructors, pool initialization and list drawing share widget state.
+      - [0x5352C, c, menu/MenuWidget_Lifecycle]
       # Grid-cell index calculation and mask filtering share the node cursor ABI.
       - [0x53C28, c, menu/MenuWidget_CellIndex]
       # List row rendering and its node mask share one widget draw flow.

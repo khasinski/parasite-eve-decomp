@@ -6,7 +6,7 @@
 void Menu_DrawNotificationText(MenuWidgetNode *node);
 void Menu_DrawTwoLineDialogText(void);
 void Menu_DrawNotificationDialogContent(void);
-int Menu_HandleDeferredCallbackInput(int arg0, int arg1);
+int Menu_HandleDeferredCallbackInput(MenuWidgetNode *node, int flags);
 void Menu_SetDeferredCallback(void (*callback)(void));
 
 /* Two adjacent 64-byte, 0xFF-terminated notification text buffers. */

@@ -25,7 +25,6 @@ M2C_UNK Inv_SelectActiveList();
 s32 Str_LookupTable4();
 s32 Draw_MeasureTextWidth();
 s32 MenuWidget_GetChild(s32, s32);
-M2C_UNK MenuWidget_DestroyNode();
 M2C_UNK MenuWidget_NavScrollTo();
 extern s32 g_MenuActiveItemList;
 extern s32 g_MenuActionTextBase;
