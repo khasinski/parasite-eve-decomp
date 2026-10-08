@@ -1,7 +1,7 @@
 #include "pe1/battle_entity_anim.h"
 
-/* Five register pins preserve retail register
- * lifetimes and mask/address scheduling with stock GCC and maspsx. */
+/* Three register pins preserve the initial core, retained core and parent
+ * lifetimes with stock GCC and maspsx. */
 
 int Entity_TriggerAnimEvent(BattleEntity *entity, u8 slot)
 {
@@ -45,7 +45,7 @@ int Entity_TriggerAnimEvent(BattleEntity *entity, u8 slot)
         break;
     case 7: case 9: case 11: case 13: case 15:
         if (actor->animLastFrame >= actor->animPrev.parts.integer &&
-            actor->animLastFrame < nextFrame && !(core->flags & 0x40000000)) {
+            actor->animLastFrame < nextFrame && !(core->flags.raw & 0x40000000)) {
             Entity_SetActionMode(actor, (u16)(s8)core->baseMode);
             actor->animStep = 0x10000;
             if (slot < 3) {
@@ -53,7 +53,7 @@ int Entity_TriggerAnimEvent(BattleEntity *entity, u8 slot)
                 core->active->state = 4;
             }
         }
-        if (core->kind == 0 && (core->flags & 0x6000)) {
+        if (core->kind == 0 && (core->flags.raw & 0x6000)) {
             if (core->active->state < 2)
                 core->active->state = 4;
             result = 2;
@@ -66,17 +66,11 @@ int Entity_TriggerAnimEvent(BattleEntity *entity, u8 slot)
         break;
     default: {
         unsigned index = slot;
-        register unsigned offset asm("$7") = index * sizeof(EnemyActionEffect);
-        if (((EntityAnimEventCore *)((u8 *)core + offset))->records[0].state == 0) {
-            unsigned selectMask = 0xFF1FFFFF;
-            unsigned clearMask = 0xBFFFFFFF;
-            unsigned signMask = 0x7FFFFFFF;
-            register unsigned recordOffset asm("$2");
-            recordOffset = offset + PE1_OFFSETOF(EntityAnimEventCore, records);
-            core->active = (EnemyActionEffect *)((u8 *)core + recordOffset);
-            core->flags = (core->flags & selectMask) | ((index & 7) << 21);
-            core->flags &= clearMask;
-            core->flags &= signMask;
+        if (core->records[index].state == 0) {
+            core->active = &core->records[index];
+            core->flags.bits.selectedRecord = index;
+            core->flags.bits.bit30 = 0;
+            core->flags.bits.bit31 = 0;
             Entity_SetActionMode(actor, core->active->enterMode);
             actor->animStep = core->active->enterStep;
         }
