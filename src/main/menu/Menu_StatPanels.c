@@ -1,13 +1,17 @@
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
 #include "common.h"
 #include "pe1/menu_inventory.h"
 #include "pe1/aya.h"
 #include "pe1/psyq_nop.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
-
-#define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-void Menu_CreateBonusPointAllocationView(void);
+#include "pe1/save.h"
+#include "pe1/draw_state.h"
+#include "pe1/text.h"
+#include "pe1/stat_modifiers.h"
+
+/* Inventory stat-panel setup and its adjacent draw callbacks. */
+
 
 s32 Menu_GetBattleEquipMode();                                /* extern */
 extern s32 g_MenuItemContextFlag;
@@ -51,12 +55,7 @@ void Menu_CreateInventoryTabView(void) {
     }
 }
 
-#include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
 
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
 extern u8 D_80092258[];
 extern u8 D_80092298[];
 extern s32 g_BonusPointDisplayValue;
@@ -71,7 +70,6 @@ void Menu_DrawBonusPointSlotValue(void);
 extern s32 g_AyaBonusPoints[];
 #define g_AyaBonusPoints (g_AyaBonusPoints[0])
 
-void Menu_CreateBonusPointAllocationView(void);
 
 void Menu_CreateBonusPointAllocationView(void) {
     register int *temp_a2 asm("$6");
@@ -123,4 +121,105 @@ void Menu_CreateBonusPointAllocationView(void) {
     temp_v0_final = g_AyaBonusPoints;
     PE1_NOP();
     g_BonusPointDisplayValue = temp_v0_final;
+}
+
+void Sfx_DrawActiveListSlot(int slot);
+void *Aya_GetLevelExpTable(void);
+void Draw_PrintRawText(u8 *text);
+void Draw_PrintNumberWidth6(int value);
+void Draw_PrintNumberWidth3(int value);
+extern s8 g_AyaEquippedWeaponSlot[];
+#define g_AyaEquippedWeaponSlot (g_AyaEquippedWeaponSlot[0])
+extern s8 g_AyaEquippedArmorSlot[];
+#define g_AyaEquippedArmorSlot (g_AyaEquippedArmorSlot[0])
+extern u8 g_AyaSaveLevel[];
+#define g_AyaSaveLevel (g_AyaSaveLevel[0])
+extern s32 g_AyaSaveTotalExp[];
+#define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
+
+void Menu_DrawStatusPanel(void) {
+    s32 var_a0;
+
+    Draw_OffsetCursor(2, 2);
+    Draw_AllocSprite(0x47);
+    Draw_OffsetCursor(0x28, 2);
+    Draw_PrintRawText(Save_GetActiveMetadataBuffer());
+    Draw_OffsetCursor(0, 0x15);
+    Draw_AllocSprite(0x97);
+    Draw_OffsetCursor(0x3C, 0);
+    Draw_PrintNumberWidth3(g_AyaSaveLevel + 1);
+    Draw_OffsetCursor(-0x78, 0x1A);
+    Draw_AllocSprite(0x98);
+    Draw_OffsetCursor(0x42, 0);
+    if ((u8) g_AyaSaveLevel < 0x62U) {
+        var_a0 = ((s32 *)Aya_GetLevelExpTable())[g_AyaSaveLevel + 1] - g_AyaSaveTotalExp;
+    } else {
+        var_a0 = 0;
+    }
+    Draw_PrintNumberWidth6(var_a0);
+    Draw_OffsetCursor(-0x7C, 0x15);
+    Draw_AllocSprite(0x94);
+    Draw_OffsetCursor(0, 0x10);
+    Sfx_DrawActiveListSlot(g_AyaEquippedWeaponSlot);
+    Draw_OffsetCursor(0, 0x10);
+    if (g_AyaEquippedArmorSlot >= 0) {
+        Sfx_DrawActiveListSlot(g_AyaEquippedArmorSlot);
+        return;
+    }
+    Draw_PrintTextById(0x39);
+}
+
+
+void Draw_PrintNumberWidth2(int value);
+extern s32 g_BonusPointBarAnimProgress;
+extern s32 D_800A18DC[];
+#define D_800A18DC (D_800A18DC[0])
+extern s32 g_BonusPointStatMultipliers[];
+
+void Menu_DrawStatsList(void) {
+    s32 sp10;
+    M2C_UNK var_a0;
+    M2C_UNK var_a1;
+    s32 *var_s3;
+    register s32 *var_s4 asm("$20");
+    s32 temp_s0;
+    s32 temp_s1;
+    register s32 var_a0_2 asm("$4");
+    s32 var_s2;
+
+    var_s4 = Battle_GetModifierTable() + 1;
+    Draw_OffsetCursor(4, 5);
+    var_s2 = 1;
+    var_s3 = &D_800A18DC;
+    do {
+        temp_s1 = *var_s4;
+        temp_s0 = *var_s3 + ((g_BonusPointBarAnimProgress * g_BonusPointStatMultipliers[var_s2]) >> 7);
+        Draw_OffsetCursor(2, 0);
+        Draw_AllocSprite(var_s2 + 0x8C);
+        Draw_OffsetCursor(0x4A, 0);
+        Stat_QueryLevelAndSubLevel(var_s2, temp_s0, &sp10, 0);
+        var_s4 += 1;
+        Draw_PrintNumberWidth2(sp10 + 1);
+        if (temp_s1 != 0) {
+            Draw_OffsetCursor(6, 0);
+            var_a0 = 0x70;
+            if (temp_s1 > 0) {
+                var_a0 = 0x6F;
+            }
+            Draw_PrintTextById(var_a0);
+            var_a0_2 = temp_s1;
+            if (temp_s1 < 0) {
+                var_a0_2 = -var_a0_2;
+            }
+            Draw_PrintNumberWidth2(var_a0_2);
+            Draw_OffsetCursor(-0x18, 0);
+        }
+        var_a1 = 0xE;
+        if (var_s2 == 4) {
+            var_a1 = 0x16;
+        }
+        Draw_OffsetCursor(-0x5E, var_a1);
+        var_s2 += 1;
+        var_s3 += 1;
+    } while (var_s2 < 7);
 }

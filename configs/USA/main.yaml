@@ -412,10 +412,8 @@ segments:
       - [0x33C74, c, save/Save_ClassifyPlaytime]
       - [0x33CC0, c, menu/Menu_DrawSaveSlotEntry]
       - [0x33FB4, c, menu/Menu_StatBarAnimation]
-      # Inventory tab and bonus-point allocation view setup unit.
-      - [0x340EC, c, menu/Menu_CreateInventoryTabView]
-      - [0x3430C, c, menu/Menu_DrawStatusPanel]
-      - [0x34464, c, menu/Menu_DrawStatsList]
+      # Inventory/bonus-point panel construction and its status/stat draw callbacks.
+      - [0x340EC, c, menu/Menu_StatPanels]
       - [0x345A4, c, menu/Menu_StepItemSelectScreen]
       # Equip-screen construction and item-confirm handler share selection state.
       # Equip/inventory list screen, list input, count header and item action submenu: private data and helpers join the run.
