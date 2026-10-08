@@ -66,21 +66,23 @@ int func_800CD5EC(void *arg0, u8 *state, FieldAnimTwoPointMotion *anim) {
 int rand(void);
 
 int func_800CD678(void *arg0, u8 *state, FieldAnimGlowPoint *anim) {
-    s16 jitter = rand() % 11;
+    int value = rand() % 11;
+    int jitter;
+    FieldAnimGlowPoint *output;
     u16 positionY = anim->position.y;
     int brightness = anim->brightness;
-    u16 positionX = anim->position.x;
+    int positionX = anim->position.x;
     positionY -= 8;
     brightness -= 8;
+    output = anim;
     positionX -= 5;
-    asm("" : "=r"(positionX) : "0"(positionX));
-
-    anim->position.y = positionY;
-    anim->brightness = brightness;
+    output->position.y = positionY;
+    output->brightness = brightness;
+    jitter = value;
+    value = 8;
     positionX += jitter;
     anim->position.x = positionX;
-
-    if ((short)brightness < 8) {
+    if (value > (short)brightness) {
         state[1] = 2;
     }
 }
