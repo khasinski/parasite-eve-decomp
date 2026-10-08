@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_anim_particle.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
 #include "pe1/gte_types.h"
@@ -47,17 +48,14 @@ int func_800C7DDC(void) {
 }
 void func_800CEDA8(int arg0);
 
-extern u16 D_800E2348;
-extern u16 D_800E234A;
-extern u16 D_800E234C;
 extern char *D_800E279C;
 
 int func_800C7DE4(char *obj) {
     char *data = *(char **)(obj + 8);
 
-    D_800E2348 = *(int *)(*(char **)(data + 0x238) + 0x274);
-    D_800E234A = *(int *)(*(char **)(data + 0x238) + 0x278);
-    D_800E234C = *(int *)(*(char **)(data + 0x238) + 0x27C);
+    D_800E2348.x = *(int *)(*(char **)(data + 0x238) + 0x274);
+    D_800E2348.y = *(int *)(*(char **)(data + 0x238) + 0x278);
+    D_800E2348.z = *(int *)(*(char **)(data + 0x238) + 0x27C);
     D_800E279C = data;
     func_800CEDA8(0);
 }
@@ -65,7 +63,7 @@ int func_800C7DE4(char *obj) {
 int rand(void);
 
 
-int func_800C7E50(void *arg0, void *arg1, u8 *anim) {
+int func_800C7E50(void *arg0, void *arg1, FieldAnimMovingParticle *anim) {
     GteShortVector vec;
     int (*model)[];
 
@@ -74,13 +72,13 @@ int func_800C7E50(void *arg0, void *arg1, u8 *anim) {
     vec.z = rand() % 5 - 2;
 
     model = *(int (**)[])(D_800E279C + 0x238);
-    ApplyMatrixSV(model, &vec, anim + 0x10);
+    ApplyMatrixSV(model, &vec, &anim->velocity);
 
-    *(u16 *)(anim + 0x8) = D_800E2348;
-    *(u16 *)(anim + 0xA) = D_800E234A;
-    *(u16 *)(anim + 0xC) = D_800E234C;
-    anim[2] = 0x14;
-    anim[1] = 0;
+    anim->position.x = D_800E2348.x;
+    anim->position.y = D_800E2348.y;
+    anim->position.z = D_800E2348.z;
+    anim->lifetime = 0x14;
+    anim->age = 0;
 }
 
 extern char *D_8009D254;
@@ -104,10 +102,10 @@ int func_800C7F60(void *arg0, void *arg1, u8 *anim) {
     entry = D_800E08A8 + index;
     ApplyMatrixSV(*(char **)(D_800E279C + 0x238) + 0x260, entry, &out);
 
-    *(u16 *)(anim_s0 + 0x8) = D_800E2348 + out.x;
-    *(u16 *)(anim_s0 + 0xA) = D_800E234A + out.y;
+    *(u16 *)(anim_s0 + 0x8) = D_800E2348.x + out.x;
+    *(u16 *)(anim_s0 + 0xA) = D_800E2348.y + out.y;
     data = D_800E279C;
-    *(u16 *)(anim_s0 + 0xC) = D_800E234C + out.z;
+    *(u16 *)(anim_s0 + 0xC) = D_800E2348.z + out.z;
 
     model = *(char **)(data + 0x238);
     m0 = *(int *)(model + 0x260);
@@ -143,9 +141,9 @@ int func_800C8064(void *arg0, void *arg1, u8 *anim) {
     model = *(char **)(D_800E279C + 0x238);
     ApplyMatrixSV(model + 0x260, &in, &out);
 
-    *(u16 *)(anim + 0x8) = D_800E2348 + out.x;
-    *(u16 *)(anim + 0xA) = D_800E234A + out.y;
-    *(u16 *)(anim + 0xC) = D_800E234C + out.z;
+    *(u16 *)(anim + 0x8) = D_800E2348.x + out.x;
+    *(u16 *)(anim + 0xA) = D_800E2348.y + out.y;
+    *(u16 *)(anim + 0xC) = D_800E2348.z + out.z;
     *(u16 *)(anim + 0x4) = 0x7F;
     *(u16 *)(anim + 0x6) = 0;
 }
@@ -156,10 +154,10 @@ int func_800C811C(void *arg0, void *arg1, u8 *anim) {
     int value;
     int z_v1;
 
-    *(u16 *)(anim + 0x8) = D_800E2348;
+    *(u16 *)(anim + 0x8) = D_800E2348.x;
     value = *(s16 *)(entity_v1 + 0x2E);
     *(u16 *)(anim + 0xA) = value;
-    z_v1 = D_800E234C;
+    z_v1 = D_800E2348.z;
     *(u16 *)(anim + 0x4) = 0x7F;
     *(u16 *)(anim + 0x6) = 0x224;
     *(u16 *)(anim + 0xC) = z_v1;
@@ -185,10 +183,10 @@ int func_800C815C(void *arg0, void *arg1, u8 *anim) {
     entry = D_800E08E8 + index;
     ApplyMatrixSV(*(char **)(D_800E279C + 0x238) + 0x260, entry, &out);
 
-    *(u16 *)(anim_s0 + 0x8) = D_800E2348 + out.x;
-    *(u16 *)(anim_s0 + 0xA) = D_800E234A + out.y;
+    *(u16 *)(anim_s0 + 0x8) = D_800E2348.x + out.x;
+    *(u16 *)(anim_s0 + 0xA) = D_800E2348.y + out.y;
     data = D_800E279C;
-    *(u16 *)(anim_s0 + 0xC) = D_800E234C + out.z;
+    *(u16 *)(anim_s0 + 0xC) = D_800E2348.z + out.z;
 
     model = *(char **)(data + 0x238);
     m0 = *(int *)(model + 0x260);

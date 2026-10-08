@@ -29,4 +29,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimMovingParticle, velocity) == 0x10,
 PE1_STATIC_ASSERT(sizeof(FieldAnimMovingParticle) == 0x18,
                   field_anim_moving_particle_size);
 
+extern FieldAnimParticlePosition D_800E2348, D_800E2350, D_800E2358, D_800E2360;
+
 #endif

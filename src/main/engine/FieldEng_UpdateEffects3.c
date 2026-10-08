@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_anim_particle.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
 #include "pe1/gte_types.h"
@@ -216,17 +217,14 @@ int func_800C9C18(void) {
 }
 void func_800CEDA8(int arg0);
 
-extern u16 D_800E2358;
-extern u16 D_800E235A;
-extern u16 D_800E235C;
 extern char *D_800E27A4;
 
 int func_800C9C20(char *obj) {
     char *data = *(char **)(obj + 8);
 
-    D_800E2358 = *(int *)(*(char **)(data + 0x238) + 0x274);
-    D_800E235A = *(int *)(*(char **)(data + 0x238) + 0x278);
-    D_800E235C = *(int *)(*(char **)(data + 0x238) + 0x27C);
+    D_800E2358.x = *(int *)(*(char **)(data + 0x238) + 0x274);
+    D_800E2358.y = *(int *)(*(char **)(data + 0x238) + 0x278);
+    D_800E2358.z = *(int *)(*(char **)(data + 0x238) + 0x27C);
     D_800E27A4 = data;
     func_800CEDA8(0);
 }
@@ -234,7 +232,7 @@ int func_800C9C20(char *obj) {
 int rand(void);
 
 
-int func_800C9C8C(void *arg0, void *arg1, u8 *anim) {
+int func_800C9C8C(void *arg0, void *arg1, FieldAnimMovingParticle *anim) {
     GteShortVector vec;
     int (*model)[];
 
@@ -243,13 +241,13 @@ int func_800C9C8C(void *arg0, void *arg1, u8 *anim) {
     vec.z = rand() % 5 - 2;
 
     model = *(int (**)[])(D_800E27A4 + 0x238);
-    ApplyMatrixSV(model, &vec, anim + 0x10);
+    ApplyMatrixSV(model, &vec, &anim->velocity);
 
-    *(u16 *)(anim + 0x8) = D_800E2358;
-    *(u16 *)(anim + 0xA) = D_800E235A;
-    *(u16 *)(anim + 0xC) = D_800E235C;
-    anim[2] = 0x14;
-    anim[1] = 0;
+    anim->position.x = D_800E2358.x;
+    anim->position.y = D_800E2358.y;
+    anim->position.z = D_800E2358.z;
+    anim->lifetime = 0x14;
+    anim->age = 0;
 }
 
 extern char *D_8009D254;
@@ -269,10 +267,10 @@ int func_800C9D9C(void *arg0, void *arg1, u8 *anim) {
     entry = D_800E0AF8 + (((short)(*(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6) - 1)) << 3);
     ApplyMatrixSV(*(char **)(D_800E27A4 + 0x238) + 0x260, entry, &out);
 
-    *(u16 *)(anim_s0 + 0x8) = D_800E2358 + out.x;
-    *(u16 *)(anim_s0 + 0xA) = D_800E235A + out.y;
+    *(u16 *)(anim_s0 + 0x8) = D_800E2358.x + out.x;
+    *(u16 *)(anim_s0 + 0xA) = D_800E2358.y + out.y;
     data = D_800E27A4;
-    *(u16 *)(anim_s0 + 0xC) = D_800E235C + out.z;
+    *(u16 *)(anim_s0 + 0xC) = D_800E2358.z + out.z;
 
     model = *(char **)(data + 0x238);
     m0 = *(int *)(model + 0x260);
