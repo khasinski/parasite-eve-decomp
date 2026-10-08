@@ -38,12 +38,7 @@ void Entity_ResolveDropTable(void *arg0) {
     state = (Combatant *)g_ActiveActor[0];
     scale = (u16)state->stat20 / 5U;
     entry = *(char **)arg0;
-    {
-        register u32 flags_reg asm("$6");
-
-        flags_reg = state->stateFlags;
-        flags = flags_reg;
-    }
+    flags = state->stateFlags;
 
     if (flags & 0x1000) {
         scale = (u16)(((u16)scale * 3) / 10);
@@ -74,15 +69,14 @@ void Entity_ResolveDropTable(void *arg0) {
 
     {
         char *chance_state;
-        register int roll_mod asm("$2");
         int chance;
 
-        roll_mod = roll % 100;
+        roll %= 100;
         chance_state = g_ActiveActor_late[0];
         chance = ((int)ENEMY_FIELD(entry, u8, effectChance) *
                   (100 - (int)((Combatant *)chance_state)->attributes->parameterWord.fields.third)) /
                  100;
-        if (roll_mod < chance) {
+        if (roll < chance) {
             tmp = value * 3;
             value = (s32)(tmp + ((u32)tmp >> 31)) >> 1;
             U32(chance_state, 0x4C) |= 0x8000;
