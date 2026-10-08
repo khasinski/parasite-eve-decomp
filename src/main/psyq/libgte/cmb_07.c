@@ -14,10 +14,9 @@ int RotAverageNclip4(const GteShortVector *v0, const GteShortVector *v1,
     s32 clip;
     register int zero asm("$0");
     register u32 *sxy3Ptr asm("$8");
-    register s32 *depthPtr asm("$9");
+    register s32 *scalarOutput asm("$9");
     register u32 *finalFlagPtr asm("$10");
     register u32 finalFlag asm("$11");
-    register s32 *averagePtr asm("$9");
     register s32 average asm("$8");
     gte_lwc2_0_0(v0);
     gte_lwc2_1_4(v0);
@@ -52,18 +51,18 @@ positive:
     gte_cop2_hazard_slot();
     gte_rtps_command();
     sxy3Ptr = sxy3;
-    depthPtr = p;
+    scalarOutput = p;
     finalFlagPtr = flag;
     gte_stsxy2(sxy3Ptr);
     gte_getflag(finalFlag);
-    gte_stir0(depthPtr);
+    gte_stir0(scalarOutput);
     finalFlag |= firstFlag;
     *finalFlagPtr = finalFlag;
     gte_avsz4_command();
-    averagePtr = otz;
+    scalarOutput = otz;
     gte_getotz(average);
     gte_cop2_hazard_slot();
-    *averagePtr = average;
+    *scalarOutput = average;
 done:
     return clip;
 }
