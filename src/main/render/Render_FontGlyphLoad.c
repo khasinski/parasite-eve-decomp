@@ -7,7 +7,7 @@ int Render_LoadFontGlyph(u8 code)
     int status;
     register int offset asm("$2");
     int sourceOffset;
-    register int i asm("$5");
+    int i;
     u8 *source;
     u8 *bytePtr;
     FontGlyphLoadState *state;

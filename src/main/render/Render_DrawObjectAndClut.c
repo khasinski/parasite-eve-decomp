@@ -53,7 +53,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
     register s16 *lightMatrix asm("$5") = (s16 *)0x1F800004;
     register RenderVec3s *normals asm("$16");
     register s32 offset asm("$17");
-    register s32 *matrix asm("$24");
+    s32 *matrix;
     register s32 partIndex asm("$25");
     register RenderObjectPart *part asm("$15");
     s32 vertexIndex;

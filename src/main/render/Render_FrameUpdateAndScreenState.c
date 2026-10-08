@@ -98,7 +98,7 @@ s32 CdRom_InitScreenState(void) {
     register u8 *base asm("$6");
     register u8 *p asm("$4");
     register u8 *q asm("$5");
-    register s32 tmp2 asm("$2");
+    s32 tmp2;
     s32 tmp3;
     i = 0;
     value3 = 3;
