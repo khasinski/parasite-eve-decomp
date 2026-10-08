@@ -93,41 +93,8 @@ int func_800CD71C(void *arg0, u8 *state) {
 
 extern int D_800E0F6C;
 
-extern int D_800F33F8;
-extern int D_800F33FC;
-extern int D_800F3400;
-extern u8 D_800F3408;
-extern u8 D_800F3409;
-extern u8 D_800F340A;
-extern u8 D_800F340C;
-extern u8 D_800F340D;
-extern short D_800F340E;
-extern short D_800F33F0;
-extern short D_800F33F2;
-extern short D_800F33F4;
 
-extern int D_800E2780;
-extern int D_800E2784;
-extern int D_800E2788;
-extern u8 D_800E2790;
-extern u8 D_800E2791;
-extern u8 D_800E2792;
-extern u8 D_800E2794;
-extern u8 D_800E2795;
-extern short D_800E2796;
-extern short D_800E2778;
-extern short D_800E277A;
-extern short D_800E277C;
 
-extern u8 D_800E27D0;
-extern u8 D_800E27D1;
-extern u8 D_800E27D2;
-extern u8 D_800E27D4;
-extern u8 D_800E27D5;
-extern short D_800E27D6;
-extern short D_800E27B8;
-extern short D_800E27BA;
-extern short D_800E27BC;
 
 int func_800CD728(char *object) {
     void **slot = FieldEng_GetSlot(object);
@@ -138,68 +105,67 @@ int func_800CD728(char *object) {
     *slot = (void *)value;
 
     value = 0x5F4;
-    D_800F33F8 = value;
-    D_800F33FC = value;
-    D_800F3400 = value;
+    D_800F33E8.oriented.scale.x = value;
+    D_800F33E8.oriented.scale.y = value;
+    D_800F33E8.oriented.scale.z = value;
 
     value = 0x40;
     byte2 = 0x20;
-    asm volatile("" : "=r"(byte2) : "0"(byte2));
-    D_800F340C = value;
+    D_800F33E8.oriented.cell = value;
     value = -0x64;
-    D_800F340E = value;
+    D_800F33E8.oriented.depth = value;
 
     value = 0x15;
-    D_800F3408 = value;
+    D_800F33E8.oriented.rgb[0] = value;
 
     value = 0x46;
-    D_800E27D4 = value;
+    D_800E27B0.oriented.cell = value;
 
     value = 0x30;
-    D_800E27D5 = value;
+    D_800E27B0.oriented.clut = value;
 
     value = -0x6E;
-    D_800E27D6 = value;
+    D_800E27B0.oriented.depth = value;
 
     value = 0xFF;
-    D_800E27D0 = value;
+    D_800E27B0.oriented.rgb[0] = value;
 
     value = 0xB0;
-    D_800E27D1 = value;
-    D_800E27D2 = value;
+    D_800E27B0.oriented.rgb[1] = value;
+    D_800E27B0.oriented.rgb[2] = value;
 
     value = 0xA4;
-    D_800E2780 = value;
-    D_800E2784 = value;
+    D_800E2770.oriented.scale.x = value;
+    D_800E2770.oriented.scale.y = value;
 
     value = 0x108;
-    D_800E2788 = value;
+    D_800E2770.oriented.scale.z = value;
 
     value = 0x6E;
-    D_800E2794 = value;
+    D_800E2770.oriented.cell = value;
 
     value = 3;
-    D_800E2795 = value;
+    D_800E2770.oriented.clut = value;
 
     value = -0x96;
-    D_800E2796 = value;
+    D_800E2770.oriented.depth = value;
 
     value = 0x80;
-    D_800F33F0 = 0;
-    D_800F33F2 = 0;
-    D_800F33F4 = 0;
-    D_800F340D = byte2;
-    D_800F3409 = byte2;
-    D_800F340A = byte2;
-    D_800E27B8 = 0;
-    D_800E27BA = 0;
-    D_800E27BC = 0;
-    D_800E2778 = 0;
-    D_800E277A = 0;
-    D_800E277C = 0;
-    D_800E2790 = value;
-    D_800E2791 = value;
-    D_800E2792 = value;
+    D_800F33E8.oriented.rotation.x = 0;
+    D_800F33E8.oriented.rotation.y = 0;
+    D_800F33E8.oriented.rotation.z = 0;
+    D_800F33E8.oriented.clut = byte2;
+    D_800F33E8.oriented.rgb[1] = byte2;
+    D_800F33E8.oriented.rgb[2] = byte2;
+    D_800E27B0.oriented.rotation.x = 0;
+    D_800E27B0.oriented.rotation.y = 0;
+    D_800E27B0.oriented.rotation.z = 0;
+    D_800E2770.oriented.rotation.x = 0;
+    D_800E2770.oriented.rotation.y = 0;
+    D_800E2770.oriented.rotation.z = 0;
+    D_800E2770.oriented.rgb[0] = value;
+    D_800E2770.oriented.rgb[1] = value;
+    D_800E2770.oriented.rgb[2] = value;
 
     return 0;
 }
@@ -346,14 +312,6 @@ void func_800CDD04(void) {
 
 #include "pe1/field_billboard.h"
 
-extern u8 D_800E2770[];
-extern u16 D_800E27B0;
-extern u16 D_800E27B2;
-extern u16 D_800E27B4;
-extern int D_800E27C0;
-extern int D_800E27C4;
-extern int D_800E27C8;
-extern u16 D_800E27D8;
 
 int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
     u16 lhs_v0;
@@ -369,15 +327,15 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
 
     lhs_v0 = *(u16 *)(anim + 0x4);
     rhs_v1 = *(u16 *)(anim + 0xA);
-    output = (FieldBillboard *)&D_800E27B0;
+    output = &D_800E27B0.billboard;
     lhs_v0 += rhs_v1;
     output->position.x = lhs_v0;
-    D_800E27B2 = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
-    D_800E27B4 = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
-    D_800E27C0 = ((s8)anim[3] * 8) + 0x20C;
-    D_800E27C4 = ((s8)anim[3] * 8) + 0x20C;
-    D_800E27C8 = ((s8)anim[3] * 8) + 0x20C;
-    D_800E27D8 = (s8)anim[1];
+    D_800E27B0.oriented.position.y = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
+    D_800E27B0.oriented.position.z = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
+    D_800E27B0.oriented.scale.x = ((s8)anim[3] * 8) + 0x20C;
+    D_800E27B0.oriented.scale.y = ((s8)anim[3] * 8) + 0x20C;
+    D_800E27B0.oriented.scale.z = ((s8)anim[3] * 8) + 0x20C;
+    D_800E27B0.oriented.brightness = (s8)anim[1];
 
     func_800C3B04(output);
     func_800C3098(0x10);
@@ -385,19 +343,15 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
     i = 0;
     do {
         entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
-        *(u16 *)(D_800E2770 + 0x0) = *(u16 *)(entry + 0x10) + *(u16 *)(anim + 0xA);
-        *(u16 *)(D_800E2770 + 0x2) = *(u16 *)(entry + 0x20) + *(u16 *)(anim + 0xC);
-        *(u16 *)(D_800E2770 + 0x4) = *(u16 *)(entry + 0x30) + *(u16 *)(anim + 0xE);
+        D_800E2770.billboard.position.x = *(u16 *)(entry + 0x10) + *(u16 *)(anim + 0xA);
+        D_800E2770.billboard.position.y = *(u16 *)(entry + 0x20) + *(u16 *)(anim + 0xC);
+        D_800E2770.billboard.position.z = *(u16 *)(entry + 0x30) + *(u16 *)(anim + 0xE);
         i++;
-        *(u16 *)(D_800E2770 + 0x28) = (s8)anim[1];
-        func_800C3B04((FieldBillboard *)D_800E2770);
+        D_800E2770.billboard.brightness = (s8)anim[1];
+        func_800C3B04(&D_800E2770.billboard);
     } while ((i & 0xFFFF) < 8);
 }
 
-extern u16 D_800F33E8;
-extern u16 D_800F33EA;
-extern u16 D_800F33EC;
-extern u16 D_800F3410;
 
 int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
     u16 lhs_v0;
@@ -411,12 +365,12 @@ int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
 
     lhs_v0 = *(u16 *)(anim + 0x4);
     rhs_v1 = *(u16 *)(anim + 0xA);
-    output = (FieldBillboard *)&D_800F33E8;
+    output = &D_800F33E8.billboard;
     lhs_v0 += rhs_v1;
     output->position.x = lhs_v0;
-    D_800F33EA = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
-    D_800F33EC = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
-    D_800F3410 = (s8)anim[1];
+    D_800F33E8.oriented.position.y = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
+    D_800F33E8.oriented.position.z = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
+    D_800F33E8.oriented.brightness = (s8)anim[1];
     func_800C3B04(output);
 }
 
