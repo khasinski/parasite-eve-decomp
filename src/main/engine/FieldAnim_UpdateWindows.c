@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_anim.h"
+#include "pe1/field_engine_slot.h"
 extern u16 D_800E2290;
 extern u16 D_800E2292;
 extern u16 D_800E2294;
@@ -19,7 +20,7 @@ int func_800CC440(void *arg0, void *arg1, u8 *anim) {
 #include "common.h"
 
 
-int func_800CC480(void *arg0, u8 *params, FieldAnimPointSprite *anim) {
+int func_800CC480(void *arg0, FieldEngSlot *params, FieldAnimPointSprite *anim) {
     short *base_a0;
     FieldBillboard *output;
     int init_a0 = 3;
@@ -32,7 +33,7 @@ int func_800CC480(void *arg0, u8 *params, FieldAnimPointSprite *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    value_v1 = *(u16 *)(params + 0x2);
+    value_v1 = params->counter;
     value_v0 = 0x80;
     value_v1 <<= 1;
     value_v0 -= value_v1;

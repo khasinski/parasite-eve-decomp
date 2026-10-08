@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_anim.h"
+#include "pe1/field_engine_slot.h"
 
 void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
                                    FieldAnimPointData *points) {
@@ -55,7 +56,7 @@ int func_800CC878(void *arg0, void *arg1, FieldAnimPointSprite *anim) {
 }
 
 #include "common.h"
-int func_800CC92C(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
+int func_800CC92C(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
     u16 value;
     register int frame asm("$3");
 
@@ -74,14 +75,14 @@ int func_800CC92C(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
     value += 0x1E;
     anim->extent = value;
     if (frame) {
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
 #include "common.h"
-int func_800CC974(void *arg0, u8 *state, u8 *anim) {
+int func_800CC974(void *arg0, FieldEngSlot *state, u8 *anim) {
     int i;
-    u8 *state_t2;
+    FieldEngSlot *state_t2;
     register u8 *timer_t0 asm("$8");
     register u8 *entry_a3 asm("$7");
     register int dx asm("$3");
@@ -126,33 +127,33 @@ int func_800CC974(void *arg0, u8 *state, u8 *anim) {
 
     anim[1] -= 2;
     if (anim[1] < 2) {
-        state_t2[1] = 2;
+        state_t2->flag = 2;
     }
     asm volatile("" : : "r"(&frame));
 }
 
 #include "common.h"
-int func_800CCA40(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
+int func_800CCA40(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
     anim->scale -= 2;
     anim->extent = (u16)anim->extent + 0x28;
     if ((s8)anim->scale < 0x1E) {
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
 #include "common.h"
-int func_800CCA78(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
+int func_800CCA78(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
     anim->scale -= 6;
     anim->extent = (u16)anim->extent + 0xB4;
     if ((s8)anim->scale < 0x1E) {
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
 #include "common.h"
-int func_800CCAB0(void *arg0, u8 *state, FieldAnimScatteredParticles *anim) {
+int func_800CCAB0(void *arg0, FieldEngSlot *state, FieldAnimScatteredParticles *anim) {
     int i;
-    u8 *state_t1;
+    FieldEngSlot *state_t1;
     register int dx asm("$3");
     int dy;
     register int dz asm("$5");
@@ -187,17 +188,17 @@ int func_800CCAB0(void *arg0, u8 *state, FieldAnimScatteredParticles *anim) {
 
     anim->points.scale -= 2;
     if ((signed char)anim->points.scale < 2) {
-        state_t1[1] = 2;
+        state_t1->flag = 2;
     }
     asm volatile("" : : "r"(&frame));
 }
 
 #include "common.h"
-int func_800CCB6C(void *arg0, u8 *state, FieldAnimPointSprite *anim) {
+int func_800CCB6C(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
     anim->scale -= 8;
     anim->extent = (u16)anim->extent + 0x1A4;
     if ((s8)anim->scale < 0x14) {
         anim->scale = 0;
-        state[1] = 2;
+        state->flag = 2;
     }
 }
