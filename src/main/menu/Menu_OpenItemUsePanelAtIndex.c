@@ -7,16 +7,16 @@
 
 static inline ItemDataRecord *LookupTrackedItem(int index) {
     int value;
-    register int saved asm("$5");
+    int saved;
     if (index < 0 || index >= D_8009D050) return 0;
     value = D_8009D048[index];
-    saved = value;
+    saved = (s16)value;
     if ((unsigned)(value - 0x100) < 0x80)
         return &D_800C0E20.equipment[value - 0x100];
     if ((unsigned)(value - 1) < 0xFF)
         return Item_LookupBaseData(value - 1);
     if ((unsigned)(saved - 0x200) < 9) {
-        register int shifted asm("$3") = saved << 5;
+        int shifted = saved << 5;
         return (ItemDataRecord *)(D_8009DE64 + shifted);
     }
     return 0;
