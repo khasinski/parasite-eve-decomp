@@ -28,12 +28,12 @@ void dma_execute(int channel, u32 address, int blockCount, int blockSize,
     bits = 1;
     if (interrupt == bits) {
         interruptRegister = D_8009B348;
-        bits = interruptRegister->bytes[2] | (bits << channel);
+        bits = interruptRegister->fields.enableControl | (bits << channel);
     } else {
         interruptRegister = D_8009B348;
-        bits = interruptRegister->bytes[2] & ~(bits << channel);
+        bits = interruptRegister->fields.enableControl & ~(bits << channel);
     }
-    interruptRegister->bytes[2] = bits;
+    interruptRegister->fields.enableControl = bits;
     if (channel) {
         readback = D_8009B348->word;
     } else {

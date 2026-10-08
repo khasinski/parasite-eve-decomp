@@ -35,7 +35,15 @@ extern u32 *g_CdRegRequest;
 typedef union CdDmaInterruptRegister {
     volatile u32 word;
     volatile u8 bytes[4];
+    struct {
+        u8 reserved00[2];
+        /* dma_execute changes one channel's enable bit in this byte. */
+        volatile u8 enableControl;
+        u8 reserved03;
+    } fields;
 } CdDmaInterruptRegister;
+typedef char CdDmaInterruptRegisterSize[
+    (sizeof(CdDmaInterruptRegister) == 4) ? 1 : -1];
 
 extern CdDmaInterruptRegister *D_8009B348;
 extern volatile u32 *D_8009B344;
