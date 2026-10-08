@@ -8,7 +8,7 @@
 #include "pe1/field_glow_layers.h"
 #include "pe1/gte.h"
 
-/* Matching debt: 9 register pins and 12 empty constraints.
+/* Matching debt: 8 register pins and 12 empty constraints.
  * Matrix arithmetic and loads are C; GTE instructions are wrapped separately.
  * Volatile column reads retain each rotation load instead of caching values
  * across the two compositions. */
@@ -16,8 +16,7 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
 {
     register GteMatrix *workMatrix asm("$16");
     register GteMatrix *stepMatrix asm("$18");
-    register const GteMatrixWords *baseRotation asm("$16");
-    register const GteMatrixWords *baseTranslation asm("$16");
+    register const GteMatrixWords *baseMatrix asm("$16");
     register u16 *firstColumn asm("$16");
     register const volatile u16 *column1 asm("$19");
     const volatile u16 *column2;
@@ -55,9 +54,9 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     asm volatile("" : : : "memory");
     workMatrix = &matrix;
     asm("" : "=r"(workMatrix) : "0"(workMatrix));
-    baseRotation = (const GteMatrixWords *)workMatrix;
+    baseMatrix = (const GteMatrixWords *)workMatrix;
 
-    gte_ldrotmatrix(baseRotation);
+    gte_ldrotmatrix(baseMatrix);
     gte_ldclmv((const u16 *)stepMatrix);
     gte_rtir();
     firstColumn = (u16 *)workMatrix;
@@ -79,9 +78,9 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     gte_stclmv(outColumn2);
     /* Compose the translation using the current matrix. */
     asm volatile("" : : : "memory");
-    baseTranslation = (const GteMatrixWords *)workMatrix;
+    baseMatrix = (const GteMatrixWords *)workMatrix;
 
-    gte_ldtransmatrix(baseTranslation);
+    gte_ldtransmatrix(baseMatrix);
     translation = rotation.t;
     asm("" : "=r"(translation) : "0"(translation));
     gte_ldlv0(translation);
@@ -101,9 +100,9 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     matrix.t[1] = glow->y;
     matrix.t[2] = glow->z;
     asm volatile("" : : : "memory");
-    baseRotation = (const GteMatrixWords *)workMatrix;
+    baseMatrix = (const GteMatrixWords *)workMatrix;
 
-    gte_ldrotmatrix(baseRotation);
+    gte_ldrotmatrix(baseMatrix);
     gte_ldclmv((const u16 *)stepMatrix);
     gte_rtir();
     firstColumn = (u16 *)workMatrix;
@@ -117,9 +116,9 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     gte_stclmv(outColumn2);
     /* Compose the translation using the current matrix. */
     asm volatile("" : : : "memory");
-    baseTranslation = (const GteMatrixWords *)workMatrix;
+    baseMatrix = (const GteMatrixWords *)workMatrix;
 
-    gte_ldtransmatrix(baseTranslation);
+    gte_ldtransmatrix(baseMatrix);
     gte_ldlv0(translation);
     gte_rt();
     gte_swc2_9_0(outTranslation);
