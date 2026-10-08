@@ -22,7 +22,11 @@ typedef struct MenuWidgetNode {
     int disabled;
     int cursor_x;
     int cursor_y;
-    int target_x;
+    /* Mode-1 panel polygon; grid widgets reuse the same word for cursor motion. */
+    union {
+        int cursorTargetX;
+        u8 *gradientPoints;
+    } appearance;
     int target_y;
     int x_limit;
     int y_limit;
@@ -55,6 +59,9 @@ void MenuWidget_DestroyNodeRecursive(MenuWidgetNode *node);
 /* Input dispatch walks the parent chain and treats update as a status-returning
  * handler. Most other callers use update as a generic deferred callback. */
 typedef int (*MenuWidgetInputHandler)(MenuWidgetNode *node, int flags);
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, appearance) == 0x4C,
+                  menu_widget_appearance_offset);
 
 PE1_STATIC_ASSERT(sizeof(MenuWidgetNode) == 0x90, menu_widget_node_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, parent) == 0x04,

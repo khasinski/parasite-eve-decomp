@@ -2,6 +2,7 @@
 #define PE1_TEXTBOX_H
 
 #include "pe1/render_packets.h"
+#include "pe1/draw_state.h"
 
 /* Textbox / on-screen dialogue entry, walked by Menu_DrawTextboxEntries.
  * g_TextboxEntries (= D_800BCEA8) is an array of these, stride 0x38. Each
@@ -65,6 +66,5 @@ void Tbl_ResetAll(void);
 void Menu_SetTextCursorRect(int x, int y, int width, int height);
 void Render_SetupColorTable(int index, int mode, short *colors);
 void Draw_SetCursor(int x, int y);
-void Draw_AllocColorGradient(int width, int height, int arg2, int arg3);
 
 #endif /* PE1_TEXTBOX_H */

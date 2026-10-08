@@ -36,7 +36,7 @@ extern int g_MenuBonusPointBarAnimActive;
 extern int g_BonusPointStatQueryResults[];
 extern int g_BonusPointStatDeltas[];
 extern int g_BonusPointStatMultipliers[];
-extern int D_800922F4[];
+extern u8 D_800922F4[];
 extern s32 g_AyaSaveTotalExp[];
 #define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
 /* Distinct views preserve the original loads and store around the bonus update. */
@@ -120,7 +120,7 @@ void Menu_CreateExpReviewView(void) {
     node->draw = Menu_DrawExpReviewPanel;
     node->update = Menu_ConfirmExpAllocation;
     MenuWidget_SetCurrentNode(node);
-    node->target_x = (int)&D_800922F4[0];
+    node->appearance.gradientPoints = D_800922F4;
 }
 
 void Menu_DrawExpReviewPanel(void) {
@@ -277,7 +277,7 @@ void Menu_InitBonusPointAllocState(int gained_points) {
 void Menu_DrawBonusPointAnimFrame(void);
 s32 Menu_StepParasiteScreen(MenuWidgetNode *node, s32 flags);
 void Menu_DrawStatAllocationList();
-extern int D_80092314[];
+extern u8 D_80092314[];
 
 void Menu_CreateLevelUpResultPanel(void) {
     MenuWidgetNode *root;
@@ -293,7 +293,7 @@ void Menu_CreateLevelUpResultPanel(void) {
     child->y += 2;
     child->disabled -= 2;
     MenuWidget_SetCurrentNode(root);
-    root->target_x = (int)D_80092314;
+    root->appearance.gradientPoints = D_80092314;
     g_MenuBonusPointBarAnimActive = 1;
     Menu_InitStateTables();
 }

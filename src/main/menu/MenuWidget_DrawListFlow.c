@@ -126,7 +126,7 @@ void MenuWidget_DrawListRow(MenuWidgetNode *node,
         D_8009D10C = dimmed;
         if (draw_callback)
             draw_callback(node->grid_width * (node->scroll_y + row) + x);
-        if ((VSync(-1) & 8) && x == node->target_x &&
+        if ((VSync(-1) & 8) && x == node->appearance.cursorTargetX &&
             row + node->scroll_y == node->target_y) {
             D_8009D124 -= 2;
             D_8009D128 -= 2;

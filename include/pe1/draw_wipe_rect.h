@@ -2,6 +2,7 @@
 #define PE1_DRAW_WIPE_RECT_H
 
 #include "common.h"
+#include "pe1/draw_state.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/render_prim.h"
 
@@ -37,7 +38,6 @@ extern u32 *D_8009D11C;                 /* ordering-table entry */
 
 void BoundsCheck_AssertStub(int arg0);
 void SetTexWindow(GpuCmdPacket *packet, RECT *window);
-void Draw_AllocColorGradient(int width, int height, u8 *points, int textured);
 void Draw_EmitWipeBar(u8 *edges, int mode);
 void Draw_AllocColorTri(int width, int height, int pulse);
 

@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 #include "pe1/menu_widget.h"
+#include "pe1/draw_state.h"
 #include "pe1/menu_scroll_cursor.h"
 
 /* Contiguous widget construction, pool initialization, list drawing and layout. */
@@ -130,7 +131,7 @@ MenuWidgetNode *MenuWidget_CreateSimpleNode(s32 arg0, MenuWidgetNode *arg1, Menu
     node->disabled = 0;
     node->cursor_x = arg_flag;
     node->cursor_y = 0;
-    node->target_x = 0;
+    node->appearance.cursorTargetX = 0;
     return node;
 }
 
@@ -175,7 +176,6 @@ void MenuWidget_InitPool(void) {
 }
 
 void Draw_PushPrimToList(void *arg0);
-void Draw_AllocColorGradient(int x, int y, int width, int cursor_y);
 
 extern int g_DrawTextDimmed;
 extern int g_TextCursorX;
@@ -242,7 +242,7 @@ void MenuWidget_UpdateAndDraw(void) {
                 g_TextCursorX = node->x;
                 g_TextCursorY = node->y;
                 g_DrawTextDimmed = node->draw_state;
-                Draw_AllocColorGradient(node->grid_width, node->visible_rows, node->target_x, node->cursor_x);
+                Draw_AllocColorGradient(node->grid_width, node->visible_rows, node->appearance.gradientPoints, node->cursor_x);
             }
             node = node->next;
         } while (node != 0);
@@ -394,7 +394,7 @@ MenuWidgetNode *MenuWidget_CreateNode(s32 arg0, MenuWidgetNode *arg1, MenuWidget
     node->cursor_y = 0;
     node->cursor_x = 0;
     node->target_y = -1;
-    node->target_x = -1;
+    node->appearance.cursorTargetX = -1;
     node->scroll_y = 0;
     node->scroll_adjust = 0;
     node->disabled = tmp;

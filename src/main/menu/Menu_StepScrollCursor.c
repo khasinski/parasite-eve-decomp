@@ -28,7 +28,7 @@ static inline int MenuWidget_TargetCell(MenuWidgetNode *node)
 
     cell = -1;
     if (node != 0) {
-        x = node->target_x;
+        x = node->appearance.cursorTargetX;
         if (x >= 0 && (y = node->target_y) >= 0)
             cell = node->grid_width * y + x;
         else
@@ -76,12 +76,12 @@ static inline int MenuWidget_SwapMarked(MenuWidgetNode *node, MenuWidgetNode *ot
     int to;
 
     done = 0;
-    if (other != 0 && other->target_x >= 0) {
+    if (other != 0 && other->appearance.cursorTargetX >= 0) {
         from = MenuWidget_CursorCell(node);
         to = MenuWidget_TargetCell(other);
         if (node->selected_base != other->selected_base || from != to) {
             if (node->itemAction(node->selected_base, from, other->selected_base, to)) {
-                other->target_x = -1;
+                other->appearance.cursorTargetX = -1;
                 Menu_PlayConfirmSound();
                 done = 1;
             } else {
@@ -99,9 +99,9 @@ static inline int MenuWidget_RestoreLinked(MenuWidgetNode *node, MenuWidgetNode 
     int done;
 
     done = 0;
-    if (other != 0 && other->target_x >= 0) {
-        other->cursor_x = other->target_x;
-        other->target_x = -1;
+    if (other != 0 && other->appearance.cursorTargetX >= 0) {
+        other->cursor_x = other->appearance.cursorTargetX;
+        other->appearance.cursorTargetX = -1;
         other->cursor_y = other->target_y;
         node->cursor_x = -1;
         MenuWidget_ScrollToCursor(other);
@@ -263,12 +263,12 @@ int Menu_StepScrollCursor(MenuWidgetNode *node, unsigned int buttons)
 
         if (node->itemAction == 0)
             return changed;
-        if (node->target_x >= 0) {
+        if (node->appearance.cursorTargetX >= 0) {
             from = MenuWidget_CursorCell(node);
             to = MenuWidget_TargetCell(node);
             if (from != to) {
                 if (node->itemAction(node->selected_base, from, node->selected_base, to)) {
-                    node->target_x = -1;
+                    node->appearance.cursorTargetX = -1;
                     Menu_PlayConfirmSound();
                     changed = 1;
                 } else {
@@ -280,10 +280,10 @@ int Menu_StepScrollCursor(MenuWidgetNode *node, unsigned int buttons)
         changed |= MenuWidget_SwapMarked(node, node->linkedPrevious);
         changed |= MenuWidget_SwapMarked(node, node->linkedNext);
     } else if (buttons & 0x40) {
-        if (node->target_x >= 0) {
-            node->cursor_x = node->target_x;
+        if (node->appearance.cursorTargetX >= 0) {
+            node->cursor_x = node->appearance.cursorTargetX;
             node->cursor_y = node->target_y;
-            node->target_x = -1;
+            node->appearance.cursorTargetX = -1;
             MenuWidget_ScrollToCursor(node);
             if (node->refreshItems != 0)
                 node->refreshItems();

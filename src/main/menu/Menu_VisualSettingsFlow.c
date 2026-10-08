@@ -27,7 +27,7 @@ void Menu_OpenBlendColorScreen(s32 arg0) {
     temp_v0_2 = MenuWidget_CreateNode(0x2E, temp_v0, temp_v0);
     ((MenuWidgetNode *)temp_v0)->draw = (void (*)())Menu_DrawBlendColorChannelListUnk;
     ((MenuWidgetNode *)temp_v0)->update = (void (*)())Menu_StepColorSelect;
-    M2C_FIELD(temp_v0, M2C_UNK **, 0x4C) = &D_800922D4;
+    ((MenuWidgetNode *)temp_v0)->appearance.gradientPoints = D_800922D4;
     ((MenuWidgetNode *)temp_v0)->disabled = 1;
     ((MenuWidgetNode *)temp_v0_2)->draw = (void (*)())Menu_DrawBlendColorChannelList;
     ((MenuWidgetNode *)temp_v0_2)->flags = 1;

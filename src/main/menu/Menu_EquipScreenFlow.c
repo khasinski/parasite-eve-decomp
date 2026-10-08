@@ -204,7 +204,7 @@ int Menu_InventoryInputHandler(MenuWidgetNode *root, unsigned int flags) {
             if (Inv_TestSelectionBit(index)) func_800451D0(child);
         } else if (MenuWidget_GridCellIndex(child) >= 0 &&
                    Inv_LookupActiveListData(index) != 0 && D_8009CEFC == 0) {
-            if (child->target_x >= 0) child->target_x = -1;
+            if (child->appearance.cursorTargetX >= 0) child->appearance.cursorTargetX = -1;
             submenu_flag = root->selected_base == 0xD || root->selected_base == 0x34;
             Menu_OpenItemActionSubmenu(child, submenu_flag, index);
         } else {
@@ -217,7 +217,7 @@ int Menu_InventoryInputHandler(MenuWidgetNode *root, unsigned int flags) {
                     return handled;
                 }
             } else {
-                child->target_x = child->cursor_x;
+                child->appearance.cursorTargetX = child->cursor_x;
                 child->target_y = child->cursor_y;
             }
         }
@@ -231,7 +231,7 @@ int Menu_InventoryInputHandler(MenuWidgetNode *root, unsigned int flags) {
         if (D_8009CF8C >= 0) {
             Inv_RebuildSelectableMask();
             D_8009CF8C = -1;
-        } else if (child->target_x < 0) {
+        } else if (child->appearance.cursorTargetX < 0) {
             selected_base = root->selected_base;
             if (selected_base == 0xD || selected_base == 0xE) {
                 child->cursor_x = -1;
@@ -384,7 +384,7 @@ int Menu_StepEquipScreen(MenuWidgetNode *node, unsigned int flags)
         }
         case 1: {
             MenuWidgetNode *parent = node->parent;
-            parent->target_x = parent->cursor_x;
+            parent->appearance.cursorTargetX = parent->cursor_x;
             parent->target_y = parent->cursor_y;
             if (!D_8009CF0C) {
                 Inv_ClearSelectionBitset();

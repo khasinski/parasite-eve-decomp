@@ -8,12 +8,9 @@
 #include "../../../tools/m2c/m2c_macros.h"
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-extern M2C_UNK D_80092354[];
-#define D_80092354 (D_80092354[0])
-extern M2C_UNK D_80092380[];
-#define D_80092380 (D_80092380[0])
-extern M2C_UNK D_800923A0[];
-#define D_800923A0 (D_800923A0[0])
+extern u8 D_80092354[];
+extern u8 D_80092380[];
+extern u8 D_800923A0[];
 extern s32 g_GameState[];
 #define g_GameState (g_GameState[0])
 void Menu_DrawSaveMetadataPreview(void);
@@ -25,7 +22,7 @@ void Menu_DrawMemCardSlot2List(int arg0);
 void Menu_DrawMemCardSlot3List(int arg0);
 
 void Menu_OpenRenameScreen(s32 arg0) {
-    M2C_UNK *var_v1;
+    u8 *var_v1;
     s32 temp_v0_5;
     ItemDataRecord *record;
     MenuWidgetNode *temp_v0;
@@ -36,11 +33,11 @@ void Menu_OpenRenameScreen(s32 arg0) {
     temp_v0 = MenuWidget_CreateSimpleNode(0x17, 0, 0, 0);
     (temp_v0)->update = (void (*)())Menu_StepNameEntryAlt;
     temp_v0_5 = Save_GetMetadataWindowIndex();
-    var_v1 = &D_80092354;
+    var_v1 = D_80092354;
     if (temp_v0_5 != 0) {
-        var_v1 = &D_80092380;
+        var_v1 = D_80092380;
     }
-    M2C_FIELD(temp_v0, M2C_UNK **, 0x4C) = var_v1;
+    temp_v0->appearance.gradientPoints = var_v1;
     if (Save_GetMetadataWindowIndex() != 0) {
         var_a3 = MenuWidget_CreateNode(0x18, temp_v0, temp_v0);
         (var_a3)->draw = &Menu_DrawMemCardSlot2List;
@@ -69,7 +66,7 @@ void Menu_OpenRenameScreen(s32 arg0) {
     record = Inv_LookupActiveListData(arg0);
     g_MenuRenameTargetRecord = record;
     if (record == 0) {
-        M2C_FIELD(temp_v0_4, M2C_UNK **, 0x4C) = &D_800923A0;
+        temp_v0_4->appearance.gradientPoints = D_800923A0;
     }
     Save_SelectMetadataWindow(g_MenuRenameTargetRecord);
     Save_LoadMetadataWindowText();
