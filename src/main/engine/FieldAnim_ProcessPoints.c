@@ -1,7 +1,6 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_anim.h"
-void func_800C3B04(void *arg0);
 
 void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
                                    FieldAnimPointData *points) {
@@ -25,7 +24,7 @@ void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
                 out->x = points->x[i];
                 out->y = points->y[i];
                 out->z = points->z[i];
-                func_800C3B04(out);
+                func_800C3B04((FieldBillboard *)out);
                 i++;
             } while (i < points->count);
         } while (0);
@@ -33,29 +32,26 @@ void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
 }
 
 #include "common.h"
-void func_800C3324(void);
 
 
 int func_800CC878(void *arg0, void *arg1, FieldAnimPointSprite *anim) {
     u16 value_v0;
-    register u16 *output asm("$4");
+    FieldOrientedSprite *output;
     func_800C2EAC(3);
     func_800C3098(0x100);
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
     value_v0 = anim->point.x;
-    asm("" : : "r"(value_v0) : "$4");
-    output = (u16 *)&D_800F3338.oriented.position.x;
-    asm("" : "=r"(output) : "0"(output));
-    *output = value_v0;
+    output = &D_800F3338.oriented;
+    output->position.x = value_v0;
     D_800F3338.oriented.position.y = anim->point.y;
     D_800F3338.oriented.position.z = anim->point.z;
     D_800F3338.oriented.scale.x = anim->extent;
     D_800F3338.oriented.scale.y = anim->extent;
     D_800F3338.oriented.scale.z = anim->extent;
     D_800F3338.oriented.brightness = (signed char)anim->scale;
-    func_800C3324();
+    func_800C3324(output);
 }
 
 #include "common.h"

@@ -25,4 +25,6 @@ typedef struct FieldOrientedSprite {
     /* 0x28 */ u16 brightness;
 } FieldOrientedSprite;
 
+void func_800C3324(FieldOrientedSprite *sprite);
+
 #endif

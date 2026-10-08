@@ -58,6 +58,8 @@ typedef struct FieldBillboard {
     /* 0x28 */ u16 brightness;
 } FieldBillboard;
 
+void func_800C3B04(FieldBillboard *board);
+
 /* Points at the projection distance (H) of the current view; read as a
  * one-field record so the load stays below the scratch stores. */
 typedef struct FieldProjectionSlot {

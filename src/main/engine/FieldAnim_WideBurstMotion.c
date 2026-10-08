@@ -1,6 +1,6 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
-void func_800C3B04();
+#include "pe1/field_billboard.h"
 
 extern u8 D_800E2770[];
 extern u16 D_800E27B0;
@@ -13,7 +13,7 @@ extern u16 D_800E27D8;
 
 int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
     u16 lhs_v0;
-    register u16 *output asm("$4");
+    FieldBillboard *output;
     u16 rhs_v1;
     unsigned int i;
     u8 *entry;
@@ -25,11 +25,9 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
 
     lhs_v0 = *(u16 *)(anim + 0x4);
     rhs_v1 = *(u16 *)(anim + 0xA);
-    asm("" : : "r"(lhs_v0), "r"(rhs_v1) : "$4");
-    output = &D_800E27B0;
-    asm("" : "=r"(output) : "0"(output));
+    output = (FieldBillboard *)&D_800E27B0;
     lhs_v0 += rhs_v1;
-    *output = lhs_v0;
+    output->position.x = lhs_v0;
     D_800E27B2 = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
     D_800E27B4 = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
     D_800E27C0 = ((s8)anim[3] * 8) + 0x20C;
@@ -37,7 +35,7 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
     D_800E27C8 = ((s8)anim[3] * 8) + 0x20C;
     D_800E27D8 = (s8)anim[1];
 
-    func_800C3B04();
+    func_800C3B04(output);
     func_800C3098(0x10);
 
     i = 0;
@@ -48,13 +46,12 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
         *(u16 *)(D_800E2770 + 0x4) = *(u16 *)(entry + 0x30) + *(u16 *)(anim + 0xE);
         i++;
         *(u16 *)(D_800E2770 + 0x28) = (s8)anim[1];
-        func_800C3B04(D_800E2770);
+        func_800C3B04((FieldBillboard *)D_800E2770);
     } while ((i & 0xFFFF) < 8);
 }
 
 
 #include "common.h"
-void func_800C3B04();
 
 extern u16 D_800F33E8;
 extern u16 D_800F33EA;
@@ -63,7 +60,7 @@ extern u16 D_800F3410;
 
 int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
     u16 lhs_v0;
-    register u16 *output asm("$4");
+    FieldBillboard *output;
     u16 rhs_v1;
 
     func_800C2EAC(3);
@@ -73,15 +70,13 @@ int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
 
     lhs_v0 = *(u16 *)(anim + 0x4);
     rhs_v1 = *(u16 *)(anim + 0xA);
-    asm("" : : "r"(lhs_v0), "r"(rhs_v1) : "$4");
-    output = &D_800F33E8;
-    asm("" : "=r"(output) : "0"(output));
+    output = (FieldBillboard *)&D_800F33E8;
     lhs_v0 += rhs_v1;
-    *output = lhs_v0;
+    output->position.x = lhs_v0;
     D_800F33EA = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
     D_800F33EC = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
     D_800F3410 = (s8)anim[1];
-    func_800C3B04();
+    func_800C3B04(output);
 }
 
 
