@@ -535,25 +535,27 @@ int func_800CE1FC(void) {
 }
 
 int func_800CE2B4(void *arg0, void *arg1, u8 *anim) {
+    int randomX;
+    int randomY;
     u16 base;
-    register int r asm("$2");
+    int randomZ;
 
-    r = rand();
+    randomX = rand();
     base = D_800E2808.x - 0x28;
-    *(u16 *)(anim + 0x6) = base + (r % 80);
+    *(u16 *)(anim + 0x6) = base + (randomX % 80);
 
-    r = rand();
+    randomY = rand();
     base = D_800E2808.y - 0x28;
-    *(u16 *)(anim + 0x8) = base + (r % 80);
+    *(u16 *)(anim + 0x8) = base + (randomY % 80);
 
-    r = rand();
+    randomZ = rand();
     base = D_800E2808.z;
 
     anim[1] = 0x7F;
     *(u16 *)(anim + 0x4) = 0;
     anim[3] = 0;
     base -= 0x28;
-    *(u16 *)(anim + 0xA) = base + (r % 80);
+    *(u16 *)(anim + 0xA) = base + (randomZ % 80);
 }
 
 void func_800CE3AC(void) {
