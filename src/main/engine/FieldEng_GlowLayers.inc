@@ -8,7 +8,7 @@
 #include "pe1/field_glow_layers.h"
 #include "pe1/gte.h"
 
-/* Matching debt: 8 register pins and 12 empty constraints.
+/* Matching debt: 6 register pins and 12 empty constraints.
  * Matrix arithmetic and loads are C; GTE instructions are wrapped separately.
  * Volatile column reads retain each rotation load instead of caching values
  * across the two compositions. */
@@ -21,9 +21,9 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     register const volatile u16 *column1 asm("$19");
     const volatile u16 *column2;
     register u16 *outColumn1 asm("$20");
-    register u16 *outColumn2 asm("$23");
+    u16 *outColumn2;
     const s32 *translation;
-    register s32 *outTranslation asm("$21");
+    s32 *outTranslation;
     GteShortVector *nextSpin;
     GteMatrix matrix;
     GteMatrix rotation;
