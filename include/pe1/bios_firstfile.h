@@ -13,6 +13,14 @@ typedef struct BiosDeviceEntry {
     /* 0x38 */ char reserved38[0x18];
 } BiosDeviceEntry;
 
+/* BIOS directory descriptor at 0x150. The length is bytes, not entries. */
+typedef struct BiosDeviceDirectory {
+    BiosDeviceEntry *entries;
+    unsigned int byteLength;
+} BiosDeviceDirectory;
+
+#define BIOS_DEVICE_DIRECTORY ((BiosDeviceDirectory *)0x150)
+
 extern BiosFirstFileHandler D_800A32D0;
 extern char D_800A32D8[];
 

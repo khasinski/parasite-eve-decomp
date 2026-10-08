@@ -25,8 +25,8 @@ void *firstfile(const char *inName, void *inResult) {
         } while (*input >= 59);
     }
     *out = 0;
-    count = *(unsigned *)0x154;
-    entry = *(BiosDeviceEntry **)0x150;
+    count = BIOS_DEVICE_DIRECTORY->byteLength;
+    entry = BIOS_DEVICE_DIRECTORY->entries;
     count /= sizeof(BiosDeviceEntry);
     end = entry + count;
     if (entry < end) {
@@ -50,8 +50,8 @@ install:
     entry->firstFile = Sys_FirstFileHookCallback;
     goto call;
 second:
-    count = *(unsigned *)0x154;
-    entry = *(BiosDeviceEntry **)0x150;
+    count = BIOS_DEVICE_DIRECTORY->byteLength;
+    entry = BIOS_DEVICE_DIRECTORY->entries;
     count /= sizeof(BiosDeviceEntry);
     end = entry + count;
     if (entry < end) {
@@ -78,8 +78,8 @@ int Sys_FirstFileHookCallback(int *file, unsigned int arg1, unsigned int arg2) {
     register int *fileArg;
 
     if (!*file) *file = 1;
-    count = *(unsigned int *)0x154;
-    entry = *(BiosDeviceEntry **)0x150;
+    count = BIOS_DEVICE_DIRECTORY->byteLength;
+    entry = BIOS_DEVICE_DIRECTORY->entries;
     original = D_800A32D0;
     count /= sizeof(BiosDeviceEntry);
     limit = entry + count;
