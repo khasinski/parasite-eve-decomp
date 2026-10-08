@@ -67,46 +67,7 @@ void Entity_SlideOnWall(struct BattleEntity *actor, const PolygonVertex *vertice
 struct FieldActor;
 void Entity_ApplyCollisionResponse(struct FieldActor *player);
 
-/* Packed vertex tables used by the flat and sloped triangle formats.
- * Coordinates are loaded as halfwords and interpreted as signed for geometry. */
-typedef struct CollisionVertexXZ {
-    u16 x, z;
-} CollisionVertexXZ;
-typedef struct CollisionVertexXYZ {
-    u16 x, y, z;
-} CollisionVertexXYZ;
-/* The vertex table pointer, also read as the 32-bit address retail adds
- * the scaled vertex index to (index first). */
-typedef union CollisionVertexTable {
-    void *pointer;
-    CollisionVertexXZ *xz;
-    CollisionVertexXYZ *xyz;
-    u32 word;
-} CollisionVertexTable;
-/* Walkable triangles. Both formats are walked as halfword arrays: the
- * flat one keeps its vertex indices at [1..3] and its edge neighbours at
- * [7..9], the sloped one at [4..6] and [10..12]. */
-typedef union CollisionTriangleXZ {
-    u16 words[11];
-    u8 kind; /* bit 0x80: not walkable from a neighbour */
-} CollisionTriangleXZ;
-typedef union CollisionTriangleXYZ {
-    u16 words[14];
-    u8 kind;
-} CollisionTriangleXYZ;
-typedef union CollisionTriangleTable {
-    void *pointer;
-    CollisionTriangleXZ *xz;
-    CollisionTriangleXYZ *xyz;
-} CollisionTriangleTable;
-typedef struct CollisionDatabase {
-    u32 reserved[2];
-    u16 faceCount;                    /* 0x08: walkable triangles. */
-    u16 reserved0A;
-    u32 reserved0C[3];
-    CollisionVertexTable vertices;   /* 0x18: XZ or XYZ array. */
-    CollisionTriangleTable triangles; /* 0x1C: XZ or XYZ triangles. */
-} CollisionDatabase;
+#include "pe1/collision_database.h"
 
 /* Vertex `index` of the active table, addressed as retail does. */
 #define COLLISION_VERTEX(address, index, type) \

@@ -275,7 +275,7 @@ void Entity_UpdateAndRender(BattleEntity *actor)
         D_8009D2E8.flags &= ~8;
     }
 
-    for (i = 0; i < D_8009D1FC->faceCount; i++)
+    for (i = 0; i < D_8009D1FC->visitedWordCount; i++)
         D_8009DFB0[i] = 0;
     if (!Geo_ClipToFloorBoundary(x, z, face)) {
         if (actor != D_8009D254.actor) {
@@ -286,13 +286,13 @@ void Entity_UpdateAndRender(BattleEntity *actor)
         Entity_SlideOnRamp(actor);
         x = actor->posX.parts.integer;
         z = actor->posZ.parts.integer;
-        for (j = 0; j < D_8009D1FC->faceCount; j++)
+        for (j = 0; j < D_8009D1FC->visitedWordCount; j++)
             D_8009DFB0[j] = 0;
         saved = D_8009CE18;
         i = Geo_ClipToFloorBoundary(x, z, face);
         if (!i) {
             if (saved == D_8009CE18) {
-                for (j = 0; j < D_8009D1FC->faceCount; j++)
+                for (j = 0; j < D_8009D1FC->visitedWordCount; j++)
                     D_8009DFB0[j] = 0;
                 D_8009DFB0[D_8009CE18 >> 5] = 1 << (D_8009CE18 & 0x1F);
                 i = Geo_ClipToFloorBoundary(x, z, face);
@@ -304,7 +304,7 @@ void Entity_UpdateAndRender(BattleEntity *actor)
             Entity_SlideOnRamp(actor);
             x = actor->posX.parts.integer;
             z = actor->posZ.parts.integer;
-            for (j = 0; j < D_8009D1FC->faceCount; j++)
+            for (j = 0; j < D_8009D1FC->visitedWordCount; j++)
                 D_8009DFB0[j] = 0;
             i = Geo_ClipToFloorBoundary(x, z, face);
             if (!i) {
