@@ -2,7 +2,7 @@
 #include "pe1/field_tri_test.h"
 #include "pe1/gte.h"
 
-/* Matching debt: 4 register pins and 5 empty constraints.
+/* Matching debt: 3 register pins and 5 empty constraints.
  * Diagonal loads use gte_ldopv1_psyq; the other vector loads stay C. */
 int func_800C689C(GteShortVector *tri)
 {
@@ -32,16 +32,13 @@ int func_800C689C(GteShortVector *tri)
     asm volatile("" : "=m"(D_800E2844) : "m"(D_800E2844));
     FIELD_TRI_SCRATCH->rel[0].z = point.z - tri[0].z;
     {
-        register const GteVector *edge asm("$8");
-        edge = &D_800E2844->edge[0];
-                gte_ldopv1_psyq(edge);
-    }
-    {
-        register const GteVector *relative asm("$8");
-        relative = &FIELD_TRI_SCRATCH->rel[0];
-        gte_ldir3_precise(relative);
-        gte_ldir1_precise(relative);
-        gte_ldir2_precise(relative);
+        register const GteVector *inputVector asm("$8");
+        inputVector = &D_800E2844->edge[0];
+                gte_ldopv1_psyq(inputVector);
+        inputVector = &FIELD_TRI_SCRATCH->rel[0];
+        gte_ldir3_precise(inputVector);
+        gte_ldir1_precise(inputVector);
+        gte_ldir2_precise(inputVector);
     }
     gte_cop2_hazard_slot();
     gte_op0();
