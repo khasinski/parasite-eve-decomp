@@ -99,32 +99,33 @@ relocate:
         CollisionDatabase *actor;
         u32 *dst;
         u32 i;
-        u32 *src;
-        register char *value20 asm("$3");
-        register char *value24 asm("$4");
-        u32 half;
-        register u32 count asm("$3");
+        u32 *cursor;
+        register char *rampEdges asm("$4");
+        u16 wordCount;
+        u16 *regionCountAddress;
+        u32 count;
         register u32 entry asm("$4");
 
         actor = g_CollisionDb;
         i = 0;
-        value20 = (char *)actor->planes.pointer;
-        value24 = (char *)actor->rampEdges.pointer;
-        half = actor->visitedWordCount;
+        cursor = (u32 *)actor->planes.pointer;
+        wordCount = actor->visitedWordCount;
+        rampEdges = (char *)actor->rampEdges.pointer;
         dst = (u32 *)actor->regions;
+        wordCount >>= 5;
+        g_CollisionPlaneTable = (char *)cursor;
+        regionCountAddress = &actor->regionCount;
         g_RegionHeightTable = (char *)dst;
-        half >>= 5;
-        g_CollisionPlaneTable = value20;
-        count = actor->regionCount;
-        half++;
-        g_SceneDataTable2 = value24;
-        actor->visitedWordCount = half;
+        count = *regionCountAddress;
+        wordCount++;
+        g_SceneDataTable2 = rampEdges;
+        actor->visitedWordCount = wordCount;
 
         if (count != 0) {
-            src = (u32 *)actor;
+            cursor = (u32 *)actor;
             do {
-                entry = src[10];
-                src++;
+                entry = cursor[10];
+                cursor++;
                 i++;
                 entry = entry + (u32)actor;
                 *dst = entry;
