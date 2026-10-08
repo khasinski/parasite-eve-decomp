@@ -4,31 +4,22 @@
 extern FieldActor *g_CurrentEntity;
 
 
-int Entity_CallAction(int **arg0) {
+int Entity_CallAction(int **arg0)
+{
     int **args;
-    register int *arg0_ptr asm("$2");
-    int *arg1_ptr;
-    int *arg2_ptr;
-    int arg2;
-    int arg1;
-    int arg3;
+    int *offsetInput;
+    int **xSlot;
+    int polygonOffset;
     u8 *base;
-    register FieldActor *current asm("$2");
-    int result;
-
+    FieldActor *current;
     args = arg0;
-    arg0_ptr = args[3];
-    arg1_ptr = args[1];
-        arg2_ptr = args[2];
-    arg2 = *arg0_ptr;
+    offsetInput = args[3];
+    polygonOffset = *offsetInput;
     current = g_CurrentEntity;
-        arg1 = *(int *)arg1_ptr;
-        arg3 = *(u16 *)arg2_ptr;
+    xSlot = &args[0];
     base = current->script_base;
-    arg0_ptr = args[0];
-    arg2 <<= 1;
-    result = Geo_PointInPoly(*arg0_ptr, arg1, (const PolygonVertex *)(base + arg2), arg3);
-    *args[4] = result;
+    polygonOffset <<= 1;
+    *args[4] = Geo_PointInPoly(**xSlot, *args[1], (const PolygonVertex *) (base + polygonOffset), *(u16 *)args[2]);
     return 1;
 }
 extern FieldActor *g_CurrentEntity;
