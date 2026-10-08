@@ -88,8 +88,7 @@ s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
         D_800F3372 = 0;
         D_800F3374 = 0;
         D_800F3370 = tableValue;
-        PE1_COMPILER_MEMORY_BARRIER();
-        return 0;
+        break;
     }
     return 0;
 }
