@@ -51,5 +51,8 @@ extern FieldEngSlot *g_FieldEngineSlots __asm__("D_800F34F4");
 /* Shared XYZ origin consumed by field effect initializers. */
 struct FieldAnimPointTriple;
 extern struct FieldAnimPointTriple D_800E2290;
+/* Interior halfword symbols for the same origin's Y and Z coordinates. */
+extern u16 D_800E2292;
+extern u16 D_800E2294;
 
 #endif /* PE1_FIELD_ENGINE_STATE_H */

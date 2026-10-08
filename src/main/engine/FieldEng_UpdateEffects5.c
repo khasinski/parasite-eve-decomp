@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/field_anim_particle.h"
 #include "pe1/field_anim.h"
+#include "pe1/field_engine_state.h"
 #include "pe1/field_engine_slot.h"
 #include "pe1/battle.h"
 #include "pe1/field_sprite_state.h"
@@ -469,9 +470,6 @@ int *func_800C2B10(int index);
 extern u8 D_800F3450;
 extern u8 D_800F3451;
 extern u8 D_800F3452;
-extern u16 D_800E2290;
-extern u16 D_800E2292;
-extern u16 D_800E2294;
 
 int func_800CBFC4(void *arg0, void *arg1, u8 *anim) {
     int x_base_a1;
@@ -484,7 +482,7 @@ int func_800CBFC4(void *arg0, void *arg1, u8 *anim) {
     D_800F3452 = *func_800C2B10(2);
 
     x_rand = rand();
-    x_base_a1 = D_800E2290 - 0x64;
+    x_base_a1 = D_800E2290.x - 0x64;
     *(u16 *)(anim + 0x6) = x_base_a1 + (x_rand % 201);
     *(u16 *)(anim + 0x8) = D_800E2292;
 
@@ -532,7 +530,7 @@ void FieldAnim_InitRadialEntries(void *arg0, void *arg1, FieldAnimRadialParticle
 
     if ((s8)anim->count > 0) {
         i = 0;
-        base_s5 = &D_800E2290;
+        base_s5 = &D_800E2290.x;
         neg_s6 = -0x1400;
         do {
             anim->points[i].position.x = base_s5[0];
@@ -559,7 +557,7 @@ void FieldAnim_InitRadialEntries(void *arg0, void *arg1, FieldAnimRadialParticle
 int func_800CC244(void *arg0, void *arg1, u8 *anim) {
     u16 z;
 
-    *(u16 *)(anim + 6) = D_800E2290;
+    *(u16 *)(anim + 6) = D_800E2290.x;
     *(u16 *)(anim + 8) = D_800E2292;
     z = D_800E2294;
     *(u16 *)(anim + 4) = 0xBE8;
@@ -572,7 +570,7 @@ int func_800CC244(void *arg0, void *arg1, u8 *anim) {
 int func_800CC284(void *arg0, void *arg1, u8 *anim) {
     u16 z;
 
-    *(u16 *)(anim + 6) = D_800E2290;
+    *(u16 *)(anim + 6) = D_800E2290.x;
     *(u16 *)(anim + 8) = D_800E2292 - 0x64;
     z = D_800E2294;
     *(u16 *)(anim + 4) = 0;

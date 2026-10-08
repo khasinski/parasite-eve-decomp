@@ -1,15 +1,13 @@
 #include "common.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_anim.h"
+#include "pe1/field_engine_state.h"
 #include "pe1/field_engine_slot.h"
-extern u16 D_800E2290;
-extern u16 D_800E2292;
-extern u16 D_800E2294;
 
 int func_800CC440(void *arg0, void *arg1, u8 *anim) {
     u16 z;
 
-    *(u16 *)(anim + 6) = D_800E2290;
+    *(u16 *)(anim + 6) = D_800E2290.x;
     *(u16 *)(anim + 8) = D_800E2292;
     z = D_800E2294;
     *(u16 *)(anim + 4) = 0x224;
