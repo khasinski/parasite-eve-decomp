@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/render_packets.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -112,8 +113,8 @@ void AddPrim(unsigned int *ot, unsigned int *prim);
     prim = (char *)(idx_off + (int)prim); \
     packet = (char *)(idx_off + code_off + (int)base); \
     idx <<= 2; \
-    *(u16 *)((char *)packet + 8) = s0; \
-    *(u16 *)((char *)packet + 0xA) = s2; \
+    ((RenderSpritePacket *)packet)->x = s0; \
+    ((RenderSpritePacket *)packet)->y = s2; \
     ot = *(void **)((char *)g_OtBufferTable + idx); \
     s0 += s3; \
     AddPrim((char *)ot + 0x1C, prim); \
@@ -131,8 +132,8 @@ void AddPrim(unsigned int *ot, unsigned int *prim);
     prim = (char *)packet + (int)prim; \
     packet = (char *)packet + (int)base; \
     idx <<= 2; \
-    *(u16 *)((char *)packet + 8) = s0; \
-    *(u16 *)((char *)packet + 0xA) = s2; \
+    ((RenderSpritePacket *)packet)->x = s0; \
+    ((RenderSpritePacket *)packet)->y = s2; \
     s0 += s3; \
     AddPrim(*(char **)((char *)g_OtBufferTable + idx) + 0x1C, prim); \
 } while (0)
@@ -148,8 +149,8 @@ void AddPrim(unsigned int *ot, unsigned int *prim);
     packet = (char *)(idx_off + (int)base); \
     idx <<= 2; \
     base = base - 8; \
-    *(u16 *)((char *)packet + 8) = s0; \
-    *(u16 *)((char *)packet + 0xA) = s2; \
+    ((RenderSpritePacket *)packet)->x = s0; \
+    ((RenderSpritePacket *)packet)->y = s2; \
     AddPrim(*(char **)((char *)g_OtBufferTable + idx) + 0x1C, (char *)idx_off + (int)base); \
 } while (0)
 
