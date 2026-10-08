@@ -88,4 +88,8 @@ extern AkaoSequenceCounter D_8009CDF0;
 
 int Akao_EnqueueStagedCommand(void);
 
+/* Returns the header validation difference, or the queued sequence number. */
+int Spu_ValidateSampleHeader(void *header);
+int Akao_Cmd_24(void *header, int arg1, int arg2, int arg3);
+
 #endif

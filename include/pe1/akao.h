@@ -14,7 +14,6 @@
 
 /* Sample transfer and stream instrument relocation. Addresses passed to the
  * upload wrapper are 32-bit main-memory addresses in the PSX ABI. */
-int Spu_ValidateSampleHeader(void *header);
 int SpuSetTransferStartAddr(int address);
 void Spu_UploadWithPrepare(int source, int size);
 void Spu_RebaseStreamAddrs(unsigned char *instruments, int address, int count);

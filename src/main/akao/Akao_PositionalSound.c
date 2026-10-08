@@ -1,3 +1,4 @@
+#include "pe1/akao/commands.h"
 /* MASPSX_FLAGS: --expand-div */
 #include "common.h"
 #include "pe1/akao/pan3d.h"
@@ -18,7 +19,6 @@ extern void *g_AkaoBgmHandle[];
 extern u8 D_800B0CE8[];
 
 int Akao_Calc3DPan(AkaoPackedRect3 *pos, int *pan, int *volume);
-int Akao_Cmd_24(int arg0, int arg1, int arg2, int arg3);
 s32 Akao_SendPositionalCmd(void *arg0, s32 arg1, s32 arg2, AkaoPosCoord arg3, AkaoPosCoord arg4, AkaoPosCoord arg5);
 int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4);
 
@@ -41,7 +41,7 @@ s32 Akao_SetPos3D(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u16 arg4) {
         if (base[0] != 0) {
             s32 *table = (s32 *)(base + 0x124);
 
-            ret = Akao_Cmd_24(table[arg0], arg1, local.out1, local.out2);
+            ret = Akao_Cmd_24((void *)table[arg0], arg1, local.out1, local.out2);
         }
     }
 
@@ -81,7 +81,7 @@ int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4) {
     if (entry == 0) {
         goto fail;
     }
-    ret = Akao_Cmd_24((int)entry, arg2, arg3, arg4);
+    ret = Akao_Cmd_24(entry, arg2, arg3, arg4);
     goto done;
 
 fail:

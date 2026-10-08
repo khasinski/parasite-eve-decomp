@@ -1,3 +1,4 @@
+#include "pe1/akao/commands.h"
 /* Burst and spark effect setup, draw and lifecycle callbacks. */
 
 #include "common.h"
@@ -222,7 +223,6 @@ int func_800CD978(void) {
 
 int *func_800C2B10(int index);
 int *func_800C2B28(int index);
-void Akao_Cmd_24(int arg0, int arg1, int arg2, int arg3);
 void func_800CEDA8(int arg0);
 
 extern int D_800E2804;
@@ -255,7 +255,7 @@ int func_800CD980(void) {
     D_800E27F0.z = *(u16 *)(data + 0x26C);
 
     if (D_800B0CE8 != 0) {
-        Akao_Cmd_24(D_800B0E14, 0, 0x80, 0x7F);
+        Akao_Cmd_24((void *)D_800B0E14, 0, 0x80, 0x7F);
     }
 
     func_800CEDA8(0);

@@ -60,7 +60,6 @@ void Spu_WaitTransferDone(void) {
 }
 
 void Spu_WaitTransferDone(void);
-s32 Spu_ValidateSampleHeader(void *arg0);
 int SpuSetTransferStartAddr(int arg0);
 void Spu_UploadWithPrepare(int arg0, int arg1);
 
