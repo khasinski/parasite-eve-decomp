@@ -733,9 +733,9 @@ segments:
       # call one another inside this span (helper and call evidence, no split
       # evidence); the two Asset_Find08* names are legacy labels of AKAO senders.
       - [0x5E4E4, c, akao/Akao_PositionalSound]
-      # TIM asset upload with the base-32 id encoder and decoder (private and helper evidence across the encoder/decoder pair).
-      - [0x5E9C0, c, asset/Asset_TimUploadAndBase32]
-      - [0x5ED14, c, asset/Asset_FindTable2CByU16Key]
+      # Contiguous default-profile container helpers: TIM upload, base-32 keys
+      # and the three directory searches sharing SceneAssetDirectory.
+      - [0x5E9C0, c, asset/Asset_TimAndKeyLookup]
       - [0x5EE0C, c, gpu/Gpu_ClearOnFlag]
       - [0x5EEA8, c, cdrom/CdRom_BootReadFlow]
       # Display initialisation, the draw-enabled and sequence-elapsed queries, the
