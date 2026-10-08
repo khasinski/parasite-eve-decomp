@@ -80,8 +80,11 @@ PATTERNS = {
     "field_macros": re.compile(r"\b(?:M2C_)?(?:RAW_)?FIELD\w*\s*\("),
     # register pins: `register T x asm("$8");` / `asm("$v0")`
     "pins": re.compile(r'register\s+[^;]*\basm\s*\(\s*"\$?\w+"\s*\)'),
-    # empty asm barriers: asm(""), excluding the sanctioned REGALLOC_BARRIER macro
-    "barriers": re.compile(r'(?<!REGALLOC_BARRIER)(?:__asm__|asm)\s*(?:volatile|__volatile__)?\s*\(\s*""'),
+    # Empty asm barriers, including common.h scheduling helper invocations.
+    "barriers": re.compile(
+        r'(?<!REGALLOC_BARRIER)(?:__asm__|asm)\s*(?:volatile|__volatile__)?\s*\(\s*""'
+        r'|\bPE1_COMPILER_(?:USE|LAUNDER(?:_MEM|_AFTER_MEM|2)?|MEMORY_BARRIER)\s*\('
+    ),
     # symbol aliases: `extern T x asm("D_800...");`
     "aliases": re.compile(r'extern\s+[^;]*\basm\s*\(\s*"[A-Za-z_]'),
     # real asm instruction bodies (exclude empty barriers, directives, HW ops)
@@ -214,7 +217,7 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "_Matching crutches still to remove to reach clean C (GOAL.md). "
         "Read-only; regenerate with `make debt`. Watch these shrink._",
         "",
-        "**pins** = `register T x asm(\"$r\")` · **barriers** = empty `asm(\"\")` · "
+        "**pins** = `register T x asm(\"$r\")` · **barriers** = empty `asm(\"\")` and `PE1_COMPILER_*` calls · "
         "**nop_barriers** = explicit one-NOP scheduling macros · "
         "**stack_reserves** = explicitly named unused matchingStackReserve arrays · "
         "**dead_code** = `PE1_DEAD_CODE(...)` dead statements kept for scheduling · "
