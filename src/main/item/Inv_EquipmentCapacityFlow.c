@@ -53,8 +53,8 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     int mod_index = modifier_index;
     int selected_a;
     int selected_b;
-    u8 *item_a;
-    u8 *item_b;
+    ItemDataRecord *item_a;
+    ItemDataRecord *item_b;
     int item_id;
     int count;
     int i;
@@ -68,18 +68,18 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     selected_a = Inv_RestoreSelection(list_index);
     item_a = 0;
     if (selected_a >= 0 && selected_a < D_8009D050) {
-        u8 *resolved;
-        register int saved_id asm("$5");
-        register int scaled_id asm("$3");
+        ItemDataRecord *resolved;
+        int saved_id;
+        int scaled_id;
         item_id = D_8009D048[selected_a];
-        saved_id = item_id;
+        saved_id = (s16)item_id;
         if ((unsigned int)(item_id - 0x100) < 0x80) {
-            resolved = g_EquipItemDataTable + (item_id << 5);
+            resolved = (ItemDataRecord *)(g_EquipItemDataTable + (item_id << 5));
         } else if ((unsigned int)(item_id - 1) < 0xFF) {
             resolved = Item_LookupBaseData(item_id - 1);
         } else if ((unsigned int)(saved_id - 0x200) < 9) {
             scaled_id = saved_id << 5;
-            resolved = D_8009DE64 + scaled_id;
+            resolved = (ItemDataRecord *)(D_8009DE64 + scaled_id);
         } else {
             resolved = 0;
         }
@@ -89,19 +89,19 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     selected_b = Inv_RestoreSelection(list_index < 1);
     item_b = 0;
     if (selected_b >= 0 && selected_b < D_8009D050) {
-        u8 *resolved;
-        register int saved_id asm("$5");
+        ItemDataRecord *resolved;
+        int saved_id;
         int scaled_id;
         item_id = D_8009D048[selected_b];
-        saved_id = item_id;
+        saved_id = (s16)item_id;
         if ((unsigned int)(item_id - 0x100) < 0x80) {
             scaled_id = item_id << 5;
-            resolved = g_EquipItemDataTable + scaled_id;
+            resolved = (ItemDataRecord *)(g_EquipItemDataTable + scaled_id);
         } else if ((unsigned int)(item_id - 1) < 0xFF) {
             resolved = Item_LookupBaseData(item_id - 1);
         } else if ((unsigned int)(saved_id - 0x200) < 9) {
             scaled_id = saved_id << 5;
-            resolved = D_8009DE64 + scaled_id;
+            resolved = (ItemDataRecord *)(D_8009DE64 + scaled_id);
         } else {
             resolved = 0;
         }
@@ -110,26 +110,26 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
 
     result = 1;
     if (mod_index >= 0) {
-        count = ((ItemDataRecord *)item_b)->tailCount;
-        modifier = ((ItemDataRecord *)item_a)->tailData[mod_index];
+        count = item_b->tailCount;
+        modifier = item_a->tailData[mod_index];
         i = 0;
         if (count <= 0) goto first_after;
 first_loop:
-        if (((ItemDataRecord *)item_b)->tailData[i] == modifier) goto first_found;
+        if (item_b->tailData[i] == modifier) goto first_found;
         ++i;
         if (i < count) goto first_loop;
 first_found:
-        if (i < ((ItemDataRecord *)item_b)->tailCount) return 4;
+        if (i < item_b->tailCount) return 4;
 first_after:;
 
-        for (i = 0; i < ((ItemDataRecord *)item_b)->tailCount; i++) {
-            if (((ItemDataRecord *)item_b)->tailData[i] == 0) {
+        for (i = 0; i < item_b->tailCount; i++) {
+            if (item_b->tailData[i] == 0) {
                 break;
             }
         }
 
-        if (i >= ((ItemDataRecord *)item_b)->tailCount) {
-            modifier = ((ItemDataRecord *)item_a)->tailData[mod_index] & 0xE0;
+        if (i >= item_b->tailCount) {
+            modifier = item_a->tailData[mod_index] & 0xE0;
             if (modifier == 0) {
                 return 3;
             }
@@ -138,17 +138,17 @@ first_after:;
                 int third_count;
                 int third_modifier;
                 register int third_loop_count asm("$4");
-                third_count = ((ItemDataRecord *)item_b)->tailCount;
+                third_count = item_b->tailCount;
                 if (third_count <= 0) goto third_return3;
                 i = 0;
                 third_modifier = modifier;
                 third_loop_count = third_count;
 third_loop:
-                if ((((ItemDataRecord *)item_b)->tailData[i] & 0xE0) == third_modifier) goto third_found;
+                if ((item_b->tailData[i] & 0xE0) == third_modifier) goto third_found;
                 ++i;
                 if (i < third_loop_count) goto third_loop;
 third_found:
-                if (i < ((ItemDataRecord *)item_b)->tailCount) goto third_done;
+                if (i < item_b->tailCount) goto third_done;
 third_return3:
                 return 3;
 third_done:;
@@ -162,19 +162,19 @@ third_done:;
             int raw_count;
             int loop_count;
             int slot;
-            raw_count = ((ItemDataRecord *)item_a)->tailCount;
+            raw_count = item_a->tailCount;
             i = 0;
             if (raw_count <= 0) goto equip_after;
             loop_count = raw_count;
 equip_loop:
-            raw_count = ((ItemDataRecord *)item_a)->tailData[i];
+            raw_count = item_a->tailData[i];
             raw_count &= 0x1F;
             slot = raw_count - 8;
             if ((unsigned int)slot < 3) goto equip_found;
             ++i;
             if (i < loop_count) goto equip_loop;
 equip_found:
-            if (i < ((ItemDataRecord *)item_a)->tailCount) {
+            if (i < item_a->tailCount) {
                 int equip_mask = 1 << slot;
                 different_slot = i != mod_index;
                 result = Inv_CheckFreeSlotCapacity(equip_mask);
@@ -203,23 +203,23 @@ equip_after:;
         register int final_count asm("$6");
         int final_existing;
         int bit_existing;
-        raw = ((ItemDataRecord *)item_a)->tailData[mod_index];
+        raw = item_a->tailData[mod_index];
         raw &= 0x1F;
         final_mod = raw - 8;
         if ((unsigned int)final_mod >= 3) goto return_one;
-        raw = ((ItemDataRecord *)item_b)->tailCount;
+        raw = item_b->tailCount;
         i = 0;
         if (raw <= 0) goto final_call;
         final_count = raw;
 final_loop:
-        raw = ((ItemDataRecord *)item_b)->tailData[i];
+        raw = item_b->tailData[i];
         raw &= 0x1F;
         final_existing = raw - 8;
         if ((unsigned int)final_existing < 3) goto final_found;
         ++i;
         if (i < final_count) goto final_loop;
 final_found:
-        if (i >= ((ItemDataRecord *)item_b)->tailCount) goto final_call;
+        if (i >= item_b->tailCount) goto final_call;
         bit_existing = 1 << final_existing;
         mask = bit_existing - (1 << final_mod);
     }
