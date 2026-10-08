@@ -301,11 +301,8 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
     if (rotation->flags == 1) {
         MulRotMatrix(&matrix);
     }
-    {
-        register const GteMatrixWords *words asm("$17") = (const GteMatrixWords *)&matrix;
-        gte_ldrotmatrix(words);
-        gte_ldtransmatrix(words);
-    }
+    gte_ldrotmatrix((const GteMatrixWords *)&matrix);
+    gte_ldtransmatrix((const GteMatrixWords *)&matrix);
     vertex = D_800E13BC[D_800F3368.parameter0A];
     i = 0;
     if (i < D_800E1210[D_800F3368.parameter0A]) {
@@ -881,11 +878,8 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
     ScaleMatrix(&matrix, &scale);
     if (rotation->flags)
         MulRotMatrix(&matrix);
-    {
-        register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)&matrix;
-        gte_ldrotmatrix(words);
-        gte_ldtransmatrix(words);
-    }
+    gte_ldrotmatrix((const GteMatrixWords *)&matrix);
+    gte_ldtransmatrix((const GteMatrixWords *)&matrix);
     SetPolyG3(&template);
     template.r0 = centre.r;
     template.g0 = centre.g;
@@ -1038,11 +1032,8 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
     if (rotation->flags)
         MulRotMatrix(&matrix);
     ScaleMatrix(&matrix, &scale);
-    {
-        register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)&matrix;
-        gte_ldrotmatrix(words);
-        gte_ldtransmatrix(words);
-    }
+    gte_ldrotmatrix((const GteMatrixWords *)&matrix);
+    gte_ldtransmatrix((const GteMatrixWords *)&matrix);
     SetPolyG4(&template);
     template.r1 = template.r0 = outerColor.r;
     template.g1 = template.g0 = outerColor.g;
