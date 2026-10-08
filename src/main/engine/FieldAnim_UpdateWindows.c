@@ -64,7 +64,7 @@ int func_800CC480(void *arg0, FieldEngSlot *params, FieldAnimPointSprite *anim) 
 
 void FieldAnim_ProcessInterleavedPoints(void *arg0, void *arg1, FieldAnimRadialParticles *anim) {
     volatile int stack_pad;
-    FieldAnimPointTriple *out;
+    FieldBillboard *out;
     unsigned int i;
 
     func_800C2EAC(3);
@@ -72,21 +72,21 @@ void FieldAnim_ProcessInterleavedPoints(void *arg0, void *arg1, FieldAnimRadialP
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    D_800E2260.extent_x = *(s16 *)&anim->extent[0];
-    D_800E2260.extent_y = *(s16 *)&anim->extent[0];
-    D_800E2260.extent_z = *(s16 *)&anim->extent[0];
-    D_800E2260.scale = anim->scale;
+    D_800E2260.oriented.scale.x = *(s16 *)&anim->extent[0];
+    D_800E2260.oriented.scale.y = *(s16 *)&anim->extent[0];
+    D_800E2260.oriented.scale.z = *(s16 *)&anim->extent[0];
+    D_800E2260.billboard.brightness = anim->scale;
 
     if (anim->count != 0) {
         i = 0;
-        out = &D_800E2260.point;
+        out = &D_800E2260.billboard;
         /* This one-shot block preserves retail GCC's s1/s2 allocation. */
         do {
             do {
-                out->x = anim->points[i].position.x;
-                out->y = anim->points[i].position.y;
-                out->z = anim->points[i].position.z;
-                func_800C3B04((FieldBillboard *)out);
+                out->position.x = anim->points[i].position.x;
+                out->position.y = anim->points[i].position.y;
+                out->position.z = anim->points[i].position.z;
+                func_800C3B04(out);
                 i++;
             } while (i < anim->count);
         } while (0);

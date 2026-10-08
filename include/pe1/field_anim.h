@@ -270,22 +270,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimRadialParticles, velocity) == 0xA6,
 PE1_STATIC_ASSERT(sizeof(FieldAnimRadialParticles) == 0x126,
                   field_anim_radial_particles_size);
 
-typedef struct FieldAnimPointState {
-    FieldAnimPointTriple point;
-    u8 unused_06[0x22];
-    short scale;
-} FieldAnimPointState;
-
-typedef struct FieldAnimInterleavedState {
-    FieldAnimPointTriple point;
-    u8 unused_06[0xA];
-    int extent_x;
-    int extent_y;
-    int extent_z;
-    u8 unused_1C[0xC];
-    short scale;
-} FieldAnimInterleavedState;
-
 typedef struct FieldAnimBurstWindow {
     u8 unused_00[0x10];
     FieldAnimPointTriple point;
@@ -308,7 +292,6 @@ typedef union FieldAnimBurstData {
     u8 bytes[0x30];
 } FieldAnimBurstData;
 
-extern FieldAnimInterleavedState D_800E2260;
 /* Both renderers consume the same sprite storage: the oriented path uses
  * all three scale components, while the billboard path uses X and Y. */
 typedef union FieldAnimSpriteState {
@@ -324,7 +307,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldBillboard, scaleX) == 0x10,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldBillboard, brightness) == 0x28,
                   field_anim_billboard_brightness);
 extern FieldAnimSpriteState D_800F32E0, D_800F3338, D_800F3380, D_800F3430;
-extern FieldAnimPointState D_800E2818;
+extern FieldAnimSpriteState D_800E2260, D_800E2818;
 extern FieldAnimPointTriple D_800E27F8;
 
 #endif
