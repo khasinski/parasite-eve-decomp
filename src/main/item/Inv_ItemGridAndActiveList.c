@@ -1,17 +1,14 @@
 #include "common.h"
-#include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-int g_InvItemPtr;
-int g_InvActiveListOverride;
+s16 *g_InvItemPtr;
+s16 *g_InvActiveListOverride;
 int g_InvSlotLimit;
 int g_InvOverrideSlotLimit;
-int g_InvSelectionBits;
+u32 *g_InvSelectionBits;
 int g_InvSelectionBitWords;
-extern int g_AyaItemSelectionBits[];
-extern short g_AyaInventoryItems[];
-extern int g_InvStorageSelectionBits[];
 extern int D_8009D03C;
 extern int D_8009D04C;
 extern s16 D_800C0EAA[];
@@ -138,13 +135,13 @@ void Inv_BuildItemGridFromCategory(void)
 void Inv_SelectActiveList(int useOverride) {
     if (useOverride != 0 && g_InvActiveListOverride != 0) {
         g_InvItemPtr = g_InvActiveListOverride;
-        g_InvSelectionBits = (int)g_InvStorageSelectionBits;
+        g_InvSelectionBits = g_InvStorageSelectionBits;
         g_InvSelectionBitWords = 4;
         g_InvSlotLimit = g_InvOverrideSlotLimit;
     } else {
-        g_InvItemPtr = (int)g_AyaInventoryItems;
+        g_InvItemPtr = g_AyaInventoryItems;
         g_InvSlotLimit = Inv_GetAyaSlotLimit();
-        g_InvSelectionBits = (int)g_AyaItemSelectionBits;
+        g_InvSelectionBits = g_AyaItemSelectionBits;
         g_InvSelectionBitWords = 2;
     }
 }

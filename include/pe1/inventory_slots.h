@@ -26,6 +26,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(InventoryRuntime, storage) == 0x1098,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(InventoryRuntime, specialStorage) == 0x1160,
                   inventory_runtime_special_storage_offset);
 extern InventoryRuntime D_800C0E20;
+/* Count of filtered slot indices in D_800A1D9C; distinct from the
+ * pending item-ID list at D_800A1FD4 (count D_8009D078). */
 extern s32 D_8009D040;
 extern s32 D_8009D044;
 extern s16 D_800A1E00[];
@@ -94,6 +96,7 @@ void Inv_RememberSelection(unsigned int index, int value);
 int Inv_RestoreSelection(unsigned int index);
 void Inv_BuildStorageDisplay(void);
 
+void Inv_SetActiveListOverride(s16 *items, int count);
 int Inv_GetAyaSlotLimit(void);
 int Inv_GetBonusSlotCount(void);
 int Inv_FindFirstEmptySlot(int neededSlots);

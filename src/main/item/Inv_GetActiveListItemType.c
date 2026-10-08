@@ -1,10 +1,8 @@
 #include "common.h"
-#include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern int g_InvItemPtr;
-extern int g_InvSlotLimit;
 
 int Inv_GetActiveListItemType(int index)
 {
@@ -13,7 +11,7 @@ int Inv_GetActiveListItemType(int index)
     ItemDataRecord *entry;
 
     if (index >= 0 && index < g_InvSlotLimit) {
-        value = ((s16 *)g_InvItemPtr)[index];
+        value = g_InvItemPtr[index];
         saved_value = value;
         if ((unsigned int)(value - 0x100) < 0x80) {
             entry = (ItemDataRecord *)(g_EquipItemDataTable + (value << 5));
