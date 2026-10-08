@@ -553,10 +553,7 @@ segments:
       - [0x43770, c, item/inv2]
       - [0x43868, c, item/Inv_LookupActiveListDisplayData]
       - [0x43928, c, item/Inv_RebuildSelectionBitset]
-      - [0x43AB4, c, item/Inv_LookupData]
-      - [0x43B2C, c, item/Inv_LookupActiveListData]
-      - [0x43BD4, c, item/Inv_FindIndexByData]
-      - [0x43CCC, c, item/Inv_GetActiveListItem]
+      - [0x43AB4, c, item/Inv_DataLookup]
       # Item-data row renderer and cursor-text selector.
       # Contiguous item-list row selection and renderer UI helpers.
       - [0x43CE4, c, menu/Sfx_DrawSlotRow]
