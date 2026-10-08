@@ -53,7 +53,6 @@ void Draw_PushPrimToList(void *arg0) {
     g_TextCursorX = temp_a2;
     temp_a1_2 = cursorY + offsetY;
     g_TextCursorY = temp_a1_2;
-    var_s1 = 0;
     if (f != NULL) {
         q = (u8 *) g_TextCursorStackPtr;
         if ((u32) q < (u32) &g_TextCursorStackTop) {
@@ -65,7 +64,6 @@ void Draw_PushPrimToList(void *arg0) {
         }
         ((MenuWidgetNode *)var_s0)->draw(var_s0);
         __asm__ volatile("");
-        var_s1 = 0;
         if ((u32) &g_TextCursorStackBottom < g_TextCursorStackPtr) {
             temp_v0 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -8);
             temp_a0 = M2C_FIELD(g_TextCursorStackPtr, u32 *, -4);
@@ -74,10 +72,9 @@ void Draw_PushPrimToList(void *arg0) {
             g_TextCursorY = temp_a0;
         } else {
             BoundsCheck_AssertStub(3);
-            __asm__("" : "=r"(var_s1) : "0"(var_s1));
-            var_s1 = 0;
         }
     }
+    var_s1 = 0;
     do {
         temp_a0_2 = M2C_FIELD(var_s0, void **, 8);
         if (temp_a0_2 != NULL) {
