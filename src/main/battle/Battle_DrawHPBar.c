@@ -172,7 +172,6 @@ void Battle_DrawHPBar(void) {
     bufferIndex = 0;
     do {
         glyph = Draw_LookupGlyphDescriptor(0x8B);
-        asm("" : "=r"(glyph) : "0"(glyph));
         temp_s1 = bufferIndex * 0x28;
         labelQuad = temp_s1 + D_800BE9F0;
         SetPolyFT4(labelQuad);
@@ -527,7 +526,6 @@ loop_18:
 
 loop_20:
         glyph = Draw_LookupGlyphDescriptor(((u8)i) + 0x6A);
-        asm("" : "=r"(glyph) : "0"(glyph));
         pageCode = GetTPage(0, 0, 0x1C0, 0);
         temp_s0_31 = ((u8)i) * 0x1C;
         Gpu_InitDrawModeSprtPacket(temp_s4_3 + (temp_s0_31 + glyphBase), pageCode);
