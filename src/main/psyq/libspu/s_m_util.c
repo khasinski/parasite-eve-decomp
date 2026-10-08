@@ -28,7 +28,7 @@ s32 _SpuIsInAllocateArea(u32 addr) {
 s32 _SpuIsInAllocateArea_(u32 addr) {
     s32 i;
 
-    addr <<= _spu_mem_mode_plus;
+    addr <<= _spu_mem_mode.shift;
     if (_spu_memList == 0) {
         return 0;
     }

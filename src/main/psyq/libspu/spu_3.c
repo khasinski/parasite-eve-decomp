@@ -33,7 +33,7 @@ int _spu_t(int command, ...)
     switch (command) {
     case 2:
         size = *(u32 *)((args += 4) - 4);
-        g_SpuTransferAddr = size >> _spu_mem_mode_plus;
+        g_SpuTransferAddr = size >> _spu_mem_mode.shift;
         _spu_RXX->trans_addr = g_SpuTransferAddr;
         break;
     case 1:
@@ -93,7 +93,7 @@ int _spu_t(int command, ...)
 u32 _spu_Fw(void *address, u32 size)
 {
     if (D_8009B418 == 0) {
-        _spu_t(2, g_SpuTransferAddr << _spu_mem_mode_plus);
+        _spu_t(2, g_SpuTransferAddr << _spu_mem_mode.shift);
         _spu_t(1);
         _spu_t(3, address, size);
     } else {
@@ -103,7 +103,7 @@ u32 _spu_Fw(void *address, u32 size)
 }
 
 s32 _spu_Fr(void *address, s32 size) {
-    _spu_t(2, g_SpuTransferAddr << _spu_mem_mode_plus);
+    _spu_t(2, g_SpuTransferAddr << _spu_mem_mode.shift);
     _spu_t(0);
     _spu_t(3, address, size);
     return size;

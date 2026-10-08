@@ -6,7 +6,6 @@
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
 
-extern s32 _spu_mem_mode_plus;
 extern s32 D_8009B418;
 extern s32 D_8009B384;
 extern s32 D_8009C4C0[];
@@ -39,12 +38,12 @@ int SpuClearReverbWorkArea(int mode)
         return -1;
     }
     if (mode == 0) {
-        length = 0x10 << _spu_mem_mode_plus;
-        address = 0xFFF0 << _spu_mem_mode_plus;
+        length = 0x10 << _spu_mem_mode.shift;
+        address = 0xFFF0 << _spu_mem_mode.shift;
     } else {
         u32 start = *(u32 *)length;
-        length = (0x10000 - start) << _spu_mem_mode_plus;
-        address = start << _spu_mem_mode_plus;
+        length = (0x10000 - start) << _spu_mem_mode.shift;
+        address = start << _spu_mem_mode.shift;
     }
     oldTransmode = D_8009B418;
     if (D_8009B418 == 1) {

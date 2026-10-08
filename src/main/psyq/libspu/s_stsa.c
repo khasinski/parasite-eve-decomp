@@ -10,7 +10,7 @@ int SpuSetTransferStartAddr(int arg0) {
         g_SpuTransferAddr = _spu_FsetRXXa(-1, arg0);
         /* Reload this halfword after the store, preserving the SDK access sequence. */
         asm volatile("" : "=m"(g_SpuTransferAddr) : "m"(g_SpuTransferAddr));
-        result = g_SpuTransferAddr << _spu_mem_mode_plus;
+        result = g_SpuTransferAddr << _spu_mem_mode.shift;
     } else {
         result = 0;
     }

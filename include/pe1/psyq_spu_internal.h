@@ -86,10 +86,18 @@ typedef struct SpuMalloc {
     u32 size;
 } SPU_MALLOC;
 
-extern s32 _spu_mem_mode_plus;
-extern s32 _spu_mem_mode;
-extern s32 _spu_mem_mode_unit;
-extern s32 _spu_mem_mode_unitM;
+/* Address conversion state initialized together by _spu_init: mode 2,
+ * three address bits per eight-byte unit, and a remainder mask of seven. */
+typedef struct SpuAddressUnit {
+    s32 mode;
+    s32 shift;
+    s32 bytes;
+    s32 mask;
+} SpuAddressUnit;
+typedef char SpuAddressUnitSizeCheck[(sizeof(SpuAddressUnit) == 16) ? 1 : -1];
+typedef char SpuAddressUnitShiftCheck[
+    ((unsigned long)&((SpuAddressUnit *)0)->shift == 4) ? 1 : -1];
+extern SpuAddressUnit _spu_mem_mode;
 extern SpuRegs *_spu_RXX;
 extern u32 *_spu_sys_pcr;
 extern volatile u32 *g_SpuDmaMadrPtr;

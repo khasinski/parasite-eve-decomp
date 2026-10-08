@@ -28,10 +28,10 @@ int _spu_init(int hot) {
         }
     }
     channel = 0;
-    _spu_mem_mode = 2;
-    _spu_mem_mode_plus = 3;
-    _spu_mem_mode_unit = 8;
-    _spu_mem_mode_unitM = 7;
+    _spu_mem_mode.mode = 2;
+    _spu_mem_mode.shift = 3;
+    _spu_mem_mode.bytes = 8;
+    _spu_mem_mode.mask = 7;
     _spu_RXX->transfer_control = 4;
     _spu_RXX->reverb_volume_left = 0;
     _spu_RXX->reverb_volume_right = 0;

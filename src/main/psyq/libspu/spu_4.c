@@ -8,7 +8,7 @@ void _spu_FsetRXX(u32 offset, u32 value, u32 mode) {
         ((u16 *)_spu_RXX)[offset] = value;
     } else {
         ((u16 *)_spu_RXX)[offset] =
-            value >> _spu_mem_mode_plus;
+            value >> _spu_mem_mode.shift;
     }
 }
 
@@ -22,16 +22,16 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
 
     offset = arg0;
 
-    if (_spu_mem_mode != 0) {
-        unit = _spu_mem_mode_unit;
+    if (_spu_mem_mode.mode != 0) {
+        unit = _spu_mem_mode.bytes;
         rem = value % unit;
         if (rem != 0) {
             value += unit;
-            value &= ~_spu_mem_mode_unitM;
+            value &= ~_spu_mem_mode.mask;
         }
     }
 
-    shift = _spu_mem_mode_plus;
+    shift = _spu_mem_mode.shift;
     shifted = value >> shift;
     asm volatile("" : "=r"(shifted) : "0"(shifted));
     ret = shifted;
@@ -55,7 +55,7 @@ u32 _spu_FgetRXXa(u32 offset, s32 mode)
     if (mode == -1) {
         return value;
     }
-    return value << _spu_mem_mode_plus;
+    return value << _spu_mem_mode.shift;
 }
 
 #include "pe1/psyq_spu_internal.h"
