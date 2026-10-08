@@ -8,7 +8,7 @@ int puts(const char *text);
 int printf(const char *format, ...);
 
 int CD_init(void) {
-    register int zero asm("$0");
+    const int zero = 0;
     int result;
     register int cmd asm("$4");
     register int arg asm("$5");
