@@ -124,7 +124,7 @@ int func_800CB8E0(void *arg0, void *arg1, FieldAnimMovingParticle *anim) {
 void *memset(void *dest, int value, unsigned int count);
 
 
-int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
+int func_800CB9F8(void *arg0, void *arg1, FieldAnimMatrixGlow *anim) {
     u16 *field = &D_800F34F2;
     GteMatrix matrix;
     GteVector scaleCopy;
@@ -135,17 +135,17 @@ int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    *field = *(u16 *)(anim + 0x4);
-    matrix = *(GteMatrix *)(anim + 0x10);
+    *field = anim->brightness;
+    matrix = anim->transform.matrix;
 
-    matrix.t[0] = *(s16 *)(anim + 0x8);
-    matrix.t[1] = *(s16 *)(anim + 0xA);
-    matrix.t[2] = *(s16 *)(anim + 0xC);
+    matrix.t[0] = (s16)anim->position.x;
+    matrix.t[1] = (s16)anim->position.y;
+    matrix.t[2] = (s16)anim->position.z;
 
     memset(&scale, 0, sizeof(scale));
-    scale.x = *(s16 *)(anim + 0x6);
-    scale.y = *(s16 *)(anim + 0x6);
-    scale.z = *(s16 *)(anim + 0x6);
+    scale.x = anim->scale;
+    scale.y = anim->scale;
+    scale.z = anim->scale;
     scaleCopy = scale;
 
     ScaleMatrix(&matrix, &scaleCopy);

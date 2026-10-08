@@ -87,44 +87,24 @@ int func_800C8F94(void *arg0, void *arg1, FieldAnimMovingParticle *anim) {
 extern char *D_8009D254;
 extern char D_800E0A10[];
 
-int func_800C90A4(void *arg0, void *arg1, u8 *anim) {
-    u8 *anim_s0 = anim;
+int func_800C90A4(void *arg0, void *arg1, FieldAnimMatrixGlow *anim) {
+    FieldAnimMatrixGlow *anim_s0 = anim;
     GteShortVector out;
     char *data;
     char *entry;
     char *model;
-    int m0;
-    int m1;
-    int m2;
-    int m3;
 
     entry = D_800E0A10 + (((short)(*(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6) - 1)) << 3);
     ApplyMatrixSV(*(char **)(D_800E27A0 + 0x238) + 0x260, entry, &out);
 
-    *(u16 *)(anim_s0 + 0x8) = D_800E2350.x + out.x;
-    *(u16 *)(anim_s0 + 0xA) = D_800E2350.y + out.y;
+    anim_s0->position.x = D_800E2350.x + out.x;
+    anim_s0->position.y = D_800E2350.y + out.y;
     data = D_800E27A0;
-    *(u16 *)(anim_s0 + 0xC) = D_800E2350.z + out.z;
+    anim_s0->position.z = D_800E2350.z + out.z;
 
     model = *(char **)(data + 0x238);
-    m0 = *(int *)(model + 0x260);
-    m1 = *(int *)(model + 0x264);
-    m2 = *(int *)(model + 0x268);
-    m3 = *(int *)(model + 0x26C);
-    *(int *)(anim_s0 + 0x10) = m0;
-    *(int *)(anim_s0 + 0x14) = m1;
-    *(int *)(anim_s0 + 0x18) = m2;
-    *(int *)(anim_s0 + 0x1C) = m3;
-    m0 = *(int *)(model + 0x270);
-    m1 = *(int *)(model + 0x274);
-    m2 = *(int *)(model + 0x278);
-    m3 = *(int *)(model + 0x27C);
-    *(int *)(anim_s0 + 0x20) = m0;
-    *(int *)(anim_s0 + 0x24) = m1;
-    *(int *)(anim_s0 + 0x28) = m2;
-    *(int *)(anim_s0 + 0x2C) = m3;
-    asm volatile("" ::: "memory");
-    *(u16 *)(anim_s0 + 0x4) = 0x7F;
+    anim_s0->transform = *(GteMatrixStorage *)(model + 0x260);
+    anim_s0->brightness = 0x7F;
 }
 
 extern GteShortVector D_800C217C;
