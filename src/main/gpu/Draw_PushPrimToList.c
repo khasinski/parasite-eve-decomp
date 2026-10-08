@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -27,7 +28,7 @@ void Draw_PushPrimToList(void *arg0) {
     u8 *q;
     s32 t0;
     u32 t1;
-    M2C_UNK (*f)(void *);
+    void (*f)();
     register s32 tf asm("$3");
     register s32 tg asm("$2");
 
@@ -42,11 +43,11 @@ void Draw_PushPrimToList(void *arg0) {
     } else {
         BoundsCheck_AssertStub(2, temp_a1);
     }
-    tf = M2C_FIELD(var_s0, s32 *, 0x18);
+    tf = ((MenuWidgetNode *)var_s0)->x;
     tg = g_TextCursorX;
-    f = M2C_FIELD(var_s0, M2C_UNK (**)(void *), 0x30);
+    f = ((MenuWidgetNode *)var_s0)->draw;
     temp_a2 = tg + tf;
-    tf = M2C_FIELD(var_s0, s32 *, 0x1C);
+    tf = ((MenuWidgetNode *)var_s0)->y;
     tg = g_TextCursorY;
     g_TextCursorX = temp_a2;
     temp_a1_2 = tg + tf;
@@ -61,7 +62,7 @@ void Draw_PushPrimToList(void *arg0) {
         } else {
             BoundsCheck_AssertStub(2, temp_a1_2, temp_a2);
         }
-        M2C_FIELD(var_s0, M2C_UNK (**)(void *), 0x30)(var_s0);
+        ((MenuWidgetNode *)var_s0)->draw(var_s0);
         __asm__ volatile("");
         var_s1 = 0;
         if ((u32) &g_TextCursorStackBottom < g_TextCursorStackPtr) {
