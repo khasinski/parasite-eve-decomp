@@ -29,6 +29,8 @@ static inline DRAWENV *DrawAddress(int index) {
 }
 
 void Gpu_RenderFrame(void) {
+    RenderBufferPrefix *buffers;
+    int displayFlags;
     int idx;
     int state;
     int status;
@@ -37,7 +39,8 @@ void Gpu_RenderFrame(void) {
     DrawSync(0);
     Menu_DrawSaveBg();
 
-    if (D_800B0CD8_WORD & 0x200) {
+    displayFlags = D_800B0CD8_WORD & 0x200;
+    if (displayFlags) {
         VSync(4);
         if ((short)Seq_GetElapsed() >= 3) {
             SetDispMask(1);
@@ -70,15 +73,11 @@ draw_direct:
 draw_buffer:
     {
         int drawSlot;
-        char *bufferEntry;
-        int pointerOffset;
         char *orderingTable;
 
         drawSlot = g_ActiveDrawSlot;
-        pointerOffset = drawSlot << 2;
-        asm volatile("" : "=r"(state_ptr) : "0"(state_ptr));
-        bufferEntry = (char *)state_ptr + pointerOffset;
-        orderingTable = ((RenderBufferPrefix *)(bufferEntry + 0x160))->ordering[0];
+        buffers = &((RenderFrameState *)state_ptr)->buffers;
+        orderingTable = buffers->ordering[drawSlot];
         DrawOTagEnv(orderingTable + 0x3FFC, &g_RenderDrawEnvArray[drawSlot]);
     }
 

@@ -36,4 +36,13 @@ typedef struct RenderBufferPrefix {
     char *packets[2];
 } RenderBufferPrefix;
 
+/* Renderer view of the shared game working state. */
+typedef struct RenderFrameState {
+    u32 flags;
+    u8 reserved04[0x15C];
+    RenderBufferPrefix buffers;
+} RenderFrameState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderFrameState, buffers) == 0x160, render_frame_buffers_offset);
+
 #endif
