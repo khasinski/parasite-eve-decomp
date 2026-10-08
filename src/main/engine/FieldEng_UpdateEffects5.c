@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_anim_particle.h"
 #include "pe1/field_anim.h"
 #include "pe1/field_engine_slot.h"
 #include "pe1/battle.h"
@@ -85,7 +86,8 @@ void *memset(void *dest, int value, unsigned int count);
 extern GteShortVector D_800C2204;
 extern s16 D_800F34F2;
 
-int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
+int func_800CB8E0(void *arg0, void *arg1, FieldAnimMovingParticle *anim) {
+    s16 *position;
     u16 *field = &D_800F34F2;
     GteMatrix matrix;
     GteShortVector rot;
@@ -99,17 +101,18 @@ int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    *field = *(u16 *)(anim + 0x4);
+    *field = anim->brightness;
     RotMatrix(&rot, &matrix);
 
-    matrix.t[0] = *(s16 *)(anim + 0x8);
-    matrix.t[1] = *(s16 *)(anim + 0xA);
-    matrix.t[2] = *(s16 *)(anim + 0xC);
+    position = (s16 *)&anim->position.x;
+    matrix.t[0] = position[0];
+    matrix.t[1] = position[1];
+    matrix.t[2] = position[2];
 
     memset(&scale, 0, sizeof(scale));
-    scale.x = *(s16 *)(anim + 0x6);
-    scale.y = *(s16 *)(anim + 0x6);
-    scale.z = *(s16 *)(anim + 0x6);
+    scale.x = anim->scale;
+    scale.y = anim->scale;
+    scale.z = anim->scale;
     scaleCopy = scale;
 
     ScaleMatrix(&matrix, &scaleCopy);
@@ -159,41 +162,41 @@ int func_800CBB24(void *arg0, FieldEngSlot *state) {
 }
 
 #include "common.h"
-int func_800CBB30(void *arg0, FieldEngSlot *state, u8 *anim) {
+int func_800CBB30(void *arg0, FieldEngSlot *state, FieldAnimMovingParticle *anim) {
     FieldEngSlot *state_a3 = state;
-    u8 *anim_a2 = anim;
+    FieldAnimMovingParticle *anim_a2 = anim;
     int temp_v0;
     int temp_v1;
     register int temp_a0 asm("$4");
     register int temp_a1 asm("$5");
     u8 count;
 
-    temp_v0 = *(u16 *)(anim_a2 + 0x8);
-    temp_v1 = *(u16 *)(anim_a2 + 0x10);
-    temp_a0 = *(u16 *)(anim_a2 + 0x12);
-    temp_a1 = *(u16 *)(anim_a2 + 0x14);
+    temp_v0 = (u16)anim_a2->position.x;
+    temp_v1 = (u16)anim_a2->velocity.x;
+    temp_a0 = (u16)anim_a2->velocity.y;
+    temp_a1 = (u16)anim_a2->velocity.z;
 
     temp_v0 += temp_v1;
-    *(u16 *)(anim_a2 + 0x8) = temp_v0;
-    temp_v0 = *(u16 *)(anim_a2 + 0xA);
-    temp_v1 = *(u16 *)(anim_a2 + 0xC);
+    anim_a2->position.x = temp_v0;
+    temp_v0 = (u16)anim_a2->position.y;
+    temp_v1 = (u16)anim_a2->position.z;
     temp_v0 += temp_a0;
     temp_v1 += temp_a1;
-    *(u16 *)(anim_a2 + 0xA) = temp_v0;
-    temp_v0 = *(u16 *)(anim_a2 + 0x12);
+    anim_a2->position.y = temp_v0;
+    temp_v0 = (u16)anim_a2->velocity.y;
     temp_a0 = (unsigned int)anim_a2;
-    *(u16 *)(anim_a2 + 0xC) = temp_v1;
-    temp_v1 = anim_a2[1];
+    anim_a2->position.z = temp_v1;
+    temp_v1 = anim_a2->age;
     temp_v0 += 3;
-    *(u16 *)(anim_a2 + 0x12) = temp_v0;
-    temp_v0 = *(s16 *)(anim_a2 + 0xA);
+    anim_a2->velocity.y = temp_v0;
+    temp_v0 = (s16)anim_a2->position.y;
     temp_v1++;
-    anim_a2[1] = temp_v1;
+    anim_a2->age = temp_v1;
     if (temp_v0 > 0) {
-        *(u16 *)(anim_a2 + 0x12) = -*(u16 *)(anim_a2 + 0x12);
+        anim_a2->velocity.y = -(u16)anim_a2->velocity.y;
     }
-    count = ((u8 *)temp_a0)[2];
-    ((u8 *)temp_a0)[2] = count - 1;
+    count = ((FieldAnimMovingParticle *)temp_a0)->lifetime;
+    ((FieldAnimMovingParticle *)temp_a0)->lifetime = count - 1;
     if (count == 0) {
         state_a3->flag = 2;
     }
