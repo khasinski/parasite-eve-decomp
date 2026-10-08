@@ -720,7 +720,6 @@ void func_800C4E50(FieldRingGeometry *data) {
 
 void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
 {
-    register const GteMatrixWords *cameraRot asm("$10");
     const GteMatrixWords *cameraTrans;
     const GteMatrixWords *composed;
     register const GteMatrixWords *camera asm("$10");
@@ -748,8 +747,8 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
     D_800F33B4 = FIELD_ENGINE_SCRATCH;
     if (mode == 0) {
         /* Compose camera rotation with each placement column. */
-        cameraRot = (const GteMatrixWords *)D_800BCFA4.value;
-        gte_ldrotmatrix(cameraRot);
+        camera = (const GteMatrixWords *)D_800BCFA4.value;
+        gte_ldrotmatrix(camera);
         gte_ldclmv(placement);
         gte_rtir();
         firstColumn = (u16 *)&D_800F33B4->matrix;
