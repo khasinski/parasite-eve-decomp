@@ -25,7 +25,7 @@ extern u32 D_8009CDA0;
         gte_ctc2_12(z);                                                                            \
     }
 /* Column loads/stores are C; retain the SDK transfer registers and addresses.
- * Each address constraint is instantiated for all three matrix columns. */
+ * Address constraints remain for the second and third matrix columns. */
 #define Draw_LoadAxis(src) \
     { \
         asm volatile("" : "=r"((src)) : "0"((src))); \
@@ -94,12 +94,12 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                 if (part->visible == 1) {
                     Draw_LoadRotation(viewMatrix);
                     {
-                        register const u16 *column asm("$24") = (const u16 *)matrix;
-                        Draw_LoadAxis(column);
+                        gte_ldclmv((const u16 *)matrix);
+                        gte_rtir();
                     }
                     {
-                        register volatile s16 *column asm("$5") = lightMatrix;
-                        Draw_StoreAxis(column);
+                        gte_stclmv(lightMatrix);
+                        asm volatile("" : : : "memory");
                     }
                     {
                         u16 *src = (u16 *)matrix + 1;
