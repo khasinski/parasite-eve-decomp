@@ -5,7 +5,7 @@
 int Render_LoadFontGlyph(u8 code)
 {
     int status;
-    register int offset asm("$2");
+    int offset;
     int sourceOffset;
     int i;
     u8 *source;
@@ -29,22 +29,18 @@ poll:
         goto retry;
     goto poll;
 copy:
-    offset = code * 328;
-    PE1_COMPILER_LAUNDER(offset);
-    sourceOffset = offset;
-    sourceOffset++;
-    PE1_COMPILER_LAUNDER(sourceOffset);
+    offset = code * sizeof(FontGlyphRecord);
+    sourceOffset = offset + PE1_OFFSETOF(FontGlyphTable, groups.unknown[0]);
     source = D_800B0E6C;
     i = 0;
     bytePtr = source + sourceOffset;
     D_8009ECD8.groups.unknown[0] = *bytePtr;
-    sourceOffset = offset + 2;
+    sourceOffset = offset + PE1_OFFSETOF(FontGlyphTable, groups.unknown[1]);
     bytePtr = source + sourceOffset;
-    sourceOffset = offset + 3;
-    PE1_COMPILER_LAUNDER(sourceOffset);
+    sourceOffset = offset + PE1_OFFSETOF(FontGlyphTable, groups.count);
     D_8009ECD8.groups.unknown[1] = *bytePtr;
     D_8009ECD8.groups.count = source[sourceOffset];
-    sourceOffset = offset + 4;
+    sourceOffset = offset + PE1_OFFSETOF(FontGlyphTable, groups.codes);
     for (i = 0; i < 24; i++, sourceOffset++)
         D_8009ECD8.groups.codes[i] = D_800B0E6C[sourceOffset];
     D_8009ECD8.slots.count = D_800B0E6C[sourceOffset++];

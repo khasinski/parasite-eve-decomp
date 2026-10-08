@@ -19,6 +19,13 @@ typedef struct FontGlyphSlots {
     unsigned char unknownC9[100];
 } FontGlyphSlots;
 
+/* The disc buffer has one shared code count followed by 328-byte records.
+ * The selected in-memory table prefixes one record with that shared count. */
+typedef struct FontGlyphRecord {
+    FontGlyphGroups groups;
+    FontGlyphSlots slots;
+} FontGlyphRecord;
+
 typedef struct FontGlyphTable {
     unsigned char codeCount;  /* glyph codes in the loaded set */
     FontGlyphGroups groups;
@@ -45,6 +52,9 @@ typedef struct FontGlyphSelectionState {
     u32 seed;                 /* rand() seed of the code shuffle, 0 = none */
     FontGlyphTable *table;
 } FontGlyphSelectionState;
+
+PE1_STATIC_ASSERT(sizeof(FontGlyphRecord) == 328, font_glyph_record_size);
+PE1_STATIC_ASSERT(sizeof(FontGlyphTable) == 329, font_glyph_table_size);
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FontGlyphTable, groups.codes) == 4,
                   font_group_codes_offset);
