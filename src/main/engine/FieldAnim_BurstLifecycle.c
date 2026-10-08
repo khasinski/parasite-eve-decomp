@@ -8,7 +8,7 @@
 
 extern u16 D_800E27EA;
 
-int func_800CD50C(void *arg0, void *arg1, u8 *anim) {
+int func_800CD50C(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     int *base_a1;
     u16 *field_v1;
 
@@ -19,10 +19,10 @@ int func_800CD50C(void *arg0, void *arg1, u8 *anim) {
 
     base_a1 = &D_800F3478.t[0];
     field_v1 = &D_800E27EA;
-    base_a1[0] = *(s16 *)(anim + 0x8);
-    D_800F3478.t[1] = *(s16 *)(anim + 0xA);
-    D_800F3478.t[2] = *(s16 *)(anim + 0xC);
-    *field_v1 = *(u16 *)(anim + 0x4);
+    base_a1[0] = (s16)anim->position.x;
+    D_800F3478.t[1] = (s16)anim->position.y;
+    D_800F3478.t[2] = (s16)anim->position.z;
+    *field_v1 = anim->brightness;
     func_800C42A4((FieldGlowSprite *)((u8 *)field_v1 - 10), (GteMatrix *)(base_a1 - 5), 1);
 }
 
@@ -35,51 +35,51 @@ int func_800CD5A4(void *arg0, u8 *state) {
     return ret;
 }
 
-int func_800CD5B0(void *arg0, u8 *state, u8 *anim) {
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) - 0xA;
-    *(u16 *)(anim + 6) = *(u16 *)(anim + 6) + 0x3C;
-    if (*(s16 *)(anim + 4) < 0x14) {
-        *(u16 *)(anim + 4) = 0;
+int func_800CD5B0(void *arg0, u8 *state, FieldAnimGlowPoint *anim) {
+    anim->brightness = anim->brightness - 0xA;
+    (*(u16 *)&anim->scale) = (*(u16 *)&anim->scale) + 0x3C;
+    if ((s16)anim->brightness < 0x14) {
+        anim->brightness = 0;
         state[1] = 2;
     }
 }
 
-int func_800CD5EC(void *arg0, u8 *state, u8 *anim) {
+int func_800CD5EC(void *arg0, u8 *state, FieldAnimTwoPointMotion *anim) {
     unsigned int i = 0;
 
     do {
-        u8 *entry = anim + ((i & 0xFFFF) * 8);
+        unsigned slot = i & 0xFFFF;
 
         i++;
-        *(u16 *)(entry + 0x10) = *(u16 *)(entry + 0x10) + *(u16 *)(entry + 0x20);
-        *(u16 *)(entry + 0x12) = *(u16 *)(entry + 0x12) + *(u16 *)(entry + 0x22);
-        *(u16 *)(entry + 0x14) = *(u16 *)(entry + 0x14) + *(u16 *)(entry + 0x24);
+        anim->position[slot].x = anim->position[slot].x + anim->velocity[slot].x;
+        anim->position[slot].y = anim->position[slot].y + anim->velocity[slot].y;
+        anim->position[slot].z = anim->position[slot].z + anim->velocity[slot].z;
     } while ((i & 0xFFFF) < 2);
 
-    anim[3]++;
-    if ((signed char)anim[3] >= 8) {
+    anim->age++;
+    if ((signed char)anim->age >= 8) {
         state[1] = 2;
     }
 }
 
 int rand(void);
 
-int func_800CD678(void *arg0, u8 *state, u8 *anim) {
-    s16 value = rand() % 11;
-    u16 z = *(u16 *)(anim + 0xA);
-    int x = *(u16 *)(anim + 0x4);
-    u16 y = *(u16 *)(anim + 0x8);
-    z -= 8;
-    x -= 8;
-    y -= 5;
-    asm("" : "=r"(y) : "0"(y));
+int func_800CD678(void *arg0, u8 *state, FieldAnimGlowPoint *anim) {
+    s16 jitter = rand() % 11;
+    u16 positionY = anim->position.y;
+    int brightness = anim->brightness;
+    u16 positionX = anim->position.x;
+    positionY -= 8;
+    brightness -= 8;
+    positionX -= 5;
+    asm("" : "=r"(positionX) : "0"(positionX));
 
-    *(u16 *)(anim + 0xA) = z;
-    *(u16 *)(anim + 0x4) = x;
-    y += value;
-    *(u16 *)(anim + 0x8) = y;
+    anim->position.y = positionY;
+    anim->brightness = brightness;
+    positionX += jitter;
+    anim->position.x = positionX;
 
-    if ((short)x < 8) {
+    if ((short)brightness < 8) {
         state[1] = 2;
     }
 }

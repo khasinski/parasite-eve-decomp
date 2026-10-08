@@ -29,6 +29,21 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimMovingParticle, velocity) == 0x10,
 PE1_STATIC_ASSERT(sizeof(FieldAnimMovingParticle) == 0x18,
                   field_anim_moving_particle_size);
 
+/* Two position/displacement slots updated for eight frames. */
+typedef struct FieldAnimTwoPointMotion {
+    u8 reserved00[3];
+    u8 age;
+    u8 reserved04[12];
+    FieldAnimParticlePosition position[2];
+    FieldAnimParticlePosition velocity[2];
+} FieldAnimTwoPointMotion;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTwoPointMotion, position) == 0x10,
+                  field_anim_two_point_position);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTwoPointMotion, velocity) == 0x20,
+                  field_anim_two_point_velocity);
+PE1_STATIC_ASSERT(sizeof(FieldAnimTwoPointMotion) == 0x30,
+                  field_anim_two_point_motion_size);
+
 /* Single glow point used by transformed and fixed-position emitters. */
 typedef struct FieldAnimGlowPoint {
     u8 reserved00[4];
