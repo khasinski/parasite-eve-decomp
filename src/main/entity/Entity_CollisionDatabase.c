@@ -7,7 +7,6 @@
  * relocating the loaded database's offsets into pointers. */
 
 extern char *D_800B1620[];
-extern char *g_CollisionDb;
 extern char *g_RegionHeightTable;
 extern char *g_CollisionPlaneTable;
 extern char *g_SceneDataTable2;
@@ -71,7 +70,7 @@ void Entity_RelocateSceneData(void) {
     loaded = D_800B1620[0];
     base = (CollisionDatabase *)loaded;
     offset = *(u32 *)&base->vertices;
-    g_CollisionDb = (char *)base;
+    g_CollisionDb = base;
 
     if (!(0x80000000U < offset)) {
         goto relocate;
@@ -107,7 +106,7 @@ relocate:
         register u32 count asm("$3");
         register u32 entry asm("$4");
 
-        actor = (CollisionDatabase *)g_CollisionDb;
+        actor = g_CollisionDb;
         i = 0;
         value20 = (char *)actor->planes.pointer;
         value24 = (char *)actor->rampEdges.pointer;

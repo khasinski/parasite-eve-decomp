@@ -51,6 +51,8 @@ typedef struct CollisionDatabase {
 } CollisionDatabase;
 
 
+extern CollisionDatabase *g_CollisionDb;
+
 PE1_STATIC_ASSERT(sizeof(CollisionDatabase) == 0x28, collision_database_header_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionDatabase, regions) == 0x28,
                   collision_database_regions_offset);

@@ -107,7 +107,6 @@ void Entity_FindFloor(u8 *entity)
     } while (floor_index < U16_AT(D_8009D1FC, 2));
 }
 
-extern char *g_CollisionDb;
 extern char *g_CollisionPlaneTable;
 extern char *g_RegionHeightTable;
 
@@ -131,7 +130,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
         int idx;
 
         idx = index_v1 & 0xFFFF;
-        base = g_CollisionDb;
+        base = (char *)g_CollisionDb;
         base = *(char **)(base + 0x1C);
         entry = base + (idx * 22);
         actor_s2->collisionFace = entry;
@@ -152,7 +151,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
 
         idx = index_v1 & 0xFFFF;
         offset = idx << 3;
-        base = g_CollisionDb;
+        base = (char *)g_CollisionDb;
         offset -= idx;
         entry_s0 = *(char **)(base + 0x1C);
         offset <<= 2;
