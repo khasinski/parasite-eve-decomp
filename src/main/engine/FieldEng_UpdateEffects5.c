@@ -201,42 +201,42 @@ int func_800CBB30(void *arg0, FieldEngSlot *state, FieldAnimMovingParticle *anim
 }
 
 #include "common.h"
-int func_800CBBBC(void *arg0, FieldEngSlot *state, u8 *anim) {
-    s16 value = *(u16 *)(anim + 4) - 0x14;
+int func_800CBBBC(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
+    s16 value = anim->brightness - 0x14;
 
-    *(u16 *)(anim + 4) = value;
+    anim->brightness = value;
     if (value < 0x14) {
-        *(u16 *)(anim + 4) = 0;
+        anim->brightness = 0;
         state->flag = 2;
     }
 }
 
 #include "common.h"
-int func_800CBBF0(void *arg0, FieldEngSlot *state, u8 *anim) {
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) - 8;
-    *(u16 *)(anim + 6) = *(u16 *)(anim + 6) + 0x3C;
-    if (*(s16 *)(anim + 4) < 0x14) {
-        *(u16 *)(anim + 4) = 0;
+int func_800CBBF0(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
+    anim->brightness = anim->brightness - 8;
+    anim->scale = (u16)anim->scale + 0x3C;
+    if ((s16)anim->brightness < 0x14) {
+        anim->brightness = 0;
         state->flag = 2;
     }
 }
 
 #include "common.h"
-int func_800CBC2C(void *arg0, FieldEngSlot *state, u8 *anim) {
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) - 8;
-    *(u16 *)(anim + 6) = *(u16 *)(anim + 6) + 0x78;
-    if (*(s16 *)(anim + 4) < 0x14) {
-        *(u16 *)(anim + 4) = 0;
+int func_800CBC2C(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
+    anim->brightness = anim->brightness - 8;
+    anim->scale = (u16)anim->scale + 0x78;
+    if ((s16)anim->brightness < 0x14) {
+        anim->brightness = 0;
         state->flag = 2;
     }
 }
 
 #include "common.h"
-int func_800CBC68(void *arg0, FieldEngSlot *state, u8 *anim) {
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) - 8;
-    *(u16 *)(anim + 6) = *(u16 *)(anim + 6) + 0xA;
-    if (*(s16 *)(anim + 4) < 0x14) {
-        *(u16 *)(anim + 4) = 0;
+int func_800CBC68(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
+    anim->brightness = anim->brightness - 8;
+    anim->scale = (u16)anim->scale + 0xA;
+    if ((s16)anim->brightness < 0x14) {
+        anim->brightness = 0;
         state->flag = 2;
     }
 }
