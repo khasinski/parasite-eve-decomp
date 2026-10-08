@@ -534,7 +534,7 @@ int func_800CE1FC(void) {
     func_800CEDA8(0);
 }
 
-int func_800CE2B4(void *arg0, void *arg1, u8 *anim) {
+int func_800CE2B4(void *arg0, void *arg1, FieldAnimTimedSpark *anim) {
     int randomX;
     int randomY;
     u16 base;
@@ -542,20 +542,20 @@ int func_800CE2B4(void *arg0, void *arg1, u8 *anim) {
 
     randomX = rand();
     base = D_800E2808.x - 0x28;
-    *(u16 *)(anim + 0x6) = base + (randomX % 80);
+    anim->position.x = base + (randomX % 80);
 
     randomY = rand();
     base = D_800E2808.y - 0x28;
-    *(u16 *)(anim + 0x8) = base + (randomY % 80);
+    anim->position.y = base + (randomY % 80);
 
     randomZ = rand();
     base = D_800E2808.z;
 
-    anim[1] = 0x7F;
-    *(u16 *)(anim + 0x4) = 0;
-    anim[3] = 0;
+    anim->brightness = 0x7F;
+    anim->reserved04 = 0;
+    anim->age = 0;
     base -= 0x28;
-    *(u16 *)(anim + 0xA) = base + (randomZ % 80);
+    anim->position.z = base + (randomZ % 80);
 }
 
 void func_800CE3AC(void) {
@@ -595,9 +595,9 @@ int func_800CE464(void *arg0, char *arg1) {
     return value;
 }
 
-void func_800CE470(void *arg0, char *arg1, unsigned char *arg2) {
-    arg2[3]++;
-    if ((signed char)arg2[3] == 6) {
+void func_800CE470(void *arg0, char *arg1, FieldAnimTimedSpark *anim) {
+    anim->age++;
+    if ((signed char)anim->age == 6) {
         arg1[1] = 2;
     }
 }

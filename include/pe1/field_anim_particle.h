@@ -61,6 +61,20 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimSparkPoint, displacement) == 0xA,
 PE1_STATIC_ASSERT(sizeof(FieldAnimSparkPoint) == 0x10,
                   field_anim_spark_point_size);
 
+/* Six-frame spark: randomized position, fixed brightness and age-driven draw. */
+typedef struct FieldAnimTimedSpark {
+    u8 reserved00;
+    u8 brightness;
+    u8 reserved02;
+    u8 age;
+    u16 reserved04;
+    struct { u16 x, y, z; } position;
+} FieldAnimTimedSpark;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTimedSpark, position) == 6,
+                  field_anim_timed_spark_position);
+PE1_STATIC_ASSERT(sizeof(FieldAnimTimedSpark) == 0xC,
+                  field_anim_timed_spark_size);
+
 /* Single glow point used by transformed and fixed-position emitters. */
 typedef struct FieldAnimGlowPoint {
     u8 reserved00[4];
