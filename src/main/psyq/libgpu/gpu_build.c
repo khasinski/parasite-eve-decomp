@@ -12,11 +12,6 @@
 #include "pe1/psyq_types.h"
 
 
-typedef struct GpuTexWindowWork {
-    volatile int slots[4];
-} GpuTexWindowWork;
-
-register GpuTexWindowWork *g_GpuTexWindowWork asm("$29");
 
 unsigned int Gpu_BuildDrawOffsetCmd(unsigned int arg0, unsigned int arg1) {
     arg1 &= 0x7FF;
@@ -27,6 +22,7 @@ unsigned int Gpu_BuildDrawOffsetCmd(unsigned int arg0, unsigned int arg1) {
 }
 
 u32 Gpu_BuildTexWindowCmd(GpuTextureWindowRectBytes *tw) {
+    volatile int slots[4];
     int x;
     int y;
     int w;
@@ -35,26 +31,24 @@ u32 Gpu_BuildTexWindowCmd(GpuTextureWindowRectBytes *tw) {
     u32 command;
     u32 result;
 
-    g_GpuTexWindowWork--;
     if (tw == 0) {
         result = 0;
     } else {
         x = tw->xLow >> 3;
-        g_GpuTexWindowWork->slots[0] = x;
+        slots[0] = x;
         w = ((-tw->w) & 0xFF) >> 3;
-        g_GpuTexWindowWork->slots[2] = w;
+        slots[2] = w;
         y = tw->yLow >> 3;
-        g_GpuTexWindowWork->slots[1] = y;
+        slots[1] = y;
         y <<= 15;
         h_raw = tw->h;
         h = ((-h_raw) & 0xFF) >> 3;
-        g_GpuTexWindowWork->slots[3] = h;
+        slots[3] = h;
 
         command = (x << 10) | 0xE2000000;
         result = y | command | (h << 5) | w;
     }
 
-    g_GpuTexWindowWork++;
     return result;
 }
 
