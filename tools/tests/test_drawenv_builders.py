@@ -14,7 +14,9 @@ class DrawEnvBuilderTests(unittest.TestCase):
         source = r'''
 #include <assert.h>
 #include <string.h>
-#include "src/main/psyq/libgpu/SetDrawEnv.c"
+#include "pe1/gpu_state.h"
+#include "pe1/gpu_command_builders.h"
+/* DRAWENV_BUILDERS */
 GpuDebugState D_8009574C;
 int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) { return 1; }
 int Gpu_BuildDrawAreaBottomRightCmd(int x, int y) { return 2; }
@@ -74,6 +76,9 @@ int main(void) {
     return 0;
 }
 '''
+        builders = (ROOT / "src/main/psyq/libgpu/GetDispEnv.c").read_text()
+        builders = "void SetDrawEnv(" + builders.split("void SetDrawEnv(", 1)[1]
+        source = source.replace("/* DRAWENV_BUILDERS */", builders)
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "drawenv-test"
             result = subprocess.run(

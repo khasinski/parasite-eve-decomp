@@ -856,7 +856,6 @@ segments:
       - [0x65AAC, c, psyq/libgpu/ClearOTagR]
       - [0x65DF0, c, psyq/libgpu/PutDispEnv]
       - [0x662E8, c, psyq/libgpu/GetDispEnv]
-      - [0x664E8, c, psyq/libgpu/SetDrawEnv]
       - [0x66950, c, psyq/libgpu/Gpu_BuildDrawModeCmd]
       - [0x66970, c, psyq/libgpu/drawarea]
       - [0x66AA0, c, psyq/libgpu/gpu_build]

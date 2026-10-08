@@ -16,6 +16,7 @@ class GpuPacketInitTests(unittest.TestCase):
 #include <assert.h>
 static int mode_calls, window_calls;
 GpuCallbacks *D_80095744;
+GpuDebugState D_8009574C;
 char g_GpuActiveDispEnv[0x14];
 int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) { return 0; }
 int Gpu_BuildDrawAreaBottomRightCmd(int x, int y) { return 0; }
