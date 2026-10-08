@@ -226,7 +226,7 @@ u8 Render_StepFontLoad(void) {
     u8 state;
     u8 next;
     register u8 code asm("$4");
-    u8 *hdr;
+    FontGlyphTable *table;
     u8 *p;
     u8 *q;
     u8 *t;
@@ -257,9 +257,9 @@ u8 Render_StepFontLoad(void) {
     asm("" : "=r"(digit), "=r"(i), "=r"(found)
         : "0"(digit), "1"(i), "2"(found));
 
-    hdr = (u8 *)g_FontSelectionState.table;
-    count = hdr[3];
-    p = hdr + 1;
+    table = g_FontSelectionState.table;
+    count = table->groups.count;
+    p = (u8 *)&table->groups;
     if (count > 0) {
         digit &= 0xFF;
         do {
