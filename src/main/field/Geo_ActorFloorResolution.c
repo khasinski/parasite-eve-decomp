@@ -140,6 +140,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
         value <<= 16;
+        actor_s2->posY.fixed = value;
     } else {
         char *entry_s0;
         int first;
@@ -168,13 +169,12 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
         second = Math_FixedMul(((CollisionPlane *)g_CollisionPlaneTable)[id].c, actor_s2->posZ.fixed);
         id = ((CollisionFace *)entry_s0)->plane;
         value = Math_FixedMul(((CollisionFace *)entry_s0)->distance - first - second, ((CollisionPlane *)g_CollisionPlaneTable)[id].inverseB);
+        actor_s2->posY.fixed = value;
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
-        asm volatile("" : : "r"(arg_y), "r"(arg_z));
         entry = entry_s0;
     }
 
-    actor_s2->posY.fixed = value;
     Geo_PointInTri(entry, arg_y, arg_z);
     actor_s2->baseX = actor_s2->posX.fixed;
     actor_s2->baseY = actor_s2->posY.fixed;
