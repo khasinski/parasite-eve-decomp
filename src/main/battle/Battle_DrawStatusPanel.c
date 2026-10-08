@@ -6,7 +6,7 @@
  * Each frame has ten panel slots (0x578 / 0x8C), each with five 28-byte
  * texture-page/sprite packets. Repeated byte stores deliberately retain
  * the original index reloads and separate symbol views.
- * Matching debt: 11 pins, four empty barriers, and 48 unused stack bytes.
+ * Matching debt: 9 pins, four empty barriers, and 48 unused stack bytes.
  * The stack reservation preserves the retail frame; its original purpose
  * is unknown. GCC rotates the digit-conversion condition into two blocks.
  */
@@ -97,7 +97,7 @@ void Battle_DrawStatusPanel(s32 mode, BattleStatusPanel *input) {
                     case 1:
                     colorOffset = lastDigit * 0x1C;
                     {
-                        register RenderSpritePacket *sprite asm("$3") = ((RenderSpritePacket *)(colorOffset + ((g_BattlePanelDrawSlotView[0] * 0x578) + (g_BattlePanelPacketIndex * 0x8C)) + ((u8 *)D_800B01C8)));
+                        RenderSpritePacket *sprite = ((RenderSpritePacket *)(colorOffset + ((g_BattlePanelDrawSlotView[0] * 0x578) + (g_BattlePanelPacketIndex * 0x8C)) + ((u8 *)D_800B01C8)));
                         sprite->color.bytes.r = 0;
                     }
                     ((RenderSpritePacket *)(colorOffset + ((g_BattlePanelPacketIndex * 0x8C) + (g_BattlePanelDrawSlotView[0] * 0x578)) + ((u8 *)D_800B01C8)))->color.bytes.g = panel->timer * 4;
@@ -113,7 +113,7 @@ void Battle_DrawStatusPanel(s32 mode, BattleStatusPanel *input) {
                     colorOffset = lastDigit * 0x1C;
                     ((RenderSpritePacket *)(colorOffset + ((g_BattlePanelPacketIndex * 0x8C) + (g_BattlePanelDrawSlotView[0] * 0x578)) + ((u8 *)D_800B01C8)))->color.bytes.r = panel->timer * 4;
                     {
-                        register RenderSpritePacket *sprite asm("$3") = ((RenderSpritePacket *)(colorOffset + ((g_BattlePanelDrawSlotView[0] * 0x578) + (g_BattlePanelPacketIndex * 0x8C)) + ((u8 *)D_800B01C8)));
+                        RenderSpritePacket *sprite = ((RenderSpritePacket *)(colorOffset + ((g_BattlePanelDrawSlotView[0] * 0x578) + (g_BattlePanelPacketIndex * 0x8C)) + ((u8 *)D_800B01C8)));
                         sprite->color.bytes.g = 0;
                     }
                     ((RenderSpritePacket *)(colorOffset + ((g_BattlePanelPacketIndex * 0x8C) + (g_BattlePanelDrawSlotView[0] * 0x578)) + ((u8 *)D_800B01C8)))->color.bytes.b = panel->timer * 4;
