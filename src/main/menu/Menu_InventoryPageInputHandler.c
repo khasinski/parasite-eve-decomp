@@ -4,16 +4,16 @@
 #include "pe1/menu_inventory.h"
 
 int Menu_InventoryPageInputHandler(MenuWidgetNode *root, u32 flags) {
-    register MenuWidgetNode *child asm("$16");
+    MenuWidgetNode *widget;
     MenuWidgetNode *node;
     int handled;
 
     handled = 0;
-    child = MenuWidget_GetChild(root, 0);
+    widget = MenuWidget_GetChild(root, 0);
     node = MenuWidget_FindByModeAndSelectedBase(2, 0xB);
 
     if (node != 0) {
-        handled = Menu_InventoryNavigate(child, node, flags);
+        handled = Menu_InventoryNavigate(widget, node, flags);
     }
 
     if (handled == 0 && (flags & 0x40)) {
@@ -30,18 +30,17 @@ int Menu_InventoryPageInputHandler(MenuWidgetNode *root, u32 flags) {
     }
 
     if (flags & 0x1000) {
-        register MenuWidgetNode *node2 asm("$16");
-        child->cursor_x = -1;
+        widget->cursor_x = -1;
         if (node == 0) {
-            node2 = MenuWidget_FindByModeAndSelectedBase(2, 5);
+            widget = MenuWidget_FindByModeAndSelectedBase(2, 5);
         } else {
-            node2 = MenuWidget_FindByModeAndSelectedBase(2, 0x1B);
+            widget = MenuWidget_FindByModeAndSelectedBase(2, 0x1B);
         }
 
-        if (node2 != 0) {
-            node2->cursor_x = 0;
-            node2->cursor_y = node2->y_limit - 1;
-            MenuWidget_SetCurrentNode(node2);
+        if (widget != 0) {
+            widget->cursor_x = 0;
+            widget->cursor_y = widget->y_limit - 1;
+            MenuWidget_SetCurrentNode(widget);
         }
         Menu_PlayMoveSound();
     }
