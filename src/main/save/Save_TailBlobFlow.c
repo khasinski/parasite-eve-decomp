@@ -72,13 +72,11 @@ void Save_SerializeTail(void) {
     g_SaveIoCursor = t + 8;
 }
 
-typedef struct SaveBytes12 { u8 b[12]; } SaveBytes12;
-
 void Save_DeserializeTail(void) {
     register u8 *cursor asm("$3");
     register u8 *next_cur asm("$4");
     SaveBytes70 *aya_dest;
-    register SaveBytes18 *battle_dest asm("$8");
+    SaveBytes18 *battle_dest;
     SaveBytes8 *equip_dest;
     u8 *step18;
     SaveBytes4 *field_dest;
@@ -172,9 +170,7 @@ void Save_DeserializeTail(void) {
     next_cur = g_SaveIoCursorRead;
     asm volatile("" : : "r"(next_cur));
     battle_dest = &g_SavedBattleStateTail;
-    *(SaveBytes12 *)battle_dest = *(SaveBytes12 *)(cursor + 0x70);
-    asm volatile("" : "=r"(battle_dest) : "0"(battle_dest));
-    *(SaveBytes12 *)((u8 *)battle_dest + 12) = *(SaveBytes12 *)(cursor + 0x7C);
+    *battle_dest = *(SaveBytes18 *)(cursor + 0x70);
 
     step18 = next_cur + 0x18;
     g_SaveIoCursor = step18;
