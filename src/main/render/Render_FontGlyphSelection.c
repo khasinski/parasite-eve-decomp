@@ -227,9 +227,8 @@ u8 Render_StepFontLoad(void) {
     u8 next;
     u8 code;
     FontGlyphTable *table;
-    u8 *p;
-    u8 *q;
-    u8 *t;
+    FontGlyphGroups *groups;
+    FontGlyphTable *result;
     s32 slot;
     u16 digit;
     s32 i;
@@ -259,14 +258,13 @@ u8 Render_StepFontLoad(void) {
 
     table = g_FontSelectionState.table;
     count = table->groups.count;
-    p = (u8 *)&table->groups;
+    groups = &table->groups;
     if (count > 0) {
         digit &= 0xFF;
         do {
-            q = p + i;
-            if (q[3] == digit) {
+            if (groups->codes[i] == digit) {
                 found = i;
-                i = p[2];
+                i = groups->count;
             }
             i++;
         } while (i < count);
@@ -276,15 +274,14 @@ u8 Render_StepFontLoad(void) {
     {
         s32 count2;
         s32 wanted;
-        u8 *p2;
-        slot = p[0x1B];
-        p2 = p + 0x1B;
+        FontGlyphSlots *slots;
+        slot = ((FontGlyphSlots *)(groups + 1))->count;
+        slots = (FontGlyphSlots *)(groups + 1);
         if (slot > 0) {
             wanted = found & 0xFF;
             count2 = slot;
             do {
-                q = p2 + i;
-                if (q[1] == wanted) {
+                if (slots->indices[i] == wanted) {
                     slot = i;
                     goto store;
                 }
@@ -297,8 +294,8 @@ u8 Render_StepFontLoad(void) {
 store:
         g_FontSelectionState.selected = slot;
     __asm__ volatile("" : : : "memory");
-    t = (u8 *)g_FontSelectionState.table;
-    return *(t + *(t + D_80091A1F_rd[0] + 0x1D) + 4);
+    result = g_FontSelectionState.table;
+    return result->groups.codes[result->slots.indices[D_80091A1F_rd[0]]];
 }
 
 int Menu_GetEquipSlotStateOrIndex(void) {
