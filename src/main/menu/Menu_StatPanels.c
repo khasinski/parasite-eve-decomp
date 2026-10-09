@@ -79,16 +79,14 @@ void Menu_CreateBonusPointAllocationView(void) {
     s32 temp_v0_final;
     MenuWidgetNode *temp_v0;
     MenuWidgetNode *temp_v0_2;
-    register MenuWidgetNode *temp_v1_reg asm("$3");
+    MenuWidgetNode *temp_v1_reg;
 
-    temp_v0 = MenuWidget_CreateSimpleNode(0x12, 0, 0, 0);
-    temp_v1_reg = temp_v0;
+    temp_v0 = temp_v1_reg = MenuWidget_CreateSimpleNode(0x12, 0, 0, 0);
     temp_v1_reg->draw = Menu_DrawStatusPanel;
     temp_v1_reg->appearance.gradientPoints = D_80092258;
     ((MenuWidgetNode *)MenuWidget_CreateSimpleNode(0x18, 0, 0, 0))->draw =
         Menu_DrawBonusPointSlotValue;
-    temp_v0_2 = MenuWidget_CreateSimpleNode(0x2D, 0, 0, 0);
-    temp_v1_reg = temp_v0_2;
+    temp_v0_2 = temp_v1_reg = MenuWidget_CreateSimpleNode(0x2D, 0, 0, 0);
     var_s4 = &D_800C0E00.stats.levels[0];
     var_s1 = 0;
     var_s0 = g_BonusPointStatDeltas;
