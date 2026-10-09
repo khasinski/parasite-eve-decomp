@@ -119,8 +119,17 @@ ret_one:
     return 1;
 }
 
-int Task_RunInvCommand(int **arg0) {
-    int **saved = arg0;
+/* Decoded script operands; the result is written back through its pointer. */
+typedef struct TaskInvCommandArgs {
+    int *command;
+    int *value;
+    int *other;
+    int *result;
+    int *unused;
+} TaskInvCommandArgs;
+
+int Task_RunInvCommand(TaskInvCommandArgs *arg0) {
+    TaskInvCommandArgs *saved = arg0;
     TaskNode *node;
     int flags;
     int cursor;
@@ -129,37 +138,24 @@ int Task_RunInvCommand(int **arg0) {
     {
         TaskNode *first_node = g_TaskNodePool;
         if ((first_node->flags & 0x20) == 0) {
-            goto call_builder;
+            asm volatile("" : "=r"(saved) : "0"(saved));
+            *saved->result = Inv_DispatchCommand(*saved->command, *saved->value, *saved->other, saved->unused);
         }
     }
-    goto after_builder;
 
-call_builder:
-    {
-        asm volatile("" : "=r"(saved) : "0"(saved));
-        *saved[3] = Inv_DispatchCommand(*saved[0], *saved[1], *saved[2], saved[4]);
-    }
-
-after_builder:
     if (MenuWidget_HasActiveNodes() != 0) {
         TaskNode *active_node = g_TaskNodePool;
         node = active_node;
         flags = node->flags;
-        if (flags & 0x20) {
-            goto set_pending;
-        }
-        {
+        if ((flags & 0x20) == 0) {
             Pe1GameState *state = &g_GameState;
             node->flags = flags | 0x20;
             state->flags |= 0x9000;
             Render_BeginSceneLoad();
+        } else {
+            g_GameStateFlagsWrite[0] = g_GameStateFlags[0] | 4;
         }
-        goto pop_state;
 
-set_pending:
-        g_GameStateFlagsWrite[0] = g_GameStateFlags[0] | 4;
-
-pop_state:
         cursor = g_SceneDataTable0;
         node = g_TaskNodePool;
         cursor -= 0x1C;
@@ -170,7 +166,7 @@ pop_state:
 
     temp = D_8009D2A4[0];
     if (temp != 0) {
-        *saved[3] = temp;
+        *saved->result = temp;
         {
             TaskNode *clear_node = g_TaskNodePool;
             register int clear_flags asm("$2") = clear_node->flags;
