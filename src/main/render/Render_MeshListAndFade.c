@@ -353,10 +353,10 @@ int Geo_RenderMeshList(void *buffer, void **end)
         GeomEntry *entry = entries;
         do {
             if (Geo_LoadMeshEntry(entry, *end, end)) return -18;
-            entry->ot10 = min;
-            entry->ot12 = max;
-            entry->ot14 = min;
-            entry->ot16 = max;
+            entry->bounds.minX = min;
+            entry->bounds.maxX = max;
+            entry->bounds.minY = min;
+            entry->bounds.maxY = max;
             entry++;
         } while (++i < count);
     }

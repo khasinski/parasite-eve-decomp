@@ -64,6 +64,15 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, slotOffset) == 12,
 
 struct RenderTexturePagePacket;
 
+/* Signed coordinate limits shared by mesh setup and point clamping. */
+typedef struct GeomCoordinateBounds {
+    s16 minX, maxX;
+    s16 minY, maxY;
+} GeomCoordinateBounds;
+PE1_STATIC_ASSERT(sizeof(GeomCoordinateBounds) == 8, geom_coordinate_bounds_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomCoordinateBounds, minY) == 4,
+                  geom_coordinate_bounds_y);
+
 /* 56-byte render/mesh entry. Base = entry_offset (+0x14). */
 typedef struct GeomEntry {                /* 0x38 */
     u8  flags;                            /* +0x00  bits 2,4,8,0x14,0x20 */
@@ -74,10 +83,7 @@ typedef struct GeomEntry {                /* 0x38 */
     u16 base_y;                           /* +0x0A */
     u16 scr_x;                            /* +0x0C */
     u16 scr_y;                            /* +0x0E */
-    s16 ot10;                             /* +0x10 */
-    s16 ot12;                             /* +0x12 */
-    s16 ot14;                             /* +0x14 */
-    s16 ot16;                             /* +0x16 */
+    GeomCoordinateBounds bounds;         /* +0x10: limits applied before scr_x/scr_y stores */
     u16 disp_x;                           /* +0x18 */
     u16 disp_y;                           /* +0x1A */
     s16 field1C;                          /* +0x1C  scroll/mirror/anim coef */

@@ -26,26 +26,26 @@ int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth) {
     depth += depthWord;
 
     truncated = (short)sum;
-    bound = current->ot10;
+    bound = current->bounds.minX;
     minimum = bound;
     asm volatile("" : "=r"(bound) : "0"(bound));
     comparison = truncated < bound;
     screenY += y;
     if (!comparison) {
-        bound = current->ot12;
+        bound = current->bounds.maxX;
         minimum = bound;
         asm volatile("" : "=r"(bound) : "0"(bound));
         comparison = bound < truncated;
     }
     screenX = comparison ? minimum : screenX;
     shifted = (unsigned int)screenY << 16;
-    bound = current->ot14;
+    bound = current->bounds.minY;
     truncated = (int)shifted >> 16;
     minimum = bound;
     asm volatile("" : "=r"(bound) : "0"(bound));
     comparison = truncated < bound;
     if (!comparison) {
-        bound = current->ot16;
+        bound = current->bounds.maxY;
         minimum = bound;
         asm volatile("" : "=r"(bound) : "0"(bound));
         comparison = bound < truncated;
