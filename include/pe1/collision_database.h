@@ -42,6 +42,7 @@ typedef union CollisionTriangleXYZ {
 } CollisionTriangleXYZ;
 typedef union CollisionTriangleTable {
     void *pointer;
+    CollisionTriangleHeader *header; /* Common prefix of either triangle format. */
     CollisionTriangleXZ *xz;
     CollisionTriangleXYZ *xyz;
     u32 word;
