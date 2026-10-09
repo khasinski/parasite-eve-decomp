@@ -168,43 +168,37 @@ s32 Camera_StepAngleFade(s32 **arg0) {
     s32 tv1a;
     u16 temp_a3;
     register s32 tv0c asm("$8");
-    register s32 tv0r asm("$2");
-    register s32 ta12c asm("$7");
+    register s32 phaseValue asm("$2");
+    register s32 turnIncrement asm("$7");
     register s32 ta1d asm("$4");
     s32 temp_a1_2;
     s32 sv0;
     register s32 temp_v1x asm("$3");
     s32 var_v1;
     register TaskNode *p13 asm("$2");
-    register s32 ret asm("$2");
     s32 tv0;
-    register u32 t3araw asm("$2");
     s32 *tv0p;
     register u16 *pa3 asm("$3");
     s32 tor;
-    register s32 tdiff asm("$2");
     s32 vext;
     s32 vext2;
     s32 sa3a;
     s32 sa3b;
     s32 sa3c;
-    register s32 sv1f asm("$2");
     s32 temp_v0_2;
     s32 tve;
     TaskNode *p24;
     FieldActor *p26;
     s32 t3aa;
-    register s32 sumb asm("$2");
     s32 tmask4;
-    register s32 ta12d asm("$7");
     s32 sa12a;
     s32 sa12b;
     s32 temp_v1_2;
     s32 temp_v0_3;
     s32 temp_v0_4;
 
-    t3araw = (u16)g_CurrentEntity->rot_y;
-    temp_a1 = t3araw & 0xFFF;
+    phaseValue = (u16)g_CurrentEntity->rot_y;
+    temp_a1 = phaseValue & 0xFFF;
     p300 = g_TaskNodePool;
     temp_t1 = p300->flags;
     ta1c = temp_a1;
@@ -219,13 +213,13 @@ s32 Camera_StepAngleFade(s32 **arg0) {
         __asm__("" : "=r"(tv1a) : "0"(tv1a));
         temp_v1 = temp_v1x;
         if (ta1b == tv1a) {
-            ret = 1;
+            phaseValue = 1;
             goto exit;
         }
         tor = temp_t1 | 0x20;
         p300->flags = (u16) tor;
-                tdiff = tv1a - ta1b;
-        if (tdiff >= 0) {
+                phaseValue = tv1a - ta1b;
+        if (phaseValue >= 0) {
             var_v1 = temp_v1x - temp_a1;
         } else {
             var_v1 = temp_a1 - temp_v1x;
@@ -246,33 +240,32 @@ block_11:
             sa3c = -(s16) temp_a3;
             g_TaskNodePool->target14 = sa3c;
         }
-        sv1f = (s16) temp_v1;
-        g_TaskNodePool->target18.coordinate = sv1f;
+        phaseValue = (s16) temp_v1;
+        g_TaskNodePool->target18.coordinate = phaseValue;
     }
     p13 = g_TaskNodePool;
     ta1d = ta1c;
     temp_a1_2 = p13->target14;
-    tv0r = p13->target18.coordinate;
-    __asm__("" : "=r"(tv0r) : "0"(tv0r));
-    tv0c = tv0r;
+    phaseValue = p13->target18.coordinate;
+    __asm__("" : "=r"(phaseValue) : "0"(phaseValue));
+    tv0c = phaseValue;
     __asm__("" : "=r"(tv0c) : "0"(tv0c));
-    sv0 = (s16) tv0r;
-    ta12c = temp_a1_2;
+    sv0 = (s16) phaseValue;
+    turnIncrement = temp_a1_2;
     if (ta1d < sv0) goto chk2;
     sa12a = (s16) temp_a1_2;
     if (sv0 < (ta1d + sa12a)) goto chk2;
     goto block_24;
 chk2:
-    ta12d = ta12c;
-    __asm__("" : "=r"(ta12d) : "0"(ta12d));
+    __asm__("" : "=r"(turnIncrement) : "0"(turnIncrement));
     if (sv0 < ta1d) {
-        tve = ta12c << 0x10;
+        tve = turnIncrement << 0x10;
         goto inner;
     }
     sa12b = temp_a1_2 << 0x10;
-    sumb = ta1d + (sa12b >> 0x10);
-        if (sumb < sv0) {
-        tve = ta12d << 0x10;
+    phaseValue = ta1d + (sa12b >> 0x10);
+        if (phaseValue < sv0) {
+        tve = turnIncrement << 0x10;
         goto inner;
     }
     goto block_24;
@@ -290,7 +283,7 @@ inner:
             goto block_21;
         }
 block_21:
-        temp_v0_3 = (s16) ta12c;
+        temp_v0_3 = (s16) turnIncrement;
         if (temp_v0_3 < 0) {
             temp_v0_4 = ta1c + temp_v0_3;
             if (temp_v0_4 < 0) {
@@ -307,16 +300,16 @@ block_24:
     p24 = g_TaskNodePool;
     g_CurrentEntity->rot_y = (u16) tv0c;
     p24->flags = (u16) (p24->flags & 0xFFDF);
-    ret = 1;
+    phaseValue = 1;
     goto exit;
 block_26:
-    ret = 0;
+    phaseValue = 0;
         p26 = g_CurrentEntity;
     t3aa = (u16)p26->rot_y;
     g_SceneDataTable0 -= 0x10;
-    t3aa = t3aa + ta12c;
+    t3aa = t3aa + turnIncrement;
     p26->rot_y = (u16) t3aa;
     g_TaskNodePool->active = 1;
 exit:
-    return ret;
+    return phaseValue;
 }
