@@ -147,17 +147,17 @@ int func_800CE688(void *data)
     timer = list + 0xE;
     do
     {
-      if ((*((s16 *) entry)) != 0)
+      if (((FieldAnimCallbackListEntry *)entry)->active != 0)
       {
         active++;
-        D_800E27EC = *((s16 *) timer);
+        D_800E27EC = ((FieldAnimCallbackListEntry *)(timer - 2))->age;
         if (callback(1, entry + 0x4, D_800E2368->argument) != 0)
         {
-          *((s16 *) entry) = 0;
+          ((FieldAnimCallbackListEntry *)entry)->active = 0;
         }
         else
         {
-          *((u16 *) timer) = (*((u16 *) timer)) + 1;
+          ((FieldAnimCallbackListEntry *)(timer - 2))->age = ((FieldAnimCallbackListEntry *)(timer - 2))->age + 1;
         }
       }
       i++;
@@ -196,7 +196,7 @@ int func_800CE78C(char *list)
     payload = list + 0x10;
     do
     {
-      if ((*((s16 *) entry)) != 0)
+      if (((FieldAnimCallbackListEntry *)entry)->active != 0)
       {
         active++;
         D_800E27EC = *((s16 *) (payload - 0x2));
