@@ -66,31 +66,20 @@ void Battle_DispatchEntityEffect(void) {
     action2 = actor->action;
     action_id2 = action2->actionCode.actionId;
 
-    if (action_id2 == 5) {
-        goto load_pair5;
-    }
-
-    word10 = action2->turnWord;
-    if ((word10 & 0x1F00) == 0) {
-        goto choose_first;
-    }
-
-load_pair5:
-    result = Scene_LoadRoomAssets(0, D_8009D254_E);
-    next_entity = D_8009D254_F;
-    next_id = 5;
-    goto load_next;
-
-choose_first:
-    if ((action_id2 == 2) || ((word10 & 0xC0) == 0x80)) {
-        result = Scene_LoadRoomAssets(1, D_8009D254_C);
+    if (action_id2 == 5 || ((word10 = action2->turnWord) & 0x1F00) != 0) {
+        result = Scene_LoadRoomAssets(0, D_8009D254_E);
+        next_entity = D_8009D254_F;
+        next_id = 5;
     } else {
-        result = Scene_LoadRoomAssets(2, D_8009D254_G);
+        if ((action_id2 == 2) || ((word10 & 0xC0) == 0x80)) {
+            result = Scene_LoadRoomAssets(1, D_8009D254_C);
+        } else {
+            result = Scene_LoadRoomAssets(2, D_8009D254_G);
+        }
+        next_entity = D_8009D254_D;
+        next_id = 4;
     }
-    next_entity = D_8009D254_D;
-    next_id = 4;
 
-load_next:
     D_8009D200 = result;
     D_8009D2FC = Scene_LoadRoomAssets(next_id, next_entity);
 }
