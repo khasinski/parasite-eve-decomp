@@ -76,20 +76,18 @@ void Draw_AllocTexturedQuad(int code) {
     prim = 0;
     old = D_8009D100;
     next = old + sizeof(RenderTexturedQuad);
-    if (next >= D_8009D104 + 0x4000) goto alloc_fail;
-    D_8009D100 = next;
-    prim = (RenderTexturedQuad *)old;
-    goto alloc_done;
-alloc_fail:
-    BoundsCheck_AssertStub(1);
-alloc_done:
+    if (next < D_8009D104 + 0x4000) {
+        D_8009D100 = next;
+        prim = (RenderTexturedQuad *)old;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
     if (prim != 0) {
-        if (D_8009D10C == 0) goto primary_color;
-        prim->color.word = D_8009D114;
-        goto color_done;
-    primary_color:
-        prim->color.word = D_8009D110;
-    color_done:
+        if (D_8009D10C != 0) {
+            prim->color.word = D_8009D114;
+        } else {
+            prim->color.word = D_8009D110;
+        }
         ((u8 *)prim)[3] = 9;
         prim->color.bytes.code = 0x2C;
     }
