@@ -8,7 +8,6 @@
 /* Retail keeps one base address for each initialization block. */
 
 
-extern u_int D_8009B560[3];
 
 CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 
@@ -16,6 +15,7 @@ void DS_reset_members(void) {
     CdRomSystemState *state;
     u_char *preSeek;
     CdRomCommandState *command;
+    CdRomEventCommandState *eventState;
     u_char *cursor;
     int i;
     i = 3;
@@ -30,10 +30,12 @@ void DS_reset_members(void) {
         cursor--;
     } while (i >= 0);
 
-    preSeek = (u_char *)&D_8009B560;
-    *(u_int *)preSeek = 0;
+    preSeek = (u_char *)&g_CdRomEventCommandState.pendingParams;
+    eventState = (CdRomEventCommandState *)(preSeek -
+        PE1_OFFSETOF(CdRomEventCommandState, pendingParams));
+    eventState->pendingParams = 0;
     i = 7;
-    preSeek += 11;
+    preSeek = eventState->eventResult + 7;
     do {
         *preSeek = 0;
         i--;
