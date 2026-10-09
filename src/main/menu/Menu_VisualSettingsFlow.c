@@ -19,9 +19,8 @@ extern s32 D_8009CFE0;
 
 void Menu_OpenBlendColorScreen(MenuWidgetNode *arg0) {
     MenuWidgetNode *parent;
-    register MenuWidgetNode *panel asm("$16");
+    MenuWidgetNode *panel;
     MenuWidgetNode *options;
-    MenuWidgetNode *current;
 
     parent = MenuWidget_CreateSimpleNode(0x2E, arg0, 0, 0);
     panel = MenuWidget_CreateNode(0x2E, parent, parent);
@@ -35,11 +34,7 @@ void Menu_OpenBlendColorScreen(MenuWidgetNode *arg0) {
     options->draw = (void (*)())Menu_DrawBlendColorOptionList;
     panel->linkedNext = options;
     options->linkedPrevious = panel;
-    current = panel;
-    if (panel->cursor_x < 0) {
-        current = options;
-    }
-    MenuWidget_SetCurrentNode(current);
+    MenuWidget_SetCurrentNode(panel->cursor_x < 0 ? options : panel);
     D_8009CFE0 = Draw_GetBlendColor();
 }
 #include "common.h"
