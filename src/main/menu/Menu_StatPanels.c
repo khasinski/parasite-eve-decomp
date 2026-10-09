@@ -94,7 +94,7 @@ void Menu_CreateBonusPointAllocationView(void) {
     var_s2 = g_BonusPointStatMultipliers;
     temp_v1_reg->draw = Menu_DrawStatsList;
     temp_v1_reg->appearance.gradientPoints = D_80092298;
-    do {
+    for (; var_s1 < 7; ++var_s1) {
         temp_v0_3 = *var_s4;
         var_s4 += 1;
         temp_a0 = var_s1;
@@ -102,14 +102,13 @@ void Menu_CreateBonusPointAllocationView(void) {
         temp_a3 = 0;
         __asm__ volatile("" : "=r"(temp_a3) : "0"(temp_a3));
         var_s3 += 1;
-        var_s1 += 1;
         *var_s0 = temp_v0_3;
         *var_s2 = 0;
         temp_a1 = *var_s0;
         var_s0 += 1;
         var_s2 += 1;
         Stat_QueryLevelAndSubLevel(temp_a0, temp_a1, temp_a2, temp_a3);
-    } while (var_s1 < 7);
+    }
     temp_v0_final = D_800C0E00.bonus_points;
     PE1_NOP();
     g_BonusPointDisplayValue = temp_v0_final;
