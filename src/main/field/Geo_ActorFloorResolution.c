@@ -18,6 +18,7 @@ int Math_FixedMul(int a, int b);
 
 void Entity_FindFloor(u8 *entity)
 {
+    BattleEntity *actor = (BattleEntity *)entity;
     u8 *floor_data;
     u8 *simple_triangle;
     u8 *complex_triangle;
@@ -36,12 +37,12 @@ void Entity_FindFloor(u8 *entity)
     u32 floor_table_offset;
     u8 scratch[8];
 
-    if ((U32_AT(entity, 0x98) & 0x80) != 0) {
+    if ((actor->entityFlags & 0x80) != 0) {
         return;
     }
 
-    x = U16_AT(entity, 0x2A);
-    z = U16_AT(entity, 0x32);
+    x = (u16)actor->posX.parts.integer;
+    z = (u16)actor->posZ.parts.integer;
     if (U16_AT(D_8009D1FC, 2) == 0) {
         return;
     }
@@ -64,10 +65,10 @@ void Entity_FindFloor(u8 *entity)
                     simple_triangle = PTR_AT(D_8009D1FC, 0x1C) +
                                       floor_offset * 2;
                     if (Geo_PointInTri(simple_triangle, (s16)x, (s16)z)) {
-                        PTR_AT(entity, 0x1A4) = simple_triangle;
-                        PTR_AT(entity, 0x1A8) = simple_triangle;
-                        if ((U32_AT(entity, 0x98) & 2) == 0) {
-                            S32_AT(entity, 0x2C) = floor_value << 16;
+                        actor->collisionFace = simple_triangle;
+                        actor->collisionFaceMirror = simple_triangle;
+                        if ((actor->entityFlags & 2) == 0) {
+                            actor->posY.fixed = floor_value << 16;
                         }
                         return;
                     }
@@ -86,16 +87,16 @@ void Entity_FindFloor(u8 *entity)
                     floor_offset = triangle_id * 28;
                     complex_triangle = PTR_AT(D_8009D1FC, 0x1C) + floor_offset;
                     if (Geo_PointInTri(complex_triangle, (s16)x, (s16)z)) {
-                        PTR_AT(entity, 0x1A4) = complex_triangle;
-                        PTR_AT(entity, 0x1A8) = complex_triangle;
-                        if ((U32_AT(entity, 0x98) & 2) == 0) {
+                        actor->collisionFace = complex_triangle;
+                        actor->collisionFaceMirror = complex_triangle;
+                        if ((actor->entityFlags & 2) == 0) {
                             x_height = Math_FixedMul(
                                 D_8009D1D8[U16_AT(complex_triangle, 2)].a,
-                                S32_AT(entity, 0x28));
+                                actor->posX.fixed);
                             z_height = Math_FixedMul(
                                 D_8009D1D8[U16_AT(complex_triangle, 2)].c,
-                                S32_AT(entity, 0x30));
-                            S32_AT(entity, 0x2C) = Math_FixedMul(
+                                actor->posZ.fixed);
+                            actor->posY.fixed = Math_FixedMul(
                                 S32_AT(complex_triangle, 4) - x_height - z_height,
                                 D_8009D1D8[U16_AT(complex_triangle, 2)].inverseB);
                         }
