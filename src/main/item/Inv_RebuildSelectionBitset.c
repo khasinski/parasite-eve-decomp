@@ -1,6 +1,4 @@
-#include "pe1/inventory.h"
-extern unsigned char D_800C0EAC[];
-extern unsigned char D_800C0EB1[];
+#include "pe1/inventory_slots.h"
 extern short D_800C1F80[];
 extern short D_800923D8[];
 extern short D_800923F8[];
@@ -20,7 +18,7 @@ void Inv_RebuildSelectionBitset(void) {
     int *table;
     int *table_base;
 
-    entry = (ItemDataRecord *)D_800C0EAC;
+    entry = D_800C0E20.equipment;
     limit_tmp = entry + 0x80;
     if (entry < limit_tmp) {
         end = limit_tmp;
@@ -35,7 +33,7 @@ void Inv_RebuildSelectionBitset(void) {
     while (start < 0x52) {
         item_id = *list - 0x100;
         if ((unsigned int)item_id < 0x80) {
-            D_800C0EB1[item_id << 5] |= 8;
+            D_800C0E20.equipment[item_id].flags |= 8;
         }
         start++;
         list++;
@@ -53,7 +51,7 @@ void Inv_RebuildSelectionBitset(void) {
                 do {
                     item_id = *table - 0x100;
                     if ((unsigned int)item_id < 0x80) {
-                        D_800C0EB1[item_id << 5] |= 8;
+                        D_800C0E20.equipment[item_id].flags |= 8;
                     }
                     stop = *range_stop_ptr;
                     start++;
@@ -66,7 +64,7 @@ void Inv_RebuildSelectionBitset(void) {
         } while (range < range_end);
     }
 
-    entry = (ItemDataRecord *)D_800C0EAC;
+    entry = D_800C0E20.equipment;
     limit_tmp = entry + 0x80;
     if (entry < limit_tmp) {
         end = limit_tmp;
