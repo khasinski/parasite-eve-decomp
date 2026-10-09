@@ -22,7 +22,7 @@
     "raw_offset_dereferences": 696,
     "stack_reserves": 8,
     "stack_switch_macros": 1,
-    "statement_expressions": 3,
+    "statement_expressions": 2,
     "unknown_fields": 106
   },
   "overlays": {

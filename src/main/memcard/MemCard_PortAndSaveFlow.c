@@ -1044,7 +1044,7 @@ void Save_StartWriteSlot(int port, int arg_slot) {
     Save_BuildHeader();
 
     sequence = state->sequence;
-    state->sequence = ({
+    {
         int next_sequence;
 
         if (slot_state->state == MEMCARD_SLOT_OCCUPIED) {
@@ -1056,8 +1056,8 @@ void Save_StartWriteSlot(int port, int arg_slot) {
         state->selectedSlot = slot;
         /* Preserve the order of the two metadata stores. */
         asm volatile("" : : : "memory");
-        next_sequence;
-    });
+        state->sequence = next_sequence;
+    }
 
     sprintf(path, D_80092224,
                     state > g_MemCardPortStates,
