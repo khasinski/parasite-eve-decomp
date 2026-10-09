@@ -105,13 +105,12 @@ void Save_DeserializeTail(void) {
     SaveBytes4 *field_dest;
     int b0;
     register int b1 asm("$5");
-    register int b2 asm("$4");
+    int restoreValue;
     register u8 *third_cur asm("$7");
     register u8 *bulk_src asm("$6");
     register u8 *bulk_tmp asm("$2");
     u32 game_mask;
     u8 screen_byte;
-    register int field_mask asm("$4");
     u32 game_word;
     u32 field_word;
 
@@ -167,9 +166,9 @@ void Save_DeserializeTail(void) {
     third_cur = g_SaveIoCursorRead;
     asm volatile("" : : "r"(third_cur));
     b0 = ((s8 *)cursor)[2];
-    b2 = ((s8 *)cursor)[3];
+    restoreValue = ((s8 *)cursor)[3];
     g_CurrentStoryDay = b0;
-    g_PendingStoryDay = b2;
+    g_PendingStoryDay = restoreValue;
     asm volatile("" ::: "memory");
 
     bulk_tmp = third_cur + 4;
@@ -204,11 +203,11 @@ void Save_DeserializeTail(void) {
     *equip_dest = *(SaveBytes8 *)(next_cur + 0x18);
     asm volatile("" : : "r"(step18));
 
-    field_mask = -10;
+    restoreValue = -10;
     game_word = g_GameStateFlagsWord;
     cursor = g_SaveIoCursor;
     g_GameStateFlagsWord = game_word & game_mask;
     field_word = g_FieldMoveLockWord;
     g_SaveIoCursor = cursor + 8;
-    g_FieldMoveLockWord = field_word & field_mask;
+    g_FieldMoveLockWord = field_word & restoreValue;
 }
