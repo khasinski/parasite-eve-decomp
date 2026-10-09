@@ -225,16 +225,16 @@ retry_read:
 u8 Render_StepFontLoad(void) {
     u8 state;
     u8 next;
-    register u8 code asm("$4");
+    u8 code;
     FontGlyphTable *table;
     u8 *p;
     u8 *q;
     u8 *t;
     s32 slot;
-    register s32 digit asm("$3");
+    u16 digit;
     s32 i;
     s32 count;
-    register s32 found asm("$7");
+    s32 found;
     u8 *statep;
     int stack_pad[3];
 
@@ -253,9 +253,9 @@ u8 Render_StepFontLoad(void) {
 
     digit = (u8)(D_80091A1D % 10) != 0;
     found = 0;
+    asm("" : "=r"(digit), "=r"(found)
+        : "0"(digit), "1"(found));
     i = 0;
-    asm("" : "=r"(digit), "=r"(i), "=r"(found)
-        : "0"(digit), "1"(i), "2"(found));
 
     table = g_FontSelectionState.table;
     count = table->groups.count;
@@ -275,7 +275,7 @@ u8 Render_StepFontLoad(void) {
 
     {
         s32 count2;
-        register s32 wanted asm("$4");
+        s32 wanted;
         u8 *p2;
         slot = p[0x1B];
         p2 = p + 0x1B;
