@@ -12,23 +12,14 @@ extern CardObj D_800A5B70[];
 extern u8 D_800A5AE0[];
 extern u8 D_800A5B28[];
 
-extern int g_MemCardServiceReady;
-extern int g_MemCardCommandByte;
-extern CardObj *g_MemCardObjArray;
 extern int (*D_8009B724)(int);
-extern void (*g_MemCardObjResetFn)(CardObj *);
 extern void (*D_8009B730)(CardObj *);
 extern int (*D_8009B734)(CardObj *);
-extern CardObj *(*g_MemCardObjLookupFn)(int);
 extern void (*D_8009B748)(CardObj *);
 
 void _padInitDirSeq(void);
 int MemCard_DmaCompleteCallback(int result);
-void CardObj_ResetFields(CardObj *obj);
 void LIBPAD_PADPORTD_text_388(CardObj *);
-int CardObj_GetChannelId(CardObj *obj);
-CardObj *CardObj_LookupByChannelId(int channel);
-void CardObj_SwapByteField(CardObj *obj);
 void bzero(void *ptr, int size);
 void _padSetVsyncParam(void);
 

@@ -17,7 +17,6 @@ extern int D_8009B77C[];
 extern MemCardSioRegisters *D_8009B7BC;
 
 void _dirFailAuto(CardObj *obj);
-void CardObj_SwapByteField(CardObj *obj);
 int _padInitSioMode(CardObj *obj);
 
 int MemCard_DmaCompleteCallback(int result) {

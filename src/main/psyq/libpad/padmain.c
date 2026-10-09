@@ -7,8 +7,6 @@
 
 extern int g_MemCardPort1Present;
 extern int g_MemCardPort2Present;
-extern int g_MemCardServiceReady;
-extern void (*g_MemCardObjResetFn)(CardObj *obj);
 
 int PadEnableCom(int portMask) {
     int currentMask;

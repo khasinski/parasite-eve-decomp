@@ -74,6 +74,14 @@ typedef struct CardObj {
     int combinationStorageBytes;                     /* 0xEC: combination headers and aligned data size */
 } CardObj;
 
+/* Direct-port operations shared by PADPORTD and PADMAIN. */
+void CardObj_ResetFields(CardObj *obj);
+void CardObj_SwapByteField(CardObj *obj);
+int CardObj_GetChannelId(CardObj *obj);
+CardObj *CardObj_LookupByChannelId(int channel);
+extern int g_MemCardServiceReady;
+extern void (*g_MemCardObjResetFn)(CardObj *obj);
+
 /* Byte-provider callback. The direct-port reader ignores needsAck. */
 extern int (*D_8009B72C)(CardObj *obj, int needsAck);
 int CardObj_ReadPayloadByte(CardObj *obj, int needsAck);
