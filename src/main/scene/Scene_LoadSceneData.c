@@ -32,6 +32,7 @@ void Scene_LoadSceneData(void) {
     u8 *src;
     u8 *dst;
     u8 *end;
+    register u8 *copyEnd asm("$8");
 
     rect.w = 0x3FF;
     rect.x = 0;
@@ -71,19 +72,19 @@ restart2:
     src = *(u8 **)(gb + 0x194);
     dst = (u8 *)&D_800E2858_o;
     if (((u32)src | (u32)dst) & 3) {
-        register u8 *e1 asm("$8") = src + 0x10A50;
+        copyEnd = src + 0x10A50;
         do {
             *(Copy16u *)dst = *(Copy16u *)src;
             src += 0x10;
             dst += 0x10;
-        } while (src != e1);
+        } while (src != copyEnd);
     } else {
-        register u8 *e2 asm("$8") = src + 0x10A50;
+        copyEnd = src + 0x10A50;
         do {
             *(Copy16a *)dst = *(Copy16a *)src;
             src += 0x10;
             dst += 0x10;
-        } while (src != e2);
+        } while (src != copyEnd);
     }
 
     *(s32 *)(gb + 0x148) = (s32)&D_800E2858_o;
