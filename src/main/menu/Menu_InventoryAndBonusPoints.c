@@ -169,15 +169,11 @@ void Menu_AlignEquipPanels(void) {
     x = temp_s0->x;
     if (target != 0) {
         target = 0xB0;
-        goto aligned;
+    } else {
+        target = (s32)child->popup_node;
+        if (target != 0) target = 0xA2;
+        else target = 0x9C;
     }
-    target = (s32)child->popup_node;
-    if (target != 0) {
-        target = 0xA2;
-        goto aligned;
-    }
-    target = 0x9C;
-aligned:
     temp_s1 = target - x;
     asm("" : : "r"(temp_s1));
     MenuWidget_OffsetPosition(temp_s0, temp_s1, 0);
