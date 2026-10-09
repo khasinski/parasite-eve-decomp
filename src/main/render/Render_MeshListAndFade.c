@@ -501,7 +501,7 @@ extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
 #define WRITE_U16(base, offset, value) (*(u16 *)((u8 *)(base) + (offset)) = (value))
 
 int Render_StepFade(void) {
-    u8 *geom;
+    GeomState *geom;
     register GeomStateAddress entry asm("$4");
     PrimEntry *prim;
     s32 fade_step;
@@ -530,13 +530,13 @@ int Render_StepFade(void) {
     divisor--;
     fade_step /= divisor;
 
-    entry_index = 0;
-    geom = D_800B1624_A;
+    geom = (GeomState *)D_800B1624_A;
     entry.bytes = D_800B1624_B;
-    fade_value = READ_S32(geom, 0x14);
-    entry_count = READ_U16(geom, 0x6);
+    fade_value = geom->entry_offset;
+    entry_count = geom->entry_count06;
     entry.bytes += fade_value;
     fade_value = 0x80 - fade_step;
+    entry_index = 0;
     if (entry_count != 0) {
         tint_loop = fade_value;
         do {
@@ -619,7 +619,7 @@ extern s32 g_ActiveDrawSlot;
 #define D_800BCFFC_BYTE (*(u8 *)&D_800BCFFC_o)
 
 int Render_ApplyScreenTint(void) {
-    u8 *geom;
+    GeomState *geom;
     register GeomStateAddress entry asm("$4");
     PrimEntry *prim;
     u32 flags;
@@ -643,11 +643,11 @@ int Render_ApplyScreenTint(void) {
         tint = 0x80;
     }
 
-    entry_index = 0;
-    geom = D_800B1624_A;
+    geom = (GeomState *)D_800B1624_A;
     entry.bytes = D_800B1624_B;
-    entry.bytes += READ_S32(geom, 0x14);
-    entry_count = READ_U16(geom, 0x6);
+    entry.bytes += geom->entry_offset;
+    entry_count = geom->entry_count06;
+    entry_index = 0;
     if (entry_count != 0) {
         tint_loop = tint;
         do {
