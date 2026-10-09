@@ -1,7 +1,11 @@
 #include "pe1/inventory_slots.h"
 extern short D_800C1F80[];
-extern short D_800923D8[];
-extern short D_800923F8[];
+typedef struct InventorySlotRange {
+    s16 start;
+    s16 stop;
+} InventorySlotRange;
+extern InventorySlotRange D_800923D8[];
+extern InventorySlotRange D_800923F8[];
 extern int D_800A77F0[];
 
 void Inv_RebuildSelectionBitset(void) {
@@ -9,9 +13,9 @@ void Inv_RebuildSelectionBitset(void) {
     register ItemDataRecord *limit_tmp asm("$3");
     register ItemDataRecord *end asm("$5");
     short *list;
-    short *range;
+    InventorySlotRange *range;
     short *range_stop_ptr;
-    short *range_end;
+    InventorySlotRange *range_end;
     int item_id;
     int start;
     int stop;
@@ -40,11 +44,11 @@ void Inv_RebuildSelectionBitset(void) {
     }
 
     range = D_800923D8;
-    if (range < D_800923D8 + 0x10) {
+    if (range < D_800923D8 + 8) {
         table_base = D_800A77F0;
-        range_stop_ptr = range + 1;
+        range_stop_ptr = &range->stop;
         do {
-            start = *range;
+            start = range->start;
             stop = *range_stop_ptr;
             if (stop >= start) {
                 table = (int *)((start << 2) + (int)table_base);
@@ -58,7 +62,7 @@ void Inv_RebuildSelectionBitset(void) {
                     table++;
                 } while (stop >= start);
             }
-            range += 2;
+            range++;
             asm volatile("" : "=r"(range_end) : "0"(D_800923F8));
             range_stop_ptr += 2;
         } while (range < range_end);
