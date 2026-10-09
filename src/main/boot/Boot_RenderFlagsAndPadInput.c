@@ -4,6 +4,7 @@
 #include "pe1/menu_inventory.h"
 #include "pe1/gte.h"
 #include "pe1/card_obj.h"
+#include "pe1/game_state_types.h"
 #include "pe1/psyq_nop.h"
 
 /* Field render-flag table setup and the helper that stores one table entry
@@ -80,14 +81,13 @@ extern u32 field_flags_read_4[4] __asm__("g_GameStateFlags");
 extern u32 field_flags_read_5[4] __asm__("g_GameStateFlags");
 extern u32 field_flags_read_6[4] __asm__("g_GameStateFlags");
 extern u32 field_flags_write[4] __asm__("g_GameStateFlags");
-extern struct { char _[16]; } D_800B0CD8_o __asm__("g_GameState");
+extern Pe1GameState g_GameState;
 extern struct { char _[16]; } D_800BE9A0_o __asm__("g_AnalogStickState");
 extern struct { char _[16]; } D_800BE9A2_o __asm__("D_800BE9A2");
 extern struct { char _[16]; } D_800BE9A6_o __asm__("D_800BE9A6");
 extern struct { char _[16]; } D_800BE9A7_o __asm__("D_800BE9A7");
 extern struct { char _[16]; } D_800B0DBF_o __asm__("D_800B0DBF");
 
-#define D_800B0CD8 (*(u32 *)&D_800B0CD8_o)
 #define D_800BE9A0 (*(u16 *)&D_800BE9A0_o)
 #define D_800BE9A2 (*(u16 *)&D_800BE9A2_o)
 #define D_800BE9A6 (*(u8 *)&D_800BE9A6_o)
@@ -224,7 +224,7 @@ after_mode:
         D_8009D2D4 = save_pad;
     }
 
-    menu_open = D_800B0CD8;
+    menu_open = g_GameState.flags;
     if (menu_open & 0x400) {
         D_8009D26C &= 0x40FFDC7F;
     }
