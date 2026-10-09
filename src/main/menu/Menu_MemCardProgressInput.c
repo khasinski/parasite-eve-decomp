@@ -27,11 +27,12 @@ int Menu_MemCardProgressInputHandler(void) {
 
 void Menu_StepItemGrid2(void) {
     MenuWidgetNode *node;
+    MenuWidgetNode *panel;
     MenuWidgetNode *option_node;
-    int label;
+    u8 *label;
     int suffix_id;
     MenuConfirmCallback callback;
-    register int mode asm("$4");
+    int mode;
     int width;
     int height;
 
@@ -45,13 +46,12 @@ void Menu_StepItemGrid2(void) {
         {
             MenuWidgetNode *result = MenuWidget_CreateSimpleNode(0x2A, node, 0, 1);
             mode = 0x2A;
-            /* Keep the kind argument ready before copying the returned node. */
-            asm("" : : "r"(result), "r"(mode));
             node = result;
         }
         option_node = MenuWidget_CreateNode(mode, node, node);
         node->draw = Menu_DrawItemLabel;
-        node->update = Menu_ConfirmDialogHandler;
+        panel = node;
+        panel->update = Menu_ConfirmDialogHandler;
         option_node->draw = Menu_DrawActionOptionList;
         D_8009CF14 = 0x6C;
         MenuWidget_SaveAndSetCurrentNode(option_node);
@@ -67,29 +67,29 @@ void Menu_StepItemGrid2(void) {
         }
 
         if (label != 0) {
-            Util_CopyFFTerminatedBytes((int)D_800A19C0, label);
+            Util_CopyFFTerminatedBytes(D_800A19C0, label);
         } else {
             D_800A19C0[0] = 0xFF;
         }
         {
-            int text_buf;
-            Util_AppendFFTerminatedBytes((int)D_800A19C0, Str_LookupTable4(0x49));
+            u8 *text_buf;
+            Util_AppendFFTerminatedBytes(D_800A19C0, Str_LookupTable4(0x49));
             D_8009CFA4 = suffix_id;
-            text_buf = (int)D_800A19C0_measure;
+            text_buf = D_800A19C0_measure;
             width = Draw_MeasureTextWidth(text_buf);
             if (width < 0x78) {
                 width = 0x78;
             } else {
-                text_buf = (int)D_800A19C0_remeasure;
+                text_buf = D_800A19C0_remeasure;
                 width = Draw_MeasureTextWidth(text_buf);
             }
         }
 
-        node->grid_width = width + 0x14;
-        node->visible_rows = 0x42;
-        node->x = (0x12C - width) >> 1;
-        option_node->x = (node->grid_width - 0x80) >> 1;
-        height = node->visible_rows;
+        panel->grid_width = width + 0x14;
+        panel->visible_rows = 0x42;
+        panel->x = (0x12C - width) >> 1;
+        option_node->x = (panel->grid_width - 0x80) >> 1;
+        height = panel->visible_rows;
         D_8009CFA8 = callback;
         option_node->y = height - 0x14;
         return;
