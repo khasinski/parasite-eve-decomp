@@ -27,7 +27,6 @@ void Menu_DrawItemDetailPanel(MenuWidgetNode *panel) {
     register int dy asm("$6");
     int sum;
     int displayed;
-    register int intermediate asm("$2");
     MenuWidgetNode *arg_panel;
     int panel_offset;
 
@@ -53,11 +52,11 @@ void Menu_DrawItemDetailPanel(MenuWidgetNode *panel) {
         base = D_8009CF0C ? 0x38 : 0x24;
         panel_y = panel->y;
         if (Inv_GetPackedListCount() < 9) {
-            intermediate = base + Inv_GetPackedListCount() * 16;
-            dy = intermediate - panel_y;
+            panel_offset = base + Inv_GetPackedListCount() * 16;
+            dy = panel_offset - panel_y;
         } else {
-            intermediate = panel_y - 0x80;
-            dy = base - intermediate;
+            panel_offset = panel_y - 0x80;
+            dy = base - panel_offset;
         }
         arg_panel = panel;
         dx = 0;
