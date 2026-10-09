@@ -15,7 +15,6 @@ int chkRC2wait(void) {
     register u32 current asm("$4");
     register u32 raw asm("$3");
     u32 base;
-    register u32 diff asm("$2");
     u32 limit;
 
     raw = *(volatile u16 *)0x1F801120;
@@ -32,11 +31,9 @@ int chkRC2wait(void) {
 
     if ((*(volatile u16 *)0x1F801124 & 0x200) != 0) {
         limit = g_TimerTimeoutLimit;
-        diff = current - g_TimerTimeoutStart;
-        return !(diff < limit);
+        return !((current - g_TimerTimeoutStart) < limit);
     } else {
         limit = g_TimerTimeoutLimit;
-        diff = (current - g_TimerTimeoutStart) >> 3;
-        return !(diff < limit);
+        return !(((current - g_TimerTimeoutStart) >> 3) < limit);
     }
 }
