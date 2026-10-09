@@ -94,7 +94,7 @@ s32 CdRom_InitScreenState(void) {
     s32 valueE0;
     s32 value1;
     s32 command;
-    register u8 *base asm("$6");
+    register GeomScrollState *base asm("$6");
     register u8 *p asm("$4");
     register u8 *q asm("$5");
     s32 tmp2;
@@ -106,9 +106,9 @@ s32 CdRom_InitScreenState(void) {
     valueE0 = 0xE0;
     value1 = 1;
     command = 0xE1000400;
-    base = (u8 *)&D_800BCF88.state;
-    q = base;
-    p = base;
+    base = &D_800BCF88.state;
+    q = (u8 *)base;
+    p = (u8 *)base;
 
     D_800BCF88.state.position.tint.target_b = 0xFF;
     D_800BCF88.state.position.tint.target_g = 0xFF;
@@ -119,15 +119,14 @@ s32 CdRom_InitScreenState(void) {
     D_800BCF88.state.position.tint.start_r = 0;
     D_800BCF88.state.position.tint.blend_mode = 2;
 
-    do {
+    for (; i < 2; i++) {
         p[0x33] = value3;
         p[0x37] = value60;
-        tmp2 = (u16)((GeomScrollState *)base)->position.tint.target_r;
+        tmp2 = (u16)base->position.tint.target_r;
         p[0x34] = tmp2;
-        tmp2 = (u16)((GeomScrollState *)base)->position.tint.target_g;
+        tmp2 = (u16)base->position.tint.target_g;
         p[0x35] = tmp2;
-        tmp3 = (u16)((GeomScrollState *)base)->position.tint.target_b;
-        i++;
+        tmp3 = (u16)base->position.tint.target_b;
         *(u16 *)(p + 0x38) = 0;
         *(u16 *)(p + 0x3A) = 0;
         *(u16 *)(p + 0x3C) = value140;
@@ -135,17 +134,17 @@ s32 CdRom_InitScreenState(void) {
         p[0x37] |= 2;
         p[0x36] = tmp3;
         q[0x53] = value1;
-        tmp2 = ((GeomScrollState *)base)->position.tint.blend_mode;
+        tmp2 = base->position.tint.blend_mode;
         p += 0x10;
         tmp2 &= 3;
         tmp2 <<= 5;
         tmp2 |= command;
         *(s32 *)(q + 0x54) = tmp2;
         q += 8;
-    } while (i < 2);
+    }
 
-    ((GeomScrollState *)base)->position.tint.duration = 0;
-    ((GeomScrollState *)base)->position.tint.frame = 0;
+    base->position.tint.duration = 0;
+    base->position.tint.frame = 0;
     return 0;
 }
 
