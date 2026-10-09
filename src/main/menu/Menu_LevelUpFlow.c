@@ -44,7 +44,6 @@ extern u16 D1E_bonus[16] __asm__("D_800C0E1E");
 /* This loop sign-extends the stat allocations (lh in the original). */
 extern s16 D_800C0E28_signed[7] __asm__("D_800C0E28");
 
-extern AyaSaveState D_800C0E00_array[] __asm__("D_800C0E00");
 extern u8 aya_level_view[16] __asm__("D_800C0E0A");
 extern u16 aya_max_hp_view[16] __asm__("D_800C0E06");
 extern u32 aya_bonus_view[4] __asm__("D_800C0E10");
@@ -66,7 +65,7 @@ void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     Menu_SetBattleEquipMode(0);
     BattleCmd_SyncActiveAmmo();
 
-    save = &D_800C0E00_array[0];
+    save = &D_800C0E00;
     asm volatile("" : "=r"(save) : "0"(save));
     previous_exp = save->total_exp;
     PE1_NOP();
