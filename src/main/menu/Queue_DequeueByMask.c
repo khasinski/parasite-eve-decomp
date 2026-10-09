@@ -24,14 +24,9 @@ void Queue_DequeueByMask(int mask, MenuQueueEntry *out_arg) {
 
     entry = head;
     prev = 0;
-    if ((entry->payload.values.value0 & mask) == 0) {
-        do {
-            prev = entry;
-            entry = entry->next;
-            if (entry == 0) {
-                goto fail;
-            }
-        } while ((entry->payload.values.value0 & mask) == 0);
+    while (entry != 0 && (entry->payload.values.value0 & mask) == 0) {
+        prev = entry;
+        entry = entry->next;
     }
 
     if (entry == 0) {
