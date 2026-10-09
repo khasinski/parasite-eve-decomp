@@ -58,52 +58,51 @@ void Menu_DrawBlendColorChannelListUnk(MenuWidgetNode *arg0) {
     M2C_UNK var_a0_5;
     M2C_UNK var_a0_6;
     s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s1;
+    u16 downHeld;
+    s32 selectedChannel;
 
-    temp_s1 = MenuWidget_GridCellIndex(MenuWidget_GetChild(arg0, 0));
+    selectedChannel = MenuWidget_GridCellIndex(MenuWidget_GetChild(arg0, 0));
     temp_s0 = MenuInput_GetStatusFlags() & 0x1000;
     asm volatile("" : "=r"(temp_s0) : "0"(temp_s0));
     Draw_OffsetCursor(0x12, 5);
     var_a0 = 0;
-    if ((temp_s1 != 0) || (temp_s0 == 0)) {
+    if ((selectedChannel != 0) || (temp_s0 == 0)) {
         var_a0 = 1;
     }
     Draw_SetTextDimmed(var_a0);
     Draw_AllocSprite(0x4A);
     Draw_OffsetCursor(0x20, 0);
     var_a0_2 = 0;
-    if ((temp_s1 != 1) || (temp_s0 == 0)) {
+    if ((selectedChannel != 1) || (temp_s0 == 0)) {
         var_a0_2 = 1;
     }
     Draw_SetTextDimmed(var_a0_2);
     Draw_AllocSprite(0x4A);
     Draw_OffsetCursor(0x20, 0);
     var_a0_3 = 0;
-    if ((temp_s1 != 2) || (temp_s0 == 0)) {
+    if ((selectedChannel != 2) || (temp_s0 == 0)) {
         var_a0_3 = 1;
     }
     Draw_SetTextDimmed(var_a0_3);
     Draw_AllocSprite(0x4A);
-    temp_s0_2 = MenuInput_GetStatusFlags() & 0x4000;
-    asm volatile("" : "=r"(temp_s0_2) : "0"(temp_s0_2));
+    downHeld = MenuInput_GetStatusFlags() & 0x4000;
     Draw_OffsetCursor(-0x40, 0x19);
     var_a0_4 = 0;
-    if ((temp_s1 != 0) || (temp_s0_2 == 0)) {
+    if ((selectedChannel != 0) || (downHeld == 0)) {
         var_a0_4 = 1;
     }
     Draw_SetTextDimmed(var_a0_4);
     Draw_AllocSprite(0x4B);
     Draw_OffsetCursor(0x20, 0);
     var_a0_5 = 0;
-    if ((temp_s1 != 1) || (temp_s0_2 == 0)) {
+    if ((selectedChannel != 1) || (downHeld == 0)) {
         var_a0_5 = 1;
     }
     Draw_SetTextDimmed(var_a0_5);
     Draw_AllocSprite(0x4B);
     Draw_OffsetCursor(0x20, 0);
     var_a0_6 = 0;
-    if ((temp_s1 != 2) || (temp_s0_2 == 0)) {
+    if ((selectedChannel != 2) || (downHeld == 0)) {
         var_a0_6 = 1;
     }
     Draw_SetTextDimmed(var_a0_6);
