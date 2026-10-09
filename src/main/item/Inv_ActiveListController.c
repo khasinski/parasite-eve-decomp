@@ -117,13 +117,8 @@ int Inv_LoadWayneItemsAsOverride(short *items) {
         int base = g_InvCategoryBaseItemId;
         u16 *out = g_BattleCountTable;
         int end = base + 3;
-
-        do {
-            int id = items[0];
-            if (id == 0) {
-                break;
-            }
-
+        int id;
+        while (count < 10 && (id = items[0]) != 0) {
             if ((base <= id) && (id < end)) {
                 int temp = id + 6;
 
@@ -138,9 +133,8 @@ int Inv_LoadWayneItemsAsOverride(short *items) {
             }
 
             count++;
-            items++;
-            items++;
-        } while (count < 10);
+            items += 2;
+        }
 
         g_InvActiveListOverride = g_BattleCountTable;
         g_InvOverrideSlotLimit = count;
