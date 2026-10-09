@@ -25,17 +25,15 @@ int Task_BeginSceneTransition(int **arg0) {
 
     node = (int *)g_TaskNodePool;
     flags = *(unsigned short *)(node + 2);
-    if (flags & 0x20) {
-        goto finish;
+    if ((flags & 0x20) == 0) {
+        *(unsigned short *)(node + 2) = flags | 0x20;
+        cursor = g_SceneDataTable0;
+        ((TaskNode *)node)->active = 1;
+        cursor -= 0xC;
+        g_SceneDataTable0 = cursor;
+        return 0;
     }
-    *(unsigned short *)(node + 2) = flags | 0x20;
-    cursor = g_SceneDataTable0;
-    ((TaskNode *)node)->active = 1;
-    cursor -= 0xC;
-    g_SceneDataTable0 = cursor;
-    return 0;
 
-finish:
     Render_BeginSceneLoad();
     Menu_OpenEquipScreen(**saved);
     {
