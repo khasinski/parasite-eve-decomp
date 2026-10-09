@@ -103,9 +103,9 @@ int Render_SaveAndOpenBounds(void) {
     D_800BCFB2 = *(u16 *)&entry->maxY;
 
     *(short *)((u8 *)entry + 0x2C) = -0x8000;
-    *(short *)((u8 *)entry + 0x2E) = 0x7FFF;
+    *(u16 *)&entry->maxX = 0x7FFF;
     *(short *)((u8 *)entry + 0x30) = -0x8000;
-    *(short *)((u8 *)entry + 0x32) = 0x7FFF;
+    *(u16 *)&entry->maxY = 0x7FFF;
 
     return 0;
 }
