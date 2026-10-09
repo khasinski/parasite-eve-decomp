@@ -100,7 +100,7 @@ void Menu_StepInventoryRoot(int mode, int list, int item)
                 MenuWidget_SetCurrentNode(node);
         }
         {
-            u16 *source = D_800C0E28;
+            u16 *source = D_800C0E00.stats.levels;
             int stat;
 
             for (stat = 0; stat < 7; stat++) {
@@ -111,7 +111,7 @@ void Menu_StepInventoryRoot(int mode, int list, int item)
         }
         D_8009CF80 = 0;
         D_8009CF40 = 0;
-        D_8009CF68 = D_800C0E10[0];
+        D_8009CF68 = D_800C0E00.bonus_points;
         for (slot = 6; slot >= 0; slot--)
             D_800A1898[slot] = 0;
         Menu_InitStateTables();
