@@ -5,7 +5,6 @@
 void Save_SerializeTail(void) {
     register u8 *cursor asm("$3");
     u8 *cd;
-    u8 *t;
 
     {
         u8 *entityDestination = g_SaveIoCursor;
@@ -60,8 +59,7 @@ void Save_SerializeTail(void) {
         asm volatile("" : : "r"(screenByte));
         cursor[1] = screenByte;
     }
-    t = g_SaveIoCursor + 1;
-    cd = t;
+    cd = g_SaveIoCursor + 1;
     g_SaveIoCursor = cd;
     *(SaveBytes70 *)cd = g_AyaBattleState;
     cursor = g_SaveIoCursor;
