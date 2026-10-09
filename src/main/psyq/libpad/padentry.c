@@ -77,7 +77,7 @@ int PadInfoMode(int channel, int mode, int index) {
             return obj->field_e3;
         }
         if (index < obj->field_e3) {
-            return *(unsigned short *)((index << 1) + (int)obj->field_00);
+            return obj->modeTable[index];
         }
         goto late_fail;
     case 100:

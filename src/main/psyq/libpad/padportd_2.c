@@ -20,7 +20,7 @@ void CardObj_ResetFields(CardObj *arg0) {
         arg0->field_e6 = 0;
         arg0->field_e9 = 0;
         arg0->field_ea = 0;
-        arg0->field_00 = 0;
+        arg0->modeTable = 0;
         arg0->capabilities = 0;
         arg0->combinations = 0;
 

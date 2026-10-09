@@ -26,7 +26,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(PadCombinationRecord, data) == 4, pad_data_record
 /* LIBPAD per-port command object (legacy CardObj_* names). field_46 is unsigned char: stored as 1
  * by BeginCommand4D and compared ==0xFF (lbu) by IsTransferActive. */
 typedef struct CardObj {
-    unsigned char *field_00;           /* 0x00 */
+    u16 *modeTable;                   /* 0x00 */
     PadCapabilityRecord *capabilities; /* 0x04 */
     PadCombinationRecord *combinations; /* 0x08 */
     unsigned char *field_0c;           /* 0x0C */

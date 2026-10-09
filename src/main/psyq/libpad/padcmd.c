@@ -160,7 +160,7 @@ initialize:
     asm volatile("" : "=r"(rowCount), "=r"(columnCount), "=r"(result) : "0"(rowCount), "1"(columnCount), "2"(result));
 
     cursor <<= 2;
-    obj->field_00 = (unsigned char *)cursor;
+    obj->modeTable = (u16 *)cursor;
     obj->field_47 = 0;
     asm volatile("" ::: "memory");
     cursor += ((rowCount + 1) >> 1) * 4;
@@ -201,7 +201,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
     register int result asm("$2");
     switch (port->field_46) {
     case 2:
-        ((u16 *)port->field_00)[port->field_47] =
+        port->modeTable[port->field_47] =
             port->response_3c[5] + (port->response_3c[4] << 8);
         port->field_47++;
         if (port->field_47 >= port->field_e3) {
