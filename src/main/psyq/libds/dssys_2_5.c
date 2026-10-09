@@ -525,12 +525,12 @@ void CQ_vsync_system(void) {
     }
 }
 
-extern int D_800B8AB4;
+extern int (*D_800B8AB4)(u8 command, u8 *payload);
 
 void CQ_error_flush(int command);
 
 int CQ_ready_system(int command, u8 *payload) {
-    register int result asm("$2");
+    register int (*callbackFn)(u8, u8 *) asm("$2");
     register CdQueuedCmdSlot *slot;
     u8 *copy_destination;
     u8 command_byte;
@@ -559,11 +559,10 @@ int CQ_ready_system(int command, u8 *payload) {
     rescpy(copy_destination, payload);
 
 callback:
-        result = D_800B8AB4;
-    if (result != 0) {
-        result = ((int (*)(u8, u8 *))result)(command_byte, payload);
-    }
-    return result;
+    callbackFn = D_800B8AB4;
+    if (callbackFn != 0)
+        return callbackFn(command_byte, payload);
+    return 0;
 }
 
 extern void (*g_DsStartCallback)(int);
