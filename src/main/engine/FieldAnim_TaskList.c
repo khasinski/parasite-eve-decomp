@@ -86,18 +86,18 @@ int func_800CE5AC(void *arg0, int arg1, int arg2, int arg3, void *arg4) {
 
 void *func_800CE610(char *list) {
     char frame[8];
-    char *base;
+    FieldAnimCallbackList *base;
     char *entry;
     register int slot_or_count asm("$5");
     register int count asm("$6");
     register int stride asm("$7");
     int i;
-    register void *ret asm("$2");
+    void *ret;
 
     (void)frame;
     ret = list;
     asm volatile("" : "=r"(ret) : "0"(ret));
-    base = list;
+    base = (FieldAnimCallbackList *)list;
     asm volatile("" : "=r"(base) : "0"(base));
     entry = list + 0xC;
         slot_or_count = ((FieldAnimCallbackList *)ret)->count;
@@ -117,12 +117,10 @@ loop:
         }
 
 found:
-        ret = (void *)(i < ((FieldAnimCallbackList *)base)->count);
-        if (ret != 0) {
-            ret = entry + 0x4;
+        if (i < base->count) {
             ((FieldAnimCallbackListEntry *)slot_or_count)->active = 1;
             ((FieldAnimCallbackListEntry *)slot_or_count)->age = 0;
-            return ret;
+            return entry + 0x4;
         }
     }
 
