@@ -67,7 +67,7 @@ loop:
         if (has_room != 0) {
             cursor[0] = ch;
             cursor[1] = 0xFF;
-            goto done;
+            return;
         }
     }
 
@@ -77,15 +77,14 @@ loop:
     }
 
     cursor[-1] = ch;
-
-done:
-    }
+}
 
 
 
 int Save_DeleteMetadataChar(void) {
-    register unsigned char *cursor asm("$4") = g_SaveMetadataCursor;
+    unsigned char *cursor = g_SaveMetadataCursor;
     int used = 0;
+    int removed;
     int length = g_SaveMetadataWindowLength;
 
     while (used < length && *cursor != 0xFF) {
@@ -93,8 +92,8 @@ int Save_DeleteMetadataChar(void) {
         cursor++;
     }
 
-    used = 0 < used;
-    if (used != 0) {
+    removed = 0 < used;
+    if (removed != 0) {
         cursor--;
         cursor[0] = 0xFF;
         cursor--;
@@ -103,7 +102,7 @@ int Save_DeleteMetadataChar(void) {
         }
     }
 
-    return used;
+    return removed;
 }
 
 
