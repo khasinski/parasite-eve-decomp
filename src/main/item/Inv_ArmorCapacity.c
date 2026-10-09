@@ -18,8 +18,7 @@ static inline ItemDataRecord *LookupOldArmor(int index) {
                 return Item_LookupBaseData(value - 1);
             }
             if ((unsigned)(saved - 0x200) < 9) {
-                int shifted = saved << 5;
-                result = (ItemDataRecord *)(D_8009DE64 + shifted);
+                result = &((ItemDataRecord *)D_8009DE64)[saved];
             } else {
                 result = 0;
             }
@@ -29,6 +28,30 @@ static inline ItemDataRecord *LookupOldArmor(int index) {
         return result;
     }
     return 0;
+}
+
+static inline ItemDataRecord *LookupTrackedItem(int index) {
+    int value, saved;
+    ItemDataRecord *result;
+    ItemDataRecord *output = 0;
+
+    if (index >= 0 && index < D_8009D050) {
+        value = D_8009D048[index];
+        saved = value;
+        if ((unsigned)(value - 0x100) < 0x80) {
+            result = &D_800C0E20.equipment[value - 0x100];
+        } else {
+            if ((unsigned)(value - 1) < 0xFF) {
+                result = Item_LookupBaseData(value - 1);
+            } else if ((unsigned)(saved - 0x200) < 9) {
+                result = &((ItemDataRecord *)D_8009DE64)[saved];
+            } else {
+                result = 0;
+            }
+        }
+        output = result;
+    }
+    return output;
 }
 
 static inline ItemDataRecord *LookupArmorTrackedItem(int index) {
@@ -46,8 +69,7 @@ static inline ItemDataRecord *LookupArmorTrackedItem(int index) {
             if ((unsigned)(value - 1) < 0xFF) {
                 result = Item_LookupBaseData(value - 1);
             } else if ((unsigned)(saved - 0x200) < 9) {
-                int shifted = saved << 5;
-                result = (ItemDataRecord *)(D_8009DE64 + shifted);
+                result = &((ItemDataRecord *)D_8009DE64)[saved];
             } else {
                 result = 0;
             }
@@ -78,7 +100,7 @@ int Inv_GetSlotItemData(int index) {
         if (i < armor->tailCount) previousReserve = 1 << previousReserve;
         else previousReserve = 0;
     }
-    armor = LookupArmorTrackedItem(FilteredSlot(index));
+    armor = LookupTrackedItem(FilteredSlot(index));
     for (i = 0; i < armor->tailCount; i++) {
         nextReserve = (armor->tailData[i] & 31) - 8;
         if ((unsigned)nextReserve < 3) break;
@@ -145,32 +167,6 @@ int Inv_GetActiveSlotCount(int *out) {
     if (out != 0) *out = reserve;
     return enough;
 }
-
-static inline ItemDataRecord *LookupTrackedItem(int index) {
-    int value, saved;
-    ItemDataRecord *result;
-    ItemDataRecord *output = 0;
-
-    if (index >= 0 && index < D_8009D050) {
-        value = D_8009D048[index];
-        saved = value;
-        if ((unsigned)(value - 0x100) < 0x80) {
-            result = &D_800C0E20.equipment[value - 0x100];
-        } else {
-            if ((unsigned)(value - 1) < 0xFF) {
-                result = Item_LookupBaseData(value - 1);
-            } else if ((unsigned)(saved - 0x200) < 9) {
-                int shifted = saved << 5;
-                result = (ItemDataRecord *)(D_8009DE64 + shifted);
-            } else {
-                result = 0;
-            }
-        }
-        output = result;
-    }
-    return output;
-}
-
 
 /* Historical names retained: snapshot, then restore the two selected records.
  * Both selected records must resolve, as in the retail copy sequences. */
@@ -245,8 +241,7 @@ static inline ItemDataRecord *LookupActiveItem(int index) {
                 return Item_LookupBaseData(value - 1);
             }
             if ((unsigned)(saved - 0x200) < 9) {
-                int shifted = saved << 5;
-                result = (ItemDataRecord *)(D_8009DE64 + shifted);
+                result = &((ItemDataRecord *)D_8009DE64)[saved];
             } else {
                 result = 0;
             }
