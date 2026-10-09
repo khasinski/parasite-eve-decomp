@@ -93,8 +93,10 @@ void Save_DeserializeTail(void) {
     u32 game_word;
     u32 field_word;
 
-    cursor = g_SaveIoCursor;
-    g_EntityWorkBuffer = *(SaveBytes800 *)cursor;
+    {
+        u8 *entitySource = g_SaveIoCursor;
+        g_EntityWorkBuffer = *(SaveBytes800 *)entitySource;
+    }
     cursor = g_SaveIoCursor;
     asm volatile("" : : "r"(cursor));
     aya_dest = &g_AyaBattleState;
@@ -162,7 +164,6 @@ void Save_DeserializeTail(void) {
     g_ScreenTransitionState = screen_byte;
     g_SaveIoCursor = bulk_src;
 
-    cursor = g_SaveIoCursor;
     *aya_dest = *(SaveBytes70 *)bulk_src;
 
     cursor = g_SaveIoCursor;
