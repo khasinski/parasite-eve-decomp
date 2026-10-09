@@ -7,7 +7,7 @@
 /* Active-list commands from the item menus and the pending command result
  * (D_8009D010) that the menu loop polls and clears. */
 
-extern u8 D_8009D254[];
+extern BattleEntity *D_8009D254[];
 extern u8 *D_8009D1E0;
 extern int D_8009D010;
 extern int D_8009D018;
@@ -24,14 +24,14 @@ struct ArmorBlock { u32 word[2]; };
 void Inv_SetActiveList(int mode, int *slot) {
     Combatant *active;
     int *selection;
-    u8 *entity;
+    BattleEntity *entity;
     int value;
     int present;
     selection = slot;
-    entity = *(u8 **)D_8009D254;
+    entity = D_8009D254[0];
     active = 0;
     if (entity) {
-        value = *(int *)entity;
+        value = (int)entity->core;
         present = value != 0;
             active = (Combatant *)(value & -present);
     }
