@@ -61,7 +61,7 @@ typedef char SpuRegsSizeCheck[(sizeof(SpuRegs) == 0x200) ? 1 : -1];
  */
 typedef struct SpuReverbState {
     u32 mode;
-    short depth[2];
+    SpuVolume depth;
     s32 delay;
     s32 feedback;
 } SpuReverbState;

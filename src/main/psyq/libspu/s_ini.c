@@ -29,8 +29,8 @@ void _SpuInit(int mode) {
     _spu_rev_flag = 0;
     _spu_rev_reserve_wa = 0;
     reverb->mode = 0;
-    reverb->depth[0] = 0;
-    reverb->depth[1] = 0;
+    reverb->depth.left = 0;
+    reverb->depth.right = 0;
     reverb->delay = 0;
     reverb->feedback = 0;
     _spu_rev_offsetaddr = D_8009B46C;

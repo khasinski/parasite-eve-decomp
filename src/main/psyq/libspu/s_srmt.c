@@ -54,8 +54,8 @@ int SpuSetReverbModeType(u32 mode) {
     }
     _spu_RXX->reverb_volume_left = 0;
     _spu_RXX->reverb_volume_right = 0;
-    D_8009B3A0.depth[0] = 0;
-    D_8009B3A0.depth[1] = 0;
+    D_8009B3A0.depth.left = 0;
+    D_8009B3A0.depth.right = 0;
     _spu_setReverbAttr(&attr);
     if (clear) SpuClearReverbWorkArea(mode);
     _spu_FsetRXX(0xD1, _spu_rev_offsetaddr, 0);
