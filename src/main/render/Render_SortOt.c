@@ -118,194 +118,192 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                 }
             }
         }
-        goto selected;
-    }
-    step_y = 0x10;
-    if (ascending == 0) {
-        step_y = -0x10;
-    }
-    descending_index = 0;
-    has_later_x = 0;
-    {
-        register int loaded = entry->count;
-        i = 0;
-        if (best_index < loaded) {
-            register int bound = loaded;
-            do {
-                register int raw_y;
-
-                value = entries[i];
-                x = value >> 22;
-
-                if (x == (D_8009CDC0 + step_y)) {
-                    raw_y = value >> 12;
-                    if ((raw_y & 0x3FF) == D_8009CDC4) {
-                        register int result asm("$2") = i;
-                        previous = D_8009CDBC;
-                        D_8009CDBC = result;
-                        D_8009CDB8 = previous;
-                        asm volatile("" : : : "memory");
-                        value = entries[i];
-                        D_8009CDC0 = entries[i] >> 22;
-                        D_8009CDC4 = (entries[i] >> 12) & 0x3FF;
-                        return result;
-                    }
-                } else {
-                    raw_y = value >> 12;
-                    if (((raw_y & 0x3FF) == D_8009CDC4) && (D_8009CDC0 < x)) {
-                        has_later_x = 1;
-                    }
-                }
-
-                ++i;
-            } while (i < bound);
-        }
-    }
-    if ((!((u8)descending_index)) && (has_later_x == 1)) {
+    } else {
+        step_y = 0x10;
         if (ascending == 0) {
-            best_x = 0;
-            {
-                register int loaded = entry->count;
-                i = 0;
-
-                if (loaded > 0) {
-                    register int bound = loaded;
-                    register u32 *cursor = entries;
-                    register int state_y asm("$4") = D_8009CDC4;
-                    register int state_x = D_8009CDC0;
-                    do {
-                        u32 value = *cursor;
-                        int x;
-                        int y;
-                        y = (value >> 12) & 0x3FF;
-                        x = value >> 22;
-                        if (((y == state_y) && (x < state_x)) && (best_x < x)) {
-                            best_x = x;
-                            best_index = i;
-                            descending_index = 1;
-                        }
-
-                        ++i;
-                        ++cursor;
-                    } while (i < bound);
-                }
-            }
-
-        } else {
-            best_x = 0x7FFF;
-            {
-                register int loaded = entry->count;
-                i = 0;
-
-                if (loaded > 0) {
-                    register int bound = loaded;
-                    register u32 *cursor = entries;
-                    register int state_y asm("$4") = D_8009CDC4;
-                    register int state_x = D_8009CDC0;
-                    do {
-                        u32 value = *cursor;
-                        int x;
-                        int y;
-                        y = (value >> 12) & 0x3FF;
-                        x = value >> 22;
-                        if (((y == state_y) && (state_x < x)) && (x < best_x)) {
-                            best_x = x;
-                            best_index = i;
-                            descending_index = 1;
-                        }
-
-                        ++i;
-                        ++cursor;
-                    } while (i < bound);
-                }
-            }
+            step_y = -0x10;
         }
-    }
-    selected_flag = (u8)descending_index;
-
-    if (selected_flag == 1)
-        goto selected;
-    {
         descending_index = 0;
-        if (ascending == 0) {
-            best_x = -1;
-            {
-                register int loaded = entry->count;
+        has_later_x = 0;
+        {
+            register int loaded = entry->count;
+            i = 0;
+            if (best_index < loaded) {
+                register int bound = loaded;
+                do {
+                    register int raw_y;
 
-                i = 0;
-                if (loaded > 0) {
-                    register int bound = loaded;
-                    y = D_8009CDC4 + step_y;
-                    {
-                        register u32 *cursor asm("$8") = entries;
+                    value = entries[i];
+                    x = value >> 22;
+
+                    if (x == (D_8009CDC0 + step_y)) {
+                        raw_y = value >> 12;
+                        if ((raw_y & 0x3FF) == D_8009CDC4) {
+                            register int result asm("$2") = i;
+                            previous = D_8009CDBC;
+                            D_8009CDBC = result;
+                            D_8009CDB8 = previous;
+                            asm volatile("" : : : "memory");
+                            value = entries[i];
+                            D_8009CDC0 = entries[i] >> 22;
+                            D_8009CDC4 = (entries[i] >> 12) & 0x3FF;
+                            return result;
+                        }
+                    } else {
+                        raw_y = value >> 12;
+                        if (((raw_y & 0x3FF) == D_8009CDC4) && (D_8009CDC0 < x)) {
+                            has_later_x = 1;
+                        }
+                    }
+
+                    ++i;
+                } while (i < bound);
+            }
+        }
+        if ((!((u8)descending_index)) && (has_later_x == 1)) {
+            if (ascending == 0) {
+                best_x = 0;
+                {
+                    register int loaded = entry->count;
+                    i = 0;
+
+                    if (loaded > 0) {
+                        register int bound = loaded;
+                        register u32 *cursor = entries;
+                        register int state_y asm("$4") = D_8009CDC4;
+                        register int state_x = D_8009CDC0;
                         do {
                             u32 value = *cursor;
                             int x;
-                            if (((value >> 12) & 0x3FF) == y) {
-                                x = value >> 22;
-                                if (best_x < x) {
-                                    best_x = x;
-                                    best_index = i;
-                                    descending_index = 1;
-                                }
+                            int y;
+                            y = (value >> 12) & 0x3FF;
+                            x = value >> 22;
+                            if (((y == state_y) && (x < state_x)) && (best_x < x)) {
+                                best_x = x;
+                                best_index = i;
+                                descending_index = 1;
                             }
-                            ++i;
 
+                            ++i;
                             ++cursor;
                         } while (i < bound);
                     }
                 }
-            }
 
-        } else {
-            best_x = 0x7FFF;
-            {
-                register int loaded asm("$2") = entry->count;
+            } else {
+                best_x = 0x7FFF;
+                {
+                    register int loaded = entry->count;
+                    i = 0;
 
-                i = 0;
-                if (loaded > 0) {
-                    register int bound asm("$4") = loaded;
-                    y = D_8009CDC4 + step_y;
-                    {
+                    if (loaded > 0) {
+                        register int bound = loaded;
                         register u32 *cursor = entries;
+                        register int state_y asm("$4") = D_8009CDC4;
+                        register int state_x = D_8009CDC0;
                         do {
                             u32 value = *cursor;
                             int x;
-                            if (((value >> 12) & 0x3FF) == y) {
-                                x = value >> 22;
-                                if (x < best_x) {
-                                    best_x = x;
-                                    best_index = i;
-                                    descending_index = 1;
-                                }
+                            int y;
+                            y = (value >> 12) & 0x3FF;
+                            x = value >> 22;
+                            if (((y == state_y) && (state_x < x)) && (x < best_x)) {
+                                best_x = x;
+                                best_index = i;
+                                descending_index = 1;
                             }
-                            ++i;
 
+                            ++i;
                             ++cursor;
                         } while (i < bound);
                     }
                 }
             }
         }
+        selected_flag = (u8)descending_index;
+
+        if (selected_flag != 1) {
+            descending_index = 0;
+            if (ascending == 0) {
+                best_x = -1;
+                {
+                    register int loaded = entry->count;
+
+                    i = 0;
+                    if (loaded > 0) {
+                        register int bound = loaded;
+                        y = D_8009CDC4 + step_y;
+                        {
+                            register u32 *cursor asm("$8") = entries;
+                            do {
+                                u32 value = *cursor;
+                                int x;
+                                if (((value >> 12) & 0x3FF) == y) {
+                                    x = value >> 22;
+                                    if (best_x < x) {
+                                        best_x = x;
+                                        best_index = i;
+                                        descending_index = 1;
+                                    }
+                                }
+                                ++i;
+
+                                ++cursor;
+                            } while (i < bound);
+                        }
+                    }
+                }
+
+            } else {
+                best_x = 0x7FFF;
+                {
+                    register int loaded asm("$2") = entry->count;
+
+                    i = 0;
+                    if (loaded > 0) {
+                        register int bound asm("$4") = loaded;
+                        y = D_8009CDC4 + step_y;
+                        {
+                            register u32 *cursor = entries;
+                            do {
+                                u32 value = *cursor;
+                                int x;
+                                if (((value >> 12) & 0x3FF) == y) {
+                                    x = value >> 22;
+                                    if (x < best_x) {
+                                        best_x = x;
+                                        best_index = i;
+                                        descending_index = 1;
+                                    }
+                                }
+                                ++i;
+
+                                ++cursor;
+                            } while (i < bound);
+                        }
+                    }
+                }
+            }
+            if (((u8)descending_index) == 0) {
+                return Render_SortOt(entry, entries, ascending, 1);
+            }
+            asm("" : : "r"(descending_index));
+        }
     }
-    if (((u8)descending_index) == 0) {
-        return Render_SortOt(entry, entries, ascending, 1);
-    }
-    asm("" : : "r"(descending_index));
-selected: {
-    register int result = best_index;
-
-    previous = D_8009CDBC;
-
-    D_8009CDBC = result;
-    D_8009CDB8 = previous;
-
     {
-        u32 packed_x = entries[result];
-        u32 packed_y = *(volatile u32 *)&entries[result];
-        D_8009CDC0 = packed_x >> 22;
-        D_8009CDC4 = (packed_y >> 12) & 0x3FF;
+        register int result = best_index;
+
+        previous = D_8009CDBC;
+
+        D_8009CDBC = result;
+        D_8009CDB8 = previous;
+
+        {
+            u32 packed_x = entries[result];
+            u32 packed_y = *(volatile u32 *)&entries[result];
+            D_8009CDC0 = packed_x >> 22;
+            D_8009CDC4 = (packed_y >> 12) & 0x3FF;
+        }
+        return result;
     }
-    return result;
-}
 }
