@@ -48,8 +48,6 @@ s32 Inv_TransferItem(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 tl0;
     register s32 tsm asm("$2");
     register u8 *tla asm("$2");
-    register s32 tam2 asm("$5");
-    register u8 *tb48c asm("$2");
     u32 temp_v0_2;
     register u32 tl1b asm("$2");
     u32 tl0b;
@@ -115,8 +113,8 @@ block_15:
                     var_s4 = Inv_CanAddActiveListItemToAya(arg1) == 0;
                 } else {
                     tla = (u8 *)&D_800A1FD4_o;
-                    tam2 = arg1 * 2;
-                    var_a1 = (u16 *)(tam2 + tla);
+                    ta1m = arg1 * 2;
+                    var_a1 = (u16 *)(ta1m + tla);
                     var_v0 = g_InvItemPtr;
                     var_a0 = arg3 * 2;
                     goto block_33;
@@ -133,10 +131,10 @@ block_15:
             var_a0_3 = 1;
         }
         if (var_a0_3 == 0) {
-            tam2 = arg1 * 2;
-            tb48c = (u8 *)g_InvItemPtr;
+            ta1m = arg1 * 2;
+            tla = (u8 *)g_InvItemPtr;
             var_a0 = arg3 * 2;
-            var_a1 = (u16 *)(tam2 + (u32)tb48c);
+            var_a1 = (u16 *)(ta1m + (u32)tla);
             var_v0 = (M2C_UNK *)&D_800A1FD4_o;
 block_33:
             temp_a0_2 = (u16 *)(var_a0 + (u32)var_v0);
