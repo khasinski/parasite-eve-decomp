@@ -435,7 +435,7 @@ void CardObj_EmitReadIdCommand(CardObj *arg0) {
         break;
     case 3:
         arg0->command = 0x4D;
-        arg0->payload_2c = (unsigned char *)arg0 + 0x5D;
+        arg0->payload_2c = arg0->actuatorMap;
         arg0->payload_2c_len = 6;
         break;
     }
