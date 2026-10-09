@@ -2,6 +2,7 @@
 #define PE1_MENU_DIALOG_H
 
 #include "pe1/menu_inventory.h"
+#include "pe1/menu_confirm_callback.h"
 
 void Menu_DrawNotificationText(MenuWidgetNode *node);
 void Menu_DrawTwoLineDialogText(void);
@@ -18,13 +19,12 @@ extern u8 g_MenuItemLabelBuffer[128];
 extern int g_MenuItemPrimListHandles[2];
 extern int g_MenuActionTextBase;
 extern int g_MenuActiveItemList, g_MenuActiveItemSlot;
-extern void (*g_MenuConfirmCallback)(void *node, int confirmed);
 void Inv_SelectActiveList(int list);
 void *Inv_LookupActiveListDisplayData(int index);
 void Menu_DrawItemLabel(MenuWidgetNode *node);
 int Menu_ConfirmDialogHandler(void *node, int flags);
 void Menu_DrawActionOptionList(void *node);
-void Menu_OnItemDiscardConfirm(void *node, int confirmed);
+void Menu_OnItemDiscardConfirm(MenuWidgetNode *node, int confirmed);
 void Menu_StepItemDetailPanel(void);
 
 #endif

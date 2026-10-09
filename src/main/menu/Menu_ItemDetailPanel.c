@@ -61,7 +61,7 @@ int Menu_ConfirmDialogHandler(void *node, int flags) {
 void Menu_StepItemDetailPanel(void) {
     MenuWidgetNode *parent, *child;
     u8 *label;
-    void (*confirm)(void *, int);
+    MenuConfirmCallback confirm;
     int width;
     Inv_SelectActiveList(g_MenuActiveItemList);
     parent = MenuWidget_GetCurrentNode();
@@ -99,7 +99,7 @@ extern s32 g_MenuEquipMode;
 
 /* Discard confirmation: on "yes" remove the selected item, close the
  * dialog and refresh the slot counts of the open inventory panels. */
-void Menu_OnItemDiscardConfirm(void *arg0, s32 arg1) {
+void Menu_OnItemDiscardConfirm(MenuWidgetNode *arg0, s32 arg1) {
     MenuWidgetNode *dialog = arg0;
     MenuWidgetNode *panel;
 

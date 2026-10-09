@@ -5,6 +5,7 @@
 #include "pe1/menu_equipment.h"
 #include "pe1/menu_inventory.h"
 #include "pe1/inventory.h"
+#include "pe1/menu_confirm_callback.h"
 
 int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags);
 int Menu_InventoryPageInputHandler(MenuWidgetNode *root, unsigned int flags);
@@ -16,13 +17,11 @@ void Menu_SetupSkillSubmenu(int node);
 void Menu_StepSkillList(MenuWidgetNode *panel, int refresh);
 void Menu_OpenRenameScreen(int item);
 void Menu_ReopenEquipScreen(void);
-void Menu_ItemUseAction(int node, int confirmed);
 
 /* Bonus point allocation view is open. */
 extern int D_8009CEF8;
 /* Item-use confirmation dialog: selected option and confirm callback. */
 extern int D_8009CFA0;
-extern void (*D_8009CFA8)(int node, int confirmed);
 /* Pending stat bonus: item index (negative when none), stat and amount. */
 extern int D_8009CFD4;
 /* Copy of the item record being modified. */

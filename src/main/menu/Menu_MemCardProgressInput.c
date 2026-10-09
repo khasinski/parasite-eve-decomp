@@ -10,13 +10,11 @@ int MemCard_GetActivePort(void);
 void Inv_SelectActiveList(int list);
 void Menu_CreateNotificationDialog(int arg0, int arg1);
 void MemCard_ClearActivePrompt(void);
-void Menu_HandleMemCardWriteOrError(int arg0, int arg1);
 
 extern int D_8009CF50;
 extern int D_8009CF14;
 extern int D_8009CF10;
 extern int D_8009CFA4;
-extern int D_8009CFA8;
 extern int D_8009CFFC;
 extern unsigned char D_800A19C0[];
 /* Separate compiler identities preserve address reloads across text calls. */
@@ -32,7 +30,7 @@ void Menu_StepItemGrid2(void) {
     MenuWidgetNode *option_node;
     int label;
     int suffix_id;
-    int callback;
+    MenuConfirmCallback callback;
     register int mode asm("$4");
     int width;
     int height;
@@ -63,7 +61,7 @@ void Menu_StepItemGrid2(void) {
             int active_list;
             suffix_id = 0x4A;
             active_list = D_8009CF10;
-            callback = (int)Menu_HandleMemCardWriteOrError;
+            callback = Menu_HandleMemCardWriteOrError;
             option_node->cursor_x = enabled;
             Inv_SelectActiveList(active_list);
         }

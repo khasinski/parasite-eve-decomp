@@ -1,4 +1,5 @@
 #include "pe1/menu_widget.h"
+#include "pe1/menu_confirm_callback.h"
 #include "common.h"
 #include "pe1/memcard.h"
 /* CC1_FLAGS: -G8 */
@@ -33,7 +34,6 @@ extern s32 g_SaveSlotCellIndex;
 extern s32 D_8009CF4C;
 extern s32 g_McDialogMode;
 extern s32 g_MenuItemPrimListHandles;
-extern M2C_UNK *g_MenuConfirmCallback;
 extern s32 g_MenuMemCardConfirmPending;
 extern struct { char _[16]; } D_800A1980_o __asm__("g_MenuItemLabelBuffer");
 #define g_MenuItemLabelBuffer (*(u8 *)&D_800A1980_o)
@@ -47,8 +47,6 @@ extern struct { char _[16]; } func_800504F4_o __asm__("Save_StartSelectedWriteSl
 #define func_800504F4 (*(M2C_UNK *)&func_800504F4_o)
 extern struct { char _[16]; } func_8005051C_o __asm__("Save_StartSelectedReadSlot");
 #define func_8005051C (*(M2C_UNK *)&func_8005051C_o)
-extern struct { char _[16]; } func_80050544_o __asm__("Menu_TriggerSaveWrite");
-#define Menu_TriggerSaveWrite (*(M2C_UNK *)&func_80050544_o)
 
 s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
     M2C_UNK *var_a0;
@@ -98,7 +96,7 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
                             Util_AppendFFTerminatedBytes(&g_MenuItemLabelBuffer, Str_LookupTable4(0x44));
                             g_MenuItemPrimListHandles = 0;
                             {
-                                M2C_UNK *callback = &Menu_TriggerSaveWrite;
+                                MenuConfirmCallback callback = Menu_TriggerSaveWrite;
                                 var_v1 = 0x78;
                                 if (Draw_MeasureTextWidth(&g_MenuItemLabelBuffer) < 0x78) {
                                     var_v1 = 0x78;

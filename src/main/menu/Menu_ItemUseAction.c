@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #include "pe1/inventory.h"
+#include "pe1/menu_confirm_callback.h"
 #include "pe1/menu_item_record.h"
 
 int g_MenuEquipMode;
@@ -25,7 +26,7 @@ void Draw_PrintTextById(int arg0);
 void Draw_PrintNumberWidth3Unk(int value);
 int Draw_GetBlendColor(void);
 
-void Menu_ItemUseAction(int arg0, int arg1) {
+void Menu_ItemUseAction(struct MenuWidgetNode *arg0, int arg1) {
     int saved;
     ItemDataRecord *ptr;
 

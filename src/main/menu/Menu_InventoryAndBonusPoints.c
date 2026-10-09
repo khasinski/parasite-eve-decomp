@@ -1,4 +1,5 @@
 #include "pe1/menu_bonus_stats.h"
+#include "pe1/menu_confirm_callback.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "pe1/menu_inventory_root.h"
@@ -564,7 +565,7 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
             if (Inv_TestSelectionBit(index) != 0) {
                 MenuWidgetNode *dialog;
                 MenuWidgetNode *options;
-                void (*action)(int node, int confirmed);
+                MenuConfirmCallback action;
                 int width;
 
                 dialog = MenuWidget_CreateSimpleNode(0x29, child, 0, 1);

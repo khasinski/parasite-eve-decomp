@@ -20,13 +20,11 @@ extern int D_8009CFB4;
 extern int D_8009CF14;
 extern int D_8009CF10;
 extern int D_8009CFA0;
-extern int D_8009CFA8;
 extern unsigned char D_800A1980[];
 
 int Menu_GetBattleEquipMode(void);
 void MenuWidget_NavScrollTo(int arg0);
 void Battle_UseItem(int arg0);
-void Menu_OnBattleCommandConfirm(int arg0, int arg1);
 
 s32 Menu_SkillActionHandler(s32 node, s32 flags) {
     s32 child;
@@ -59,7 +57,7 @@ void Menu_StepItemDetailPanel2(void) {
     int label;
     int option_node;
     int width;
-    int callback;
+    MenuConfirmCallback callback;
     int height;
 
     D_8009CFB4 = Inv_GetPackedListItem(MenuWidget_GridCellIndex(MenuWidget_FindByModeAndSelectedBase(2, 8)));
@@ -72,7 +70,7 @@ void Menu_StepItemDetailPanel2(void) {
     *(int *)(option_node + 0x30) = (int)Menu_DrawActionOptionList;
     D_8009CF14 = 5;
     MenuWidget_SetCurrentNode(option_node);
-    callback = (int)Menu_OnBattleCommandConfirm;
+    callback = Menu_OnBattleCommandConfirm;
     Inv_SelectActiveList(D_8009CF10);
 
     if (label != 0) {
@@ -108,7 +106,7 @@ void Menu_StepItemDetailPanel2(void) {
     *(int *)(option_node + 0x1C) = height - 0x14;
 }
 
-void Menu_OnBattleCommandConfirm(int arg0, int arg1) {
+void Menu_OnBattleCommandConfirm(MenuWidgetNode *arg0, int arg1) {
     if (arg1 != 0) {
         if (Menu_GetBattleEquipMode() != 0) {
             MenuWidget_NavScrollTo(8);

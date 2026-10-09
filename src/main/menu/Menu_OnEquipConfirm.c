@@ -46,7 +46,6 @@ extern int D_8009CF10;
 extern int D_8009CF14;
 extern int D_8009CF1C;
 extern int D_8009CFA0;
-extern int D_8009CFA8;
 extern int D_800A1888[];
 extern int D_800A188C[];
 extern int D_800A1890[];
@@ -68,7 +67,7 @@ int Menu_StepEquipConfirm(MenuWidgetNode *node, int input) {
     int width;
     register MenuWidgetNode *second_parent asm("$19");
     register u8 *dialog_text asm("$17");
-    void (*callback)(MenuWidgetNode *, int);
+    MenuConfirmCallback callback;
 
     handled = 0;
     child = MenuWidget_GetChild(node, 0);
@@ -136,7 +135,7 @@ reserved:
         option_node->x = (parent->grid_width - 0x80) >> 1;
         {
             int height = parent->visible_rows;
-            D_8009CFA8 = (int)callback;
+            D_8009CFA8 = callback;
             option_node->y = height - 0x14;
         }
 

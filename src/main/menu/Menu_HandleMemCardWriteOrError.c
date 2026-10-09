@@ -14,7 +14,7 @@ int MemCard_GetActivePort(void);
 void MemCard_SetDelayedCallback(void (*callback)(void));
 void Menu_CreateTwoLineDialog(int arg0, int arg1);
 
-void Menu_HandleMemCardWriteOrError(int arg0, int arg1) {
+void Menu_HandleMemCardWriteOrError(MenuWidgetNode *arg0, int arg1) {
     char *entry;
 
     if (arg1 != 0) {
