@@ -1,8 +1,7 @@
 /* ASSEMBLER: GNU */
+#include "common.h"
 #include "pe1/gpu_state.h"
 #include "pe1/psyq_gpu.h"
-extern unsigned char D_8009574E, D_8009574F;
-extern unsigned short D_800957C0[4];
 extern unsigned char D_80095848[];
 extern unsigned short D_80095820[], D_80095822[];
 extern char D_80011970[];
@@ -12,6 +11,7 @@ void *memcpy(void *, const void *, unsigned);
 DISPENV *PutDispEnv(DISPENV *env) {
     register DISPENV *e = env;
     register unsigned char *state;
+    GpuSystemState *system;
     register unsigned mode;
     register int vstart, vend;
     register unsigned short *rect;
@@ -19,7 +19,7 @@ DISPENV *PutDispEnv(DISPENV *env) {
     register int span;
     register int index, hstart, hend, clamp;
     asm("" : "=r"(e) : "0"(e));
-    state = &D_8009574E;
+    state = &D_8009574C.queueState.debugLevel;
     asm("" : "=r"(state) : "0"(state));
     mode = 0x08000000;
     if (*state >= 2)
@@ -33,8 +33,9 @@ DISPENV *PutDispEnv(DISPENV *env) {
         x = (x & 0x3ff) | opcode;
         ops->callback10(y | x);
     }
-    rect = (unsigned short *)(state + 0x6a);
-    if (*(unsigned *)(state + 0x7a) != *(unsigned *)&e->isinter ||
+    system = ((GpuSystemState *)(state - PE1_OFFSETOF(GpuSystemState, status.queueState.debugLevel)));
+    rect = (unsigned short *)&system->displayCache.disp;
+    if (*(unsigned *)&system->displayCache.isinter != *(unsigned *)&e->isinter ||
         SIGNED_HALF(rect) != e->disp.x || ({
                                               asm("" : "=r"(rect) : "0"(rect));
                                               SIGNED_HALF(rect + 1);
@@ -47,7 +48,7 @@ DISPENV *PutDispEnv(DISPENV *env) {
             mode |= 0x10;
         if (e->isinter)
             mode |= 0x20;
-        if (D_8009574F)
+        if (D_8009574C.reverse)
             mode |= 0x80;
         width = e->disp.w;
         if (width <= 280) {
@@ -72,7 +73,7 @@ DISPENV *PutDispEnv(DISPENV *env) {
         D_80095744->callback10(mode);
         e->pad0 = 8;
     }
-    rect = D_800957C0;
+    rect = (unsigned short *)&D_800957B8.screen;
     asm("" : "=r"(rect) : "0"(rect));
     if (SIGNED_HALF(rect) != e->screen.x || SIGNED_HALF(rect + 1) != e->screen.y ||
         SIGNED_HALF(rect + 2) != e->screen.w || SIGNED_HALF(rect + 3) != e->screen.h ||
