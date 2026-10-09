@@ -9,53 +9,45 @@ int Inv_CanAddActiveListItemToAya(int index) {
     int item_id;
     int result;
     slot_index = index;
-    if (slot_index < 0) {
-        goto fail;
-    }
-    if (slot_index >= g_InvActiveListCount) {
-        goto fail;
-    }
+    if (slot_index >= 0 && slot_index < g_InvActiveListCount) {
+        {
+            int offset;
+            offset = slot_index << 1;
+            item_id = *(s16 *)((u8 *)g_InvActiveListItems + offset);
+        }
+        saved_item_id = item_id;
+        if ((unsigned int)(item_id - 0x100) < 0x80) {
+            int shifted;
+            u8 *base;
+            shifted = item_id << 5;
+            base = g_EquipItemDataTable;
+            data = (ItemDataRecord *)(shifted + base);
+        } else if ((unsigned int)(item_id - 1) < 0xFF) {
+            data = Item_LookupBaseData(item_id - 1);
+        } else if ((unsigned int)(saved_item_id - 0x200) < 9) {
+            int shifted;
+            u8 *base;
+            shifted = saved_item_id << 5;
+            base = g_KeyItemDataTable;
+            data = (ItemDataRecord *)(shifted + base);
+        } else {
+            data = 0;
+        }
 
-    {
-        int offset;
-        offset = slot_index << 1;
-        item_id = *(s16 *)((u8 *)g_InvActiveListItems + offset);
-    }
-    saved_item_id = item_id;
-    if ((unsigned int)(item_id - 0x100) < 0x80) {
-        int shifted;
-        u8 *base;
-        shifted = item_id << 5;
-        base = g_EquipItemDataTable;
-        data = (ItemDataRecord *)(shifted + base);
-    } else if ((unsigned int)(item_id - 1) < 0xFF) {
-        data = Item_LookupBaseData(item_id - 1);
-    } else if ((unsigned int)(saved_item_id - 0x200) < 9) {
-        int shifted;
-        u8 *base;
-        shifted = saved_item_id << 5;
-        base = g_KeyItemDataTable;
-        data = (ItemDataRecord *)(shifted + base);
+        D_8009D048 = D_800C0E48;
+        D_8009D050 = Inv_GetAyaSlotLimit();
+        D_8009D058 = D_8009D05C;
+        D_8009D064 = 2;
+
+        result = Inv_WriteSlotById(data);
+        if (result == 0) {
+            int offset;
+            offset = slot_index << 1;
+            *(s16 *)((u8 *)g_InvActiveListItems + offset) = 0;
+        }
     } else {
-        data = 0;
+        result = 1;
     }
-
-    D_8009D048 = D_800C0E48;
-    D_8009D050 = Inv_GetAyaSlotLimit();
-    D_8009D058 = D_8009D05C;
-    D_8009D064 = 2;
-
-    result = Inv_WriteSlotById(data);
-    if (result == 0) {
-        int offset;
-        offset = slot_index << 1;
-        *(s16 *)((u8 *)g_InvActiveListItems + offset) = 0;
-    }
-    return result;
-
-fail:
-    result = 1;
-    asm volatile("" : "=r"(result) : "0"(result));
     return result;
 }
 
