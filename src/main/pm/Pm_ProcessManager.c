@@ -674,7 +674,7 @@ s32 Pm_StopUpperHalf(void) {
     u32 marker;
     u32 clear_index;
     u32 *clear_ptr;
-    register s32 game_state asm("$2");
+    s32 game_state;
 
     loop_index = 0;
     clear_base = (u8 *)g_PmSlotBufferTyped;
@@ -702,25 +702,20 @@ s32 Pm_StopUpperHalf(void) {
             }
 
             marker = entry->command;
-            fill = 0x72;
-            if (marker != fill) {
-                fill = 0xFF;
-                goto clear_entry;
+            if (marker == 0x72) {
+                clear_index = 0x6C;
+                clear_ptr = (s32 *)(clear_base + 0x1B0);
+                do {
+                    *clear_ptr = 0;
+                    clear_index++;
+                    clear_ptr++;
+                } while (clear_index < 0x73U);
+                game_state = D_800B0CD8_r[0];
+                game_state &= 0xFFFEFFFF;
+                D_800B0CD8_w[0] = game_state;
             }
             fill = 0xFF;
-            clear_index = 0x6C;
-            clear_ptr = (s32 *)(clear_base + 0x1B0);
-            do {
-                *clear_ptr = 0;
-                clear_index++;
-                clear_ptr++;
-            } while (clear_index < 0x73U);
-            game_state = D_800B0CD8_r[0];
-            game_state &= 0xFFFEFFFF;
-            D_800B0CD8_w[0] = game_state;
-            fill = 0xFF;
 
-clear_entry:
             entry->state = 0;
             entry->command = fill;
             entry->field02 = fill;
@@ -750,7 +745,7 @@ s32 Pm_StopLowerHalf(void) {
     u32 marker;
     u32 clear_index;
     u32 *clear_ptr;
-    register s32 game_state asm("$2");
+    s32 game_state;
 
     slot = 0;
     clear_base = (u8 *)g_PmSlotBufferTyped;
@@ -777,25 +772,20 @@ s32 Pm_StopLowerHalf(void) {
             }
 
             marker = entry->command;
-            fill = 0x72;
-            if (marker != fill) {
-                fill = 0xFF;
-                goto clear_entry;
+            if (marker == 0x72) {
+                clear_index = 0x6C;
+                clear_ptr = (s32 *)(clear_base + 0x1B0);
+                do {
+                    *clear_ptr = 0;
+                    clear_index++;
+                    clear_ptr++;
+                } while (clear_index < 0x73U);
+                game_state = D_800B0CD8_r[0];
+                game_state &= 0xFFFEFFFF;
+                D_800B0CD8_w[0] = game_state;
             }
             fill = 0xFF;
-            clear_index = 0x6C;
-            clear_ptr = (s32 *)(clear_base + 0x1B0);
-            do {
-                *clear_ptr = 0;
-                clear_index++;
-                clear_ptr++;
-            } while (clear_index < 0x73U);
-            game_state = D_800B0CD8_r[0];
-            game_state &= 0xFFFEFFFF;
-            D_800B0CD8_w[0] = game_state;
-            fill = 0xFF;
 
-clear_entry:
             entry->state = 0;
             entry->command = fill;
             entry->field02 = fill;
