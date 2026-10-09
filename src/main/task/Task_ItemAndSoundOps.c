@@ -232,10 +232,6 @@ extern u8 *D_8009D20C[];
 extern u8 *D_8009D254[];
 extern u8 *D_8009D2F0[];
 extern u8 *D_8009D300;
-extern AkaoRuntimeState akao_state_command __asm__("D_800B0CE8");
-extern AkaoRuntimeState akao_state_header __asm__("D_800B0CE8");
-extern AkaoRuntimeState akao_state_base __asm__("D_800B0CE8");
-extern AkaoRuntimeState akao_state_result __asm__("D_800B0CE8");
 
 void Akao_Cmd_11(int slot);
 void Akao_Cmd_21(int command, int arg1);
@@ -421,7 +417,7 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
         goto done;
     case 0x12C:
         *args->result = Akao_SendTableCommand(
-            akao_state_command.archive, *args->arg1, *args->arg2, *args->arg3,
+            D_800B0CE8.archive, *args->arg1, *args->arg2, *args->arg3,
             *args->arg4);
         goto done;
     case 0x12D:
@@ -514,9 +510,9 @@ find_actor_asset:
                                      S16_AT(args->arg4, 2));
         goto done;
     case 0x190:
-        base = akao_state_base.archive;
+        base = D_800B0CE8.archive;
         table_info =
-            U32_AT(base + U32_AT(akao_state_header.archive, 4), 0x30);
+            U32_AT(base + U32_AT(D_800B0CE8.archive, 4), 0x30);
         base += table_info & 0x3FFFFF;
         count = 0;
         entry_count = table_info >> 22;
@@ -590,7 +586,7 @@ store_audio_slot:
 archive_match:
         D_800B0CE8.selected_id = current->id;
         D_800B0CE8.selected_value = current->value8;
-        D_800B0CE8.selected_data = akao_state_result.archive +
+        D_800B0CE8.selected_data = D_800B0CE8.archive +
                                     (current->data_offset & 0xFFFFFF);
         goto done;
     case 0x19A:
