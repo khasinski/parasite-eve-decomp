@@ -133,7 +133,7 @@ s32 Menu_StepColorSelect(MenuWidgetNode *arg0, s32 arg1) {
     s32 var_v0;
     s32 clamp;
     s32 var_v0_2;
-    void *temp_v0;
+    MenuWidgetNode *temp_v0;
 
     temp_s0 = MenuWidget_GridCellIndex(MenuWidget_GetChild(arg0, 0)) * 8;
     temp_v1 = Draw_GetBlendColor();
@@ -170,22 +170,18 @@ check10000:
         temp_v0 = MenuWidget_GetChild(arg0, 1);
         temp_v0_2 = MenuWidget_GridCellIndex(temp_v0);
         if (temp_v0_2 == 0) {
-            goto take;
+            g_SavedDrawBlendColor = Draw_GetBlendColor();
+            MenuWidget_DestroyNode(arg0);
+        } else if (temp_v0_2 == 1) {
+            Draw_BlendColor(0x404040);
+            g_SavedDrawBlendColor = Draw_GetBlendColor();
+            MenuWidget_DestroyNode(arg0);
+        } else {
+            temp_v0->cursor_x = 0;
+            temp_v0->cursor_y = 0;
+            MenuWidget_SetCurrentNode(temp_v0);
+            MenuWidget_GetChild(arg0, 0)->cursor_x = -1;
         }
-        if (temp_v0_2 != 1) {
-            goto setcur;
-        }
-        Draw_BlendColor(0x404040);
-take:
-        g_SavedDrawBlendColor = Draw_GetBlendColor();
-        MenuWidget_DestroyNode(arg0);
-        goto confirm;
-setcur:
-        ((MenuWidgetNode *)temp_v0)->cursor_x = 0;
-        ((MenuWidgetNode *)temp_v0)->cursor_y = 0;
-        MenuWidget_SetCurrentNode(temp_v0);
-        ((MenuWidgetNode *)MenuWidget_GetChild(arg0, 0))->cursor_x = -1;
-confirm:
         Menu_PlayConfirmSound();
         return 1;
     }
