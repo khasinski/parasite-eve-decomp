@@ -8,10 +8,9 @@
 #include "common.h"
 #include "pe1/psyq_pad_main.h"
 
-extern int (*g_MemCardStateDispatchFn)(int channel);
 extern int g_MemCardDispatchResult;
 
-int MemCard_ReadByteWithCallbackValue(int channel) {
-    g_MemCardDispatchResult = g_MemCardStateDispatchFn(channel);
-    return _padSioRW(channel, -2);
+int MemCard_ReadByteWithCallbackValue(CardObj *port) {
+    g_MemCardDispatchResult = g_MemCardStateDispatchFn(port);
+    return _padSioRW(port, -2);
 }

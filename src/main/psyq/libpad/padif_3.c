@@ -34,8 +34,9 @@ int LIBPAD_PADIF_text_26C(CardObj *inPort) {
     first:
         if (--D_8009B79C <= 0)
             goto setup;
+        /* Keep the incremented byte cursor: typed indexing changes scheduling. */
         if (index >= 0)
-            D_8009B730((CardObj *)(port->field_0c + offset));
+            D_8009B730((CardObj *)((u8 *)port->subPorts + offset));
         result = MemCard_WriteByte(port, (u8)D_8009B72C(port, 1));
         if (result < 0)
             goto done;
@@ -70,8 +71,9 @@ setup:
                 if (remaining > 0) {
                     CardObj *base =
                         (CardObj *)(offset + (u32)D_8009B758);
+                    /* Preserve the retail multiply and interior byte cursor. */
                     register int scaled asm("$2") = remaining * sizeof(CardObj);
-                    register u8 *child asm("$3") = base->field_0c + scaled;
+                    register u8 *child asm("$3") = (u8 *)base->subPorts + scaled;
                     other = (CardObj *)(child - sizeof(CardObj));
                     D_8009B744(other);
                 }

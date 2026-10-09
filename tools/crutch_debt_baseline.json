@@ -4,11 +4,11 @@
     "asm_bodies": 24,
     "asm_constrained_units": 0,
     "barriers": 952,
-    "byte_pointer_arithmetic": 272,
+    "byte_pointer_arithmetic": 274,
     "dead_code": 0,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 2834,
+    "externs_in_c": 2831,
     "field_macros": 266,
     "game_asm_units": 4,
     "gotos": 891,
@@ -23,7 +23,7 @@
     "stack_reserves": 8,
     "stack_switch_macros": 1,
     "statement_expressions": 3,
-    "unknown_fields": 153
+    "unknown_fields": 146
   },
   "overlays": {
     "aliases": 5,

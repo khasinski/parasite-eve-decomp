@@ -217,7 +217,7 @@ int _padInitSioMode(CardObj *port) {
                     do {
                         int *count = (int *)((D_8009B764 * 4) + (u32)counts);
                         (*count)--;
-                        D_8009B744((CardObj *)port->field_0c + *count);
+                        D_8009B744(port->subPorts + *count);
                     } while (counts[D_8009B764] > 0);
                 }
                 {

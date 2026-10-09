@@ -10,7 +10,6 @@ extern void (*D_8009B754)(void);
 extern int D_8009B760;
 extern int D_8009B764;
 extern int g_MemCardPort1Present;
-extern void (*g_MemCardStateDispatchFn)(void *);
 extern int g_MemCardDispatchResult;
 extern int g_MemCardCommandByte;
 extern int g_MemCardWriteBlockCount;
@@ -24,8 +23,8 @@ void CardObj_WriteCommandByte(CardObj *obj) {
     }
 
     if (g_MemCardDispatchResult != 0) {
-        g_MemCardStateDispatchFn(obj->field_0c);
-        g_MemCardStateDispatchFn(obj->field_0c + 0xF0);
+        g_MemCardStateDispatchFn(obj->subPorts);
+        g_MemCardStateDispatchFn(obj->subPorts + 1);
     }
 
     if (obj->command == 0) {
@@ -41,8 +40,8 @@ int MemCard_WriteDataAndGetSize(CardObj *obj) {
     int value;
 
     if (g_MemCardDispatchResult != 0) {
-        g_MemCardStateDispatchFn(obj->field_0c + 0x1E0);
-        g_MemCardStateDispatchFn(obj->field_0c + 0x2D0);
+        g_MemCardStateDispatchFn(obj->subPorts + 2);
+        g_MemCardStateDispatchFn(obj->subPorts + 3);
     }
 
     value = 0;

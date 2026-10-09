@@ -29,7 +29,7 @@ typedef struct CardObj {
     u16 *modeTable;                   /* 0x00 */
     PadCapabilityRecord *capabilities; /* 0x04 */
     PadCombinationRecord *combinations; /* 0x08 */
-    unsigned char *field_0c;           /* 0x0C */
+    struct CardObj *subPorts;         /* 0x0C: four multitap port objects */
     struct CardObj *field_10;          /* 0x10 */
     void (*fn_14)(void *);            /* 0x14 */
     int (*fn_18)(struct CardObj *);            /* 0x18 */
@@ -92,6 +92,7 @@ PE1_STATIC_ASSERT(sizeof(CardObj) == 0xF0, card_obj_size);
 
 /* LIBPAD port state: the per-port objects, the multitap command byte and
  * the lookup that maps a channel number to its object. */
+extern int (*g_MemCardStateDispatchFn)(CardObj *obj);
 extern CardObj *g_MemCardObjArray;
 extern int g_MemCardCommandByte;
 extern CardObj *(*g_MemCardObjLookupFn)(int channel);
