@@ -21,7 +21,7 @@ void CardObj_ResetFields(CardObj *arg0) {
         arg0->field_e9 = 0;
         arg0->field_ea = 0;
         arg0->field_00 = 0;
-        arg0->field_04 = 0;
+        arg0->capabilities = 0;
         arg0->field_08 = 0;
 
         do {

@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* PADCMD.OBJ capability response tables addressed by CardObj field_04/08.
+/* PADCMD.OBJ capability response tables addressed by CardObj capabilities/field_08.
  * payloadBytes controls alignment width (zero selects a single control bit);
  * activationCost is summed against the shared activation allowance. */
 typedef struct PadCapabilityRecord {
@@ -27,7 +27,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(PadDataRecord, data) == 4, pad_data_record_pointe
  * by BeginCommand4D and compared ==0xFF (lbu) by IsTransferActive. */
 typedef struct CardObj {
     unsigned char *field_00;           /* 0x00 */
-    unsigned char *field_04;           /* 0x04 */
+    PadCapabilityRecord *capabilities; /* 0x04 */
     unsigned char *field_08;           /* 0x08 */
     unsigned char *field_0c;           /* 0x0C */
     struct CardObj *field_10;          /* 0x10 */

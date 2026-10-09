@@ -132,7 +132,7 @@ int _padLoadActInfo(CardObj *obj, unsigned char *buffer) {
     if (buffer == 0) {
         goto return_zero;
     }
-    if (obj->field_04 != 0) {
+    if (obj->capabilities != 0) {
         return 0;
     }
     if (g_MemCardIsTransferActiveFn() == 0) {
@@ -164,7 +164,7 @@ initialize:
     obj->field_47 = 0;
     asm volatile("" ::: "memory");
     cursor += ((rowCount + 1) >> 1) * 4;
-    obj->field_04 = (unsigned char *)cursor;
+    obj->capabilities = (PadCapabilityRecord *)cursor;
     cursor += (columnCount * 5 + 3) & 0xFFC;
     obj->field_08 = (unsigned char *)cursor;
     return result;
@@ -212,7 +212,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
         break;
     case 3: {
         PadCapabilityRecord *record =
-            (PadCapabilityRecord *)port->field_04 + port->field_47;
+            port->capabilities + port->field_47;
         record->protocol[0] = port->response_3c[4];
         record->protocol[1] = port->response_3c[5] & 127;
         record->payloadBytes = port->response_3c[6];
@@ -367,7 +367,7 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
                 }
                 n -= 1;
             } while (n >= 0);
-            needed = ((PadCapabilityRecord *)(offset + (u32)arg0->field_04))->payloadBytes;
+            needed = ((PadCapabilityRecord *)(offset + (u32)arg0->capabilities))->payloadBytes;
             cursor = (u8 *)arg0->field_20;
             n = 0;
             if (needed == 0) {

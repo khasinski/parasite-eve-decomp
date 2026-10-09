@@ -92,7 +92,7 @@ late_fail:
 
 int PadInfoAct(int channel, int index, int field) {
     CardObj *obj;
-    unsigned char *entry;
+    PadCapabilityRecord *entry;
 
     obj = g_MemCardObjLookupFn(channel);
     if (index < 0) {
@@ -102,18 +102,18 @@ int PadInfoAct(int channel, int index, int field) {
         return 0;
     }
 
-    entry = obj->field_04 + index * 5;
+    entry = &obj->capabilities[index];
     switch (field) {
     case 1:
-        return entry[0];
+        return entry->protocol[0];
     case 2:
-        return entry[1];
+        return entry->protocol[1];
     case 3:
-        return entry[2];
+        return entry->payloadBytes;
     case 4:
-        return entry[3];
+        return entry->activationCost;
     case 5:
-        return entry[4];
+        return entry->high_bit;
     default:
         return 0;
     }
