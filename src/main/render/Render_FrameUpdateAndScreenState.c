@@ -122,11 +122,11 @@ s32 CdRom_InitScreenState(void) {
     do {
         p[0x33] = value3;
         p[0x37] = value60;
-        tmp2 = *(u16 *)(base + 0x60);
+        tmp2 = (u16)((GeomScrollState *)base)->position.tint.target_r;
         p[0x34] = tmp2;
-        tmp2 = *(u16 *)(base + 0x62);
+        tmp2 = (u16)((GeomScrollState *)base)->position.tint.target_g;
         p[0x35] = tmp2;
-        tmp3 = *(u16 *)(base + 0x64);
+        tmp3 = (u16)((GeomScrollState *)base)->position.tint.target_b;
         i++;
         *(u16 *)(p + 0x38) = 0;
         *(u16 *)(p + 0x3A) = 0;
@@ -135,7 +135,7 @@ s32 CdRom_InitScreenState(void) {
         p[0x37] |= 2;
         p[0x36] = tmp3;
         q[0x53] = value1;
-        tmp2 = base[0x67];
+        tmp2 = ((GeomScrollState *)base)->position.tint.blend_mode;
         p += 0x10;
         tmp2 &= 3;
         tmp2 <<= 5;
@@ -144,8 +144,8 @@ s32 CdRom_InitScreenState(void) {
         q += 8;
     } while (i < 2);
 
-    *(u16 *)(base + 0x6E) = 0;
-    *(u16 *)(base + 0x70) = 0;
+    ((GeomScrollState *)base)->position.tint.duration = 0;
+    ((GeomScrollState *)base)->position.tint.frame = 0;
     return 0;
 }
 
