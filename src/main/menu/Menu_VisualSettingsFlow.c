@@ -10,36 +10,36 @@
 #include "../../../include/pe1/menu_widget.h"
 
 int Draw_GetBlendColor(void);
-void Menu_DrawBlendColorChannelListUnk(s32 arg0);
-s32 Menu_StepColorSelect(s32 arg0, s32 arg1);
+void Menu_DrawBlendColorChannelListUnk(MenuWidgetNode *arg0);
+s32 Menu_StepColorSelect(MenuWidgetNode *arg0, s32 arg1);
 void Menu_DrawBlendColorChannelList(s32 arg0);
 void Menu_DrawBlendColorOptionList(s32 arg0);
 extern u8 D_800922D4[];
 extern s32 D_8009CFE0;
 
-void Menu_OpenBlendColorScreen(s32 arg0) {
-    void *temp_v0;
-    register void *temp_v0_2 asm("$16");
-    void *temp_v0_3;
-    void *var_a0;
+void Menu_OpenBlendColorScreen(MenuWidgetNode *arg0) {
+    MenuWidgetNode *parent;
+    register MenuWidgetNode *panel asm("$16");
+    MenuWidgetNode *options;
+    MenuWidgetNode *current;
 
-    temp_v0 = MenuWidget_CreateSimpleNode(0x2E, arg0, 0, 0);
-    temp_v0_2 = MenuWidget_CreateNode(0x2E, temp_v0, temp_v0);
-    ((MenuWidgetNode *)temp_v0)->draw = (void (*)())Menu_DrawBlendColorChannelListUnk;
-    ((MenuWidgetNode *)temp_v0)->update = (void (*)())Menu_StepColorSelect;
-    ((MenuWidgetNode *)temp_v0)->appearance.gradientPoints = D_800922D4;
-    ((MenuWidgetNode *)temp_v0)->disabled = 1;
-    ((MenuWidgetNode *)temp_v0_2)->draw = (void (*)())Menu_DrawBlendColorChannelList;
-    ((MenuWidgetNode *)temp_v0_2)->flags = 1;
-    temp_v0_3 = MenuWidget_CreateNode(0x31, temp_v0, temp_v0);
-    ((MenuWidgetNode *)temp_v0_3)->draw = (void (*)())Menu_DrawBlendColorOptionList;
-    ((MenuWidgetNode *)temp_v0_2)->linkedNext = temp_v0_3;
-    ((MenuWidgetNode *)temp_v0_3)->linkedPrevious = temp_v0_2;
-    var_a0 = temp_v0_2;
-    if (((MenuWidgetNode *)temp_v0_2)->cursor_x < 0) {
-        var_a0 = temp_v0_3;
+    parent = MenuWidget_CreateSimpleNode(0x2E, arg0, 0, 0);
+    panel = MenuWidget_CreateNode(0x2E, parent, parent);
+    parent->draw = (void (*)())Menu_DrawBlendColorChannelListUnk;
+    parent->update = (void (*)())Menu_StepColorSelect;
+    parent->appearance.gradientPoints = D_800922D4;
+    parent->disabled = 1;
+    panel->draw = (void (*)())Menu_DrawBlendColorChannelList;
+    panel->flags = 1;
+    options = MenuWidget_CreateNode(0x31, parent, parent);
+    options->draw = (void (*)())Menu_DrawBlendColorOptionList;
+    panel->linkedNext = options;
+    options->linkedPrevious = panel;
+    current = panel;
+    if (panel->cursor_x < 0) {
+        current = options;
     }
-    MenuWidget_SetCurrentNode(var_a0);
+    MenuWidget_SetCurrentNode(current);
     D_8009CFE0 = Draw_GetBlendColor();
 }
 #include "common.h"
@@ -50,7 +50,7 @@ void Draw_OffsetCursor(int x, int y);
 void Draw_SetTextDimmed(int dimmed);
 void Draw_AllocSprite(int sprite);
 
-void Menu_DrawBlendColorChannelListUnk(s32 arg0) {
+void Menu_DrawBlendColorChannelListUnk(MenuWidgetNode *arg0) {
     M2C_UNK var_a0;
     M2C_UNK var_a0_2;
     M2C_UNK var_a0_3;
@@ -123,7 +123,7 @@ extern s32 D_8009CFE0;
 extern s32 g_SavedDrawBlendColor[];
 #define g_SavedDrawBlendColor (g_SavedDrawBlendColor[0])
 
-s32 Menu_StepColorSelect(s32 arg0, s32 arg1) {
+s32 Menu_StepColorSelect(MenuWidgetNode *arg0, s32 arg1) {
     s32 temp_s0;
     s32 temp_v0_2;
     s32 temp_v1;
