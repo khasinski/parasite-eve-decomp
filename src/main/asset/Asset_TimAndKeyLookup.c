@@ -162,11 +162,9 @@ void *Asset_FindTable08ByU32Key(void *arg0, s32 arg1) {
                 return (u8 *)arg0 + (record->packedOffset & data_mask);
             }
             i++;
-            if (i < descriptor) {
-                record++;
-                continue;
-            }
-            break;
+            if (i >= descriptor)
+                break;
+            record++;
         } while (1);
     }
 
@@ -200,11 +198,9 @@ void *name(char *base, int key) { \
                 return base + (record->offset & data_mask); \
             } \
             i++; \
-            if (i < descriptor) { \
-                record++; \
-                continue; \
-            } \
-            break; \
+            if (i >= descriptor) \
+                break; \
+            record++; \
         } while (1); \
     } \
     return none; \
