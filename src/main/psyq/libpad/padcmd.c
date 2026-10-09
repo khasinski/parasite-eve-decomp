@@ -166,7 +166,7 @@ initialize:
     cursor += ((rowCount + 1) >> 1) * 4;
     obj->capabilities = (PadCapabilityRecord *)cursor;
     cursor += (columnCount * 5 + 3) & 0xFFC;
-    obj->field_08 = (unsigned char *)cursor;
+    obj->combinations = (PadCombinationRecord *)cursor;
     return result;
 }
 
@@ -231,7 +231,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
         break;
     }
     case 4: {
-        PadDataRecord *record = (PadDataRecord *)port->field_08 + port->field_47;
+        PadCombinationRecord *record = port->combinations + port->field_47;
         register u8 *source, *base;
         register int bytes asm("$4");
         unsigned offset;
@@ -247,7 +247,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
                 register int index = port->field_47;
                 source = response + 5;
                 if (index == 0) {
-                    base = port->field_08;
+                    base = (u8 *)port->combinations;
                     offset = port->field_ea * 8;
                 } else {
                     base = record[-1].data;

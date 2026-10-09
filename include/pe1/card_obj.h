@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* PADCMD.OBJ capability response tables addressed by CardObj capabilities/field_08.
+/* PADCMD.OBJ capability response tables addressed by CardObj capabilities/combinations.
  * payloadBytes controls alignment width (zero selects a single control bit);
  * activationCost is summed against the shared activation allowance. */
 typedef struct PadCapabilityRecord {
@@ -12,23 +12,23 @@ typedef struct PadCapabilityRecord {
     u8 activationCost;
     u8 high_bit;
 } PadCapabilityRecord;
-typedef struct PadDataRecord {
+typedef struct PadCombinationRecord {
     u8 length;
     u8 reserved[3];
     u8 *data;
-} PadDataRecord;
+} PadCombinationRecord;
 PE1_STATIC_ASSERT(sizeof(PadCapabilityRecord) == 5, pad_capability_record_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(PadCapabilityRecord, high_bit) == 4,
                   pad_capability_high_bit_offset);
-PE1_STATIC_ASSERT(sizeof(PadDataRecord) == 8, pad_data_record_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(PadDataRecord, data) == 4, pad_data_record_pointer);
+PE1_STATIC_ASSERT(sizeof(PadCombinationRecord) == 8, pad_data_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PadCombinationRecord, data) == 4, pad_data_record_pointer);
 
 /* LIBPAD per-port command object (legacy CardObj_* names). field_46 is unsigned char: stored as 1
  * by BeginCommand4D and compared ==0xFF (lbu) by IsTransferActive. */
 typedef struct CardObj {
     unsigned char *field_00;           /* 0x00 */
     PadCapabilityRecord *capabilities; /* 0x04 */
-    unsigned char *field_08;           /* 0x08 */
+    PadCombinationRecord *combinations; /* 0x08 */
     unsigned char *field_0c;           /* 0x0C */
     struct CardObj *field_10;          /* 0x10 */
     void (*fn_14)(void *);            /* 0x14 */

@@ -121,7 +121,7 @@ int PadInfoAct(int channel, int index, int field) {
 
 int PadInfoComb(int channel, int index0, int index1) {
     CardObj *obj;
-    int entry;
+    PadCombinationRecord *entry;
 
     obj = g_MemCardObjLookupFn(channel);
     if (index0 < 0) {
@@ -130,14 +130,14 @@ int PadInfoComb(int channel, int index0, int index1) {
     if (index0 >= obj->field_ea) {
         return 0;
     }
-    entry = (int)obj->field_08 + (index0 << 3);
+    entry = &obj->combinations[index0];
     if (index1 < 0) {
-        return *(unsigned char *)entry;
+        return entry->length;
     }
-    if (index1 >= *(unsigned char *)entry) {
+    if (index1 >= entry->length) {
         return 0;
     }
-    return *(unsigned char *)(*(int *)(entry + 4) + index1);
+    return entry->data[index1];
 }
 int _padSetActAlign(CardObj *obj, int command);
 
