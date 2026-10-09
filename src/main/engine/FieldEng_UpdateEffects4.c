@@ -75,7 +75,7 @@ extern int D_800E0C88;
 
 int func_800CA574(char *object) {
     int half_a2;
-    register int half_a1 asm("$5");
+    u8 fullBrightness;
     int shade_a0;
     register int value asm("$3");
     register void *slotData asm("$3");
@@ -89,8 +89,8 @@ int func_800CA574(char *object) {
     D_800E2308.cell = value;
     value = 9;
     half_a2 = 0x80;
-    half_a1 = 0x80;
-    asm volatile("" : "=r"(half_a2), "=r"(half_a1) : "0"(half_a2), "1"(half_a1));
+    fullBrightness = 0x80;
+    asm volatile("" : "=r"(half_a2), "=r"(fullBrightness) : "0"(half_a2), "1"(fullBrightness));
     D_800E2308.clut = value;
     value = 0xAE;
     D_800F34C8.cell = value;
@@ -111,9 +111,9 @@ int func_800CA574(char *object) {
     value = 0x32;
     D_800E2308.offset = 0;
     D_800E2308.depth = half_a2;
-    D_800E2308.r = half_a1;
-    D_800E2308.g = half_a1;
-    D_800E2308.b = half_a1;
+    D_800E2308.r = fullBrightness;
+    D_800E2308.g = fullBrightness;
+    D_800E2308.b = fullBrightness;
     D_800E2308.flip = 0;
     D_800F34C8.depth = half_a2;
     D_800F34C8.r = shade_a0;
@@ -128,9 +128,9 @@ int func_800CA574(char *object) {
     D_800E2338.flip = 0;
     D_800F34E8.offset = value;
     D_800F34E8.depth = half_a2;
-    D_800F34E8.r = half_a1;
-    D_800F34E8.g = half_a1;
-    D_800F34E8.b = half_a1;
+    D_800F34E8.r = fullBrightness;
+    D_800F34E8.g = fullBrightness;
+    D_800F34E8.b = fullBrightness;
     D_800F34E8.flip = 0;
 
     return 0;
