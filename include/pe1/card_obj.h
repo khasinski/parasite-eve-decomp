@@ -49,8 +49,8 @@ typedef struct CardObj {
     unsigned char response_index;     /* 0x44: received-byte cursor */
     unsigned char payload_index;       /* 0x45 */
     unsigned char field_46;           /* 0x46 */
-    unsigned char field_47;           /* 0x47 */
-    unsigned char field_48;           /* 0x48 */
+    unsigned char infoRecordIndex;           /* 0x47: cursor shared by mode, capability and combination reads */
+    unsigned char combinationBytesRemaining;           /* 0x48: bytes still to copy for the current combination */
     unsigned char communicationState; /* 0x49: internal PadGetState status */
     unsigned char field_4a;           /* 0x4A */
     unsigned char pad_4B[0x01];
@@ -71,7 +71,7 @@ typedef struct CardObj {
     unsigned char field_e9;           /* 0xE9 */
     unsigned char field_ea;           /* 0xEA */
     unsigned char pad_eb[0x01];
-    int field_ec;                     /* 0xEC */
+    int combinationStorageBytes;                     /* 0xEC: combination headers and aligned data size */
 } CardObj;
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CardObj, response_index) == 0x44, card_response_index);

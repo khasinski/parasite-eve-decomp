@@ -33,7 +33,7 @@ void _padSendAtLoadInfo(CardObj *arg0)
         CardObj_EmitCommand4C(arg0, arg0->field_e4);
         break;
     case 4:
-        CardObj_EmitCommand47(arg0, arg0->field_47);
+        CardObj_EmitCommand47(arg0, arg0->infoRecordIndex);
         break;
     }
 }
@@ -55,25 +55,25 @@ int _padRecvAtLoadInfo(CardObj *obj) {
         obj->field_e6 = 0;
         obj->field_e9 = CARD_RESPONSE(obj)[5];
         obj->field_ea = CARD_RESPONSE(obj)[6];
-        obj->field_ec = 0;
+        obj->combinationStorageBytes = 0;
         break;
 
     case 3:
         responseValue = obj->response_3c[4];
         next = obj->response_3c[5];
-        obj->field_47 = 0;
+        obj->infoRecordIndex = 0;
         obj->field_e6 = (responseValue << 8) + next;
         break;
 
     case 4:
-        chunk = obj->field_ec;
-        next = obj->field_47;
+        chunk = obj->combinationStorageBytes;
+        next = obj->infoRecordIndex;
         responseValue = obj->response_3c[4];
         next++;
-        obj->field_47 = next;
+        obj->infoRecordIndex = next;
         chunk += 8;
         chunk += (responseValue + 3) & 0x1FC;
-        obj->field_ec = chunk;
+        obj->combinationStorageBytes = chunk;
         if ((next & 0xFF) < obj->field_ea) {
 return_zero:
             return 0;
@@ -104,7 +104,7 @@ int _padGetActSize(CardObj *arg0) {
 
     raw_first = arg0->field_e3;
     raw_second = arg0->field_e9;
-    base = arg0->field_ec;
+    base = arg0->combinationStorageBytes;
 
     first = raw_first + 1;
     first >>= 1;
@@ -161,7 +161,7 @@ initialize:
 
     cursor <<= 2;
     obj->modeTable = (u16 *)cursor;
-    obj->field_47 = 0;
+    obj->infoRecordIndex = 0;
     asm volatile("" ::: "memory");
     cursor += ((rowCount + 1) >> 1) * 4;
     obj->capabilities = (PadCapabilityRecord *)cursor;
@@ -178,14 +178,14 @@ void CardObj_EmitReadTransferCommand(CardObj *arg0) {
 
     switch (state) {
     case 2:
-        CardObj_EmitCommand4C(arg0, arg0->field_47);
+        CardObj_EmitCommand4C(arg0, arg0->infoRecordIndex);
         break;
     case 3:
-        CardObj_EmitCommand46(arg0, arg0->field_47);
+        CardObj_EmitCommand46(arg0, arg0->infoRecordIndex);
         break;
     case 4:
-        if (arg0->field_48 == 0) {
-            CardObj_EmitCommand47(arg0, arg0->field_47);
+        if (arg0->combinationBytesRemaining == 0) {
+            CardObj_EmitCommand47(arg0, arg0->infoRecordIndex);
         } else {
             CardObj_EmitCommand4B(arg0);
         }
@@ -201,18 +201,18 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
     register int result asm("$2");
     switch (port->field_46) {
     case 2:
-        port->modeTable[port->field_47] =
+        port->modeTable[port->infoRecordIndex] =
             port->response_3c[5] + (port->response_3c[4] << 8);
-        port->field_47++;
-        if (port->field_47 >= port->field_e3) {
-            port->field_47 = 0;
+        port->infoRecordIndex++;
+        if (port->infoRecordIndex >= port->field_e3) {
+            port->infoRecordIndex = 0;
             goto complete;
         }
         result = 0;
         break;
     case 3: {
         PadCapabilityRecord *record =
-            port->capabilities + port->field_47;
+            port->capabilities + port->infoRecordIndex;
         record->protocol[0] = port->response_3c[4];
         record->protocol[1] = port->response_3c[5] & 127;
         record->payloadBytes = port->response_3c[6];
@@ -221,30 +221,30 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
             register int high = port->response_3c[5];
             record->high_bit = high >> 7;
         }
-        port->field_47++;
-        if (port->field_47 >= port->field_e9) {
-            port->field_47 = 0;
-            port->field_48 = 0;
+        port->infoRecordIndex++;
+        if (port->infoRecordIndex >= port->field_e9) {
+            port->infoRecordIndex = 0;
+            port->combinationBytesRemaining = 0;
             goto complete;
         }
         result = 0;
         break;
     }
     case 4: {
-        PadCombinationRecord *record = port->combinations + port->field_47;
+        PadCombinationRecord *record = port->combinations + port->infoRecordIndex;
         register u8 *source, *base;
         register int bytes asm("$4");
         unsigned offset;
-        if (port->field_48 == 0) {
+        if (port->combinationBytesRemaining == 0) {
             {
                 register int length = port->response_3c[4];
                 bytes = 3;
-                port->field_48 = length;
+                port->combinationBytesRemaining = length;
             }
-            record->length = port->field_48;
+            record->length = port->combinationBytesRemaining;
             {
                 register u8 *response = port->response_3c;
-                register int index = port->field_47;
+                register int index = port->infoRecordIndex;
                 source = response + 5;
                 if (index == 0) {
                     base = (u8 *)port->combinations;
@@ -266,7 +266,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
         if (bytes != -1) {
             register u8 **destination = &D_800A5AD0;
             do {
-                register int remaining = port->field_48;
+                register int remaining = port->combinationBytesRemaining;
                 bytes--;
                 if (!remaining)
                     goto exhausted;
@@ -277,11 +277,11 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
                     *dst = value;
                     *destination = dst + 1;
                 }
-                port->field_48--;
+                port->combinationBytesRemaining--;
             } while (bytes != -1);
         }
 
-        if (port->field_48 == 0)
+        if (port->combinationBytesRemaining == 0)
             goto exhausted;
     zero:
         asm("" ::: "memory");
@@ -289,14 +289,14 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
         break;
     exhausted:
         {
-            port->field_47++;
-            if (port->field_47 >= port->field_ea) {
+            port->infoRecordIndex++;
+            if (port->infoRecordIndex >= port->field_ea) {
                 port->communicationState = 6;
                 port->field_46 = 254;
                 result = 0;
                 break;
             }
-            port->field_48 = 0;
+            port->combinationBytesRemaining = 0;
         }
         goto zero;
     }

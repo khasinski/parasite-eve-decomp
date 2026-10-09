@@ -137,7 +137,7 @@ void LIBPAD_PADSEQD_text_108(CardObj *port) {
         goto increment;
     initial:
         value = port->field_46;
-        port->field_47 = 0;
+        port->infoRecordIndex = 0;
     increment:
         value++;
         port->field_46 = value;
