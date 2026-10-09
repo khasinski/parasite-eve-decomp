@@ -187,7 +187,7 @@ typedef struct CdRomEventCommandState {
     u_char pendingParamBytes[4];
     u_char reserved05[3];
     u_char *pendingParams;
-    u_char reserved0C[8];
+    u_char eventResult[8];
     CdRomCommandState command;
 } CdRomEventCommandState;
 
@@ -261,6 +261,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemState, view) +
                   cdrom_system_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) == 0x14,
                   cdrom_event_command_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, eventResult) == 0x0C,
+                  cdrom_event_result_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, pendingParams) == 0x08,
                   cdrom_event_pending_params_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) +

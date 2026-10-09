@@ -4,12 +4,12 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds_queue.h"
 
-extern DsDecodedEventFlags D_8009B588;
 extern u32 D_8009B624[];
 
 void LIBDS_DSSYS_1_text_EA4(int event, u8 *data) {
     u8 *data_reg;
     DsDecodedEventFlags *state;
+    CdRomEventCommandState *eventState;
     u8 value;
     u8 *src;
     int index;
@@ -33,12 +33,16 @@ process:
     src = data_reg + index;
     value = src[0];
     asm volatile("" : : "r"(value));
-    state = &D_8009B588;
+    state = &g_CdRomEventCommandState.command.read.eventFlags;
     asm volatile("" : "=r"(state) : "0"(state));
     state->bit7 = value >> 7;
     state->bit6 = (value >> 6) & 1;
     state->bit5 = (value >> 5) & 1;
     state->bit1 = (value >> 1) & 1;
-        ((u8 *)state)[-0x1C] = value;
-    rescpy((u8 *)state - 0x24, data_reg);
+    eventState = (CdRomEventCommandState *)((u8 *)state -
+        (PE1_OFFSETOF(CdRomEventCommandState, command) +
+         PE1_OFFSETOF(CdRomCommandState, read) +
+         PE1_OFFSETOF(DsReadStatusBlock, eventFlags)));
+    eventState->command.eventStatus = value;
+    rescpy(eventState->eventResult, data_reg);
 }
