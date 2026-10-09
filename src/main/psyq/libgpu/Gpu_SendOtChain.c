@@ -11,7 +11,8 @@ int Gpu_DmaTimeoutCheck(void);
 int Gpu_SendOtChain(unsigned int *table, int count)
 {
     unsigned int status;
-    register unsigned int firstMask asm("$3");
+    unsigned int firstMask;
+    int busyBit;
     *D_80095870 |= 0x08000000;
     *D_8009586C = 0;
     *D_80095864 = (unsigned int)((char *)table + (count * 4 - 4));
@@ -22,7 +23,8 @@ int Gpu_SendOtChain(unsigned int *table, int count)
     status = *D_8009586C;
     /* Keep the first status test separate from the loop's invariant mask. */
     asm volatile("" : "+r"(status), "+r"(count));
-    firstMask = 0x01000000;
+    busyBit = 0x01000000;
+    firstMask = busyBit;
     asm volatile("" : "+r"(firstMask) : "r"(status));
     if (status & firstMask) {
         asm volatile("" : : "r"(count));
