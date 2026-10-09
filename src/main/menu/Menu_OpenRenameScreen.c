@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/save.h"
+#include "pe1/game_state.h"
 #include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -11,8 +12,6 @@ void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 extern u8 D_80092354[];
 extern u8 D_80092380[];
 extern u8 D_800923A0[];
-extern s32 g_GameState[];
-#define g_GameState (g_GameState[0])
 void Menu_DrawSaveMetadataPreview(void);
 int Menu_StepNameEntry(MenuWidgetNode *parent, unsigned int flags);
 int Menu_StepNameEntryAlt(MenuWidgetNode *parent, unsigned int flags);
@@ -71,7 +70,7 @@ void Menu_OpenRenameScreen(s32 arg0) {
     Save_SelectMetadataWindow(g_MenuRenameTargetRecord);
     Save_LoadMetadataWindowText();
     Inv_ClearEquipFlagForKind(g_MenuRenameTargetRecord);
-    g_GameState = g_GameState | 0x8000;
+    g_GameState.flags |= 0x8000;
 }
 
 #include "common.h"
