@@ -96,6 +96,18 @@ int MenuInput_GetRepeatStep(void) {
     return D_8009D0F4;
 }
 
+static inline void AppendInputEvent(MenuInputQueuedEvent *event,
+                                    MenuInputQueuedEvent *tail) {
+    if (tail != 0) {
+        tail->next = event;
+    } else {
+        if (D_8009D0E0 != 0)
+            BoundsCheck_AssertStub(0x1F);
+        D_8009D0E0 = event;
+    }
+    D_8009D0E4 = event;
+}
+
 void MenuInput_EnqueueStatusChanges(int flags) {
     int flags_reg;
     MenuInputQueuedEvent *event;
@@ -128,15 +140,7 @@ void MenuInput_EnqueueStatusChanges(int flags) {
                 }
                 event->next = 0;
                 tail = D_8009D0E4;
-                if (tail != 0) {
-                    tail->next = event;
-                } else {
-                    if (D_8009D0E0 != 0) {
-                        BoundsCheck_AssertStub(0x1F);
-                    }
-                    D_8009D0E0 = event;
-                }
-                D_8009D0E4 = event;
+                AppendInputEvent(event, tail);
                 event->payload.input.type = release_type;
                 event->payload.input.flags = released;
             }
@@ -179,15 +183,7 @@ void MenuInput_EnqueueStatusChanges(int flags) {
                     tail = D_8009D0E4;
                     event->next = 0;
                     D_8009D0DC = next;
-                    if (tail != 0) {
-                        tail->next = event;
-                    } else {
-                        if (D_8009D0E0 != 0) {
-                            BoundsCheck_AssertStub(0x1F);
-                        }
-                        D_8009D0E0 = event;
-                    }
-                    D_8009D0E4 = event;
+                    AppendInputEvent(event, tail);
                     event->payload.input.type = event_type;
                     event->payload.input.flags = released;
                 }
