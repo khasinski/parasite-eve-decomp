@@ -148,30 +148,28 @@ alloc_done:
         u16 tpage = GetTPage(arg0, 0, 0x140, 0);
         u32 mask24 = 0xFFFFFF;
         register u32 maskTop asm("$8") = 0xFF000000;
-        register u32 tag asm("$3") = prim->tag.word;
+        register int linkValue asm("$3") = prim->tag.word;
         register u32 *ot asm("$7") = D_8009D11C;
         register int y asm("$5") = D_8009D128;
         u32 otValue, linkedTag;
-        register u32 otNew asm("$4");
         int newX;
-        register int extra asm("$3");
 
         prim->tpage = tpage;
         otValue = *ot;
         D_8009D128 = y;
-        linkedTag = (tag & maskTop) | (otValue & mask24);
+        linkedTag = (linkValue & maskTop) | (otValue & mask24);
         asm volatile("" : : "r"(linkedTag));
         mask24 &= (u32)prim;
         prim->tag.word = linkedTag;
         asm volatile("" ::: "memory");
-        extra = D_8009CDB0;
-        otNew = *ot;
-        extra = width + extra;
-        newX = D_8009D124 + extra;
+        linkValue = D_8009CDB0;
+        arg0 = *ot;
+        linkValue = width + linkValue;
+        newX = D_8009D124 + linkValue;
         asm volatile("" : "=r"(newX) : "0"(newX));
-        otNew = (otNew & maskTop) | mask24;
+        arg0 = (arg0 & maskTop) | mask24;
         D_8009D124 = newX;
-        *ot = otNew;
+        *ot = arg0;
     }
 }
 
