@@ -1245,7 +1245,6 @@ segments:
       - [0xBBF50, c, engine/FieldEng_UpdateEffects5]
       - [0xBCAC4, c, engine/FieldAnim_ScatteredParticles]
       - [0xBCC40, c, engine/FieldAnim_UpdateWindows]
-      - [0xBCFAC, c, engine/FieldAnim_ProcessPoints]
       - [0xBD3A8, c, engine/FieldAnim_BurstEffects]
       # Two adjacent empty effect callbacks.
       - [0xBDADC, c, engine/FieldAnim_EmptyCallbacks]
