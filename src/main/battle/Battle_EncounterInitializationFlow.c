@@ -9,7 +9,6 @@
 void Battle_ResetEnemyStats(int mode) {
     Combatant *actor;
     Combatant *clear_actor;
-    register s32 flags asm("$2");
     u32 clear_flags;
 
     actor = D_8009D278;
@@ -28,15 +27,14 @@ void Battle_ResetEnemyStats(int mode) {
         D_8009D234[0] = 0x5A;
         D_8009D244 = 1;
         asm volatile("" ::: "memory");
-        flags = actor->stateFlags;
-        flags |= 0x800000;
+        actor->stateFlags |= 0x800000;
     } else {
-        flags = actor->stateFlags;
+        u32 state = actor->stateFlags;
         D_8009D244 = 0;
-        flags &= 0xFFBFFFFF;
-        flags &= 0xFF7FFFFF;
+        state &= 0xFFBFFFFF;
+        state &= 0xFF7FFFFF;
+        actor->stateFlags = state;
     }
-    actor->stateFlags = flags;
     asm volatile("" ::: "memory");
 
     clear_actor = D_8009D278;
