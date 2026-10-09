@@ -85,10 +85,10 @@ int Render_DrawSpriteEntry(GeomEntry *input)
     {
         s32 screen_add;
         screen_src = entry->scr_x;
-        screen_add = *(u16 *)((u8 *)state + 0x38);
+        screen_add = (u16)state->out_disp_x;
         raw_x = screen_src + screen_add;
         screen_src = entry->scr_y;
-        screen_add = *(u16 *)((u8 *)state + 0x3A);
+        screen_add = (u16)state->out_disp_y;
         scroll_x = raw_x;
         raw_y = screen_src + screen_add;
         scroll_y = raw_y;
@@ -115,12 +115,12 @@ int Render_DrawSpriteEntry(GeomEntry *input)
         register s32 signed_y asm("$2");
         s32 base_y;
         signed_x = (s16)raw_x;
-        mod_x = *(u16 *)((u8 *)entry + 4);
+        mod_x = entry->anim_mod_x;
         signed_x -= 320;
         divisor_x = mod_x & 0xFFFF;
         signed_x += divisor_x;
         scroll_x = signed_x % divisor_x;
-        mod_y = *(u16 *)((u8 *)entry + 6);
+        mod_y = entry->anim_mod_y;
         signed_y = (s16)raw_y;
         signed_y -= 224;
         signed_y += mod_y & 0xFFFF;
