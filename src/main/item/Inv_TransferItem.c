@@ -60,7 +60,7 @@ s32 Inv_TransferItem(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (arg0 == 0xD) {
         if (arg2 == arg0) {
             var_v0 = (s16 *)&D_800A1FD4_o;
-            var_a1 = (u16 *)((u8 *)&D_800A1FD4_o + (arg1 * 2));
+            var_a1 = &((u16 *)&D_800A1FD4_o)[arg1];
             var_a0 = arg3 * 2;
             goto block_33;
         }
