@@ -2,7 +2,9 @@
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/scene_transition.h"
 #include "pe1/task_node.h"
-extern int g_GameState[];
+#include "pe1/game_state_types.h"
+
+extern Pe1GameState g_GameState;
 extern int g_SceneDataTable0;
 extern TaskNode *g_TaskNodePool;
 extern int g_GameStateFlags[];
@@ -11,13 +13,13 @@ extern int g_GameStateFlagsWrite[] asm("g_GameStateFlags");
 void Menu_OpenEquipScreen(int arg0);
 
 int Task_BeginSceneTransition(int **arg0) {
-    int *state = g_GameState;
+    Pe1GameState *state = &g_GameState;
     int **saved = arg0;
     int *node;
     int flags;
     int cursor;
 
-    if (state[0] & 0x1000) {
+    if (state->flags & 0x1000) {
         goto ret_one;
     }
 
@@ -37,13 +39,12 @@ finish:
     Render_BeginSceneLoad();
     Menu_OpenEquipScreen(**saved);
     {
-        register int ret asm("$2") = state[0];
+        register int ret asm("$2") = state->flags;
         TaskNode *tail_node = g_TaskNodePool;
 
         int tail_flags;
-        asm volatile("" : : "r"(ret), "r"(tail_node));
         ret |= 0x9000;
-        state[0] = ret;
+        state->flags = ret;
         ret = g_GameStateFlags[0];
         tail_flags = tail_node->flags;
         ret |= 4;
@@ -59,13 +60,13 @@ ret_one:
 void Menu_OpenSaveLoadEntryPoint(int arg0);
 
 int Task_OpenSaveLoadMenu(int **arg0) {
-    int *state = g_GameState;
+    Pe1GameState *state = &g_GameState;
     int **saved = arg0;
     TaskNode *node;
     int flags;
     int cursor;
 
-    if (state[0] & 0x1000) {
+    if (state->flags & 0x1000) {
         goto ret_zero;
     }
 
@@ -75,13 +76,12 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         Render_BeginSceneLoad();
         Menu_OpenSaveLoadEntryPoint(**saved);
         {
-            register int ret asm("$2") = state[0];
+            register int ret asm("$2") = state->flags;
             TaskNode *tail_node = g_TaskNodePool;
             int tail_flags;
 
-            asm volatile("" : : "r"(ret), "r"(tail_node));
             ret |= 0x9000;
-            state[0] = ret;
+            state->flags = ret;
             ret = g_GameStateFlags[0];
             tail_flags = tail_node->flags;
             ret |= 4;
