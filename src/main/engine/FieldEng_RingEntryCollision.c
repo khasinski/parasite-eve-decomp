@@ -1,6 +1,6 @@
 /* CC1_FLAGS: -fno-strength-reduce */
 #include "common.h"
-#include "pe1/field_textured_chain_node.h"
+#include "pe1/field_textured_strip.h"
 
 int rand(void);
 int func_800C6B20(void *arg0);
@@ -8,7 +8,7 @@ int func_800C6B20(void *arg0);
 
 int func_800C5EB0(char *data, void *unused, int *hit) {
     GteShortVector local[5];
-    char *data_s3 = data;
+    FieldTexturedStrip *data_s3 = (FieldTexturedStrip *)data;
     char *entries;
     int *hit_s4;
     u32 i;
@@ -17,17 +17,17 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
     int countMinus;
     u16 timer;
 
-    entries = *(char **)data_s3;
+    entries = (char *)data_s3->nodes;
     hit_s4 = hit;
     *hit_s4 = 0;
 
-    idx = *(s16 *)(data_s3 + 0xE);
-    count = *(s16 *)(data_s3 + 0x4);
+    idx = data_s3->collision_step;
+    count = data_s3->count;
     if ((u32)idx < count) {
         entries[idx * 0x44] = 2;
     }
 
-    countMinus = *(s16 *)(data_s3 + 0x4);
+    countMinus = data_s3->count;
     countMinus -= 1;
     i = 0;
     if (countMinus != 0) {
@@ -65,12 +65,12 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
             i++;
             body += 0x44;
             entry++;
-        } while (i < *(s16 *)(data_s3 + 0x4) - 1);
+        } while (i < data_s3->count - 1);
     }
 
-    timer = *(volatile u16 *)(data_s3 + 0xE);
+    timer = *(volatile u16 *)&data_s3->collision_step;
     i = ((s16)timer == 0x64);
-    *(u16 *)(data_s3 + 0xE) = timer + 1;
+    data_s3->collision_step = timer + 1;
 
     return i;
 }

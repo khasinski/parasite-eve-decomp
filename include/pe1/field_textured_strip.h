@@ -15,10 +15,14 @@
 typedef struct FieldTexturedStrip {
     /* 0x00 */ FieldStripNode *nodes;
     /* 0x04 */ s16 count;
-    /* 0x06 */ u8 pad06[0xA];
+    /* 0x06 */ u8 pad06[8];
+    /* 0x0E */ s16 collision_step; /* Advances the active collision segment. */
     /* 0x10 */ u8 cell;
     /* 0x11 */ u8 clut;
 } FieldTexturedStrip;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldTexturedStrip, collision_step) == 0x0E,
+                  field_textured_strip_collision_step_offset);
 
 /* PSY-Q POLY_FT4. */
 typedef struct FieldStripPacket {
