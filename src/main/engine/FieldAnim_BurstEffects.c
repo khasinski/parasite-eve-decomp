@@ -25,34 +25,34 @@ int func_800CCBA8(char *object)
     identity_matrix(&D_800F32B0);
     ScaleMatrix(&D_800F32B0, &third);
 
-    D_800E2298.parameter04 = 0x42;
-    D_800E2298.parameter05 = 0x20;
-    D_800E2298.parameter08 = 50;
-    D_800E2298.parameter0A = 127;
+    D_800E2298.cell = 0x42;
+    D_800E2298.clut = 0x20;
+    D_800E2298.offset = 50;
+    D_800E2298.depth = 127;
     D_800E2298.r = 128;
     D_800E2298.g = 128;
     D_800E2298.b = 128;
 
-    D_800E2250.parameter04 = 128;
-    D_800E2250.parameter05 = 4;
-    D_800E2250.parameter08 = -50;
-    D_800E2250.parameter0A = 127;
+    D_800E2250.cell = 128;
+    D_800E2250.clut = 4;
+    D_800E2250.offset = -50;
+    D_800E2250.depth = 127;
     D_800E2250.r = 128;
     D_800E2250.g = 128;
     D_800E2250.b = 128;
 
-    D_800E27E0.parameter04 = 0x68;
-    D_800E27E0.parameter05 = 0;
-    D_800E27E0.parameter08 = -99;
-    D_800E27E0.parameter0A = 127;
+    D_800E27E0.cell = 0x68;
+    D_800E27E0.clut = 0;
+    D_800E27E0.offset = -99;
+    D_800E27E0.depth = 127;
     D_800E27E0.r = 64;
     D_800E27E0.b = 64;
     D_800E27E0.g = 128;
 
-    D_800F3460.parameter04 = 0x6E;
-    D_800F3460.parameter05 = 3;
-    D_800F3460.parameter08 = -100;
-    D_800F3460.parameter0A = 127;
+    D_800F3460.cell = 0x6E;
+    D_800F3460.clut = 3;
+    D_800F3460.offset = -100;
+    D_800F3460.depth = 127;
     D_800F3460.r = 128;
     D_800F3460.g = 128;
     D_800F3460.b = 128;

@@ -30,6 +30,9 @@ extern FieldGlowSprite D_800F34D8;
 /* Presets shared by emitter setup and the glow renderers. */
 extern FieldGlowSprite D_800E22F8, D_800F34B8, D_800E2308, D_800E2338, D_800F34C8, D_800F34E8;
 
+/* Burst presets shared by setup and scaled glow renderers. */
+extern FieldGlowSprite D_800E2298, D_800E2250, D_800E27E0, D_800F3460;
+
 /* Draws one scaled glow sprite at the matrix translation (engine/
  * FieldEng_SpriteRendering.c). */
 void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *matrix, u8 mode);
