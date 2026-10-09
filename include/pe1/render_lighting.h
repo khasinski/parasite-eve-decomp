@@ -15,7 +15,12 @@ extern s16 D_800BEA42, D_800BEA44, D_800BEA46, D_800BEA48, D_800BEA4A;
 extern s16 D_800BEA4C, D_800BEA4E, D_800BEA50;
 extern s16 D_800BEA62, D_800BEA64, D_800BEA66, D_800BEA68, D_800BEA6A;
 extern s16 D_800BEA6C, D_800BEA6E, D_800BEA70;
-extern u8 D_800BD025, D_800BD026, D_800BD027;
+typedef struct RenderLightColor {
+    u8 r, g, b;
+} RenderLightColor;
+
+PE1_STATIC_ASSERT(sizeof(RenderLightColor) == 3, render_light_color_size);
+extern RenderLightColor D_800BD025;
 
 int Render_InitRoomPrimState(void *object);
 

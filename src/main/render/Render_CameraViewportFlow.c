@@ -18,9 +18,9 @@ int Render_InitViewState(void *matrix, void *screen) {
     D_800BCF88.words.flags = 0x70;
     D_800BCFFC = 0x60;
     D_800BCFFE = 0x180;
-    D_800BD027 = 0xFF;
-    D_800BD026 = 0xFF;
-    D_800BD025 = 0xFF;
+    D_800BD025.b = 0xFF;
+    D_800BD025.g = 0xFF;
+    D_800BD025.r = 0xFF;
     D_800BCF88.words.position = 0;
     D_800BCF88.words.saved = 0;
     D_800BCF88.words.screenOffset = 0;
@@ -599,9 +599,9 @@ int Render_InitRoomPrimState(void *objectArg)
     D_800BEA42 = 4096;
     D_800BEA44 = 0;
     intensity = object->shade + object->lightPositiveY;
-    r = D_800BD025;
-    g = D_800BD026;
-    b = D_800BD027;
+    r = D_800BD025.r;
+    g = D_800BD025.g;
+    b = D_800BD025.b;
     intensity = ClampLight(intensity) << 4;
     D_800BEA60.matrix.m[0][0] = intensity * r / 256;
     D_800BEA66 = intensity * g / 256;
