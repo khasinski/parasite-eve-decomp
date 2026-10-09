@@ -229,13 +229,13 @@ s32 Camera_StepAngleFade(s32 **arg0) {
                 sa3a = (s16) temp_a3;
                 g_TaskNodePool->target14 = sa3a;
             } else {
-                goto block_11;
+                sa3c = -(s16) temp_a3;
+                g_TaskNodePool->target14 = sa3c;
             }
         } else if ((vext2 = var_v1 << 0x10), ((vext2 >> 0x10) < 0x801)) {
             sa3b = (s16) temp_a3;
             g_TaskNodePool->target14 = sa3b;
         } else {
-block_11:
             sa3c = -(s16) temp_a3;
             g_TaskNodePool->target14 = sa3c;
         }
@@ -274,13 +274,11 @@ inner:
         temp_v1_2 = ta1c + temp_v0_2;
         if (temp_v0_2 > 0) {
             if (temp_v1_2 >= 0x1001) {
-                if ((temp_v1_2 & 0xFFF) < (s16) desiredAngle) {
-                    goto block_21;
+                if ((temp_v1_2 & 0xFFF) >= (s16) desiredAngle) {
+                    goto block_24;
                 }
-                goto block_24;
             }
         }
-block_21:
         temp_v0_3 = (s16) turnIncrement;
         if (temp_v0_3 < 0) {
             temp_v0_4 = ta1c + temp_v0_3;
