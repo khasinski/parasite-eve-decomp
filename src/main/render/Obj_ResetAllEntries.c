@@ -28,13 +28,13 @@ int Obj_ResetAllEntries(void) {
         value1 = 1;
         cursor = entryBase;
         do {
-            register unsigned int oldValue asm("v1") = *(u8 *)(cursor + 4);
-            u8 *indexedPtr = cursor + *(int *)(cursor + 12);
+            register unsigned int oldValue asm("v1") = (u8)((GeomCtrlEntry *)cursor)->field4;
+            u8 *indexedPtr = cursor + ((GeomCtrlEntry *)cursor)->slot_offset;
             unsigned int renderIndex;
 
-            *(u16 *)(cursor + 8) = value100;
-            *(u16 *)(cursor + 10) = 0;
-            *cursor = value1;
+            ((GeomCtrlEntry *)cursor)->field8 = value100;
+            ((GeomCtrlEntry *)cursor)->fieldA = 0;
+            ((GeomCtrlEntry *)cursor)->head.b.flags = value1;
             *(int *)(cursor + 4) = oldValue;
             renderIndex = *indexedPtr;
             renderEntries[renderIndex * 56] |= 2;
