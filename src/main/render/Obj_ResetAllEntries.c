@@ -6,9 +6,9 @@ int Obj_ResetAllEntries(void) __asm__("func_800655D4");
 
 int Obj_ResetAllEntries(void) {
     GeomState *state;
-    register u8 *cursor asm("a0");
+    register GeomStateAddress cursor asm("a0");
     u8 *entryBase;
-    u8 *renderEntries;
+    GeomEntry *renderEntries;
     unsigned int i;
     unsigned int count;
     unsigned int value100;
@@ -17,29 +17,29 @@ int Obj_ResetAllEntries(void) {
 
 
     state = D_800B1624;
-    cursor = (u8 *)D_800B1624;
-    entryBase = cursor + state->ctrl_offset;
-    renderEntries = cursor + state->entry_offset;
+    cursor.state = D_800B1624;
+    entryBase = cursor.bytes + state->ctrl_offset;
+    renderEntries = (GeomEntry *)(cursor.bytes + state->entry_offset);
     count = state->entry_count;
     i = 0;
 
     if (count != 0) {
         value100 = 0x100;
         value1 = 1;
-        cursor = entryBase;
+        cursor.bytes = entryBase;
         do {
-            register unsigned int oldValue asm("v1") = (u8)((GeomCtrlEntry *)cursor)->field4;
-            u8 *indexedPtr = cursor + ((GeomCtrlEntry *)cursor)->slot_offset;
+            register unsigned int oldValue asm("v1") = (u8)cursor.ctrl->field4;
+            u8 *indexedPtr = cursor.bytes + cursor.ctrl->slot_offset;
             unsigned int renderIndex;
 
-            ((GeomCtrlEntry *)cursor)->field8 = value100;
-            ((GeomCtrlEntry *)cursor)->fieldA = 0;
-            ((GeomCtrlEntry *)cursor)->head.b.flags = value1;
-            *(int *)(cursor + 4) = oldValue;
+            cursor.ctrl->field8 = value100;
+            cursor.ctrl->fieldA = 0;
+            cursor.ctrl->head.b.flags = value1;
+            *(u32 *)&cursor.ctrl->field4 = oldValue;
             renderIndex = *indexedPtr;
-            renderEntries[renderIndex * 56] |= 2;
+            renderEntries[renderIndex].flags |= 2;
             i++;
-            cursor += 16;
+            cursor.ctrl++;
         } while (i < count);
     }
 
