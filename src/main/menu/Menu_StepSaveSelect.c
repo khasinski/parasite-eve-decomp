@@ -58,8 +58,8 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
     register s32 var_v1 asm("$3");
     s32 temp_a0;
     MemCardSaveSlot *temp_v0_2;
-    void *temp_s2_2;
-    void *temp_v0_3;
+    MenuWidgetNode *temp_s2_2;
+    MenuWidgetNode *temp_v0_3;
 
     temp_s2 = MenuWidget_GetChild(arg0, 0);
     if (arg1 & 0x40) {
@@ -84,13 +84,13 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
                         if (D_8009CF4C != MEMCARD_SLOT_EMPTY) {
                             temp_v0_3 = MenuWidget_CreateSimpleNode(0x29, temp_s2, 0, 1);
                             temp_s2_2 = MenuWidget_CreateNode(0x29, temp_v0_3, temp_v0_3);
-                            M2C_FIELD(temp_v0_3, M2C_UNK **, 0x30) = &Menu_DrawItemLabel;
-                            M2C_FIELD(temp_v0_3, M2C_UNK **, 0x2C) = &Menu_ConfirmDialogHandler;
-                            M2C_FIELD(temp_s2_2, M2C_UNK **, 0x30) = &Menu_DrawActionOptionList;
+                            temp_v0_3->draw = (void (*)())&Menu_DrawItemLabel;
+                            temp_v0_3->update = (void (*)())&Menu_ConfirmDialogHandler;
+                            temp_s2_2->draw = (void (*)())&Menu_DrawActionOptionList;
                             g_MenuActionTextBase = 0x6C;
                             MenuWidget_SetCurrentNode(temp_s2_2);
                             temp_a0 = g_MenuActiveItemList;
-                            M2C_FIELD(temp_s2_2, s32 *, 0x44) = 1;
+                            temp_s2_2->cursor_x = 1;
                             Inv_SelectActiveList(temp_a0);
                             g_MenuItemLabelBuffer = 0xFF;
                             Util_AppendFFTerminatedBytes(&g_MenuItemLabelBuffer, Str_LookupTable4(0x44));
@@ -103,13 +103,13 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
                                 } else {
                                     var_v1 = Draw_MeasureTextWidth(&g_MenuItemLabelBuffer);
                                 }
-                                M2C_FIELD(temp_v0_3, s32 *, 0x34) = (var_v1 + 0x14);
-                                M2C_FIELD(temp_v0_3, s32 *, 0x38) = 0x32;
-                                M2C_FIELD(temp_v0_3, s32 *, 0x18) = ((0x12C - var_v1) >> 1);
-                                M2C_FIELD(temp_s2_2, s32 *, 0x18) = ((M2C_FIELD(temp_v0_3, s32 *, 0x34) - 0x80) >> 1);
-                                temp_height = M2C_FIELD(temp_v0_3, s32 *, 0x38);
+                                temp_v0_3->grid_width = (var_v1 + 0x14);
+                                temp_v0_3->visible_rows = 0x32;
+                                temp_v0_3->x = ((0x12C - var_v1) >> 1);
+                                temp_s2_2->x = ((temp_v0_3->grid_width - 0x80) >> 1);
+                                temp_height = temp_v0_3->visible_rows;
                                 g_MenuConfirmCallback = callback;
-                                M2C_FIELD(temp_s2_2, s32 *, 0x1C) = (temp_height - 0x14);
+                                temp_s2_2->y = (temp_height - 0x14);
                             }
                         } else {
                             if (func_80042964(g_SaveSelectedSlot) < 0xF) {
