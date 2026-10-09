@@ -311,8 +311,7 @@ int func_800CBCA4(u8 *arg0) {
     int y_scale;
     int color;
     register int z asm("$6");
-    register int orange asm("$4");
-    register int y_off asm("$4");
+    register int setupValue asm("$4");
     void **slot;
 
     slot = FieldEng_GetSlot((char *)arg0);
@@ -320,7 +319,7 @@ int func_800CBCA4(u8 *arg0) {
     obj = PTR(arg0, 8);
 
     tmp = S16(obj, 0x2A);
-    y_off = -0x64;
+    setupValue = -0x64;
     D_800E2290_state = tmp;
     tmp = S16(obj, 0x2E);
     y_scale = 0x400;
@@ -341,10 +340,10 @@ int func_800CBCA4(u8 *arg0) {
     D_800F3302 = color;
 
     color = 0x46;
-    D_800F3456 = y_off;
-    D_800F3306 = y_off;
+    D_800F3456 = setupValue;
+    D_800F3306 = setupValue;
 
-    orange = 0x80;
+    setupValue = 0x80;
     D_800F3438 = 0;
     D_800F343A = 0;
     D_800F343C = 0;
@@ -392,25 +391,25 @@ int func_800CBCA4(u8 *arg0) {
     D_800F335D = color;
 
     color = 0x32;
-    D_800F33A0 = orange;
-    D_800F33A1 = orange;
-    D_800F33A2 = orange;
+    D_800F33A0 = setupValue;
+    D_800F33A1 = setupValue;
+    D_800F33A2 = setupValue;
 
     D_800E2820 = 0;
     D_800E2822 = 0;
     D_800E2824 = 0;
     D_800E283E = 0;
-    D_800E2838 = orange;
-    D_800E2839 = orange;
-    D_800E283A = orange;
+    D_800E2838 = setupValue;
+    D_800E2839 = setupValue;
+    D_800E283A = setupValue;
 
     D_800F3340 = y_scale;
     D_800F3342 = 0;
     D_800F3344 = 0;
     D_800F335E = color;
-    D_800F3358 = orange;
-    D_800F3359 = orange;
-    D_800F335A = orange;
+    D_800F3358 = setupValue;
+    D_800F3359 = setupValue;
+    D_800F335A = setupValue;
     return tmp;
 }
 
