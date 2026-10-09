@@ -7,7 +7,7 @@ void CardObj_ResetFields(CardObj *arg0) {
     char *ptr;
 
     if (arg0->communicationState != 0) {
-        ptr = (char *)arg0 + 0x5D;
+        ptr = (char *)arg0->actuatorMap;
         value = 0xFF;
         count = 5;
         arg0->communicationState = 0;
