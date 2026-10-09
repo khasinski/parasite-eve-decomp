@@ -95,29 +95,29 @@ extern char * volatile g_GeomStateBytes __asm__("g_GeomState");
 
 int Render_SaveAndOpenBounds(void) {
     char *base = g_GeomStateBytes;
-    char *entry = g_GeomStateBytes + *(int *)(base + 0x1C) + (g_GeomGroupSel * 52);
+    CameraViewport *entry = (CameraViewport *)(g_GeomStateBytes + *(int *)(base + 0x1C)) + g_GeomGroupSel;
 
-    D_800BCFAC = *(u16 *)&((CameraViewport *)entry)->minX;
-    D_800BCFAE = *(u16 *)&((CameraViewport *)entry)->maxX;
-    D_800BCFB0 = *(u16 *)&((CameraViewport *)entry)->minY;
-    D_800BCFB2 = *(u16 *)&((CameraViewport *)entry)->maxY;
+    D_800BCFAC = *(u16 *)&entry->minX;
+    D_800BCFAE = *(u16 *)&entry->maxX;
+    D_800BCFB0 = *(u16 *)&entry->minY;
+    D_800BCFB2 = *(u16 *)&entry->maxY;
 
-    *(short *)(entry + 0x2C) = -0x8000;
-    *(short *)(entry + 0x2E) = 0x7FFF;
-    *(short *)(entry + 0x30) = -0x8000;
-    *(short *)(entry + 0x32) = 0x7FFF;
+    *(short *)((u8 *)entry + 0x2C) = -0x8000;
+    *(short *)((u8 *)entry + 0x2E) = 0x7FFF;
+    *(short *)((u8 *)entry + 0x30) = -0x8000;
+    *(short *)((u8 *)entry + 0x32) = 0x7FFF;
 
     return 0;
 }
 
 int Render_RestoreBounds(void) {
     char *base = g_GeomStateBytes;
-    char *entry = g_GeomStateBytes + *(int *)(base + 0x1C) + (g_GeomGroupSel * 52);
+    CameraViewport *entry = (CameraViewport *)(g_GeomStateBytes + *(int *)(base + 0x1C)) + g_GeomGroupSel;
 
-    *(u16 *)&((CameraViewport *)entry)->minX = D_800BCFAC;
-    *(u16 *)&((CameraViewport *)entry)->maxX = D_800BCFAE;
-    *(u16 *)&((CameraViewport *)entry)->minY = D_800BCFB0;
-    *(u16 *)&((CameraViewport *)entry)->maxY = D_800BCFB2;
+    *(u16 *)&entry->minX = D_800BCFAC;
+    *(u16 *)&entry->maxX = D_800BCFAE;
+    *(u16 *)&entry->minY = D_800BCFB0;
+    *(u16 *)&entry->maxY = D_800BCFB2;
 
     return 0;
 }
