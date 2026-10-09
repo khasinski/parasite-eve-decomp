@@ -75,10 +75,10 @@ void Menu_OnInventoryItemConfirm(s32 arg0) {
     s32 temp_v0;
     s32 var_s0;
     s32 var_s0_2;
-    void *temp_s0;
-    void *temp_s0_2;
-    void *temp_s1;
-    void *temp_s1_2;
+    MenuWidgetNode *temp_s0;
+    MenuWidgetNode *temp_s0_2;
+    MenuWidgetNode *temp_s1;
+    MenuWidgetNode *temp_s1_2;
 
     g_InvAmmoSpendActiveList = func_80052F0C();
     g_InvSelectedItemIndex = arg0;
@@ -92,16 +92,14 @@ void Menu_OnInventoryItemConfirm(s32 arg0) {
         temp_s0 = MenuWidget_FindByModeAndSelectedBase(2, 0xD);
         temp_s1 = MenuWidget_FindByModeAndSelectedBase(2, 0xE);
         if ((temp_s0 != NULL) && (MenuWidget_GridCellIndex(temp_s0) != 0) && (temp_s1 != NULL)) {
-            M2C_FIELD(temp_s0, s32 *, 0x44) = -1;
+            temp_s0->cursor_x = -1;
             Inv_SelectActiveList(0);
             var_s0 = 0;
-loop_7:
-            if ((var_s0 < Inv_GetAyaSlotLimit()) && (Inv_TestSelectionBit(var_s0) == 0)) {
+            while ((var_s0 < Inv_GetAyaSlotLimit()) && (Inv_TestSelectionBit(var_s0) == 0)) {
                 var_s0 += 1;
-                goto loop_7;
             }
-            M2C_FIELD(temp_s1, s32 *, 0x44) = 0;
-            M2C_FIELD(temp_s1, s32 *, 0x48) = (var_s0 & -(var_s0 < Inv_GetAyaSlotLimit()));
+            temp_s1->cursor_x = 0;
+            temp_s1->cursor_y = (var_s0 & -(var_s0 < Inv_GetAyaSlotLimit()));
             MenuWidget_SetCurrentNode(temp_s1);
         }
         {
@@ -127,16 +125,14 @@ loop_7:
     temp_s0_2 = MenuWidget_FindByModeAndSelectedBase(2, 0xD);
     temp_s1_2 = MenuWidget_FindByModeAndSelectedBase(2, 0xE);
     if ((temp_s0_2 != NULL) && (MenuWidget_GridCellIndex(temp_s0_2) != 0) && (temp_s1_2 != NULL)) {
-        M2C_FIELD(temp_s0_2, s32 *, 0x44) = -1;
+        temp_s0_2->cursor_x = -1;
         Inv_SelectActiveList(0);
         var_s0_2 = 0;
-loop_16:
-        if ((var_s0_2 < Inv_GetAyaSlotLimit()) && (Inv_TestSelectionBit(var_s0_2) == 0)) {
+        while ((var_s0_2 < Inv_GetAyaSlotLimit()) && (Inv_TestSelectionBit(var_s0_2) == 0)) {
             var_s0_2 += 1;
-            goto loop_16;
         }
-        M2C_FIELD(temp_s1_2, s32 *, 0x44) = 0;
-        M2C_FIELD(temp_s1_2, s32 *, 0x48) = (var_s0_2 & -(var_s0_2 < Inv_GetAyaSlotLimit()));
+        temp_s1_2->cursor_x = 0;
+        temp_s1_2->cursor_y = (var_s0_2 & -(var_s0_2 < Inv_GetAyaSlotLimit()));
         MenuWidget_SetCurrentNode(temp_s1_2);
     }
 }
@@ -298,7 +294,7 @@ void Menu_OpenItemActionSubmenu(MenuWidgetNode *arg0, s32 arg1, s32 arg2) {
     s32 var_s0_2;
     s32 var_s2;
     MenuWidgetNode *temp_a0;
-    void *temp_s0_2;
+    ItemDataRecord *temp_s0_2;
     MenuWidgetNode *temp_s1;
     MenuWidgetNode *temp_v0_2;
 
@@ -335,7 +331,7 @@ void Menu_OpenItemActionSubmenu(MenuWidgetNode *arg0, s32 arg1, s32 arg2) {
         var_s2 = 0;
         temp_s0 = g_MenuActiveItemSlot;
         temp_s0_2 = Inv_LookupActiveListData(temp_s0);
-        if ((Inv_TestSelectionBit(temp_s0) != 0) && ((g_MenuEquipMode != 1) || (M2C_FIELD(temp_s0_2, u8 *, 6) != 0xA) || ((u8) M2C_FIELD(temp_s0_2, u8 *, 0xE) < 4U))) {
+        if ((Inv_TestSelectionBit(temp_s0) != 0) && ((g_MenuEquipMode != 1) || (temp_s0_2->kind != 0xA) || ((u8) M2C_FIELD(temp_s0_2, u8 *, 0xE) < 4U))) {
             var_s2 = 1;
         }
         if (var_s2 != 0) {
@@ -346,7 +342,7 @@ void Menu_OpenItemActionSubmenu(MenuWidgetNode *arg0, s32 arg1, s32 arg2) {
 block_21:
     if (g_MenuItemActionDisabled != 0) {
 block_22:
-        M2C_FIELD(temp_s1, s32 *, 0x48) = 1;
+        temp_s1->cursor_y = 1;
     }
 }
 
