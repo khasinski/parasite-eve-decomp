@@ -1,6 +1,4 @@
-#include "common.h"
-extern char D_800A7620[];
-extern char g_EntityAllocBlockTable[];
+#include "pe1/entity_allocation.h"
 extern s32 g_RenderScratchBufferBase;
 
 s32 Entity_AllocBlock(u32 arg0) {
@@ -34,13 +32,13 @@ block_6:
     var_a0 = var_a1 & 0xFF;
 loop_8:
     var_v1 = var_a0 << 3;
-    if (*(s32 *)(g_EntityAllocBlockTable + var_v1) == 0) {
+    if (((EntityAllocationBlock *)((u8 *)D_800A7620 + var_v1))->address == 0) {
         var_a2 = 1;
         if (var_a0 < (var_a0 + temp_t0)) {
             var_v0 = var_a3 + var_a0;
             var_a0 = var_v0 << 3;
 loop_11:
-            if (*(s32 *)(g_EntityAllocBlockTable + var_v1) != 0) {
+            if (((EntityAllocationBlock *)((u8 *)D_800A7620 + var_v1))->address != 0) {
                 goto occupied_in_run;
             }
             var_v1 += 8;
@@ -54,9 +52,9 @@ after_empty_scan:
             temp_a0 = var_v0 << 3;
             var_v1 = temp_a0 + var_v0;
             var_v1 = (var_v1 << 6) - var_v0;
-            *(u32 *)(D_800A7620 + temp_a0) = temp_t0;
+            ((EntityAllocationBlock *)((u8 *)D_800A7620 + temp_a0))->blockCount = temp_t0;
             var_v0 = *temp_t1 + (var_v1 << 5);
-            *(s32 *)(g_EntityAllocBlockTable + temp_a0) = var_v0;
+            ((EntityAllocationBlock *)((u8 *)D_800A7620 + temp_a0))->address = var_v0;
             return var_v0;
         }
         goto block_20;
@@ -65,7 +63,7 @@ occupied_in_run:
         var_a1 += var_a3;
         goto after_empty_scan;
     }
-    var_v1 = *(u32 *)(D_800A7620 + var_v1);
+    var_v1 = ((EntityAllocationBlock *)((u8 *)D_800A7620 + var_v1))->blockCount;
     if (temp_t0 < var_v1) {
         var_a1 += var_v1;
     } else {
@@ -80,17 +78,14 @@ block_20:
     goto loop_8;
 }
 
-extern char g_EntityAllocBlockTable[];
 
 void Entity_FreeAllocationBlock(int arg0) {
     int i;
-    int offset;
 
     i = 0;
     while ((unsigned int)(i & 0xFF) < 0x10U) {
-        offset = (i & 0xFF) << 3;
-        if (*(int *)(g_EntityAllocBlockTable + offset) == arg0) {
-            *(int *)(g_EntityAllocBlockTable + offset) = 0;
+        if (D_800A7620[i & 0xFF].address == arg0) {
+            D_800A7620[i & 0xFF].address = 0;
             return;
         }
         i++;
