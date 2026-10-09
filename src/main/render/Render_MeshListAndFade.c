@@ -515,7 +515,7 @@ int Render_StepFade(void) {
     register s32 flags asm("$2");
     s32 mask;
     s32 divisor;
-    u8 *final_geom;
+    GeomState *final_geom;
     u8 *fade_ptr;
     u8 frame;
     s32 stack_pad[4];
@@ -573,11 +573,11 @@ int Render_StepFade(void) {
     flags = D_800BCF88_WORD;
     mask = -0xC01;
     flags &= mask;
-    final_geom = D_800B1624_C;
+    final_geom = (GeomState *)D_800B1624_C;
     flags |= 0x800;
     *(s32 *)&D_800BCF88_store_o = flags;
     flags = 0x1FF0;
-    WRITE_U16(final_geom, 0x26, flags);
+    final_geom->field26 = flags;
 
     return 0;
 }
@@ -677,7 +677,7 @@ int Render_ApplyScreenTint(void) {
         s32 mask;
         s32 *flags_ptr;
         s32 mode_bits;
-        register s32 value asm("$2");
+        s32 value;
 
         mask = 0xFFFF3FFF;
         flags_ptr = &D_800BCF88_WORD;
