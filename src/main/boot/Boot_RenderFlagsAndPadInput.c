@@ -3,6 +3,7 @@
 #include "common.h"
 #include "pe1/menu_inventory.h"
 #include "pe1/gte.h"
+#include "pe1/card_obj.h"
 #include "pe1/psyq_nop.h"
 
 /* Field render-flag table setup and the helper that stores one table entry
@@ -108,7 +109,6 @@ int PadGetState();
 int PadInfoMode(int arg0, int mode, int index);
 void PadSetAct(int arg0, void *payload, int size);
 void PadSetMainMode(int arg0, int byte1, int byte2);
-void PadSetActAlign(int arg0, void *payload);
 
 void Field_HandleStateTransition(void) {
     u32 flags;

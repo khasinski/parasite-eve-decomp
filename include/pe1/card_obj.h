@@ -34,7 +34,7 @@ typedef struct CardObj {
     void (*fn_14)(void *);            /* 0x14 */
     int (*fn_18)(struct CardObj *);            /* 0x18 */
     unsigned char pad_1C[0x04];
-    int field_20;                     /* 0x20 */
+    u8 *requestedActuatorMap;          /* 0x20: six-byte map passed to _padSetActAlign */
     unsigned char pad_24[0x04];
     unsigned char *payload_28;         /* 0x28 */
     unsigned char *payload_2c;         /* 0x2C */
@@ -75,6 +75,8 @@ typedef struct CardObj {
 } CardObj;
 
 /* Direct-port operations shared by PADPORTD and PADMAIN. */
+void PadSetActAlign(int channel, u8 *alignment);
+int _padSetActAlign(CardObj *obj, u8 *alignment);
 void CardObj_ResetFields(CardObj *obj);
 void CardObj_SwapByteField(CardObj *obj);
 int CardObj_GetChannelId(CardObj *obj);

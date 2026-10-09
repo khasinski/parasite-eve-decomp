@@ -135,9 +135,8 @@ int PadInfoComb(int channel, int index0, int index1) {
     }
     return entry->data[index1];
 }
-int _padSetActAlign(CardObj *obj, int command);
 
-void PadSetActAlign(int channel, int command) {
+void PadSetActAlign(int channel, u8 *command) {
     _padSetActAlign(g_MemCardObjLookupFn(channel), command);
 }
 void _padSetMainMode(CardObj *obj, int byte1, int byte2);

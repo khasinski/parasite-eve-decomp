@@ -315,7 +315,7 @@ extern int (*D_8009B740)(CardObj *obj);
 void func_80083C20(void *obj);
 int func_80083C3C(CardObj *obj);
 
-int _padSetActAlign(CardObj *obj, int command) {
+int _padSetActAlign(CardObj *obj, u8 *command) {
     register int result asm("$2");
     int active;
 
@@ -326,7 +326,7 @@ int _padSetActAlign(CardObj *obj, int command) {
         active = 1;
         obj->field_46 = active;
         obj->fn_14 = func_80083C20;
-        obj->field_20 = command;
+        obj->requestedActuatorMap = command;
         obj->fn_18 = func_80083C3C;
         result = 1;
     }
@@ -334,11 +334,11 @@ int _padSetActAlign(CardObj *obj, int command) {
 }
 
 void CardObj_EmitCommand4D(CardObj *arg0) {
-    int value = arg0->field_20;
+    u8 *value = arg0->requestedActuatorMap;
 
     arg0->command = 0x4D;
     arg0->payload_2c_len = 6;
-    arg0->payload_2c = (unsigned char *)value;
+    arg0->payload_2c = value;
 }
 
 #define NULL ((void *)0)
@@ -359,7 +359,7 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
         ff = 0xFF;
         offset = 0;
         do {
-            cursor = (u8 *)arg0->field_20;
+            cursor = arg0->requestedActuatorMap;
             matched = 0;
             remaining = 5;
             do {
@@ -369,7 +369,7 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
                 remaining -= 1;
             } while (remaining >= 0);
             needed = ((PadCapabilityRecord *)(offset + (u32)arg0->capabilities))->payloadBytes;
-            cursor = (u8 *)arg0->field_20;
+            cursor = arg0->requestedActuatorMap;
             written = 0;
             if (needed == 0) {
                 needed = 1;
