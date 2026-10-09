@@ -502,7 +502,7 @@ extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
 
 int Render_StepFade(void) {
     u8 *geom;
-    register u8 *entry asm("$4");
+    register GeomStateAddress entry asm("$4");
     PrimEntry *prim;
     s32 fade_step;
     int fade_value;
@@ -532,17 +532,17 @@ int Render_StepFade(void) {
 
     entry_index = 0;
     geom = D_800B1624_A;
-    entry = D_800B1624_B;
+    entry.bytes = D_800B1624_B;
     fade_value = READ_S32(geom, 0x14);
     entry_count = READ_U16(geom, 0x6);
-    entry = entry + fade_value;
+    entry.bytes += fade_value;
     fade_value = 0x80 - fade_step;
     if (entry_count != 0) {
         tint_loop = fade_value;
         do {
-            prim = (PrimEntry *)READ_S32(entry, 0x30);
+            prim = (PrimEntry *)entry.entry->u30.prim;
             active_slot = D_8009CDDC;
-            prim_count = READ_U16(entry, 0x26);
+            prim_count = entry.entry->prim_count;
             if (active_slot != 0) {
                 prim = prim + prim_count;
             }
@@ -558,7 +558,7 @@ int Render_StepFade(void) {
                 } while ((u32)prim_index < prim_count);
             }
             entry_index++;
-            entry += 0x38;
+            entry.entry++;
         } while (entry_index < entry_count);
     }
 
@@ -620,7 +620,7 @@ extern s32 g_ActiveDrawSlot;
 
 int Render_ApplyScreenTint(void) {
     u8 *geom;
-    register u8 *entry asm("$4");
+    register GeomStateAddress entry asm("$4");
     PrimEntry *prim;
     u32 flags;
     int tint;
@@ -645,15 +645,15 @@ int Render_ApplyScreenTint(void) {
 
     entry_index = 0;
     geom = D_800B1624_A;
-    entry = D_800B1624_B;
-    entry = entry + READ_S32(geom, 0x14);
+    entry.bytes = D_800B1624_B;
+    entry.bytes += READ_S32(geom, 0x14);
     entry_count = READ_U16(geom, 0x6);
     if (entry_count != 0) {
         tint_loop = tint;
         do {
-            prim = (PrimEntry *)READ_S32(entry, 0x30);
+            prim = (PrimEntry *)entry.entry->u30.prim;
             active_slot = g_ActiveDrawSlot;
-            prim_count = READ_U16(entry, 0x26);
+            prim_count = entry.entry->prim_count;
             if (active_slot != 0) {
                 prim = prim + prim_count;
             }
@@ -669,22 +669,21 @@ int Render_ApplyScreenTint(void) {
                 } while ((u32)prim_index < prim_count);
             }
             entry_index++;
-            entry += 0x38;
+            entry.entry++;
         } while (entry_index < entry_count);
     }
 
     {
         s32 mask;
         s32 *flags_ptr;
-        register s32 old_flags asm("$2");
         s32 mode_bits;
         register s32 value asm("$2");
 
         mask = 0xFFFF3FFF;
         flags_ptr = &D_800BCF88_WORD;
-        old_flags = *flags_ptr;
-        mask = old_flags & mask;
-        mode_bits = old_flags & 0xC000;
+        value = *flags_ptr;
+        mask = value & mask;
+        mode_bits = value & 0xC000;
         value = 0x4000;
         *flags_ptr = mask;
         if (mode_bits == value) {
