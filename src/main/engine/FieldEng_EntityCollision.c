@@ -1,21 +1,22 @@
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/field_actor.h"
 
 int func_800C62DC(GteShortVector *from, GteShortVector *to);
 extern char *D_8009D254;
 
 int func_800C6B20(void *arg0) {
     GteShortVector pos;
-    char *entity = D_8009D254;
+    FieldActor *entity = (FieldActor *)D_8009D254;
     int first;
     register int value asm("$2");
     GteShortVector *ptr;
-    value = *(s16 *)(entity + 0x2A);
+    value = Pe1Fixed_Integer(&entity->pos_x);
     ptr = &pos;
     pos.x = value;
-    value = *(s16 *)(entity + 0x2E);
+    value = Pe1Fixed_Integer(&entity->pos_y);
     pos.y = value;
-    value = *(s16 *)(entity + 0x32);
+    value = Pe1Fixed_Integer(&entity->pos_z);
     pos.z = value;
     first = func_800C62DC(ptr, arg0);
     return first | func_800C62DC(ptr, (char *)arg0 + 8);
@@ -28,7 +29,7 @@ int func_800C6B90(s16 *pos, int extraRadius) {
     s16 local[4];
     char *entity = D_8009D254;
     int x = *(s16 *)(entity + 0x2A);
-    int radius = *(s16 *)(entity + 0x224);
+    int radius = (s16)((FieldActor *)entity)->render_object.hit_cylinder.radius;
     int z;
     int x_sq;
     int z_sq;
