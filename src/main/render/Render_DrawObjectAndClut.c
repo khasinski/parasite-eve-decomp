@@ -58,6 +58,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
     register RenderObjectPart *part asm("$15");
     s32 vertexIndex;
     s32 first;
+    register u32 *colourPointer asm("$2");
     u32 *mainColours;
     u32 *altColours;
     register s16 *normalIndex asm("$7");
@@ -120,10 +121,10 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                     first = part->vertex_start;
                     {
                         s32 byteOffset = first * 4;
-                        register u32 *colourBase asm("$2") = D_800B1638;
-                        mainColours = (u32 *)((u8 *)colourBase + byteOffset);
-                        colourBase = D_800A6360;
-                        altColours = (u32 *)((u8 *)colourBase + byteOffset);
+                        colourPointer = D_800B1638;
+                        mainColours = (u32 *)((u8 *)colourPointer + byteOffset);
+                        colourPointer = D_800A6360;
+                        altColours = (u32 *)((u8 *)colourPointer + byteOffset);
                     }
                     {
                         register s32 vertexOffset asm("$4") = first * 8;
@@ -172,17 +173,17 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                     } else if (colour[7]) {
                                         s32 selectedOffset = byteOffset + 4;
                                         {
-                                            register u32 *selected asm("$2") =
+                                            colourPointer =
                                                 (u32 *)((u8 *)colours + selectedOffset);
-                                            gte_lwc2_6_0(selected);
+                                            gte_lwc2_6_0(colourPointer);
                                         }
                                         goto shade_override;
                                     } else if (colour[11]) {
                                         s32 selectedOffset = byteOffset + 8;
                                         {
-                                            register u32 *selected asm("$2") =
+                                            colourPointer =
                                                 (u32 *)((u8 *)colours + selectedOffset);
-                                            gte_lwc2_6_0(selected);
+                                            gte_lwc2_6_0(colourPointer);
                                         }
                                     } else
                                         goto no_override;
