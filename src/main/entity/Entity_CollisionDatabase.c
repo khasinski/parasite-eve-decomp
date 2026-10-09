@@ -75,13 +75,13 @@ void Entity_RelocateSceneData(void) {
     }
 
     {
-        char *value20;
-        char *table;
+        struct CollisionPlane *planes;
+        s16 **heights;
 
-        value20 = (char *)base->planes.pointer;
-        table = (char *)base->regions;
-        g_RegionHeightTable = (s16 **)table;
-        g_CollisionPlaneTable = (struct CollisionPlane *)value20;
+        planes = base->planes.pointer;
+        heights = (s16 **)base->regions;
+        g_RegionHeightTable = heights;
+        g_CollisionPlaneTable = planes;
     }
     return;
 
