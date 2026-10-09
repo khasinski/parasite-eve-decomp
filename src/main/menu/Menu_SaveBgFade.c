@@ -67,7 +67,7 @@ void Menu_SaveBgApplyFadeStep(void) {
     int bias;
     int attenuation;
     u16 *src;
-    register u16 *dst asm("$8");
+    u16 *dst;
     int i;
 
     pos = g_MenuSaveBgFadeIndex + g_MenuSaveBgFadeStep;
@@ -88,7 +88,7 @@ void Menu_SaveBgApplyFadeStep(void) {
         bias = product << 5;
     }
     attenuation = level * (g_MenuSaveBgFadeTint + 0x100);
-    src = g_GameState.save_background_source;
+    src = dst = g_GameState.save_background_source;
     dst = g_GameState.save_background_destination;
 
     for (i = 0; i < (g_MenuSaveBgFadeHeight << 8); i++) {
