@@ -168,7 +168,6 @@ void Save_DeserializeTail(void) {
     game_mask = 0xFFFF2679;
     asm volatile("" ::: "memory");
     next_cur = g_SaveIoCursorRead;
-    asm volatile("" : : "r"(next_cur));
     battle_dest = &g_SavedBattleStateTail;
     *battle_dest = *(SaveBytes18 *)(cursor + 0x70);
 
