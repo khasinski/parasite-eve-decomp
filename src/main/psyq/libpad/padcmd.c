@@ -378,10 +378,10 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
             do {
                 if (*cursor++ == i) {
                     if (matched < needed) {
-                        out[PE1_OFFSETOF(CardObj, field_5d)] = ff;
+                        out[PE1_OFFSETOF(CardObj, actuatorMap)] = ff;
                         matched -= 1;
                     } else {
-                        out[PE1_OFFSETOF(CardObj, field_5d)] = i;
+                        out[PE1_OFFSETOF(CardObj, actuatorMap)] = i;
                     }
                 }
                 written += 1;

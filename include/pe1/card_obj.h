@@ -60,8 +60,8 @@ typedef struct CardObj {
     unsigned char field_52;           /* 0x52 */
     unsigned char modeAlreadySelected;           /* 0x53: requested mode equals the current mode */
     unsigned char pad_54[0x03];
-    unsigned char field_57[0x06];      /* 0x57 */
-    unsigned char field_5d[0x06];      /* 0x5D */
+    unsigned char actuatorEnabled[0x06]; /* 0x57: payload-byte activation flags */
+    unsigned char actuatorMap[0x06]; /* 0x5D: capability index per payload byte, 0xFF = unused */
     unsigned char pad_63[0x80];
     unsigned char field_e3;           /* 0xE3 */
     unsigned char field_e4;           /* 0xE4 */

@@ -30,7 +30,7 @@ int CardObj_ReadPayloadByte(CardObj *arg0, int needsAck) {
 
 mode0:
     if (index < 6) {
-        if (arg0->field_57[index] == 0) {
+        if (arg0->actuatorEnabled[index] == 0) {
             return 0;
         }
     }
@@ -66,7 +66,7 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
     register int offset;
     register int one;
     register u8 *map, *data;
-    bzero(port->field_57, 6);
+    bzero(port->actuatorEnabled, 6);
     if (port->field_e6 && port->payload_28) {
         limit = 6;
         if (port->payload_28_len < 7) {
@@ -83,7 +83,7 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
                 if (((PadCapabilityRecord *)(offset + (u32)port->capabilities))
                         ->payloadBytes)
                     mask = 255;
-                map = port->field_5d;
+                map = port->actuatorMap;
                 data = port->payload_28;
                 j = 0;
                 if (limit) {
@@ -114,8 +114,8 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
                         active = 0;
                     }
                     if (active) {
-                        map = port->field_5d;
-                        data = port->field_57;
+                        map = port->actuatorMap;
+                        data = port->actuatorEnabled;
                         j = 0;
                         if (limit)
                             do {
@@ -139,14 +139,14 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
             !port->field_e6 && port->payload_28_len >= 2) {
             if ((port->payload_28[0] & 192) == 64 && (port->payload_28[1] & 1) &&
                 D_8009B76C + 10 < 61) {
-                port->field_57[1] = 1;
-                port->field_57[0] = 1;
+                port->actuatorEnabled[1] = 1;
+                port->actuatorEnabled[0] = 1;
                 D_8009B76C += 10;
             }
         } else {
             asm("" ::: "memory");
             if (port->field_e8 == 3)
-                port->field_57[0] = 1;
+                port->actuatorEnabled[0] = 1;
             else if (!port->field_e6) {
                 register int value = 1;
                 register int k asm("$3") = 5;

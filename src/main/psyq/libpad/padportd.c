@@ -68,7 +68,7 @@ int PadInitDirect(u8 *output0, u8 *output1) {
         (*(u8 **)(field40 - 0x10))[1] = 0;
         *(u8 **)(field40 - 4) = table3c;
         *(u8 **)field40 = table40;
-        cursor = obj->field_5d;
+        cursor = obj->actuatorMap;
         count = 5;
         do {
             *cursor = fill;
