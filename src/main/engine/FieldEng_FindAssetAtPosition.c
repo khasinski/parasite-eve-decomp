@@ -1,5 +1,6 @@
 /* CC1_FLAGS: -fno-schedule-insns */
 #include "common.h"
+#include "pe1/gte_types.h"
 
 /* Floor-placement basis vectors and the asset lookups at a field
  * position; func_800C66C8 reads the normals func_800C65E4 writes. */
@@ -15,7 +16,7 @@ void func_800C65E4(s16 *from, s16 *to, char *out) {
     int crossA[4];
     int crossB[4];
     int delta[4];
-    int basis[4];
+    GteVector basis;
     s16 *from_t0;
     s16 *to_a3;
     char *out_s2;
@@ -38,17 +39,17 @@ void func_800C65E4(s16 *from, s16 *to, char *out) {
     b0 = basis_src[0];
     b1 = basis_src[1];
     b2 = basis_src[2];
-    basis[0] = b0;
-    basis[1] = b1;
-    basis[2] = b2;
+    basis.x = b0;
+    basis.y = b1;
+    basis.z = b2;
     b0 = basis_src[3];
-        basis[3] = b0;
+    basis.pad = b0;
     asm volatile("" ::: "memory");
 
     delta_s1 = delta;
     call_delta_a0 = delta_s1;
     delta_s1[0] = to_a3[0] - from_t0[0];
-    call_basis_a1 = basis;
+    call_basis_a1 = (int *)&basis;
     delta_s1[1] = to_a3[1] - from_t0[1];
     call_crossA_a2 = crossA;
     delta_s1[2] = to_a3[2] - from_t0[2];
