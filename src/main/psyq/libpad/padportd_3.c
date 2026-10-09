@@ -55,9 +55,8 @@ int MemCard_DmaCompleteCallback(int result) {
             }
         }
 
-        asm("" : "=r"(control) : "0"(D_8009B7BC));
         index = g_MemCardDmaNextIndex;
-        asm("" : "+r"(index));
+        asm("" : "=r"(control), "+r"(index) : "0"(D_8009B7BC));
         D_8009B768 = 0;
         asm volatile("" : : : "memory");
         control->status = 0;
