@@ -15,24 +15,19 @@ extern s32 g_InvSelectedItemIndex;
 extern s32 g_InvSwapTargetIndex;
 extern s32 g_MenuEquipSwapSource;
 extern s32 g_MenuInventoryViewMode;
-extern M2C_UNK Menu_InventoryInputHandler[];
-#define Menu_InventoryInputHandler (Menu_InventoryInputHandler[0])
-extern M2C_UNK Menu_DrawAmmoTypeHeader[];
-#define Menu_DrawAmmoTypeHeader (Menu_DrawAmmoTypeHeader[0])
-extern M2C_UNK Menu_DrawSelectableEquipSlotList[];
-#define Menu_DrawSelectableEquipSlotList (Menu_DrawSelectableEquipSlotList[0])
-extern M2C_UNK Menu_RebuildSelectableMask[];
-#define Menu_RebuildSelectableMask (Menu_RebuildSelectableMask[0])
-extern M2C_UNK Inv_SwapSlots[];
-#define Inv_SwapSlots (Inv_SwapSlots[0])
+int Menu_InventoryInputHandler(MenuWidgetNode *node, unsigned int flags);
+void Menu_DrawAmmoTypeHeader(MenuWidgetNode *node);
+void Menu_DrawSelectableEquipSlotList(int node);
+void Menu_RebuildSelectableMask(void);
+int Inv_SwapSlots(int unused, int from, int unused2, int to);
 
 void Menu_OpenInventoryOrSwapView(s32 arg0) {
     s32 mode;
     register s32 temp_v1 asm("$3");
-    void *temp_a0;
-    void *temp_s1;
-    void *temp_v0;
-    void *temp_v0_2;
+    MenuWidgetNode *temp_a0;
+    MenuWidgetNode *temp_s1;
+    MenuWidgetNode *temp_v0;
+    MenuWidgetNode *temp_v0_2;
 
     MenuWidget_NavScrollTo(0x3C);
     MenuWidget_NavScrollTo(0x3B);
@@ -56,16 +51,16 @@ check_two:
 case_zero:
     if (arg0 != 0) {
         temp_v0 = MenuWidget_GetCurrentNode();
-        M2C_FIELD(temp_v0, s32 *, 0x48) = 0;
+        temp_v0->cursor_y = 0;
         M2C_FIELD(MenuWidget_CreateSimpleNode(0x1B, NULL, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawAmmoTypeHeader;
         temp_v0_2 = MenuWidget_CreateSimpleNode(1, temp_v0, 0, 0);
         temp_s1 = MenuWidget_CreateNode(1, temp_v0_2, temp_v0_2);
         temp_a0 = temp_s1;
-        M2C_FIELD(temp_v0_2, M2C_UNK **, 0x2C) = &Menu_InventoryInputHandler;
-        M2C_FIELD(temp_s1, M2C_UNK **, 0x30) = &Menu_DrawSelectableEquipSlotList;
+        temp_v0_2->update = (void (*)())Menu_InventoryInputHandler;
+        temp_s1->draw = Menu_DrawSelectableEquipSlotList;
         MenuWidget_SetCurrentNode(temp_a0);
-        M2C_FIELD(temp_s1, M2C_UNK **, 0x84) = &Inv_SwapSlots;
-        M2C_FIELD(temp_s1, M2C_UNK **, 0x88) = &Menu_RebuildSelectableMask;
+        temp_s1->itemAction = (MenuWidgetItemAction)Inv_SwapSlots;
+        temp_s1->refreshItems = Menu_RebuildSelectableMask;
         Inv_RebuildSelectableMask();
         g_InvSwapTargetIndex = -1;
         g_InvSelectedItemIndex = -1;
@@ -74,9 +69,9 @@ case_zero:
         g_MenuActionSubmenuOpen = 0;
         if (temp_v1 != 0) {
             temp_v1 -= 1;
-            M2C_FIELD(temp_s1, s32 *, 0x44) = (temp_v1 & 1);
-            M2C_FIELD(temp_s1, s32 *, 0x48) = ((temp_v1 >> 1) & 0x7F);
-            M2C_FIELD(temp_s1, s32 *, 0x5C) = (temp_v1 >> 8);
+            temp_s1->cursor_x = (temp_v1 & 1);
+            temp_s1->cursor_y = ((temp_v1 >> 1) & 0x7F);
+            temp_s1->scroll_y = (temp_v1 >> 8);
             return;
         }
         return;
@@ -164,8 +159,8 @@ int Menu_EquipGridHandler(void *arg0, int arg1);
 
 s32 Menu_EquipOptionsInputHandler(void *arg0, s32 arg1) {
     s32 temp_a1;
-    void *temp_v0;
-    void *temp_v0_2;
+    MenuWidgetNode *temp_v0;
+    MenuWidgetNode *temp_v0_2;
     void *temp_v0_3;
 
     if (arg1 & 0x10000) {
