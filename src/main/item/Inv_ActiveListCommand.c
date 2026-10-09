@@ -10,16 +10,10 @@
 extern BattleEntity *D_8009D254[];
 extern u8 *D_8009D1E0;
 extern int D_8009D010;
-extern int D_8009D018;
-#include "pe1/weapon_list_output.h"
-void Inv_BuildArmorList(void *);
+#include "pe1/battle_modifiers.h"
 int Menu_GetBattleEquipMode(void);
 void Battle_DispatchSpecialAction(int);
-void Inv_SelectActiveList(int);
-void BattleCmd_LoadWeaponModifiers(void);
 void MenuWidget_InitPool(void);
-
-struct ArmorBlock { u32 word[2]; };
 
 void Inv_SetActiveList(int mode, int *slot) {
     Combatant *active;
@@ -57,8 +51,8 @@ void Inv_SetActiveList(int mode, int *slot) {
         if (active) {
             u8 *out = D_8009D1E0;
             if (out) {
-                *(struct ArmorBlock *)out = *(struct ArmorBlock *)(active->attributes);
-                Inv_BuildArmorList(D_8009D1E0);
+                *(BattleAttributes *)out = *active->attributes;
+                Inv_BuildArmorList((BattleAttributes *)D_8009D1E0);
             }
             if (Menu_GetBattleEquipMode()) D_8009D010 = 0x198;
             else Battle_DispatchSpecialAction(0x198);
