@@ -571,7 +571,6 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
     int i;
     register s32 *matrix asm("$10");
     register s32 *scratch asm("$24");
-    int offset;
     i = 0;
     asm("" : "=r"(entity), "=r"(view)
         : "0"(entity), "1"(view), "m"(frame[0]), "r"(i));
@@ -580,12 +579,11 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
         matrix = (s32 *)entity->matrices;
         scratch = (s32 *)0x1F800000;
         if (0 < count) {
-            offset = 0;
             asm("" : "=r"(scratch) : "0"(scratch));
             do {
                 RenderObjectPart *base = entity->parts;
-                RenderObjectPart *part = (RenderObjectPart *)((u8 *)base + offset);
-                asm volatile("" : "=r"(part) : "0"(part) : "memory");
+                RenderObjectPart *part = &base[i];
+                asm volatile("" ::: "memory");
                 Morph_Compose(view, matrix, scratch);
                 MorphLoadFullMatrix(scratch);
                 matrix += 8;
@@ -638,7 +636,6 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
                         } while (j < part->vertex_count);
                     }
                 }
-                offset += sizeof(RenderObjectPart);
                 i++;
             } while (i < entity->header->part_count);
         }
