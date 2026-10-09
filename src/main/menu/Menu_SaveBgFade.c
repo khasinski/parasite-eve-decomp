@@ -96,7 +96,7 @@ void Menu_SaveBgApplyFadeStep(void) {
         int color;
 
         if (pixel != 0) {
-            register int r asm("$7") = pixel & 0x1F;
+            int r = pixel & 0x1F;
             int g = (pixel >> 5) & 0x1F;
             int b = (pixel >> 10) & 0x1F;
             color = pixel & 0x8000;
@@ -107,8 +107,8 @@ void Menu_SaveBgApplyFadeStep(void) {
                 r = mixed >> 16;
             }
             g = (bias + (g << 16) - (attenuation * g)) >> 16;
-            color |= r;
             b = (bias + (b << 16) - (attenuation * b)) >> 16;
+            color |= r;
             *dst = color | (g << 5) | (b << 10);
         } else {
             *dst = 0;
