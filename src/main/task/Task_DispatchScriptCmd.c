@@ -2,6 +2,7 @@
 #include "common.h"
 #include "pe1/task_node.h"
 #include "pe1/vector_types.h"
+#include "pe1/render_lighting.h"
 
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
@@ -28,11 +29,6 @@ typedef struct TaskScriptArgs {
 #define ARG_WORD(ptr) (*(int *)(ptr))
 #define ARG_BYTE(ptr) (*(u8 *)(ptr))
 
-typedef struct ScriptMenuByte {
-    u8 value;
-    u8 pad1[8];
-} ScriptMenuByte;
-
 typedef struct ScriptMenuShort {
     s16 value;
     u8 pad2[7];
@@ -44,9 +40,8 @@ extern u8 *D_8009D2F0[];
 extern int D_8009CE00;
 u8 g_ScriptCameraBytes[3] __asm__("D_8009CDF8");
 extern u32 D_800B0CD8[];
-extern ScriptMenuByte g_ScriptMenuValue0 __asm__("D_800BD025");
-extern ScriptMenuByte g_ScriptMenuValue1 __asm__("D_800BD026");
-extern ScriptMenuByte g_ScriptMenuValue2 __asm__("D_800BD027");
+/* This absolute view keeps the light outside the interpreter GP window. */
+extern RenderLightColor g_ScriptLightColor[] __asm__("D_800BD025");
 extern ScriptMenuShort g_ScriptMenuPositionX __asm__("D_800BD028");
 extern ScriptMenuShort g_ScriptMenuPositionY __asm__("D_800BD02A");
 
@@ -194,9 +189,9 @@ cmd_a29:
         U8_AT(D_8009D2F0[0], 0x27D) = ARG_WORD(args->arg1);
         goto done;
 cmd_a8c:
-        g_ScriptMenuValue0.value = ARG_WORD(args->arg1);
-        g_ScriptMenuValue1.value = ARG_WORD(args->arg2);
-        g_ScriptMenuValue2.value = ARG_WORD(args->arg3);
+        g_ScriptLightColor[0].r = ARG_WORD(args->arg1);
+        g_ScriptLightColor[0].g = ARG_WORD(args->arg2);
+        g_ScriptLightColor[0].b = ARG_WORD(args->arg3);
         goto done;
 cmd_af0:
         Battle_DrawActiveStatus();
