@@ -29,11 +29,6 @@ typedef struct TaskScriptArgs {
 #define ARG_WORD(ptr) (*(int *)(ptr))
 #define ARG_BYTE(ptr) (*(u8 *)(ptr))
 
-typedef struct ScriptMenuShort {
-    s16 value;
-    u8 pad2[7];
-} ScriptMenuShort;
-
 extern u8 *D_8009D20C[];
 extern u8 *D_8009D254[];
 extern u8 *D_8009D2F0[];
@@ -42,8 +37,6 @@ u8 g_ScriptCameraBytes[3] __asm__("D_8009CDF8");
 extern u32 D_800B0CD8[];
 /* This absolute view keeps the light outside the interpreter GP window. */
 extern RenderLightColor g_ScriptLightColor[] __asm__("D_800BD025");
-extern ScriptMenuShort g_ScriptMenuPositionX __asm__("D_800BD028");
-extern ScriptMenuShort g_ScriptMenuPositionY __asm__("D_800BD02A");
 
 void Task_SetCollisionFlag(int value);
 void func_800E00CC(Pe1Vec3s *position, int mode, int arg2, int arg3,
@@ -148,8 +141,8 @@ cmd_898:
                                     ARG_WORD(args->arg1), ARG_WORD(args->arg2));
         goto done;
 cmd_899:
-        g_ScriptMenuPositionX.value = ARG_WORD(args->arg1);
-        g_ScriptMenuPositionY.value = ARG_WORD(args->arg2);
+        D_800BCF88.state.position.originX = ARG_WORD(args->arg1);
+        D_800BCF88.state.position.originY = ARG_WORD(args->arg2);
         goto done;
 cmd_8fc:
         Task_SetCollisionFlag(ARG_WORD(args->arg1) != 0);

@@ -301,7 +301,6 @@ int Render_SetEntryPosition(int index, int x, int y) {
     return 0;
 }
 
-extern short D_800BD028, D_800BD02A;
 extern u8 D_800BCFFA, D_800BCFFB;
 int Gpu_LoadGeomState(int);
 int Geo_RenderMeshList(void *buffer, void **end)
@@ -323,11 +322,11 @@ int Geo_RenderMeshList(void *buffer, void **end)
     x = (view->minX + view->maxX) / 2;
     {
         register short centerX = x;
-        D_800BD028 = centerX;
+        D_800BCF88.state.position.originX = centerX;
         D_800BCF8C.x = centerX;
     }
     minY = &view->minY;
-    D_800BCF8E = D_800BD02A = (*minY + view->maxY) / 2;
+    D_800BCF8E = D_800BCF88.state.position.originY = (*minY + view->maxY) / 2;
     asm volatile("":::"memory");
     D_800BCFAC = view->minX;
     asm volatile("":::"memory");
