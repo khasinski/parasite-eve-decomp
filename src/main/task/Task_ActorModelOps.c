@@ -9,7 +9,6 @@
 #include "pe1/global_slot.h"
 #include "common.h"
 #include "pe1/task_node.h"
-extern TaskNode *D_8009D300;
 #include "pe1/field_actor.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"

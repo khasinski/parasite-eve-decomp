@@ -49,7 +49,7 @@ int Task_SpawnChildNode(int **args) {
         entry->flags = 0;
         value <<= 1;
         value += base;
-        entry->current = value;
+        entry->current.value = value;
         {
             TaskNode *head = state->task_node_lists[2];
             seq++;
@@ -84,7 +84,7 @@ int Task_SpawnChildNode(int **args) {
             entry->prev = 0;
             entry->next = 0;
         }
-        entry->current = value;
+        entry->current.value = value;
         {
             u16 seq = g_TaskNodeSeqCounter;
             entry->trigger_value = 0;
@@ -361,7 +361,6 @@ finish:
 
 extern Pe1GlobalSlot D_8009D254;
 extern u8 *D_8009D2F0[];
-extern TaskNode *D_8009D300;
 extern int *D_8009CE00;
 
 int Math_FixedMul(int a, int b);

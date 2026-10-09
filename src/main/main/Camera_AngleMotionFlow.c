@@ -21,7 +21,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNode, target1c) == 0x1C,
 
 extern Pe1GlobalSlot D_8009D254;
 extern FieldActor *D_8009D2F0[];
-extern TaskNode *D_8009D300;
 extern int *D_8009CE00;
 
 int Math_FixedMul(int a, int b);

@@ -49,7 +49,7 @@ int Entity_AdvancePendingAnim(void) {
                 if (node->flags & 0x40) {
                     node->flags &= ~0x40;
                     if (node->next_value != 0) {
-                        node->current = node->next_value;
+                        node->current.value = node->next_value;
                         node->active = active;
                         node->flags &= ~0x20;
                     }
@@ -108,7 +108,7 @@ int Entity_AdvanceNodeById(int **arg0) {
                     node->flags &= ~0x40;
                     next_value = node->next_value;
                     if (next_value != 0) {
-                        node->current = next_value;
+                        node->current.value = next_value;
                         node->active = active_value;
                         node->flags &= ~0x20;
                     }

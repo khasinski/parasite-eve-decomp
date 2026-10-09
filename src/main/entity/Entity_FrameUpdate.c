@@ -397,7 +397,7 @@ void Entity_TickAnimSequences(FieldActor *arg0) {
         if (node != 0) {
             do {
                 if (node->next_value != 0) {
-                    node->current = node->next_value;
+                    node->current.value = node->next_value;
                     node->active = 1;
                     node->flags &= ~0x60;
                 }

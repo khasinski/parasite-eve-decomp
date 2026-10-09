@@ -4,20 +4,8 @@
 #include "common.h"
 #include "pe1/field_actor.h"
 
-/* Runtime view of a 0x2C-byte task node. The dispatcher reads flags as a
- * word initially, then tests the low halfword while checking pause gates. */
-typedef struct QueueNode {
-    u32 *script;
-    u32 next_value;
-    union { u32 word; u16 half[2]; } flags;
-    u32 field_0c;
-    u32 ticks;
-    u32 targets[4];
-    struct QueueNode *next;
-    struct QueueNode *prev;
-} QueueNode;
+#include "pe1/task_node.h"
 
-extern QueueNode *D_8009D300;
 extern u32 *D_8009CE00;
 extern u8 *D_8009D2F0[];
 extern u8 *D_8009D254[];

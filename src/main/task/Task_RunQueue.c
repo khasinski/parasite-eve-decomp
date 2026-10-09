@@ -4,15 +4,19 @@
  * contiguous -G8 pair sharing the script cursor D_8009CE00. */
 #include "pe1/task_queue.h"
 
+PE1_STATIC_ASSERT(sizeof(TaskNode) == 0x2C, interpreter_task_node_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNode, current) == 0, interpreter_script_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNode, active) == 0x10, interpreter_wait_offset);
+
 /* Tentative COMMON declarations preserve small-data metadata for stock
  * maspsx. Storage remains at the existing data/linker addresses. */
-QueueNode *D_8009D300;
+TaskNode *D_8009D300;
 u32 *D_8009CE00;
 
 void Task_RunQueue(void)
 {
     u32 *args[16];
-    QueueNode *node;
+    TaskNode *node;
     u8 *entity;
     u32 header, modes, tail, opcode;
     u32 *values;
@@ -21,15 +25,16 @@ void Task_RunQueue(void)
 
     do {
         node = D_8009D300;
-        if (node->flags.word & 0x50) continue;
+        /* Retail first reads flags and sequence together as a word. */
+        if (*(u32 *)&node->flags & 0x50) continue;
         entity = D_8009D2F0[0];
-        if ((((FieldActor *)entity)->flags & 0x1000) && !(node->flags.half[0] & 0x80)) continue;
-        if ((D_8009D1A0[0] & 0x100) && entity != D_8009D254[0] && !(node->flags.half[0] & 0x80)) continue;
+        if ((((FieldActor *)entity)->flags & 0x1000) && !(node->flags & 0x80)) continue;
+        if ((D_8009D1A0[0] & 0x100) && entity != D_8009D254[0] && !(node->flags & 0x80)) continue;
         node = D_8009D300;
-        if (node->ticks == 0) continue;
-        node->ticks--;
-        if (node->ticks != 0) continue;
-        D_8009CE00 = node->script;
+        if (node->active == 0) continue;
+        node->active = (u32)node->active - 1;
+        if (node->active != 0) continue;
+        D_8009CE00 = node->current.script;
         do {
             header = *D_8009CE00;
             D_8009CE00++;
@@ -56,7 +61,7 @@ void Task_RunQueue(void)
             }
         } while (D_800910A0[opcode](args));
         /* Handlers may replace both the current node and the script cursor. */
-        D_8009D300->script = D_8009CE00;
+        D_8009D300->current.script = D_8009CE00;
     } while ((D_8009D300 = D_8009D300->next) != 0);
 }
 

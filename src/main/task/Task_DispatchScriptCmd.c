@@ -1,7 +1,6 @@
 #include "pe1/geom_state.h"
 #include "common.h"
 #include "pe1/task_node.h"
-extern TaskNode *D_8009D300;
 #include "pe1/vector_types.h"
 
 /* CC1_FLAGS: -G8 */

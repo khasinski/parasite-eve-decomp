@@ -9,8 +9,14 @@ typedef union TaskNodeTarget18 {
     void *actor;
 } TaskNodeTarget18;
 
+/* A node carries either an event value or an interpreter script cursor. */
+typedef union TaskNodeCurrent {
+    int value;
+    unsigned int *script;
+} TaskNodeCurrent;
+
 typedef struct TaskNode {
-    /* 0x00 */ int current;
+    /* 0x00 */ TaskNodeCurrent current;
     /* 0x04 */ int next_value;
     /* 0x08 */ unsigned short flags;   /* |= 0x10 marks node free */
     /* 0x0A */ unsigned short seq;      /* sequence/id, matched in Entity_FindNodeById */
@@ -24,6 +30,7 @@ typedef struct TaskNode {
     /* 0x28 */ struct TaskNode *prev;
 } TaskNode;
 
+extern TaskNode *D_8009D300;
 extern TaskNode D_8009D310[72];
 
 TaskNode *Task_AllocNode(int current, TaskNode *previous);

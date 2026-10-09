@@ -10,7 +10,6 @@
 #include "pe1/menu_item_record.h"
 #include "common.h"
 #include "pe1/task_node.h"
-extern TaskNode *D_8009D300;
 #include "pe1/game_audio_state.h"
 
 extern int g_GameState[];
