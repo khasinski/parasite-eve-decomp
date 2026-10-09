@@ -93,15 +93,16 @@ int Menu_StepItemSelectScreen(MenuWidgetNode *node, unsigned int buttons)
             Menu_StepSkillList3(MenuWidget_FindByModeAndSelectedBase3(2, 5), 0);
             break;
         case 4:
-            if (!Battle_IsActiveWrapped()) goto battle_error;
-            CLOSE_SELECT_VIEWS();
-            Inv_SetActiveList(8, 0);
+            if (Battle_IsActiveWrapped()) {
+                CLOSE_SELECT_VIEWS();
+                Inv_SetActiveList(8, 0);
+            } else {
+                Menu_PlayErrorSound();
+                index = 1;
+                asm volatile("" : "=r"(index) : "0"(index));
+                return index;
+            }
             break;
-        battle_error:
-            Menu_PlayErrorSound();
-            index = 1;
-            asm volatile("" : "=r"(index) : "0"(index));
-            return index;
         case 5:
             CLOSE_SELECT_VIEWS();
             Menu_CreateMainMenuView(child);

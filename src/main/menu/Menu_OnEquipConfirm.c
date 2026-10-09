@@ -72,8 +72,7 @@ int Menu_StepEquipConfirm(MenuWidgetNode *node, int input) {
     handled = 0;
     child = MenuWidget_GetChild(node, 0);
 
-    if ((input & 0x10000) == 0) goto no_confirm;
-    {
+    if ((input & 0x10000) != 0) {
         item = Inv_GetPackedListItem(MenuWidget_GridCellIndex(child));
         if (D_8009CF1C != 0) {
             Inv_SelectActiveList(MenuWidget_GridCellIndex(
@@ -158,13 +157,11 @@ reserved:
 simple_confirm:
         Menu_OnEquipConfirm(node, 1);
         goto confirm;
-    }
 error:
-    handled = 1;
-    Menu_PlayErrorSound();
-    goto done;
-no_confirm:
-    if ((input & 0x1040) != 0) {
+        handled = 1;
+        Menu_PlayErrorSound();
+        goto done;
+    } else if ((input & 0x1040) != 0) {
         if (D_8009CF0C != 0) {
             MenuWidget_NavScrollTo(0x35);
             child->cursor_x = -1;
