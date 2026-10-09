@@ -58,15 +58,10 @@ ItemDataRecord *Inv_FindSlotByIndex(int id) {
 }
 
 static inline int FindActiveSlot(int value) {
-    /* Matching constraint: retail keeps the search key in $a3. */
-    register int key asm("$7") = value;
     s16 *p = D_8009D048, *end = p + D_8009D050;
     if (p < end) {
-        do {
-            if (*p == key)
-                break;
+        while (p < end && *p != value)
             p++;
-        } while (p < end);
         if (p < D_8009D048 + D_8009D050)
             return p - D_8009D048;
     }
