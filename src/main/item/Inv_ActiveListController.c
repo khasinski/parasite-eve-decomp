@@ -125,15 +125,12 @@ int Inv_LoadWayneItemsAsOverride(short *items) {
             }
 
             if ((base <= id) && (id < end)) {
-                u16 value;
                 int temp = id + 6;
 
                 id = temp - base;
                 temp = id + 0x200;
                 *out = temp;
-                value = (u16)items[1];
-                asm("" : : "r"(value) : "$2");
-                g_InvCategoryItemTable[id].count = value;
+                g_InvCategoryItemTable[id].count = (u16)items[1];
                 out++;
             } else {
                 *out = id;
