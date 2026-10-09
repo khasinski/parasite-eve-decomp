@@ -149,11 +149,7 @@ void MenuInput_EnqueueStatusChanges(int flags) {
         timer = D_8009D0F8 - 2;
         D_8009D0F8 = timer;
         if (timer < 0) {
-            if (flags_reg != 0 && timer < -0x5A) {
-                goto reset_repeat;
-            }
-            if ((timer & 3) == 0) {
-reset_repeat:
+            if ((flags_reg != 0 && timer < -0x5A) || (timer & 3) == 0) {
                 D_8009D0F0 = 0;
                 repeat_reset = 1;
             }
@@ -172,33 +168,31 @@ reset_repeat:
             released = mapped & ~previous;
         }
         if (released != 0) {
-            if (repeat_reset != 0 && (released & 0x40) != 0) {
-                goto done;
-            }
-            type = repeat_reset != 0 ? 2 : 1;
-            event = D_8009D0DC;
-            if (event != 0) {
-                register MenuInputQueuedEvent *next asm("$2");
-                int event_type;
-                event_type = type;
-                next = event->next;
-                tail = D_8009D0E4;
-                event->next = 0;
-                D_8009D0DC = next;
-                if (tail != 0) {
-                    tail->next = event;
-                } else {
-                    if (D_8009D0E0 != 0) {
-                        BoundsCheck_AssertStub(0x1F);
+            if (repeat_reset == 0 || (released & 0x40) == 0) {
+                type = repeat_reset != 0 ? 2 : 1;
+                event = D_8009D0DC;
+                if (event != 0) {
+                    register MenuInputQueuedEvent *next asm("$2");
+                    int event_type;
+                    event_type = type;
+                    next = event->next;
+                    tail = D_8009D0E4;
+                    event->next = 0;
+                    D_8009D0DC = next;
+                    if (tail != 0) {
+                        tail->next = event;
+                    } else {
+                        if (D_8009D0E0 != 0) {
+                            BoundsCheck_AssertStub(0x1F);
+                        }
+                        D_8009D0E0 = event;
                     }
-                    D_8009D0E0 = event;
+                    D_8009D0E4 = event;
+                    event->payload.input.type = event_type;
+                    event->payload.input.flags = released;
                 }
-                D_8009D0E4 = event;
-                event->payload.input.type = event_type;
-                event->payload.input.flags = released;
             }
         }
-done:
         D_8009D0F0 = mapped;
     } else if (mapped == 0) {
         D_8009D0E8 = 1;
