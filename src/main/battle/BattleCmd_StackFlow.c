@@ -16,7 +16,6 @@ int Inv_AddItem(int data);
 BattleCmdEntry *BattleCmd_AllocSlot(void) {
     BattleCmdEntry *top;
     BattleCmdEntry *end;
-    register BattleCmdEntry *dst asm("$7");
     BattleCmdEntry *limit;
     BattleCmdEntry *next;
 
@@ -28,14 +27,12 @@ BattleCmdEntry *BattleCmd_AllocSlot(void) {
     } else {
         top = end - 4;
         end = end - 1;
-        dst = top;
         if (top < end) {
             limit = end;
             do {
                 BattleCmdEntry *src = top + 1;
-                *dst = *src;
+                *top = *src;
                 top += 1;
-                dst = top;
             } while (top < limit);
         }
     }
