@@ -32,7 +32,7 @@ RECT *Asset_GetTimClutRect(TimFile *tim) {
     return 0;
 }
 
-RECT *Asset_GetTimImageRect(TimFile *tim) {
+static inline TimBlock *ImageBlock(TimFile *tim) {
     TimBlock *image;
     register int length asm("$3");
 
@@ -43,21 +43,15 @@ RECT *Asset_GetTimImageRect(TimFile *tim) {
     } else {
         image = &tim->first_block;
     }
-    return &image->rect;
+    return image;
+}
+
+RECT *Asset_GetTimImageRect(TimFile *tim) {
+    return &ImageBlock(tim)->rect;
 }
 
 int *Asset_GetTimImagePixels(TimFile *tim) {
-    TimBlock *image;
-    register int length asm("$3");
-
-    if (tim->flags & 8) {
-        length = tim->first_block.length;
-        image = &tim->first_block;
-        image = (TimBlock *)((char *)image + length);
-    } else {
-        image = &tim->first_block;
-    }
-    return image->pixels;
+    return ImageBlock(tim)->pixels;
 }
 
 int *Asset_GetTimClutPixels(TimFile *tim) {
