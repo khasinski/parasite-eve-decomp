@@ -33,13 +33,13 @@ s32 Battle_StepAyaAction(void)
   u32 targetEffectId;
   int hitCountMask;
   register u8 nextState asm("$2");
+  register s32 transfer asm("$2");
   u32 *targetFlags;
   finished = 0;
   switch (D_8009D25C)
   {
     case 0:
     {
-      register s32 transfer asm("$2");
       register int rate asm("$5");
       int mask;
       RenderObjectEntity *render;
@@ -319,7 +319,6 @@ s32 Battle_StepAyaAction(void)
     case 11:
     {
       BattleEntity *player = D_8009D254;
-      register s32 transfer asm("$2");
       s32 *saved;
       register u16 rotationZ asm("$3");
       s32 x;
