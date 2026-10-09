@@ -1,5 +1,6 @@
 #include "pe1/menu_inventory.h"
-extern char *g_CurrentEntity;
+#include "pe1/field_actor.h"
+extern FieldActor *g_CurrentEntity[];
 
 int Inv_AddItem(int arg0);
 
@@ -7,10 +8,10 @@ int Inv_CountByValue(int arg0);
 
 int Task_ScaleAnimValue(int **arg0) {
     int value = *arg0[0];
-    int scale = *(short *)(g_CurrentEntity + 0x224) * 2;
-    char *dst = *(char **)(g_CurrentEntity + 0x1B4);
+    int scale = (s16)g_CurrentEntity[0]->render_object.hit_cylinder.radius * 2;
+    RenderObjectHeader *dst = g_CurrentEntity[0]->render_object.header;
 
-    *(short *)(dst + 0x14) = (scale * value) >> 16;
+    dst->shadow_radius = (scale * value) >> 16;
     return 1;
 }
 
