@@ -4,11 +4,13 @@
 
 void Save_SerializeTail(void) {
     register u8 *cursor asm("$3");
-    register u8 *cd asm("$7");
-    register u8 *t asm("$2");
+    u8 *cd;
+    u8 *t;
 
-    cd = g_SaveIoCursor;
-    *(SaveBytes800 *)cd = g_EntityWorkBuffer;
+    {
+        u8 *entityDestination = g_SaveIoCursor;
+        *(SaveBytes800 *)entityDestination = g_EntityWorkBuffer;
+    }
 
     cursor = g_SaveIoCursor;
     g_SaveIoCursor = cursor + 0x800;
@@ -68,8 +70,10 @@ void Save_SerializeTail(void) {
     cursor = g_SaveIoCursor;
     g_SaveIoCursor = cursor + 0x18;
     *(SaveBytes8 *)(cursor + 0x18) = g_BattleEquipStateBlock;
-    t = g_SaveIoCursor;
-    g_SaveIoCursor = t + 8;
+    {
+        u8 *end = g_SaveIoCursor;
+        g_SaveIoCursor = end + 8;
+    }
 }
 
 void Save_DeserializeTail(void) {
