@@ -26,7 +26,6 @@ void Battle_ResetEnemyStats(int mode) {
     if ((mode & 0xFF) == 1) {
         D_8009D234[0] = 0x5A;
         D_8009D244 = 1;
-        asm volatile("" ::: "memory");
         actor->stateFlags |= 0x800000;
     } else {
         u32 state = actor->stateFlags;
@@ -35,7 +34,6 @@ void Battle_ResetEnemyStats(int mode) {
         state &= 0xFF7FFFFF;
         actor->stateFlags = state;
     }
-    asm volatile("" ::: "memory");
 
     clear_actor = D_8009D278;
     clear_flags = clear_actor->stateFlags;
