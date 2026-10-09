@@ -127,14 +127,14 @@ int Task_SetEntityActionAndWait(int **arg0) {
             state = g_CurrentEntityAfterAction[0];
             state->flags &= -0x101;
         }
-        goto pop_state;
     } else {
         FieldActor *state;
         int keep;
 
         state = g_CurrentEntity[0];
         if (state->action == 0) {
-            goto finish;
+            node->flags = flags & 0xFFDF;
+            return 1;
         }
         if (state->anim_step >= 0) {
             register unsigned int lhs asm("$2") = (u32)state->anim.fixed;
@@ -147,16 +147,12 @@ int Task_SetEntityActionAndWait(int **arg0) {
             int result = lhs < rhs;
             keep = result;
         }
-        if (keep == 0) {
-            goto pop_state;
+        if (keep != 0) {
+            node->flags = flags & 0xFFDF;
+            return 1;
         }
-
-finish:
-        node->flags = flags & 0xFFDF;
-        return 1;
     }
 
-pop_state:
     {
         int cursor = g_SceneDataTable0;
         TaskNode *active_node = g_TaskNodePool;
