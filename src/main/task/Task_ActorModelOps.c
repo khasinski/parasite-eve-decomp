@@ -70,10 +70,10 @@ int Task_SetGteMatrix(int **args) {
     setup_actor->render_object.model_matrix.translation[0] = Pe1Fixed_Integer(&setup_actor->pos_x);
     setup_actor->render_object.model_matrix.translation[1] = Pe1Fixed_Integer(&setup_actor->pos_y);
     setup_actor->render_object.model_matrix.translation[2] = Pe1Fixed_Integer(&setup_actor->pos_z);
-    U16_AT(setup_actor, 0x1E0) = U16_AT(setup_actor, 0x38);
-    U16_AT(setup_actor, 0x1E2) = U16_AT(setup_actor, 0x3A);
-    U16_AT(setup_actor, 0x1E4) = U16_AT(setup_actor, 0x3C);
-    RotMatrix((GteShortVector *)((u8 *)setup_actor + 0x1E0),
+    setup_actor->render_object.table_value2c = (u16)setup_actor->rot_x;
+    setup_actor->render_object.table_value2e = (u16)setup_actor->rot_y;
+    setup_actor->render_object.table_value30 = (u16)setup_actor->rot_z;
+    RotMatrix((GteShortVector *)&setup_actor->render_object.table_value2c,
               (GteMatrix *)&setup_actor->render_object.model_matrix);
 
     matrix_actor = D2F0_matrix[0];
