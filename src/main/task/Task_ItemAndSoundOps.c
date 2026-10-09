@@ -7,6 +7,7 @@
  * leaves it unchanged. */
 #include "pe1/scene_transition.h"
 #include "pe1/menu_inventory.h"
+#include "pe1/menu_item_record.h"
 #include "common.h"
 #include "pe1/task_node.h"
 
@@ -18,7 +19,6 @@ extern int g_GameStateFlagsWrite[] asm("g_GameStateFlags");
 
 void Menu_OpenStartupMemCardDialog(void);
 
-void Menu_CreateItemUsePanel(int arg0);
 extern short D_8009D2A4[];
 int MenuWidget_HasActiveNodes(void);
 

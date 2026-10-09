@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #include "pe1/inventory.h"
+#include "pe1/menu_item_record.h"
 
 int g_MenuEquipMode;
 int g_MenuItemRenameMode;
@@ -15,7 +16,6 @@ int MenuWidget_GetCurrentNode(void);
 void MenuWidget_ClearCursorY(int arg0);
 void Menu_CloseContextHelpPanel(void);
 int Inv_GetActiveListItem(int arg0);
-void Menu_CreateItemUsePanel(int arg0);
 
 void Draw_OffsetCursor(int arg0, int arg1);
 void Draw_StatePush(void);

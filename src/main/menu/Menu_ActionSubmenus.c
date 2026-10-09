@@ -1,3 +1,5 @@
+/* CC1_FLAGS: -G8 */
+#include "pe1/menu_item_record.h"
 #include "common.h"
 #include "pe1/inventory.h"
 #include "pe1/inventory_slots.h"
@@ -5,7 +7,6 @@
 #include "pe1/menu_widget.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
-int g_MenuActionItemData;
 int g_InvItemUsableFlag;
 int g_MenuActiveWidget;
 
@@ -15,12 +16,12 @@ void Menu_DrawActionCodeItem(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
 
 void Menu_DrawUsableItemActionList(int arg0) {
-    u8 *ptr;
+    ItemDataRecord *ptr;
 
     ptr = Inv_LookupActiveListData(Inv_RestoreSelection(0));
-    g_MenuActionItemData = (int) ptr;
-    g_InvItemUsableFlag = ptr[6] != 9;
-    Draw_SetPrimCallback(arg0, ptr[0x14]);
+    g_MenuActionItemData = ptr;
+    g_InvItemUsableFlag = ptr->kind != 9;
+    Draw_SetPrimCallback(arg0, ptr->tailCount);
     g_MenuActiveWidget = arg0;
     MenuWidget_DrawList(arg0, Menu_DrawActionCodeItem);
 }
@@ -28,7 +29,7 @@ void Menu_DrawUsableItemActionList(int arg0) {
 void Menu_SetupSkillSubmenu(int arg0) {
     int node;
     int other;
-    u8 *ptr;
+    ItemDataRecord *ptr;
 
     node = MenuWidget_FindByModeAndSelectedBase(1, 7);
     other = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
@@ -44,14 +45,14 @@ void Menu_SetupSkillSubmenu(int arg0) {
     }
 
     ptr = Inv_LookupActiveListData(Inv_RestoreSelection(1));
-    g_MenuActionItemData = (int)ptr;
-    Draw_SetPrimCallback(arg0, ptr[0x14]);
+    g_MenuActionItemData = ptr;
+    Draw_SetPrimCallback(arg0, ptr->tailCount);
     g_MenuActiveWidget = arg0;
     MenuWidget_DrawList(arg0, Menu_DrawActionCodeItem);
 }
 
 void Menu_DrawUsableItemActionList2(int arg0) {
-    int ptr;
+    ItemDataRecord *ptr;
 
     ptr = Inv_LookupActiveListData(Inv_RestoreSelection(1));
     g_MenuActionItemData = ptr;

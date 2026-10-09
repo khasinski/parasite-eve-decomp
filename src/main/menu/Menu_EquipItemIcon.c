@@ -1,7 +1,7 @@
+#include "pe1/menu_item_record.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-void *g_MenuSelectedItemData;
 
 void Draw_OffsetCursor(int x, int y);
 void Sfx_CursorRenderData(void *record);

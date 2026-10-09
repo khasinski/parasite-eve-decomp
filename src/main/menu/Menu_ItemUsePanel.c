@@ -1,3 +1,4 @@
+#include "pe1/menu_item_record.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "common.h"
@@ -14,7 +15,7 @@ void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void Queue_Init(void);
 void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_InvItemUsableFlag;
-u8 *g_MenuSelectedItemData;
+ItemDataRecord *g_MenuSelectedItemData;
 void Menu_DrawEquipStatsPanel(void);
 int Menu_HandleItemInput(int arg0, int arg1);
 void Menu_DrawEquipItemName(void);
@@ -31,12 +32,12 @@ void Menu_CreateItemUsePanel(int itemId) {
     s32 width;
     void *node;
     void *created;
-    void *data;
-    void *temp_v0;
+    ItemDataRecord *data;
+    ItemDataRecord *temp_v0;
 
     temp_v0 = Inv_LookupData(itemId);
     g_MenuSelectedItemData = temp_v0;
-    if ((u8) M2C_FIELD(temp_v0, u8 *, 6) < 0xAU) {
+    if (temp_v0->kind < 0xAU) {
         node = MenuWidget_CreateSimpleNode(5, 0, 0, 0);
         created = MenuWidget_CreateNode(5, node, node);
         M2C_FIELD(node, M2C_UNK **, 0x30) = &Menu_DrawEquipStatsPanel;
@@ -56,8 +57,8 @@ void Menu_CreateItemUsePanel(int itemId) {
         MenuWidget_ClearColumnLayout(created);
         data = g_MenuSelectedItemData;
         M2C_FIELD(created, s32 *, 0x3C) = 0x3E;
-        Draw_SetPrimCallback(created, M2C_FIELD(data, u8 *, 0x14));
-        g_InvItemUsableFlag = M2C_FIELD(g_MenuSelectedItemData, u8 *, 6) != 9;
+        Draw_SetPrimCallback(created, data->tailCount);
+        g_InvItemUsableFlag = g_MenuSelectedItemData->kind != 9;
     } else {
         node = MenuWidget_CreateSimpleNode(0x37, 0, 0, 0);
         M2C_FIELD(node, M2C_UNK **, 0x30) = &Menu_DrawEquipItemIcon;
@@ -75,23 +76,23 @@ M2C_UNK Draw_PrintNumberWidth4Unk(u8);                          /* extern */
 M2C_UNK Draw_PrintSignedNumberWidth4(s16);                         /* extern */
 
 void Menu_DrawEquipStatsPanel(void) {
-    void *temp_s0;
+    ItemDataRecord *temp_s0;
 
     Menu_DrawEquipStatsDelta(g_MenuSelectedItemData);
     temp_s0 = g_MenuSelectedItemData;
     if (temp_s0 != NULL) {
         Draw_OffsetCursor(0x2A, -0xC);
-        Draw_PrintNumberWidth4Unk(M2C_FIELD(temp_s0, u8 *, 9));
+        Draw_PrintNumberWidth4Unk(temp_s0->baseStats[2]);
         Draw_OffsetCursor(5, 0);
-        Draw_PrintSignedNumberWidth4(M2C_FIELD(temp_s0, s16 *, 0x12));
+        Draw_PrintSignedNumberWidth4(temp_s0->bonusStats[2]);
         Draw_OffsetCursor(-0x2D, -0xE);
-        Draw_PrintNumberWidth4Unk(M2C_FIELD(temp_s0, u8 *, 8));
+        Draw_PrintNumberWidth4Unk(temp_s0->baseStats[1]);
         Draw_OffsetCursor(5, 0);
-        Draw_PrintSignedNumberWidth4(M2C_FIELD(temp_s0, s16 *, 0x10));
+        Draw_PrintSignedNumberWidth4(temp_s0->bonusStats[1]);
         Draw_OffsetCursor(-0x2D, -0xE);
-        Draw_PrintNumberWidth4Unk(M2C_FIELD(temp_s0, u8 *, 7));
+        Draw_PrintNumberWidth4Unk(temp_s0->baseStats[0]);
         Draw_OffsetCursor(5, 0);
-        Draw_PrintSignedNumberWidth4(M2C_FIELD(temp_s0, s16 *, 0xE));
+        Draw_PrintSignedNumberWidth4(temp_s0->bonusStats[0]);
         Draw_OffsetCursor(-0x2D, -0xA);
         Draw_AllocSprite(0x87);
         Draw_OffsetCursor(0x19, 0);
@@ -101,13 +102,13 @@ void Menu_DrawEquipStatsPanel(void) {
 
 int Menu_HandleItemInput(int arg0, int arg1) {
     int value;
-    u8 *ptr;
+    ItemDataRecord *ptr;
 
     if ((arg1 & 0x10040) != 0) {
         if (g_MenuItemDiscardMode != 0) {
             ptr = g_MenuSelectedItemData;
             g_MenuItemDiscardMode = 0;
-            value = ptr[4];
+            value = ptr->itemId;
             Inv_SetActiveList(0, &value);
         } else {
             Inv_SetActiveList(9, 0);
@@ -119,5 +120,5 @@ int Menu_HandleItemInput(int arg0, int arg1) {
 
 void Menu_DrawEquipItemName(void) {
     Draw_OffsetCursor(4, 4);
-    Draw_PrintRawText(Str_LookupTableC(g_MenuSelectedItemData[4] - 1));
+    Draw_PrintRawText(Str_LookupTableC(g_MenuSelectedItemData->itemId - 1));
 }

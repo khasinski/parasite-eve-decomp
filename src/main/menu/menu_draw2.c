@@ -1,9 +1,9 @@
+#include "pe1/menu_item_record.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/menu_context_help.h"
 #include "pe1/text.h"
 
-extern unsigned char *g_MenuActionItemData;
 extern int g_InvItemUsableFlag;
 
 void Draw_AllocSprite(int);
@@ -14,8 +14,8 @@ int Inv_GetPackedListItem(int);
 void Menu_DrawActionCodeItem(int arg0) {
     int code;
 
-    if (arg0 < g_MenuActionItemData[0x14]) {
-        code = (&g_MenuActionItemData[arg0])[0x15] & 0x1F;
+    if (arg0 < g_MenuActionItemData->tailCount) {
+        code = g_MenuActionItemData->tailData[arg0] & 0x1F;
         if (code == 0) {
             return;
         }
