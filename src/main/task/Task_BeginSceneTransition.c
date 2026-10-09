@@ -4,7 +4,7 @@
 #include "pe1/task_node.h"
 extern int g_GameState[];
 extern int g_SceneDataTable0;
-extern int *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 extern int g_GameStateFlags[];
 extern int g_GameStateFlagsWrite[] asm("g_GameStateFlags");
 
@@ -21,7 +21,7 @@ int Task_BeginSceneTransition(int **arg0) {
         goto ret_one;
     }
 
-    node = g_TaskNodePool;
+    node = (int *)g_TaskNodePool;
     flags = *(unsigned short *)(node + 2);
     if (flags & 0x20) {
         goto finish;
@@ -38,7 +38,7 @@ finish:
     Menu_OpenEquipScreen(**saved);
     {
         register int ret asm("$2") = state[0];
-        TaskNode *tail_node = (TaskNode *)g_TaskNodePool;
+        TaskNode *tail_node = g_TaskNodePool;
 
         int tail_flags;
         asm volatile("" : : "r"(ret), "r"(tail_node));
@@ -69,14 +69,14 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         goto ret_zero;
     }
 
-    node = (TaskNode *)g_TaskNodePool;
+    node = g_TaskNodePool;
     flags = node->flags;
     if (flags & 0x20) {
         Render_BeginSceneLoad();
         Menu_OpenSaveLoadEntryPoint(**saved);
         {
             register int ret asm("$2") = state[0];
-            TaskNode *tail_node = (TaskNode *)g_TaskNodePool;
+            TaskNode *tail_node = g_TaskNodePool;
             int tail_flags;
 
             asm volatile("" : : "r"(ret), "r"(tail_node));
@@ -97,7 +97,7 @@ int Task_OpenSaveLoadMenu(int **arg0) {
     }
 
     {
-        TaskNode *mark_node = (TaskNode *)g_TaskNodePool;
+        TaskNode *mark_node = g_TaskNodePool;
         int one = 1;
 
         mark_node->active = one;
