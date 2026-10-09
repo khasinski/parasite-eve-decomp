@@ -136,7 +136,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
     case 10: {
         BattleEntity *current = D_8009D254;
         if (current->animLastFrame != ((u16 *)&current->animFrame)[1])
-            goto finish;
+            break;
         if (D_8009CE38[0] != 0) {
             D_8009CE38[0]--;
         } else if (D_8009CE39 != 0) {
@@ -145,7 +145,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
             goto ready;
         }
         current->entityFlags |= 0x100;
-        goto finish;
+        break;
     ready:
         }
         D_8009D274 = 0;
@@ -158,14 +158,14 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         (*(BattleEntity **)battle_entity_after_set)->entityFlags &= ~0x100;
         D_8009D1DC = (*(volatile u32 *)&(*(Combatant **)battle_actor_group_2)->action->turnWord) & 0xF;
         Battle_FinalizeAttackResult();
-        goto finish;
+        break;
 
     case 7:
     case 9:
     case 11:
         caseEntity = D_8009D254;
         if (caseEntity->animLastFrame != caseEntity->animPrev.parts.integer)
-            goto finish;
+            break;
         indexB = D_8009D1D4;
         if (D_800BE830[indexB].field04 == 0x189) {
             idleActor = (*(Combatant **)battle_actor_group_3);
@@ -191,7 +191,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
             Entity_SetActionMode(D_8009D254, active->actionMode12);
             (*(Combatant **)battle_actor_group_5)->stateFlags |= 0x200000;
             { u8 animMode = (*(Combatant **)battle_actor_group_5)->action->animMode[0]; PE1_NOP(); D_8009CE38[0] = animMode; }
-            result = 1; goto finish;
+            result = 1; break;
         }
         }
         { EnemyCombatant *enemy = (EnemyCombatant *)((BattleInitSlot *)((u8 *)D_800BE830 + offset))->actor->core; if (!(enemy->hpAlive > 0 && enemy)) {
@@ -218,7 +218,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
                 { u32 turnWord = postAction->turnWord;
                 D_8009CE39 += D_8009CE3A;
                 D_8009D1DC = turnWord & 0xF; } } }
-            goto finish;
+            break;
         }
         }
         if (BattleCmd_CommitAmmoAndUpdate()) {
@@ -226,9 +226,9 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
             Akao_SetPos3D(1, 0, (*(BattleEntity **)battle_entity_alias_2)->posX.parts.integer,
                           (*(BattleEntity **)battle_entity_alias_2)->posY.parts.integer, (*(BattleEntity **)battle_entity_alias_2)->posZ.parts.integer);
         action_done:
-            result = 1; asm volatile(""); goto finish;
+            result = 1; asm volatile(""); break;
         }
-        result = 1; goto finish;
+        result = 1; break;
 
     alternate:
         if (activeAction->attackWord & 0x3FF) {
@@ -244,39 +244,38 @@ asm volatile("" : : "r"(enemy));
             Entity_SetActionMode(caseEntity, active->actionMode12);
             (*(Combatant **)battle_actor_group_13)->stateFlags |= 0x200000;
             D_8009D1DC = (*(volatile u32 *)&(*(Combatant **)battle_actor_group_13)->action->turnWord) & 0xF;
-            result = 1; goto finish;
+            result = 1; break;
             target_alive:
             D_8009D1DC = nextRetry;
             Battle_FinalizeAttackResult();
-            goto finish;
+            break;
             }
         }
         if (BattleCmd_CommitAmmoAndUpdate()) {
             Entity_SetActionMode((*(BattleEntity **)battle_entity_alias_4), 0xC);
             Akao_SetPos3D(1, 0, (*(BattleEntity **)battle_entity_alias_5)->posX.parts.integer,
                           (*(BattleEntity **)battle_entity_alias_5)->posY.parts.integer, (*(BattleEntity **)battle_entity_alias_5)->posZ.parts.integer);
-            goto finish;
+            break;
         }
         idleActor = (*(Combatant **)battle_actor_group_16);
         idleEntity = (*(BattleEntity **)battle_entity_alias_6);
     set_idle:
         result = 1;
         Entity_SetActionMode(idleEntity, idleActor->actionMode12);
-        goto finish;
+        break;
     default:
         indexDefault = D_8009D1D4;
         if (D_800BE830[indexDefault].field04 == 0x189)
-            goto finish;
+            break;
         D_8009D1D4 = indexDefault + 1;
         if ((u8)(indexDefault + 1) != D_8009CE3C)
-            goto finish;
+            break;
         if (D_8009D200 < 0)
-            goto finish;
+            break;
         if ((*(Combatant **)battle_actor_group_17)->action->actionCode.actionId != 8)
             Pm_SendCmd(D_8009D200, 0, 0, 2, 0, 0);
         Pm_SendCmd(D_8009D2FC, 0, 0, 2, 0, 0);
-        goto finish;
+        break;
     }
-finish:
     return result;
 }
