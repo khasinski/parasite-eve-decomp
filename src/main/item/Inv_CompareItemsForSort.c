@@ -266,7 +266,6 @@ extern s8 g_AyaEquippedWeaponSlot[];
 #define g_AyaEquippedWeaponSlot (g_AyaEquippedWeaponSlot[0])
 extern s8 g_AyaEquippedArmorSlot[];
 #define g_AyaEquippedArmorSlot (g_AyaEquippedArmorSlot[0])
-void *Inv_LookupData(unsigned int arg0);
 extern s16 g_AyaInventoryItems[];
 #define g_AyaInventoryItems (g_AyaInventoryItems[0])
 

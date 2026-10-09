@@ -90,6 +90,7 @@ int Inv_GetActiveListItemType(int index);
 void Item_SetDisabledFlag(int itemId, int enabled);
 int Inv_FindIndexByData(void *needle);
 void Inv_BuildFilteredPackedList(int mask);
+ItemDataRecord *Inv_LookupData(int itemId);
 ItemDataRecord *Inv_LookupActiveListData(int index);
 ItemDataRecord *Item_LookupBaseData(unsigned int index);
 void Inv_ClearEquipFlagForKind(ItemDataRecord *record);

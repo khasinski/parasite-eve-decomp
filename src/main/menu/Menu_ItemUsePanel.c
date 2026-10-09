@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "common.h"
 #include "pe1/menu_widget.h"
+#include "pe1/inventory.h"
 #include "../../../tools/m2c/m2c_macros.h"
 
 /* Item use/discard panel: creation, its input handler and the item name
@@ -10,7 +11,6 @@
 #define NULL ((void *)0)
 void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-void *Inv_LookupData();
 void Queue_Init(void);
 void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_InvItemUsableFlag;
@@ -27,14 +27,14 @@ void Menu_PlayConfirmSound(void);
 u8 *Str_LookupTableC(unsigned int index);
 void Draw_PrintRawText(u8 *arg0);
 
-void Menu_CreateItemUsePanel(void) {
+void Menu_CreateItemUsePanel(int itemId) {
     s32 width;
     void *node;
     void *created;
     void *data;
     void *temp_v0;
 
-    temp_v0 = Inv_LookupData();
+    temp_v0 = Inv_LookupData(itemId);
     g_MenuSelectedItemData = temp_v0;
     if ((u8) M2C_FIELD(temp_v0, u8 *, 6) < 0xAU) {
         node = MenuWidget_CreateSimpleNode(5, 0, 0, 0);

@@ -6,7 +6,7 @@
 
 /* Inventory item-ID and active-slot lookup helpers. */
 
-void *Inv_LookupData(unsigned int arg0) {
+ItemDataRecord *Inv_LookupData(int arg0) {
     if ((arg0 - 0x100U) < 0x80U) {
         return &D_800C0E20.equipment[arg0 - 0x100];
     }
@@ -19,7 +19,7 @@ void *Inv_LookupData(unsigned int arg0) {
         return 0;
     }
 
-    return &g_KeyItemDataTable[arg0 << 5];
+    return (ItemDataRecord *)&g_KeyItemDataTable[arg0 << 5];
 }
 
 int g_InvSlotLimit;
