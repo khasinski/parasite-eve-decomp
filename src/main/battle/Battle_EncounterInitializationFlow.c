@@ -10,6 +10,7 @@ void Battle_ResetEnemyStats(int mode) {
     Combatant *actor;
     Combatant *clear_actor;
     register s32 flags asm("$2");
+    u32 clear_flags;
 
     actor = D_8009D278;
     if ((s16)actor->maxHP < (s16)actor->curHP) {
@@ -39,30 +40,30 @@ void Battle_ResetEnemyStats(int mode) {
     asm volatile("" ::: "memory");
 
     clear_actor = D_8009D278;
-    flags = clear_actor->stateFlags;
+    clear_flags = clear_actor->stateFlags;
     clear_actor->panelA_timer = 0;
-    flags &= -4;
-    flags &= -0xD;
-    flags &= -0x31;
-    flags &= -0xC1;
-    flags &= -0x101;
-    flags &= -0x201;
-    flags &= -0x401;
-    flags &= -0x801;
-    flags &= -0x1001;
-    flags &= -0x2001;
-    flags &= -0x4001;
-    flags &= 0xFFFF7FFF;
-    flags &= 0xFFF7FFFF;
-    flags &= 0xFFFEFFFF;
-    flags &= 0xFFF9FFFF;
-    flags &= 0xFFEFFFFF;
-    flags &= 0xFFDFFFFF;
-    flags &= 0xFEFFFFFF;
-    flags &= 0xF1FFFFFF;
-    flags &= 0xEFFFFFFF;
-    flags &= 0xDFFFFFFF;
-    clear_actor->stateFlags = flags;
+    clear_flags &= -4;
+    clear_flags &= -0xD;
+    clear_flags &= -0x31;
+    clear_flags &= -0xC1;
+    clear_flags &= -0x101;
+    clear_flags &= -0x201;
+    clear_flags &= -0x401;
+    clear_flags &= -0x801;
+    clear_flags &= -0x1001;
+    clear_flags &= -0x2001;
+    clear_flags &= -0x4001;
+    clear_flags &= 0xFFFF7FFF;
+    clear_flags &= 0xFFF7FFFF;
+    clear_flags &= 0xFFFEFFFF;
+    clear_flags &= 0xFFF9FFFF;
+    clear_flags &= 0xFFEFFFFF;
+    clear_flags &= 0xFFDFFFFF;
+    clear_flags &= 0xFEFFFFFF;
+    clear_flags &= 0xF1FFFFFF;
+    clear_flags &= 0xEFFFFFFF;
+    clear_flags &= 0xDFFFFFFF;
+    clear_actor->stateFlags = clear_flags;
 
     D_8009D278->panelB_timer = 0;
     D_8009D278->panelAux_timer = 0;
