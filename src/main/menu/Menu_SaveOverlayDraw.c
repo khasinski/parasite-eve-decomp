@@ -6,23 +6,22 @@
 void Menu_SaveOverlayDraw(void)
 {
     short color;
-    int x, y;
-    /* Matching debt: preserve the reloaded notification state in a0. */
-    register int state asm("$4");
+    int y;
+    int value;
     switch (D_8009D1CE) {
     case 1:
         color = -1;
         Tbl_ResetAll();
-        x = Save_GetMetadataWindowIndex() ? 20 : 97;
+        value = Save_GetMetadataWindowIndex() ? 20 : 97;
         y = D_8009CE80 < 2 ? 15 : 195;
-        Menu_SetTextCursorRect(x, y, 0, 0);
+        Menu_SetTextCursorRect(value, y, 0, 0);
         Render_SetupColorTable(0, 2, &color);
-        state = D_8009D1CE;
+        value = D_8009D1CE;
         g_TextboxEntries[0].state = 2;
         D_8009CE88 = 75;
         g_TextboxEntries[0].message = D_8009D1F8;
-        state++;
-        D_8009D1CE = state;
+        value++;
+        D_8009D1CE = value;
         g_TextboxEntries[0].control.flags |= 0x2000000;
         break;
     case 2:
