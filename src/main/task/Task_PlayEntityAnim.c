@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/field_actor.h"
 #include "pe1/global_slot.h"
+#include "pe1/task_node.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -10,31 +11,31 @@ extern FieldActor *current_entity_post[] __asm__("D_8009D2F0");
 extern FieldActor *g_PlayerEntity[] __asm__("D_8009D254");
 extern Pe1GlobalSlot entity_control_load __asm__("D_8009D2E8");
 extern Pe1GlobalSlot entity_control_store __asm__("D_8009D2E8");
-extern FieldActorState *g_CurrentTaskState __asm__("D_8009D300");
+extern TaskNode *D_8009D300;
 extern s16 *g_ScriptCursor __asm__("D_8009CE00");
 extern RenderObjectEntity D_800B0CEC;
 
 void Anim_SetInterpRate(RenderObjectEntity *object, int rate);
 
 int Task_PlayEntityAnim(s16 **args) {
-    FieldActorState *task_state;
+    TaskNode *task_state;
     FieldActor *actor;
     FieldActor *post_actor;
     FieldActor *player;
     u32 control_flags;
     u16 progress;
 
-    task_state = g_CurrentTaskState;
-    progress = *(u16 *)&task_state->progress;
+    task_state = D_8009D300;
+    progress = task_state->flags;
     if (progress & 0x20) {
         if (!(current_entity_wait[0]->render_object.flags_9C & 4)) {
-            *(u16 *)&task_state->progress = progress & ~0x20;
+            task_state->flags = progress & ~0x20;
             return 1;
         }
     } else {
         actor = current_entity_start[0];
         actor->flags &= ~0x40;
-        *(u16 *)&task_state->progress |= 0x20;
+        task_state->flags |= 0x20;
         Anim_SetInterpRate(&actor->render_object, *args[0]);
         post_actor = current_entity_post[0];
         player = g_PlayerEntity[0];
@@ -50,6 +51,6 @@ int Task_PlayEntityAnim(s16 **args) {
     }
 
     g_ScriptCursor -= 6;
-    g_CurrentTaskState->control10.command_value = 1;
+    D_8009D300->active = 1;
     return 0;
 }
