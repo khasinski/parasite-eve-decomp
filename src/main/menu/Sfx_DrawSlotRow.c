@@ -30,7 +30,7 @@ void Sfx_DrawSlotRow(ItemDataRecord *entry, u8 *text) {
         }
     }
 
-    Draw_AllocSprite(((u8 *)entry)[0] - 1);
+    Draw_AllocSprite(entry->pad_00[0] - 1);
     Draw_OffsetCursor(0x12, 0);
 
     if (text != 0) {
