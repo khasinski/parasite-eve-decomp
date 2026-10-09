@@ -33,12 +33,9 @@ s32 Entity_QueryField(s32 *args[]) {
         node = g_FieldActorListHead;
         if (node != NULL) {
             s32 k = *(s32 *)*(s32 * volatile *)&args[1];
-loop:
-            if ((node->type_id != k) || (node->sub_id != *args[2]) || (node->flags & 0x10)) {
+            while (node != NULL && ((node->type_id != k) ||
+                   (node->sub_id != *args[2]) || (node->flags & 0x10))) {
                 node = node->next;
-                if (node != NULL) {
-                    goto loop;
-                }
             }
             if (node == NULL) {
                 goto not_found;
@@ -107,13 +104,9 @@ s32 Entity_GetDistanceComponents(s32 *args[]) {
     if (node != NULL) {
         s32 key;
         key = key0;
-loop_4:
-        if ((node->type_id != key) || (node->sub_id != *args[1]) ||
-            (node->flags & 0x10)) {
+        while (node != NULL && ((node->type_id != key) ||
+               (node->sub_id != *args[1]) || (node->flags & 0x10))) {
             node = node->next;
-            if (node != NULL) {
-                goto loop_4;
-            }
         }
         if (node != NULL) {
             goto block_10;
