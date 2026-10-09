@@ -1,22 +1,13 @@
 /* CC1_FLAGS: -fno-strength-reduce */
 #include "common.h"
-typedef struct {
-    s16 values[4];
-} HalfwordBlock8;
+#include "pe1/field_textured_chain_node.h"
 
 int rand(void);
 int func_800C6B20(void *arg0);
 
-typedef struct {
-    u8 state;
-    u8 pad1;
-    u8 pad2;
-    u8 random;
-    u16 timer;
-} RingEntry;
 
 int func_800C5EB0(char *data, void *unused, int *hit) {
-    HalfwordBlock8 local[5];
+    GteShortVector local[5];
     char *data_s3 = data;
     char *entries;
     int *hit_s4;
@@ -40,25 +31,25 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
     countMinus -= 1;
     i = 0;
     if (countMinus != 0) {
-        register char *entry asm("$17");
+        register FieldTexturedChainNode *entry asm("$17");
         char *body;
-        entry = entries;
+        entry = (FieldTexturedChainNode *)entries;
         body = entries + 4;
         do {
             int rnd = rand();
 
             body[-1] = rnd % 4;
 
-            if (entry[0] == 2) {
-                local[0] = *(HalfwordBlock8 *)(body + 16);
-                local[1] = *(HalfwordBlock8 *)(body + 24);
-                local[2] = *(HalfwordBlock8 *)(body + 84);
-                local[3] = *(HalfwordBlock8 *)(body + 92);
+            if (entry->visible == 2) {
+                local[0] = *(GteShortVector *)(body + 16);
+                local[1] = *(GteShortVector *)(body + 24);
+                local[2] = *(GteShortVector *)(body + 84);
+                local[3] = *(GteShortVector *)(body + 92);
 
-                local[0].values[1] = 0;
-                local[1].values[1] = 0;
-                local[2].values[1] = 0;
-                local[3].values[1] = 0;
+                local[0].y = 0;
+                local[1].y = 0;
+                local[2].y = 0;
+                local[3].y = 0;
 
                 if (func_800C6B20(local) == 1) {
                     *hit_s4 = 1;
@@ -68,12 +59,12 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
                     *(u16 *)body -= 0xC;
                 } else {
                     *(u16 *)body = 0;
-                    entry[0] = 0;
+                    entry->visible = 0;
                 }
             }
             i++;
             body += 0x44;
-            entry += 0x44;
+            entry++;
         } while (i < *(s16 *)(data_s3 + 0x4) - 1);
     }
 
