@@ -14,44 +14,52 @@ int func_800CA4A8(void *arg0, FieldEngSlot *state) {
 }
 
 #include "common.h"
-int func_800CA4B4(void *arg0, FieldEngSlot *state, FieldAnimMovingParticle *anim) {
-    FieldEngSlot *state_a3 = state;
-    FieldAnimMovingParticle *anim_a2 = anim;
-    int temp_v0;
-    int temp_v1;
-    register int temp_a0 asm("$4");
-    register int temp_a1 asm("$5");
-    u8 count;
-
-    temp_v0 = anim_a2->position.x;
-    temp_v1 = *(u16 *)&anim_a2->velocity.x;
-    temp_a0 = *(u16 *)&anim_a2->velocity.y;
-    temp_a1 = *(u16 *)&anim_a2->velocity.z;
-
-    temp_v0 += temp_v1;
-    anim_a2->position.x = temp_v0;
-    temp_v0 = anim_a2->position.y;
-    temp_v1 = anim_a2->position.z;
-    temp_v0 += temp_a0;
-    temp_v1 += temp_a1;
-    anim_a2->position.y = temp_v0;
-    temp_v0 = *(u16 *)&anim_a2->velocity.y;
-    temp_a0 = (unsigned int)anim_a2;
-    anim_a2->position.z = temp_v1;
-    temp_v1 = anim_a2->age;
-    temp_v0 += 3;
-    *(u16 *)&anim_a2->velocity.y = temp_v0;
-    temp_v0 = (s16)anim_a2->position.y;
-    temp_v1++;
-    anim_a2->age = temp_v1;
-    if (temp_v0 > 0) {
-        *(u16 *)&anim_a2->velocity.y = -*(u16 *)&anim_a2->velocity.y;
-    }
-    count = ((FieldAnimMovingParticle *)temp_a0)->lifetime;
-    ((FieldAnimMovingParticle *)temp_a0)->lifetime = count - 1;
-    if (count == 0) {
-        state_a3->flag = 2;
-    }
+int func_800CA4B4(void *arg0, FieldEngSlot *state, FieldAnimMovingParticle *anim)
+{
+  u16 coordinate;
+  FieldEngSlot *state_a3 = state;
+  FieldAnimMovingParticle *anim_a2 = anim;
+  int temp_v0;
+  int temp_v1;
+  u16 positionY;
+  register int temp_a0 asm("$4");
+  u16 *velocityY;
+  u16 velocityZ;
+  u8 count;
+  temp_v0 = anim_a2->position.x;
+  coordinate = anim_a2->position.y;
+  positionY = coordinate;
+  velocityY = (u16 *)&anim_a2->velocity.y;
+  temp_v1 = *((u16 *) (&anim_a2->velocity.x));
+  coordinate = anim_a2->position.z;
+  temp_a0 = *velocityY;
+  temp_v0 += temp_v1;
+  anim_a2->position.x = temp_v0;
+  velocityZ = *((u16 *) (&anim_a2->velocity.z));
+  temp_v0 = positionY;
+  temp_v1 = coordinate;
+  temp_v0 += temp_a0;
+  temp_v1 += velocityZ;
+  anim_a2->position.y = temp_v0;
+  temp_v0 = *velocityY;
+  temp_a0 = (unsigned int) anim_a2;
+  anim_a2->position.z = temp_v1;
+  temp_v1 = anim_a2->age;
+  temp_v0 += 3;
+  *((u16 *) (&anim_a2->velocity.y)) = temp_v0;
+  temp_v0 = (s16) anim_a2->position.y;
+  temp_v1++;
+  anim_a2->age = temp_v1;
+  if (temp_v0 > 0)
+  {
+    *((u16 *) (&anim_a2->velocity.y)) = -(*velocityY);
+  }
+  count = ((FieldAnimMovingParticle *) temp_a0)->lifetime;
+  ((FieldAnimMovingParticle *) temp_a0)->lifetime = count - 1;
+  if (count == 0)
+  {
+    state_a3->flag = 2;
+  }
 }
 
 #include "common.h"
