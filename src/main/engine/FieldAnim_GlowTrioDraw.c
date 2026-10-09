@@ -5,14 +5,13 @@
 /* CC1_FLAGS: -fno-schedule-insns */
 
 
-extern u8 D_800E2254;
 
 int func_800CD404(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s2 = anim;
     int *field_s1;
-    u8 *color_a3;
+    u8 *cell;
     int *position_v0;
-    register u8 *call_a0 asm("$4");
+    register FieldGlowSprite *call_a0 asm("$4");
     register int *call_a1 asm("$5");
     register int call_a2 asm("$6");
     int value_v0;
@@ -26,8 +25,8 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    color_a3 = &D_800E2254;
-        call_a0 = color_a3 - 4;
+    cell = &D_800E2250.cell;
+        call_a0 = (FieldGlowSprite *)(cell - PE1_OFFSETOF(FieldGlowSprite, cell));
         position_v0 = &D_800F33C0.t[0];
     value_v1 = *(s16 *)(anim_s2 + 0x8);
     call_a1 = position_v0 - 5;
@@ -41,13 +40,13 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
     shade = anim_s2[3];
     asm volatile("" ::: "$17");
     field_s1 = &D_800F32B0.t[0];
-    *color_a3 = (shade * 2) - 0x80;
-    func_800C42A4((FieldGlowSprite *)call_a0, (GteMatrix *)call_a1, call_a2);
+    *cell = (shade * 2) - 0x80;
+    func_800C42A4(call_a0, (GteMatrix *)call_a1, call_a2);
 
     func_800C3238(3);
 
     do {
-        call_a0 = (u8 *)&D_800F3460;
+        call_a0 = &D_800F3460;
                 entry_v0 = (int)(anim_s2 + ((i & 0xFFFF) * 8));
         value_v1 = *(s16 *)(entry_v0 + 0x10);
         call_a1 = field_s1 - 5;
@@ -59,6 +58,6 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
         asm volatile("" : "=r"(value_v0) : "0"(value_v0));
         field_s1[2] = value_v0;
         i++;
-        func_800C42A4((FieldGlowSprite *)call_a0, (GteMatrix *)call_a1, call_a2);
+        func_800C42A4(call_a0, (GteMatrix *)call_a1, call_a2);
     } while ((i & 0xFFFFU) < 2);
 }
