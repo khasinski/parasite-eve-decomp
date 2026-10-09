@@ -78,8 +78,7 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
         } else if ((unsigned int)(item_id - 1) < 0xFF) {
             resolved = Item_LookupBaseData(item_id - 1);
         } else if ((unsigned int)(saved_id - 0x200) < 9) {
-            scaled_id = saved_id << 5;
-            resolved = (ItemDataRecord *)(D_8009DE64 + scaled_id);
+            resolved = &((ItemDataRecord *)D_8009DE64)[saved_id];
         } else {
             resolved = 0;
         }
@@ -100,8 +99,7 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
         } else if ((unsigned int)(item_id - 1) < 0xFF) {
             resolved = Item_LookupBaseData(item_id - 1);
         } else if ((unsigned int)(saved_id - 0x200) < 9) {
-            scaled_id = saved_id << 5;
-            resolved = (ItemDataRecord *)(D_8009DE64 + scaled_id);
+            resolved = &((ItemDataRecord *)D_8009DE64)[saved_id];
         } else {
             resolved = 0;
         }
