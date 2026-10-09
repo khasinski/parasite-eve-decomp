@@ -178,7 +178,6 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
     M2C_UNK sp28;
     s32 var_v0_2;
     register s32 tld2 asm("$2");
-    register s8 var_v0 asm("$2");
     u32 temp_a1;
     u8 temp_v1;
     u8 tce6;
@@ -189,8 +188,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
     void *playerForAnimation;
     void *playerForScaleUpdate;
     u32 th1;
-    register u8 k0e asm("$2");
-    register u8 ttb asm("$2");
+    register u8 phaseByte asm("$2");
 
     arg0v = arg0;
     gameState = &g_GameState;
@@ -199,22 +197,22 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
         g_GameStateFlagsCase32.flags = g_GameStateFlagsCase32.flags | 0x20000;
         if (arg0v != 0) {
             temp_v1 = g_SceneAreaType;
-            k0e = 0xE;
-            (*(u8 *)&D_800B0CE2_w) = k0e;
+            phaseByte = 0xE;
+            (*(u8 *)&D_800B0CE2_w) = phaseByte;
             g_SceneAreaTypeDiscSwapBackup = temp_v1;
-            var_v0 = 0x21;
+            phaseByte = 0x21;
             goto block_20;
         } else {
-            ttb = g_SceneAreaTypeDiscSwapBackup;
-            g_SceneAreaType = ttb;
-            var_v0 = 0x21;
+            phaseByte = g_SceneAreaTypeDiscSwapBackup;
+            g_SceneAreaType = phaseByte;
+            phaseByte = 0x21;
             goto block_20;
         }
     case 33:
-        var_v0 = 0x22;
+        phaseByte = 0x22;
         goto block_20;
     case 34:
-        var_v0 = 0x23;
+        phaseByte = 0x23;
         goto block_20;
     case 35:
         temp_a1 = g_SceneAreaType - 0xA;
@@ -229,12 +227,12 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
                 (*(u8 *)&D_800B0CE6_w) = tce6 | 4;
             }
         }
-                var_v0 = 0x24;
+                phaseByte = 0x24;
         goto block_20;
     case 36:
         if (Scene_LoadEntityTexture() != 1) {
             if (arg0v == 0) {
-                var_v0 = 0x25;
+                phaseByte = 0x25;
                 goto block_20;
             }
             goto block_19;
@@ -246,20 +244,20 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
         gameState->scene_init_phase = 0x26;
         return 1;
     case 38:
-        var_v0 = 0x27;
+        phaseByte = 0x27;
         if (Scene_LoadEntityTextures() == 1) {
             if ((u8) gameState->scene_init_subphase >= 0xBU) {
                 goto block_19;
             }
             goto block_21;
         } else {
-            var_v0 = 0x27;
+            phaseByte = 0x27;
             goto block_20;
         }
 block_19:
-        var_v0 = 0x27;
+        phaseByte = 0x27;
 block_20:
-        gameState->scene_init_phase = var_v0;
+        gameState->scene_init_phase = phaseByte;
 block_21:
         return 1;
     case 39:
