@@ -165,44 +165,41 @@ error:
     Menu_PlayErrorSound();
     goto done;
 no_confirm:
-    if ((input & 0x1040) == 0) goto done;
+    if ((input & 0x1040) != 0) {
+        if (D_8009CF0C != 0) {
+            MenuWidget_NavScrollTo(0x35);
+            child->cursor_x = -1;
+            child->scroll_y = 0;
+            MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 0x36));
+        } else {
+            if ((input & 0x40) == 0) {
+                handled = 1;
+                goto done;
+            }
 
-    if (D_8009CF0C != 0) {
-        MenuWidget_NavScrollTo(0x35);
-        child->cursor_x = -1;
-        child->scroll_y = 0;
-        MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 0x36));
-        goto cancel;
-    }
+            MenuWidget_NavScrollTo(0x35);
+            if (D_8009CF1C != 0) {
+                MenuWidget_DestroyNode(node);
+                MenuWidget_NavScrollTo(5);
+                MenuWidget_NavScrollTo(6);
+                MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 0));
+                Menu_StepInventoryRoot(0x33E, -1, -1);
+            } else {
+                child->cursor_x = -1;
+                parent = MenuWidget_FindByModeAndSelectedBase(2, 6);
+                option_node = MenuWidget_GetCurrentNode();
+                if (parent == option_node) {
+                    parent->cursor_x = ((unsigned)parent->has_scroll < 1U);
+                    MenuWidget_SetCurrentNode(parent);
+                } else {
+                    MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 5));
+                }
+            }
+        }
 
-    if ((input & 0x40) == 0) {
         handled = 1;
-        goto done;
+        Menu_PlayCancelSound();
     }
-
-    MenuWidget_NavScrollTo(0x35);
-    if (D_8009CF1C != 0) {
-        MenuWidget_DestroyNode(node);
-        MenuWidget_NavScrollTo(5);
-        MenuWidget_NavScrollTo(6);
-        MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 0));
-        Menu_StepInventoryRoot(0x33E, -1, -1);
-        goto cancel;
-    }
-
-    child->cursor_x = -1;
-    parent = MenuWidget_FindByModeAndSelectedBase(2, 6);
-    option_node = MenuWidget_GetCurrentNode();
-    if (parent == option_node) {
-        parent->cursor_x = ((unsigned)parent->has_scroll < 1U);
-        MenuWidget_SetCurrentNode(parent);
-    } else {
-        MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 5));
-    }
-
-cancel:
-    handled = 1;
-    Menu_PlayCancelSound();
 done:
     return handled;
 }
