@@ -1,51 +1,37 @@
 #include "common.h"
-#include "pe1/battle.h"
+#include "pe1/battle_runtime.h"
+#include "pe1/aya.h"
 #include "pe1/inventory.h"
 #include "pe1/inventory_slots.h"
-extern void **D_8009D254;
-extern short D_800C0E08;
 
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int mode);
 #include "pe1/weapon_list_output.h"
 
-#define COMBATANT_FIELD(base, type, member) \
-    (*(type)((char *)(base) + PE1_OFFSETOF(Combatant, member)))
-#define ACTION_FIELD(base, type, member) \
-    (*(type)((char *)(base) + PE1_OFFSETOF(BattleAction, member)))
-#define ITEM_FIELD(base, type, member) \
-    (*(type)((char *)(base) + PE1_OFFSETOF(ItemDataRecord, member)))
-
 int BattleCmd_CommitAmmoAndUpdate(void *out) {
-    void *current;
-    void *entry;
+    Combatant *current;
+    ItemDataRecord *entry;
     int saved;
     int result;
 
     if (D_8009D254 != 0) {
-        current = D_8009D254[0];
+        current = D_8009D254->core;
         if (current != 0) {
-            D_800C0E08 = COMBATANT_FIELD(current, unsigned short *, curHP);
-            if (COMBATANT_FIELD(current, void **, action) == 0) {
-                goto tail;
+            D_800C0E00.current_hp = current->curHP;
+            if (current->action != 0) {
+                saved = Inv_IsActiveListOverrideSelected();
+                Inv_SelectActiveList(0);
+                entry = Inv_LookupActiveListData(g_InvTrackedSlots[0]);
+                if (entry != 0) {
+                    entry->ammo = current->action->attackWord & 0x3FF;
+                }
+                Inv_SelectActiveList(saved);
             }
-            saved = Inv_IsActiveListOverrideSelected();
-            Inv_SelectActiveList(0);
-            entry = Inv_LookupActiveListData(g_InvTrackedSlots[0]);
-            if (entry != 0) {
-                ITEM_FIELD(entry, short *, ammo) = ACTION_FIELD(
-                    COMBATANT_FIELD(current, void **, action), int *, attackWord) & 0x3FF;
-            }
-            Inv_SelectActiveList(saved);
         }
     }
 
-tail:
     result = Inv_DrawSlotItemIcon();
     Inv_BuildWeaponList(0, out);
     return result;
 }
 
-#undef ACTION_FIELD
-#undef COMBATANT_FIELD
-#undef ITEM_FIELD
