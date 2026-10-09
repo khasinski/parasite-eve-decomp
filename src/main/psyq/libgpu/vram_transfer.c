@@ -65,8 +65,8 @@ int Gpu_WaitDmaComplete(RECT *rect, unsigned int *data)
     port = D_80095850;
     if (variant) command = 0xB0000000;
     *port = command;
-    *D_80095850 = *(unsigned int *)&rect->x;
-    *D_80095850 = *(unsigned int *)&rect->w;
+    *D_80095850 = ((GpuRectWords *)rect)->position;
+    *D_80095850 = ((GpuRectWords *)rect)->size;
     --remainder;
     firstEnd = -1;
     /* The loop materializes its own sentinel after this first test. */
@@ -124,8 +124,8 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
     *D_80095854.gp1 = 0x04000000;
     *D_80095850 = 0x01000000;
     *D_80095850 = 0xC0000000;
-    *D_80095850 = *(unsigned int *)&rect->x;
-    *D_80095850 = *(unsigned int *)&rect->w;
+    *D_80095850 = ((GpuRectWords *)rect)->position;
+    *D_80095850 = ((GpuRectWords *)rect)->size;
     readStatus = *D_80095854.gp1;
     asm volatile("" : "+r"(readStatus));
     firstMask = 0x08000000;
