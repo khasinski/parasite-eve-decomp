@@ -97,10 +97,10 @@ int Render_SaveAndOpenBounds(void) {
     char *base = g_GeomStateBytes;
     char *entry = g_GeomStateBytes + *(int *)(base + 0x1C) + (g_GeomGroupSel * 52);
 
-    D_800BCFAC = *(unsigned short *)(entry + 0x2C);
-    D_800BCFAE = *(unsigned short *)(entry + 0x2E);
-    D_800BCFB0 = *(unsigned short *)(entry + 0x30);
-    D_800BCFB2 = *(unsigned short *)(entry + 0x32);
+    D_800BCFAC = *(u16 *)&((CameraViewport *)entry)->minX;
+    D_800BCFAE = *(u16 *)&((CameraViewport *)entry)->maxX;
+    D_800BCFB0 = *(u16 *)&((CameraViewport *)entry)->minY;
+    D_800BCFB2 = *(u16 *)&((CameraViewport *)entry)->maxY;
 
     *(short *)(entry + 0x2C) = -0x8000;
     *(short *)(entry + 0x2E) = 0x7FFF;
@@ -114,10 +114,10 @@ int Render_RestoreBounds(void) {
     char *base = g_GeomStateBytes;
     char *entry = g_GeomStateBytes + *(int *)(base + 0x1C) + (g_GeomGroupSel * 52);
 
-    *(unsigned short *)(entry + 0x2C) = D_800BCFAC;
-    *(unsigned short *)(entry + 0x2E) = D_800BCFAE;
-    *(unsigned short *)(entry + 0x30) = D_800BCFB0;
-    *(unsigned short *)(entry + 0x32) = D_800BCFB2;
+    *(u16 *)&((CameraViewport *)entry)->minX = D_800BCFAC;
+    *(u16 *)&((CameraViewport *)entry)->maxX = D_800BCFAE;
+    *(u16 *)&((CameraViewport *)entry)->minY = D_800BCFB0;
+    *(u16 *)&((CameraViewport *)entry)->maxY = D_800BCFB2;
 
     return 0;
 }
