@@ -55,7 +55,7 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
     s32 temp_v0;
     register s32 temp_cf50 asm("$5");
     s32 temp_height;
-    register s32 var_v1 asm("$3");
+    s32 var_v1;
     s32 temp_a0;
     MemCardSaveSlot *temp_v0_2;
     MenuWidgetNode *temp_s2_2;
@@ -97,7 +97,6 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
                             g_MenuItemPrimListHandles = 0;
                             {
                                 MenuConfirmCallback callback = Menu_TriggerSaveWrite;
-                                var_v1 = 0x78;
                                 if (Draw_MeasureTextWidth(&g_MenuItemLabelBuffer) < 0x78) {
                                     var_v1 = 0x78;
                                 } else {
