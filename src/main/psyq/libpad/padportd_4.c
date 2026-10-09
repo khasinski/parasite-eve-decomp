@@ -13,7 +13,7 @@ void CardObj_SwapByteField(CardObj *obj) {
     obj->saved_command = command;
 }
 
-int CardObj_ReadPayloadByte(CardObj *arg0) {
+int CardObj_ReadPayloadByte(CardObj *arg0, int needsAck) {
     int index;
     int mode;
     u8 *ptr;

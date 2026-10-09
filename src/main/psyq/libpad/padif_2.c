@@ -66,11 +66,10 @@ int MemCard_WriteDataAndGetSize(CardObj *obj) {
     return 0;
 }
 
-extern int (*D_8009B72C)(void *obj, int needs_ack);
 
-int MemCard_WriteByteWithAckCheck(void *obj) {
-    register void *card asm("$16");
-    void *call_obj;
+int MemCard_WriteByteWithAckCheck(CardObj *obj) {
+    register CardObj *card asm("$16");
+    CardObj *call_obj;
     int needs_ack;
     int value;
     register int result asm("$3");
@@ -78,8 +77,8 @@ int MemCard_WriteByteWithAckCheck(void *obj) {
     register u32 zero asm("$0");
     card = obj;
     needs_ack = 0;
-    if ((*(u8 *)*(void **)((u8 *)card + 0x3C) >> 4) == 8) {
-        needs_ack = *(u8 *)((u8 *)card + 0x36) < 1;
+    if ((card->response_3c[0] >> 4) == 8) {
+        needs_ack = card->command < 1;
     }
 
     asm volatile("" : : : "$4");
