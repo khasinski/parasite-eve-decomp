@@ -7,8 +7,6 @@
  * relocating the loaded database's offsets into pointers. */
 
 extern char *D_800B1620[];
-extern char *g_RegionHeightTable;
-extern char *g_CollisionPlaneTable;
 extern char *g_SceneDataTable2;
 extern short g_FieldCollisionTriIndex;
 extern short D_8009CE1C;
@@ -82,8 +80,8 @@ void Entity_RelocateSceneData(void) {
 
         value20 = (char *)base->planes.pointer;
         table = (char *)base->regions;
-        g_RegionHeightTable = table;
-        g_CollisionPlaneTable = value20;
+        g_RegionHeightTable = (s16 **)table;
+        g_CollisionPlaneTable = (struct CollisionPlane *)value20;
     }
     return;
 
@@ -112,9 +110,9 @@ relocate:
         entry = actor->rampEdges.word;
         dst = (u32 *)actor->regions;
         wordCount >>= 5;
-        g_CollisionPlaneTable = (char *)cursor;
+        g_CollisionPlaneTable = (struct CollisionPlane *)cursor;
         regionCountAddress = &actor->regionCount;
-        g_RegionHeightTable = (char *)dst;
+        g_RegionHeightTable = (s16 **)dst;
         count = *regionCountAddress;
         wordCount++;
         g_SceneDataTable2 = (char *)entry;

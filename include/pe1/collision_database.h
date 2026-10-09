@@ -62,6 +62,9 @@ typedef struct CollisionDatabase {
 
 
 extern CollisionDatabase *g_CollisionDb;
+/* Active views published by the scene-data relocator. */
+extern struct CollisionPlane *g_CollisionPlaneTable;
+extern s16 **g_RegionHeightTable;
 
 PE1_STATIC_ASSERT(sizeof(CollisionTriangleHeader) == 2, collision_triangle_header_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionTriangleHeader, region) == 1,

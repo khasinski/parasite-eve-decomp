@@ -13,7 +13,6 @@ extern int g_CombatModeFlags;
 extern int D_800A76C8;
 extern int D_800A76CC;
 extern char * volatile g_GeomState;
-extern int g_CollisionPlaneTable;
 /* Camera base angles at 0x800BD020. As a record, the second argument load
  * stays behind the first store: GCC 2.7 lets a varying array load pass a
  * store to a fixed scalar, but not to a structure member. */

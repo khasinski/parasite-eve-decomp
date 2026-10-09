@@ -107,13 +107,11 @@ void Entity_FindFloor(u8 *entity)
     } while (floor_index < U16_AT(D_8009D1FC, 2));
 }
 
-extern char *g_CollisionPlaneTable;
-extern char *g_RegionHeightTable;
 
 
 void Entity_ResolvePosition(BattleEntity *actor, int index) {
     BattleEntity *actor_s2;
-    char *table_base;
+    CollisionPlane *table_base;
     register int index_v1 asm("$3");
     int arg_y;
     int arg_z;
@@ -126,7 +124,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
 
     if (table_base == 0) {
         char *base;
-        char *table;
+        s16 **table;
         int idx;
 
         idx = index_v1 & 0xFFFF;
@@ -136,7 +134,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
         actor_s2->collisionFace = entry;
         actor_s2->collisionFaceMirror = entry;
         table = g_RegionHeightTable;
-        value = *(short *)(*(char **)(table + (((CollisionTriangleXZ *)entry)->header.region * 4)));
+        value = *table[((CollisionTriangleXZ *)entry)->header.region];
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
         value <<= 16;
@@ -164,11 +162,11 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
             id_v1 = ((CollisionFace *)entry_s0)->plane;
             id = id_v1;
         }
-        first = Math_FixedMul(((CollisionPlane *)table_base)[id].a, actor_s2->posX.fixed);
+        first = Math_FixedMul(table_base[id].a, actor_s2->posX.fixed);
         id = ((CollisionFace *)entry_s0)->plane;
-        second = Math_FixedMul(((CollisionPlane *)g_CollisionPlaneTable)[id].c, actor_s2->posZ.fixed);
+        second = Math_FixedMul(g_CollisionPlaneTable[id].c, actor_s2->posZ.fixed);
         id = ((CollisionFace *)entry_s0)->plane;
-        value = Math_FixedMul(((CollisionFace *)entry_s0)->distance - first - second, ((CollisionPlane *)g_CollisionPlaneTable)[id].inverseB);
+        value = Math_FixedMul(((CollisionFace *)entry_s0)->distance - first - second, g_CollisionPlaneTable[id].inverseB);
         actor_s2->posY.fixed = value;
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
