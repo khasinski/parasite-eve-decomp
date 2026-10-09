@@ -25,11 +25,10 @@ int FieldEng_TurnToward(int current, int target, int step) {
     if (step_s16 >= abs_diff) {
         result = target_copy;
     } else {
-        result = abs_diff < 0x801;
         if (diff < 0) {
             delta = -step;
         }
-        if (!result) {
+        if (abs_diff >= 0x801) {
             delta = -delta;
         }
         result = delta + current;
