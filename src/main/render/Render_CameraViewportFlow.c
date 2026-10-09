@@ -307,8 +307,8 @@ int Render_SetGteScreenOffset(void) {
 
     sx = x << 16;
     sy = y << 16;
-    asm volatile("ctc2 %0,$24" : : "r"(sx));
-    asm volatile("ctc2 %0,$25" : : "r"(sy));
+    gte_ctc2_24(sx);
+    gte_ctc2_25(sy);
     return 0;
 }
 
@@ -321,8 +321,8 @@ int Render_ResetGteScreenOffset(void) {
     asm volatile("" : "=r"(x), "=r"(y) : "0"(x), "1"(y));
     sx = x << 16;
     sy = y << 16;
-    asm volatile("ctc2 %0,$24" : : "r"(sx));
-    asm volatile("ctc2 %0,$25" : : "r"(sy));
+    gte_ctc2_24(sx);
+    gte_ctc2_25(sy);
     return 0;
 }
 
