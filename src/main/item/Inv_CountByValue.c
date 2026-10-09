@@ -4,7 +4,7 @@
 int g_InvCategoryBaseItemId;
 u16 *g_InvItemPtr;
 int g_InvSlotLimit;
-extern u16 g_InvCategoryItemTable[];
+#include "pe1/inventory_category.h"
 extern u8 g_ItemCodeRemapTable[];
 
 int Inv_CountByValue(int arg0) {
@@ -17,7 +17,7 @@ int Inv_CountByValue(int arg0) {
 
     count = 0;
     if ((arg0 >= g_InvCategoryBaseItemId) && (arg0 < g_InvCategoryBaseItemId + 3)) {
-        count = g_InvCategoryItemTable[(arg0 - g_InvCategoryBaseItemId) * 0x10];
+        count = g_InvCategoryItemTable[arg0 - g_InvCategoryBaseItemId].count;
     } else {
         temp = g_InvSlotLimit;
         ptr = g_InvItemPtr;

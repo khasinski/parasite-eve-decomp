@@ -318,7 +318,7 @@ int Inv_GetWeaponCategoryAmmoBase(unsigned int arg0) {
     if (arg0 >= 3) {
         return 0;
     }
-    return g_InvCategoryItemTable[arg0 * 0x10];
+    return g_InvCategoryItemTable[arg0].count;
 }
 
 /* Keep resolved pointers for the comparison UI, then snapshot both records.

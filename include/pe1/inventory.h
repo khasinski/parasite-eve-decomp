@@ -40,7 +40,7 @@ extern u8 g_KeyItemDataTable[] __asm__("D_8009DE64");
 extern ItemDataRecord g_InvCompareSlotLeft;
 extern ItemDataRecord g_InvCompareSlotRight;
 extern ItemDataRecord *D_8009D070, *D_8009D074;
-extern u16 g_InvCategoryItemTable[];
+#include "pe1/inventory_category.h"
 extern ItemDataRecord D_800A1A00;
 extern ItemDataRecord g_InvItemSlotArray[128];
 

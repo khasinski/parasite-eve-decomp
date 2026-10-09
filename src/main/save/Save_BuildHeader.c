@@ -1,5 +1,5 @@
 #include "common.h"
-extern u16 g_InvCategoryItemTable[];
+#include "pe1/inventory_category.h"
 #include "pe1/game_timers.h"
 extern int g_PlayTimeFrameCounter;
 extern u16 D_800C1EAC[];
@@ -31,7 +31,7 @@ void Save_BuildHeader(void) {
     dst = D_800C1EAC;
     offset = 0;
     while (i < 6) {
-        *dst = *(u16 *)((char *)g_InvCategoryItemTable + offset);
+        *dst = ((InventoryCategoryState *)((char *)g_InvCategoryItemTable + offset))->count;
         offset += 0x20;
         i++;
         dst++;

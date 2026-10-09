@@ -27,7 +27,7 @@ extern struct { char _[16]; } g_AyaInventoryItems_o __asm__("g_AyaInventoryItems
 #define g_AyaInventoryItems (*(M2C_UNK *)&g_AyaInventoryItems_o)
 extern int g_InvCategoryBaseItemId;
 extern u16 g_BattleCountTable[];
-extern u16 g_InvCategoryItemTable[][16];
+#include "pe1/inventory_category.h"
 extern u16 *g_InvActiveListOverride;
 extern int g_InvOverrideSlotLimit;
 extern int g_MenuBattleCount;
@@ -133,8 +133,7 @@ int Inv_LoadWayneItemsAsOverride(short *items) {
                 *out = temp;
                 value = (u16)items[1];
                 asm("" : : "r"(value) : "$2");
-                temp = id << 5;
-                *(u16 *)((u8 *)g_InvCategoryItemTable + temp) = value;
+                g_InvCategoryItemTable[id].count = value;
                 out++;
             } else {
                 *out = id;
