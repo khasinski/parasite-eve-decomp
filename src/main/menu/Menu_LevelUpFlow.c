@@ -44,9 +44,6 @@ extern u16 D1E_bonus[16] __asm__("D_800C0E1E");
 /* This loop sign-extends the stat allocations (lh in the original). */
 extern s16 D_800C0E28_signed[7] __asm__("D_800C0E28");
 
-extern u8 aya_level_view[16] __asm__("D_800C0E0A");
-extern u16 aya_max_hp_view[16] __asm__("D_800C0E06");
-extern u32 aya_bonus_view[4] __asm__("D_800C0E10");
 
 void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     s32 exp_delta_reg;
@@ -76,10 +73,10 @@ void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     D_8009CEFC = 1;
 
     D1E_write[0] = D1E_read[0] + pe_bonus_delta_reg;
-    g_MenuLevelDisplayValue = aya_level_view[0];
-    g_MenuHpMaxDisplayValue = aya_max_hp_view[0];
-    g_MenuBonusPointDisplayTarget = aya_bonus_view[0];
-    g_BonusPointDisplayValue = aya_bonus_view[0];
+    g_MenuLevelDisplayValue = D_800C0E00.level;
+    g_MenuHpMaxDisplayValue = D_800C0E00.max_hp;
+    g_MenuBonusPointDisplayTarget = D_800C0E00.bonus_points;
+    g_BonusPointDisplayValue = D_800C0E00.bonus_points;
     g_MenuLevelDisplayTarget = Stat_BinarySearch(g_MenuExpAllocTarget, Aya_GetLevelExpTable());
 
     if (g_MenuLevelDisplayValue < g_MenuLevelDisplayTarget) {
