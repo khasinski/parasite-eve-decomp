@@ -896,8 +896,8 @@ int Render_DrawRoom(RenderShadowActor *actor)
         cameraRot = (const GteMatrixWords *)D_800B89F8;
         /* Keep the camera address in t0 without pinning it: GCC must also
          * be able to reuse t0 for the signed division below. */
-        asm volatile("" : : : "$3", "$4", "$5", "$6", "$7");
-        asm volatile("" : "=r"(cameraRot) : "0"(cameraRot));
+        asm volatile("" : "=r"(cameraRot) : "0"(cameraRot)
+            : "$3", "$4", "$5", "$6", "$7");
 
         gte_ldrotmatrix(cameraRot);
         column = (const u16 *)&local.matrix;

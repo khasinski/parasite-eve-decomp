@@ -174,8 +174,8 @@ void Save_DeserializeTail(void) {
 
     bulk_tmp = third_cur + 4;
     bulk_src = bulk_tmp;
-    asm volatile("" : : "r"(bulk_src));
-    asm volatile("" : : "r"((u32)bulk_src | (u32)aya_dest));
+    asm volatile("" : : "r"(bulk_src),
+        "r"((u32)bulk_src | (u32)aya_dest));
     g_SaveIoCursor = third_cur + 2;
     g_DiscChangeFlags = third_cur[2];
     g_SaveIoCursor = third_cur + 3;
