@@ -12,14 +12,6 @@ extern u32 D_800E2370[];
 #define MODEL_VERTEX(model, offset) ((FieldModelVertex *)&(model)->bytes[offset])
 #define MODEL_COLOR(model, offset) (((FieldModelColor *)&(model)->bytes[offset])->word)
 
-/* One of the model's colour words, addressed by FieldModelHeader::colorOffset. */
-typedef struct ColorEntry {
-    u8 red;
-    u8 green;
-    u8 blue;
-    u8 unused;
-} ColorEntry;
-
 void func_800C6D5C(FieldTexturedModel *model, u8 xOffset, u8 yOffset) {
     FieldModelHeader *header = &model->header;
     FieldModelTri *tri = header->tris;
@@ -114,10 +106,10 @@ void func_800C6FA0(char *data, u16 factor)
     u32 green_product;
     FieldModelHeader *table = (FieldModelHeader *)data;
     u32 *scratch = (u32 *)0x1F800000;
-    ColorEntry *entry = (ColorEntry *)(data + table->colorOffset);
+    FieldModelColor *entry = (FieldModelColor *)(data + table->colorOffset);
 
     for (i = 0; i < table->colorCount; i++, entry++) {
-        red = entry->red;
+        red = entry->rgb.r;
         red *= factor;
         scratch[12] = red;
         if (red > 0x7FFF) {
@@ -125,9 +117,9 @@ void func_800C6FA0(char *data, u16 factor)
         }
         red = scratch[12] >> 7;
         scratch[12] = red;
-        entry->red = red;
+        entry->rgb.r = red;
 
-        green_product = entry->green;
+        green_product = entry->rgb.g;
         green_product *= factor;
         scratch[12] = green_product;
         if (green_product > 0x7FFF) {
@@ -135,9 +127,9 @@ void func_800C6FA0(char *data, u16 factor)
         }
         green = scratch[12] >> 7;
         scratch[12] = green;
-        entry->green = green;
+        entry->rgb.g = green;
 
-        blue_product = entry->blue;
+        blue_product = entry->rgb.b;
         blue_product *= factor;
         scratch[12] = blue_product;
         if (blue_product > 0x7FFF) {
@@ -145,7 +137,7 @@ void func_800C6FA0(char *data, u16 factor)
         }
         blue = scratch[12] >> 7;
         scratch[12] = blue;
-        entry->blue = blue;
+        entry->rgb.b = blue;
     }
 }
 
@@ -153,7 +145,7 @@ void func_800C6FA0(char *data, u16 factor)
 void func_800C7098(char *data, u8 r, u8 g, u8 b) {
     int i = 0;
     FieldModelHeader *table = (FieldModelHeader *)data;
-    ColorEntry *entry = (ColorEntry *)(data + table->colorOffset);
+    FieldModelColor *entry = (FieldModelColor *)(data + table->colorOffset);
     int count;
     /* Keeps the empty 8-byte frame emitted by the original. */
     volatile int pad;
@@ -162,9 +154,9 @@ void func_800C7098(char *data, u8 r, u8 g, u8 b) {
     if (count > 0) {
         do {
             i++;
-            entry->red = r;
-            entry->green = g;
-            entry->blue = b;
+            entry->rgb.r = r;
+            entry->rgb.g = g;
+            entry->rgb.b = b;
             entry++;
         } while (i < table->colorCount);
     }
@@ -176,22 +168,22 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     int offset;
     int count;
     int i;
-    u8 *entry;
+    FieldModelColor *entry;
     register u8 *bluePtr asm("$9");
 
     i = 0;
     offset = table->colorOffset;
     count = table->colorCount;
-    entry = (u8 *)(data + offset);
+    entry = (FieldModelColor *)(data + offset);
     if (count > 0) {
-        bluePtr = entry + 2;
+        bluePtr = &entry->rgb.b;
         do {
             register s16 value asm("$3");
             int calc;
             int blueValue;
             register int blue asm("$8");
 
-            value = entry[0];
+            value = entry->rgb.r;
             calc = value + rDelta;
             value = calc;
             if ((s16)calc >= 0x100) {
@@ -200,7 +192,7 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
             if (value < 0) {
                 value = 0;
             }
-            entry[0] = value;
+            entry->rgb.r = value;
 
             value = bluePtr[-1];
             calc = value + gDelta;
@@ -226,7 +218,7 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
             i++;
             bluePtr[0] = blue;
             bluePtr += 4;
-            entry += 4;
+            entry++;
         } while (i < table->colorCount);
     }
     asm volatile("" : : "r"(&frame));
