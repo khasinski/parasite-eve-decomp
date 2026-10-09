@@ -198,7 +198,6 @@ void CardObj_EmitReadTransferCommand(CardObj *arg0) {
 extern u8 *D_800A5AD0;
 int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
     register CardObj *port = inPort;
-    register int result asm("$2");
     switch (port->field_46) {
     case 2:
         port->modeTable[port->infoRecordIndex] =
@@ -208,8 +207,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
             port->infoRecordIndex = 0;
             goto complete;
         }
-        result = 0;
-        break;
+        return 0;
     case 3: {
         PadCapabilityRecord *record =
             port->capabilities + port->infoRecordIndex;
@@ -227,8 +225,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
             port->combinationBytesRemaining = 0;
             goto complete;
         }
-        result = 0;
-        break;
+        return 0;
     }
     case 4: {
         PadCombinationRecord *record = port->combinations + port->infoRecordIndex;
@@ -285,29 +282,24 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
             goto exhausted;
     zero:
         asm("" ::: "memory");
-        result = 0;
-        break;
+        return 0;
     exhausted:
         {
             port->infoRecordIndex++;
             if (port->infoRecordIndex >= port->field_ea) {
                 port->communicationState = 6;
                 port->field_46 = 254;
-                result = 0;
-                break;
+                return 0;
             }
             port->combinationBytesRemaining = 0;
         }
         goto zero;
     }
     default:
-        result = 1;
-        break;
+        return 1;
     }
-    return result;
 complete:
-    result = 1;
-    return result;
+    return 1;
 }
 
 extern int (*D_8009B740)(CardObj *obj);
