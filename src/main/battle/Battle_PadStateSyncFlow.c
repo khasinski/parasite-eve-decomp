@@ -99,9 +99,8 @@ void Battle_SyncEnemyAttributes(void) {
     register u32 tdc asm("$3");
     s32 kFF00000;
     s32 tfinal;
-    register s32 tdc2 asm("$2");
     s32 k20000;
-    register s32 f4 asm("$2");
+    register s32 effectWord asm("$2");
     s32 kFFC00;
     s32 kFFF003FF;
     s32 kF00FFFFF;
@@ -118,7 +117,6 @@ void Battle_SyncEnemyAttributes(void) {
     s32 temp_v0_11;
     s32 temp_v0_12;
     s32 temp_v0_13;
-    register s32 temp_v0_14 asm("$2");
     s32 temp_v0_2;
     s32 temp_v0_3;
     s32 temp_v0_4;
@@ -141,7 +139,7 @@ void Battle_SyncEnemyAttributes(void) {
     temp_a3 = COMBATANT_FIELD(g_ActiveActor, void **, attributes);
     tdc = *p76d8;
     temp_a0 = (ATTRIBUTE_FIELD(temp_a3, s32 *, parameterWord) & km400) | (tdc & 0x3FF);
-    f4 = ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags);
+    effectWord = ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags);
     ATTRIBUTE_FIELD(temp_a3, s32 *, parameterWord) = temp_a0;
     tdc = *p76d8;
     temp_a0_2 = (temp_a0 & kFFF003FF) | (tdc & kFFC00);
@@ -154,7 +152,7 @@ void Battle_SyncEnemyAttributes(void) {
     tdc = *p76d8;
     ATTRIBUTE_FIELD(temp_a3, s32 *, parameterWord) = (s32)((temp_a2 & k0FFFFFFF) | ((tdc >> 0x1C) << 0x1C));
     tdc = (*(s32 *)&D_800A76DC_s0);
-    temp_v0 = (f4 & ~1) | (tdc & 1);
+    temp_v0 = (effectWord & ~1) | (tdc & 1);
     ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags) = temp_v0;
     tdc = (*(s32 *)&D_800A76DC_s1);
     temp_v0_2 = (temp_v0 & ~2) | (tdc & 2);
@@ -194,13 +192,13 @@ void Battle_SyncEnemyAttributes(void) {
     temp_v0_13 = temp_v0_13 | (tdc & 0x8000);
     ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags) = temp_v0_13;
     tdc = g_PadStateMirrorWord3;
-    temp_v0_14 = temp_v0_13 & kFFFEFFFF;
-    temp_v0_14 = temp_v0_14 | ((tdc & 1) << 0x10);
-    tfinal = temp_v0_14 & kFFFDFFFF;
-    ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags) = temp_v0_14;
-    tdc2 = (*(s32 *)&D_800A76DC_s13);
+    effectWord = temp_v0_13 & kFFFEFFFF;
+    effectWord = effectWord | ((tdc & 1) << 0x10);
+    tfinal = effectWord & kFFFDFFFF;
+    ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags) = effectWord;
+    effectWord = (*(s32 *)&D_800A76DC_s13);
     k20000 = 0x20000;
-    ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags) = (s32)(tfinal | (tdc2 & k20000));
+    ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags) = (s32)(tfinal | (effectWord & k20000));
 }
 
 #undef ATTRIBUTE_FIELD
