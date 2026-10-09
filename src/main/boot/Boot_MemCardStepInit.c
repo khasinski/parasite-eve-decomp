@@ -1,5 +1,7 @@
 #include "common.h"
 #include "pe1/memcard.h"
+#include "pe1/task_node.h"
+#include "pe1/game_state_types.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -13,42 +15,42 @@ extern s32 g_SceneDataTable0;
 extern struct { char _[16]; } D_8009D1A0_o __asm__("g_GameStateFlags");
 extern s32 D_8009D1A0_rd[] __asm__("g_GameStateFlags");
 #define g_GameStateFlags (*(s32 *)&D_8009D1A0_o)
-extern void *g_TaskNodePool;
-extern struct { char _[16]; } D_800B0CD8_o __asm__("g_GameState");
-#define CD8_W (*(s32 *)base)
-#define CD8_WABS (*(s32 *)&D_800B0CD8_o)
-#define CD8_B(off) (*(base + (off)))
+extern TaskNode *g_TaskNodePool;
+extern Pe1GameState g_GameState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, memcard_init_phase) == 0xF4,
+                  memcard_init_phase_offset);
 
 s32 Boot_MemCardStepInit(u8 **arg0) {
-    u8 *base;
+    Pe1GameState *base;
 
-    base = (u8 *)&D_800B0CD8_o;
+    base = &g_GameState;
     loop_1:
-    switch (CD8_B(0xF4)) {
+    switch (base->memcard_init_phase) {
     case 0x0:
-        if (!(CD8_B(0xE) & 3)) {
-            CD8_B(0xF4) = 0x37U;
+        if (!(base->story_day_flags & 3)) {
+            base->memcard_init_phase = 0x37U;
         }
-        CD8_W = CD8_W | 0x800000;
+        base->flags = base->flags | 0x800000;
         goto block_19;
     case 0x37:
-        if (!(CD8_WABS & 0x400000)) {
+        if (!(g_GameState.flags & 0x400000)) {
             MemCard_InitSlotState();
         }
-        CD8_B(0xF4) = 0x38U;
+        base->memcard_init_phase = 0x38U;
         goto loop_1;
     case 0x38:
         if (CD_StepReadState(1) != 1) {
-            if (!(CD8_WABS & 0x400000)) {
+            if (!(g_GameState.flags & 0x400000)) {
                 func_80042F20();
             }
-            CD8_B(0xF4) = 0x39U;
+            base->memcard_init_phase = 0x39U;
             goto loop_1;
         }
         goto block_19;
     case 0x39:
         if (Asset_LoadTimTextures(1) != 1) {
-            CD8_B(0xF4) = 0x3AU;
+            base->memcard_init_phase = 0x3AU;
             goto loop_1;
         }
         goto block_19;
@@ -58,12 +60,12 @@ s32 Boot_MemCardStepInit(u8 **arg0) {
             g_GameStateFlags = t1a0;
         }
         Battle_StartEncounter(**arg0);
-        CD8_B(0xF4) = 0x3BU;
+        base->memcard_init_phase = 0x3BU;
         goto block_19;
     case 0x3B:
-        if (!(CD8_B(0xE) & 3)) {
-            CD8_B(0xF4) = 0U;
-            CD8_W = CD8_W & 0xFF7FFFFF;
+        if (!(base->story_day_flags & 3)) {
+            base->memcard_init_phase = 0U;
+            base->flags = base->flags & 0xFF7FFFFF;
             __asm__ volatile("");
             return 1;
         }
@@ -73,6 +75,6 @@ s32 Boot_MemCardStepInit(u8 **arg0) {
     }
 block_19:
     g_SceneDataTable0 -= 0xC;
-    M2C_FIELD(g_TaskNodePool, s32 *, 0x10) = 1;
+    g_TaskNodePool->active = 1;
     return 0;
 }

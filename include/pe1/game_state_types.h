@@ -65,7 +65,7 @@ typedef struct Pe1GameState {
     Pe1U8 cd_track_phase;           /* 0x0F1 */
     Pe1U8 cd_transition_phase;      /* 0x0F2 */
     Pe1U8 cd_range_state;          /* 0x0F3: CD_FindNextDataSector */
-    Pe1U8 reserved_0f4;
+    Pe1U8 memcard_init_phase;     /* 0x0F4: Boot_MemCardStepInit, phases 0 and 0x37..0x3B. */
     Pe1U8 display_list_modes;       /* 0x0F5: bit 0 mode 1, bit 1 mode 2 (Render_InitDisplayLists) */
     Pe1U8 bank_value_f6, bank_value_f7;
     unsigned short bank_value_f8, bank_value_fa;
