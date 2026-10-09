@@ -241,31 +241,19 @@ int Render_SetViewport(s16 *position) {
     half_height = axisValue >> 1;
     target_y = half_height + (screen_y - 112);
     viewportValue = view->minX;
-    if (target_x < viewportValue)
-        goto adjust_x;
-    viewportValue = view->maxX;
-    if (viewportValue < target_x)
-        goto adjust_x;
-    goto check_y;
-adjust_x:
-    axisValue = viewportValue - 160;
-
-    view_x = half_width - axisValue;
-check_y:
+    if (target_x < viewportValue ||
+        (viewportValue = view->maxX, viewportValue < target_x)) {
+        axisValue = viewportValue - 160;
+        view_x = half_width - axisValue;
+    }
     y_bound = view->minY;
-    if (target_y < y_bound)
-        goto adjust_y;
-    y_bound = view->maxY;
-    if (y_bound < target_y)
-        goto adjust_y;
-    goto store_offsets;
-adjust_y:
-    axisValue = view->height;
-    viewportValue = (s16)axisValue / 2;
-    axisValue = y_bound - 112;
-
-    view_y = viewportValue - axisValue;
-store_offsets:
+    if (target_y < y_bound ||
+        (y_bound = view->maxY, y_bound < target_y)) {
+        axisValue = view->height;
+        viewportValue = (s16)axisValue / 2;
+        axisValue = y_bound - 112;
+        view_y = viewportValue - axisValue;
+    }
     D_800BCF94 = view_x;
     D_800BCF96 = view_y;
     selected_x = target_x;
