@@ -133,7 +133,7 @@ void LIBPAD_PADSEQD_text_108(CardObj *port) {
         if (!port->field_e8)
             return;
         value = port->field_46;
-        port->field_49 = one;
+        port->communicationState = one;
         goto increment;
     initial:
         value = port->field_46;
@@ -166,7 +166,7 @@ void _dirFailAuto(CardObj *port) {
         if (port->field_4a < 2)
             port->field_4a++;
         else {
-            port->field_49 = 2;
+            port->communicationState = 2;
             port->field_46 = 255;
         }
         return;
@@ -175,7 +175,7 @@ void _dirFailAuto(CardObj *port) {
             port->field_4a++;
             return;
         }
-        if (port->field_49)
+        if (port->communicationState)
             D_8009B728(port);
     }
     if (*port->response_3c != 0xf3) {

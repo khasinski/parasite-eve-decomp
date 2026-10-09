@@ -81,7 +81,7 @@ return_zero:
 
         if (_padGetActSize(obj) >= 0x81) {
             obj->field_46 = 0xFE;
-            obj->field_49 = 2;
+            obj->communicationState = 2;
             goto return_zero;
         }
 
@@ -147,7 +147,7 @@ initialize:
     asm volatile("" : "=r"(result) : "0"(result));
     state = 4;
     cursor = ((int)buffer + 3) >> 2;
-    obj->field_49 = state;
+    obj->communicationState = state;
     state = 1;
     obj->field_46 = state;
     obj->fn_14 = (void (*)(void *))CardObj_EmitReadTransferCommand;
@@ -291,7 +291,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
         {
             port->field_47++;
             if (port->field_47 >= port->field_ea) {
-                port->field_49 = 6;
+                port->communicationState = 6;
                 port->field_46 = 254;
                 result = 0;
                 break;

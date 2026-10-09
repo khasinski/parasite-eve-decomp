@@ -27,29 +27,25 @@ void PadStopCom(void) {
 int PadChkMtap(int arg0)
 {
   register int index;
-  int offset;
-  int addr;
   if (g_MemCardCommandByte != 0)
   {
     index = arg0 >> 4;
-    offset = ((index << 4) - index) << 4;
-    addr = offset + ((int) g_MemCardObjArray);
-    return (*((unsigned char *) (addr + 0xE8))) == 8;
+    return g_MemCardObjArray[index].field_e8 == 8;
   }
   return 0;
 }
 
 int PadGetState(int channel) {
-    int obj;
+    CardObj *obj;
 
-    obj = (int)g_MemCardObjLookupFn(channel);
-    if ((*(unsigned int *)(obj + 0x34) & 0xFFFF0000) == 0
-        && (obj == *(int *)(obj + 0x10) || *(unsigned char *)(obj + 0x38) == 0)
-        && **(unsigned char **)(obj + 0x30) == 0) {
-        return *(unsigned char *)(obj + 0x49);
+    obj = g_MemCardObjLookupFn(channel);
+    if ((*(u32 *)&obj->payload_28_len & 0xFFFF0000) == 0
+        && (obj == obj->field_10 || obj->pad_38[0] == 0)
+        && obj->output_30[0] == 0) {
+        return obj->communicationState;
     }
 
-    switch (*(unsigned char *)(obj + 0x49)) {
+    switch (obj->communicationState) {
     case 3:
         return 1;
     case 2:
@@ -57,7 +53,7 @@ int PadGetState(int channel) {
     case 6:
         return 4;
     default:
-        return *(unsigned char *)(obj + 0x49);
+        return obj->communicationState;
     }
 }
 

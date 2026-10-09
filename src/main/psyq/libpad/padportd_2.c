@@ -6,11 +6,11 @@ void CardObj_ResetFields(CardObj *arg0) {
     int value;
     char *ptr;
 
-    if (arg0->field_49 != 0) {
+    if (arg0->communicationState != 0) {
         ptr = (char *)arg0 + 0x5D;
         value = 0xFF;
         count = 5;
-        arg0->field_49 = 0;
+        arg0->communicationState = 0;
         arg0->field_46 = 0;
         arg0->field_e6 = 0;
         arg0->fn_14 = 0;

@@ -19,11 +19,11 @@
     "pins": 1215,
     "pointer_integer_casts": 536,
     "postpass": 0,
-    "raw_offset_dereferences": 766,
+    "raw_offset_dereferences": 758,
     "stack_reserves": 8,
     "stack_switch_macros": 1,
     "statement_expressions": 3,
-    "unknown_fields": 194
+    "unknown_fields": 188
   },
   "overlays": {
     "aliases": 5,

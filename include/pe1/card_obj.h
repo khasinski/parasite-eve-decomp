@@ -51,7 +51,7 @@ typedef struct CardObj {
     unsigned char field_46;           /* 0x46 */
     unsigned char field_47;           /* 0x47 */
     unsigned char field_48;           /* 0x48 */
-    unsigned char field_49;           /* 0x49 */
+    unsigned char communicationState; /* 0x49: internal PadGetState status */
     unsigned char field_4a;           /* 0x4A */
     unsigned char pad_4B[0x01];
     int field_4c;                     /* 0x4C */
