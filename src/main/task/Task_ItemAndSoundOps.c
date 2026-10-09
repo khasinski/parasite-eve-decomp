@@ -10,6 +10,7 @@
 #include "pe1/menu_item_record.h"
 #include "common.h"
 #include "pe1/task_node.h"
+extern TaskNode *D_8009D300;
 #include "pe1/game_audio_state.h"
 
 extern int g_GameState[];
@@ -231,7 +232,6 @@ extern u8 *D_8009CE00;
 extern u8 *D_8009D20C[];
 extern u8 *D_8009D254[];
 extern u8 *D_8009D2F0[];
-extern u8 *D_8009D300;
 
 void Akao_Cmd_11(int slot);
 void Akao_Cmd_21(int command, int arg1);
@@ -547,7 +547,7 @@ find_actor_asset:
         goto store_audio_slot;
 wait_for_cd:
         D_8009CE00 -= 0x20;
-        U32_AT(D_8009D300, 0x10) = status;
+        D_8009D300->active = status;
         return 0;
 store_audio_slot:
         *args->result = locals.slot;

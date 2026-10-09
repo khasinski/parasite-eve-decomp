@@ -8,6 +8,8 @@
 #include "pe1/render_lighting.h"
 #include "pe1/global_slot.h"
 #include "common.h"
+#include "pe1/task_node.h"
+extern TaskNode *D_8009D300;
 #include "pe1/field_actor.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
@@ -42,7 +44,6 @@ extern Pe1GlobalSlot CDDC_draw1 __asm__("D_8009CDDC");
 extern Pe1GlobalSlot CDDC_toggle1_load __asm__("D_8009CDDC");
 extern Pe1GlobalSlot CDDC_toggle1_store __asm__("D_8009CDDC");
 extern int *D_8009CE00;
-extern u8 *D_8009D300;
 extern u32 D_800B89F8[];
 
 GteMatrix *RotMatrix(GteShortVector *rotation, GteMatrix *matrix);
@@ -64,7 +65,7 @@ int Task_SetGteMatrix(int **args) {
     int second_draw_slot;
     int result;
     int *script_ptr;
-    u8 *task_state;
+    TaskNode *task_state;
     u32 flags;
 
     setup_actor = D2F0_setup[0];
@@ -149,7 +150,7 @@ int Task_SetGteMatrix(int **args) {
         flag_actor->flags = flags | 0x08000000;
         task_state = D_8009D300;
         D_8009CE00 = script_ptr - 5;
-        S32_AT(task_state, 0x10) = 1;
+        task_state->active = 1;
         return result;
     }
     flag_actor->flags = flags & 0xF7FFFFFF;

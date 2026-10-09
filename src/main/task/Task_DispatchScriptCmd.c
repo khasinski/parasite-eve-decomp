@@ -1,5 +1,7 @@
 #include "pe1/geom_state.h"
 #include "common.h"
+#include "pe1/task_node.h"
+extern TaskNode *D_8009D300;
 #include "pe1/vector_types.h"
 
 /* CC1_FLAGS: -G8 */
@@ -41,7 +43,6 @@ extern u8 *D_8009D20C[];
 extern u8 *D_8009D254[];
 extern u8 *D_8009D2F0[];
 extern int D_8009CE00;
-extern u8 *D_8009D300;
 u8 g_ScriptCameraBytes[3] __asm__("D_8009CDF8");
 extern u32 D_800B0CD8[];
 extern ScriptMenuByte g_ScriptMenuValue0 __asm__("D_800BD025");
@@ -234,7 +235,7 @@ cmd_c1c:
         status = Asset_LoadTimTextures(1);
         if (status == 1) {
             D_8009CE00 -= 0x28;
-            U32_AT(D_8009D300, 0x10) = status;
+            D_8009D300->active = status;
             return 0;
         }
         goto done;
