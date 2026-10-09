@@ -299,7 +299,7 @@ s32 _padSioRW(CardObj *inObj, s32 inByte) {
         port->response_index = 0xFF;
         port->payload_index = 1;
         *port->field_40 = ~outgoing;
-        replyByte = received & 0xFF;
+        replyByte = received;
         if (!(D_8009B788->status & 1)) {
             do {
 
@@ -344,9 +344,8 @@ s32 _padSioRW(CardObj *inObj, s32 inByte) {
     {
         register MemCardSioRegisters *sio = D_8009B788;
         register MemCardInterruptRegisters *irq = D_8009B784;
-        asm("" : "=r"(sio), "=r"(irq) : "0"(sio), "1"(irq));
         received = sio->data;
-        replyByte = received & 0xFF;
+        replyByte = received;
         sio->baud = baud;
         if (!(irq->status & 0x80)) {
         waitAcknowledge:
