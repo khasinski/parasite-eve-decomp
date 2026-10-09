@@ -288,7 +288,7 @@ void MemCard_RunCommandStep(CardObj *port) {
 s32 _padSioRW(CardObj *inObj, s32 inByte) {
     register CardObj *port = inObj;
     register s32 outgoing = inByte;
-    register s32 received asm("$4");
+    u8 received;
     register s32 deviceId;
     register u32 baud;
     s32 replyByte;
@@ -296,7 +296,6 @@ s32 _padSioRW(CardObj *inObj, s32 inByte) {
 
     if (outgoing < 0) {
         received = D_8009B788->data;
-        asm("" : "=r"(received) : "0"(received));
         port->response_index = 0xFF;
         port->payload_index = 1;
         *port->field_40 = ~outgoing;
@@ -347,7 +346,6 @@ s32 _padSioRW(CardObj *inObj, s32 inByte) {
         register MemCardInterruptRegisters *irq = D_8009B784;
         asm("" : "=r"(sio), "=r"(irq) : "0"(sio), "1"(irq));
         received = sio->data;
-        asm("" : "=r"(received) : "0"(received));
         replyByte = received & 0xFF;
         sio->baud = baud;
         if (!(irq->status & 0x80)) {
