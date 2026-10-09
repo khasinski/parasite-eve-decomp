@@ -39,7 +39,7 @@ void Render_SetupFogLayer(void *source) {
     int offset;
     u8 *draw_mode;
     u8 *sprite;
-    u8 *sprite_fields;
+    RenderSpritePacket *sprite_fields;
     u8 *tile_mode;
     u8 *tile;
     u8 *payload;
@@ -97,7 +97,7 @@ void Render_SetupFogLayer(void *source) {
         if (MargePrim(draw_mode, sprite)) exit(-1);
         sprite_base = D_8009EC78;
 
-        sprite_fields = (u8 *)((int)((u8)i * 28) + (int)sprite_base);
+        sprite_fields = (RenderSpritePacket *)((int)((u8)i * 28) + (int)sprite_base);
         SetShadeTex(sprite_fields, 1);
         x_arg = 0;
 
@@ -105,11 +105,11 @@ void Render_SetupFogLayer(void *source) {
 
         zero_arg = 0;
 
-        sprite_fields[0xC] = 0x70;
+        sprite_fields->u = 0x70;
         color = *(page_source - 3);
-        *(u16 *)(sprite_fields + 0x10) = 0x18;
-        *(u16 *)(sprite_fields + 0x12) = 0xC;
-        sprite_fields[0xD] = color;
+        sprite_fields->width = 0x18;
+        sprite_fields->height = 0xC;
+        sprite_fields->v = color;
         *(u16 *)(D_8009EC86 + (u8)i * 28) = page_source[1];
         tpage = GetTPage(x_arg, y_arg, zero_arg, 0);
         tile_mode = (u8 *)((int)((u8)i * 24) + (int)tile_base);
