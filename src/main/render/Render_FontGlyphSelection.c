@@ -309,14 +309,13 @@ int Menu_GetEquipSlotStateOrIndex(void) {
 u8 Render_FindFontGlyphSlot(void) {
     u8 temp_v0;
     u8 temp_a0;
-    u8 *hdr;
-    u8 *p;
-    u8 *p2;
-    u8 *q;
+    FontGlyphTable *table;
+    FontGlyphGroups *groups;
+    FontGlyphSlots *slots;
     s32 i;
     s32 found;
     s32 slot;
-    u8 *t;
+    FontGlyphTable *result;
 
     if (g_FontSelectionState.codeIndex >= 0x46U) {
         g_FontSelectionState.loadFailed = 1;
@@ -329,19 +328,17 @@ u8 Render_FindFontGlyphSlot(void) {
     g_FontSelectionState.code = temp_a0;
     Render_LoadFontGlyph(temp_a0);
     found = 0;
-    hdr = (u8 *)g_FontSelectionState.table;
-    p = hdr + 1;
-    for (i = 0; i < hdr[3]; i++) {
-        q = p + i;
-        if (q[3] == 2) {
+    table = g_FontSelectionState.table;
+    groups = &table->groups;
+    for (i = 0; i < table->groups.count; i++) {
+        if (groups->codes[i] == 2) {
             found = i;
-            i = p[2];
+            i = groups->count;
         }
     }
-    p2 = p + 0x1B;
-    for (i = 0; i < p[0x1B]; i++) {
-        q = p2 + i;
-        if (q[1] == (found & 0xFF)) {
+    slots = (FontGlyphSlots *)(groups + 1);
+    for (i = 0; i < ((FontGlyphSlots *)(groups + 1))->count; i++) {
+        if (slots->indices[i] == (found & 0xFF)) {
             slot = i;
             goto store;
         }
@@ -350,8 +347,8 @@ u8 Render_FindFontGlyphSlot(void) {
 store:
     *(u8 *)&D_80091A1F_o = slot;
     __asm__ volatile("" : : : "memory");
-    t = (u8 *)g_FontSelectionState.table;
-    return *(t + *(t + g_FontSelectionState.selected + 0x1D) + 4);
+    result = g_FontSelectionState.table;
+    return result->groups.codes[result->slots.indices[g_FontSelectionState.selected]];
 }
 
 static inline int findSlot(int useDecimalGroup)
@@ -461,29 +458,26 @@ unsigned char Render_GetOrLoadFontGlyph(unsigned char action)
 }
 
 int Menu_FindSelectedEquipSlotItem(void) {
-    unsigned char *hdr;
-    unsigned char *p;
-    unsigned char *p2;
-    unsigned char *q;
-    unsigned char *t;
+    FontGlyphTable *table;
+    FontGlyphGroups *groups;
+    FontGlyphSlots *slots;
+    FontGlyphTable *result;
     int i;
     int found;
     int slot;
 
     found = 0;
-    hdr = (u8 *)g_FontSelectionState.table;
-    p = hdr + 1;
-    for (i = 0; i < hdr[3]; i++) {
-        q = p + i;
-        if (q[3] == 3) {
+    table = g_FontSelectionState.table;
+    groups = &table->groups;
+    for (i = 0; i < table->groups.count; i++) {
+        if (groups->codes[i] == 3) {
             found = i;
-            i = p[2];
+            i = groups->count;
         }
     }
-    p2 = p + 0x1B;
-    for (i = 0; i < p[0x1B]; i++) {
-        q = p2 + i;
-        if (q[1] == (found & 0xFF)) {
+    slots = (FontGlyphSlots *)(groups + 1);
+    for (i = 0; i < ((FontGlyphSlots *)(groups + 1))->count; i++) {
+        if (slots->indices[i] == (found & 0xFF)) {
             slot = i;
             goto store;
         }
@@ -492,8 +486,8 @@ int Menu_FindSelectedEquipSlotItem(void) {
 store:
     g_FontSelectionState.selected = slot;
     __asm__ volatile("" : : : "memory");
-    t = (u8 *)g_FontSelectionState.table;
-    return *(t + *(t + D_80091A1F_rd[0] + 0x1D) + 4);
+    result = g_FontSelectionState.table;
+    return result->groups.codes[result->slots.indices[D_80091A1F_rd[0]]];
 }
 
 int Menu_ResetEquipSlotState(void) {
