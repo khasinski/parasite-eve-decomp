@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/inventory.h"
 #include "pe1/text.h"
+#include "pe1/save.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -76,14 +77,13 @@ done:
     Draw_StatePop();
 }
 
-extern unsigned char g_CursorRenderDataBlock[];
 void Sfx_CursorRenderData(ItemDataRecord *record) {
     u8 *cursor;
 
     if (record->flags & ITEM_DATA_FLAG_GENERIC_DESCRIPTION) {
-        cursor = g_CursorRenderDataBlock;
+        cursor = g_CursorRenderMetadataWindows[0].text;
         if (record->kind == ITEM_KIND_ARMOR) {
-            cursor = g_CursorRenderDataBlock + 0x10;
+            cursor = g_CursorRenderMetadataWindows[1].text;
         }
     } else {
         cursor = Str_LookupTable8(record->itemId - 1);
