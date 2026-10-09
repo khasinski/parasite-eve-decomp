@@ -143,12 +143,11 @@ block_33:
             *var_a1 ^= temp_v1_2;
 block_34:
             Inv_RebuildSelectableMask();
-            return var_s4;
+            goto return_result;
         }
-        goto block_35;
     }
 block_35:
     var_s4 = 0;
-    __asm__("" : "=r"(var_s4) : "0"(var_s4));
+return_result:
     return var_s4;
 }
