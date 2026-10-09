@@ -31,8 +31,8 @@ int Gpu_DmaVramTransfer(RECT *rect, unsigned int color) {
         D_800A3300[4] = 0xE6000000;
         D_800A3300[5] = 0xE1000000 | (*D_80095854 & 0x7FF) | ((color >> 31) << 10);
         D_800A3300[6] = (color & 0xFFFFFF) | 0x60000000;
-        D_800A3300[7] = *(unsigned int *)&rect->x;
-        D_800A3300[8] = *(unsigned int *)&rect->w;
+        D_800A3300[7] = ((GpuRectWords *)rect)->position;
+        D_800A3300[8] = ((GpuRectWords *)rect)->size;
         D_800A3328[0] = 0x03FFFFFF;
         D_800A3328[1] = _param(3) | 0xE3000000;
         D_800A3328[2] = _param(4) | 0xE4000000;
@@ -42,8 +42,8 @@ int Gpu_DmaVramTransfer(RECT *rect, unsigned int color) {
         D_800A3300[1] = 0xE6000000;
         D_800A3300[2] = 0xE1000000 | (*D_80095854 & 0x7FF) | ((color >> 31) << 10);
         D_800A3300[3] = (color & 0xFFFFFF) | 0x02000000;
-        D_800A3300[4] = *(unsigned int *)&rect->x;
-        D_800A3300[5] = *(unsigned int *)&rect->w;
+        D_800A3300[4] = ((GpuRectWords *)rect)->position;
+        D_800A3300[5] = ((GpuRectWords *)rect)->size;
     }
     {
         Gpu_StartDmaTransfer((unsigned int)D_800A3300);

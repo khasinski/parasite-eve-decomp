@@ -14,6 +14,14 @@ typedef struct RECT {
     short h;
 } RECT;
 
+/* The GPU command stream consumes each RECT as two packed words. */
+typedef struct GpuRectWords {
+    unsigned int position;
+    unsigned int size;
+} GpuRectWords;
+PE1_GPU_STATIC_ASSERT(sizeof(GpuRectWords) == sizeof(RECT), rect_words_size);
+PE1_GPU_STATIC_ASSERT(PE1_GPU_OFFSETOF(GpuRectWords, size) == 4, rect_words_size_offset);
+
 typedef struct RECT32 {
     int x;
     int y;

@@ -284,14 +284,14 @@ int MoveImage(RECT *rect, int x, int y) {
         asm("" : "+r"(packetData));
         destinationX = x & 0xFFFF;
         destinationPosition |= destinationX;
-        sourcePosition = *(u32 *)rect;
+        sourcePosition = ((GpuRectWords *)rect)->position;
         callbacks = D_80095744;
         asm("" : "+r"(sourcePosition), "+r"(callbacks));
         packetSize = 20;
         asm("" : "+r"(packetSize));
         packetData[1] = destinationPosition;
         *packetData = sourcePosition;
-        size = *((u32 *)rect + 1);
+        size = ((GpuRectWords *)rect)->size;
         packet = packetData - 2;
         packetData[2] = size;
         asm("" : : "r"(size) : "memory");
