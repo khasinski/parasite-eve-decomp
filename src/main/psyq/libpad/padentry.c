@@ -144,9 +144,8 @@ void _padSetMainMode(CardObj *obj, int byte1, int byte2);
 void PadSetMainMode(int channel, unsigned char byte1, unsigned char byte2) {
     _padSetMainMode(g_MemCardObjLookupFn(channel), byte1, byte2);
 }
-void _padSetAct(CardObj *obj, int payload, int size);
 
-void PadSetAct(int channel, int payload, int size) {
+void PadSetAct(int channel, u8 *payload, int size) {
     _padSetAct(g_MemCardObjLookupFn(channel), payload, size);
 }
 

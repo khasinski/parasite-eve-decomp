@@ -107,7 +107,6 @@ extern u32 D_800A7770[];
 
 int PadGetState();
 int PadInfoMode(int arg0, int mode, int index);
-void PadSetAct(int arg0, void *payload, int size);
 void PadSetMainMode(int arg0, int byte1, int byte2);
 
 void Field_HandleStateTransition(void) {

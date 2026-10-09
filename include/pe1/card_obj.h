@@ -75,6 +75,8 @@ typedef struct CardObj {
 } CardObj;
 
 /* Direct-port operations shared by PADPORTD and PADMAIN. */
+void PadSetAct(int channel, u8 *payload, int size);
+void _padSetAct(CardObj *obj, u8 *payload, int size);
 void PadSetActAlign(int channel, u8 *alignment);
 int _padSetActAlign(CardObj *obj, u8 *alignment);
 void CardObj_ResetFields(CardObj *obj);

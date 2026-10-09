@@ -8,16 +8,16 @@ void CardObj_EmitCommand45(CardObj *arg0);
 void CardObj_EmitCommand4C(CardObj *arg0, unsigned char arg1);
 void CardObj_EmitCommand47(CardObj *arg0, unsigned char arg1);
 
-void _padSetAct(CardObj *arg0, int arg1, unsigned char arg2)
+void _padSetAct(CardObj *arg0, u8 *arg1, int arg2)
 {
-    arg0->payload_28 = (unsigned char *)arg1;
+    arg0->payload_28 = arg1;
     arg0->payload_28_len = arg2;
 }
 
-void _padSetCmd(CardObj *arg0, unsigned char arg1, int arg2, unsigned char arg3)
+void _padSetCmd(CardObj *arg0, unsigned char arg1, u8 *arg2, unsigned char arg3)
 {
     arg0->command = arg1;
-    arg0->payload_2c = (unsigned char *)arg2;
+    arg0->payload_2c = arg2;
     arg0->payload_2c_len = arg3;
 }
 
