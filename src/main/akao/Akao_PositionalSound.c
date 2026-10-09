@@ -1,6 +1,7 @@
 #include "pe1/akao/commands.h"
 /* MASPSX_FLAGS: --expand-div */
 #include "common.h"
+#include "pe1/game_audio_state.h"
 #include "pe1/akao/pan3d.h"
 #include "pe1/game_state.h"
 #include "pe1/gte.h"
@@ -16,7 +17,6 @@ typedef struct AkaoPosPanWork {
 
 extern void *g_LoadedSceneAssetBlock[];
 extern void *g_AkaoBgmHandle[];
-extern u8 D_800B0CE8[];
 
 int Akao_Calc3DPan(AkaoPackedRect3 *pos, int *pan, int *volume);
 s32 Akao_SendPositionalCmd(void *arg0, s32 arg1, s32 arg2, AkaoPosCoord arg3, AkaoPosCoord arg4, AkaoPosCoord arg5);
@@ -36,12 +36,10 @@ s32 Akao_SetPos3D(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u16 arg4) {
     Akao_Calc3DPan(&local.rect, &local.out1, &local.out2);
 
     {
-        u8 *base = D_800B0CE8;
+        if (D_800B0CE8.reset_pending != 0) {
+            u8 **table = &D_800B0CE8.voice_banks[3];
 
-        if (base[0] != 0) {
-            s32 *table = (s32 *)(base + 0x124);
-
-            ret = Akao_Cmd_24((void *)table[arg0], arg1, local.out1, local.out2);
+            ret = Akao_Cmd_24(table[arg0], arg1, local.out1, local.out2);
         }
     }
 
