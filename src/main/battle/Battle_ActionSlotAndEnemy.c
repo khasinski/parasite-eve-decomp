@@ -41,10 +41,10 @@ int Battle_ProcessActionSlot(BattleEntity *actor)
                     }
                 } else {
                     register int room asm("$4") = 0x5B;
-                    if (actor != D_800BE830[index].actor) goto after_room;
-                    LOAD_RESULT = Scene_LoadRoomAssets(room, actor);
-                    QUEUE_COUNT_WRITE = 0;
-                after_room:;
+                    if (actor == D_800BE830[index].actor) {
+                        LOAD_RESULT = Scene_LoadRoomAssets(room, actor);
+                        QUEUE_COUNT_WRITE = 0;
+                    }
                 }
             }
             result = 0;
@@ -61,7 +61,8 @@ int Battle_ProcessActionSlot(BattleEntity *actor)
             if ((s8)state->field04.bytes.field05 == one) {
                 if (color <= 0x80) {
                     actor->parent->renderObject.flags_9C |= 0x20;
-                    goto clear_state;
+                    state->coreFlags &= ~0x6000;
+                    goto done;
                 } else {
                     Render_FadeEntityColor(&actor->parent->renderObject, color, color, color);
                     result = 0;
@@ -89,7 +90,6 @@ int Battle_ProcessActionSlot(BattleEntity *actor)
             if (state->hpAlive <= 0) goto done;
             if (color <= 0x80) {
                 actor->renderObject.flags_9C |= 0x20;
-            clear_state:
                 state->coreFlags &= ~0x6000;
                 goto done;
             }
