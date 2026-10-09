@@ -317,9 +317,9 @@ typedef struct BattleEntity {
 /* 0x020 */ s32  moveFactor;
 /* 0x024 */ u16  fieldSfxId;
 /* 0x026 */ u16  moveSpeed;
-/* 0x028 */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posX;
-/* 0x02C */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posY;
-/* 0x030 */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posZ;
+/* 0x028 */ Pe1Fixed16_16 posX;
+/* 0x02C */ Pe1Fixed16_16 posY;
+/* 0x030 */ Pe1Fixed16_16 posZ;
 /* 0x034 */ u8   pad_034[4];
 /* 0x038 */ s16  rotationX;
 /* 0x03A */ s16  facingAngle;   /* facing/heading, set from target (Battle_UpdateEntityFacing.c:71) */

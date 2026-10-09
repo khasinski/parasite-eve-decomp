@@ -13,7 +13,6 @@
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 
-#define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
@@ -68,9 +67,9 @@ int Task_SetGteMatrix(int **args) {
     u32 flags;
 
     setup_actor = D2F0_setup[0];
-    setup_actor->render_object.model_matrix.translation[0] = S16_AT(setup_actor, 0x2A);
-    setup_actor->render_object.model_matrix.translation[1] = S16_AT(setup_actor, 0x2E);
-    setup_actor->render_object.model_matrix.translation[2] = S16_AT(setup_actor, 0x32);
+    setup_actor->render_object.model_matrix.translation[0] = Pe1Fixed_Integer(&setup_actor->pos_x);
+    setup_actor->render_object.model_matrix.translation[1] = Pe1Fixed_Integer(&setup_actor->pos_y);
+    setup_actor->render_object.model_matrix.translation[2] = Pe1Fixed_Integer(&setup_actor->pos_z);
     U16_AT(setup_actor, 0x1E0) = U16_AT(setup_actor, 0x38);
     U16_AT(setup_actor, 0x1E2) = U16_AT(setup_actor, 0x3A);
     U16_AT(setup_actor, 0x1E4) = U16_AT(setup_actor, 0x3C);

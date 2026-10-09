@@ -2,6 +2,7 @@
 #define PE1_FIELD_ACTOR_H
 
 #include "common.h"
+#include "pe1/fixed_point.h"
 #include "pe1/task_node.h"
 #include "pe1/render_object.h"
 
@@ -26,6 +27,7 @@ typedef struct FieldActor {
     /* 0x020 */ int move_factor;          /* fixed movement magnitude, scaled for the player */
     /* 0x024 */ unsigned short field_sfx_id; /* entity value forwarded to Task_QueueFieldSfx */
     /* 0x026 */ unsigned short move_speed;  /* movement-speed multiplier, written by Task_SetEntityMoveSpeed */
+    /* Signed 16.16 coordinates; Pe1Fixed_Integer reads their high halfwords. */
     /* 0x028 */ int pos_x;
     /* 0x02C */ int pos_y;
     /* 0x030 */ int pos_z;
