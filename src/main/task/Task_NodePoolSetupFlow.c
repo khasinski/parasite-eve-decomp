@@ -94,15 +94,14 @@ relocate:
 
 void Task_DrawSyncAndFlush(void) {
     unsigned int i;
-    register int offset asm("$17");
+    int offset;
     RelocBlock *block;
-    unsigned int count;
     char frame[8];
 
     DrawSync(0);
     block = g_SceneDataTable1;
-    count = (unsigned char)block->u0.base[0];
-    if (count != 0) {
+    i = (unsigned char)block->u0.base[0] != 0;
+    if (i != 0) {
         i = 0;
         offset = 1;
         do {
