@@ -105,7 +105,7 @@ int Battle_ProcessActionSlot(BattleEntity *actor)
     }
 }
 /* Advance enemy charge/status timers, movement, damage panels and death state.
-* Matching debt: 10 register pins and 3 empty compiler barriers retain retail
+* Matching debt: register pins and empty compiler barriers retain retail
 * register lifetimes and the distinct core/statusCore aliases. No instruction ASM.
 * curHP is the existing name for the 0..9000 charge gauge in this core view.
 */
@@ -113,7 +113,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
     register BattleEntity *actor asm("$16") = entity;
     register EnemyCombatant *statusCore asm("$18");
     BattleEntity *parent;
-    register BattleEntity *livingLink asm("$5");
+    BattleEntity *livingLink;
     BattleEntity *linkedActor;
     EnemyCombatant *linkedCore;
     EnemyCombatant *enemy;
@@ -356,27 +356,30 @@ stepDeathAnimation:
                 Battle_StepEntityAnimState(actor);
             } else {
                 livingLink = D_8009D20C;
-findLivingLink:
-                if (livingLink == 0) {
-                    deadKind = (s8) enemy->field04.bytes.field05;
-                    if (deadKind != 3) {
-                        if (deadKind == 1) {
-                            actor->entityFlags |= 0x10;
-                            Battle_SlotFree(actor);
-                            actor->parent->motionX = 0;
-                            actor->parent->motionY = 0;
-                            actor->parent->motionZ = 0;
-                            Battle_StepEntityAnimState(actor->parent);
+                for (;;) {
+                    if (livingLink == 0) {
+                        deadKind = (s8) enemy->field04.bytes.field05;
+                        if (deadKind != 3) {
+                            if (deadKind == 1) {
+                                actor->entityFlags |= 0x10;
+                                Battle_SlotFree(actor);
+                                actor->parent->motionX = 0;
+                                actor->parent->motionY = 0;
+                                actor->parent->motionZ = 0;
+                                Battle_StepEntityAnimState(actor->parent);
+                            }
+                        } else {
+                            goto stepDeathAnimation;
                         }
+                        break;
                     } else {
-                        goto stepDeathAnimation;
+                        linkedCore = livingLink->core;
+                        if ((linkedCore == 0) || (livingLink == D_8009D254) || (linkedKindValue = (s8) linkedCore->field04.bytes.field05, (linkedKindValue == 0)) || (linkedKindValue == 2) || (linkedKindValue == 4) || (linkedCore->hpAlive <= 0)) {
+                            livingLink = livingLink->next;
+                            continue;
+                        }
                     }
-                } else {
-                    linkedCore = livingLink->core;
-                    if ((linkedCore == 0) || (livingLink == D_8009D254) || (linkedKindValue = (s8) linkedCore->field04.bytes.field05, (linkedKindValue == 0)) || (linkedKindValue == 2) || (linkedKindValue == 4) || (linkedCore->hpAlive <= 0)) {
-                        livingLink = livingLink->next;
-                        goto findLivingLink;
-                    }
+                    break;
                 }
             }
         }
