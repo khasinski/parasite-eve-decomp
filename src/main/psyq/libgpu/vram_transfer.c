@@ -23,7 +23,8 @@ int Gpu_WaitDmaComplete(RECT *rect, unsigned int *data)
     int words, remainder, blocks;
     register int variant asm("$21");
     unsigned int status;
-    register unsigned int firstMask asm("$3");
+    unsigned int firstMask;
+    int readyBit;
     int firstEnd;
     unsigned int command;
     unsigned int *port;
@@ -49,7 +50,8 @@ int Gpu_WaitDmaComplete(RECT *rect, unsigned int *data)
     status = *D_80095854.gp1;
     /* Keep the first readiness mask separate from the loop's invariant. */
     asm volatile("" : "+r"(status));
-    firstMask = 0x04000000;
+    readyBit = 0x04000000;
+    firstMask = readyBit;
     asm volatile("" : "+r"(firstMask) : "r"(status));
     if (!(status & firstMask)) {
         do {
