@@ -23,7 +23,7 @@ extern s32 g_AyaSaveTotalExp[];
 void Inv_InitMaxLevelInventory(s32 arg0) {
     u16 *nextStat;
     u16 *stat;
-    register s16 allocation asm("$2");
+    s32 allocation;
     s32 category;
     u16 maxHp;
     s32 mode;
@@ -58,9 +58,8 @@ void Inv_InitMaxLevelInventory(s32 arg0) {
         if (mode == 0) {
             allocation = 0x3E8;
         } else {
-            register s32 combatCategory asm("$2");
-            combatCategory = (u32)(category - 1) < 2;
-            if (combatCategory != 0) {
+            allocation = (u32)(category - 1) < 2;
+            if (allocation != 0) {
                 allocation = 0;
             } else {
                 allocation = 0x3E8;
