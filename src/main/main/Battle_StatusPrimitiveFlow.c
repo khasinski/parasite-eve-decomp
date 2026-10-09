@@ -242,16 +242,16 @@ void Battle_DrawSpellName(void) {
         __asm__ __volatile__("" :: "r"(r130));
         q508 = D_8009E508;
         {
-            u8 *pa;
+            RenderSpritePacket *pa;
             u8 e0a;
-            pa = q508 + c * 0x118;
+            pa = (RenderSpritePacket *)(q508 + c * 0x118);
             e0a = 0xE0;
-                        pa[0xC] = e0a;
+                        pa->u = e0a;
             {
                 s32 cB;
                 cB = CDDCB;
-                *(s16 *)(pa + 0x10) = 8;
-                *(s16 *)(pa + 0x12) = 0x10;
+                pa->width = 8;
+                pa->height = 0x10;
                 (q508 + cB * 0x118)[0xD] = e0a;
             }
         }
@@ -295,7 +295,7 @@ void Battle_DrawSpellName(void) {
         e5m8 = e508 - 8;
         do {
             s32 s0;
-            u8 *pl;
+            RenderSpritePacket *pl;
             {
                 register s32 t118 asm("$3");
                 {
@@ -305,31 +305,31 @@ void Battle_DrawSpellName(void) {
                     s0 = i * 0x1C;
                 }
                 t118 += s0;
-                pl = (u8 *)t118 + (u32)e508;
+                pl = (RenderSpritePacket *)((u8 *)t118 + (u32)e508);
             }
             {
                 Combatant *dval;
                 dval = D_8009D278;
-                *(s16 *)(pl + 0x10) = 4;
-                *(s16 *)(pl + 0x12) = 0x10;
+                pl->width = 4;
+                pl->height = 0x10;
                 d68 = dval->action;
             }
             if ((d68->attackWord & 0x300000) == 0x300000) {
                 r130 = 0x130;
-                                pl[0xC] = 0xD8;
+                                pl->u = 0xD8;
                 c1 = CDDCF;
                 ((u8 *)(c1 * 0x118 + s0) + (u32)e508)[0xD] = e0;
                 clut = GetClut(r130, 0x1FB);
             } else if ((d68->turnWord & 0xC0) == 0x80) {
                 r130 = 0x130;
-                                pl[0xC] = 0xDC;
+                                pl->u = 0xDC;
                 c1 = CDDCG;
                 ((u8 *)(c1 * 0x118 + s0) + (u32)e508)[0xD] = e0;
                 clut = GetClut(r130, 0x1FC);
             } else {
                 u8 dv = 0xD4;
                 r130 = 0x130;
-                                pl[0xC] = dv;
+                                pl->u = dv;
                 c1 = CDDCH;
                 ((u8 *)(c1 * 0x118 + s0) + (u32)e508)[0xD] = e0;
                 clut = GetClut(r130, 0x1FA);
