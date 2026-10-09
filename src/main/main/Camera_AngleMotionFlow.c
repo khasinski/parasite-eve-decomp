@@ -164,10 +164,9 @@ s32 Camera_StepAngleFade(s32 **arg0) {
     register s32 ta1b asm("$6");
     s32 temp_t1;
     TaskNode *p300;
-    register s32 temp_v1 asm("$8");
     s32 tv1a;
     u16 temp_a3;
-    register s32 tv0c asm("$8");
+    s32 desiredAngle;
     register s32 phaseValue asm("$2");
     register s32 turnIncrement asm("$7");
     register s32 ta1d asm("$4");
@@ -211,7 +210,7 @@ s32 Camera_StepAngleFade(s32 **arg0) {
         temp_v1x = tv0 & 0xFFF;
         tv1a = temp_v1x;
         __asm__("" : "=r"(tv1a) : "0"(tv1a));
-        temp_v1 = temp_v1x;
+        desiredAngle = temp_v1x;
         if (ta1b == tv1a) {
             phaseValue = 1;
             goto exit;
@@ -224,7 +223,7 @@ s32 Camera_StepAngleFade(s32 **arg0) {
         } else {
             var_v1 = temp_a1 - temp_v1x;
         }
-        if ((s16) temp_v1 < ta1c) {
+        if ((s16) desiredAngle < ta1c) {
             vext = var_v1 << 0x10;
             if ((vext >> 0x10) >= 0x801) {
                 sa3a = (s16) temp_a3;
@@ -240,7 +239,7 @@ block_11:
             sa3c = -(s16) temp_a3;
             g_TaskNodePool->target14 = sa3c;
         }
-        phaseValue = (s16) temp_v1;
+        phaseValue = (s16) desiredAngle;
         g_TaskNodePool->target18.coordinate = phaseValue;
     }
     p13 = g_TaskNodePool;
@@ -248,8 +247,8 @@ block_11:
     temp_a1_2 = p13->target14;
     phaseValue = p13->target18.coordinate;
     __asm__("" : "=r"(phaseValue) : "0"(phaseValue));
-    tv0c = phaseValue;
-    __asm__("" : "=r"(tv0c) : "0"(tv0c));
+    desiredAngle = phaseValue;
+    __asm__("" : "=r"(desiredAngle) : "0"(desiredAngle));
     sv0 = (s16) phaseValue;
     turnIncrement = temp_a1_2;
     if (ta1d < sv0) goto chk2;
@@ -275,12 +274,11 @@ inner:
         temp_v1_2 = ta1c + temp_v0_2;
         if (temp_v0_2 > 0) {
             if (temp_v1_2 >= 0x1001) {
-                if ((temp_v1_2 & 0xFFF) < (s16) tv0c) {
+                if ((temp_v1_2 & 0xFFF) < (s16) desiredAngle) {
                     goto block_21;
                 }
                 goto block_24;
             }
-            goto block_21;
         }
 block_21:
         temp_v0_3 = (s16) turnIncrement;
@@ -288,7 +286,7 @@ block_21:
             temp_v0_4 = ta1c + temp_v0_3;
             if (temp_v0_4 < 0) {
                 tmask4 = temp_v0_4 & 0xFFF;
-                if ((s16) tv0c < tmask4) {
+                if ((s16) desiredAngle < tmask4) {
                     goto block_26;
                 }
                 goto block_24;
@@ -298,7 +296,7 @@ block_21:
     }
 block_24:
     p24 = g_TaskNodePool;
-    g_CurrentEntity->rot_y = (u16) tv0c;
+    g_CurrentEntity->rot_y = (u16) desiredAngle;
     p24->flags = (u16) (p24->flags & 0xFFDF);
     phaseValue = 1;
     goto exit;
