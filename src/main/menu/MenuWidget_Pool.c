@@ -72,25 +72,20 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     if (temp_s1 != NULL) {
         var_a0_2 = 0;
         var_v1 = temp_s1;
-loop_6:
-        {
-            s32 temp_v0;
-            temp_v0 = M2C_FIELD(var_v1, s32 *, 8);
+        for (;;) {
+            s32 temp_v0 = M2C_FIELD(var_v1, s32 *, 8);
             if (temp_v0 == 0) {
-                temp_v0 = var_a0_2 < 4;
-                var_v0 = temp_v0;
-                goto block_8;
+                var_v0 = var_a0_2 < 4;
+                break;
+            }
+            var_a0_2 += 1;
+            var_v1 += 4;
+            if (var_a0_2 >= 4) {
+                asm volatile("" : "=r"(var_a0_2) : "0"(var_a0_2));
+                var_v0 = var_a0_2 < 4;
+                break;
             }
         }
-        var_a0_2 += 1;
-        var_v1 += 4;
-        if (var_a0_2 >= 4) {
-            asm volatile("" : "=r"(var_a0_2) : "0"(var_a0_2));
-            var_v0 = var_a0_2 < 4;
-        } else {
-            goto loop_6;
-        }
-block_8:
         if (var_v0 != 0) {
             temp_s1->children[var_a0_2] = temp_s0;
         } else {
