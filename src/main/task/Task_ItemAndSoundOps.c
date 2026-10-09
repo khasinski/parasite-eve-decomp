@@ -11,8 +11,9 @@
 #include "common.h"
 #include "pe1/task_node.h"
 #include "pe1/game_audio_state.h"
+#include "pe1/game_state_types.h"
 
-extern int g_GameState[];
+extern Pe1GameState g_GameState;
 extern int g_SceneDataTable0;
 extern TaskNode *g_TaskNodePool;
 extern int g_GameStateFlags[];
@@ -31,12 +32,12 @@ int Task_SetActorScreenPos(int **arg0) {
 }
 
 int Task_OpenMemCardDialog(void) {
-    int *state = g_GameState;
+    Pe1GameState *state = &g_GameState;
     int *node;
     int flags;
     int cursor;
 
-    if ((state[0] & 0x1000) == 0) {
+    if ((state->flags & 0x1000) == 0) {
         node = (int *)g_TaskNodePool;
         flags = *(unsigned short *)(node + 2);
         if (flags & 0x20) {
@@ -56,13 +57,12 @@ finish:
     Render_BeginSceneLoad();
     Menu_OpenStartupMemCardDialog();
     {
-        register int ret asm("$2") = state[0];
+        register int ret asm("$2") = state->flags;
         TaskNode *tail_node = g_TaskNodePool;
 
         int tail_flags;
-        asm volatile("" : : "r"(ret), "r"(tail_node));
         ret |= 0x9000;
-        state[0] = ret;
+        state->flags = ret;
         ret = g_GameStateFlags[0];
         tail_flags = tail_node->flags;
         ret |= 4;
@@ -75,13 +75,13 @@ finish:
 }
 
 int Task_ShowReceivedItem(int **arg0) {
-    int *state = g_GameState;
+    Pe1GameState *state = &g_GameState;
     int **saved = arg0;
     int *node;
     int flags;
     int cursor;
 
-    if (state[0] & 0x1000) {
+    if (state->flags & 0x1000) {
         goto ret_one;
     }
 
@@ -101,13 +101,12 @@ finish:
     Render_BeginSceneLoad();
     Menu_CreateItemUsePanel(**saved);
     {
-        register int ret asm("$2") = state[0];
+        register int ret asm("$2") = state->flags;
         TaskNode *tail_node = g_TaskNodePool;
 
         int tail_flags;
-        asm volatile("" : : "r"(ret), "r"(tail_node));
         ret |= 0x9000;
-        state[0] = ret;
+        state->flags = ret;
         ret = g_GameStateFlags[0];
         tail_flags = tail_node->flags;
         ret |= 4;
@@ -150,9 +149,9 @@ after_builder:
             goto set_pending;
         }
         {
-            int *state = g_GameState;
+            Pe1GameState *state = &g_GameState;
             node->flags = flags | 0x20;
-            state[0] |= 0x9000;
+            state->flags |= 0x9000;
             Render_BeginSceneLoad();
         }
         goto pop_state;
