@@ -1,8 +1,6 @@
 /* ASSEMBLER: GNU */
-/* PSY-Q LIBSPU SPU, part 1 of 5: _spu_init, _spu_FwriteByIO. */
-/* SPU stays in five units: spu.c and spu_2.c only match with GCC 2.7.2,
- * spu_3.c and spu_5.c only with GCC 2.8.1, spu_4.c only with the GAS 2.8.1
- * assembler. */
+/* PSY-Q LIBSPU SPU.OBJ: initialization, programmed I/O and DMA interrupt.
+ * Transfer and register helpers retain separate compiler/assembler profiles. */
 #include "pe1/psyq_spu_internal.h"
 #include "pe1/psyq_bios.h"
 
@@ -136,5 +134,31 @@ void _spu_FwriteByIO(void *address, u32 size) {
             printf(D_80011C4C, D_80011C80);
             break;
         }
+    }
+}
+
+
+int DeliverEvent(u32 event, u32 spec);
+
+void _spu_FiDMA(void)
+{
+    u32 count;
+
+    if (g_SpuDmaDirection == 0) {
+        _spu_Fw1ts();
+    }
+    _spu_RXX->spucnt &= ~0x30;
+    count = 0;
+    while (_spu_RXX->spucnt & 0x30) {
+        if (++count > 0xF00) {
+            break;
+        }
+    }
+    /* The poll counter is dead; do not compensate its speculative increment. */
+    asm volatile("" : : : "$3");
+    if (_spu_transferCallback != 0) {
+        _spu_transferCallback();
+    } else {
+        DeliverEvent(0xF0000009, 0x20);
     }
 }
