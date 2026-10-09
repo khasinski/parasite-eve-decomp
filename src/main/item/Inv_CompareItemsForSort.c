@@ -2,10 +2,13 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/inventory_sort.h"
+#include "pe1/psyq_libc.h"
 
 extern ItemDataRecord *(*g_InvLookupPtr)(int);
 
-int Inv_CompareItemsForSort(const short *leftIndex, const short *rightIndex) {
+int Inv_CompareItemsForSort(const void *leftElement, const void *rightElement) {
+    const short *leftIndex = leftElement;
+    const short *rightIndex = rightElement;
     ItemDataRecord *left;
     ItemDataRecord *right;
     int leftKind;
@@ -84,8 +87,10 @@ left_item_is_empty:
 extern s32 D_8009D0A0;
 extern ItemDataRecord *(*g_InvLookupPtr)(int) __asm__("D_8009D0B4");
 
-int Inv_CompareItemsByStatForSort(s16 *leftIndex, s16 *rightIndex)
+int Inv_CompareItemsByStatForSort(const void *leftElement, const void *rightElement)
 {
+    s16 *leftIndex = (s16 *)leftElement;
+    s16 *rightIndex = (s16 *)rightElement;
     ItemDataRecord *left;
     ItemDataRecord *right;
     int leftValue;
@@ -133,7 +138,6 @@ int Inv_CompareItemsByStatForSort(s16 *leftIndex, s16 *rightIndex)
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK qsort();
 extern s32 D_8009D0A0;
 extern s32 D_8009D0A4;
 extern u16 *g_InvSortListBase;
@@ -187,7 +191,6 @@ void Inv_SortWeaponSubrange(void) {
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK qsort();
 extern s32 D_8009D0A0;
 extern s32 D_8009D0A8;
 extern u16 *g_InvSortListBase;
@@ -244,7 +247,6 @@ void Inv_SortAmmoSubrange(void) {
 s32 Inv_GetAyaSlotLimit();
 void Inv_SortWeaponSubrange(void);
 void Inv_SortAmmoSubrange(void);
-M2C_UNK qsort();
 extern M2C_UNK g_InvSortRankTableA[];
 #define g_InvSortRankTableA (g_InvSortRankTableA[0])
 extern M2C_UNK D_80092428[];
@@ -272,7 +274,6 @@ extern s8 g_AyaEquippedWeaponSlot[];
 extern s8 g_AyaEquippedArmorSlot[];
 #define g_AyaEquippedArmorSlot (g_AyaEquippedArmorSlot[0])
 void *Inv_LookupData(unsigned int arg0);
-int Inv_CompareItemsForSort(const s16 *leftIndex, const s16 *rightIndex);
 extern s16 g_AyaInventoryItems[];
 #define g_AyaInventoryItems (g_AyaInventoryItems[0])
 

@@ -11,7 +11,7 @@ extern unsigned char *D_8009D0BC;
 #define g_InvSortStatIndex D_8009D0A0
 #define g_InvSortLookup D_8009D0B4
 
-int Inv_CompareItemsByStatForSort(short *leftIndex, short *rightIndex);
-int Inv_CompareItemsForSort(const short *leftIndex, const short *rightIndex);
+int Inv_CompareItemsByStatForSort(const void *leftElement, const void *rightElement);
+int Inv_CompareItemsForSort(const void *leftElement, const void *rightElement);
 
 #endif
