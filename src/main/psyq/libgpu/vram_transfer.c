@@ -89,7 +89,8 @@ int Gpu_WaitDmaComplete(RECT *rect, unsigned int *data)
 int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
 {
     int words, remainder, blocks;
-    register unsigned int status asm("$2");
+    unsigned int commandStatus;
+    unsigned int readStatus;
     unsigned int firstMask;
     int firstEnd;
     unsigned short width, height;
@@ -109,13 +110,13 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
     remainder = words % 16;
     asm volatile("" : "+r"(rect));
     blocks = words / 16;
-    status = *D_80095854.gp1;
+    commandStatus = *D_80095854.gp1;
     /* The initial test and retry loop materialize their masks separately. */
-    asm volatile("" : "+r"(status));
+    asm volatile("" : "+r"(commandStatus));
     firstMask = 0x04000000;
-    asm volatile("" : "+r"(firstMask) : "r"(status));
-    status &= firstMask;
-    if (!status) {
+    asm volatile("" : "+r"(firstMask) : "r"(commandStatus));
+    commandStatus &= firstMask;
+    if (!commandStatus) {
         do {
             if (Gpu_DmaTimeoutCheck()) return -1;
         } while (!(*D_80095854.gp1 & 0x04000000));
@@ -125,12 +126,12 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
     *D_80095850 = 0xC0000000;
     *D_80095850 = *(unsigned int *)&rect->x;
     *D_80095850 = *(unsigned int *)&rect->w;
-    status = *D_80095854.gp1;
-    asm volatile("" : "+r"(status));
+    readStatus = *D_80095854.gp1;
+    asm volatile("" : "+r"(readStatus));
     firstMask = 0x08000000;
-    asm volatile("" : "+r"(firstMask) : "r"(status));
-    status &= firstMask;
-    if (!status) {
+    asm volatile("" : "+r"(firstMask) : "r"(readStatus));
+    readStatus &= firstMask;
+    if (!readStatus) {
         do {
             if (Gpu_DmaTimeoutCheck()) return -1;
         } while (!(*D_80095854.gp1 & 0x08000000));
