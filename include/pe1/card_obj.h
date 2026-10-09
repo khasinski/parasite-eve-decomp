@@ -63,13 +63,13 @@ typedef struct CardObj {
     unsigned char actuatorEnabled[0x06]; /* 0x57: payload-byte activation flags */
     unsigned char actuatorMap[0x06]; /* 0x5D: capability index per payload byte, 0xFF = unused */
     unsigned char pad_63[0x80];
-    unsigned char field_e3;           /* 0xE3 */
+    unsigned char modeCount;           /* 0xE3 */
     unsigned char field_e4;           /* 0xE4 */
     unsigned char pad_e5[0x01];
     unsigned short field_e6;          /* 0xE6 */
     unsigned char field_e8;           /* 0xE8 */
-    unsigned char field_e9;           /* 0xE9 */
-    unsigned char field_ea;           /* 0xEA */
+    unsigned char actuatorCount;           /* 0xE9 */
+    unsigned char combinationCount;           /* 0xEA */
     unsigned char pad_eb[0x01];
     int combinationStorageBytes;                     /* 0xEC: combination headers and aligned data size */
 } CardObj;

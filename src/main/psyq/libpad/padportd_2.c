@@ -15,11 +15,11 @@ void CardObj_ResetFields(CardObj *arg0) {
         arg0->field_e6 = 0;
         arg0->fn_14 = 0;
         arg0->fn_18 = 0;
-        arg0->field_e3 = 0;
+        arg0->modeCount = 0;
         arg0->field_e4 = 0;
         arg0->field_e6 = 0;
-        arg0->field_e9 = 0;
-        arg0->field_ea = 0;
+        arg0->actuatorCount = 0;
+        arg0->combinationCount = 0;
         arg0->modeTable = 0;
         arg0->capabilities = 0;
         arg0->combinations = 0;

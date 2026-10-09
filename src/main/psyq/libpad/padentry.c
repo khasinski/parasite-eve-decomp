@@ -70,9 +70,9 @@ int PadInfoMode(int channel, int mode, int index) {
         return obj->field_e4;
     case 4:
         if (index < 0) {
-            return obj->field_e3;
+            return obj->modeCount;
         }
-        if (index < obj->field_e3) {
+        if (index < obj->modeCount) {
             return obj->modeTable[index];
         }
         goto late_fail;
@@ -92,9 +92,9 @@ int PadInfoAct(int channel, int index, int field) {
 
     obj = g_MemCardObjLookupFn(channel);
     if (index < 0) {
-        return obj->field_e9;
+        return obj->actuatorCount;
     }
-    if (index >= obj->field_e9) {
+    if (index >= obj->actuatorCount) {
         return 0;
     }
 
@@ -121,9 +121,9 @@ int PadInfoComb(int channel, int index0, int index1) {
 
     obj = g_MemCardObjLookupFn(channel);
     if (index0 < 0) {
-        return obj->field_ea;
+        return obj->combinationCount;
     }
-    if (index0 >= obj->field_ea) {
+    if (index0 >= obj->combinationCount) {
         return 0;
     }
     entry = &obj->combinations[index0];

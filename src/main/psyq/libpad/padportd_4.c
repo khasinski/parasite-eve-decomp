@@ -74,7 +74,7 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
             limit = port->payload_28_len;
         }
         i = 0;
-        if (port->field_e9) {
+        if (port->actuatorCount) {
             one = 1;
             offset = 0;
             do {
@@ -128,7 +128,7 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
                             } while (j < limit);
                     }
                 }
-                count = port->field_e9;
+                count = port->actuatorCount;
                 asm("" : "=r"(i) : "0"(i), "r"(count));
                 i++;
                 offset += 5;

@@ -50,11 +50,11 @@ int _padRecvAtLoadInfo(CardObj *obj) {
     unsigned int responseValue;
     switch (obj->field_46) {
     case 2:
-        obj->field_e3 = CARD_RESPONSE(obj)[3];
+        obj->modeCount = CARD_RESPONSE(obj)[3];
         obj->field_e4 = CARD_RESPONSE(obj)[4];
         obj->field_e6 = 0;
-        obj->field_e9 = CARD_RESPONSE(obj)[5];
-        obj->field_ea = CARD_RESPONSE(obj)[6];
+        obj->actuatorCount = CARD_RESPONSE(obj)[5];
+        obj->combinationCount = CARD_RESPONSE(obj)[6];
         obj->combinationStorageBytes = 0;
         break;
 
@@ -74,7 +74,7 @@ int _padRecvAtLoadInfo(CardObj *obj) {
         chunk += 8;
         chunk += (responseValue + 3) & 0x1FC;
         obj->combinationStorageBytes = chunk;
-        if ((next & 0xFF) < obj->field_ea) {
+        if ((next & 0xFF) < obj->combinationCount) {
 return_zero:
             return 0;
         }
@@ -102,8 +102,8 @@ int _padGetActSize(CardObj *arg0) {
     int raw_first;
     int raw_second;
 
-    raw_first = arg0->field_e3;
-    raw_second = arg0->field_e9;
+    raw_first = arg0->modeCount;
+    raw_second = arg0->actuatorCount;
     base = arg0->combinationStorageBytes;
 
     first = raw_first + 1;
@@ -152,11 +152,11 @@ initialize:
     obj->field_46 = state;
     obj->fn_14 = (void (*)(void *))CardObj_EmitReadTransferCommand;
     asm volatile("" ::: "memory");
-    rowCount = obj->field_e3;
+    rowCount = obj->modeCount;
         processFn = LIBPAD_PADCMD_text_3A0;
     obj->fn_18 = processFn;
     asm volatile("" ::: "memory");
-    columnCount = obj->field_e9;
+    columnCount = obj->actuatorCount;
     asm volatile("" : "=r"(rowCount), "=r"(columnCount), "=r"(result) : "0"(rowCount), "1"(columnCount), "2"(result));
 
     cursor <<= 2;
@@ -203,7 +203,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
         port->modeTable[port->infoRecordIndex] =
             port->response_3c[5] + (port->response_3c[4] << 8);
         port->infoRecordIndex++;
-        if (port->infoRecordIndex >= port->field_e3) {
+        if (port->infoRecordIndex >= port->modeCount) {
             port->infoRecordIndex = 0;
             goto complete;
         }
@@ -220,7 +220,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
             record->high_bit = high >> 7;
         }
         port->infoRecordIndex++;
-        if (port->infoRecordIndex >= port->field_e9) {
+        if (port->infoRecordIndex >= port->actuatorCount) {
             port->infoRecordIndex = 0;
             port->combinationBytesRemaining = 0;
             goto complete;
@@ -245,7 +245,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
                 source = response + 5;
                 if (index == 0) {
                     base = (u8 *)port->combinations;
-                    offset = port->field_ea * 8;
+                    offset = port->combinationCount * 8;
                 } else {
                     base = record[-1].data;
                     offset = (record[-1].length + 3) & 0x1fc;
@@ -286,7 +286,7 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
     exhausted:
         {
             port->infoRecordIndex++;
-            if (port->infoRecordIndex >= port->field_ea) {
+            if (port->infoRecordIndex >= port->combinationCount) {
                 port->communicationState = 6;
                 port->field_46 = 254;
                 return 0;
@@ -347,7 +347,7 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
     register s32 limit asm("$2");
 
     i = 0;
-    if (arg0->field_e9 != 0) {
+    if (arg0->actuatorCount != 0) {
         ff = 0xFF;
         offset = 0;
         do {
@@ -379,7 +379,7 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
                 written += 1;
                 out += 1;
             } while (written < 6);
-            limit = arg0->field_e9;
+            limit = arg0->actuatorCount;
             i += 1;
             offset += 5;
         } while (i < limit);
