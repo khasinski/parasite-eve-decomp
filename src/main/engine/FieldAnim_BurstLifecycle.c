@@ -1,3 +1,4 @@
+#include "pe1/field_engine_slot.h"
 #include "pe1/akao/commands.h"
 /* Burst and spark effect setup, draw and lifecycle callbacks. */
 
@@ -7,7 +8,6 @@
 #include "pe1/field_anim.h"
 #include "pe1/field_anim_particle.h"
 
-extern u16 D_800E27EA;
 
 int func_800CD50C(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     int *base_a1;
@@ -19,33 +19,33 @@ int func_800CD50C(void *arg0, void *arg1, FieldAnimGlowPoint *anim) {
     func_800C3238(3);
 
     base_a1 = &D_800F3478.t[0];
-    field_v1 = &D_800E27EA;
+    field_v1 = &D_800E27E0.depth;
     base_a1[0] = (s16)anim->position.x;
     D_800F3478.t[1] = (s16)anim->position.y;
     D_800F3478.t[2] = (s16)anim->position.z;
     *field_v1 = anim->brightness;
-    func_800C42A4((FieldGlowSprite *)((u8 *)field_v1 - 10), (GteMatrix *)(base_a1 - 5), 1);
+    func_800C42A4((FieldGlowSprite *)((u8 *)field_v1 - PE1_OFFSETOF(FieldGlowSprite, depth)), (GteMatrix *)(base_a1 - 5), 1);
 }
 
 void func_800CD59C(void) {
 }
 
-int func_800CD5A4(void *arg0, u8 *state) {
+int func_800CD5A4(void *arg0, FieldEngSlot *state) {
     int ret = 2;
-    state[1] = ret;
+    state->flag = ret;
     return ret;
 }
 
-int func_800CD5B0(void *arg0, u8 *state, FieldAnimGlowPoint *anim) {
+int func_800CD5B0(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
     anim->brightness = anim->brightness - 0xA;
     (*(u16 *)&anim->scale) = (*(u16 *)&anim->scale) + 0x3C;
     if ((s16)anim->brightness < 0x14) {
         anim->brightness = 0;
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
-int func_800CD5EC(void *arg0, u8 *state, FieldAnimTwoPointMotion *anim) {
+int func_800CD5EC(void *arg0, FieldEngSlot *state, FieldAnimTwoPointMotion *anim) {
     unsigned int i = 0;
 
     do {
@@ -59,13 +59,13 @@ int func_800CD5EC(void *arg0, u8 *state, FieldAnimTwoPointMotion *anim) {
 
     anim->age++;
     if ((signed char)anim->age >= 8) {
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
 int rand(void);
 
-int func_800CD678(void *arg0, u8 *state, FieldAnimGlowPoint *anim) {
+int func_800CD678(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
     int value = rand() % 11;
     int jitter;
     FieldAnimGlowPoint *output;
@@ -83,17 +83,16 @@ int func_800CD678(void *arg0, u8 *state, FieldAnimGlowPoint *anim) {
     positionX += jitter;
     anim->position.x = positionX;
     if (value > (short)brightness) {
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
-int func_800CD71C(void *arg0, u8 *state) {
+int func_800CD71C(void *arg0, FieldEngSlot *state) {
     int ret = 2;
-    state[1] = ret;
+    state->flag = ret;
     return ret;
 }
 
-#include "pe1/field_engine_slot.h"
 
 extern int D_800E0F6C;
 
@@ -372,13 +371,13 @@ int func_800CDE90(void *arg0, void *arg1, FieldAnimSparkPoint *anim) {
     func_800C3B04(output);
 }
 
-int func_800CDF40(void *arg0, u8 *state) {
+int func_800CDF40(void *arg0, FieldEngSlot *state) {
     int ret = 2;
-    state[1] = ret;
+    state->flag = ret;
     return ret;
 }
 
-int func_800CDF4C(void *arg0, u8 *state, FieldAnimSparkCloud *anim) {
+int func_800CDF4C(void *arg0, FieldEngSlot *state, FieldAnimSparkCloud *anim) {
     unsigned int i = 0;
 
     anim->center.brightness -= 0x10;
@@ -394,11 +393,11 @@ int func_800CDF4C(void *arg0, u8 *state, FieldAnimSparkCloud *anim) {
     } while ((i & 0xFFFF) < 8);
 
     if ((signed char)anim->center.brightness < 0x10) {
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
-int func_800CDFE0(void *arg0, u8 *state, FieldAnimSparkPoint *anim) {
+int func_800CDFE0(void *arg0, FieldEngSlot *state, FieldAnimSparkPoint *anim) {
     int value = rand() % 11;
     int jitter;
     FieldAnimSparkPoint *output;
@@ -416,7 +415,7 @@ int func_800CDFE0(void *arg0, u8 *state, FieldAnimSparkPoint *anim) {
     positionX += jitter;
     anim->position.x = positionX;
     if (value > (signed char)brightness) {
-        state[1] = 2;
+        state->flag = 2;
     }
 }
 
