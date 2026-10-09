@@ -208,8 +208,6 @@ extern struct { char _[16]; } D_8009CDDC_oi __asm__("g_ActiveDrawSlot");
 #define CDDCH (*(s32 *)&D_8009CDDC_oh)
 #define CDDCI (*(s32 *)&D_8009CDDC_oi)
 
-extern struct { char _[16]; } g_ActiveActor_o __asm__("g_ActiveActor");
-#define g_ActiveActor (*(u8 **)&g_ActiveActor_o)
 extern struct { char _[16]; } D_8009D1DC_o __asm__("g_BattleRemainingActions");
 #define g_BattleRemainingActions (*(u8 *)&D_8009D1DC_o)
 
@@ -230,7 +228,7 @@ void Battle_DrawSpellName(void) {
     s32 cidx;
     s16 clut;
     u8 *p;
-    u8 *d68;
+    BattleAction *d68;
 
     c = CDDCA;
     {
@@ -238,7 +236,7 @@ void Battle_DrawSpellName(void) {
         tv = *(u16 *)(g_BattleStatusRowPosY + c * 0x30);
         ys = tv + 4;
     }
-    if ((*(s32 *)(*(u8 **)(g_ActiveActor + 0x68) + 0xC) & 0x300000) == 0x200000) {
+    if ((D_8009D278->action->attackWord & 0x300000) == 0x200000) {
         u8 *q508;
         r130 = 0x130;
         __asm__ __volatile__("" :: "r"(r130));
@@ -310,19 +308,19 @@ void Battle_DrawSpellName(void) {
                 pl = (u8 *)t118 + (u32)e508;
             }
             {
-                u8 *dval;
-                dval = g_ActiveActor;
+                Combatant *dval;
+                dval = D_8009D278;
                 *(s16 *)(pl + 0x10) = 4;
                 *(s16 *)(pl + 0x12) = 0x10;
-                d68 = *(u8 **)(dval + 0x68);
+                d68 = dval->action;
             }
-            if ((*(s32 *)(d68 + 0xC) & 0x300000) == 0x300000) {
+            if ((d68->attackWord & 0x300000) == 0x300000) {
                 r130 = 0x130;
                                 pl[0xC] = 0xD8;
                 c1 = CDDCF;
                 ((u8 *)(c1 * 0x118 + s0) + (u32)e508)[0xD] = e0;
                 clut = GetClut(r130, 0x1FB);
-            } else if ((*(s32 *)(d68 + 0x10) & 0xC0) == 0x80) {
+            } else if ((d68->turnWord & 0xC0) == 0x80) {
                 r130 = 0x130;
                                 pl[0xC] = 0xDC;
                 c1 = CDDCG;
