@@ -163,14 +163,14 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                     register s32 index asm("$2") = first + vertexIndex;
                                     u32 *colours = entity->vertex_colours;
                                     register s32 byteOffset asm("$4");
-                                    u8 *colour;
+                                    RenderColor *colour;
                                     __asm__("" : "=r"(index) : "0"(index));
                                     byteOffset = index * 4;
-                                    colour = (u8 *)(byteOffset + (u32)colours);
-                                    if (colour[3]) {
+                                    colour = (RenderColor *)(byteOffset + (u32)colours);
+                                    if (colour[0].code) {
                                         gte_lwc2_6_0(colour);
                                         goto shade_override;
-                                    } else if (colour[7]) {
+                                    } else if (colour[1].code) {
                                         s32 selectedOffset = byteOffset + 4;
                                         {
                                             colourPointer =
@@ -178,7 +178,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                             gte_lwc2_6_0(colourPointer);
                                         }
                                         goto shade_override;
-                                    } else if (colour[11]) {
+                                    } else if (colour[2].code) {
                                         s32 selectedOffset = byteOffset + 8;
                                         {
                                             colourPointer =
