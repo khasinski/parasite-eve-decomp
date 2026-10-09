@@ -140,8 +140,6 @@ int Render_SetViewport(s16 *position) {
     int flags = camera->flags;
     register int screen_x asm("$6");
     register int screen_y asm("$7");
-    register int center_x asm("$6");
-    register int center_y asm("$7");
     register int sum_x;
     register int sum_y;
     int view_x;
@@ -151,7 +149,6 @@ int Render_SetViewport(s16 *position) {
     register int axisValue asm("$2");
     register int viewportValue asm("$3");
     register unsigned raw_width;
-    register unsigned raw_height asm("$3");
     register int target_x asm("$9");
     register int target_y;
     register int y_bound;
@@ -212,16 +209,16 @@ int Render_SetViewport(s16 *position) {
     }
     geometry = D_800B1624;
     sum_x = D_800BCFB4 + screen_x;
-    center_x = sum_x / 2;
-    D_800BCFB4 = center_x;
+    screen_x = sum_x / 2;
+    D_800BCFB4 = screen_x;
     sum_y = D_800BCFB6 + screen_y;
     sum_y += (unsigned)sum_y >> 31;
-    view_x = 320 - center_x;
+    view_x = 320 - screen_x;
 
     offset_geometry = D_800B1624;
 
-    center_y = sum_y >> 1;
-    D_800BCFB6 = center_y;
+    screen_y = sum_y >> 1;
+    D_800BCFB6 = screen_y;
     asm volatile("" : : : "memory");
     view = (CameraViewport *)((u8 *)geometry + offset_geometry->entry_offset_1C);
     view += g_GeomGroupSel;
@@ -229,20 +226,20 @@ int Render_SetViewport(s16 *position) {
     viewportValue = 224;
 
     raw_width = view->width;
-    view_y = viewportValue - center_y;
+    view_y = viewportValue - screen_y;
     raw_width <<= 16;
     viewportValue = (int)raw_width >> 16;
     viewportValue += raw_width >> 31;
     half_width = viewportValue >> 1;
     axisValue = half_width - 160;
 
-    raw_height = view->height;
-    target_x = axisValue + center_x;
-    raw_height <<= 16;
-    axisValue = (int)raw_height >> 16;
-    axisValue += raw_height >> 31;
+    viewportValue = view->height;
+    target_x = axisValue + screen_x;
+    viewportValue = (unsigned)viewportValue << 16;
+    axisValue = viewportValue >> 16;
+    axisValue += (unsigned)viewportValue >> 31;
     half_height = axisValue >> 1;
-    target_y = half_height + (center_y - 112);
+    target_y = half_height + (screen_y - 112);
     viewportValue = view->minX;
     if (target_x < viewportValue)
         goto adjust_x;
