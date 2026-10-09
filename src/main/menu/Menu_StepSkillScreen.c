@@ -41,9 +41,7 @@ s32 Menu_StepSkillScreen(MenuWidgetNode *arg0, s32 arg1) {
                 Menu_PlayConfirmSound();
                 return 1;
             }
-            goto block_6;
         }
-block_6:
         Menu_PlayErrorSound();
         return 1;
     }
