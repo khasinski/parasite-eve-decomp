@@ -62,7 +62,6 @@ int Render_DrawSpriteEntry(GeomEntry *input)
     s32 scroll_y;
     s32 texture_base;
     register u32 *pos asm("$25");
-    register u32 pos_offset asm("$3");
     s32 raw_x;
     register s32 raw_y asm("$7");
     register s32 screen_src asm("$3");
@@ -103,9 +102,9 @@ int Render_DrawSpriteEntry(GeomEntry *input)
         screen_src = state->field26;
         texture_base = screen_src + texture_word;
     }
-    pos_offset = entry->u28.pos_ptr;
+    screen_src = entry->u28.pos_ptr;
     flags = entry->flags;
-    pos = (u32 *)((u8 *)entry + pos_offset);
+    pos = (u32 *)((u8 *)entry + screen_src);
 
     if (flags & 4) {
         s32 mod_x;
