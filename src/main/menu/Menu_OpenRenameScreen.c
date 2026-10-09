@@ -89,36 +89,34 @@ void Draw_EmitWipeBarRect(int width, int height, int mode);
 void Menu_DrawSaveMetadataPreview(void);
 
 void Menu_DrawSaveMetadataPreview(void) {
-    u8 *var_a0;
-    s32 temp_v0;
-    register s32 var_a0_2 asm("$4");
-    s32 var_s0;
+    u8 *text;
+    s32 remaining;
+    s32 lastSlot;
     s32 frame_pad[2];
 
     (void) frame_pad;
     if (g_MenuRenameTargetRecord != NULL) {
         Draw_OffsetCursor(0x1C, 0xC);
         Sfx_CursorRenderData(g_MenuRenameTargetRecord);
-        var_a0 = (u8 *)g_CursorRenderMetadataWindows;
+        text = g_CursorRenderMetadataWindows[0].text;
         if (g_MenuRenameTargetRecord->kind == ITEM_KIND_ARMOR) {
-            var_a0 = g_CursorRenderMetadataWindows[1].text;
+            text = g_CursorRenderMetadataWindows[1].text;
         }
-        var_a0_2 = Draw_MeasureTextWidth(var_a0) + 0x14;
+        Draw_OffsetCursor(Draw_MeasureTextWidth(text) + 0x14, 0xC);
     } else {
         Draw_OffsetCursor(2, 2);
         Draw_AllocSprite(0x47);
         Draw_OffsetCursor(0x3C, 8);
         Draw_PrintRawText(Save_GetActiveMetadataBuffer());
-        var_a0_2 = Draw_MeasureTextWidth(Save_GetActiveMetadataBuffer());
+        Draw_OffsetCursor(Draw_MeasureTextWidth(Save_GetActiveMetadataBuffer()), 0xC);
     }
-    Draw_OffsetCursor(var_a0_2, 0xC);
-    temp_v0 = Save_GetMetadataRemainingChars();
-    var_s0 = temp_v0 - 1;
-    if (temp_v0 != 0) {
+    remaining = Save_GetMetadataRemainingChars();
+    lastSlot = remaining - 1;
+    if (remaining != 0) {
         do {
             Draw_EmitWipeBarRect(9, 4, 0);
             Draw_OffsetCursor(0xB, 0);
-            var_s0 -= 1;
-        } while (var_s0 != -1);
+            lastSlot -= 1;
+        } while (lastSlot != -1);
     }
 }
