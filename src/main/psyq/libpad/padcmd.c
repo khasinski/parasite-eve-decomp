@@ -316,12 +316,12 @@ void func_80083C20(void *obj);
 int func_80083C3C(CardObj *obj);
 
 int _padSetActAlign(CardObj *obj, u8 *command) {
-    register int result asm("$2");
+    int result;
     int active;
 
     result = D_8009B740(obj);
     if (result != 0) {
-        result = 0;
+        return 0;
     } else {
         active = 1;
         obj->field_46 = active;
