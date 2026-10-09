@@ -66,9 +66,7 @@ s32 Inv_TransferItem(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             var_a0 = arg3 * 2;
             goto block_33;
         }
-        goto block_4;
     }
-block_4:
     if (arg0 == 0xE) {
         if (arg2 == arg0) {
             ta1m = arg1 * 2;
@@ -97,9 +95,7 @@ block_4:
             }
             goto block_34;
         }
-        goto block_15;
     }
-block_15:
     if (arg0 == 0xD) {
         if (Inv_IsSlotSelectable(arg3) != 0) {
             var_a0_2 = 0;
