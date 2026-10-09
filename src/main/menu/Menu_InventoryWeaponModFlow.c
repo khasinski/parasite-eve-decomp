@@ -23,7 +23,7 @@ int Inv_SwapSlots(int unused, int from, int unused2, int to);
 
 void Menu_OpenInventoryOrSwapView(s32 arg0) {
     s32 mode;
-    register s32 temp_v1 asm("$3");
+    s32 temp_v1;
     MenuWidgetNode *temp_a0;
     MenuWidgetNode *temp_s1;
     MenuWidgetNode *temp_v0;
@@ -65,7 +65,7 @@ case_zero:
         g_InvSwapTargetIndex = -1;
         g_InvSelectedItemIndex = -1;
         Draw_SetPrimCallback(temp_s1, Inv_GetAyaSlotLimit());
-        temp_v1 = g_MenuEquipSwapSource;
+        temp_v1 = mode = g_MenuEquipSwapSource;
         g_MenuActionSubmenuOpen = 0;
         if (temp_v1 != 0) {
             temp_v1 -= 1;
