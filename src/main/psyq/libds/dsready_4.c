@@ -5,8 +5,6 @@
 #include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
 
-extern int D_8009B6EC;
-extern int DsPosToInt(CdlLOC *);
 extern int func_8007FC44(void);
 extern void func_8008227C(void);
 
@@ -18,7 +16,7 @@ int ER_retry(void) {
     register int limit asm("$3");
 
     DsReadyCallback(0);
-    D_8009B6EC = DsPosToInt(DS_lastpos());
+    g_DsAsyncReadState.nextSector = DsPosToInt(DS_lastpos());
     mode = DS_lastmode() & 0xFF;
     position = DS_lastpos();
     command = func_8007FC44();
