@@ -58,7 +58,7 @@ typedef struct CardObj {
     unsigned char pad_50[0x01];
     unsigned char field_51;           /* 0x51 */
     unsigned char field_52;           /* 0x52 */
-    unsigned char field_53;           /* 0x53 */
+    unsigned char modeAlreadySelected;           /* 0x53: requested mode equals the current mode */
     unsigned char pad_54[0x03];
     unsigned char field_57[0x06];      /* 0x57 */
     unsigned char field_5d[0x06];      /* 0x5D */

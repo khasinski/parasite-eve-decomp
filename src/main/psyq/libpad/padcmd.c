@@ -348,7 +348,8 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
     s32 offset;
     u8 *cursor;
     s32 matched;
-    register s32 n asm("$3");
+    s32 remaining;
+    s32 written;
     s32 needed;
     register u8 *out asm("$6");
     register s32 limit asm("$2");
@@ -360,16 +361,16 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
         do {
             cursor = (u8 *)arg0->field_20;
             matched = 0;
-            n = 5;
+            remaining = 5;
             do {
                 if (*cursor++ == i) {
                     matched += 1;
                 }
-                n -= 1;
-            } while (n >= 0);
+                remaining -= 1;
+            } while (remaining >= 0);
             needed = ((PadCapabilityRecord *)(offset + (u32)arg0->capabilities))->payloadBytes;
             cursor = (u8 *)arg0->field_20;
-            n = 0;
+            written = 0;
             if (needed == 0) {
                 needed = 1;
             }
@@ -383,9 +384,9 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
                         out[PE1_OFFSETOF(CardObj, field_5d)] = i;
                     }
                 }
-                n += 1;
+                written += 1;
                 out += 1;
-            } while (n < 6);
+            } while (written < 6);
             limit = arg0->field_e9;
             i += 1;
             offset += 5;
@@ -419,7 +420,7 @@ int _padSetMainMode(CardObj *obj, int byte1, int byte2) {
     obj->field_52 = byte2;
     flag = (compareByte & 0xFF) ^ obj->field_e4;
     flag = (unsigned int)flag < 1;
-    obj->field_53 = flag;
+    obj->modeAlreadySelected = flag;
     return result;
 }
 
@@ -442,7 +443,7 @@ void CardObj_EmitReadIdCommand(CardObj *arg0) {
 extern int (*D_8009B728)(void *);
 
 int CardObj_CheckAbortOrDispatch(CardObj *arg0) {
-    if (*((unsigned char *)arg0 + 0x53) != 0) {
+    if (arg0->modeAlreadySelected != 0) {
         if (arg0->field_46 == 2) {
             return 1;
         }
