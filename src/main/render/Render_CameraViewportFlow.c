@@ -92,19 +92,15 @@ s32 Render_ClampCameraPosition(s32 x, s32 y)
     return 0;
 }
 extern char * volatile g_GeomStateBytes __asm__("g_GeomState");
-extern unsigned short D_800BCFAC;
-extern unsigned short g_RenderSavedBoundsMaxX;
-extern unsigned short D_800BCFB0;
-extern unsigned short g_RenderSavedBoundsMaxY;
 
 int Render_SaveAndOpenBounds(void) {
     char *base = g_GeomStateBytes;
     char *entry = g_GeomStateBytes + *(int *)(base + 0x1C) + (g_GeomGroupSel * 52);
 
     D_800BCFAC = *(unsigned short *)(entry + 0x2C);
-    g_RenderSavedBoundsMaxX = *(unsigned short *)(entry + 0x2E);
+    D_800BCFAE = *(unsigned short *)(entry + 0x2E);
     D_800BCFB0 = *(unsigned short *)(entry + 0x30);
-    g_RenderSavedBoundsMaxY = *(unsigned short *)(entry + 0x32);
+    D_800BCFB2 = *(unsigned short *)(entry + 0x32);
 
     *(short *)(entry + 0x2C) = -0x8000;
     *(short *)(entry + 0x2E) = 0x7FFF;
@@ -119,9 +115,9 @@ int Render_RestoreBounds(void) {
     char *entry = g_GeomStateBytes + *(int *)(base + 0x1C) + (g_GeomGroupSel * 52);
 
     *(unsigned short *)(entry + 0x2C) = D_800BCFAC;
-    *(unsigned short *)(entry + 0x2E) = g_RenderSavedBoundsMaxX;
+    *(unsigned short *)(entry + 0x2E) = D_800BCFAE;
     *(unsigned short *)(entry + 0x30) = D_800BCFB0;
-    *(unsigned short *)(entry + 0x32) = g_RenderSavedBoundsMaxY;
+    *(unsigned short *)(entry + 0x32) = D_800BCFB2;
 
     return 0;
 }

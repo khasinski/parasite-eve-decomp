@@ -3,6 +3,9 @@
 
 #include "pe1/gte_types.h"
 
+/* Saved viewport limits, copied as raw halfwords when opening/restoring bounds. */
+extern u16 D_800BCFAC, D_800BCFAE, D_800BCFB0, D_800BCFB2;
+
 extern GteMatrix D_800BD000;
 extern s16 D_800BD002, D_800BD004, D_800BD006, D_800BD008, D_800BD00A;
 extern s16 D_800BD00C, D_800BD00E, D_800BD010;

@@ -302,7 +302,6 @@ int Render_SetEntryPosition(int index, int x, int y) {
 }
 
 extern short D_800BD028, D_800BD02A;
-extern u16 D_800BCFAC, D_800BCFAE, D_800BCFB0, D_800BCFB2;
 extern u8 D_800BCFFA, D_800BCFFB;
 int Gpu_LoadGeomState(int);
 int Geo_RenderMeshList(void *buffer, void **end)
