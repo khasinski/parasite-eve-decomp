@@ -126,6 +126,9 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
     int indexDefault;
     int angle;
     int direction;
+    register int predicate asm("$2");
+    register int facingAngle asm("$4");
+    register int height asm("$16");
 
     switch (D_8009D254->actionMode) {
     case 6:
@@ -148,9 +151,9 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         D_8009D274 = 0;
         { u8 animMode = (*(Combatant **)battle_actor_group_0)->action->animMode[1]; PE1_NOP(); D_8009CE39 = animMode; }
         asm volatile("");
-        { register int y asm("$16") = *(s16 *)((u8 *)turnSlot->actor + 0x26A); angle = y - D_8009D27C; }
-        { register int firstFacing asm("$4") = ratan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
-        if (firstFacing < -0xAB) direction = 0; else { register int cmp asm("$2") = firstFacing < 0xE4; if (cmp) direction = 1; else direction = 2; } }
+        { height = *(s16 *)((u8 *)turnSlot->actor + 0x26A); angle = height - D_8009D27C; }
+        { facingAngle = ratan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
+        if (facingAngle < -0xAB) direction = 0; else { predicate = facingAngle < 0xE4; if (predicate) direction = 1; else direction = 2; } }
         Entity_SetActionMode(D_8009D254, *((u8 *)(*(Combatant **)battle_actor_group_1) + 0x17 + direction));
         (*(BattleEntity **)battle_entity_after_set)->entityFlags &= ~0x100;
         D_8009D1DC = (*(volatile u32 *)&(*(Combatant **)battle_actor_group_2)->action->turnWord) & 0xF;
@@ -174,11 +177,11 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         if ((activeAction->turnWord & 0xC0) == 0xC0) {
             int pending = D_8009D1DC;
             int narrow;
-            register int one asm("$2") = 1;
+            predicate = 1;
             asm volatile("" : "=r"(pending) : "0"(pending));
             narrow = (u8)pending;
             retryCount = pending;
-            if (narrow != one) goto alternate;
+            if (narrow != predicate) goto alternate;
         }
         nextIndexB = indexB + 1;
         { register int offset asm("$5") = nextIndexB << 3;
@@ -202,9 +205,9 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         }
         { register BattleAction *attackAction asm("$4") = active->action;
         if (attackAction->attackWord & 0x3FF) {
-            { register int y asm("$16") = *(s16 *)((u8 *)turnSlot->actor + 0x26A); angle = y - D_8009D27C; }
-            { register int facing asm("$4") = ratan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
-        if (facing < -0xAB) direction = 0; else { register int cmp asm("$2") = facing < 0xE4; if (cmp) direction = 1; else direction = 2; } }
+            { height = *(s16 *)((u8 *)turnSlot->actor + 0x26A); angle = height - D_8009D27C; }
+            { facingAngle = ratan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
+        if (facingAngle < -0xAB) direction = 0; else { predicate = facingAngle < 0xE4; if (predicate) direction = 1; else direction = 2; } }
             Entity_SetActionMode((*(BattleEntity **)battle_entity_alias_7), *((u8 *)(*(Combatant **)battle_actor_group_7) + 0x14 + direction));
             result = 1;
             { register Combatant *postActor = (*(Combatant **)battle_actor_group_8);
