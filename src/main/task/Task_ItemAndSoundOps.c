@@ -10,6 +10,7 @@
 #include "pe1/menu_item_record.h"
 #include "common.h"
 #include "pe1/task_node.h"
+#include "pe1/game_audio_state.h"
 
 extern int g_GameState[];
 extern int g_SceneDataTable0;
@@ -223,25 +224,7 @@ typedef struct AkaoStackLocals {
     u8 pad12[8];
 } AkaoStackLocals;
 
-typedef struct AkaoRuntimeState {
-    u8 reset_pending;
-    u8 deferred_count;
-    s8 defer_enabled;
-    u8 pad003[0xCD];
-    s8 selected_id;
-    u8 selected_value;
-    u8 pad0D2[4];
-    s8 cd_volume;
-    u8 pad0D7[0xF];
-    s8 position_x;
-    s8 position_z;
-    s16 position_y;
-    s16 position_w;
-    u8 pad0EC[0x28];
-    u8 *selected_data;
-    u8 *voice_banks[25];
-    u8 *archive;
-} AkaoRuntimeState;
+
 
 extern u8 D_800944A8[];
 extern u8 *D_8009CE00;
@@ -249,7 +232,6 @@ extern u8 *D_8009D20C[];
 extern u8 *D_8009D254[];
 extern u8 *D_8009D2F0[];
 extern u8 *D_8009D300;
-extern AkaoRuntimeState g_AkaoState __asm__("D_800B0CE8");
 extern AkaoRuntimeState akao_state_command __asm__("D_800B0CE8");
 extern AkaoRuntimeState akao_state_header __asm__("D_800B0CE8");
 extern AkaoRuntimeState akao_state_base __asm__("D_800B0CE8");
@@ -340,7 +322,7 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
         if ((u32)(locals.slot + 2) < 2) {
             goto done;
         }
-        *args->result = Akao_Cmd_10(g_AkaoState.voice_banks[locals.slot], status);
+        *args->result = Akao_Cmd_10(D_800B0CE8.voice_banks[locals.slot], status);
         Akao_Cmd_C0_WithSlot(0, 0x7F);
         Overlay_RegisterAudioSlot(locals.slot, *args->arg1, *args->result, 0x7F);
         goto done;
@@ -354,7 +336,7 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
             goto done;
         }
         *args->result = Akao_Cmd_19_Then_C0(
-            g_AkaoState.voice_banks[locals.slot], *args->arg2);
+            D_800B0CE8.voice_banks[locals.slot], *args->arg2);
         Overlay_RegisterAudioSlot(locals.slot, *args->arg1, *args->result,
                                   *args->arg2);
         goto done;
@@ -488,10 +470,10 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
         Akao_Cmd_F1();
         goto done;
     case 0x15E:
-        g_AkaoState.position_y = U32_AT(PTR_AT(args, 4), 0);
-        g_AkaoState.position_x = U32_AT(PTR_AT(args, 8), 0);
-        g_AkaoState.position_w = U32_AT(PTR_AT(args, 0xC), 0);
-        g_AkaoState.position_z = U32_AT(PTR_AT(args, 0x10), 0);
+        D_800B0CE8.position_y = U32_AT(PTR_AT(args, 4), 0);
+        D_800B0CE8.position_x = U32_AT(PTR_AT(args, 8), 0);
+        D_800B0CE8.position_w = U32_AT(PTR_AT(args, 0xC), 0);
+        D_800B0CE8.position_z = U32_AT(PTR_AT(args, 0x10), 0);
         goto done;
     case 0x15F:
         *args->result = Asset_Find08w(
@@ -575,13 +557,13 @@ store_audio_slot:
         *args->result = locals.slot;
         goto done;
     case 0x195:
-        g_AkaoState.defer_enabled = 1;
+        D_800B0CE8.defer_enabled = 1;
         goto done;
     case 0x196:
     case 0x197:
-        if (g_AkaoState.deferred_count < 0x10) {
+        if (D_800B0CE8.deferred_count < 0x10) {
             deferred = (DeferredAkaoCommand *)(
-                D_800944A8 + g_AkaoState.deferred_count * 8);
+                D_800944A8 + D_800B0CE8.deferred_count * 8);
             deferred->actor_type = U8_AT(D_8009D2F0[0], 0xC);
             deferred->actor_id = U8_AT(D_8009D2F0[0], 0xD);
             deferred->command = *args->arg1;
@@ -592,7 +574,7 @@ store_audio_slot:
             } else {
                 deferred->arg3 = *args->arg4;
             }
-            deferred_count = &g_AkaoState.deferred_count;
+            deferred_count = &D_800B0CE8.deferred_count;
             (*deferred_count)++;
         }
         goto done;
@@ -600,15 +582,15 @@ store_audio_slot:
         volume = *args->arg1;
         locals.volumes[3] = 0;
         locals.volumes[1] = 0;
-        g_AkaoState.cd_volume = volume;
+        D_800B0CE8.cd_volume = volume;
         locals.volumes[2] = volume;
         locals.volumes[0] = volume;
         DsMix(locals.volumes);
         goto done;
 archive_match:
-        g_AkaoState.selected_id = current->id;
-        g_AkaoState.selected_value = current->value8;
-        g_AkaoState.selected_data = akao_state_result.archive +
+        D_800B0CE8.selected_id = current->id;
+        D_800B0CE8.selected_value = current->value8;
+        D_800B0CE8.selected_data = akao_state_result.archive +
                                     (current->data_offset & 0xFFFFFF);
         goto done;
     case 0x19A:

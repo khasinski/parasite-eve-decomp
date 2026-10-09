@@ -1,5 +1,6 @@
 #include "pe1/akao/commands.h"
 #include "pe1/field_anim.h"
+#include "pe1/game_audio_state.h"
 #include "pe1/field_engine_state.h"
 
 static __inline__ void identity_matrix(GteMatrix *matrix)
@@ -60,6 +61,7 @@ int func_800CCBA8(char *object)
 }
 
 #include "pe1/field_anim.h"
+#include "pe1/game_audio_state.h"
 
 extern u16 D_800E27FA __asm__("D_800E27FA");
 extern u16 D_800E27FC __asm__("D_800E27FC");
@@ -126,7 +128,6 @@ int *func_800C2B28(int index);
 void func_800CEDA8(int arg0);
 
 extern int D_800E2810;
-extern u8 D_800B0CE8;
 extern int D_800B0E14;
 
 int func_800CCFA0(void) {
@@ -154,7 +155,7 @@ int func_800CCFA0(void) {
     D_800E27FA = *(u16 *)(data + 0x26A);
     D_800E27FC = *(u16 *)(data + 0x26C);
 
-    if (D_800B0CE8 != 0) {
+    if (D_800B0CE8.reset_pending != 0) {
         Akao_Cmd_24((void *)D_800B0E14, 0, 0x80, 0x7F);
     }
 
@@ -183,6 +184,7 @@ int func_800CD07C(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 #include "pe1/field_anim.h"
+#include "pe1/game_audio_state.h"
 
 int rand(void);
 

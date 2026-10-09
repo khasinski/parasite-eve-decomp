@@ -6,6 +6,7 @@
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
 #include "pe1/field_anim.h"
+#include "pe1/game_audio_state.h"
 #include "pe1/field_anim_particle.h"
 
 
@@ -227,7 +228,6 @@ int *func_800C2B28(int index);
 void func_800CEDA8(int arg0);
 
 extern int D_800E2804;
-extern u8 D_800B0CE8;
 extern int D_800B0E14;
 
 int func_800CD980(void) {
@@ -255,7 +255,7 @@ int func_800CD980(void) {
     D_800E27F0.y = *(u16 *)(data + 0x26A);
     D_800E27F0.z = *(u16 *)(data + 0x26C);
 
-    if (D_800B0CE8 != 0) {
+    if (D_800B0CE8.reset_pending != 0) {
         Akao_Cmd_24((void *)D_800B0E14, 0, 0x80, 0x7F);
     }
 
