@@ -7,7 +7,7 @@ extern short D_800C0E08;
 
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int mode);
-void Inv_BuildWeaponList(int unused, void *out);
+#include "pe1/weapon_list_output.h"
 
 #define COMBATANT_FIELD(base, type, member) \
     (*(type)((char *)(base) + PE1_OFFSETOF(Combatant, member)))

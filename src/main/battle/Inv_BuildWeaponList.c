@@ -3,15 +3,7 @@
 #include "pe1/inventory_slots.h"
 void Inv_SelectActiveList(int);
 extern u8 D_800923D0[];
-typedef struct WeaponListOutput {
-    u16 attack;
-    u16 range;
-    u16 unknown04;
-    u16 kind;
-    u32 unknown08;
-    u32 packed;
-    u32 effects;
-} WeaponListOutput;
+#include "pe1/weapon_list_output.h"
 static inline int ClampStat(ItemDataRecord *item, int which) {
     int value = item->baseStats[which] + item->bonusStats[which];
     int result = 999;

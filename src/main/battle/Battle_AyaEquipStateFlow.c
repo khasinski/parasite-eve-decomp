@@ -27,6 +27,6 @@ void Battle_InitEquipLists(AyaBattleState **out) {
     g_AyaBattleState.action = &g_SavedBattleStateTail;
     g_AyaBattleState.attributes = &g_BattleEquipStateBlock;
     Inv_RecalcSlotStats();
-    Inv_BuildWeaponList(0, g_AyaBattleState.action);
+    Inv_BuildWeaponList(0, &g_AyaBattleState.action->weapon);
     Inv_BuildArmorList(g_AyaBattleState.attributes);
 }

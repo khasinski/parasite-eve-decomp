@@ -11,7 +11,7 @@ extern u8 D_8009D254[];
 extern u8 *D_8009D1E0;
 extern int D_8009D010;
 extern int D_8009D018;
-void Inv_BuildWeaponList(int, void *);
+#include "pe1/weapon_list_output.h"
 void Inv_BuildArmorList(void *);
 int Menu_GetBattleEquipMode(void);
 void Battle_DispatchSpecialAction(int);
@@ -47,7 +47,7 @@ void Inv_SetActiveList(int mode, int *slot) {
             u8 *out = D_8009D1E0;
             if (out) {
                 *(BattleAction *)out = *(BattleAction *)(active->action);
-                Inv_BuildWeaponList(0, D_8009D1E0);
+                Inv_BuildWeaponList(0, (WeaponListOutput *)D_8009D1E0);
             }
             if (Menu_GetBattleEquipMode()) D_8009D010 = 0x197;
             else Battle_DispatchSpecialAction(0x197);

@@ -3,10 +3,12 @@
 
 #include "common.h"
 #include "pe1/battle.h"
+#include "pe1/weapon_list_output.h"
 
 /* Word-aligned battle views over opaque save records serialized as bytes. */
-typedef struct BattleStateTail {
+typedef union BattleStateTail {
     s32 words[6];
+    WeaponListOutput weapon;
 } BattleStateTail;
 PE1_STATIC_ASSERT(sizeof(BattleStateTail) == 0x18, battle_state_tail_size);
 
