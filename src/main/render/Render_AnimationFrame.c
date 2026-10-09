@@ -6,9 +6,9 @@
 void Render_AnimationFrame(void) {
     int size;
     int width;
-    register int frame asm("$4");
+    int frame;
     RenderAnimActor *early_actor;
-    register RenderAnimActor *late_actor asm("$4");
+    RenderAnimActor *late_actor;
     RenderAnimPlayer *player;
     int current_frame;
     int draw_index;
@@ -39,7 +39,8 @@ void Render_AnimationFrame(void) {
         if ((late_actor->modeFlags & 0x30) != 0x10) {
             size = late_actor->frameData->frameCount << 16;
         }
-        width = (g_BattleAttackAnimFrame << 4) + 10;
+        frame = 10;
+        width = (g_BattleAttackAnimFrame << 4) + frame;
         asm volatile("" : : : "memory");
         current_frame = g_BattleAttackAnimFrame;
     }
