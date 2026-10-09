@@ -181,8 +181,8 @@ int Task_WaitAnimRange(void) {
 
     entity = g_CurrentEntity[0];
     node = g_TaskNodePool;
-    current = entity->anim.fixed;
-    asm volatile("" : "=r"(current) : "0"(current));
+    max_frame = entity->anim.fixed;
+    current = max_frame;
     target = entity->anim_frame_target;
     node->active = 1;
     if ((current >> 16) == target) {
@@ -190,11 +190,12 @@ int Task_WaitAnimRange(void) {
     }
 
     target <<= 16;
-    next = current + entity->anim_step;
-    if (current < target && target < next) {
+    max_frame = current;
+    next = max_frame + entity->anim_step;
+    if (max_frame < target && target < next) {
         return 0;
     }
-    cmp = target < current;
+    cmp = target < max_frame;
     if (cmp && next < target) {
         return 0;
     }
