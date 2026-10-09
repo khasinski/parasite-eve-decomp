@@ -60,13 +60,9 @@ void Menu_CreateInventoryTabView(void) {
 extern u8 D_80092258[];
 extern u8 D_80092298[];
 extern s32 g_BonusPointDisplayValue;
-extern u16 g_AyaStatAgility[];
-#define g_AyaStatAgility (g_AyaStatAgility[0])
 void Menu_DrawStatusPanel(void);
 void Menu_DrawStatsList(void);
 void Menu_DrawBonusPointSlotValue(void);
-extern s32 g_AyaBonusPoints[];
-#define g_AyaBonusPoints (g_AyaBonusPoints[0])
 
 
 void Menu_CreateBonusPointAllocationView(void) {
@@ -93,7 +89,7 @@ void Menu_CreateBonusPointAllocationView(void) {
         Menu_DrawBonusPointSlotValue;
     temp_v0_2 = MenuWidget_CreateSimpleNode(0x2D, 0, 0, 0);
     temp_v1_reg = temp_v0_2;
-    var_s4 = &g_AyaStatAgility;
+    var_s4 = &D_800C0E00.stats.levels[0];
     var_s1 = 0;
     var_s0 = g_BonusPointStatDeltas;
     var_s3 = g_BonusPointStatQueryResults;
@@ -116,7 +112,7 @@ void Menu_CreateBonusPointAllocationView(void) {
         var_s2 += 1;
         Stat_QueryLevelAndSubLevel(temp_a0, temp_a1, temp_a2, temp_a3);
     } while (var_s1 < 7);
-    temp_v0_final = g_AyaBonusPoints;
+    temp_v0_final = D_800C0E00.bonus_points;
     PE1_NOP();
     g_BonusPointDisplayValue = temp_v0_final;
 }
@@ -126,14 +122,6 @@ void *Aya_GetLevelExpTable(void);
 void Draw_PrintRawText(u8 *text);
 void Draw_PrintNumberWidth6(int value);
 void Draw_PrintNumberWidth3(int value);
-extern s8 g_AyaEquippedWeaponSlot[];
-#define g_AyaEquippedWeaponSlot (g_AyaEquippedWeaponSlot[0])
-extern s8 g_AyaEquippedArmorSlot[];
-#define g_AyaEquippedArmorSlot (g_AyaEquippedArmorSlot[0])
-extern u8 g_AyaSaveLevel[];
-#define g_AyaSaveLevel (g_AyaSaveLevel[0])
-extern s32 g_AyaSaveTotalExp[];
-#define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
 
 void Menu_DrawStatusPanel(void) {
     s32 var_a0;
@@ -145,12 +133,12 @@ void Menu_DrawStatusPanel(void) {
     Draw_OffsetCursor(0, 0x15);
     Draw_AllocSprite(0x97);
     Draw_OffsetCursor(0x3C, 0);
-    Draw_PrintNumberWidth3(g_AyaSaveLevel + 1);
+    Draw_PrintNumberWidth3(D_800C0E00.level + 1);
     Draw_OffsetCursor(-0x78, 0x1A);
     Draw_AllocSprite(0x98);
     Draw_OffsetCursor(0x42, 0);
-    if ((u8) g_AyaSaveLevel < 0x62U) {
-        var_a0 = ((s32 *)Aya_GetLevelExpTable())[g_AyaSaveLevel + 1] - g_AyaSaveTotalExp;
+    if ((u8) D_800C0E00.level < 0x62U) {
+        var_a0 = ((s32 *)Aya_GetLevelExpTable())[D_800C0E00.level + 1] - D_800C0E00.total_exp;
     } else {
         var_a0 = 0;
     }
@@ -158,10 +146,10 @@ void Menu_DrawStatusPanel(void) {
     Draw_OffsetCursor(-0x7C, 0x15);
     Draw_AllocSprite(0x94);
     Draw_OffsetCursor(0, 0x10);
-    Sfx_DrawActiveListSlot(g_AyaEquippedWeaponSlot);
+    Sfx_DrawActiveListSlot(D_800C0E00.equipped_weapon_slot);
     Draw_OffsetCursor(0, 0x10);
-    if (g_AyaEquippedArmorSlot >= 0) {
-        Sfx_DrawActiveListSlot(g_AyaEquippedArmorSlot);
+    if (D_800C0E00.equipped_armor_slot >= 0) {
+        Sfx_DrawActiveListSlot(D_800C0E00.equipped_armor_slot);
         return;
     }
     Draw_PrintTextById(0x39);
