@@ -56,7 +56,7 @@ restart1:
     flag = 0;
 restart2:
     p0 = (u8 *)&D_800930DE_o;
-    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (void *)*(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
+    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, ((Pe1GameState *)gb)->scene_load_scratch, *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
     t = 1;
     do {
         if (flag == 0) {
@@ -69,7 +69,7 @@ restart2:
         t = CdRom_PollReady();
     } while (t != 0);
 
-    src = *(u8 **)(gb + 0x194);
+    src = ((Pe1GameState *)gb)->scene_load_scratch;
     dst = (u8 *)&D_800E2858_o;
     if (((u32)src | (u32)dst) & 3) {
         copyEnd = src + 0x10A50;
@@ -93,7 +93,7 @@ restart2:
 
 restart3:
     p0 = (u8 *)&D_800930E4_o;
-    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (void *)*(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
+    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, ((Pe1GameState *)gb)->scene_load_scratch, *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
     t = 1;
     do {
         if (t == -1) {
@@ -106,7 +106,7 @@ restart3:
 
 restart4:
     p0 = (u8 *)&D_800930E6_o;
-    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (void *)*(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
+    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, ((Pe1GameState *)gb)->scene_load_scratch, *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
     t = 1;
     do {
         if (t == -1) {
@@ -116,7 +116,7 @@ restart4:
 
     dst = *(u8 **)(gb + 0x130);
     __asm__ __volatile__("" : "=r"(dst) : "0"(dst));
-    src = *(u8 **)(gb + 0x194);
+    src = ((Pe1GameState *)gb)->scene_load_scratch;
     end = src + 0x1400;
     if (((u32)src | (u32)dst) & 3) {
         do {
