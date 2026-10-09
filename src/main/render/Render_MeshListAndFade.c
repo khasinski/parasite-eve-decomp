@@ -69,12 +69,11 @@ int Render_DrawSpriteEntry(GeomEntry *input)
     char frame_pad[9];
 
     active = D_8009CDDC;
-    asm("" : "=r"(active) : "0"(active));
     entry = input;
     sprite = (RenderTilePacket *)entry->u30.prim;
-    asm("" : "=r"(sprite) : "0"(sprite));
     count = entry->prim_count;
-    asm("" : "=r"(count) : "0"(count));
+    asm("" : "=r"(active), "=r"(sprite), "=r"(count)
+        : "0"(active), "1"(sprite), "2"(count));
     ordering = (u8 *)D_800B0E38.ordering[active];
     if (active != 0) {
         sprite += count;
