@@ -152,30 +152,30 @@ void Render_ClearObjectAnim(RenderObjectEntity *arg0) {
 
 int Render_FindAnimEntry(RenderObjectEntity *arg0, int arg1, s32 *out) {
     char unused[8];
-    char *base;
-    register char *entry asm("$3");
+    RenderAnimationLookupEntry *base;
+    register s16 *entry asm("$3");
     s32 i;
     s32 tmp;
 
     tmp = arg0->header->animation_entry_count;
-    base = (char *)arg0->animation_entries;
+    base = arg0->animation_entries;
     i = 0;
     if (tmp > 0) {
         tmp = arg1 << 16;
         arg1 = tmp >> 16;
-        entry = base + 4;
+        entry = &base->value2;
         do {
-            tmp = *(s16_2 *)(entry + 2);
+            tmp = entry[1];
             i++;
             if (tmp == arg1) {
-                out[0] = *(s16_2 *)(base + 0);
-                out[1] = *(s16_2 *)(entry - 2);
-                out[2] = *(s16_2 *)(entry + 0);
+                out[0] = base->value0;
+                out[1] = entry[-1];
+                out[2] = *entry;
                 return 1;
             }
-            entry += 0xC;
+            entry += 6;
             tmp = arg0->header->animation_entry_count;
-            base += 0xC;
+            base++;
         } while (i < tmp);
     }
 
