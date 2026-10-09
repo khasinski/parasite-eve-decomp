@@ -149,29 +149,18 @@ void Field_HandleStateTransition(void) {
     if (field_flags_read_1[0] & 0x4000) {
         mode = PadGetState(0);
         if (mode == 2) {
-            goto clear_4000;
-        }
-        if (mode == 1) {
+            field_flags_write[0] = field_flags_read_5[0] & ~0x4000;
+        } else if (mode == 1) {
             PadSetAct(0, D_8009D1C0, 2);
-            goto after_mode;
+        } else if (mode == 6 && PadInfoMode(0, 2, 0) != 0) {
+            if ((field_flags_read_3[0] & 0x8000) == 0) {
+                PadSetMainMode(0, 1, 0);
+                field_flags_write[0] = field_flags_read_4[0] | 0x8000;
+            } else {
+                PadSetActAlign(0, D_800921F8);
+                field_flags_write[0] = field_flags_read_5[0] & ~0x4000;
+            }
         }
-        if (mode != 6) {
-            goto after_mode;
-        }
-        if (PadInfoMode(0, 2, 0) == 0) {
-            goto after_mode;
-        }
-        if ((field_flags_read_3[0] & 0x8000) == 0) {
-            PadSetMainMode(0, 1, 0);
-            field_flags_write[0] = field_flags_read_4[0] | 0x8000;
-            goto after_mode;
-        }
-        PadSetActAlign(0, D_800921F8);
-clear_4000:
-        field_flags_write[0] = field_flags_read_5[0] & ~0x4000;
-after_mode:
-        ;
-
     }
 
     pad = D_800BE9A2;
