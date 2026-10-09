@@ -271,7 +271,7 @@ store_offsets:
     selected_x = target_x;
     if (D_800BCF88.state.flags & 64) {
         register int signed_y;
-        register int chosen_bound asm("$5");
+        s16 chosen_bound;
         register int upper_y;
         geometry = D_800B1624;
         view = (CameraViewport *)((u8 *)geometry + geometry->entry_offset_1C);
@@ -279,14 +279,12 @@ store_offsets:
         viewportValue = (s16)target_x;
         axisValue = view->minX;
         chosen_bound = axisValue;
-        asm("" : "=r"(chosen_bound) : "0"(chosen_bound));
         if (viewportValue < axisValue) {
             signed_y = (unsigned)target_y << 16;
             D_800BCF8C.x = chosen_bound;
         } else {
             axisValue = view->maxX;
             chosen_bound = axisValue;
-            asm("" : "=r"(chosen_bound) : "0"(chosen_bound));
             if (axisValue < viewportValue) {
                 signed_y = (unsigned)target_y << 16;
                 D_800BCF8C.x = chosen_bound;
@@ -298,7 +296,6 @@ store_offsets:
         signed_y >>= 16;
         axisValue = view->minY;
         chosen_bound = axisValue;
-        asm("" : "=r"(chosen_bound) : "0"(chosen_bound));
         if (signed_y < axisValue) {
             D_800BCF8E = chosen_bound;
             return 0;
