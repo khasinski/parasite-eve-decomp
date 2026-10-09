@@ -11,7 +11,7 @@ extern int D_8009CDC4;
 int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
     register PrimObj *entry = input;
     u8 ascending = direction;
-    int count;
+    u16 count;
     int i;
     register int best_index asm("$10");
     register int descending_index asm("$11");
@@ -55,7 +55,6 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                 }
             }
             count = entry->count;
-            asm("" : "=r"(count) : "0"(count));
             for (i = 0; i < count; i++) {
                 u32 value = entries[i];
                 int x;
@@ -107,7 +106,6 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                 }
             }
             count = entry->count;
-            asm("" : "=r"(count) : "0"(count));
             for (i = 0; i < count; i++) {
                 u32 value = entries[i];
                 int x;
