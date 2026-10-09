@@ -4,7 +4,6 @@
 #include "pe1/inventory_sort.h"
 #include "pe1/psyq_libc.h"
 
-extern ItemDataRecord *(*g_InvLookupPtr)(int);
 
 int Inv_CompareItemsForSort(const void *leftElement, const void *rightElement) {
     const short *leftIndex = leftElement;
@@ -25,7 +24,7 @@ int Inv_CompareItemsForSort(const void *leftElement, const void *rightElement) {
     asm volatile("" ::: "memory");
     leftItem = *leftIndex;
     rightItem = *rightIndex;
-    lookup = g_InvLookupPtr;
+    lookup = g_InvSortLookup;
     if (lookup != defaultLookup) {
         if (leftItem == 0) {
             goto left_item_is_empty;
@@ -36,7 +35,7 @@ int Inv_CompareItemsForSort(const void *leftElement, const void *rightElement) {
     }
 
     left = lookup(leftItem);
-    right = g_InvLookupPtr(rightItem);
+    right = g_InvSortLookup(rightItem);
     leftKind = D_8009D0B8[left->kind];
     rightKind = D_8009D0B8[right->kind];
     leftSubtype = D_8009D0BC[((unsigned char *)left)[0xE] & 0xF];
@@ -84,8 +83,6 @@ left_item_is_empty:
 
 #include "pe1/inventory.h"
 
-extern s32 D_8009D0A0;
-extern ItemDataRecord *(*g_InvLookupPtr)(int) __asm__("D_8009D0B4");
 
 int Inv_CompareItemsByStatForSort(const void *leftElement, const void *rightElement)
 {
@@ -100,8 +97,8 @@ int Inv_CompareItemsByStatForSort(const void *leftElement, const void *rightElem
 
     leftValue = 0;
     rightValue = 0;
-    left = g_InvLookupPtr(*leftIndex);
-    right = g_InvLookupPtr(*rightIndex);
+    left = g_InvSortLookup(*leftIndex);
+    right = g_InvSortLookup(*rightIndex);
 
     switch (D_8009D0A0) {
     case 0:
@@ -138,11 +135,9 @@ int Inv_CompareItemsByStatForSort(const void *leftElement, const void *rightElem
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-extern s32 D_8009D0A0;
 extern s32 D_8009D0A4;
 extern u16 *g_InvSortListBase;
 extern s32 g_InvSortListCount;
-extern ItemDataRecord *(*g_InvLookupPtr)(int);
 
 void Inv_SortWeaponSubrange(void) {
     u16 *var_s0;
@@ -156,7 +151,7 @@ void Inv_SortWeaponSubrange(void) {
     mask = 0x1FE;
     if (var_s0 < g_InvSortListBase + g_InvSortListCount) {
         while (*(s16 *) var_s0 != 0) {
-            if ((mask >> g_InvLookupPtr((s16)*var_s0)->kind) & 1) {
+            if ((mask >> g_InvSortLookup((s16)*var_s0)->kind) & 1) {
                 break;
             }
             var_s0 += 1;
@@ -170,7 +165,7 @@ void Inv_SortWeaponSubrange(void) {
             if (*(s16 *) var_s0 != 0) {
                 do {
                     var_a0 = tmpu << 0x10;
-                    if (!((mask >> g_InvLookupPtr((s16)(var_a0 >> 0x10))->kind) & 1)) {
+                    if (!((mask >> g_InvSortLookup((s16)(var_a0 >> 0x10))->kind) & 1)) {
                         break;
                     }
                     var_s0 += 1;
@@ -191,11 +186,9 @@ void Inv_SortWeaponSubrange(void) {
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-extern s32 D_8009D0A0;
 extern s32 D_8009D0A8;
 extern u16 *g_InvSortListBase;
 extern s32 g_InvSortListCount;
-extern ItemDataRecord *(*g_InvLookupPtr)(int);
 
 void Inv_SortAmmoSubrange(void) {
     u16 *var_s0;
@@ -209,7 +202,7 @@ void Inv_SortAmmoSubrange(void) {
     mask = 0x200;
     if (var_s0 < g_InvSortListBase + g_InvSortListCount) {
         while (*(s16 *) var_s0 != 0) {
-            if ((mask >> g_InvLookupPtr((s16)*var_s0)->kind) & 1) {
+            if ((mask >> g_InvSortLookup((s16)*var_s0)->kind) & 1) {
                 break;
             }
             var_s0 += 1;
@@ -223,7 +216,7 @@ void Inv_SortAmmoSubrange(void) {
             if (*(s16 *) var_s0 != 0) {
                 do {
                     var_a0 = tmpu << 0x10;
-                    if (!((mask >> g_InvLookupPtr((s16)(var_a0 >> 0x10))->kind) & 1)) {
+                    if (!((mask >> g_InvSortLookup((s16)(var_a0 >> 0x10))->kind) & 1)) {
                         break;
                     }
                     var_s0 += 1;
@@ -313,7 +306,7 @@ void Inv_SortInventoryByMode(s32 arg0, s32 arg1) {
     } else {
         var_s0 = -1;
     }
-    g_InvLookupPtr = &Inv_LookupData;
+    g_InvSortLookup = &Inv_LookupData;
     g_InvSortListBase = g_InvItemPtr;
     g_InvSortListCount = g_InvSlotLimit;
     qsort(g_InvItemPtr, g_InvSlotLimit, 2, &Inv_CompareItemsForSort);
@@ -358,7 +351,7 @@ void Sort_ContainerItems(int arg0) {
 
     g_InvSortListBase = g_WayneStorageItems;
     g_InvSortListCount = 0x64;
-    g_InvLookupPtr = Inv_LookupData;
+    g_InvSortLookup = Inv_LookupData;
     qsort(g_WayneStorageItems, 0x64, 2, Inv_CompareItemsForSort);
     Inv_SortWeaponSubrange();
     Inv_SortAmmoSubrange();
@@ -383,7 +376,7 @@ void Sort_InventoryItems(int arg0, int arg1) {
     g_InvSortListBase = g_InvItemArray;
     g_InvSortTypeRankTable = &g_InvTypeRankTableA;
     g_InvSortListCount = 0x52;
-    g_InvLookupPtr = Inv_LookupData;
+    g_InvSortLookup = Inv_LookupData;
     qsort(g_InvItemArray, 0x52, 2, Inv_CompareItemsForSort);
     Inv_SortWeaponSubrange();
     Inv_SortAmmoSubrange();
