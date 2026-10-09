@@ -72,20 +72,11 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     if (temp_s1 != NULL) {
         var_a0_2 = 0;
         var_v1 = temp_s1;
-        for (;;) {
-            s32 temp_v0 = M2C_FIELD(var_v1, s32 *, 8);
-            if (temp_v0 == 0) {
-                var_v0 = var_a0_2 < 4;
-                break;
-            }
+        while (var_a0_2 < 4 && M2C_FIELD(var_v1, s32 *, 8) != 0) {
             var_a0_2 += 1;
             var_v1 += 4;
-            if (var_a0_2 >= 4) {
-                asm volatile("" : "=r"(var_a0_2) : "0"(var_a0_2));
-                var_v0 = var_a0_2 < 4;
-                break;
-            }
         }
+        var_v0 = var_a0_2 < 4;
         if (var_v0 != 0) {
             temp_s1->children[var_a0_2] = temp_s0;
         } else {
