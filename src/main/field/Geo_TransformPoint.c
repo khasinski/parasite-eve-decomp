@@ -7,7 +7,6 @@ int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth) {
     register int minimum asm("$5");
     int truncated;
     register int sum asm("$3");
-    register unsigned int shifted asm("$3");
     int bound;
     int comparison;
     unsigned int depthWord;
@@ -38,9 +37,9 @@ int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth) {
         comparison = bound < truncated;
     }
     screenX = comparison ? minimum : screenX;
-    shifted = (unsigned int)screenY << 16;
+    sum = (unsigned int)screenY << 16;
     bound = current->bounds.minY;
-    truncated = (int)shifted >> 16;
+    truncated = sum >> 16;
     minimum = bound;
     asm volatile("" : "=r"(bound) : "0"(bound));
     comparison = truncated < bound;
