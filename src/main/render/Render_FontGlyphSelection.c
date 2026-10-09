@@ -251,9 +251,8 @@ u8 Render_StepFontLoad(void) {
     Render_LoadFontGlyph(code);
 
     digit = (u8)(D_80091A1D % 10) != 0;
+    asm("" : "=r"(digit) : "0"(digit));
     found = 0;
-    asm("" : "=r"(digit), "=r"(found)
-        : "0"(digit), "1"(found));
     i = 0;
 
     table = g_FontSelectionState.table;
