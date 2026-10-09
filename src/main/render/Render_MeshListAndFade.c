@@ -685,21 +685,17 @@ int Render_ApplyScreenTint(void) {
         mode_bits = value & 0xC000;
         value = 0x4000;
         *flags_ptr = mask;
-        if (mode_bits == value) {
-            goto mode_4000;
+        switch (mode_bits) {
+        case 0x4000:
+            value = mask | 0x8000;
+            break;
+        case 0x8000:
+            value = -0x1001;
+            value = mask & value;
+            break;
+        default:
+            return 0;
         }
-        value = 0x8000;
-        if (mode_bits == value) {
-            goto mode_8000;
-        }
-        return 0;
-mode_4000:
-        value = mask | 0x8000;
-        goto store_flags;
-mode_8000:
-        value = -0x1001;
-        value = mask & value;
-store_flags:
         *flags_ptr = value;
     }
 
