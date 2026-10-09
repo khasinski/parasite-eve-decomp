@@ -31,12 +31,9 @@ int Menu_CheckItemAffordable(int actionId)
     }
     /* These actions are unavailable while the global restriction is active. */
     allowed = 0;
-    if (D_8009CF3C) {
-        if ((unsigned)(action - 6) < 3) goto permission_done;
-        if (action == 10 || action == 19) goto permission_done;
+    if (!D_8009CF3C || ((unsigned)(action - 6) >= 3 && action != 10 && action != 19)) {
+        allowed = 1;
     }
-    allowed = 1;
-permission_done:
     enabled &= allowed;
     if (action == 5 && Battle_GetEnemyEscapeFlag()) enabled = 0;
     if (action == 6) {
