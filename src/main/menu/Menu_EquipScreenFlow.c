@@ -103,18 +103,18 @@ void Menu_OnInventoryItemConfirm(s32 arg0) {
             MenuWidget_SetCurrentNode(temp_s1);
         }
         {
-            u8 *cf90_addr;
-            u8 *cf94_addr;
+            int *cf90_addr;
+            int *cf94_addr;
             s32 cf88_value;
 
-            cf90_addr = (u8 *)0x800A0000;
+            cf90_addr = (int *)0x800A0000;
             __asm__ volatile("" : "=r"(cf90_addr) : "0"(cf90_addr));
-            cf90_addr -= 0x3070;
+            cf90_addr -= 0x3070 / sizeof(*cf90_addr);
             cf88_value = g_InvAmmoSpendActiveList;
             __asm__ volatile("" : "=r"(cf88_value) : "0"(cf88_value));
-            cf94_addr = (u8 *)0x800A0000;
+            cf94_addr = (int *)0x800A0000;
             __asm__ volatile("" : "=r"(cf94_addr) : "0"(cf94_addr));
-            cf94_addr -= 0x306C;
+            cf94_addr -= 0x306C / sizeof(*cf94_addr);
             g_InvSwapSourceList = cf88_value;
             __asm__ volatile("" : : "r"(cf90_addr), "r"(cf94_addr));
             Inv_InitSlotDisplay(cf90_addr, cf94_addr);
