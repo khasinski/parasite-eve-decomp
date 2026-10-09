@@ -15,7 +15,7 @@ void *Inv_LookupActiveListDisplayData(s32 index);
 
 void *Inv_LookupActiveListDisplayData(s32 index) {
     s16 itemId;
-    register u32 lookupIndex asm("$4");
+    u32 lookupIndex;
     ItemDataRecord *entry;
     void *displayData;
 
@@ -30,17 +30,16 @@ void *Inv_LookupActiveListDisplayData(s32 index) {
             }
         } else {
             lookupIndex = entry->itemId - 1;
-            goto lookup_base_data;
+            displayData = Str_LookupTable8(lookupIndex);
         }
     } else {
         lookupIndex = itemId - 1;
         if (lookupIndex >= 0xFFU) {
             if ((itemId - 0x200) < 9U) {
                 lookupIndex = (g_InvCategoryBaseItemId + itemId) - 0x201;
-                goto lookup_base_data;
+                displayData = Str_LookupTable8(lookupIndex);
             }
         } else {
-lookup_base_data:
             displayData = Str_LookupTable8(lookupIndex);
         }
     }
