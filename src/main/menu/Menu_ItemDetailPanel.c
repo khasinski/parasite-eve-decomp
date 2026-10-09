@@ -60,6 +60,7 @@ int Menu_ConfirmDialogHandler(void *node, int flags) {
 
 void Menu_StepItemDetailPanel(void) {
     MenuWidgetNode *parent, *child;
+    MenuWidgetNode *panel;
     u8 *label;
     MenuConfirmCallback confirm;
     int width;
@@ -68,14 +69,13 @@ void Menu_StepItemDetailPanel(void) {
     label = Inv_LookupActiveListDisplayData(g_MenuActiveItemSlot);
     {
         MenuWidgetNode *result = MenuWidget_CreateSimpleNode(0x29, parent, 0, 1);
-        register int mode asm("$4") = 0x29;
-        /* Keep the mode argument ready before copying the returned node. */
-        asm("" : : "r"(result), "r"(mode));
+        int mode = 0x29;
         parent = result;
         child = MenuWidget_CreateNode(mode, parent, parent);
     }
     parent->draw = Menu_DrawItemLabel;
-    parent->update = Menu_ConfirmDialogHandler;
+    panel = parent;
+    panel->update = Menu_ConfirmDialogHandler;
     child->draw = Menu_DrawActionOptionList;
     g_MenuActionTextBase = 5;
     MenuWidget_SetCurrentNode(child);
@@ -87,11 +87,11 @@ void Menu_StepItemDetailPanel(void) {
     Util_AppendFFTerminatedBytes(g_MenuItemLabelBuffer, Str_LookupTable4(4));
     g_MenuItemPrimListHandles[0] = 0;
     width = Draw_MeasureTextWidth(g_MenuItemLabelBuffer) < 120 ? 120 : Draw_MeasureTextWidth(g_MenuItemLabelBuffer);
-    parent->grid_width = width + 20;
-    parent->visible_rows = 50;
-    parent->x = (300 - width) >> 1;
-    child->x = (parent->grid_width - 128) >> 1;
-    child->y = parent->visible_rows - 20;
+    panel->grid_width = width + 20;
+    panel->visible_rows = 50;
+    panel->x = (300 - width) >> 1;
+    child->x = (panel->grid_width - 128) >> 1;
+    child->y = panel->visible_rows - 20;
     g_MenuConfirmCallback = confirm;
 }
 
