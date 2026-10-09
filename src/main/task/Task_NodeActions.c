@@ -612,7 +612,7 @@ int Camera_TrackEntityAngle(int **args) {
         return 1;
     } else {
         D_8009CE00 -= 5;
-        S32_AT(D_8009D300, 0x10) = 1;
+        D_8009D300->active = 1;
         return 0;
     }
 }
@@ -865,7 +865,7 @@ int Camera_TrackEntityZoom(int **args) {
         return 1;
     } else {
         D_8009CE00 -= 5;
-        S32_AT(D_8009D300, 0x10) = 1;
+        D_8009D300->active = 1;
         return 0;
     }
 }
