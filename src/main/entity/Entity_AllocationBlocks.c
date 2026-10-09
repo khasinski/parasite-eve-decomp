@@ -32,7 +32,7 @@ block_6:
     var_a0 = var_a1 & 0xFF;
 loop_8:
     var_v1 = var_a0 << 3;
-    if (((EntityAllocationBlock *)((u8 *)D_800A7620 + var_v1))->address == 0) {
+    if (D_800A7620[var_a0].address == 0) {
         var_a2 = 1;
         if (var_a0 < (var_a0 + temp_t0)) {
             var_v0 = var_a3 + var_a0;
@@ -52,7 +52,7 @@ after_empty_scan:
             temp_a0 = var_v0 << 3;
             var_v1 = temp_a0 + var_v0;
             var_v1 = (var_v1 << 6) - var_v0;
-            ((EntityAllocationBlock *)((u8 *)D_800A7620 + temp_a0))->blockCount = temp_t0;
+            D_800A7620[var_v0].blockCount = temp_t0;
             var_v0 = *temp_t1 + (var_v1 << 5);
             ((EntityAllocationBlock *)((u8 *)D_800A7620 + temp_a0))->address = var_v0;
             return var_v0;
