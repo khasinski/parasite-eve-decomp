@@ -6,16 +6,16 @@
 #include "pe1/gte_types.h"
 #include "pe1/gte_types.h"
 
-int func_800CA4A8(void *arg0, u8 *state) {
+int func_800CA4A8(void *arg0, FieldEngSlot *state) {
     int ret = 2;
 
-    state[1] = ret;
+    state->flag = ret;
     return ret;
 }
 
 #include "common.h"
-int func_800CA4B4(void *arg0, u8 *state, FieldAnimMovingParticle *anim) {
-    u8 *state_a3 = state;
+int func_800CA4B4(void *arg0, FieldEngSlot *state, FieldAnimMovingParticle *anim) {
+    FieldEngSlot *state_a3 = state;
     FieldAnimMovingParticle *anim_a2 = anim;
     int temp_v0;
     int temp_v1;
@@ -50,18 +50,18 @@ int func_800CA4B4(void *arg0, u8 *state, FieldAnimMovingParticle *anim) {
     count = ((FieldAnimMovingParticle *)temp_a0)->lifetime;
     ((FieldAnimMovingParticle *)temp_a0)->lifetime = count - 1;
     if (count == 0) {
-        state_a3[1] = 2;
+        state_a3->flag = 2;
     }
 }
 
 #include "common.h"
-int func_800CA540(void *arg0, u8 *state, u8 *anim) {
-    s16 value = *(u16 *)(anim + 4) - 0x14;
+int func_800CA540(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
+    s16 value = anim->brightness - 0x14;
 
-    *(u16 *)(anim + 4) = value;
+    anim->brightness = value;
     if (value < 0x14) {
-        *(u16 *)(anim + 4) = 0;
-        state[1] = 2;
+        anim->brightness = 0;
+        state->flag = 2;
     }
 }
 
