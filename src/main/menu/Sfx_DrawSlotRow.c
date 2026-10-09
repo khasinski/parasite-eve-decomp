@@ -103,7 +103,7 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
     s32 temp_v1_3;
     register s32 temp_a1 asm("$5");
     u32 temp_a0;
-    register u32 var_a0 asm("$4");
+    u32 var_a0;
     ItemDataRecord *temp_v1_2;
     u8 *var_a1;
     ItemDataRecord *var_v0;
@@ -120,17 +120,16 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
             }
         } else {
             var_a0 = temp_v1_2->itemId - 1;
-            goto block_8;
+            var_a1 = Str_LookupTable8(var_a0);
         }
     } else {
         var_a0 = temp_v1 - 1;
         if (var_a0 >= 0xFFU) {
             if ((temp_v1 - 0x200) < 9U) {
                 var_a0 = (g_InvCategoryBaseItemId + temp_v1) - 0x201;
-                goto block_8;
+                var_a1 = Str_LookupTable8(var_a0);
             }
         } else {
-block_8:
             var_a1 = Str_LookupTable8(var_a0);
         }
     }
@@ -148,11 +147,10 @@ block_8:
                 temp_v1_3 = temp_a1 << 5;
                 var_v0 = (ItemDataRecord *)(temp_v1_3 + g_KeyItemDataTable);
             } else {
-                goto block_17;
+                var_v0 = NULL;
             }
         }
     } else {
-block_17:
         var_v0 = NULL;
     }
     if (var_v0 != NULL) {
