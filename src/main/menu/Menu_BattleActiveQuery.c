@@ -1,9 +1,11 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
+#include "pe1/battle.h"
+
 unsigned char g_BattleActionQueueCount;
 extern int g_GameStateFlags[];
-extern char *g_ActiveActor[];
+extern Combatant *g_ActiveActor[];
 
 int Battle_IsActive(void) {
     if (g_BattleActionQueueCount != 0) {
@@ -12,7 +14,7 @@ int Battle_IsActive(void) {
     if ((g_GameStateFlags[0] & 2) == 0) {
         goto yes;
     }
-    if ((*(int *)(g_ActiveActor[0] + 0x4C) & 0x10000) != 0) {
+    if ((g_ActiveActor[0]->stateFlags & 0x10000) != 0) {
         goto no;
     }
 yes:
@@ -28,7 +30,7 @@ int Pad_IsMenuConfirmAvailable(void) {
     if ((g_GameStateFlags[0] & 2) == 0) {
         goto yes;
     }
-    if ((*(int *)(g_ActiveActor[0] + 0x4C) & 0x10000) != 0) {
+    if ((g_ActiveActor[0]->stateFlags & 0x10000) != 0) {
         goto no;
     }
 yes:
