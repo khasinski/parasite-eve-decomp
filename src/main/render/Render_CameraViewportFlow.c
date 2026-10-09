@@ -136,10 +136,6 @@ int Render_SetViewport(s16 *position) {
     register GeomState *geometry;
     register CameraViewport *view;
     register unsigned int cx asm("$11");
-    register int correction asm("$2");
-    register unsigned fallback_height asm("$2");
-    register int fallback_half asm("$3");
-    register int height_center asm("$3");
     register GeomState *offset_geometry;
     int flags = camera->flags;
     register int screen_x asm("$6");
@@ -152,14 +148,12 @@ int Render_SetViewport(s16 *position) {
     register int view_y;
     register int half_width;
     int half_height;
-    register int signed_height asm("$2");
-    register int signed_width asm("$3");
-    register int width_offset asm("$2");
+    register int axisValue asm("$2");
+    register int viewportValue asm("$3");
     register unsigned raw_width;
     register unsigned raw_height asm("$3");
     register int target_x asm("$9");
     register int target_y;
-    register int bound asm("$3");
     register int y_bound;
     register int selected_x;
 
@@ -232,34 +226,34 @@ int Render_SetViewport(s16 *position) {
     view = (CameraViewport *)((u8 *)geometry + offset_geometry->entry_offset_1C);
     view += g_GeomGroupSel;
     asm("" : : "r"(view) : "$3");
-    height_center = 224;
+    viewportValue = 224;
 
     raw_width = view->width;
-    view_y = height_center - center_y;
+    view_y = viewportValue - center_y;
     raw_width <<= 16;
-    signed_width = (int)raw_width >> 16;
-    signed_width += raw_width >> 31;
-    half_width = signed_width >> 1;
-    width_offset = half_width - 160;
+    viewportValue = (int)raw_width >> 16;
+    viewportValue += raw_width >> 31;
+    half_width = viewportValue >> 1;
+    axisValue = half_width - 160;
 
     raw_height = view->height;
-    target_x = width_offset + center_x;
+    target_x = axisValue + center_x;
     raw_height <<= 16;
-    signed_height = (int)raw_height >> 16;
-    signed_height += raw_height >> 31;
-    half_height = signed_height >> 1;
+    axisValue = (int)raw_height >> 16;
+    axisValue += raw_height >> 31;
+    half_height = axisValue >> 1;
     target_y = half_height + (center_y - 112);
-    bound = view->minX;
-    if (target_x < bound)
+    viewportValue = view->minX;
+    if (target_x < viewportValue)
         goto adjust_x;
-    bound = view->maxX;
-    if (bound < target_x)
+    viewportValue = view->maxX;
+    if (viewportValue < target_x)
         goto adjust_x;
     goto check_y;
 adjust_x:
-    correction = bound - 160;
+    axisValue = viewportValue - 160;
 
-    view_x = half_width - correction;
+    view_x = half_width - axisValue;
 check_y:
     y_bound = view->minY;
     if (target_y < y_bound)
@@ -269,36 +263,34 @@ check_y:
         goto adjust_y;
     goto store_offsets;
 adjust_y:
-    fallback_height = view->height;
-    fallback_half = (s16)fallback_height / 2;
-    correction = y_bound - 112;
+    axisValue = view->height;
+    viewportValue = (s16)axisValue / 2;
+    axisValue = y_bound - 112;
 
-    view_y = fallback_half - correction;
+    view_y = viewportValue - axisValue;
 store_offsets:
     D_800BCF94 = view_x;
     D_800BCF96 = view_y;
     selected_x = target_x;
     if (D_800BCF88.state.flags & 64) {
-        register int signed_x asm("$3");
         register int signed_y;
-        register int loaded_bound asm("$2");
         register int chosen_bound asm("$5");
         register int upper_y;
         geometry = D_800B1624;
         view = (CameraViewport *)((u8 *)geometry + geometry->entry_offset_1C);
         view += g_GeomGroupSel;
-        signed_x = (s16)target_x;
-        loaded_bound = view->minX;
-        chosen_bound = loaded_bound;
+        viewportValue = (s16)target_x;
+        axisValue = view->minX;
+        chosen_bound = axisValue;
         asm("" : "=r"(chosen_bound) : "0"(chosen_bound));
-        if (signed_x < loaded_bound) {
+        if (viewportValue < axisValue) {
             signed_y = (unsigned)target_y << 16;
             D_800BCF8C.x = chosen_bound;
         } else {
-            loaded_bound = view->maxX;
-            chosen_bound = loaded_bound;
+            axisValue = view->maxX;
+            chosen_bound = axisValue;
             asm("" : "=r"(chosen_bound) : "0"(chosen_bound));
-            if (loaded_bound < signed_x) {
+            if (axisValue < viewportValue) {
                 signed_y = (unsigned)target_y << 16;
                 D_800BCF8C.x = chosen_bound;
             } else {
@@ -307,17 +299,17 @@ store_offsets:
             }
         }
         signed_y >>= 16;
-        loaded_bound = view->minY;
-        chosen_bound = loaded_bound;
+        axisValue = view->minY;
+        chosen_bound = axisValue;
         asm("" : "=r"(chosen_bound) : "0"(chosen_bound));
-        if (signed_y < loaded_bound) {
+        if (signed_y < axisValue) {
             D_800BCF8E = chosen_bound;
             return 0;
         }
-        loaded_bound = view->maxY;
-        upper_y = loaded_bound;
+        axisValue = view->maxY;
+        upper_y = axisValue;
         asm("" : "=r"(upper_y) : "0"(upper_y));
-        if (loaded_bound < signed_y) {
+        if (axisValue < signed_y) {
             D_800BCF8E = upper_y;
             return 0;
         }
