@@ -4,11 +4,7 @@
 
 #include "common.h"
 #include "pe1/card_obj.h"
-
-typedef struct MemCardTransferControl {
-    u8 reserved00[0xA];
-    u16 status;
-} MemCardTransferControl;
+#include "pe1/memcard_state.h"
 
 extern CardObj D_800A5B70[];
 extern int D_8009B764;
@@ -18,7 +14,7 @@ extern int g_MemCardDmaStoredIndex asm("D_8009B764");
 extern int D_8009B768;
 extern int g_MemCardPort2Present;
 extern int D_8009B77C[];
-extern MemCardTransferControl *D_8009B7BC;
+extern MemCardSioRegisters *D_8009B7BC;
 
 void _dirFailAuto(CardObj *obj);
 void CardObj_SwapByteField(CardObj *obj);
@@ -31,7 +27,7 @@ int MemCard_DmaCompleteCallback(int result) {
     int *channelResults;
     CardObj *obj;
     int index;
-    register MemCardTransferControl *control asm("$2");
+    MemCardSioRegisters *control;
     int limit;
     int offset;
     int nextResult;
@@ -59,7 +55,7 @@ int MemCard_DmaCompleteCallback(int result) {
         asm("" : "=r"(control), "+r"(index) : "0"(D_8009B7BC));
         D_8009B768 = 0;
         asm volatile("" : : : "memory");
-        control->status = 0;
+        control->control = 0;
         limit = g_MemCardPort2Present;
         index += 1;
         g_MemCardDmaStoredIndex = index;
