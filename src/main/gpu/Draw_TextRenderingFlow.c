@@ -186,40 +186,37 @@ int Draw_MeasureTextWidth(u8 *text) {
 
     cursor = text;
     width = 0;
-    goto test;
-loop:
-    glyph = ch & 0xFF;
-    if (D_8009D0D8 != 0) {
-        glyph += D_8009D0D8 << 8;
-        D_8009D0D8 = 0;
-    }
-    ch &= 0xFF;
-    if ((unsigned int)ch >= 0xFA) {
-        escape_page = ch - 0xFA;
-        D_8009D0D8 = escape_page;
-        glyph = -1;
-    }
-    ch = glyph;
-    if (ch >= 0) {
-        spacing = 0;
-        if (ch < 10 || ch == 15) {
-            spacing = 1;
+    for (;;) {
+        ch = *cursor;
+        sentinel = 0xFF;
+        terminator_check = ch & 0xFF;
+        asm volatile("" : "=r"(terminator_check) : "0"(terminator_check));
+        cursor++;
+        if (terminator_check == sentinel) break;
+        glyph = ch & 0xFF;
+        if (D_8009D0D8 != 0) {
+            glyph += D_8009D0D8 << 8;
+            D_8009D0D8 = 0;
         }
-        D_8009CDB0 = spacing + 1;
-        if (ch >= 0x100) {
-            ch -= 0x13;
+        ch &= 0xFF;
+        if ((unsigned int)ch >= 0xFA) {
+            escape_page = ch - 0xFA;
+            D_8009D0D8 = escape_page;
+            glyph = -1;
         }
-        metrics = Draw_LookupGlyphMetrics(ch);
-        width += ((metrics >> 4) & 0xF) + D_8009CDB0;
-    }
-test:
-    ch = *cursor;
-    sentinel = 0xFF;
-    terminator_check = ch & 0xFF;
-    asm volatile("" : "=r"(terminator_check) : "0"(terminator_check));
-    cursor++;
-    if (terminator_check != sentinel) {
-        goto loop;
+        ch = glyph;
+        if (ch >= 0) {
+            spacing = 0;
+            if (ch < 10 || ch == 15) {
+                spacing = 1;
+            }
+            D_8009CDB0 = spacing + 1;
+            if (ch >= 0x100) {
+                ch -= 0x13;
+            }
+            metrics = Draw_LookupGlyphMetrics(ch);
+            width += ((metrics >> 4) & 0xF) + D_8009CDB0;
+        }
     }
     cursor--;
     asm volatile("" : : "r"(cursor));
