@@ -209,7 +209,7 @@ int func_800CC92C(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
 int func_800CC974(void *arg0, FieldEngSlot *state, FieldAnimRadialParticles *anim) {
     int i;
     FieldEngSlot *state_t2;
-    register int dx asm("$3");
+    register int velocityValue asm("$3");
     int dy;
     register int dz asm("$5");
     int frame;
@@ -220,21 +220,20 @@ int func_800CC974(void *arg0, FieldEngSlot *state, FieldAnimRadialParticles *ani
     if ((signed char)anim->count > 0) {
         do {
             register int pos asm("$2");
-            register int angle asm("$3");
 
-            dx = anim->velocity[i].x >> 9;
+            velocityValue = anim->velocity[i].x >> 9;
             pos = anim->points[i].position.x;
             dy = anim->velocity[i].y >> 9;
             dz = anim->velocity[i].z >> 9;
-            pos += dx;
+            pos += velocityValue;
             anim->points[i].position.x = pos;
             pos = anim->points[i].position.y;
-            angle = (u16)anim->velocity[i].y;
+            velocityValue = (u16)anim->velocity[i].y;
             pos += dy;
             anim->points[i].position.y = pos;
             pos = anim->points[i].position.z;
-            angle += 0xB4;
-            anim->velocity[i].y = angle;
+            velocityValue += 0xB4;
+            anim->velocity[i].y = velocityValue;
             pos += dz;
             anim->points[i].position.z = pos;
             pos = anim->extent[i];
@@ -270,7 +269,7 @@ int func_800CCA78(void *arg0, FieldEngSlot *state, FieldAnimPointSprite *anim) {
 int func_800CCAB0(void *arg0, FieldEngSlot *state, FieldAnimScatteredParticles *anim) {
     int i;
     FieldEngSlot *state_t1;
-    register int dx asm("$3");
+    register int velocityValue asm("$3");
     int dy;
     register int dz asm("$5");
     int frame;
@@ -281,21 +280,20 @@ int func_800CCAB0(void *arg0, FieldEngSlot *state, FieldAnimScatteredParticles *
     if (anim->points.count > 0) {
         do {
             register int pos asm("$2");
-            register int verticalVelocity asm("$3");
 
-            dx = anim->velocity_x[i] >> 8;
+            velocityValue = anim->velocity_x[i] >> 8;
             pos = anim->points.x[i];
             dy = anim->velocity_y[i] >> 8;
             dz = anim->velocity_z[i] >> 8;
-            pos += dx;
+            pos += velocityValue;
             anim->points.x[i] = pos;
             pos = anim->points.y[i];
-            verticalVelocity = (u16)anim->velocity_y[i];
+            velocityValue = (u16)anim->velocity_y[i];
             pos += dy;
             anim->points.y[i] = pos;
             pos = anim->points.z[i];
-            verticalVelocity += 0xB4;
-            anim->velocity_y[i] = verticalVelocity;
+            velocityValue += 0xB4;
+            anim->velocity_y[i] = velocityValue;
             pos += dz;
             anim->points.z[i] = pos;
             i++;
