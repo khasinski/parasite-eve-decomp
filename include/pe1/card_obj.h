@@ -4,9 +4,12 @@
 #include "common.h"
 
 /* PADCMD.OBJ capability response tables addressed by CardObj field_04/08.
- * The protocol meaning of each capability byte is not yet named. */
+ * payloadBytes controls alignment width (zero selects a single control bit);
+ * activationCost is summed against the shared activation allowance. */
 typedef struct PadCapabilityRecord {
-    u8 bytes[4];
+    u8 protocol[2];
+    u8 payloadBytes;
+    u8 activationCost;
     u8 high_bit;
 } PadCapabilityRecord;
 typedef struct PadDataRecord {

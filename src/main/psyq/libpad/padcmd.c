@@ -213,10 +213,10 @@ int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
     case 3: {
         PadCapabilityRecord *record =
             (PadCapabilityRecord *)port->field_04 + port->field_47;
-        record->bytes[0] = port->response_3c[4];
-        record->bytes[1] = port->response_3c[5] & 127;
-        record->bytes[2] = port->response_3c[6];
-        record->bytes[3] = port->response_3c[7];
+        record->protocol[0] = port->response_3c[4];
+        record->protocol[1] = port->response_3c[5] & 127;
+        record->payloadBytes = port->response_3c[6];
+        record->activationCost = port->response_3c[7];
         {
             register int high = port->response_3c[5];
             record->high_bit = high >> 7;
@@ -367,7 +367,7 @@ s32 Render_CheckParticleBounds(CardObj *arg0) {
                 }
                 n -= 1;
             } while (n >= 0);
-            needed = ((PadCapabilityRecord *)(offset + (u32)arg0->field_04))->bytes[2];
+            needed = ((PadCapabilityRecord *)(offset + (u32)arg0->field_04))->payloadBytes;
             cursor = (u8 *)arg0->field_20;
             n = 0;
             if (needed == 0) {
