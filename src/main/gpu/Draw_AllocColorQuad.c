@@ -147,9 +147,9 @@ second_done:
 
     packet = second;
     secondRight = ratio + 0xE5;
-    asm volatile("" : "=r"(secondRight) : "0"(secondRight));
     secondTop = shadeOffset + 0xAA;
-    asm volatile("" : "=r"(secondTop) : "0"(secondTop));
+    asm volatile("" : "=r"(secondRight), "=r"(secondTop)
+        : "0"(secondRight), "1"(secondTop));
     secondBottom = shadeOffset + 0xAD;
     asm volatile("" : "=r"(secondBottom) : "0"(secondBottom));
     mask24 = 0xFFFFFF;
