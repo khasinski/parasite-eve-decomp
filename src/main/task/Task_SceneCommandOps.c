@@ -125,13 +125,13 @@ s32 Task_SetEntityParentLink(s32 *args[]) {
         u32 k = key;
         node = g_FieldActorListHead;
         if (node != NULL) {
-loop:
-        if ((node->type_id != k) || (node->sub_id != *args[1]) || (node->flags & 0x10)) {
-            node = node->next;
-            if (node != NULL) {
-                goto loop;
-            }
-        }
+            do {
+                if ((node->type_id != k) || (node->sub_id != *args[1]) || (node->flags & 0x10)) {
+                    node = node->next;
+                } else {
+                    break;
+                }
+            } while (node != NULL);
             if (node != NULL) {
                 goto link;
             }
