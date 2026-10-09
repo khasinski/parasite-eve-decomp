@@ -30,7 +30,7 @@ void Battle_StepPostBattle(void)
     s32 remainingFrames;
     register s32 horizontalInset asm("$7");
     s8 brightness;
-    register u16 leftEdge asm("$4");
+    register u16 horizontalEdge asm("$4");
     u16 rightEdge;
     u32 entityFlags;
     u8 fadeBrightness;
@@ -154,10 +154,10 @@ void Battle_StepPostBattle(void)
         asm volatile("" : "=r"(expandingPanel) : "0"(expandingPanel), "r"(timer));
         remainingFrames = timer & 0xFF;
         horizontalInset = remainingFrames * 4;
-        leftEdge = 0x64 - horizontalInset;
+        horizontalEdge = 0x64 - horizontalInset;
         rightEdge = ((remainingFrames * 8) + 0xDC) - horizontalInset;
-        expandingPanel->x0 = leftEdge;
-        expandingPanel->x2 = leftEdge;
+        expandingPanel->x0 = horizontalEdge;
+        expandingPanel->x2 = horizontalEdge;
         expandingPanel->y0 = top;
         expandingPanel->x1 = rightEdge;
         expandingPanel->y1 = top;
@@ -182,7 +182,7 @@ void Battle_StepPostBattle(void)
         break;
     }
     case 3: {
-        register u16 bottom asm("$3");
+        register u16 edgeCoordinate asm("$3");
         if ((u8) D_8009CE70 >= 0x1AU) {
             u32 pulse = (u32)(rcos((D_8009CE70 - 16) * 16) * 11) >> 11;
             register RenderTexturedQuad *base asm("$5") = D_800BE9F0;
@@ -195,33 +195,31 @@ void Battle_StepPostBattle(void)
             asm volatile("" : "=r"(raisingPanel), "=r"(pulse) : "0"(raisingPanel), "1"(pulse), "r"(left));
             top = 122 - pulse;
             right = 220;
-            bottom = 124;
+            edgeCoordinate = 124;
             raisingPanel->x0 = left;
             raisingPanel->y0 = top;
             raisingPanel->x1 = right;
             raisingPanel->y1 = top;
             raisingPanel->x2 = left;
-            raisingPanel->y2 = bottom;
+            raisingPanel->y2 = edgeCoordinate;
             ((RenderTexturedQuad *)raisingPanel)->x3 = right;
         }
         else {
             RenderTexturedQuad *base = D_800BE9F0;
-            register u16 left asm("$3");
-            register u16 right asm("$4");
             raisingPanel = &base[D_8009CDDC];
             asm volatile("" : "=r"(raisingPanel) : "0"(raisingPanel));
-            left = 100;
-            right = 220;
-            raisingPanel->x0 = left;
-            raisingPanel->y0 = left;
-            raisingPanel->y1 = left;
-            raisingPanel->x2 = left;
-            bottom = 124;
-            raisingPanel->x1 = right;
-            raisingPanel->y2 = bottom;
-            ((RenderTexturedQuad *)raisingPanel)->x3 = right;
+            edgeCoordinate = 100;
+            horizontalEdge = 220;
+            raisingPanel->x0 = edgeCoordinate;
+            raisingPanel->y0 = edgeCoordinate;
+            raisingPanel->y1 = edgeCoordinate;
+            raisingPanel->x2 = edgeCoordinate;
+            edgeCoordinate = 124;
+            raisingPanel->x1 = horizontalEdge;
+            raisingPanel->y2 = edgeCoordinate;
+            ((RenderTexturedQuad *)raisingPanel)->x3 = horizontalEdge;
         }
-        raisingPanel->y3 = bottom;
+        raisingPanel->y3 = edgeCoordinate;
         countdown = D_8009CE70;
         if (countdown == 0) {
             Anim_SetInterpRate(&D_8009D254->renderObject, 0x3C);
