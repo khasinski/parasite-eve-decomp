@@ -11,8 +11,8 @@ u8 D_8009D2A0;
 void Aya_DeriveStats(int *maximum, int *current);
 void Battle_StartDeathAnim(void);
 /* Eight-stage transition: model fades, an effect spawn, stat recovery and
- * HUD reset. Matching debt: nine pins, one empty pointer barrier, shared goto
- * tails, interior HUD symbols, and a signed byte view of D_8009D2A0.
+ * HUD reset. Matching debt: fixed-register pins, a shared fade tail,
+ * interior HUD symbols, and a signed byte view of D_8009D2A0.
  * The object pointer is recovered from its known variant_visible field. */
 int Battle_StepVictory(void)
 {
@@ -23,8 +23,6 @@ int Battle_StepVictory(void)
     register RenderObjectEntity *object asm("$16");
     register u8 brightness asm("$16");
     u8 countdown;
-    u8 nextStage;
-    register u8 remaining;
     register Combatant *restoredCore;
     switch (D_8009CE74) {
     case 0:
@@ -33,8 +31,10 @@ int Battle_StepVictory(void)
             Entity_SetActionMode(player, 0x13);
             player = D_8009D254;
         }
-        if (player->animLastFrame != (u16)(player->animFrame >> 16))
-            goto clearFlag;
+        if (player->animLastFrame != (u16)(player->animFrame >> 16)) {
+            player->entityFlags &= ~0x100;
+            break;
+        }
         D_8009CE70 = 16;
         player->entityFlags |= 0x100;
         D_8009CE74++;
@@ -62,14 +62,14 @@ int Battle_StepVictory(void)
         Asset_Find08Alt(0x4AF, 0, spawnPlayer->posX.parts.integer, spawnPlayer->posY.parts.integer, spawnPlayer->posZ.parts.integer);
         {
             register u8 delay asm("$3") = 0x34;
-            nextStage = D_8009CE74 + 1;
             D_8009CE70 = delay;
         }
-        goto advance;
+        D_8009CE74++;
+        break;
     case 3:
         if (D_8009CE70 != 0) {
-            remaining = D_8009CE70 - 1;
-            goto decrement;
+            D_8009CE70--;
+            break;
         }
         D_8009D254->renderObject.variant_visible = 1;
         Anim_SetInterpRate(&D_8009D254->renderObject, 30);
@@ -94,7 +94,6 @@ int Battle_StepVictory(void)
         if (countdown == 16) {
             D_8009CE74++;
             player = D_8009D254;
-clearFlag:
             player->entityFlags &= ~0x100;
         } else {
             D_8009CE70 = countdown - 1;
@@ -107,9 +106,7 @@ clearFlag:
 fade:
             Render_FadeEntityColor(&D_8009D254->renderObject, brightness, brightness, brightness);
             Render_FadeEntityColor(&D_800B0CEC, brightness, brightness, brightness);
-            remaining = D_8009CE70 - 1;
-decrement:
-            D_8009CE70 = remaining;
+            D_8009CE70--;
         } else {
             D_8009CE74++;
             D_8009D254->renderObject.flags_9C |= 0x20;
@@ -120,9 +117,7 @@ decrement:
         if (player->animLastFrame != player->animPrev.parts.integer)
             break;
         Entity_SetActionMode(player, D_8009D278->actionMode12);
-        nextStage = D_8009CE74 + 1;
-advance:
-        D_8009CE74 = nextStage;
+        D_8009CE74++;
         break;
     case 7:
         core = D_8009D278;
