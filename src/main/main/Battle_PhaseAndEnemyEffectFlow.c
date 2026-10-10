@@ -120,6 +120,7 @@ void Battle_AdvancePhase(void) {
     void *var_a0_4;
     void *var_a1;
     Combatant *actor;
+    Combatant *cleanupActor;
     Combatant *aya_actor;
     BattleEntity *aya_player;
     u8 *copy_dst;
@@ -343,17 +344,17 @@ block_55:
         if ((u32) (*((D_8009D258 * 0xA0C) + D_800942E4) - 1) >= 2U) {
             var_a2_2 = 0xFFEFFFFF;
             temp_a0_3 = -0x101;
-            var_a1 = D278(13);
+            cleanupActor = D278(13);
             character_state = D254(13);
-            ((Combatant *)var_a1)->exp_or_acc = 0;
+            cleanupActor->exp_or_acc = 0;
             *(s32 *)&character_state->entityFlags = (s32) (*(s32 *)&character_state->entityFlags & temp_a0_3);
             system_flags = D1A0_R3;
-            cleanup_flags.value = ((Combatant *)var_a1)->stateFlags;
+            cleanup_flags.value = cleanupActor->stateFlags;
             system_flags &= temp_a0_3;
             cleanup_flags.value &= var_a2_2;
             D1A0_W3 = system_flags;
             cleanup_flags.value |= 0x200000;
-            ((Combatant *)var_a1)->stateFlags = cleanup_flags.value;
+            cleanupActor->stateFlags = cleanup_flags.value;
             Battle_HaltOnPositiveX();
         }
     } else {
