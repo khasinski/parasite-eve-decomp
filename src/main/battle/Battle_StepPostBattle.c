@@ -15,7 +15,7 @@ s32 D_8009D28C;
 
 /* End-of-battle sequence: retire enemy actors, fade sound and animate the
  * textured panel before completing the battle phase. Matching debt: 16 register pins,
- * 7 empty barriers, two volatile packet views and 24 reserved stack bytes.
+ * 5 empty barriers, two volatile packet views and 24 reserved stack bytes.
  * Countdown and stage stores remain local to their switch cases. */
 void Battle_StepPostBattle(void)
 {
@@ -35,7 +35,6 @@ void Battle_StepPostBattle(void)
     u32 entityFlags;
     u8 fadeBrightness;
     register u8 countdown asm("$2");
-    u8 nextStage;
     EnemyCombatant *core;
     EnemyCombatant *actionCore;
     EnemyCombatant *fadingCore;
@@ -120,13 +119,8 @@ void Battle_StepPostBattle(void)
         if (countdown == 0) {
             Pm_StopAllBoth();
             Akao_Cmd_21(0, 0xFF);
-            {
-                u8 state = D_8009CE74;
-                D_8009CE70 = 0x1E;
-                asm volatile("" : "=r"(state) : "0"(state));
-                nextStage = state + 1;
-            }
-            D_8009CE74 = nextStage;
+            D_8009CE70 = 0x1E;
+            D_8009CE74++;
             break;
         }
         else {
@@ -169,13 +163,8 @@ void Battle_StepPostBattle(void)
             }
         }
         else {
-            {
-                u8 state = D_8009CE74;
-                D_8009CE70 = 0x50;
-                asm volatile("" : "=r"(state) : "0"(state));
-                nextStage = state + 1;
-            }
-            D_8009CE74 = nextStage;
+            D_8009CE70 = 0x50;
+            D_8009CE74++;
             break;
         }
         break;
