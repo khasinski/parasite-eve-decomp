@@ -618,12 +618,9 @@ segments:
       # Pool initialization, allocation and recursive destruction share node lists.
       - [0x52D68, c, menu/MenuWidget_Pool]
       - [0x53030, c, gpu/Draw_PushPrimToList]
-      # Active-list presence, child access and node searches share widget state.
-      - [0x531B0, c, menu/menu_widget]
-      - [0x5327C, c, gpu/Draw_FlushPrimList]
-      # Selection, constructors, cells, scrolling, saved layouts and mode-3 popups
+      # Node lookups, labels, constructors, scrolling, layouts and mode-3 popups
       # share their typed widget state and -G8/common profile.
-      - [0x534B8, c, menu/MenuWidget_Lifecycle]
+      - [0x531B0, c, menu/MenuWidget_Lifecycle]
       # Field sound event enqueue/reset and actor dispatch share queue records.
       - [0x55B6C, c, task/Task_FieldSfxQueue]
       # Reset, animation update and slot commands share GeomCtrlEntry.
