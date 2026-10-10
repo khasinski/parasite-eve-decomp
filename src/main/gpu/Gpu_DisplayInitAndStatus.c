@@ -190,18 +190,15 @@ int Gpu_CheckDrawStatus(void) {
     return result;
 }
 
-int Gpu_GetTimTableEntry(int base, int index) {
-    int offset = (short)index * 4;
-    int ptr = (unsigned int)offset + (unsigned int)base;
-    return (unsigned int)base + (unsigned int)*(int *)ptr;
+TimFile *Gpu_GetTimTableEntry(TimRelativeTable *table, int index) {
+    return (TimFile *)((u8 *)table + table->offsets[(s16)index]);
 }
 
-void Gpu_LoadTimTable(int base, int count) {
+void Gpu_LoadTimTable(TimRelativeTable *table, int count) {
     int i;
 
     for (i = 0; i < count; i++) {
-        int ptr = (unsigned int)((short)i * 4) + (unsigned int)base;
-        int offset = *(int *)ptr;
-        Asset_LoadTimImage((TimFile *)((unsigned int)base + (unsigned int)offset));
+        u32 offset = table->offsets[(s16)i];
+        Asset_LoadTimImage((TimFile *)((u8 *)table + offset));
     }
 }
