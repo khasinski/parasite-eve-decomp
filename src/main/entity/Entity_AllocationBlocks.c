@@ -37,13 +37,14 @@ loop_8:
         if (var_a0 < (var_a0 + temp_t0)) {
             var_v0 = var_a3 + var_a0;
             var_a0 = var_v0 << 3;
-loop_11:
-            if (((EntityAllocationBlock *)((u8 *)D_800A7620 + var_v1))->address != 0) {
-                goto occupied_in_run;
-            }
-            var_v1 += 8;
-            if (var_v1 < var_a0) {
-                goto loop_11;
+            while (1) {
+                if (((EntityAllocationBlock *)((u8 *)D_800A7620 + var_v1))->address != 0) {
+                    goto occupied_in_run;
+                }
+                var_v1 += 8;
+                if (var_v1 >= var_a0) {
+                    break;
+                }
             }
         }
 after_empty_scan:

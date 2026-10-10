@@ -105,18 +105,18 @@ void *func_800CE610(char *list) {
     i = 0;
     if (slot_or_count > 0) {
         count = slot_or_count;
-loop:
-        slot_or_count = (int)entry;
-        if (((FieldAnimCallbackListEntry *)entry)->active == 0) {
-            goto found;
-        }
-        i++;
-        entry += stride;
-        if (i < count) {
-            goto loop;
+        while (1) {
+            slot_or_count = (int)entry;
+            if (((FieldAnimCallbackListEntry *)entry)->active == 0) {
+                break;
+            }
+            i++;
+            entry += stride;
+            if (i >= count) {
+                break;
+            }
         }
 
-found:
         if (i < base->count) {
             ((FieldAnimCallbackListEntry *)slot_or_count)->active = 1;
             ((FieldAnimCallbackListEntry *)slot_or_count)->age = 0;
