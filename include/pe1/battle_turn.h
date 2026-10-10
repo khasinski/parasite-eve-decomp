@@ -1,7 +1,7 @@
 #ifndef PE1_BATTLE_TURN_H
 #define PE1_BATTLE_TURN_H
 
-#include "pe1/battle.h"
+#include "pe1/entity_animation.h"
 #include "pe1/battle_palette.h"
 
 /* Matching views for the turn-phase TUs. Only element zero is accessed: these
@@ -39,7 +39,6 @@ void Akao_Cmd_21(int, int);
 int Asset_LoadTimTextures(int);
 void Battle_DrawStatusPanel(int, BattleStatusPanel *);
 void Battle_UpdateEnemy(BattleEntity *);
-void Entity_SetActionMode(BattleEntity *, int);
 void Entity_TickAnimSequences(BattleEntity *);
 void Tbl_ResetAll(void);
 void Battle_PhaseInitEnemyTurn(void);

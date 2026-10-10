@@ -1,7 +1,7 @@
 #ifndef PE1_BATTLE_ENTITY_ANIM_H
 #define PE1_BATTLE_ENTITY_ANIM_H
 
-#include "pe1/battle.h"
+#include "pe1/entity_animation.h"
 
 extern u32 D_8009D1A0;
 extern BattleEntity *g_FieldActorListHead;
@@ -18,7 +18,6 @@ void Asset_Find08w(int id, int arg1, int x, int y, int z);
 void Battle_SlotFree(void *entity);
 void Battle_StartDeathAnim(void);
 void Battle_StepEntityAnimState(BattleEntity *entity);
-void Entity_SetActionMode(BattleEntity *entity, int mode);
 int Entity_TriggerAnimEvent(BattleEntity *entity, u8 slot);
 
 #endif

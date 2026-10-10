@@ -1,7 +1,7 @@
 #ifndef PE1_BATTLE_LEVEL_UP_H
 #define PE1_BATTLE_LEVEL_UP_H
 
-#include "pe1/battle.h"
+#include "pe1/entity_animation.h"
 
 extern BattleEntity *D_8009D254[4];
 extern BattleRewardSlot D_800A7FF0[10];
@@ -18,7 +18,6 @@ extern u32 battle_step_game_word[4] __asm__("D_800B0CD8");
 void Pm_StopAllBoth(void);
 void Aya_SetTotalExp(u32 exp, u16 pe_bonus, void *rewards);
 void Render_BeginSceneLoad(void);
-void Entity_SetActionMode(BattleEntity *entity, int mode);
 int CD_StepReadState(int mode);
 void Battle_SetupPlayerPalette(void);
 void Battle_StepLevelUp(void);

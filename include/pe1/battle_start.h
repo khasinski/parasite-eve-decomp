@@ -1,7 +1,7 @@
 #ifndef PE1_BATTLE_START_H
 #define PE1_BATTLE_START_H
 
-#include "pe1/battle.h"
+#include "pe1/entity_animation.h"
 
 extern Combatant *D_8009D278;
 extern BattleEntity *D_8009D254[4];
@@ -31,7 +31,6 @@ void Battle_SetupEnemyAnims(void);
 void Battle_CheckDropChance(void);
 int Entity_CheckActionIdMatch(void);
 void Window_SetBoundsByMode(int mode);
-void Entity_SetActionMode(BattleEntity *entity, int mode);
 void Battle_StartEncounter(int mode);
 
 #endif

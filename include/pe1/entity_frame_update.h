@@ -4,6 +4,7 @@
 /* Declarations used only by the per-frame entity driver Entity_FrameUpdate. */
 
 #include "pe1/field_actor.h"
+#include "pe1/entity_animation.h"
 #include "pe1/player_entity.h"
 
 extern FieldActor *g_FieldActorListHead;
@@ -41,7 +42,6 @@ void Render_DrawEntity(RenderObjectEntity *object, u32 *view_matrix);
 int Render_DrawRoom(void *actor);
 void Scene_LoadEntityTextures(void);
 void func_80069594(void);
-void Entity_AdvanceAnim(FieldActor *actor);
 void Scene_UpdateEntityPositions(void);
 void func_80012774(void);
 void Entity_CollectGarbage(void);

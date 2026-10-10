@@ -1,7 +1,7 @@
 #ifndef PE1_BATTLE_RUNTIME_H
 #define PE1_BATTLE_RUNTIME_H
 
-#include "pe1/battle.h"
+#include "pe1/entity_animation.h"
 #include "pe1/pm.h"
 
 extern Combatant *D_8009D278;
@@ -79,8 +79,6 @@ void Battle_CheckEvasion(BattleEntity *actor, BattleEvasionOutcome *outcome,
                          int attackType);
 void Battle_AdvancePhase(void);
 void BattleCmd_UndoPending(void);
-void Entity_SetActionMode(BattleEntity *entity, int mode);
-void Entity_SetAction(BattleEntity *entity, int mode);
 int Battle_RollEscapeChance(void);
 void Battle_CopyPadStateToRecord(void);
 int Battle_HandleItemMenu(void);

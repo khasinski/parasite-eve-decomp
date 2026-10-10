@@ -146,13 +146,13 @@ void Entity_FrameUpdate(void) {
         if (!(g_GameStateBlock.flags & 4)) {
             if (g_GameStateBlock.flags & 0x100) {
                 if (!(D_800B0CD8[0] & 0x40000) && g_PlayerEntity != 0) {
-                    Entity_AdvanceAnim(g_PlayerEntity);
+                    Entity_AdvanceAnim((BattleEntity *)g_PlayerEntity);
                 }
             } else {
                 for (entity = g_FieldActorListHead; entity != 0; entity = entity->next) {
                     if ((entity != g_PlayerEntity || !(D_800B0CD8[0] & 0x40000)) &&
                         !(entity->flags & 0x800040)) {
-                        Entity_AdvanceAnim(entity);
+                        Entity_AdvanceAnim((BattleEntity *)entity);
                     }
                 }
             }
