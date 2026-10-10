@@ -9,17 +9,17 @@ int func_801925AC(u8 *arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
     if (arg2 == 0x19) {
         goto cmd_19;
     }
-    goto done;
+    return 0;
 
 high_cmd:
     if (arg2 == 0x101) {
         goto cmd_101;
     }
-    goto done;
+    return 0;
 
 cmd_19:
     if (arg1 != 1) {
-        goto done;
+        return 0;
     }
     *(int *)(arg0 + 0x10) = arg3;
     *(int *)arg3 = arg1;

@@ -35,7 +35,7 @@ int func_80197364(int event)
     if (event == 1) goto update;
     if (event < 2) {
         if (event == 0) goto setup;
-        goto done;
+        return 0;
     }
     goto done;
 setup:

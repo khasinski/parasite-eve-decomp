@@ -76,9 +76,9 @@ int func_8019330C(int mode, SceneE18PulseState *state) {
     if (mode == 1) goto update;
     if (mode < 2) {
         if (mode == 0) goto setup;
-        goto done;
+        return 0;
     }
-    goto done;
+    return 0;
 
 setup:
     state->stage = 0;

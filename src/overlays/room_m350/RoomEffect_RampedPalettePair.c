@@ -49,9 +49,9 @@ int func_80192ADC(int event, Particle *object)
 int func_80192C34(int event, State *state)
 {
     if (event == 1) goto update;
-    if (event < 2) { if (event == 0) goto setup; goto done; }
+    if (event < 2) { if (event == 0) goto setup; return 0; }
     if (event == 2) goto configure;
-    goto done;
+    return 0;
 setup:
     state->target = 16384;
     state->current = 0;

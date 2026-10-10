@@ -50,9 +50,9 @@ int func_8019421C(int event)
     Matrix matrix;
     Vector vector;
     if (event == 1) goto update;
-    if (event < 2) { if (event == 0) goto setup; goto done; }
+    if (event < 2) { if (event == 0) goto setup; return 0; }
     if (event == 2) goto configure;
-    goto done;
+    return 0;
 setup:
     return func_800CE560(D_800F33E0->pool, 12, 64, func_8019404C);
 update:

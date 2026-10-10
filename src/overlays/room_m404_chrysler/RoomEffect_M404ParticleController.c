@@ -11,11 +11,11 @@ int func_80193368(int mode, void *unused, char *state) {
     if (mode < 2) {
         if (mode == 0)
             goto init;
-        goto done;
+        return 0;
     }
     if (mode == 2)
         goto configure;
-    goto done;
+    return 0;
 init:
     {
         int handle = func_800D3FD8();

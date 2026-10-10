@@ -196,10 +196,10 @@ int func_8019360C(int event) {
     if (event == 1) goto update;
     if (event < 2) {
         if (event == 0) goto setup;
-        goto done;
+        return 0;
     }
     if (event == 2) goto configure;
-    goto done;
+    return 0;
 setup:
     return func_800CE560(((RoomM350Emitter *)D_800F33E0)->pool,8,2,func_80192E4C);
 update:

@@ -42,9 +42,9 @@ int func_801927A4(int event, Particle *effect) {
 int func_801928D4(int event, State *state)
 {
     if (event == 1) goto update;
-    if (event < 2) { if (event == 0) goto setup; goto done; }
+    if (event < 2) { if (event == 0) goto setup; return 0; }
     if (event == 2) goto configure;
-    goto done;
+    return 0;
 setup:
     state->delay = 0;
     state->count = 0;

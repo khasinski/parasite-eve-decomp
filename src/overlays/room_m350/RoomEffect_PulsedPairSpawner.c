@@ -25,9 +25,9 @@ int func_80192508(int event)
     /* Match note: original purpose of unused sp+0x40..0x47 is unknown. */
     char frameGap[8];
     if(event==1) goto update;
-    if(event<2) { if(event==0) goto setup; goto done; }
+    if(event<2) { if(event==0) goto setup; return 0; }
     if(event==2) goto configure;
-    goto done;
+    return 0;
 setup:
     return func_800CE560(D_800F33E0->pool,8,64,func_80199B94);
 update:

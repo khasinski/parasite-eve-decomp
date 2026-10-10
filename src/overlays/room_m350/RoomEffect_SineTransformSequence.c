@@ -54,10 +54,10 @@ int func_8019988C(int event, EmissionState *state)
     if (event == 1) goto update;
     if (event < 2) {
         if (event == 0) goto setup;
-        goto done;
+        return 0;
     }
     if (event == 2) goto configure;
-    goto done;
+    return 0;
 setup:
     state->count = 0;
     state->delay = 0;

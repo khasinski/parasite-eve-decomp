@@ -72,9 +72,9 @@ int func_801992A0(int event,State *state)
     /* Match note: original purpose of unused sp+0x40..0x47 is unknown. */
     char frameGap[8];
     if(event==1) goto update;
-    if(event<2) { if(event==0) goto setup; goto done; }
+    if(event<2) { if(event==0) goto setup; return 0; }
     if(event==2) goto configure;
-    goto done;
+    return 0;
 setup:
     {
         Instance *instance=D_800F32D0->instance;

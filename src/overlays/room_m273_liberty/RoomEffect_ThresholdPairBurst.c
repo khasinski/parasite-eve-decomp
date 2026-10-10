@@ -59,10 +59,10 @@ int func_80193B5C(int mode, void **arg1) {
         if (D_800E27EC < 0x20) {
             goto ret0;
         }
-        goto ret1;
+        return 1;
     }
     if (mode != 2) {
-        goto ret0;
+        return 0;
     }
 
     i = 0;

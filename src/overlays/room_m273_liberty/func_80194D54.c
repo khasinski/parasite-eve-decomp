@@ -15,10 +15,10 @@ int func_80194D54(int mode) {
         goto mode_one;
     }
     if (mode >= 2) {
-        goto ret_zero;
+        return 0;
     }
     if (mode != 0) {
-        goto ret_zero;
+        return 0;
     }
     D_8019AE9A = 0;
     goto ret_zero;
@@ -58,7 +58,7 @@ mode_nine:
 
 check_flag:
     if (D_8019AE9A != 0) {
-        goto ret_one;
+        return 1;
     }
 
 ret_zero:

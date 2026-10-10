@@ -59,9 +59,9 @@ int func_80195CE0(int event,State *inputState)
     union { GteMatrix matrix; GteShortVector position; } local;
     GteShortVector vector;
     if(event==1) goto update;
-    if(event<2) { if(event==0) goto setup; goto done; }
+    if(event<2) { if(event==0) goto setup; return 0; }
     if(event==2) goto draw;
-    goto done;
+    return 0;
 setup:
     {
         RoomM350EffectInstance *instance=D_800F32D0->instance;
@@ -90,7 +90,7 @@ update:
         sample=(short)D_800966EC[phase&4095];
         state->brightness=sample>>5;
         state->size=(unsigned int)sample<<2;
-        if(state->count>=16) goto done;
+        if(state->count>=16) return 0;
         i=0;
         do {
             register GteShortVector *particle asm("$17")=func_800CE610(D_800F33E0->pool);
