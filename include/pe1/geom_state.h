@@ -35,12 +35,17 @@ typedef union GeomAnimationPosition {
 PE1_STATIC_ASSERT(sizeof(GeomAnimationPosition) == 4,
                   geom_animation_position_size);
 
+/* Flags occupy the first byte; other paths read or update the full word. */
+typedef union GeomPackedFlags {
+    u32 packed;
+    struct { u8 flags; u8 reserved[3]; } b;
+} GeomPackedFlags;
+
+PE1_STATIC_ASSERT(sizeof(GeomPackedFlags) == 4, geom_packed_flags_size);
+
 /* 16-byte control entry. base = g_GeomState->ctrl_offset (+0x10), index << 4. */
 typedef struct GeomCtrlEntry {            /* 0x10 */
-    union {                               /* +0x00  u8 flags vs u32 packed (>>8 = count) */
-        u32 packed;
-        struct { u8 flags; u8 _b[3]; } b;
-    } head;
+    GeomPackedFlags head;                /* +0x00: flags/count */
     GeomAnimationPosition position;      /* +0x04 */
     s16 step;                            /* +0x08 */
     u16 elapsed;                         /* +0x0A */
@@ -78,8 +83,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomCoordinateBounds, minY) == 4,
 
 /* 56-byte render/mesh entry. Base = entry_offset (+0x14). */
 typedef struct GeomEntry {                /* 0x38 */
-    u8  flags;                            /* +0x00  bits 2,4,8,0x14,0x20 */
-    u8  pad01[3];                         /* +0x01 */
+    GeomPackedFlags head;                /* +0x00: flags/depth */
     u16 anim_mod_x;                       /* +0x04 */
     u16 anim_mod_y;                       /* +0x06 */
     u16 base_x;                           /* +0x08 */

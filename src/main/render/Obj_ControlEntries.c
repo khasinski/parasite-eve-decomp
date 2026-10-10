@@ -44,7 +44,7 @@ int Obj_ResetAllEntries(void) {
             cursor.ctrl->head.b.flags = value1;
             cursor.ctrl->position.packed = oldValue;
             renderIndex = *indexedPtr;
-            renderEntries[renderIndex].flags |= 2;
+            renderEntries[renderIndex].head.b.flags |= 2;
             i++;
             cursor.ctrl++;
         } while (i < count);
@@ -84,10 +84,10 @@ int Scene_CheckBattleFlag(void)
                 GeomAnimationSlot *slot;
 
                 for (j = 0; j < frames; j++)
-                    entries[slots[j].entry].flags &= ~2;
+                    entries[slots[j].entry].head.b.flags &= ~2;
                 /* Subtraction retains retail's address-add operand order. */
                 slot = slots - (-(position >> 8));
-                entries[slot->entry].flags |= 2;
+                entries[slot->entry].head.b.flags |= 2;
                 if (slot->duration < 0) {
                     slot->duration = 0;
                     control->elapsed = 0;

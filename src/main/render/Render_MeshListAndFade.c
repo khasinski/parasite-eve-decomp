@@ -103,7 +103,7 @@ int Render_DrawSpriteEntry(GeomEntry *input)
         texture_base = screen_src + texture_word;
     }
     screen_src = entry->u28.pos_ptr;
-    flags = entry->flags;
+    flags = entry->head.b.flags;
     pos = (u32 *)((u8 *)entry + screen_src);
 
     if (flags & 4) {
@@ -252,9 +252,9 @@ int Render_SetEntryVisible(int index, int enabled) {
     GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
 
     if (enabled != 0) {
-        entry->flags |= 2;
+        entry->head.b.flags |= 2;
     } else {
-        entry->flags &= 0xFD;
+        entry->head.b.flags &= 0xFD;
     }
     return 0;
 }
@@ -264,9 +264,9 @@ int Render_SetEntryScrolled(int index, int enabled, unsigned int arg2, unsigned 
     GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
 
     if (enabled != 0) {
-        entry->flags |= 4;
+        entry->head.b.flags |= 4;
     } else {
-        entry->flags &= 0xFB;
+        entry->head.b.flags &= 0xFB;
     }
     entry->field1C = arg2 >> 8;
     entry->field1E = arg3 >> 8;
@@ -278,9 +278,9 @@ int Render_SetEntryMirrored(int index, int enabled, unsigned int arg2, unsigned 
     GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
 
     if (enabled != 0) {
-        entry->flags |= 8;
+        entry->head.b.flags |= 8;
     } else {
-        entry->flags &= 0xF7;
+        entry->head.b.flags &= 0xF7;
     }
     entry->field1C = (0x10000 - arg2) >> 8;
     entry->field1E = (0x10000 - arg3) >> 8;
@@ -452,7 +452,7 @@ s32 Geo_BuildMeshList(void) {
     if (count != 0) {
         entry = base.entry;
         do {
-            if ((entry->flags & 2) && (entry->group == g_GeomGroupSel)) {
+            if ((entry->head.b.flags & 2) && (entry->group == g_GeomGroupSel)) {
                 Render_DrawSpriteEntry(entry);
             }
             i += 1;
