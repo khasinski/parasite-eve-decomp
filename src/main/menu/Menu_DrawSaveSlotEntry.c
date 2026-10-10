@@ -99,11 +99,12 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
         case MEMCARD_SLOT_EMPTY:
             Draw_OffsetCursor(0, 0x12);
             var_a0_3 = 0x41;
-            goto block_20;
+            func_80064C54(var_a0_3);
+            Draw_OffsetCursor(0x5C, -0x10);
+            break;
         case MEMCARD_SLOT_UNAVAILABLE:
             Draw_OffsetCursor(0, 0x12);
             var_a0_3 = 0x76;
-block_20:
             func_80064C54(var_a0_3);
             Draw_OffsetCursor(0x5C, -0x10);
             break;

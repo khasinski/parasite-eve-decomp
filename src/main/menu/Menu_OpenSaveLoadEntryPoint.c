@@ -20,13 +20,13 @@ void Menu_OpenSaveLoadEntryPoint(s32 arg0) {
         if (arg0 != 0) {
             if (Inv_GetPackedListCursor() != 0) {
                 Menu_StepInventoryRoot(0, -2, -1);
-                goto ensure_context_help;
+            } else {
+                Menu_RequestErrorSound();
+                return;
             }
-            Menu_RequestErrorSound();
-            return;
+        } else {
+            Menu_OpenRenameScreen(-1);
         }
-        Menu_OpenRenameScreen(-1);
-ensure_context_help:
         if (MenuWidget_FindByModeAndSelectedBase(1, 0x13) == NULL) {
             M2C_FIELD(MenuWidget_CreateSimpleNode(0x13, 0, 0, 0), void **, 0x30) = Menu_DrawContextHelpText;
         }

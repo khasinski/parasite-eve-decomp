@@ -28,18 +28,14 @@ void Menu_DrawArmorItemDetail(int slot) {
         if ((unsigned int)(value - 0x100) < 0x80U) {
             candidate = (ItemDataRecord *)(g_EquipItemDataTable +
                                            (value << 5));
-            goto resolved;
         } else if ((unsigned int)(value - 1) < 0xFFU) {
             candidate = Item_LookupBaseData(value - 1);
-            goto resolved;
         } else if ((unsigned int)(value - 0x200) < 9U) {
             candidate = (ItemDataRecord *)(g_KeyItemDataTable + (value << 5));
-            goto resolved;
         } else {
             candidate = 0;
         }
 
-resolved:
         entry = candidate;
 
         if ((entry->flags & ITEM_DATA_FLAG_GENERIC_DESCRIPTION) != 0) {
