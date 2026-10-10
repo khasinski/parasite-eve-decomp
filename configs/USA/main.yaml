@@ -615,9 +615,8 @@ segments:
       - [0x51CA0, c, gpu/Draw_WipeAndGradient]
       # Gradient palette setter and rectangle drawing share their blend state.
       - [0x52AB0, c, gpu/Draw_AllocColorTriGradient]
-      # Pool initialization and node allocation use the same free/active-list state.
+      # Pool initialization, allocation and recursive destruction share node lists.
       - [0x52D68, c, menu/MenuWidget_Pool]
-      - [0x52E9C, c, menu/MenuWidget_DestroyNodeRecursive]
       - [0x53030, c, gpu/Draw_PushPrimToList]
       # Active-list presence, child access and node searches share widget state.
       - [0x531B0, c, menu/menu_widget]

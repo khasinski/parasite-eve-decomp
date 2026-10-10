@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #include "common.h"
 #include "pe1/menu_widget.h"
@@ -38,7 +38,7 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     MenuWidgetNode *temp_s0;
     MenuWidgetNode *temp_v1;
     MenuWidgetNode *temp_next;
-    void *var_a1;
+    MenuWidgetNode **var_a1;
     register void *var_v1 asm("$3");
     MenuWidgetNode *temp_s2;
     MenuWidgetNode *temp_s1;
@@ -52,7 +52,7 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     var_a0 = 3;
     temp_next = temp_s0->next;
     temp_v1 = g_MenuWidgetActiveListHead;
-    var_a1 = (char *)temp_s0 + 0xC;
+    var_a1 = &temp_s0->children[1];
     g_MenuWidgetActiveListHead = temp_s0;
     temp_s0->parent = temp_s2;
     temp_s0->update = 0;
@@ -60,9 +60,9 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     g_MenuWidgetFreeListHead = temp_next;
     temp_s0->next = temp_v1;
     do {
-        M2C_FIELD(var_a1, s32 *, 8) = 0;
+        var_a1[2] = 0;
         var_a0 -= 1;
-        var_a1 -= 4;
+        var_a1--;
     } while (var_a0 >= 0);
     temp_s0->y = 0;
     temp_s0->x = 0;
@@ -86,3 +86,51 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     return temp_s0;
 }
 
+
+#include "pe1/menu_inventory.h"
+MenuWidgetNode *g_MenuWidgetActiveListHead;
+MenuWidgetNode *g_MenuWidgetFreeListHead;
+void MenuWidget_DestroyNodeRecursive(MenuWidgetNode *node) {
+    MenuWidgetNode *current = g_MenuWidgetActiveListHead;
+    MenuWidgetNode *previous = 0;
+    int i;
+    if (current) {
+        while (current) {
+            if (current == node) {
+                break;
+            }
+            previous = current;
+            current = current->next;
+        }
+        if (current) {
+            if (previous) {
+                previous->next = current->next;
+            } else {
+                g_MenuWidgetActiveListHead = current->next;
+            }
+            current->next = g_MenuWidgetFreeListHead;
+            g_MenuWidgetFreeListHead = current;
+            if (current->mode == 2) {
+                func_80064A54(current);
+            }
+            for (i = 0; i < 4; i++) {
+                if (current->children[i]) {
+                    MenuWidget_DestroyNodeRecursive(current->children[i]);
+                }
+            }
+            if (MenuWidget_GetCurrentNode() == current) {
+                MenuWidget_SetCurrentNode(current->parent);
+            }
+            for (current = g_MenuWidgetActiveListHead; current; current = current->next) {
+                if (current->parent == node) current->parent = 0;
+                if (current->mode == 2) {
+                    if (current->linkedPrevious == node) current->linkedPrevious = 0;
+                    if (current->linkedNext == node) current->linkedNext = 0;
+                }
+                for (i = 0; i < 4; i++) {
+                    if (current->children[i] == node) current->children[i] = 0;
+                }
+            }
+        }
+    }
+}
