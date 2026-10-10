@@ -9,10 +9,9 @@ s32 ratan2();
 extern s8 g_BattleTargetIndex;
 extern struct { char _[16]; } D_8009D20C_o __asm__("g_FieldActorListHead");
 #define g_FieldActorListHead (*(void **)&D_8009D20C_o)
-extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
 extern struct { char _[16]; } g_PlayerEntity_o2 __asm__("g_PlayerEntity");
 extern struct { char _[16]; } g_PlayerEntity_o3 __asm__("g_PlayerEntity");
-#define g_PlayerEntity (*(void **)&g_PlayerEntity_o)
+#define g_PlayerEntity (*(void **)&g_PlayerEntity_o3)
 #define g_PlayerEntity_2 (*(void **)&g_PlayerEntity_o2)
 #define g_PlayerEntity_3 (*(void **)&g_PlayerEntity_o3)
 
