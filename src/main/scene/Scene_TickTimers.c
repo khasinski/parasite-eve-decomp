@@ -5,8 +5,6 @@ extern GameTimerEntry D_800A76A0[4];
 
 int Gpu_CheckDrawStatus(void);
 
-#define LAUNDER(x) asm volatile("" : "=r"(x) : "0"(x))
-
 void Scene_TickTimers(void) {
     register GameTimerEntry *entry asm("$5");
     int *current_p;
@@ -32,7 +30,6 @@ void Scene_TickTimers(void) {
 
     do {
         flags = *flags_p;
-        LAUNDER(flags);
         if ((flags & 1) != 0) {
             if ((flags & 4) == 0) {
                 if ((flags & 2) != 0) {
@@ -56,7 +53,9 @@ void Scene_TickTimers(void) {
                     } else {
                         current = *current_p;
                         if ((unsigned int)current < (unsigned int)*limit_p) {
-                            direct = current + 1;
+                            /* Flag tests are finished; reuse the temporary for the count. */
+                            flags = current;
+                            direct = flags + 1;
                             entry->current = direct;
                         } else {
                             direct = flags | 4;
