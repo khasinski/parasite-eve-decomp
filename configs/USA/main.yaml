@@ -706,8 +706,8 @@ segments:
       # Contiguous default-profile container helpers: TIM upload, base-32 keys
       # and the three directory searches sharing SceneAssetDirectory.
       - [0x5E9C0, c, asset/Asset_TimAndKeyLookup]
-      - [0x5EE0C, c, gpu/Gpu_ClearOnFlag]
-      - [0x5EEA8, c, cdrom/CdRom_BootReadFlow]
+      # Display clearing and CD reads share scene flags and the default profile.
+      - [0x5EE0C, c, cdrom/CdRom_BootReadFlow]
       # Display initialisation, the draw-enabled and sequence-elapsed queries, the
       # draw-status check and the TIM table loaders: the queries share
       # g_DrawEnabled and g_SeqElapsed (private evidence), contiguous

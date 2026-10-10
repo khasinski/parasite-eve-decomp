@@ -1,16 +1,51 @@
+/* Scene display clearing and CD read flow share the scene read flags. */
+#include "pe1/game_state_types.h"
+#include "common.h"
+#include "pe1/render_camera.h"
+#include "pe1/psyq_gpu.h"
 #include "pe1/cdrom.h"
 #include "pe1/cdrom_buffers.h"
+#include "pe1/psyq_cd.h"
+/* Scalar symbol view still preserves the boot loader scheduling.
+ * Sector read and polling routines below use the shared structure fields. */
+extern int g_GameState;
+
+extern unsigned char g_DiscChangeFlags;
+
+void ClearImage(RECT *rect, int r, int g, int b);
+int DrawSync(int arg0);
+
+void Gpu_ClearOnFlag(void) {
+    u32 *state = (u32 *)&g_GameState;
+
+    if (*state & 0x08000000) {
+        RECT rect;
+        unsigned int value;
+        unsigned char byte;
+
+        rect.x = 0;
+        rect.y = 0;
+        rect.w = 0x140;
+        rect.h = 0x1C0;
+        ClearImage(&rect, 0, 0, 1);
+        DrawSync(0);
+        Render_PrepareFrame();
+        byte = g_DiscChangeFlags;
+        value = *state;
+        g_DiscChangeFlags = byte | 2;
+        *state = value & 0xF7FFFDFF;
+    }
+}
+
 
 int CdRom_ReadSectorsFromLba(u32 lba, void *destination, u32 size) {
     return CdRom_ReadSectors(lba, 0, destination, size);
 }
-#include "pe1/psyq_cd.h"
 
 void exit(int code);
 CdlLOC *DsIntToPos(int i, CdlLOC *p);
 int printf(char *fmt, ...);
 
-extern int g_GameState;
 extern u_short g_CdDiskType;
 extern char D_8001136C[];
 
@@ -19,7 +54,7 @@ int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
     register int rel;
     register int dst_reg;
     register int size_reg;
-    int *state;
+    Pe1GameState *state;
     CdlLOC loc;
     int ret;
 
@@ -27,9 +62,9 @@ int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
     rel = offset;
     dst_reg = (int)destination;
     size_reg = size;
-    state = &g_GameState;
+    state = (Pe1GameState *)&g_GameState;
 
-    if ((*state & 0x1000000) != 0) {
+    if ((state->flags & 0x1000000) != 0) {
         return -1;
     }
     if (DsSystemStatus() != 1) {
@@ -42,7 +77,7 @@ int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
         exit(1);
     }
 
-    *state |= 0x1004000;
+    state->flags |= 0x1004000;
     base += rel;
     DsIntToPos(base, &loc);
     ret = DsRead(&loc, size_reg, (void *)dst_reg, 0x80);
@@ -50,29 +85,25 @@ int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
         return ret;
     }
 
-    *state &= 0xFEFFBFFF;
+    state->flags &= 0xFEFFBFFF;
     printf(D_8001136C, base, size_reg);
     return -1;
 }
 int CdRom_PollReady(void) {
     int scratch;
     int status;
-    int *state;
+    Pe1GameState *state;
 
     status = DsReadSync(&scratch);
     if ((unsigned int)(status + 1) < 2U) {
-        state = &g_GameState;
-        *state &= 0xFEFFBFFF;
+        state = (Pe1GameState *)&g_GameState;
+        state->flags &= 0xFEFFBFFF;
     }
     return status;
 }
-#include "common.h"
-#include "include_asm.h"
 
 #define NULL ((void *)0)
 
-#include "../../../tools/m2c/m2c_macros.h"
-#include "pe1/psyq_gpu.h"
 
 void Akao_Cmd_F0(void);
 int VSync(int mode);
