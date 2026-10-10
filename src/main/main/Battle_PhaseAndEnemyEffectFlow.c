@@ -101,7 +101,7 @@ void Battle_AdvancePhase(void) {
     s32 var_v0_2;
     s32 var_v0_6;
     s32 var_v1;
-    s8 *temp_v0_5;
+    EnemyActionEffect *effect;
     s8 var_a0;
     u16 temp_a0;
     u16 var_a0_3;
@@ -116,15 +116,15 @@ void Battle_AdvancePhase(void) {
     BattleAction *queuedAction;
     BattleInitSlot *temp_s2;
     void *temp_t0;
-    void *temp_v0_4;
+    EnemyCombatant *temp_v0_4;
     void *temp_v1;
     void *temp_v1_6;
-    void *temp_v1_8;
+    EnemyCombatant *temp_v1_8;
     void *var_a0_4;
     void *var_a1;
     Combatant *actor;
-    void *aya_actor;
-    void *aya_player;
+    Combatant *aya_actor;
+    BattleEntity *aya_player;
     u8 *copy_dst;
     const u8 *copy_src;
     const u8 *copy_end;
@@ -298,7 +298,6 @@ block_39:
         D1A0_W2 = D1A0_R2 | 0x100;
         actor_flags &= (s32)var_a1;
         M2C_FIELD(var_a0_4, s32 *, 0x4C) = actor_flags;
-        goto block_55;
     }
 block_55:
     actor = D278(10);
@@ -308,8 +307,8 @@ block_55:
             end_slot = D_8009D1D4;
             aya_actor = D278(13);
             aya_player = D254(14);
-            M2C_FIELD(aya_actor, s32 *, 8) = 0;
-            M2C_FIELD(aya_player, s32 *, 0x98) = (s32) (M2C_FIELD(aya_player, s32 *, 0x98) & ~0x100);
+            aya_actor->exp_or_acc = 0;
+            *(s32 *)&aya_player->entityFlags = (s32) (*(s32 *)&aya_player->entityFlags & ~0x100);
             var_s0_4 = end_slot - 7;
             var_a2_2 = var_s0_4 & 0xFF;
             if ((u32)var_a2_2 < end_slot) {
@@ -327,17 +326,17 @@ block_55:
             if (var_a0_4 != NULL) {
                 do {
                     if (var_a0_4 != D_8009D254_10) {
-                        temp_v0_4 = M2C_FIELD(var_a0_4, void **, 0);
+                        temp_v0_4 = ((BattleEntity *)var_a0_4)->core;
                         if (temp_v0_4 != NULL) {
-                            temp_v0_5 = M2C_FIELD(temp_v0_4, s8 **, 0x18);
-                            if (temp_v0_5 != NULL) {
-                                *temp_v0_5 = 4;
-                                temp_v1_8 = M2C_FIELD(var_a0_4, void **, 0);
-                                M2C_FIELD(temp_v1_8, s32 *, 0) = (s32) (M2C_FIELD(temp_v1_8, s32 *, 0) & 0xC0FFFFFF);
+                            effect = temp_v0_4->effect;
+                            if (effect != NULL) {
+                                effect->state = 4;
+                                temp_v1_8 = ((BattleEntity *)var_a0_4)->core;
+                                *(s32 *)&temp_v1_8->coreFlags = (s32) (*(s32 *)&temp_v1_8->coreFlags & 0xC0FFFFFF);
                             }
                         }
                     }
-                    var_a0_4 = M2C_FIELD(var_a0_4, void **, 4);
+                    var_a0_4 = ((BattleEntity *)var_a0_4)->next;
                 } while (var_a0_4 != NULL);
             }
             M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) & 0xFFF7FFFF);
