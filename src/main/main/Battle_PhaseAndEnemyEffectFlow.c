@@ -10,7 +10,6 @@ typedef struct { s32 words[4]; } Copy16;
 typedef struct { u8 bytes[0x10]; } __attribute__((packed)) PackedCopy16;
 typedef struct { u8 bytes[8]; } __attribute__((packed)) PackedCopy8;
 typedef struct { u8 bytes[0x10]; } LargeSymbol;
-typedef struct { u16 value; u8 pad[6]; } QueueCommand;
 typedef union { s32 value; } FlagValue;
 
 void Akao_SendPositionalCmdStereo();
@@ -51,7 +50,6 @@ extern LargeSymbol D_8009D278_13 __asm__("D_8009D278");
 extern s16 D_8009D27C;
 extern LargeSymbol D_8009D2A0_o __asm__("D_8009D2A0");
 #define D_800BE830_BYTES ((u8 *)&D_800BE830[0])
-extern QueueCommand D_800BE834[];
 
 #define D_800942E4 (*(u8 **)&D_800942E4_o)
 #define D1A0_R0 (D_8009D1A0_r4.flags)
@@ -135,7 +133,7 @@ void Battle_AdvancePhase(void) {
         var_s0 = temp_a2;
         if ((temp_a2 & 0xFF) < (u8) D_8009CE3C) {
             do {
-                temp_a0 = D_800BE834[var_s0 & 0xFF].value;
+                temp_a0 = (u16)D_800BE830[var_s0 & 0xFF].field04;
                 if ((u32) (temp_a0 - 3) < 0x180U) {
                     Inv_AddItem((s16) temp_a0 - 3);
                 }
@@ -188,7 +186,7 @@ after_command:
             var_a2 = (BattleEntity *)queueOffset;
             ((BattleEntity *)D254(15))->facingAngle = temp_v0;
             targetFound = 0;
-            if (*(s16 *)((u8 *)D_800BE834 + queueOffset) - 0x183 == 0x13) {
+            if (*(s16 *)((u8 *)&D_800BE830[0].field04 + queueOffset) - 0x183 == 0x13) {
                 var_a2 = NULL;
                 var_s0 = var_a0_2;
                 temp_v1 = var_a1 + 7;
@@ -232,7 +230,7 @@ block_search_done:
 block_35:
                 temp_v1_3 = var_v0_3 & 0xFF;
                 temp_v1_3 <<= 3;
-                temp_v1_3 = *(u16 *)((u8 *)D_800BE834 + temp_v1_3);
+                temp_v1_3 = *(u16 *)((u8 *)&D_800BE830[0].field04 + temp_v1_3);
                 D_8009D1D4 = var_v0_3;
                 temp_v1_3 -= 3;
                 temp_v1_3 = (u32) temp_v1_3 < 0x194U;
@@ -366,12 +364,12 @@ block_55:
         if ((((u32) (*((D_8009D258 * 0xA0C) + D_800942E4) - 1) >= 2U) || (temp_s2->field04 == 0x196)) && (((Combatant *)D278(13))->stateFlags = (s32) (((Combatant *)D278(13))->stateFlags | 0x200000), Battle_ApplySpellEffect(temp_s2->field04 - 0x183, temp_s2->actor), (temp_s2->field04 != 0x196))) {
             temp_v0_6 = D_8009D1D4 + 1;
             D_8009D1D4 = temp_v0_6;
-            if (((u32) (D_800BE834[temp_v0_6 & 0xFF].value - 3) >= 0x194U) || ((u8) ((BattleEntity *)D254(15))->actionMode < 4U)) {
+            if (((u32) ((u16)D_800BE830[temp_v0_6 & 0xFF].field04 - 3) >= 0x194U) || ((u8) ((BattleEntity *)D254(15))->actionMode < 4U)) {
                 D1A0_W4 = D1A0_R4 & ~0x100;
             }
             temp_a0_4 = (u8)D_8009CE3C;
             for (var_s0_4 = D_8009D1D4; (u32)(var_s0_4 & 0xFF) < (u32)temp_a0_4; var_s0_4++) {
-                if ((u32)(D_800BE834[var_s0_4 & 0xFF].value - 1) < 2U) {
+                if ((u32)((u16)D_800BE830[var_s0_4 & 0xFF].field04 - 1) < 2U) {
                     Battle_DispatchEntityEffect();
                     return;
                 }
