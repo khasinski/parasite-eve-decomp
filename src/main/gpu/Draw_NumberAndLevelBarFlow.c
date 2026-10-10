@@ -156,19 +156,21 @@ void Draw_PrintSignedNumberWidth3(int value) {
     if (value < 0) {
         value = -value;
         sprite = 0x52;
-    } else {
-        if (value <= 0) {
-            goto digits;
-        }
+        Draw_AllocSprite(sprite);
+        width = 2;
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+    } else if (value > 0) {
         sprite = 0x89;
+        Draw_AllocSprite(sprite);
+        width = 2;
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
     }
-    Draw_AllocSprite(sprite);
-    width = 2;
-    x = g_DrawSpriteX;
-    y = g_DrawSpriteY;
-    g_DrawSpriteX = x + 5;
-    g_DrawSpriteY = y;
-digits:
     for (i = 1; i < width; i++) {
         place *= 10;
     }
@@ -226,19 +228,21 @@ void Draw_PrintSignedNumberWidth4(int value) {
     if (value < 0) {
         value = -value;
         sprite = 0x52;
-    } else {
-        if (value <= 0) {
-            goto digits;
-        }
+        Draw_AllocSprite(sprite);
+        width = 3;
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+    } else if (value > 0) {
         sprite = 0x89;
+        Draw_AllocSprite(sprite);
+        width = 3;
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
     }
-    Draw_AllocSprite(sprite);
-    width = 3;
-    x = g_DrawSpriteX;
-    y = g_DrawSpriteY;
-    g_DrawSpriteX = x + 5;
-    g_DrawSpriteY = y;
-digits:
     for (i = 1; i < width; i++) {
         place *= 10;
     }
