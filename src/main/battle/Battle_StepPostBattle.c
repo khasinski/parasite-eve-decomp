@@ -16,7 +16,7 @@ s32 D_8009D28C;
 /* End-of-battle sequence: retire enemy actors, fade sound and animate the
  * textured panel before completing the battle phase. Matching debt: 16 register pins,
  * 7 empty barriers, two volatile packet views and 24 reserved stack bytes.
- * Shared switch tails retain the original countdown and stage-store layout. */
+ * Countdown and stage stores remain local to their switch cases. */
 void Battle_StepPostBattle(void)
 {
     volatile u8 matchingStackReserve[24];
@@ -51,60 +51,58 @@ void Battle_StepPostBattle(void)
             entity = D_8009D20C;
             if (entity != 0) {
                 do {
-                    if (entity != D_8009D254) {
-                        core = entity->core;
-                        if (((s8)core->field04.bytes.field05 != 1) && ((core != 0) || !(entity->entityFlags & 0x40))) {
-                            entity->renderObject.flags_9C |= 2;
-                            actionCore = entity->core;
-                            entity->entityFlags |= 0x1000;
-                            if (actionCore != 0) {
-                                {
-                                    u8 mode = actionCore->field06.bytes.low;
-                                    asm("" : "=r"(mode) : "0"(mode));
-                                    Entity_SetActionMode(entity, (s8)mode & 0xFFFF);
+                        if (entity != D_8009D254) {
+                            core = entity->core;
+                            if (((s8)core->field04.bytes.field05 != 1) && ((core != 0) || !(entity->entityFlags & 0x40))) {
+                                entity->renderObject.flags_9C |= 2;
+                                actionCore = entity->core;
+                                entity->entityFlags |= 0x1000;
+                                if (actionCore != 0) {
+                                    {
+                                        u8 mode = actionCore->field06.bytes.low;
+                                        asm("" : "=r"(mode) : "0"(mode));
+                                        Entity_SetActionMode(entity, (s8)mode & 0xFFFF);
+                                    }
+                                    entityFlags = entity->entityFlags;
+                                    if ((entityFlags & 0x40000000) && (((EnemyCombatant *)entity->core)->deathPersist == 0)) {
+                                        entity->entityFlags = entityFlags | 0x10;
+                                        entity->core = 0;
+                                    }
                                 }
-                                entityFlags = entity->entityFlags;
-                                if ((entityFlags & 0x40000000) && (((EnemyCombatant *)entity->core)->deathPersist == 0)) {
-                                    entity->entityFlags = entityFlags | 0x10;
-                                    entity->core = 0;
-                                }
+                                entity->motionX = 0;
+                                entity->motionY = 0;
+                                entity->motionZ = 0;
                             }
-                            entity->motionX = 0;
-                            entity->motionY = 0;
-                            entity->motionZ = 0;
+                        }
+                        entity = entity->next;
+                    } while (entity != 0);
+                }
+                Battle_ResetEnemyStats(0);
+                D_8009CE70 = 0x46;
+                D_8009CE74 += 1;
+                D_8009D254->entityFlags |= 0x100;
+            }
+            else {
+                player->entityFlags &= ~0x100;
+            }
+            break;
+        case 1: {
+            s32 exemptKind;
+            if (D_8009CE70 == 0x3C) {
+                Render_StartFadeIn(0x3C);
+                Akao_Cmd_C1_WithSlot(0, 0x3C, 0);
+                exemptKind = 1;
+                fadingEntity = D_8009D20C;
+                if (fadingEntity != 0) {
+                    do {
+                    if (fadingEntity != D_8009D254) {
+                        fadingCore = fadingEntity->core;
+                        if (((s8)fadingCore->field04.bytes.field05 != exemptKind) && ((fadingCore != 0) || !(fadingEntity->entityFlags & 0x40))) {
+                            Anim_SetInterpRate(&fadingEntity->renderObject, 0x3C);
                         }
                     }
-                    entity = entity->next;
-                } while (entity != 0);
-            }
-            Battle_ResetEnemyStats(0);
-            D_8009CE70 = 0x46;
-            D_8009CE74 += 1;
-            D_8009D254->entityFlags |= 0x100;
-        }
-        else {
-            player->entityFlags &= ~0x100;
-        }
-        break;
-    case 1: {
-        s32 exemptKind;
-        if (D_8009CE70 == 0x3C) {
-            Render_StartFadeIn(0x3C);
-            Akao_Cmd_C1_WithSlot(0, 0x3C, 0);
-            exemptKind = 1;
-            fadingEntity = D_8009D20C;
-            if (fadingEntity != 0) {
-                fadeNextEntity:
-                if (fadingEntity != D_8009D254) {
-                    fadingCore = fadingEntity->core;
-                    if (((s8)fadingCore->field04.bytes.field05 != exemptKind) && ((fadingCore != 0) || !(fadingEntity->entityFlags & 0x40))) {
-                        Anim_SetInterpRate(&fadingEntity->renderObject, 0x3C);
-                    }
-                }
-                fadingEntity = fadingEntity->next;
-                if (fadingEntity != 0) {
-                    goto fadeNextEntity;
-                }
+                    fadingEntity = fadingEntity->next;
+                } while (fadingEntity != 0);
             }
         }
         else {
@@ -128,11 +126,11 @@ void Battle_StepPostBattle(void)
                 asm volatile("" : "=r"(state) : "0"(state));
                 nextStage = state + 1;
             }
-            goto storeNextStage;
+            D_8009CE74 = nextStage;
+            break;
         }
         else {
-            countdown--;
-            goto storeCountdown;
+            D_8009CE70--;
         }
         break;
     }
@@ -177,7 +175,8 @@ void Battle_StepPostBattle(void)
                 asm volatile("" : "=r"(state) : "0"(state));
                 nextStage = state + 1;
             }
-            goto storeNextStage;
+            D_8009CE74 = nextStage;
+            break;
         }
         break;
     }
@@ -234,8 +233,7 @@ void Battle_StepPostBattle(void)
             }
         }
         else {
-            countdown--;
-            goto storeCountdown;
+            D_8009CE70--;
         }
         break;
     }
@@ -243,9 +241,7 @@ void Battle_StepPostBattle(void)
         register RenderTexturedQuad *base asm("$7");
         register u16 right asm("$6");
         if ((D_8009D254->renderObject.variant_visible == 0) && (D_800B0D8A == 0)) {
-            nextStage = D_8009CE74 + 1;
-            storeNextStage:
-            D_8009CE74 = nextStage;
+            D_8009CE74++;
             break;
         }
         base = D_800BE9F0;
@@ -263,9 +259,7 @@ void Battle_StepPostBattle(void)
         fadingPanel->y3 = 0x7C;
         base[D_8009CDDC].color.bytes.g = fadeBrightness;
         base[D_8009CDDC].color.bytes.b = fadeBrightness;
-        countdown = D_8009CE70 - 1;
-        storeCountdown:
-        D_8009CE70 = countdown;
+        D_8009CE70--;
         break;
     }
     case 5:
