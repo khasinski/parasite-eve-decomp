@@ -977,13 +977,13 @@ extern int D_8009D2B4;
 
 void Seq_ApplyGlobalPitch(void);
 
-void Seq_StartRelativeNestedStream(void *arg0) {
+void Seq_StartRelativeNestedStream(AkaoRelativeNestedCommand *cmd) {
     char *base;
     u16 offset;
     void *arg1;
     void *arg2;
 
-    base = *(char **)((char *)arg0 + 4);
+    base = (char *)cmd->source.key_off_mask;
     offset = *(u16 *)base;
     if (offset != 0xFFFF) {
         arg1 = (char *)(offset + (int)base) + 4;
@@ -994,11 +994,11 @@ void Seq_StartRelativeNestedStream(void *arg0) {
     offset = *(u16 *)(base + 2);
     arg2 = 0;
     if (offset != 0xFFFF) {
-        arg2 = (char *)(offset + (int)*(char **)((char *)arg0 + 4)) + 4;
+        arg2 = (char *)(offset + (int)(char *)cmd->source.key_off_mask) + 4;
     }
 
-    *(void **)((char *)arg0 + 4) = *(void **)((char *)arg0 + 0x14);
-    Seq_StartNestedStreams(arg0, arg1, arg2);
+    cmd->source.key_off_mask = cmd->key_off_mask;
+    Seq_StartNestedStreams(&cmd->source, arg1, arg2);
 }
 
 void Spu_ManageVoicesCmd(int *arg0) {
