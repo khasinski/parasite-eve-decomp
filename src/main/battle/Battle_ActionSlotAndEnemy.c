@@ -221,7 +221,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
                     if (actor->animLastFrame == actor->animPrev.parts.integer) {
                         register int resumeKind asm("$2") = 2;
                         resumePhase = enemy->resumePhase;
-                        asm("" : "=r"(resumePhase) : "0"(resumePhase), "r"(resumeKind) : "memory");
+                        asm("" : "=r"(resumePhase) : "0"(resumePhase));
                         if (((resumePhase & 0xFF) == resumeKind) && !(enemy->coreFlags & 0x1800)) {
                             enemy->resumePhase = resumePhase - 1;
                             Entity_SetActionMode(actor, (s32) enemy->savedActionMode);
@@ -269,17 +269,15 @@ finishInterruptedAction:
                             linkedActor = D_8009D20C;
                             if (linkedActor != 0) {
                                 player = D_8009D254;
-updateLinkedActor:
-                                if (linkedActor != player) {
-                                    otherCore = linkedActor->core;
-                                    if ((otherCore != 0) && ((s8) otherCore->field04.bytes.field05 == linkedKind)) {
-                                        linkedActor->renderObject.flags_9C |= 0x20;
+                                do {
+                                    if (linkedActor != player) {
+                                        otherCore = linkedActor->core;
+                                        if ((otherCore != 0) && ((s8) otherCore->field04.bytes.field05 == linkedKind)) {
+                                            linkedActor->renderObject.flags_9C |= 0x20;
+                                        }
                                     }
-                                }
-                                linkedActor = linkedActor->next;
-                                if (linkedActor != 0) {
-                                    goto updateLinkedActor;
-                                }
+                                    linkedActor = linkedActor->next;
+                                } while (linkedActor != 0);
                             }
                         } else {
                             actor->renderObject.flags_9C |= 0x20;
