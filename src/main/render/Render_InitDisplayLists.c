@@ -38,18 +38,21 @@ int OpenPeImage(void)
     while (DsSystemStatus() != 1 || DsQueueLen() != 0)
         VSync(0);
     found = DsSearchFile(&file, D_80011354);
-    if (found == 0) goto done;
-    asm volatile("" : : "r"(found));
-    if (found == (DslFILE *)-1) goto done;
-    while (DsSystemStatus() != 1 || DsQueueLen() != 0)
-        VSync(0);
-    found = DsSearchFile(&file, D_80011348);
-    if (found == 0) goto done;
-    asm volatile("" : : "r"(found));
-    if (found == (DslFILE *)-1) goto done;
-    g_PeImageBaseLba = DsPosToInt(&file.pos);
-    g_PeImageMountFlags = (u8)g_PeImageMountFlags | 2;
-done:
+    if (found != 0) {
+        asm volatile("" : : "r"(found));
+        if (found != (DslFILE *)-1) {
+            while (DsSystemStatus() != 1 || DsQueueLen() != 0)
+                VSync(0);
+            found = DsSearchFile(&file, D_80011348);
+            if (found != 0) {
+                asm volatile("" : : "r"(found));
+                if (found != (DslFILE *)-1) {
+                    g_PeImageBaseLba = DsPosToInt(&file.pos);
+                    g_PeImageMountFlags = (u8)g_PeImageMountFlags | 2;
+                }
+            }
+        }
+    }
     return ((s8)g_PeImageMountFlags == 0) ? -2 : 0;
 }
 #include "common.h"
