@@ -259,7 +259,7 @@ poison8:
             s32 f;
             s32 m;
             ((Combatant *)p)->stateFlags = ((Combatant *)p)->stateFlags | 0x100;
-            f = *(volatile s32 *)(p + 0x4C);
+            f = ((volatile Combatant *)p)->stateFlags;
             g_ActorEffectFlag100Timer = 0x1C2;
             m = f & 0xC0;
             if (m == 0x40 || m == 0x80) {
@@ -339,9 +339,9 @@ clear1000:
     }
     {
         u8 *p = D278_24;
-        s16 t = *(s16 *)(p + 0x1C);
-        if (t < *(s16 *)(p + 0xC)) {
-            *(s16 *)(p + 0xC) = t;
+        s16 t = (s16)((Combatant *)p)->maxHP;
+        if (t < (s16)((Combatant *)p)->curHP) {
+            ((Combatant *)p)->curHP = t;
             p = D278_26;
         }
         if (!(ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(p)) & 0x200)) {

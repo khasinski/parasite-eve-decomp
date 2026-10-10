@@ -68,15 +68,15 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
                 u8 *pD = D278_2;
                 u8 lvl;
                 *ps = (f & ~3) | 1;
-                *(s16 *)(pD + 0x40) = 0x2328;
+                ((Combatant *)pD)->statusTimer40 = 0x2328;
                 lvl = ENEMY_FIELD(ent, u8, effectLevel);
-                *(s8 *)(pD + 0x3A) = 0;
-                *(s16 *)(pD + 0x38) = lvl;
+                ((Combatant *)pD)->subActionCounter = 0;
+                ((Combatant *)pD)->subActionStep = lvl;
             }
         }
         {
             u8 *pD = D278_3;
-            *(s8 *)(pD + 0x3B) = ENEMY_FIELD(ent, u8, effectDuration);
+            ((Combatant *)pD)->subActionPeriod = ENEMY_FIELD(ent, u8, effectDuration);
         }
         break;
     case 2:
@@ -87,7 +87,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             f = ((Combatant *)pD)->stateFlags;
             g_ActorEffectFlag100Timer = 0;
             ((Combatant *)pD)->stateFlags = f & ~0x100;
-            f = *(volatile s32 *)(pD + 0x4C);
+            f = ((volatile Combatant *)pD)->stateFlags;
             f &= ~0x200;
             f &= ~0x400;
             f &= ~0x800;
@@ -122,7 +122,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             if (r < 0) {
                 a3v = r + 3;
             }
-            *(s16 *)(pD + 0x42) = 0x2328;
+            ((Combatant *)pD)->statusTimer42 = 0x2328;
             ((Combatant *)pD)->stateFlags = (((Combatant *)pD)->stateFlags & ~0x60000) | (((r - ((a3v >> 2) << 2)) & 3) << 17);
         }
         break;
@@ -144,7 +144,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             }
             pD = D278_8;
             *ps = (f & ~0x30) | 0x10;
-            *(s16 *)(pD + 0x44) = 0x2328;
+            ((Combatant *)pD)->statusTimer44 = 0x2328;
         }
         break;
     case 5:
@@ -169,7 +169,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
                 s32 nf = (*ps & ~0xC0) | 0x80;
                 u8 *pD = D278_10;
                 *ps = nf;
-                *(s16 *)(pD + 0x46) = 0x2328;
+                ((Combatant *)pD)->statusTimer46 = 0x2328;
             }
         }
         break;
@@ -201,7 +201,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
                 s32 nf = (*ps & ~0xC0) | 0x40;
                 u8 *pD = D278_12;
                 *ps = nf;
-                *(s16 *)(pD + 0x46) = 0x2328;
+                ((Combatant *)pD)->statusTimer46 = 0x2328;
             }
         }
         break;
@@ -225,7 +225,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             g_ActorEffectFlag100Timer = 0;
             hp = *(s16 *)(pD + 0xC);
             ((Combatant *)pD)->stateFlags = ((Combatant *)pD)->stateFlags & ~0x100;
-            f = *(volatile s32 *)(pD + 0x4C);
+            f = ((volatile Combatant *)pD)->stateFlags;
             f &= ~0x200;
             f &= ~0x400;
             f &= ~0x800;
