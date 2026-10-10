@@ -28,7 +28,7 @@ int Task_SpawnChildNode(int **args) {
         register FieldActor *state asm("$5");
         TaskNode *entry;
         u16 seq;
-        register int value asm("$4");
+        register unsigned int *script asm("$4");
         int base;
         int scriptValue;
         TaskNode *next;
@@ -48,8 +48,8 @@ int Task_SpawnChildNode(int **args) {
         entry->active = 1;
         entry->seq = seq;
         entry->flags = 0;
-        value = (scriptValue << 1) + base;
-        entry->current.value = value;
+        script = (unsigned int *)((scriptValue << 1) + base);
+        entry->current.script = script;
         {
             TaskNode *head = state->task_node_lists[2];
             seq++;
@@ -84,7 +84,7 @@ int Task_SpawnChildNode(int **args) {
             entry->prev = 0;
             entry->next = 0;
         }
-        entry->current.value = value;
+        entry->current.script = (unsigned int *)value;
         {
             u16 seq = g_TaskNodeSeqCounter;
             entry->trigger_value = 0;
