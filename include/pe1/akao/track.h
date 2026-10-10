@@ -161,8 +161,8 @@ typedef struct AkaoSequencerBank {
     /* 0x38 */ AkaoU32 volume_dirty_mask;
     /* 0x3C */ AkaoU32 adsr_dirty_mask;
     /* 0x40 */ AkaoU32 field_40[2];
-    /* 0x48 */ AkaoU32 pitch_current;
-    /* 0x4C */ AkaoU32 pitch_delta;
+    /* 0x48 */ int pitch_current; /* 16.16 bank pitch, set from a 7-bit command value */
+    /* 0x4C */ int pitch_delta;   /* signed per-tick increment for rising or falling slides */
     /* 0x50 */ AkaoS16 pitch_slide_duration; /* signed countdown in SPU_StepReverbLoad */
     /* 0x52 */ AkaoU16 field_52;
     /* 0x54 */ AkaoU16 bank_id;
