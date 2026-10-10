@@ -111,7 +111,7 @@ void Battle_AdvancePhase(void) {
     s32 var_s0;
     u8 var_s0_3;
     s32 var_v0_3;
-    void **temp_v1_5;
+    BattleEntity *queuedActor;
     BattleAction *queuedAction;
     BattleInitSlot *temp_s2;
     void *temp_t0;
@@ -194,16 +194,14 @@ after_command:
                 temp_v1 = var_a1 + 7;
                 if ((s32) var_a1 < (s32) temp_v1) {
                     loop_limit.value = (s32) temp_v1;
-loop_17:
-                    temp_v1_2 = D_800BE830[var_s0 & 0xFF].actor;
-                    if ((temp_v1_2 == NULL) || (((EnemyCombatant *)temp_v1_2->core)->hpAlive <= 0) || (*(s32 *)&temp_v1_2->entityFlags & 0x4000)) {
-                        var_s0 += 1;
-                        if ((var_s0 & 0xFF) < loop_limit.value) {
-                            goto loop_17;
+                    do {
+                        temp_v1_2 = D_800BE830[var_s0 & 0xFF].actor;
+                        if ((temp_v1_2 == NULL) || (((EnemyCombatant *)temp_v1_2->core)->hpAlive <= 0) || (*(s32 *)&temp_v1_2->entityFlags & 0x4000)) {
+                            var_s0 += 1;
+                        } else {
+                            goto block_found;
                         }
-                    } else {
-                        goto block_found;
-                    }
+                    } while ((var_s0 & 0xFF) < loop_limit.value);
                 }
 block_search_done:
                 if (!(targetFound & 0xFF)) {
@@ -217,10 +215,9 @@ block_search_done:
                     if (temp_v1_3 < var_a0_2) {
                         var_a1 = (void *) var_a0_2;
                         do {
-                            var_a0_2 = temp_v1_3 * 8;
-                            temp_v1_5 = *(void ***)(D_800BE830_BYTES + var_a0_2);
-                            if ((((EnemyCombatant *)*temp_v1_5)->hpAlive <= 0) || (temp_v1_5 == NULL)) {
-                                *(void **)(D_800BE830_BYTES + var_a0_2) = var_a2;
+                            queuedActor = D_800BE830[temp_v1_3].actor;
+                            if ((((EnemyCombatant *)queuedActor->core)->hpAlive <= 0) || (queuedActor == NULL)) {
+                                D_800BE830[temp_v1_3].actor = var_a2;
                             }
                             var_s0 += 1;
                             temp_v1_3 = var_s0 & 0xFF;
@@ -229,7 +226,7 @@ block_search_done:
                 }
                 goto block_39;
             }
-            temp_v1_6 = *(void **)(D_800BE830_BYTES + queueOffset);
+            temp_v1_6 = ((BattleInitSlot *)(D_800BE830_BYTES + queueOffset))->actor;
             if ((temp_v1_6 == NULL) || (((EnemyCombatant *)temp_v1_6->core)->hpAlive <= 0) || (*(s32 *)&temp_v1_6->entityFlags & 0x4000)) {
                 var_v0_3 = D_8009D1D4 + 1;
 block_35:
