@@ -326,20 +326,18 @@ void Draw_AllocColorTri(int width, int height, int pulse) {
     tile = 0;
     old = D_8009D100;
     next = old + sizeof(TilePrim);
-    if (next >= D_8009D104 + 0x4000) goto tile_fail;
-    D_8009D100 = next;
-    tile = (TilePrim *)old;
-    goto tile_done;
-tile_fail:
-    BoundsCheck_AssertStub(1);
-tile_done:
+    if (next < D_8009D104 + 0x4000) {
+        D_8009D100 = next;
+        tile = (TilePrim *)old;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
     if (tile != 0) {
-        if (D_8009D10C == 0) goto primary_color;
-        *(u32 *)&tile->r0 = D_8009D114;
-        goto color_done;
-    primary_color:
-        *(u32 *)&tile->r0 = D_8009D110;
-    color_done:
+        if (D_8009D10C != 0) {
+            *(u32 *)&tile->r0 = D_8009D114;
+        } else {
+            *(u32 *)&tile->r0 = D_8009D110;
+        }
         ((u8 *)tile)[3] = 3;
         tile->code = 0x60;
     }
@@ -400,13 +398,12 @@ tile_done:
 
     drawMode = 0;
     next = old + sizeof(DrawModePrim);
-    if (next >= D_8009D104 + 0x4000) goto draw_mode_fail;
-    D_8009D100 = next;
-    drawMode = (DrawModePrim *)old;
-    goto draw_mode_done;
-draw_mode_fail:
-    BoundsCheck_AssertStub(1);
-draw_mode_done:
+    if (next < D_8009D104 + 0x4000) {
+        D_8009D100 = next;
+        drawMode = (DrawModePrim *)old;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
     if (drawMode != 0) {
         SetDrawTPage(drawMode, 0, 0, 0x20);
     }

@@ -64,13 +64,12 @@ void Draw_AllocColorQuad(int width, int height) {
     shadeOffset = Battle_GetStateFlag1() == 0 ? 7 : 0;
     old = D_8009D100;
     next = old + sizeof(RenderGouraudQuad);
-    if (next >= D_8009D104 + 0x4000) goto first_fail;
-    D_8009D100 = next;
-    first = (RenderGouraudQuad *)old;
-    goto first_done;
-first_fail:
-    BoundsCheck_AssertStub(1);
-first_done:
+    if (next < D_8009D104 + 0x4000) {
+        D_8009D100 = next;
+        first = (RenderGouraudQuad *)old;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
     if (first != 0) {
         *(u32 *)&first->r0 = 0x808080;
         ((u8 *)first)[3] = 8;
@@ -132,13 +131,12 @@ ratio_done:
 
     second = 0;
     next = old + sizeof(RenderGouraudQuad);
-    if (next >= D_8009D104 + 0x4000) goto second_fail;
-    D_8009D100 = next;
-    second = (RenderGouraudQuad *)old;
-    goto second_done;
-second_fail:
-    BoundsCheck_AssertStub(1);
-second_done:
+    if (next < D_8009D104 + 0x4000) {
+        D_8009D100 = next;
+        second = (RenderGouraudQuad *)old;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
     if (second != 0) {
         *(u32 *)&second->r0 = 0x808080;
         ((u8 *)second)[3] = 8;
@@ -191,20 +189,18 @@ second_done:
 
     tile = 0;
     next = old + sizeof(ColorTilePrim);
-    if (next >= D_8009D104 + 0x4000) goto tile_fail;
-    D_8009D100 = next;
-    tile = (ColorTilePrim *)old;
-    goto tile_done;
-tile_fail:
-    BoundsCheck_AssertStub(1);
-tile_done:
+    if (next < D_8009D104 + 0x4000) {
+        D_8009D100 = next;
+        tile = (ColorTilePrim *)old;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
     if (tile != 0) {
-        if (D_8009D10C == 0) goto tile_primary_color;
-        *(u32 *)&tile->r0 = D_8009D114;
-        goto tile_color_done;
-    tile_primary_color:
-        *(u32 *)&tile->r0 = D_8009D110;
-    tile_color_done:
+        if (D_8009D10C != 0) {
+            *(u32 *)&tile->r0 = D_8009D114;
+        } else {
+            *(u32 *)&tile->r0 = D_8009D110;
+        }
         ((u8 *)tile)[3] = 3;
         tile->code = 0x60;
     }
@@ -227,13 +223,12 @@ tile_done:
 
     drawMode = 0;
     next = old + sizeof(DrawModePrim);
-    if (next >= D_8009D104 + 0x4000) goto mode_fail;
-    D_8009D100 = next;
-    drawMode = (DrawModePrim *)old;
-    goto mode_done;
-mode_fail:
-    BoundsCheck_AssertStub(1);
-mode_done:
+    if (next < D_8009D104 + 0x4000) {
+        D_8009D100 = next;
+        drawMode = (DrawModePrim *)old;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
     if (drawMode != 0) {
         SetDrawTPage((char *)drawMode, 0, 0, 0);
     }
