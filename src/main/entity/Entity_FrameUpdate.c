@@ -59,7 +59,7 @@ void Entity_FrameUpdate(void) {
             camera[1] = 0;
             camera[0] = 0;
             for (focus = g_FieldActorListHead; focus != 0; focus = focus->next) {
-                if (focus->allocation_active != 0) {
+                if (focus->model_state.allocation_active != 0) {
                     camera[0] = focus->pos_x;
                     camera[1] = focus->pos_y - (D_800BCFFE[0] << 16);
                     camera[2] = focus->pos_z;
@@ -106,7 +106,7 @@ void Entity_FrameUpdate(void) {
             if (entity == g_PlayerEntity && (D_800B0CD8[0] & 0x40000)) {
                 continue;
             }
-            if (entity->allocation_active != 0) {
+            if (entity->model_state.allocation_active != 0) {
                 entity->render_object.header->scale = entity->move_speed;
             }
             if (entity->flags & 0x40) {
@@ -115,7 +115,7 @@ void Entity_FrameUpdate(void) {
                     entity->pos_x = (s16)entity->render_object.rotation_overrides[0].x << 16;
                     entity->pos_y = (s16)entity->render_object.rotation_overrides[0].y << 16;
                     entity->pos_z = (s16)entity->render_object.rotation_overrides[0].z << 16;
-                } else if (entity->allocation_active == 0) {
+                } else if (entity->model_state.allocation_active == 0) {
                     entity->render_object.hit_body.value0 = entity->pos_x >> 16;
                     entity->render_object.hit_body.value1 = entity->pos_y >> 16;
                     entity->render_object.hit_body.value2 = entity->pos_z >> 16;
@@ -338,7 +338,7 @@ void Entity_CollectGarbage(void) {
                     g_FieldMoveLock &= ~0xD;
                 }
 
-                if (cur->allocation_active != 0) {
+                if (cur->model_state.allocation_active != 0) {
                     Entity_FreeAllocationBlock(cur->allocation_block);
                     Util_ReturnTrue(&cur->render_object);
                 }

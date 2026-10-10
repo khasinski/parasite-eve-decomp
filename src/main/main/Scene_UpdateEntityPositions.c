@@ -110,7 +110,7 @@ void Scene_UpdateEntityPositions(void)
             reach = otherRadius + selfTop;
             reach = reach * reach;
             distance = bx + by + bz;
-            if (self->allocation_active == 0 || other->allocation_active == 0) {
+            if (self->model_state.allocation_active == 0 || other->model_state.allocation_active == 0) {
                 if (distance <= reach) {
                 link:
                     Scene_LinkContactTask(self, other);

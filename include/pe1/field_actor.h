@@ -74,7 +74,12 @@ typedef struct FieldActor {
     /* 0x1A0 */ unsigned int *script_cursor_1a0; /* entry for actor-contact tasks */
     /* 0x1A4 */ int field_1a4;          /* rolled back from field_1a8 alongside pos */
     /* 0x1A8 */ int field_1a8;
-    /* 0x1AC */ int allocation_active; /* nonzero when allocation_block must be freed with the actor */
+    /* A model-header address; the integer view is also tested before using
+     * or releasing the actor's render allocation. */
+    /* 0x1AC */ union {
+        int allocation_active;
+        RenderObjectHeader *model_header;
+    } model_state;
     /* 0x1B0 */ void *action_data;      /* current animation/action record */
     /* 0x1B4 */ RenderObjectEntity render_object;
     /* 0x270 */ unsigned char pad_270[0x08];
@@ -93,7 +98,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, anim) == 0x14,
                   field_actor_anim_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, script_base) == 0x9C,
                   field_actor_script_base_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_active) == 0x1AC,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, model_state.allocation_active) == 0x1AC,
                   field_actor_allocation_active_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.hit_cylinder.radius) == 0x224,
                   field_actor_render_scale_offset);

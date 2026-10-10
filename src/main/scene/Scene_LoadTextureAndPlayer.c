@@ -240,11 +240,11 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
     u8 temp_v1;
     u8 tce6;
     u8 tce3;
-    void *playerForActionMode;
-    void *playerForRenderSetup;
-    void *playerForRoomPrims;
-    void *playerForAnimation;
-    void *playerForScaleUpdate;
+    FieldActor *playerForActionMode;
+    FieldActor *playerForRenderSetup;
+    FieldActor *playerForRoomPrims;
+    FieldActor *playerForAnimation;
+    FieldActor *playerForScaleUpdate;
     u32 th1;
     register s32 phaseValue asm("$2");
 
@@ -321,16 +321,16 @@ block_21:
     case 39:
         playerForActionMode = g_PlayerEntity;
         M2C_FIELD(playerForActionMode, s32 *, 0x1AC) = g_SceneMapPrimBaseTable;
-        M2C_FIELD(playerForActionMode, s32 *, 0x1B0) = D_800B0EEC;
+        playerForActionMode->action_data = (void *)D_800B0EEC;
         Entity_SetActionMode(playerForActionMode, 0x15);
         playerForRenderSetup = g_PlayerEntity;
-        Render_SetupEntityPrims((RenderObjectEntity *)(playerForRenderSetup + 0x1B4), (RenderObjectHeader *)M2C_FIELD(playerForRenderSetup, s32 *, 0x1AC), (u8 *)(M2C_FIELD(playerForRenderSetup, s32 *, 0x278) + 0x50), 0x3C0, 0x100, 0, 0x1C0, 2, (s8 **)&sp28, 1);
+        Render_SetupEntityPrims(&playerForRenderSetup->render_object, playerForRenderSetup->model_state.model_header, (u8 *)(playerForRenderSetup->allocation_block + 0x50), 0x3C0, 0x100, 0, 0x1C0, 2, (s8 **)&sp28, 1);
         playerForRoomPrims = g_PlayerEntity;
-        Render_InitRoomPrimState(playerForRoomPrims + 0x1B4);
+        Render_InitRoomPrimState(&playerForRoomPrims->render_object);
         playerForAnimation = g_PlayerEntity;
-        Render_DrawWithAnim(playerForAnimation + 0x1B4, M2C_FIELD(playerForAnimation, s32 *, 0x1B0), 0, &D_800BEA40, &g_EntityRenderScratch);
+        Render_DrawWithAnim(&playerForAnimation->render_object, (s32)playerForAnimation->action_data, 0, &D_800BEA40, &g_EntityRenderScratch);
         playerForScaleUpdate = g_PlayerEntity;
-        M2C_FIELD(M2C_FIELD(playerForScaleUpdate, void **, 0x1B4), s16 *, 0x14) = (s16) (M2C_FIELD(playerForScaleUpdate, s16 *, 0x224) * 2);
+        playerForScaleUpdate->render_object.header->shadow_radius = (s16) (playerForScaleUpdate->render_object.hit_cylinder.radius * 2);
         g_GameStateFlagsAfterPlayerInit.flags = (g_GameState.flags & 0xFFF9FFFF);
         if (arg0v != 0) {
             phaseValue = gameState->flags;
