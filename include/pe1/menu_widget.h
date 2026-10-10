@@ -175,6 +175,7 @@ extern MenuWidgetNode *g_MenuWidgetSavedNode;
  */
 
 
+MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int index);
 int MenuWidget_HasActiveNodes(void);
 MenuWidgetNode *MenuWidget_FindByFieldValue(int value);
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);

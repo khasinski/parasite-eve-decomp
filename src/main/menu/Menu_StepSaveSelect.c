@@ -24,7 +24,6 @@ M2C_UNK Util_AppendFFTerminatedBytes();
 M2C_UNK Inv_SelectActiveList();
 s32 Str_LookupTable4();
 s32 Draw_MeasureTextWidth();
-s32 MenuWidget_GetChild(s32, s32);
 M2C_UNK MenuWidget_NavScrollTo();
 extern s32 g_MenuActiveItemList;
 extern s32 g_MenuActionTextBase;
@@ -47,10 +46,10 @@ extern struct { char _[16]; } func_800504F4_o __asm__("Save_StartSelectedWriteSl
 extern struct { char _[16]; } func_8005051C_o __asm__("Save_StartSelectedReadSlot");
 #define func_8005051C (*(M2C_UNK *)&func_8005051C_o)
 
-s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
+s32 Menu_StepSaveSelect(MenuWidgetNode *arg0, s32 arg1) {
     M2C_UNK *var_a0;
     s32 temp_s0;
-    s32 temp_s2;
+    MenuWidgetNode *temp_s2;
     s32 temp_v0;
     register s32 temp_cf50 asm("$5");
     s32 temp_height;

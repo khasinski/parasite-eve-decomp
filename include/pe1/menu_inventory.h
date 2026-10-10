@@ -9,7 +9,6 @@
 void MenuWidget_InitPool(void);
 void Inventory_OpenAyaItemList(unsigned int mode);
 
-MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int index);
 
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void MenuWidget_RestoreSavedCurrentNode(void);
