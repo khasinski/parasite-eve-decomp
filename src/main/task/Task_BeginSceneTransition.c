@@ -37,17 +37,13 @@ int Task_BeginSceneTransition(int **arg0) {
     Render_BeginSceneLoad();
     Menu_OpenEquipScreen(**saved);
     {
-        register int ret asm("$2") = state->flags;
         TaskNode *tail_node = g_TaskNodePool;
-
         int tail_flags;
-        ret |= 0x9000;
-        state->flags = ret;
-        ret = g_GameStateFlags[0];
+
+        state->flags |= 0x9000;
         tail_flags = tail_node->flags;
-        ret |= 4;
+        g_GameStateFlagsWrite[0] = g_GameStateFlags[0] | 4;
         tail_flags &= 0xFFDF;
-        g_GameStateFlagsWrite[0] = ret;
         tail_node->flags = tail_flags;
     }
 
@@ -74,17 +70,13 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         Render_BeginSceneLoad();
         Menu_OpenSaveLoadEntryPoint(**saved);
         {
-            register int ret asm("$2") = state->flags;
             TaskNode *tail_node = g_TaskNodePool;
             int tail_flags;
 
-            ret |= 0x9000;
-            state->flags = ret;
-            ret = g_GameStateFlags[0];
+            state->flags |= 0x9000;
             tail_flags = tail_node->flags;
-            ret |= 4;
+            g_GameStateFlagsWrite[0] = g_GameStateFlags[0] | 4;
             tail_flags &= 0xFFDF;
-            g_GameStateFlagsWrite[0] = ret;
             tail_node->flags = tail_flags;
         }
     } else {

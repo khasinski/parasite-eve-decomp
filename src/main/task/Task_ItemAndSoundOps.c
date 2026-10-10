@@ -57,17 +57,13 @@ finish:
     Render_BeginSceneLoad();
     Menu_OpenStartupMemCardDialog();
     {
-        register int ret asm("$2") = state->flags;
         TaskNode *tail_node = g_TaskNodePool;
-
         int tail_flags;
-        ret |= 0x9000;
-        state->flags = ret;
-        ret = g_GameStateFlags[0];
+
+        state->flags |= 0x9000;
         tail_flags = tail_node->flags;
-        ret |= 4;
+        g_GameStateFlagsWrite[0] = g_GameStateFlags[0] | 4;
         tail_flags &= 0xFFDF;
-        g_GameStateFlagsWrite[0] = ret;
         tail_node->flags = tail_flags;
         asm volatile("" : : : "$2", "memory");
         return 1;
@@ -101,17 +97,13 @@ finish:
     Render_BeginSceneLoad();
     Menu_CreateItemUsePanel(**saved);
     {
-        register int ret asm("$2") = state->flags;
         TaskNode *tail_node = g_TaskNodePool;
-
         int tail_flags;
-        ret |= 0x9000;
-        state->flags = ret;
-        ret = g_GameStateFlags[0];
+
+        state->flags |= 0x9000;
         tail_flags = tail_node->flags;
-        ret |= 4;
+        g_GameStateFlagsWrite[0] = g_GameStateFlags[0] | 4;
         tail_flags &= 0xFFDF;
-        g_GameStateFlagsWrite[0] = ret;
         tail_node->flags = tail_flags;
     }
 
@@ -169,12 +161,14 @@ int Task_RunInvCommand(TaskInvCommandArgs *arg0) {
         *saved->result = temp;
         {
             TaskNode *clear_node = g_TaskNodePool;
-            register int clear_flags asm("$2") = clear_node->flags;
-            clear_flags &= 0xFFDF;
-            clear_node->flags = clear_flags;
+            unsigned flags = clear_node->flags;
+
+            flags &= 0xFFDF;
+            clear_node->flags = flags;
         }
-        return 1;
+        goto done;
     }
+done:
     return 1;
 }
 
