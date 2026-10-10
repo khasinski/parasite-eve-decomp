@@ -210,26 +210,18 @@ int MemCard_PollTransferDelay(void) {
 
     pending = D_800A1848;
     __asm__ volatile("" : "=r"(pending) : "0"(pending));
-    if (pending[0] != 0) {
-        if (D_800A0EDC[0] != 4) {
-            goto done;
+    if (pending[0] != 0 && D_800A0EDC[0] != 4) {
+    } else if (*(pending + 1) != 0 && D_800A12F4 != 4) {
+    } else {
+        final_value = g_MemCardConnectDebounce;
+        clamped = 4;
+        if (final_value < 5) {
+            clamped = final_value;
         }
+        g_MemCardConnectDebounce = clamped;
+        *(pending + 1) = 0;
+        pending[0] = 0;
     }
-    if (*(pending + 1) != 0) {
-        if (D_800A12F4 != 4) {
-            goto done;
-        }
-    }
-
-    final_value = g_MemCardConnectDebounce;
-    clamped = 4;
-    if (final_value < 5) {
-        clamped = final_value;
-    }
-    g_MemCardConnectDebounce = clamped;
-    *(pending + 1) = 0;
-    pending[0] = 0;
-done:
     return g_MemCardConnectDebounce > 0;
 }
 
