@@ -61,7 +61,7 @@ void Battle_UpdatePlayerTurn(void)
                 register Combatant *effect asm("$4");
                                 effect = ACTIVE;
                 D_8009CE39 = count + delta;
-                asm volatile("" : : "r"(effect) : "memory");
+                asm volatile("" : : );
                 if (effect->action->attackWord & 0x3FF)
                     Battle_StartEnemyAttackEffect(slot->actor);
             }
