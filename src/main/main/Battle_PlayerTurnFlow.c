@@ -143,16 +143,17 @@ void Battle_ApplyPlayerHit(void) {
 
     committed = 0x200000;
     if (D278_A->stateFlags & committed) {
+        unsigned int stateFlags;
         Entity_SetActionMode(D254_A, 0xE);
         Asset_Find08Alt(0x4B3, 0, D254_B->posX.parts.integer,
                         D254_B->posY.parts.integer, D254_B->posZ.parts.integer);
 
         mask = ~0x200000;
         actor = D278_B;
-        index = actor->stateFlags;
+        stateFlags = actor->stateFlags;
         flags = D1A0_R0;
         D1A0_W0 = flags | 0x100;
-        actor->stateFlags = index & mask;
+        actor->stateFlags = stateFlags & mask;
     }
 
     if (D254_C->animLastFrame == D254_C->animPrev.parts.integer) {
