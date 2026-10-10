@@ -665,5 +665,6 @@ int Battle_RollEscapeChance(void);
 
 void Battle_ApplyDamage(int action);
 void Battle_ApplyEnemyAttack(EnemyCombatant *enemy);
+void Battle_ApplySpellEffect(u32 spell, BattleEntity *target);
 
 #endif /* PE1_BATTLE_H */

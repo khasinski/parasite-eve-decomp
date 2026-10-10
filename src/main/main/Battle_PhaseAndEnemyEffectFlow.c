@@ -16,7 +16,6 @@ typedef union { s32 value; } FlagValue;
 
 void Akao_SendPositionalCmdStereo();
 void BattleCmd_CommitAmmoAndUpdate();
-void Battle_ApplySpellEffect();
 s16 Battle_CalcAngleToTarget();
 s32 Battle_CalcDistToPlayer();
 void Battle_DispatchEntityEffect();

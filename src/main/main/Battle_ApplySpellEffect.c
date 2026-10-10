@@ -121,7 +121,7 @@ extern struct { char _[16]; } g_FieldMoveLock_ob __asm__("g_FieldMoveLock");
 #define D2E8A (*(s32 *)&g_FieldMoveLock_oa)
 #define D2E8B (*(s32 *)&g_FieldMoveLock_ob)
 
-void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
+void Battle_ApplySpellEffect(u32 idx, BattleEntity *ent) {
     BattleActionSoundTable soundTable;
     s32 dmg;
     register u8 *pshared asm("$2");
@@ -284,7 +284,7 @@ conf10:
                     nv |= (((r % 3) + 3) & 7) * 2;
                     *(s32 *)&e->coreFlags = nv;
                     Entity_SetActionMode(ent, 4, r / 3, nv);
-                    ((BattleEntity *)ent)->entityFlags = ((BattleEntity *)ent)->entityFlags | 0x1000;
+                    ent->entityFlags = ent->entityFlags | 0x1000;
                 }
             }
             dmg = 0x960000;

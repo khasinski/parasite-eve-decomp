@@ -5,7 +5,6 @@ extern void **g_PlayerEntity;
 extern short g_AyaHpCurrent;
 extern signed char g_AyaEquippedWeaponSlot;
 
-void Battle_ApplySpellEffect(u32 idx, u8 *ent);
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int);
 extern unsigned int g_AyaParasiteSpellFlags;
@@ -22,7 +21,7 @@ void BattleCmd_ChangeWeaponAndSync(int arg0) {
     void *entry;
     int saved;
 
-    Battle_ApplySpellEffect(arg0, g_PlayerEntity);
+    Battle_ApplySpellEffect(arg0, (BattleEntity *)g_PlayerEntity);
     if (g_PlayerEntity != 0) {
         current = g_PlayerEntity[0];
         if (current != 0) {
