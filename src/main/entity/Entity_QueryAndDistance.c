@@ -112,7 +112,6 @@ s32 Entity_GetDistanceComponents(s32 *args[]) {
             goto block_10;
         }
     }
-    goto block_9;
 
 block_9:
     *args[2] = -1;
