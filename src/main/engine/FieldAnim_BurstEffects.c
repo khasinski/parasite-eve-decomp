@@ -63,8 +63,8 @@ int func_800CCBA8(char *object)
 #include "pe1/field_anim.h"
 #include "pe1/game_audio_state.h"
 
-extern u16 D_800E27FA __asm__("D_800E27FA");
-extern u16 D_800E27FC __asm__("D_800E27FC");
+extern u16 D_800E27FA;
+extern u16 D_800E27FC;
 
 extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
 
