@@ -38,16 +38,15 @@ void Inv_ClearEquipFlagForKind(InvItemSlot *obj) {
                 if (entry[1] != kind_9) {
                     if (is_kind_9 == one) {
                         entry += 0x20;
-                        goto loop_test;
+                        continue;
                     }
                 } else if (is_kind_9 == 0) {
                     entry += 0x20;
-                    goto loop_test;
+                    continue;
                 }
 
                 entry[0] &= 0xEF;
                 entry += 0x20;
-loop_test:
             } while (entry < end);
         }
 

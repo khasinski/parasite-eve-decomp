@@ -205,17 +205,18 @@ find_entity:
         if (entity == 0) {
             goto done;
         }
-find_entity_loop:
-        if (U8_AT(entity, 0xC) == entity_id) {
-            if (U8_AT(entity, 0xD) == ARG_WORD(args->arg2)) {
-                if ((U32_AT(entity, 0x98) & 0x10) == 0) {
-                    goto done;
+        while (1) {
+            if (U8_AT(entity, 0xC) == entity_id) {
+                if (U8_AT(entity, 0xD) == ARG_WORD(args->arg2)) {
+                    if ((U32_AT(entity, 0x98) & 0x10) == 0) {
+                        goto done;
+                    }
                 }
             }
-        }
-        entity = (u8 *)U32_AT(entity, 4);
-        if (entity != 0) {
-            goto find_entity_loop;
+            entity = (u8 *)U32_AT(entity, 4);
+            if (entity == 0) {
+                break;
+            }
         }
         goto done;
 cmd_c1c:
