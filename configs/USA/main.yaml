@@ -211,10 +211,8 @@ segments:
       - [0x855C, c, entity/Entity_MoveLockOpcodes]
       # Menu-choice read and script branch: contiguous opcode pair.
       - [0x85E4, c, task/Task_MenuChoiceBranch]
-      - [0x8668, c, entity/Entity_TestCurrentFlags]
-      # No-op, animation step and speed opcodes: contiguous default profile.
-      - [0x869C, c, task/Task_EntityAnimSpeedOps]
-      - [0x86FC, c, entity/Entity_ActorFlagOpcodes]
+      # Current-actor flags, animation step and speed share FieldActor.
+      - [0x8668, c, entity/Entity_ActorStateOpcodes]
       # Game-state flag and battle-mode opcodes: contiguous default profile.
       - [0x8744, c, scene/Scene_GlobalFlagOps]
       - [0x8880, c, entity/Entity_FieldSelection]
