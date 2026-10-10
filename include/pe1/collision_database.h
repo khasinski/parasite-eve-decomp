@@ -38,19 +38,39 @@ typedef struct CollisionFace {
 /* Walkable triangles. Both formats are walked as halfword arrays: the
  * flat one keeps its vertex indices at [1..3] and its edge neighbours at
  * [7..9], the sloped one at [4..6] and [10..12]. */
+/* Three vertices, three edge ids and three neighbouring triangle ids.
+ * Both formats keep the same links after their different headers. */
+typedef struct CollisionTriangleLinks {
+    u16 vertices[3];
+    u16 edgeIds[3];
+    u16 neighbours[3];
+    u16 reserved;
+} CollisionTriangleLinks;
+
 typedef union CollisionTriangleXZ {
     CollisionTriangleHeader header;
     u16 words[11];
+    struct { CollisionTriangleHeader header; CollisionTriangleLinks links; } layout;
     u8 kind; /* bit 0x80: not walkable from a neighbour */
 } CollisionTriangleXZ;
 typedef union CollisionTriangleXYZ {
     CollisionTriangleHeader header;
     CollisionFace face;
     u16 words[14];
+    struct { CollisionFace face; CollisionTriangleLinks links; } layout;
     u8 kind;
 } CollisionTriangleXYZ;
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionFace, plane) == 2, collision_face_plane_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionFace, distance) == 4, collision_face_distance_offset);
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionTriangleXZ, layout.links.vertices) == 2,
+                  collision_xz_vertex_indices_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionTriangleXYZ, layout.links.vertices) == 8,
+                  collision_xyz_vertex_indices_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionTriangleXZ, layout.links.neighbours) == 14,
+                  collision_xz_neighbours_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionTriangleXYZ, layout.links.neighbours) == 20,
+                  collision_xyz_neighbours_offset);
 
 typedef union CollisionTriangleTable {
     void *pointer;

@@ -383,25 +383,25 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, void *triangle)
 
     neighbours = D_8009CD88;
     if (!D_8009D1D8) {
-        u16 *tri = triangle;
+        CollisionTriangleXZ *tri = triangle;
         int px = x;
         int pz = z;
         u32 slot = 0;
         CollisionVertexTable vertex;
 
-        nextIndex = tri[3];
+        nextIndex = tri->layout.links.vertices[2];
         COLLISION_VERTEX(vertex, nextIndex, CollisionVertexXZ);
         nextX = vertex.xz->x;
         nextZ = vertex.xz->z;
         do {
-            u32 bit = tri[slot + 4];
+            u32 bit = tri->layout.links.edgeIds[slot];
 
             prevIndex = nextIndex;
             prevX = nextX;
             prevZ = nextZ;
             bits = &D_8009DFB0[bit >> 5];
             bit = 1 << (bit & 0x1F);
-            nextIndex = tri[slot + 1];
+            nextIndex = tri->layout.links.vertices[slot];
             COLLISION_VERTEX(vertex, nextIndex, CollisionVertexXZ);
             nextX = vertex.xz->x;
             nextZ = vertex.xz->z;
@@ -425,7 +425,7 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, void *triangle)
                     continue;
                 dz = pz - (s16)nextZ;
                 dx = px - (s16)nextX;
-                edgeId = tri[slot + 4];
+                edgeId = tri->layout.links.edgeIds[slot];
                 d = D_8009CE14[edgeId].length.parts.integer;
                 d = (dz * ((s16)prevX - (s16)nextX)
                      - dx * ((s16)prevZ - (s16)nextZ)) / d;
@@ -467,7 +467,7 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, void *triangle)
                     }
                 }
                 {
-                    u16 neighbour = tri[slot + 7];
+                    u16 neighbour = tri->layout.links.neighbours[slot];
 
                     if (neighbour == 0xFFFF
                         || (D_8009D1FC->triangles.xz[neighbour].kind & 0x80)) {
@@ -504,25 +504,25 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, void *triangle)
         }
         return 1;
     } else {
-        u16 *tri = triangle;
+        CollisionTriangleXYZ *tri = triangle;
         int px = x;
         int pz = z;
         u32 slot = 0;
         CollisionVertexTable vertex;
 
-        nextIndex = tri[6];
+        nextIndex = tri->layout.links.vertices[2];
         COLLISION_VERTEX(vertex, nextIndex, CollisionVertexXYZ);
         nextX = vertex.xyz->x;
         nextZ = vertex.xyz->z;
         do {
-            u32 bit = tri[slot + 7];
+            u32 bit = tri->layout.links.edgeIds[slot];
 
             prevIndex = nextIndex;
             prevX = nextX;
             prevZ = nextZ;
             bits = &D_8009DFB0[bit >> 5];
             bit = 1 << (bit & 0x1F);
-            nextIndex = tri[slot + 4];
+            nextIndex = tri->layout.links.vertices[slot];
             COLLISION_VERTEX(vertex, nextIndex, CollisionVertexXYZ);
             nextX = vertex.xyz->x;
             nextZ = vertex.xyz->z;
@@ -546,7 +546,7 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, void *triangle)
                     continue;
                 dz = pz - (s16)nextZ;
                 dx = px - (s16)nextX;
-                edgeId = tri[slot + 7];
+                edgeId = tri->layout.links.edgeIds[slot];
                 d = D_8009CE14[edgeId].length.parts.integer;
                 d = (dz * ((s16)prevX - (s16)nextX)
                      - dx * ((s16)prevZ - (s16)nextZ)) / d;
@@ -588,7 +588,7 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, void *triangle)
                     }
                 }
                 {
-                    u16 neighbour = tri[slot + 10];
+                    u16 neighbour = tri->layout.links.neighbours[slot];
 
                     if (neighbour == 0xFFFF
                         || (D_8009D1FC->triangles.xyz[neighbour].kind & 0x80)) {
