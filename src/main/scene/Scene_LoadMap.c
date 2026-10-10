@@ -115,7 +115,7 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     W(actor, 0x198) = 0;
     actor->move_speed = 0x1000;
     D_8009D224 = serial + 1;
-    H(actor, 0x24) = serial;
+    actor->field_sfx_id = serial;
     actor->mode = 0;
     B(actor, 0x27C) = 0;
     B(actor, 0x27D) = 0x80;
@@ -188,13 +188,13 @@ scan_done:
     }
 render_done:
     if (actor->action_data) {
-        B(actor, 0x23C) = 0x80;
-        B(actor, 0x23D) = 0xC;
-        B(actor, 0x23E) = 0x18;
-        Render_InitRoomPrimState((u8 *)actor + 0x1B4);
-        Render_DrawWithAnim((u8 *)actor + 0x1B4, actor->action_data,
-                            (s16)H(actor, 0x16), D_800BEA40, D_800B89F8);
-        H(W(actor, 0x1B4), 0x14) = *(s16 *)((u8 *)actor + 0x224) * 2;
+        actor->render_object.shade = 0x80;
+        actor->render_object.lightNegativeY = 0xC;
+        actor->render_object.lightPositiveY = 0x18;
+        Render_InitRoomPrimState(&actor->render_object);
+        Render_DrawWithAnim(&actor->render_object, actor->action_data,
+                            (s16)actor->anim.parts.integer, D_800BEA40, D_800B89F8);
+        actor->render_object.header->shadow_radius = actor->render_object.hit_cylinder.radius * 2;
     }
     goto finish;
 no_render_data:
