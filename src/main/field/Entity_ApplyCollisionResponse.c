@@ -11,13 +11,12 @@ typedef union PolygonVertexAddress {
     u32 word;
 } PolygonVertexAddress;
 
-/* Two pins and two empty barriers preserve the retail prologue with stock
+/* One pin and two empty barriers preserve the retail prologue with stock
  * GCC/maspsx. The first barrier clobbers s3 before the entity is assigned;
  * it emits no instructions. */
 void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
                        u16 count, s16 edge, int oldX, int oldZ)
 {
-    register BattleEntity *initial asm("$4") = input;
     register BattleEntity *entity asm("$19");
     GteVector vector, unit;
     s32 endX, endZ;
@@ -25,11 +24,11 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
     s32 x, z, projection, length;
     s32 radius, direction, trialX, trialZ;
     PolygonVertexAddress base, point;
-    asm("" : "=r"(initial) : "0"(initial) : "$19");
+    asm("" : "=r"(input) : "0"(input) : "$19");
     base.vertex = vertices;
     point.word = edge * sizeof(PolygonVertex) + base.word;
-    asm volatile("" : "=r"(initial) : "0"(initial));
-    entity = initial;
+    asm volatile("" : "=r"(input) : "0"(input));
+    entity = input;
     endX = vertices[edge].x;
     endZ = vertices[edge].z;
     if (edge > 0) {
