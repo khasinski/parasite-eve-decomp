@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
+#include "pe1/draw_state.h"
+
 int g_TextCursorX;
 int g_TextCursorY;
 
@@ -20,17 +22,17 @@ extern int g_TextCursorStackTop[];
 #include "pe1/bounds_check.h"
 
 void Draw_StatePush(void) {
-    int *cursor;
+    DrawTextCursorPair *cursor;
     int x;
     int y;
 
-    cursor = g_TextCursorStackPtr;
-    if (cursor < g_TextCursorStackTop) {
+    cursor = (DrawTextCursorPair *)g_TextCursorStackPtr;
+    if (cursor < (DrawTextCursorPair *)g_TextCursorStackTop) {
         x = g_TextCursorX;
         y = g_TextCursorY;
-        g_TextCursorStackPtr = cursor + 2;
-        cursor[0] = x;
-        cursor[1] = y;
+        g_TextCursorStackPtr = (int *)(cursor + 1);
+        cursor->x = x;
+        cursor->y = y;
     } else {
         BoundsCheck_AssertStub(2);
     }
@@ -39,15 +41,15 @@ void Draw_StatePush(void) {
 extern int g_TextCursorStackBottom[];
 
 void Draw_StatePop(void) {
-    int *cursor;
+    DrawTextCursorPair *cursor;
     int x;
     int y;
 
-    cursor = g_TextCursorStackPtr;
-    if (g_TextCursorStackBottom < cursor) {
-        x = cursor[-2];
-        y = cursor[-1];
-        g_TextCursorStackPtr = cursor - 2;
+    cursor = (DrawTextCursorPair *)g_TextCursorStackPtr;
+    if ((DrawTextCursorPair *)g_TextCursorStackBottom < cursor) {
+        x = cursor[-1].x;
+        y = cursor[-1].y;
+        g_TextCursorStackPtr = (int *)(cursor - 1);
         g_TextCursorX = x;
         g_TextCursorY = y;
     } else {
