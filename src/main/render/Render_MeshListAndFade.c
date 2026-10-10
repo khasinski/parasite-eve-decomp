@@ -486,7 +486,6 @@ extern struct { char _[16]; } D_800BCFFA_o __asm__("D_800BCFFA");
 extern struct { char _[16]; } D_800BCFFB_o __asm__("D_800BCFFB");
 extern struct { char _[16]; } D_800B1624_a_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
-extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
 
 #define D_800BCF88_WORD (*(s32 *)&D_800BCF88_o)
 #define D_800BCFFA_BYTE (*(u8 *)&D_800BCFFA_o)
@@ -494,7 +493,7 @@ extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
 #define D_800BCFFB_PTR ((u8 *)&D_800BCFFB_o)
 #define D_800B1624_A (*(u8 **)&D_800B1624_a_o)
 #define D_800B1624_B (*(u8 **)&D_800B1624_b_o)
-#define D_800B1624_C (*(u8 **)&D_800B1624_c_o)
+#define D_800B1624_C (*(u8 **)&D_800B1624_a_o)
 #define READ_S32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define READ_U16(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 #define WRITE_U16(base, offset, value) (*(u16 *)((u8 *)(base) + (offset)) = (value))

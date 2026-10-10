@@ -11,9 +11,6 @@
 /* The slot-search tails store the selected byte and reload it through a
  * byte-array view of its own symbol after a memory barrier, as retail does. */
 extern u8 D_80091A1F_rd[] __asm__("D_80091A1F");
-/* The next-glyph search stores the selected byte through a 16-byte record
- * view of its symbol. */
-extern struct { char _[16]; } D_80091A1F_o __asm__("D_80091A1F");
 
 unsigned char Render_DrawTextDigit(FontGlyphTable *table, unsigned char mode)
 {
@@ -344,7 +341,7 @@ u8 Render_FindFontGlyphSlot(void) {
     }
     slot = 0xFF;
 store:
-    *(u8 *)&D_80091A1F_o = slot;
+    D_80091A1F_rd[0] = slot;
     __asm__ volatile("" : "=m"(g_FontSelectionState) : "m"(g_FontSelectionState));
     result = g_FontSelectionState.table;
     return result->groups.codes[result->slots.indices[g_FontSelectionState.selected]];

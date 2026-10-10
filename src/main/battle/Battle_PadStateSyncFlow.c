@@ -73,7 +73,6 @@ extern struct { char _[16]; } D_800A76D8_o __asm__("D_800A76D8");
 #define D_800A76D8 (*(u32 *)&D_800A76D8_o)
 #define D_800A76DC (*(s32 *)&D_800A76DC_o)
 extern struct { char _[16]; } D_800A76DC_o __asm__("D_800A76DC");
-extern struct { char _[16]; } D_800A76DC_s0 __asm__("D_800A76DC");
 extern struct { char _[16]; } D_800A76DC_s1 __asm__("D_800A76DC");
 extern struct { char _[16]; } D_800A76DC_s2 __asm__("D_800A76DC");
 extern struct { char _[16]; } D_800A76DC_s3 __asm__("D_800A76DC");
@@ -151,7 +150,7 @@ void Battle_SyncEnemyAttributes(void) {
     ATTRIBUTE_FIELD(temp_a3, s32 *, parameterWord) = temp_a2;
     tdc = *p76d8;
     ATTRIBUTE_FIELD(temp_a3, s32 *, parameterWord) = (s32)((temp_a2 & k0FFFFFFF) | ((tdc >> 0x1C) << 0x1C));
-    tdc = (*(s32 *)&D_800A76DC_s0);
+    tdc = (*(s32 *)&D_800A76DC_o);
     temp_v0 = (effectWord & ~1) | (tdc & 1);
     ATTRIBUTE_FIELD(temp_a3, s32 *, effectFlags) = temp_v0;
     tdc = (*(s32 *)&D_800A76DC_s1);
