@@ -9,10 +9,10 @@
 extern FieldActor *D_8009D2F0[];
 /* The post-call view still preserves a separate matching address reload. */
 extern FieldActor *current_entity_post[] __asm__("D_8009D2F0");
-extern FieldActor *g_PlayerEntity[] __asm__("D_8009D254");
+extern FieldActor *D_8009D254[];
 extern Pe1GlobalSlot entity_control_load __asm__("D_8009D2E8");
 extern Pe1GlobalSlot entity_control_store __asm__("D_8009D2E8");
-extern s16 *g_ScriptCursor __asm__("D_8009CE00");
+extern s16 *D_8009CE00;
 extern RenderObjectEntity D_800B0CEC;
 
 int Task_PlayEntityAnim(s16 **args) {
@@ -36,7 +36,7 @@ int Task_PlayEntityAnim(s16 **args) {
         task_state->flags |= 0x20;
         Anim_SetInterpRate(&actor->render_object, *args[0]);
         post_actor = current_entity_post[0];
-        player = g_PlayerEntity[0];
+        player = D_8009D254[0];
         post_actor->render_object.flags_9C |= 4;
 
         if (post_actor == player) {
@@ -48,7 +48,7 @@ int Task_PlayEntityAnim(s16 **args) {
         }
     }
 
-    g_ScriptCursor -= 6;
+    D_8009CE00 -= 6;
     D_8009D300->active = 1;
     return 0;
 }
