@@ -107,4 +107,8 @@ extern int D_8009D03C; /* First base-item ID represented by the three ammo pools
 
 int Inv_GetPackedListItem(int index);
 
+
+int Menu_GetCommandResult(void);
+void Menu_ClearCommandResult(void);
+
 #endif

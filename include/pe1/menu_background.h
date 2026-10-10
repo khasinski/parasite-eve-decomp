@@ -21,4 +21,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DRAWENV, r0) == 0x19, menu_background_drawenv_rgb
 
 void Menu_SaveBgApplyFadeStep(void);
 
+
+int Menu_SaveBgIsFadeActive(void);
+void Menu_SaveBgAdvanceFade(void);
+
 #endif /* PE1_MENU_BACKGROUND_H */

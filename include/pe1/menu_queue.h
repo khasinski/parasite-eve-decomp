@@ -34,4 +34,9 @@ extern MenuQueueEntry D_800A2174[];
 extern MenuQueueEntry *g_MenuEventQueueHead;
 extern MenuQueueEntry *g_MenuEventQueueTail;
 
+
+void MenuInput_DispatchQueuedEvents(void);
+void Draw_SelectBuffer(void);
+void Draw_PresentFrame(int mode);
+
 #endif /* PE1_MENU_QUEUE_H */

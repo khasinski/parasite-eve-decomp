@@ -174,4 +174,7 @@ extern MenuWidgetNode *g_MenuWidgetSavedNode;
  *   node->selected_base (+0x24); cursor = node->cursor_x/cursor_y (+0x44/+0x48).
  */
 
+
+void MenuWidget_UpdateAndDraw(void);
+
 #endif

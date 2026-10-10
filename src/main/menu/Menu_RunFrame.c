@@ -1,23 +1,16 @@
+#include "pe1/menu_background.h"
+#include "pe1/inventory_slots.h"
+#include "pe1/menu_queue.h"
+#include "pe1/menu_widget.h"
 #include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
-#define NULL ((void *)0)
-#include "m2c_macros.h"
-M2C_UNK Window_SetBoundsByMode(u8);                 /* extern */
-M2C_UNK MemCard_UpdateSavePolling();                  /* extern */
-M2C_UNK MemCard_DelayedCallback();                            /* extern */
-s32 Menu_SaveBgIsFadeActive();                                /* extern */
-M2C_UNK Menu_SaveBgAdvanceFade();                            /* extern */
-M2C_UNK Evt_DeferredExec();                            /* extern */
-M2C_UNK Menu_ProcessSwapReturnIfPending();                            /* extern */
-M2C_UNK Inv_SetActiveList(M2C_UNK, M2C_UNK);            /* extern */
-s32 Menu_GetCommandResult();                                /* extern */
-M2C_UNK Menu_ClearCommandResult();                            /* extern */
-M2C_UNK MenuInput_DispatchQueuedEvents();                            /* extern */
-M2C_UNK Draw_SelectBuffer();                            /* extern */
-M2C_UNK Draw_PresentFrame(M2C_UNK);                     /* extern */
-M2C_UNK MenuWidget_UpdateAndDraw();                            /* extern */
+void Window_SetBoundsByMode(int mode);
+void MemCard_UpdateSavePolling(void);
+void MemCard_DelayedCallback(void);
+void Evt_DeferredExec(void);
+void Menu_ProcessSwapReturnIfPending(void);
 extern u8 g_SavedMenuMode;
 extern s32 g_MemCardDialogState;
 u32 g_MenuErrorSoundPending;

@@ -2,7 +2,7 @@
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
 #include "pe1/battle.h"
-#include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 
 /* Active-list commands from the item menus and the pending command result
  * (D_8009D010) that the menu loop polls and clears. */
