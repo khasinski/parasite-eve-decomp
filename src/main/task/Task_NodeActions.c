@@ -70,7 +70,7 @@ int Task_SpawnChildNode(int **args) {
 
         value = *value_ptr;
         g_TaskNodeFreeListHead = next;
-        asm volatile("" : : : "memory");
+        asm volatile("" : "=m"(g_TaskNodeFreeListHead) : "m"(g_TaskNodeFreeListHead));
         value = (value << 1) + (int)state->script_base;
         if (node != 0) {
             entry->prev = node;
