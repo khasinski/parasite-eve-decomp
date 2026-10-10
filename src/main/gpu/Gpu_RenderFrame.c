@@ -14,10 +14,9 @@ void SetDispMask(int arg0);
 void ResetGraph(int arg0);
 int Gpu_CheckDrawStatus(void);
 
-extern int g_GameState[];
+extern RenderFrameState g_GameState;
 extern int g_ActiveDrawSlot;
 
-#define D_800B0CD8_WORD (g_GameState[0])
 
 static inline DISPENV *DispAddress(int index) {
     return &g_RenderDispEnvArray[index];
@@ -33,12 +32,12 @@ void Gpu_RenderFrame(void) {
     int idx;
     int state;
     int status;
-    int *state_ptr;
+    RenderFrameState *state_ptr;
 
     DrawSync(0);
     Menu_DrawSaveBg();
 
-    displayFlags = D_800B0CD8_WORD & 0x200;
+    displayFlags = g_GameState.flags & 0x200;
     if (displayFlags) {
         VSync(4);
         if ((short)Seq_GetElapsed() >= 3) {
@@ -58,8 +57,8 @@ void Gpu_RenderFrame(void) {
         goto draw_direct;
     }
 
-    state_ptr = g_GameState;
-    state = *state_ptr;
+    state_ptr = &g_GameState;
+    state = state_ptr->flags;
     if ((state & 0x200) == 0) {
         goto draw_buffer;
     }
@@ -75,7 +74,7 @@ draw_buffer:
         char *orderingTable;
 
         drawSlot = g_ActiveDrawSlot;
-        buffers = &((RenderFrameState *)state_ptr)->buffers;
+        buffers = &state_ptr->buffers;
         orderingTable = buffers->ordering[drawSlot];
         DrawOTagEnv(orderingTable + 0x3FFC, &g_RenderDrawEnvArray[drawSlot]);
     }
