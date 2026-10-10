@@ -327,7 +327,6 @@ int Render_ResetGteScreenOffset(void) {
 }
 
 extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
-extern struct { char _[16]; } D_800BCF8C_o __asm__("D_800BCF8C");
 extern struct { char _[16]; } D_800BCF98_o __asm__("D_800BCF98");
 extern struct { char _[16]; } D_800BCF9C_o __asm__("D_800BCF9C");
 extern struct { char _[16]; } D_800BCF9E_o __asm__("D_800BCF9E");
@@ -335,7 +334,7 @@ extern struct { char _[16]; } D_800BCFA0_o __asm__("D_800BCFA0");
 extern struct { char _[16]; } D_800BCFA2_o __asm__("D_800BCFA2");
 
 #define D_800BCF88 (*(int *)&D_800BCF88_o)
-#define D_800BCF8C (*(int *)&D_800BCF8C_o)
+#define D_800BCF8C (*(int *)&g_CameraClampMinX)
 #define D_800BCF98 (*(int *)&D_800BCF98_o)
 #define D_800BCF9C (*(s16 *)&D_800BCF9C_o)
 #define D_800BCF9E (*(s16 *)&D_800BCF9E_o)

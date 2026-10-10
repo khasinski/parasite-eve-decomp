@@ -187,7 +187,6 @@ extern u8 D_8009D26C_blob[] asm("D_8009D26C");
 #define D_8009D26C (*(u32 *)D_8009D26C_blob)
 /* These views prevent GCC from retaining one address across frame phases. */
 extern u32 D_800B0CD8_post[3] asm("D_800B0CD8");
-extern u32 D_800B0CD8_check[3] asm("D_800B0CD8");
 extern u32 D_800B0CD8_read[3] asm("D_800B0CD8");
 extern u32 D_800B0CD8_write1[3] asm("D_800B0CD8");
 extern u32 D_800B0CD8_write2[3] asm("D_800B0CD8");
@@ -326,7 +325,7 @@ loop_end_check:
         } while (D_8009D1C4 == D_8009D280);
     }
 
-    if (D_800B0CD8_check[0] & 0x200) {
+    if (D_800B0CD8_post[0] & 0x200) {
         clear_rect.x = 0;
         clear_rect.y = 0;
         clear_rect.w = 0x140;

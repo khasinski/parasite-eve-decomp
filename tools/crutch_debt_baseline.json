@@ -1,6 +1,6 @@
 {
   "main": {
-    "aliases": 60,
+    "aliases": 59,
     "asm_bodies": 23,
     "asm_constrained_units": 0,
     "barriers": 927,
@@ -8,7 +8,7 @@
     "dead_code": 0,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 2734,
+    "externs_in_c": 2731,
     "field_macros": 238,
     "game_asm_units": 4,
     "gotos": 728,

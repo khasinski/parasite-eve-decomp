@@ -1209,7 +1209,6 @@ extern struct { char _[16]; } D_800B01B9_o __asm__("D_800B01B9");
 extern struct { char _[16]; } D_800B01BA_o __asm__("D_800B01BA");
 #define D_800B01BA (*(s8 *)&D_800B01BA_o)
 extern s32 D_800B0CD8_r[] __asm__("g_GameState");
-extern s32 D_800B0CD8_w[] __asm__("g_GameState");
 extern struct { char _[16]; } D_800B692C_o __asm__("D_800B692C");
 #define D_800B692C (*(s8 *)&D_800B692C_o)
 extern struct { char _[16]; } D_800B692D_o __asm__("D_800B692D");
