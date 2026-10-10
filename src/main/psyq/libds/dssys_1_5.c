@@ -62,7 +62,7 @@ void LIBDS_DSSYS_1_text_4A4(void) {
     register int *retry = &g_CdRomCmdTimeout;
     if (*retry > 0 && --*retry == 0) {
         LIBDS_DSSYS_1_text_774();
-        goto done;
+        return;
     }
     timer = &g_DsSyncResultCountdown;
         if (*timer > 0)

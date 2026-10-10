@@ -141,7 +141,7 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
                     STATE(command)->read.sector = 21;
                     STATE(command)->read.discType++;
                 }
-                goto done;
+                return;
             } else {
                 if (current == 14) {
                     register int step = STATE(command)->read.sector;
@@ -187,7 +187,7 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
                             }
                         }
                     }
-                    goto done;
+                    return;
                 } else {
                     range = current - 16;
                     if (range < 2) {
@@ -209,7 +209,7 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
                                 callback(callbackEvent, result);
                             }
                         }
-                        goto done;
+                        return;
                     }
                 }
             }
