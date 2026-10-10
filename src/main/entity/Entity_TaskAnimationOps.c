@@ -1,11 +1,13 @@
 #include "common.h"
 #include "pe1/field_actor.h"
 #include "pe1/task_node.h"
+#include "pe1/battle_entity_anim.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 extern FieldActor *g_CurrentEntity[];
 extern TaskNode *g_TaskNodePool;
+extern int g_SceneDataTable0;
 
 int Entity_MarkAnimPending(void) {
     unsigned int i;
@@ -17,7 +19,7 @@ int Entity_MarkAnimPending(void) {
     skip = g_TaskNodePool;
     entity = g_CurrentEntity[0];
     do {
-        node = (TaskNode *)entity->task_node_lists[0];
+        node = entity->task_node_lists[0];
         if (node != 0) {
             do {
                 if (node != skip) {
@@ -43,7 +45,7 @@ int Entity_AdvancePendingAnim(void) {
     active = 1;
     entity = g_CurrentEntity[0];
     do {
-        node = (TaskNode *)entity->task_node_lists[0];
+        node = entity->task_node_lists[0];
         if (node != 0) {
             do {
                 if (node->flags & 0x40) {
@@ -72,7 +74,7 @@ int Entity_MarkNodeAnimPendingById(int **arg0) {
     i = 0;
     entity = g_CurrentEntity[0];
     do {
-        node = (TaskNode *)entity->task_node_lists[0];
+        node = entity->task_node_lists[0];
         if (node != 0) {
             do {
                 if (node->seq == **arg0) {
@@ -101,7 +103,7 @@ int Entity_AdvanceNodeById(int **arg0) {
     active_value = 1;
     entity = g_CurrentEntity[0];
     do {
-        node = (TaskNode *)entity->task_node_lists[0];
+        node = entity->task_node_lists[0];
         if (node != 0) {
             do {
                 if (node->seq == **arg0) {
@@ -121,4 +123,23 @@ int Entity_AdvanceNodeById(int **arg0) {
     } while (i < 3U);
 
     return 1;
+}
+
+int Task_RunEntityCommand(int **arg0) {
+    int result;
+    register int active asm("$5");
+    register int stack asm("$4");
+
+    result = (signed char)Entity_TriggerAnimEvent((BattleEntity *)g_CurrentEntity[0], *(unsigned char *)arg0[0]);
+    *arg0[1] = result;
+    if (*arg0[1] != 0) {
+        return 1;
+    }
+
+    active = 1;
+    stack = g_SceneDataTable0;
+    stack -= 0x10;
+    g_TaskNodePool->active = active;
+    g_SceneDataTable0 = stack;
+    return 0;
 }

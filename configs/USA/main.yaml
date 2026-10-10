@@ -217,8 +217,8 @@ segments:
       - [0x8744, c, scene/Scene_GlobalFlagOps]
       - [0x8880, c, entity/Entity_FieldSelection]
       - [0x8AA0, c, task/Task_BattleFlagOps]
-      - [0x8B00, c, entity/Entity_AnimationPending]
-      - [0x8CEC, c, task/Task_RunEntityCommand]
+      # Task-node animation scheduling and the current-actor event command.
+      - [0x8B00, c, entity/Entity_TaskAnimationOps]
       - [0x8D6C, c, entity/Entity_ClearMotionVectors]
       - [0x8D98, c, entity/Entity_ComputeVelocity]
       # System, process-manager and object-entry opcodes: contiguous
