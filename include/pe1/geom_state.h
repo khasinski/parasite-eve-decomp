@@ -23,16 +23,27 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_tint.h"
 
+/* The low byte selects the group; the remaining signed 24 bits hold an
+ * animation position with eight fractional bits. Halfword and packed-word
+ * accesses are also used by the slot setup commands. */
+typedef union GeomAnimationPosition {
+    u32 packed;
+    struct { u16 groupFraction; s16 frame; } parts;
+    struct { unsigned int group : 8; signed int value : 24; } bits;
+} GeomAnimationPosition;
+
+PE1_STATIC_ASSERT(sizeof(GeomAnimationPosition) == 4,
+                  geom_animation_position_size);
+
 /* 16-byte control entry. base = g_GeomState->ctrl_offset (+0x10), index << 4. */
 typedef struct GeomCtrlEntry {            /* 0x10 */
     union {                               /* +0x00  u8 flags vs u32 packed (>>8 = count) */
         u32 packed;
         struct { u8 flags; u8 _b[3]; } b;
     } head;
-    u16 field4;                           /* +0x04  (u32 readers use *(u32*)&field4) */
-    s16 field6;                           /* +0x06  (read sign-extended in Obj_GetEntryField6) */
-    s16 field8;                           /* +0x08 */
-    u16 fieldA;                           /* +0x0A */
+    GeomAnimationPosition position;      /* +0x04 */
+    s16 step;                            /* +0x08 */
+    u16 elapsed;                         /* +0x0A */
     s32 slot_offset;                      /* +0x0C  added to entry base -> slot array */
 } GeomCtrlEntry;
 
@@ -43,23 +54,15 @@ typedef struct GeomAnimationSlot {
     s8 duration;
 } GeomAnimationSlot;
 
-typedef struct GeomAnimationControl {
-    union { u32 packed; struct { u8 flags; u8 padding[3]; } b; } head;
-    unsigned int group : 8;
-    signed int position : 24;
-    s16 step;
-    u16 elapsed;
-    s32 slotOffset;
-} GeomAnimationControl;
-
 PE1_STATIC_ASSERT(sizeof(GeomAnimationSlot) == 2, geom_animation_slot_size);
-PE1_STATIC_ASSERT(sizeof(GeomAnimationControl) == sizeof(GeomCtrlEntry),
-                  geom_animation_control_view_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, step) == 8,
+PE1_STATIC_ASSERT(sizeof(GeomCtrlEntry) == 0x10, geom_control_entry_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomCtrlEntry, position) == 4,
+                  geom_animation_position_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomCtrlEntry, step) == 8,
                   geom_animation_step_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, elapsed) == 10,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomCtrlEntry, elapsed) == 10,
                   geom_animation_elapsed_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, slotOffset) == 12,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomCtrlEntry, slot_offset) == 12,
                   geom_animation_slots_offset);
 
 struct RenderTexturePagePacket;

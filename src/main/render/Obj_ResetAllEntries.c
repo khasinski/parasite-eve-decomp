@@ -28,14 +28,14 @@ int Obj_ResetAllEntries(void) {
         value1 = 1;
         cursor.bytes = entryBase;
         do {
-            register unsigned int oldValue asm("v1") = (u8)cursor.ctrl->field4;
+            register unsigned int oldValue asm("v1") = (u8)cursor.ctrl->position.parts.groupFraction;
             u8 *indexedPtr = cursor.bytes + cursor.ctrl->slot_offset;
             unsigned int renderIndex;
 
-            cursor.ctrl->field8 = value100;
-            cursor.ctrl->fieldA = 0;
+            cursor.ctrl->step = value100;
+            cursor.ctrl->elapsed = 0;
             cursor.ctrl->head.b.flags = value1;
-            *(u32 *)&cursor.ctrl->field4 = oldValue;
+            cursor.ctrl->position.packed = oldValue;
             renderIndex = *indexedPtr;
             renderEntries[renderIndex].flags |= 2;
             i++;
