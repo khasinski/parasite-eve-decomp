@@ -31,9 +31,9 @@ int LIBPAD_PADIF_text_26C(CardObj *inPort) {
     if (mode) {
         index = -1;
         offset = -240;
-    first:
-        if (--D_8009B79C <= 0)
-            goto setup;
+        while (1) {
+            if (--D_8009B79C <= 0)
+                break;
         /* Keep the incremented byte cursor: typed indexing changes scheduling. */
         if (index >= 0)
             D_8009B730((CardObj *)((u8 *)port->subPorts + offset));
@@ -46,7 +46,9 @@ int LIBPAD_PADIF_text_26C(CardObj *inPort) {
         index++;
         offset += 240;
         if (index < 4)
-            goto first;
+                continue;
+            break;
+        }
     }
 setup:
     {
