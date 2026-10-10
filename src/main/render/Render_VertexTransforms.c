@@ -572,8 +572,7 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
     register RenderMatrix *matrix asm("$10");
     register s32 *scratch asm("$24");
     i = 0;
-    asm("" : "=r"(entity), "=r"(view)
-        : "0"(entity), "1"(view), "m"(frame[0]), "r"(i));
+    asm("" : "=r"(entity) : "0"(entity), "r"(i));
     {
         int count = entity->header->part_count;
         matrix = entity->matrices;
