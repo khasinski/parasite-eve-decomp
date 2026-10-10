@@ -3,8 +3,18 @@
 #include "pe1/battle_runtime.h"
 #include "pe1/render_object.h"
 
+/* Shared level and direction for the pulsing target highlight. Retail linker
+ * objects own the storage; these retain the matching COMMON metadata. */
 u8 g_BattleFadeLevel;
 s8 D_8009CE6C;
+extern s8 g_BattleTargetCount[];
+
+void Battle_InitFadeVars(void) {
+    if (g_BattleTargetCount[0] != 0) {
+        g_BattleFadeLevel = 0x80;
+        D_8009CE6C = -8;
+    }
+}
 
 /* Fade the targeted actor; group members (kind 4) fade together, linked parts
  * (kind 1) fade their parent. The level is evaluated at the call. */

@@ -287,8 +287,8 @@ segments:
       - [0x15DE4, c, battle/Battle_RollEscapeChance]
       - [0x160CC, c, battle/Battle_TargetAndEnemyTurnFlow]
       - [0x174F0, c, battle/Battle_AdvanceTurnSlot]
-      - [0x177D0, c, battle/Battle_InitFadeVars]
-      - [0x177F8, c, main/Battle_StepPlayerTurn]
+      # Initializer and target-highlight animation share their fade state.
+      - [0x177D0, c, battle/Battle_TargetFade]
       - [0x17DCC, c, battle/Battle_MarkActiveEntities]
       - [0x18208, c, battle/Battle_ActionSlotAndEnemy]
       - [0x18D74, c, battle/Battle_StepEnemyMovement]
