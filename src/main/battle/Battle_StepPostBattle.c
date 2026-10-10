@@ -134,7 +134,7 @@ void Battle_StepPostBattle(void)
         u8 timer;
         register RenderTexturedQuad *base asm("$3");
         s32 frame;
-        asm volatile("" : : "r"(brightnessBase), "r"(top));
+        asm volatile("" : : "r"(top));
         brightness = brightnessBase - (D_8009CE70 * 4);
         *(D_800BE9F4 + (D_8009CDDC * 0x28)) = brightness;
         *(D_800BE9F5 + (D_8009CDDC * 0x28)) = brightness;
@@ -180,7 +180,7 @@ void Battle_StepPostBattle(void)
             register u16 right asm("$5");
             pulse &= 255;
             raisingPanel = &base[frame];
-            asm volatile("" : "=r"(raisingPanel), "=r"(pulse) : "0"(raisingPanel), "1"(pulse));
+            asm volatile("" : "=r"(raisingPanel) : "0"(raisingPanel));
             top = 122 - pulse;
             right = 220;
             edgeCoordinate = 124;
