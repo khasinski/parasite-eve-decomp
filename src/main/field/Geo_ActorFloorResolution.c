@@ -11,9 +11,8 @@
 
 int Math_FixedMul(int a, int b);
 
-void Entity_FindFloor(u8 *entity)
+void Entity_FindFloor(BattleEntity *actor)
 {
-    BattleEntity *actor = (BattleEntity *)entity;
     u8 *floor_data;
     u8 *simple_triangle;
     CollisionFace *complex_triangle;

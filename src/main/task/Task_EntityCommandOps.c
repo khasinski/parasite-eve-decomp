@@ -1,10 +1,10 @@
+#include "pe1/field_collision.h"
 #include "pe1/field_actor.h"
 #include "pe1/textbox.h"
 
 extern FieldActor *g_CurrentEntity[];
 
 FieldActor *Scene_LoadMap(char *arg0, FieldActor *arg1, int arg2);
-void Entity_FindFloor(FieldActor *arg0);
 
 int Task_SpawnEntityAt(int **arg0) {
     char local[2];
@@ -16,7 +16,7 @@ int Task_SpawnEntityAt(int **arg0) {
     entity->pos_x = arg0[2][0];
     entity->pos_y = arg0[3][0];
     entity->pos_z = arg0[4][0];
-    Entity_FindFloor(entity);
+    Entity_FindFloor((struct BattleEntity *)entity);
     return 1;
 }
 int Task_AssignValue(int **arg0) {

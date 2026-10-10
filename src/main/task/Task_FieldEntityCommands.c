@@ -1,3 +1,4 @@
+#include "pe1/field_collision.h"
 extern int g_GameState;
 
 #include "pe1/field_actor.h"
@@ -63,7 +64,6 @@ int Task_ClearInputFlagBit2(void) {
     return 1;
 }
 
-void Entity_ResolvePosition(BattleEntity *actor, int index);
 
 
 void Task_EnableMovement(void);

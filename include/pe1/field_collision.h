@@ -17,6 +17,9 @@ int Geo_PointInPoly(int x, int z, const PolygonVertex *vertices,
                     unsigned short count);
 
 struct BattleEntity;
+void Entity_FindFloor(struct BattleEntity *actor);
+void Entity_ResolvePosition(struct BattleEntity *actor, int index);
+void Entity_UpdateAndRender(struct BattleEntity *actor);
 
 /* 16.16 edge length; the slide reads only the integer half. */
 typedef union RampEdgeLength {
@@ -155,9 +158,9 @@ PE1_STATIC_ASSERT(sizeof(CollisionTriangleXYZ) == 28, collision_triangle_xyz_siz
  *   each other through Entity_RollbackPositionHierarchy.
  *
  * Functions:
- *   void Entity_ResolvePosition(FieldActor *a, int triIndex);  // snap Y + cache tri
+ *   void Entity_ResolvePosition(struct BattleEntity *a, int triIndex);  // snap Y + cache tri
  *   int  Entity_ResolveCurrentPosition(u16 **idx);             // resolve D_8009D2F0
- *   s32  Geo_PointInTri(u8 *entry, s16 x, s16 z);              // containment test
+ *   int  Geo_PointInTri(void *entry, s16 x, s16 z);              // containment test
  *   void Entity_RollbackPositionHierarchy(FieldActor *a);      // revert pos<-base on block
  *   void Scene_UpdateEntityPositions(void);                    // per-frame actor contact pass
  *   int  Math_FixedMul(int a, int b);                          // (a*b)>>12 fixed-point
