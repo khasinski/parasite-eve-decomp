@@ -298,7 +298,7 @@ int Menu_StepScrollCursor(MenuWidgetNode *node, unsigned int buttons)
             if (row < 0)
                 row = 0;
             node->cursor_y = row;
-            Menu_StepListNavigate(node->popup_node, 0x1000);
+            Menu_StepListNavigate((MenuWidgetListNavigation *)node->popup_node, 0x1000);
             return changed;
         }
         if (buttons & 8) {
@@ -306,7 +306,7 @@ int Menu_StepScrollCursor(MenuWidgetNode *node, unsigned int buttons)
                 node->y_limit - MenuWidget_EndMargin(node) < node->cursor_y + node->visible_rows
                     ? node->y_limit - MenuWidget_EndMargin(node)
                     : node->cursor_y + node->visible_rows;
-            Menu_StepListNavigate(node->popup_node, 0x4000);
+            Menu_StepListNavigate((MenuWidgetListNavigation *)node->popup_node, 0x4000);
             return changed;
         }
     } else if (buttons & 0x20) {

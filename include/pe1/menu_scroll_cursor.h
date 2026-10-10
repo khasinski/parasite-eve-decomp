@@ -9,7 +9,7 @@ void Menu_PlayMoveSound(void);
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
 void Menu_PlayErrorSound(void);
-int Menu_StepListNavigate(MenuWidgetNode *list, unsigned int flags);
+int Menu_StepListNavigate(MenuWidgetListNavigation *list, unsigned int flags);
 int Menu_StepScrollCursor(MenuWidgetNode *node, unsigned int buttons);
 
 #endif
