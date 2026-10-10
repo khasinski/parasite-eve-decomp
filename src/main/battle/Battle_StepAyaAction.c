@@ -428,10 +428,9 @@ s32 Battle_StepAyaAction(void)
           Anim_SetInterpRate((RenderObjectEntity *) (visible - 0x9E), 0x1E);
         }
         {
-          register unsigned next asm("$3") = D_8009D25C + 1;
           D_8009CE4C = 0xF;
           D_800B0D88 |= 4;
-          D_8009D25C = next;
+          D_8009D25C++;
         }
         break;
       }
