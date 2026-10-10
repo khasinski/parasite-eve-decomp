@@ -1008,35 +1008,35 @@ void Spu_ManageVoicesCmd(int *arg0) {
 void Seq_SetTrackPitchImmediate(int *arg0) {
     int *msg;
     int selector;
-    char *track;
-    char *primary_track;
-    char *next_track;
+    AkaoSequencerBank *track;
+    AkaoSequencerBank *primary_track;
+    AkaoSequencerBank *next_track;
     char *base;
 
     msg = arg0;
     selector = msg[4];
-    if (selector == 0 || selector == *(u16_1 *)(g_AkaoCurTrackBytes + 0x54)) {
+    if (selector == 0 || selector == ((AkaoSequencerBank *)g_AkaoCurTrackBytes)->bank_id) {
         int value;
         base = g_AkaoVoiceStateTableBytes;
         value = msg[1];
-        primary_track = g_AkaoCurTrackBytes;
+        primary_track = g_AkaoCurTrack;
         value &= 0x7F;
         value <<= 16;
-        *(int *)(primary_track + 0x48) = value;
-        *(u16_1 *)(primary_track + 0x50) = 0;
+        *(int *)&primary_track->pitch_current = value;
+        primary_track->pitch_slide_duration = 0;
         Seq_MarkDirtyTracks(base);
     } else if (selector != 0) {
-        track = g_AkaoCurTrackBytes;
-        if (selector == *(u16_1 *)(track + 0xBC)) {
+        track = g_AkaoCurTrack;
+        if (selector == ((AkaoSequencerState *)track)->secondary.bank_id) {
             int value;
-            next_track = track + 0x68;
+            next_track = track + 1;
             base = g_AkaoVoiceStateTable2Bytes;
             value = msg[1];
             g_AkaoCurTrack = (AkaoSequencerBank *)next_track;
-            *(u16_1 *)(track + 0xB8) = 0;
+            ((AkaoSequencerState *)track)->secondary.pitch_slide_duration = 0;
             value &= 0x7F;
             value <<= 16;
-            *(int *)(track + 0xB0) = value;
+            *(int *)&((AkaoSequencerState *)track)->secondary.pitch_current = value;
             Seq_MarkDirtyTracks(base);
             g_AkaoCurTrack--;
         }
@@ -1048,9 +1048,9 @@ void Seq_SlideTrackPitch(int *arg0) {
     int duration;
     register int target asm("$5");
     int selector;
-    char *track;
+    AkaoSequencerBank *track;
     char *base;
-    char *next_track;
+    AkaoSequencerBank *next_track;
 
     raw = arg0[1];
     duration = 1;
@@ -1064,31 +1064,31 @@ void Seq_SlideTrackPitch(int *arg0) {
     target = raw << 16;
 
     if (selector != 0) {
-        track = g_AkaoCurTrackBytes;
-        if (selector != *(u16 *)(track + 0x54)) {
+        track = g_AkaoCurTrack;
+        if (selector != track->bank_id) {
             goto secondary_track;
         }
     }
 
     {
-        track = g_AkaoCurTrackBytes;
-        target = (target - *(int *)(track + 0x48)) / duration;
+        track = g_AkaoCurTrack;
+        target = (target - *(int *)&track->pitch_current) / duration;
         base = g_AkaoVoiceStateTableBytes;
-        ((AkaoTrack *)track)->field_50_duration = duration;
-        ((AkaoTrack *)track)->pitch_slide_step = target;
+        track->pitch_slide_duration = duration;
+        *(int *)&track->pitch_delta = target;
         Seq_MarkDirtyTracks(base);
     }
     return;
 
 secondary_track:
     if (arg0 != 0) {
-        if (selector == *(u16 *)(track + 0xBC)) {
-            target = (target - *(int *)(track + 0xB0)) / duration;
+        if (selector == ((AkaoSequencerState *)track)->secondary.bank_id) {
+            target = (target - *(int *)&((AkaoSequencerState *)track)->secondary.pitch_current) / duration;
             base = g_AkaoVoiceStateTable2Bytes;
-            *(u16 *)(track + 0xB8) = duration;
-            next_track = track + 0x68;
+            ((AkaoSequencerState *)track)->secondary.pitch_slide_duration = duration;
+            next_track = track + 1;
             g_AkaoCurTrack = (AkaoSequencerBank *)next_track;
-            *(int *)(track + 0xB4) = target;
+            *(int *)&((AkaoSequencerState *)track)->secondary.pitch_delta = target;
             Seq_MarkDirtyTracks(base);
             g_AkaoCurTrack--;
         }
@@ -1102,11 +1102,11 @@ void Seq_TrackPitchSetup(int *arg0) {
     register int raw asm("$2");
     int duration;
     int selector;
-    char *track;
+    AkaoSequencerBank *track;
     int start;
     register int delta asm("$6");
     char *base;
-    char *next_track;
+    AkaoSequencerBank *next_track;
 
     raw = arg0[1];
     duration = 1;
@@ -1116,47 +1116,47 @@ void Seq_TrackPitchSetup(int *arg0) {
 
     selector = arg0[4];
     if (selector != 0) {
-        track = g_AkaoCurTrackBytes;
-        if (selector != *(u16 *)(track + 0x54)) {
+        track = g_AkaoCurTrack;
+        if (selector != track->bank_id) {
             goto secondary_track;
         }
     }
 
     {
         start = arg0[2];
-        track = g_AkaoCurTrackBytes;
+        track = g_AkaoCurTrack;
         start &= 0x7F;
         start <<= 16;
-        *(int *)(track + 0x48) = start;
+        *(int *)&track->pitch_current = start;
         raw = arg0[3];
         raw &= 0x7F;
         delta = raw << 16;
         delta -= start;
         delta = delta / duration;
         base = g_AkaoVoiceStateTableBytes;
-        ((AkaoTrack *)track)->field_50_duration = duration;
-        ((AkaoTrack *)track)->pitch_slide_step = delta;
+        track->pitch_slide_duration = duration;
+        *(int *)&track->pitch_delta = delta;
         Seq_MarkDirtyTracks(base);
     }
     return;
 
 secondary_track:
     if (selector != 0) {
-        if (selector == *(u16 *)(track + 0xBC)) {
+        if (selector == ((AkaoSequencerState *)track)->secondary.bank_id) {
             start = arg0[2];
             start &= 0x7F;
             start <<= 16;
-            *(int *)(track + 0xB0) = start;
+            *(int *)&((AkaoSequencerState *)track)->secondary.pitch_current = start;
             raw = arg0[3];
             raw &= 0x7F;
             delta = raw << 16;
             delta -= start;
             delta = delta / duration;
             base = g_AkaoVoiceStateTable2Bytes;
-            *(u16 *)(track + 0xB8) = duration;
-            next_track = track + 0x68;
+            ((AkaoSequencerState *)track)->secondary.pitch_slide_duration = duration;
+            next_track = track + 1;
             g_AkaoCurTrack = (AkaoSequencerBank *)next_track;
-            *(int *)(track + 0xB4) = delta;
+            *(int *)&((AkaoSequencerState *)track)->secondary.pitch_delta = delta;
             Seq_MarkDirtyTracks(base);
             g_AkaoCurTrack--;
         }
