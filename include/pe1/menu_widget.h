@@ -51,6 +51,7 @@ typedef struct MenuWidgetSavedLayout {
     s8 cursorX, cursorY, scrollY, reserved;
 } MenuWidgetSavedLayout;
 PE1_STATIC_ASSERT(sizeof(MenuWidgetSavedLayout) == 4, menu_widget_saved_layout_size);
+extern MenuWidgetSavedLayout g_MenuWidgetColumnLayoutTable[];
 
 MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *parent, MenuWidgetNode *attachTo);
 

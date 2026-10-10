@@ -217,8 +217,6 @@ void MenuWidget_InitPool(void) {
 void Draw_PushPrimToList(void *arg0);
 
 extern int g_DrawTextDimmed;
-extern int g_TextCursorX;
-extern int g_TextCursorY;
 extern int g_DrawTextBoxWidth;
 
 int g_TextCursorX;
@@ -1199,9 +1197,7 @@ void Draw_SetPrimCallback(MenuWidgetNode *arg0, s32 arg1) {
 #include "pe1/menu_widget.h"
 
 int g_MenuWidgetColumnLayoutMode;
-extern MenuWidgetSavedLayout g_MenuWidgetColumnLayoutTable[];
 void bzero(void *ptr, int size);
-extern int g_DrawTextPosX;
 
 /* Saved cursor/scroll positions of menu widgets (one 4-byte slot per
  * aux_index): reset, mode, save and restore. Sys_InitStateBuffer (historical
@@ -1320,13 +1316,12 @@ void MenuWidget_ClearColumnLayout(MenuWidgetNode *node) {
 }
 
 void MenuWidget_DrawCenteredText(u8 *text) {
-    Draw_PrintCenteredTextInWidth(text, g_DrawTextPosX);
+    Draw_PrintCenteredTextInWidth(text, D_8009D164);
 }
 
 #include "pe1/draw_state.h"
 #include "pe1/text.h"
 
-extern int D_8009D164;
 
 void MenuWidget_DrawCenteredTableText(int text_id) {
     Draw_PrintCenteredTextInWidth(Str_LookupTable4(text_id), D_8009D164);
@@ -1334,8 +1329,6 @@ void MenuWidget_DrawCenteredTableText(int text_id) {
 
 
 #include "pe1/draw_state.h"
-extern int D_8009D164;
-extern int D_8009D168;
 
 void Draw_AllocColorTri(int width, int height, int arg2);
 
@@ -1354,7 +1347,6 @@ void Draw_DropShadow(void) {
 
 #include "pe1/menu_inventory.h"
 
-MenuWidgetNode *g_MenuWidgetActiveListHead;
 MenuWidgetNode *g_MenuWidgetFreeListHead;
 
 
@@ -1428,7 +1420,6 @@ void MenuWidget_DestroyPopupNode(MenuWidgetNode *node) {
 #include "pe1/textbox.h"
 #include "pe1/psyq_cd.h"
 
-MenuWidgetNode *g_MenuWidgetActiveListHead, *g_MenuWidgetCurrentNode;
 int g_DrawColorSelect, g_DrawSpriteX, g_DrawSpriteY;
 int *g_TextCursorStack;
 
