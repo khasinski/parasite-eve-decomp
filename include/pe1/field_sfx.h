@@ -21,8 +21,19 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldSfxQueueEntry, actorSelector) == 4,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldSfxQueueEntry, taskValue) == 8,
                   field_sfx_value_offset);
 
+/* Script opcode operands point to the event type and two byte arguments. */
+typedef struct FieldSfxScriptArgs {
+    const FieldSfxU16 *typeId;
+    const FieldSfxU8 *subId;
+    const FieldSfxU8 *taskArgument;
+} FieldSfxScriptArgs;
+PE1_STATIC_ASSERT(sizeof(FieldSfxScriptArgs) == 12, field_sfx_script_args_size);
+
 extern FieldActor *g_FieldActorListHead;
 void Scene_UpdateEntityList(void);
+void Task_ClearSfxTable(void);
+void Task_QueueFieldSfx(int taskArgument, int subId, int typeId,
+                        int taskValue, int actorSelector);
 
 extern FieldSfxU8 g_FieldSfxQueueCount;
 extern FieldSfxQueueEntry g_FieldSfxQueue[28];

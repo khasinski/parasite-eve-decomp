@@ -8,6 +8,7 @@
 #include "common.h"
 #include "../../../tools/m2c/m2c_macros.h"
 #include "pe1/font.h"
+#include "pe1/field_sfx.h"
 
 void Render_ResetScene(int arg0, int arg1);
 void InitGeom(void);
@@ -40,7 +41,6 @@ M2C_UNK SsInit();
 void Menu_SetEquipSlotIndex(int index);
 void Boot_BuildRenderFlagTable(void);
 M2C_UNK Save_PostInitStub();
-M2C_UNK Task_ClearSfxTable();
 M2C_UNK CdRom_InitScreenState();
 M2C_UNK Task_InitGpuHwRegs();
 extern int g_ActiveDrawSlot;
