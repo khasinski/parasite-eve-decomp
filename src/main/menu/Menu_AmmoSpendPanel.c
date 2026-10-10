@@ -3,7 +3,7 @@
 #include "pe1/menu_inventory.h"
 #include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #include "include_asm.h"
 
@@ -26,13 +26,13 @@ int Menu_AmmoSpendInputHandler(s32 arg0, s32 arg1);
 void Menu_DrawAmmoSpendPanel(void);
 
 void Menu_CreateAmmoSpendPanel(s32 parent) {
-    void *node;
+    MenuWidgetNode *node;
     void *item;
 
     node = MenuWidget_CreateSimpleNode(0x3E, parent, 0, 1);
-    M2C_FIELD(node, void **, 0x2C) = Menu_AmmoSpendInputHandler;
-    M2C_FIELD(node, void **, 0x30) = Menu_DrawAmmoSpendPanel;
-    M2C_FIELD(node, s32 *, 0x28) = 1;
+    node->update = (void (*)())Menu_AmmoSpendInputHandler;
+    node->draw = Menu_DrawAmmoSpendPanel;
+    node->flags = 1;
     MenuWidget_SetCurrentNode(node);
     Inv_SelectActiveList(g_InvAmmoSpendActiveList);
     item = Inv_LookupActiveListData(g_InvSelectedItemIndex);
@@ -65,7 +65,7 @@ void Menu_CreateAmmoSpendPanel(s32 parent) {
 #undef ITEM_FIELD
 #include "common.h"
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
@@ -108,4 +108,18 @@ s32 Menu_AmmoSpendInputHandler(s32 arg0, s32 arg1) {
         Menu_PlayCancelSound();
     }
     return 1;
+}
+
+
+int g_MenuSpendArrowDirection;
+
+void Draw_OffsetCursor(int x, int y);
+void Draw_AllocSprite(int arg0);
+void Menu_DrawWeaponComparisonPanel(void);
+
+void Menu_DrawAmmoSpendPanel(void) {
+    Draw_OffsetCursor(0x3C, 0x12);
+    Draw_AllocSprite(g_MenuSpendArrowDirection + 0x4D);
+    Draw_OffsetCursor(-0x38, -0xE);
+    Menu_DrawWeaponComparisonPanel();
 }

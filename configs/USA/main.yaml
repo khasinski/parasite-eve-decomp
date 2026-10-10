@@ -407,9 +407,9 @@ segments:
       - [0x355CC, c, menu/Menu_ItemLabel]
       # Yes/no dialog handler, item detail panel step and the discard confirmation it opens (G0397).
       - [0x35698, c, menu/Menu_ItemDetailPanel]
-      # Ammo-spend panel construction and input share selection state.
+      # Ammo-spend panel construction, input and draw callback share selection
+      # state and a typed MenuWidgetNode under one matching -G8/common profile.
       - [0x359D0, c, menu/Menu_AmmoSpendPanel]
-      - [0x35BE8, c, menu/Menu_DrawAmmoSpendPanel]
       # Equip-item selection view construction and stat preview renderer.
       - [0x35C2C, c, menu/Menu_EquipItemSelectionFlow]
       - [0x3650C, c, menu/Menu_StepSkillScreen]
