@@ -3,13 +3,10 @@
 /* Adjacent field-actor query and distance routines share one compiled unit. */
 #define NULL ((void *)0)
 #include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 
-extern FieldActor *g_FieldActorListHead[];
-#define g_FieldActorListHead (g_FieldActorListHead[0])
-extern FieldActor *g_PlayerEntity[];
-#define g_PlayerEntity (g_PlayerEntity[0])
-extern FieldActor *g_CurrentEntity[];
-#define g_CurrentEntity (g_CurrentEntity[0])
+extern FieldActor *g_FieldActorListHead;
+extern FieldActor *g_CurrentEntity;
 
 /* Script op: look up an actor by (type id, sub id) script args and read one
  * of its fields into the out arg. args = script argument pointer array:
