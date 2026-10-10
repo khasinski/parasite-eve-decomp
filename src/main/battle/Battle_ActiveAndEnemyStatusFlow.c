@@ -122,7 +122,7 @@ void Battle_DrawActiveStatus(void)
             background = (RenderColorTilePacket *)(base + index * 0x18);
             backgroundHeight = D_8009CE84_active_view;
             background->x0 = backgroundHeight;
-            asm("" : : "r"(background) : "memory");
+            asm("" : : : "memory");
             backgroundY = D_8009CE86;
             backgroundHeight = 0x54;
             background->w = backgroundHeight;
@@ -136,11 +136,11 @@ void Battle_DrawActiveStatus(void)
             background = (RenderColorTilePacket *)(base + index * 0x18);
             backgroundHeight = D_8009CE84_active_view;
             background->x0 = backgroundHeight;
-            asm("" : : "r"(background) : "memory");
+            asm("" : : : "memory");
             backgroundY = D_8009CE86;
             backgroundHeight = 0x54;
             background->w = backgroundHeight;
-            asm("" : : "r"(background) : "memory");
+            asm("" : : : "memory");
             backgroundHeight = 0x19;
             background->h = backgroundHeight;
             backgroundY += 7;
@@ -153,7 +153,7 @@ void Battle_DrawActiveStatus(void)
         background = (RenderColorTilePacket *)(base + index * 0x18);
         backgroundHeight = D_8009CE84_active_view;
         background->x0 = backgroundHeight;
-        asm("" : : "r"(background) : "memory");
+        asm("" : : : "memory");
         backgroundY = D_8009CE86;
         backgroundHeight = 0x54;
         background->w = backgroundHeight;
@@ -167,11 +167,11 @@ void Battle_DrawActiveStatus(void)
         background = (RenderColorTilePacket *)(base + index * 0x18);
         backgroundHeight = D_8009CE84_active_view;
         background->x0 = backgroundHeight;
-        asm("" : : "r"(background) : "memory");
+        asm("" : : : "memory");
         backgroundY = D_8009CE86;
         backgroundHeight = 0x54;
         background->w = backgroundHeight;
-        asm("" : : "r"(background) : "memory");
+        asm("" : : : "memory");
         backgroundHeight = 0x12;
         background->h = backgroundHeight;
         backgroundY += 7;
