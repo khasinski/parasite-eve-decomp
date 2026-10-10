@@ -158,7 +158,7 @@ success:
 
 extern int g_RenderStateFlags[];
 extern int g_SceneDataTable0;
-extern int *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 
 int Boot_CheckModeSwitch(void) {
     int mode = g_RenderStateFlags[0] & 7;
@@ -176,10 +176,10 @@ ret_one:
 pop_state:
     {
         int cursor = g_SceneDataTable0;
-        int *node = g_TaskNodePool;
+        TaskNode *node = g_TaskNodePool;
         cursor -= 8;
         g_SceneDataTable0 = cursor;
-        node[4] = 1;
+        node->active = 1;
         return 0;
     }
 }

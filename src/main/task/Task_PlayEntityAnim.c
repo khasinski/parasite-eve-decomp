@@ -2,19 +2,18 @@
 #include "pe1/field_actor.h"
 #include "pe1/global_slot.h"
 #include "pe1/task_node.h"
+#include "pe1/render_setup.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern FieldActor *current_entity_wait[] __asm__("D_8009D2F0");
-extern FieldActor *current_entity_start[] __asm__("D_8009D2F0");
+extern FieldActor *D_8009D2F0[];
+/* The post-call view still preserves a separate matching address reload. */
 extern FieldActor *current_entity_post[] __asm__("D_8009D2F0");
 extern FieldActor *g_PlayerEntity[] __asm__("D_8009D254");
 extern Pe1GlobalSlot entity_control_load __asm__("D_8009D2E8");
 extern Pe1GlobalSlot entity_control_store __asm__("D_8009D2E8");
 extern s16 *g_ScriptCursor __asm__("D_8009CE00");
 extern RenderObjectEntity D_800B0CEC;
-
-void Anim_SetInterpRate(RenderObjectEntity *object, int rate);
 
 int Task_PlayEntityAnim(s16 **args) {
     TaskNode *task_state;
@@ -27,12 +26,12 @@ int Task_PlayEntityAnim(s16 **args) {
     task_state = D_8009D300;
     progress = task_state->flags;
     if (progress & 0x20) {
-        if (!(current_entity_wait[0]->render_object.flags_9C & 4)) {
+        if (!(D_8009D2F0[0]->render_object.flags_9C & 4)) {
             task_state->flags = progress & ~0x20;
             return 1;
         }
     } else {
-        actor = current_entity_start[0];
+        actor = D_8009D2F0[0];
         actor->flags &= ~0x40;
         task_state->flags |= 0x20;
         Anim_SetInterpRate(&actor->render_object, *args[0]);
