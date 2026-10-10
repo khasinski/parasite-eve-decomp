@@ -23,7 +23,7 @@ void Draw_SetPrimCallback(MenuWidgetNode *arg0, s32 arg1) {
     if (arg0->grid_width == 2) {
         var_a2 = arg1 & 1;
     }
-    __asm__ volatile("" : : : "memory");
+    __asm__ volatile("" : "=m"(arg0->y_limit) : "m"(arg0->y_limit));
     t48 = arg0->cursor_y;
     temp_v1_2 = arg0->y_limit;
     arg0->has_scroll = var_a2;
