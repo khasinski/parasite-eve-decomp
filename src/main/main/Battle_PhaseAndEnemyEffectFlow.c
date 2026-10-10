@@ -246,7 +246,6 @@ block_35:
                 M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) | 0x200000);
                 return;
             }
-            goto block_39;
         }
 block_39:
         Pm_StopAll();

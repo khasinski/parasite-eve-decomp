@@ -167,7 +167,6 @@ void Battle_StepEnemyMovement(BattleEntity *entity)
                                         Entity_SetActionMode(callEntity, (s8)mode & 0xFFFF);
                                     }
                                 }
-                                goto scaleResistance;
                             }
                         }
                     }
