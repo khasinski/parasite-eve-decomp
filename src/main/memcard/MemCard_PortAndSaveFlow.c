@@ -1055,7 +1055,7 @@ void Save_StartWriteSlot(int port, int arg_slot) {
         path = D_8009EE70;
         state->selectedSlot = slot;
         /* Preserve the order of the two metadata stores. */
-        asm volatile("" : : : "memory");
+        asm volatile("" : "=m"(state->selectedSlot) : "m"(state->selectedSlot));
         state->sequence = next_sequence;
     }
 
