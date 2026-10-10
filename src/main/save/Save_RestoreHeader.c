@@ -1,9 +1,9 @@
 #include "common.h"
+#include "pe1/inventory_category.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 extern u16 D_800C1EAC[];
-extern u16 D_800A1E6E[];
 extern struct { char _[16]; } D_800C0DE8_o __asm__("D_800C0DE8");
 extern struct { char _[16]; } D_800C0DEC_o __asm__("D_800C0DEC");
 extern u8 D_800C0DFD_action[] __asm__("D_800C0DFD");
@@ -42,7 +42,7 @@ void Save_RestoreHeader(void) {
     src = D_800C1EAC;
     offset = 0;
     while (i < 6) {
-        *(u16 *)((u8 *)D_800A1E6E + offset) = *src++;
+        ((InventoryCategoryState *)((u8 *)g_InvCategoryItemTable + offset))->count = *src++;
         i++;
         offset += 0x20;
     }
