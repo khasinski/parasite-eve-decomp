@@ -31,7 +31,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpritePacket, width) == 16, render_sprite_w
  * The active draw slot selects one of the two ordering/packet buffers.
  * Six unrelated buffer pointers separate the two pairs. */
 typedef struct RenderBufferPrefix {
-    char *ordering[2];
+    u32 *ordering[2];
     char *other_buffers[6];
     char *packets[2];
 } RenderBufferPrefix;

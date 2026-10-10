@@ -42,7 +42,7 @@ void func_800DB25C(GteShortVector *position, int x, int y, int angle,
     line->r = r; line->g = g; line->b = b; \
     line->x0 = a.x; line->y0 = a.y; \
     line->x1 = z.x; line->y1 = z.y; \
-    func_800CF6F8(D_800B0E38.ordering[D_8009CDDC] + 16, line, depth)
+    func_800CF6F8(D_800B0E38.ordering[D_8009CDDC] + 4, line, depth)
     EDGE(p0, p1);
     line++;
     EDGE(p1, p2);

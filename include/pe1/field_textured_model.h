@@ -144,7 +144,7 @@ typedef struct FieldModelScratch {
 
 /* Ordering-table entry `depth` of the active buffer. */
 #define TEXTURED_MODEL_OT(depth) \
-    ((RenderGpuTag *)(D_800B0E38.ordering[D_8009CDDC] + (depth) * 4))
+    ((RenderGpuTag *)(D_800B0E38.ordering[D_8009CDDC] + (depth)))
 
 extern u16 D_800F346C;
 extern u16 D_800F3414;

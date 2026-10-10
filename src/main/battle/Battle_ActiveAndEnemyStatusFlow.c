@@ -82,10 +82,10 @@ void Battle_DrawActiveStatus(void)
         atbLabel = (volatile RenderSpritePacket *)(void *)(spriteOffset + D_8009E0C0);
         atbLabel->x = (s16) (D_8009CE84_active_view + 0x44);
         atbLabel->y = (s16) (D_8009CE86 + 3);
-        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 0x18), atbTrack);
-        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 0x14), (D_8009CDDC * 0x24) + D_800B00E8);
-        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 0x10), (D_8009CDDC * 0x1C) + (D_800B6928 - 8));
-        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 0x10), (D_8009CDDC * 0x1C) + (D_8009E0C0 - 8));
+        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 6), atbTrack);
+        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 5), (D_8009CDDC * 0x24) + D_800B00E8);
+        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 4), (D_8009CDDC * 0x1C) + (D_800B6928 - 8));
+        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 4), (D_8009CDDC * 0x1C) + (D_8009E0C0 - 8));
     }
     if (Menu_GetItemContextFlag() & 2)
     {
@@ -112,9 +112,9 @@ void Battle_DrawActiveStatus(void)
         peRemainder->y3 = (s16) (D_8009CE86 + 0x1C);
         peLabel->x = (s16) (D_8009CE84_active_view + 0x44);
         peLabel->y = (s16) (D_8009CE86 + 0x18);
-        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 0x14), peFill);
-        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 0x14), (D_8009CDDC * 0x48) + peRemainderBase);
-        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 0x10), (D_8009CDDC * 0x1C) + (D_8009E328 - 8));
+        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 5), peFill);
+        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 5), (D_8009CDDC * 0x48) + peRemainderBase);
+        AddPrim((u32 *) (D_800B0E38.ordering[D_8009CDDC] + 4), (D_8009CDDC * 0x1C) + (D_8009E328 - 8));
         if (D_8009D1A0 & 2)
         {
             register s32 index asm("$3") = D_8009CDDC;
@@ -179,7 +179,7 @@ void Battle_DrawActiveStatus(void)
     background->y0 = backgroundY;
     {
         register s32 lastIndex asm("$2") = D_8009CDDC;
-        AddPrim((u32 *)(D_800B0E38.ordering[lastIndex] + 0x1C), lastIndex * 0x18 + D_8009E068);
+        AddPrim((u32 *)(D_800B0E38.ordering[lastIndex] + 7), lastIndex * 0x18 + D_8009E068);
     }
     Battle_DrawEnemyHP((s16) D_8009D278->maxHP, (s16) D_8009D278->curHP);
     Gpu_DrawStatusIcons();
@@ -388,6 +388,6 @@ void Battle_DrawEnemyHP(s16 maximum, s16 current)
         label = (RenderSpritePacket *)(labelOffset + D_8009E2F0);
         label->x = (s16) (D_8009CE84 + 0x44);
         label->y = (s16) (D_8009CE86 + 0xE);
-        AddPrim((u32 *) (D_800B0E38.ordering[frame] + 0x10), (u32 *)(labelOffset + (D_8009E2F0 - 8)));
+        AddPrim((u32 *) (D_800B0E38.ordering[frame] + 4), (u32 *)(labelOffset + (D_8009E2F0 - 8)));
     }
 }

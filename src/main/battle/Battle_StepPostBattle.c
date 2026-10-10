@@ -257,6 +257,6 @@ void Battle_StepPostBattle(void)
         Sys_Shutdown();
         break;
     }
-    AddPrim((u32 *)(D_800B0E38.ordering[D_8009CDDC] + 0x10),
+    AddPrim((u32 *)(D_800B0E38.ordering[D_8009CDDC] + 4),
     (u32 *)&D_800BE9F0[D_8009CDDC]);
 }
