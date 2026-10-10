@@ -91,7 +91,7 @@ extern u16 D_8009CE1C, D_8009CE20, D_8009CE24, D_8009CE28;
 /* One bit per triangle already visited by the floor search. */
 extern u32 D_8009DFB0[];
 int Geo_PointInTri(void *triangle, s16 x, s16 z);
-void *Geo_ClipToFloorBoundarySub(u16 *triangle, void *previous, s16 x0, s16 z0,
+void *Geo_ClipToFloorBoundarySub(void *triangle, void *previous, s16 x0, s16 z0,
                                  s16 x1, s16 z1);
 
 PE1_STATIC_ASSERT(sizeof(CollisionVertexXZ) == 4, collision_vertex_xz_size);

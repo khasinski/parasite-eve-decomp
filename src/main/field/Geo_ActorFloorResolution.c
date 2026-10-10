@@ -636,7 +636,7 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, void *triangle)
  * (x0, z0)-(x1, z1) into neighbouring triangles, never stepping back into
  * `previous`, until one contains the start point. Returns that triangle or
  * 0 when the segment leaves the walkable mesh. */
-void *Geo_ClipToFloorBoundarySub(u16 *indices, void *previous, s16 x0, s16 z0,
+void *Geo_ClipToFloorBoundarySub(void *triangle, void *previous, s16 x0, s16 z0,
                                  s16 x1, s16 z1)
 {
     int deltaX, deltaZ;
@@ -664,13 +664,13 @@ void *Geo_ClipToFloorBoundarySub(u16 *indices, void *previous, s16 x0, s16 z0,
     if (D_8009D1D8) {
         CollisionVertexTable vertex;
 
-        COLLISION_VERTEX(vertex, indices[6], CollisionVertexXYZ);
+        COLLISION_VERTEX(vertex, ((CollisionTriangleXYZ *)triangle)->layout.links.vertices[2], CollisionVertexXYZ);
         nextX = vertex.xyz->x;
         nextZ = vertex.xyz->z;
     } else {
         CollisionVertexTable vertex;
 
-        COLLISION_VERTEX(vertex, indices[3], CollisionVertexXZ);
+        COLLISION_VERTEX(vertex, ((CollisionTriangleXZ *)triangle)->layout.links.vertices[2], CollisionVertexXZ);
         nextX = vertex.xz->x;
         nextZ = vertex.xz->z;
     }
@@ -684,13 +684,13 @@ void *Geo_ClipToFloorBoundarySub(u16 *indices, void *previous, s16 x0, s16 z0,
         if (D_8009D1D8) {
             CollisionVertexTable vertex;
 
-            COLLISION_VERTEX(vertex, indices[edge + 4], CollisionVertexXYZ);
+            COLLISION_VERTEX(vertex, ((CollisionTriangleXYZ *)triangle)->layout.links.vertices[edge], CollisionVertexXYZ);
             nextX = vertex.xyz->x;
             nextZ = vertex.xyz->z;
         } else {
             CollisionVertexTable vertex;
 
-            COLLISION_VERTEX(vertex, indices[edge + 1], CollisionVertexXZ);
+            COLLISION_VERTEX(vertex, ((CollisionTriangleXZ *)triangle)->layout.links.vertices[edge], CollisionVertexXZ);
             nextX = vertex.xz->x;
             nextZ = vertex.xz->z;
         }
@@ -735,22 +735,22 @@ void *Geo_ClipToFloorBoundarySub(u16 *indices, void *previous, s16 x0, s16 z0,
             continue;
 
         if (!D_8009D1D8) {
-            neighbour = &D_8009D1FC->triangles.xz[indices[edge + 7]];
+            neighbour = &D_8009D1FC->triangles.xz[((CollisionTriangleXZ *)triangle)->layout.links.neighbours[edge]];
             if (neighbour == previous)
                 continue;
             if (Geo_PointInTri(neighbour, x0, z0))
                 return neighbour;
-            neighbour = Geo_ClipToFloorBoundarySub(neighbour, indices, x0, z0,
+            neighbour = Geo_ClipToFloorBoundarySub(neighbour, triangle, x0, z0,
                                                    x1, z1);
             if (neighbour)
                 return neighbour;
         } else {
-            neighbour = &D_8009D1FC->triangles.xyz[indices[edge + 10]];
+            neighbour = &D_8009D1FC->triangles.xyz[((CollisionTriangleXYZ *)triangle)->layout.links.neighbours[edge]];
             if (neighbour == previous)
                 continue;
             if (Geo_PointInTri(neighbour, x0, z0))
                 return neighbour;
-            neighbour = Geo_ClipToFloorBoundarySub(neighbour, indices, x0, z0,
+            neighbour = Geo_ClipToFloorBoundarySub(neighbour, triangle, x0, z0,
                                                    x1, z1);
             if (neighbour)
                 return neighbour;
@@ -761,7 +761,6 @@ void *Geo_ClipToFloorBoundarySub(u16 *indices, void *previous, s16 x0, s16 z0,
 
 int Geo_PointInTri(void *triangle, s16 x, s16 z)
 {
-    u16 *indices = triangle;
     u16 nextX, nextZ, previousX, previousZ;
     unsigned edge;
     unsigned inside;
@@ -769,13 +768,13 @@ int Geo_PointInTri(void *triangle, s16 x, s16 z)
     if (D_8009D1D8) {
         CollisionVertexTable vertex;
 
-        COLLISION_VERTEX(vertex, indices[6], CollisionVertexXYZ);
+        COLLISION_VERTEX(vertex, ((CollisionTriangleXYZ *)triangle)->layout.links.vertices[2], CollisionVertexXYZ);
         nextZ = vertex.xyz->z;
         nextX = vertex.xyz->x;
     } else {
         CollisionVertexTable vertex;
 
-        COLLISION_VERTEX(vertex, indices[3], CollisionVertexXZ);
+        COLLISION_VERTEX(vertex, ((CollisionTriangleXZ *)triangle)->layout.links.vertices[2], CollisionVertexXZ);
         nextZ = vertex.xz->z;
         nextX = vertex.xz->x;
     }
@@ -788,13 +787,13 @@ int Geo_PointInTri(void *triangle, s16 x, s16 z)
         if (D_8009D1D8) {
             CollisionVertexTable vertex;
 
-            COLLISION_VERTEX(vertex, indices[edge + 4], CollisionVertexXYZ);
+            COLLISION_VERTEX(vertex, ((CollisionTriangleXYZ *)triangle)->layout.links.vertices[edge], CollisionVertexXYZ);
             nextZ = vertex.xyz->z;
             nextX = vertex.xyz->x;
         } else {
             CollisionVertexTable vertex;
 
-            COLLISION_VERTEX(vertex, indices[edge + 1], CollisionVertexXZ);
+            COLLISION_VERTEX(vertex, ((CollisionTriangleXZ *)triangle)->layout.links.vertices[edge], CollisionVertexXZ);
             nextZ = vertex.xz->z;
             nextX = vertex.xz->x;
         }
