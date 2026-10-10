@@ -5,13 +5,7 @@
 #include "pe1/render_object.h"
 
 /* Matching debt: pins, empty barriers, volatile accesses, raw-offset
- * accessors and an artificial two-word local frame reservation. */
-
-#define S8_AT(ptr, off) (*(s8 *)((u8 *)(ptr) + (off)))
-#define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
-#define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
-#define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
-#define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
+ * model-section accessors and an artificial two-word local frame reservation. */
 
 #define Render_XformLoadRotMatrix(matrix) gte_ldrotmatrix((matrix))
 
@@ -48,7 +42,7 @@
     {                                                                                              \
         Render_XformLoadAxis(src); \
         *zero8 =                                                                                   \
-            ((RenderObjectPart *)((RenderObjectEntity *)actor)->parts)[command].translation_z; \
+            ((RenderObjectPart *)actor->parts)[command].translation_z; \
         Render_XformStoreAxis(dst); \
     }
 
@@ -86,7 +80,7 @@
         }                                                                                          \
         {                                                                                          \
             u16 *packed;                                                        \
-            if (S8_AT(commands, 0) == 0) {                                                         \
+            if (*commands == 0) {                                                         \
                 packed = (u16 *)((s32 *)(src) + 5);                                                \
                 \
                 gte_ldlv0(packed);                                                                 \
@@ -107,110 +101,110 @@
         gte_stsv((dst));                                                                           \
     }
 
-#define Render_XformCopyMatrixFromActor(actor)                                                     \
-    {                                                                                              \
-        u8 *matrix;                                                             \
-        u32 value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[0][0];                  \
-        U16_AT(matrix, 0x20) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[0][1];                  \
-        U16_AT(matrix, 0x22) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[0][2];                  \
-        U16_AT(matrix, 0x24) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[1][0];                  \
-        U16_AT(matrix, 0x26) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[1][1];                  \
-        U16_AT(matrix, 0x28) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[1][2];                  \
-        U16_AT(matrix, 0x2a) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[2][0];                  \
-        U16_AT(matrix, 0x2c) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[2][1];                  \
-        U16_AT(matrix, 0x2e) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[2][2];                  \
-        U16_AT(matrix, 0x30) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = ((RenderObjectEntity *)(actor))->model_matrix.translation[0];                      \
-        U32_AT(matrix, 0x34) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = ((RenderObjectEntity *)(actor))->model_matrix.translation[1];                      \
-        U32_AT(matrix, 0x38) = value;                                                              \
-        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
-        value = ((RenderObjectEntity *)(actor))->model_matrix.translation[2];                      \
-        U32_AT(matrix, 0x3c) = value;                                                              \
+#define Render_XformCopyMatrixFromActor(actor)                                               \
+    {                                                                                        \
+        RenderMatrix *matrix;                                                                \
+        u32 value;                                                                           \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[0][0];                                   \
+        matrix[1].rotation[0][0] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[0][1];                                   \
+        matrix[1].rotation[0][1] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[0][2];                                   \
+        matrix[1].rotation[0][2] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[1][0];                                   \
+        matrix[1].rotation[1][0] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[1][1];                                   \
+        matrix[1].rotation[1][1] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[1][2];                                   \
+        matrix[1].rotation[1][2] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[2][0];                                   \
+        matrix[1].rotation[2][0] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[2][1];                                   \
+        matrix[1].rotation[2][1] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (u16)(actor)->model_matrix.rotation[2][2];                                   \
+        matrix[1].rotation[2][2] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (actor)->model_matrix.translation[0];                                        \
+        matrix[1].translation[0] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (actor)->model_matrix.translation[1];                                        \
+        matrix[1].translation[1] = value;                                                    \
+        matrix = (actor)->matrices;                                                          \
+        value = (actor)->model_matrix.translation[2];                                        \
+        matrix[1].translation[2] = value;                                                    \
     }
 
-#define Render_XformUpdateMode4Matrix(actor)                                                       \
-    {                                                                                              \
-        register u8 *parent asm("$3");                                                             \
-        s32 *parent_matrix;                                                     \
-        s32 *actor_matrix;                                                      \
-        s32 bone_index;                                                         \
-                                                                                                   \
-        parent = PTR_AT((actor), 0x24);                                                            \
-        bone_index = S16_AT((actor), 0x2A);                                                        \
-        parent_matrix = (s32 *)(PTR_AT(parent, 0x84) + bone_index * 0x20);                         \
-        actor_matrix = (s32 *)((actor) + 0x34);                                                    \
-                                                                                                   \
-        \
-         \
-        Render_XformLoadRotMatrix(parent_matrix);                                                  \
-        \
-        {                                                                                          \
-            u16 *column = (u16 *)((actor) + 0x34);                              \
-            \
-            \
-            Render_XformLoadAxis(column);                                                          \
-            Render_XformStoreAxis((s16 *)column);                                                  \
-        }                                                                                          \
-        {                                                                                          \
-            u16 *column = (u16 *)((actor) + 0x36);                              \
-            \
-            \
-            Render_XformLoadAxis(column);                                                          \
-            Render_XformStoreAxis((s16 *)column);                                                  \
-        }                                                                                          \
-        {                                                                                          \
-            u16 *column = (u16 *)((actor) + 0x38);                              \
-            \
-            \
-            Render_XformLoadAxis(column);                                                          \
-            Render_XformStoreAxis((s16 *)column);                                                  \
-        }                                                                                          \
-        parent = PTR_AT(actor, 0x24);                                                              \
-        bone_index = S16_AT(actor, 0x2A);                                                          \
-        parent_matrix = (s32 *)(PTR_AT(parent, 0x84) + bone_index * 0x20);                         \
-         \
-        Render_XformLoadTrans(parent_matrix);                                                      \
-        {                                                                                          \
-            u16 *packed = (u16 *)((actor) + 0x48);                              \
-            \
-            gte_ldlv0(packed);                                                                     \
-            gte_rt();                                                                              \
-            gte_stlvl(packed);                                                                     \
-        }                                                                                          \
+#define Render_XformUpdateMode4Matrix(actor)                                                 \
+    {                                                                                        \
+        register RenderObjectEntity *parent asm("$3");                                       \
+        s32 *parent_matrix;                                                                  \
+        s32 *actor_matrix;                                                                   \
+        s32 bone_index;                                                                      \
+                                                                                             \
+        parent = (actor)->animation_source;                                                  \
+        bone_index = (actor)->animation_id;                                                  \
+        parent_matrix = (s32 *)&parent->matrices[bone_index];                                \
+        actor_matrix = (s32 *)(&(actor)->model_matrix.rotation[0][0]);                       \
+                                                                                             \
+                                                                                             \
+                                                                                             \
+        Render_XformLoadRotMatrix(parent_matrix);                                            \
+                                                                                             \
+        {                                                                                    \
+            u16 *column = (u16 *)(&(actor)->model_matrix.rotation[0][0]);                    \
+                                                                                             \
+                                                                                             \
+            Render_XformLoadAxis(column);                                                    \
+            Render_XformStoreAxis((s16 *)column);                                            \
+        }                                                                                    \
+        {                                                                                    \
+            u16 *column = (u16 *)(&(actor)->model_matrix.rotation[0][1]);                    \
+                                                                                             \
+                                                                                             \
+            Render_XformLoadAxis(column);                                                    \
+            Render_XformStoreAxis((s16 *)column);                                            \
+        }                                                                                    \
+        {                                                                                    \
+            u16 *column = (u16 *)(&(actor)->model_matrix.rotation[0][2]);                    \
+                                                                                             \
+                                                                                             \
+            Render_XformLoadAxis(column);                                                    \
+            Render_XformStoreAxis((s16 *)column);                                            \
+        }                                                                                    \
+        parent = actor->animation_source;                                                    \
+        bone_index = actor->animation_id;                                                    \
+        parent_matrix = (s32 *)&parent->matrices[bone_index];                                \
+                                                                                             \
+        Render_XformLoadTrans(parent_matrix);                                                \
+        {                                                                                    \
+            u16 *packed = (u16 *)(&(actor)->model_matrix.translation[0]);                    \
+                                                                                             \
+            gte_ldlv0(packed);                                                               \
+            gte_rt();                                                                        \
+            gte_stlvl(packed);                                                               \
+        }                                                                                    \
     }
 
 void Render_TransformVertices(RenderObjectEntity *input) {
-    u8 *actor = (u8 *)input;
+    RenderObjectEntity *actor = input;
     s32 *zero0 = (s32 *)0x1F800000;
     s32 *zero4 = (s32 *)0x1F800004;
     s32 *zero8 = (s32 *)0x1F800008;
     s32 *matrix_stack = (s32 *)0x1F80000C;
     register s32 *stack_top asm("$17");
-    u8 *commands;
-    u8 *out_matrix;
-    u8 *out_vertices;
-    u8 *header;
+    s8 *commands;
+    RenderMatrix *out_matrix;
+    RenderAnimationLookupEntry *out_vertices;
+    RenderObjectHeader *header;
     s32 *current_matrix;
     s32 *src_matrix;
     u32 frameReserve[2];
@@ -219,41 +213,41 @@ void Render_TransformVertices(RenderObjectEntity *input) {
     s32 i;
     s32 command;
 
-    mode = S16_AT(actor, 0x28);
+    mode = actor->animation_state;
     if (mode == 1) {
-        Render_CopyFrameData(input, ((RenderObjectEntity *)actor)->animation_source,
-                             ((RenderObjectEntity *)actor)->animation_id);
-        current_matrix = (s32 *)(actor + 0x34);
+        Render_CopyFrameData(input, actor->animation_source,
+                             actor->animation_id);
+        current_matrix = (s32 *)(&actor->model_matrix);
     } else if (mode == 3) {
-        if ((U16_AT(actor, 0x9C) & 0x400) != 0) {
+        if ((actor->flags_9C & 0x400) != 0) {
             Render_XformCopyMatrixFromActor(actor);
         } else {
-            Render_CopyFrameDataDouble((RenderObjectEntity *)actor,
-                                       ((RenderObjectEntity *)actor)->animation_source,
-                                       ((RenderObjectEntity *)actor)->animation_id);
+            Render_CopyFrameDataDouble(actor,
+                                       actor->animation_source,
+                                       actor->animation_id);
         }
         return;
     } else {
         if (mode == 4) {
             Render_XformUpdateMode4Matrix(actor);
         }
-        current_matrix = (s32 *)(actor + 0x34);
+        current_matrix = (s32 *)(&actor->model_matrix);
     }
 
     *zero0 = 0;
     *zero4 = 0;
     stack_top = matrix_stack;
-    out_matrix = (u8 *)((RenderObjectEntity *)actor)->matrices;
-    commands = (u8 *)((RenderObjectEntity *)actor)->matrix_commands;
-    out_vertices = PTR_AT(actor, 0x80);
+    out_matrix = actor->matrices;
+    commands = actor->matrix_commands;
+    out_vertices = actor->animation_entries;
 
     Render_XformLoadFullMatrix(current_matrix);
-    header = PTR_AT(actor, 0);
-    part_count = U16_AT(header, 0x18);
+    header = actor->header;
+    part_count = header->matrix_command_bytes;
     i = 0;
     if (part_count > 0) {
         do {
-            command = S8_AT(commands, 0);
+            command = *commands;
             if (command == -1) {
                 Render_XformStoreFullMatrix(stack_top);
                 stack_top += 8;
@@ -267,33 +261,31 @@ void Render_TransformVertices(RenderObjectEntity *input) {
             }
 
             {
-                s32 byteOffset = command * 0x20;
-                u8 *matrixBase = PTR_AT(actor, 0x58);
-                src_matrix = (s32 *)(matrixBase + byteOffset);
+                src_matrix = (s32 *)&actor->active_matrix[command];
             }
             Render_XformBuildChildMatrix(src_matrix, (s32 *)out_matrix, command == 0);
 
             Render_XformLoadFullMatrix((s32 *)out_matrix);
-            out_matrix += 0x20;
+            out_matrix++;
             {
-                s32 visibleCommand = S8_AT(commands, 0);
-                RenderObjectPart *parts = ((RenderObjectEntity *)actor)->parts;
+                s32 visibleCommand = *commands;
+                RenderObjectPart *parts = actor->parts;
                 s32 partOffset = visibleCommand * 12;
                 RenderObjectPart *part =
                     (RenderObjectPart *)(partOffset + (u32)parts);
                 if (part->visible == 1) {
                     RenderVec3s *base =
-                        ((RenderObjectEntity *)actor)->bounds_vertices;
+                        actor->bounds_vertices;
                     s32 boundsOffset = visibleCommand * 16;
                     RenderVec3s *bounds =
                         (RenderVec3s *)(boundsOffset + (u32)base);
                     if (bounds[1].pad >= 0) {
                         Render_XformTransformVector(bounds, out_vertices);
-                        out_vertices += 12;
+                        out_vertices++;
                     }
                 }
             }
-        } while (i++, commands++, i < U16_AT(PTR_AT(actor, 0), 0x18));
+        } while (i++, commands++, i < actor->header->matrix_command_bytes);
     }
 }
 
@@ -301,7 +293,6 @@ void Render_TransformVertices(RenderObjectEntity *input) {
  * accesses and native -G8 compiler/assembler addressing. GTE operations are
  * individually wrapped in the shared header. No CPU instruction ASM. */
 
-#define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
 
 #define Render_SkinnedLoadRotMatrix(matrix) gte_ldrotmatrix((matrix))
