@@ -1,4 +1,4 @@
-#include "common.h"
+#include "pe1/draw_state.h"
 #include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -6,8 +6,6 @@
 extern int g_TextCursorX;
 extern int g_TextCursorY;
 extern int *g_TextCursorStackPtr;
-extern int g_TextCursorStackBottom[];
-extern int g_TextCursorStackTop[];
 extern int D_8009CDB0;
 extern int D_8009D0D8;
 extern int D_8009D138;
@@ -18,13 +16,13 @@ void Draw_AllocTexturedQuad(int glyph);
 
 #define PUSH_CURSOR()                                                      \
     do {                                                                   \
-        int *cursor = g_TextCursorStackPtr;                                \
+        DrawTextCursorPair *cursor = (DrawTextCursorPair *)g_TextCursorStackPtr;                                \
         if ((u32)cursor < (u32)g_TextCursorStackTop) {                     \
             int x = g_TextCursorX;                                         \
             int y = g_TextCursorY;                                         \
-            g_TextCursorStackPtr = cursor + 2;                             \
-            cursor[0] = x;                                                 \
-            cursor[1] = y;                                                 \
+            g_TextCursorStackPtr = (int *)(cursor + 1);                             \
+            cursor->x = x;                                                 \
+            cursor->y = y;                                                 \
         } else {                                                           \
             BoundsCheck_AssertStub(2);                                     \
         }                                                                  \
@@ -32,14 +30,14 @@ void Draw_AllocTexturedQuad(int glyph);
 
 #define PUSH_CURSOR2()                                     \
     do {                                                   \
-        int *cursor = g_TextCursorStackPtr;                \
+        DrawTextCursorPair *cursor = (DrawTextCursorPair *)g_TextCursorStackPtr;                \
         if ((u32)cursor < (u32)g_TextCursorStackTop) {     \
-            int *next = cursor + 2;                        \
+            DrawTextCursorPair *next = cursor + 1;                        \
             int x = g_TextCursorX;                         \
             int y = g_TextCursorY;                         \
-            cursor[0] = x;                                 \
-            cursor[1] = y;                                 \
-            g_TextCursorStackPtr = next;                   \
+            cursor->x = x;                                 \
+            cursor->y = y;                                 \
+            g_TextCursorStackPtr = (int *)next;                   \
         } else {                                           \
             BoundsCheck_AssertStub(2);                     \
         }                                                  \
@@ -47,12 +45,12 @@ void Draw_AllocTexturedQuad(int glyph);
 
 #define POP_CURSOR()                                       \
     do {                                                   \
-        int *cursor = g_TextCursorStackPtr;                \
+        DrawTextCursorPair *cursor = (DrawTextCursorPair *)g_TextCursorStackPtr;                \
                                                            \
         if ((u32)g_TextCursorStackBottom < (u32)cursor) {  \
-            g_TextCursorX = cursor[-2];                    \
-            g_TextCursorY = cursor[-1];                    \
-            g_TextCursorStackPtr = cursor - 2;             \
+            g_TextCursorX = cursor[-1].x;                    \
+            g_TextCursorY = cursor[-1].y;                    \
+            g_TextCursorStackPtr = (int *)(cursor - 1);             \
         } else {                                           \
             BoundsCheck_AssertStub(3);                     \
         }                                                  \
