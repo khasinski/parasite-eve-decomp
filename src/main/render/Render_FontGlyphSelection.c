@@ -9,8 +9,7 @@
 #include "pe1/psyq_libc.h"
 
 /* The slot-search tails store the selected byte and reload it through a
- * byte-array view of its own symbol after a memory barrier, as retail does. */
-extern u8 D_80091A1F_rd[] __asm__("D_80091A1F");
+ * byte symbol after a memory barrier, as retail does. */
 
 unsigned char Render_DrawTextDigit(FontGlyphTable *table, unsigned char mode)
 {
@@ -291,7 +290,7 @@ store:
         g_FontSelectionState.selected = slot;
     __asm__ volatile("" : "=m"(g_FontSelectionState) : "m"(g_FontSelectionState));
     result = g_FontSelectionState.table;
-    return result->groups.codes[result->slots.indices[D_80091A1F_rd[0]]];
+    return result->groups.codes[result->slots.indices[D_80091A1F]];
 }
 
 int Menu_GetEquipSlotStateOrIndex(void) {
@@ -341,7 +340,7 @@ u8 Render_FindFontGlyphSlot(void) {
     }
     slot = 0xFF;
 store:
-    D_80091A1F_rd[0] = slot;
+    D_80091A1F = slot;
     __asm__ volatile("" : "=m"(g_FontSelectionState) : "m"(g_FontSelectionState));
     result = g_FontSelectionState.table;
     return result->groups.codes[result->slots.indices[g_FontSelectionState.selected]];
@@ -483,7 +482,7 @@ store:
     g_FontSelectionState.selected = slot;
     __asm__ volatile("" : "=m"(g_FontSelectionState) : "m"(g_FontSelectionState));
     result = g_FontSelectionState.table;
-    return result->groups.codes[result->slots.indices[D_80091A1F_rd[0]]];
+    return result->groups.codes[result->slots.indices[D_80091A1F]];
 }
 
 int Menu_ResetEquipSlotState(void) {
