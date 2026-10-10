@@ -5,7 +5,7 @@
 #include "pe1/menu_scroll_cursor.h"
 
 /* Contiguous widget construction, pool initialization, list drawing and layout. */
-void BoundsCheck_AssertStub(int arg0);
+#include "pe1/bounds_check.h"
 MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void);
 
 
@@ -292,7 +292,6 @@ MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void) {
     }
     return result;
 }
-void BoundsCheck_AssertStub(int arg0);
 void MenuWidget_ApplyColumnLayout(void *node);
 
 

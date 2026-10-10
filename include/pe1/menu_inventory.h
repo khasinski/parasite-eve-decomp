@@ -3,7 +3,7 @@
 
 #include "pe1/menu_widget.h"
 
-void BoundsCheck_AssertStub(int code);
+#include "pe1/bounds_check.h"
 void MenuWidget_InitPool(void);
 void Inventory_OpenAyaItemList(unsigned int mode);
 

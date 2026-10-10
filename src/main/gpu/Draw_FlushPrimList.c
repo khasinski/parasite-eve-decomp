@@ -14,7 +14,7 @@ extern int D_8009D138;
 
 int Draw_LookupGlyphMetrics(int glyph);
 void Draw_AllocTexturedQuad(int glyph);
-void BoundsCheck_AssertStub(int arg0);
+#include "pe1/bounds_check.h"
 
 #define PUSH_CURSOR()                                                      \
     do {                                                                   \

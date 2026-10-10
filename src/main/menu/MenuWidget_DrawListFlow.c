@@ -5,7 +5,7 @@
 #include "pe1/draw_state.h"
 #include "pe1/draw_area.h"
 
-void BoundsCheck_AssertStub(int);
+#include "pe1/bounds_check.h"
 int VSync(int);
 void Draw_AllocColorTri(int, int, int);
 

@@ -26,7 +26,7 @@ void MenuWidget_InitPoolUnk(void) {
 }
 #define NULL ((void *)0)
 
-M2C_UNK BoundsCheck_AssertStub();
+#include "pe1/bounds_check.h"
 
 
 MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1);

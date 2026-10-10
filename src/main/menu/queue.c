@@ -14,7 +14,7 @@ MenuQueueEntry *g_MenuEventQueueFreeList;
 MenuQueueEntry *g_MenuEventQueueHead;
 MenuQueueEntry *g_MenuEventQueueTail;
 
-void BoundsCheck_AssertStub(int arg0);
+#include "pe1/bounds_check.h"
 
 void Queue_Init(void) {
     MenuQueueEntry *entry;

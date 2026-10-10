@@ -19,7 +19,7 @@ extern int D_8009D0D8;
 int Draw_LookupGlyphMetrics(int glyph);
 void Draw_AllocSprite(int glyph);
 u16 GetTPage(int tp, int abr, int x, int y);
-void BoundsCheck_AssertStub(int arg0, ...);
+#include "pe1/bounds_check.h"
 
 void Draw_AllocTexturedQuad(int code) {
     int low;

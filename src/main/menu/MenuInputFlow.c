@@ -86,7 +86,7 @@ int Draw_RemapStatusFlags()
   return mask;
 }
 
-void BoundsCheck_AssertStub(int arg0);
+#include "pe1/bounds_check.h"
 
 void MenuInput_SetPollingPaused(int paused) {
     D_8009D0EC = paused;

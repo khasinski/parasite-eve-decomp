@@ -28,7 +28,7 @@ typedef struct ColorTriPair {
 
 extern DrawVertexPair D_800A22B0[];
 extern u32 D_8009D14C[];
-void BoundsCheck_AssertStub(int);
+#include "pe1/bounds_check.h"
 
 void Draw_AllocColorRect(int firstVertex, int secondVertex, int width, int mode) {
     ColorTriPair *pair = 0;
@@ -123,7 +123,6 @@ void Draw_AllocColorRect(int firstVertex, int secondVertex, int width, int mode)
 }
 
 
-void BoundsCheck_AssertStub(int arg0);
 
 static inline u32 *AllocateDrawMode(int mode) {
     u32 *packet = 0;

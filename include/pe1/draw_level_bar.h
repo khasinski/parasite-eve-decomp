@@ -13,7 +13,7 @@ typedef union DrawLevelBarLink {
     u32 word;
 } DrawLevelBarLink;
 
-void BoundsCheck_AssertStub(int code);
+#include "pe1/bounds_check.h"
 void Draw_PrintNumberWidth2Unk(int value);
 void Draw_AllocTexturedRectAlt(int value, int width);
 

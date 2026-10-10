@@ -14,7 +14,7 @@ extern int D_8009D114;
 extern u32 *D_8009D11C;
 
 int Battle_GetStateFlag1(void);
-void BoundsCheck_AssertStub(int arg0);
+#include "pe1/bounds_check.h"
 void SetDrawTPage(void *packet, int drawTexture, int dither, int tpage);
 
 void Draw_AllocColorQuad(int width, int height) {

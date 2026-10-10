@@ -17,7 +17,7 @@ void Draw_OffsetCursor(int x, int y) {
 extern int *g_TextCursorStackPtr;
 extern int g_TextCursorStackTop[];
 
-void BoundsCheck_AssertStub(int arg0);
+#include "pe1/bounds_check.h"
 
 void Draw_StatePush(void) {
     int *cursor;

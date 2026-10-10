@@ -36,7 +36,7 @@ extern int D_8009D110;                 /* primary colour */
 extern int D_8009D114;                 /* alternate colour */
 extern u32 *D_8009D11C;                 /* ordering-table entry */
 
-void BoundsCheck_AssertStub(int arg0);
+#include "pe1/bounds_check.h"
 void SetTexWindow(GpuCmdPacket *packet, RECT *window);
 void Draw_EmitWipeBar(u8 *edges, int mode);
 void Draw_AllocColorTri(int width, int height, int pulse);

@@ -5,7 +5,7 @@
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK BoundsCheck_AssertStub();
+#include "pe1/bounds_check.h"
 extern s32 g_TextCursorX;
 extern u32 g_TextCursorY;
 extern u32 g_TextCursorStackPtr;
