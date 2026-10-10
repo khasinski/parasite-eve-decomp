@@ -23,7 +23,6 @@ void Draw_OffsetCursor(int x, int y) {
 }
 
 extern int *g_TextCursorStackPtr;
-extern int g_TextCursorStackTop[];
 
 #include "pe1/bounds_check.h"
 
@@ -44,7 +43,6 @@ void Draw_StatePush(void) {
     }
 }
 
-extern int g_TextCursorStackBottom[];
 
 void Draw_StatePop(void) {
     DrawTextCursorPair *cursor;
@@ -234,10 +232,6 @@ void Draw_AllocSprite(int index) {
 }
 
 
-extern unsigned int g_DrawPrimColor;
-extern unsigned int g_DrawColorShaded;
-extern int g_TextCursorX;
-extern int g_TextCursorY;
 
 void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     DrawGlyphDescriptor *glyph;
@@ -557,14 +551,9 @@ int Draw_MeasureTextWidth(u8 *text) {
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-typedef union TextCursorStackPointer {
-    int *pointer;
-    u32 word;
-} TextCursorStackPointer;
-extern TextCursorStackPointer g_TextCursorStackState __asm__("D_8009D12C");
 #define g_TextCursorX D_8009D124
 #define g_TextCursorY D_8009D128
-#define g_TextCursorStackWord g_TextCursorStackState.word
+#define g_TextCursorStackWord (*(u32 *)&D_8009D12C)
 
 void Draw_PrintRawText(u8 *arg0) {
     s32 temp_a0;
@@ -625,10 +614,10 @@ void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
     int measured;
     int savedY;
     {
-        DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        DrawTextCursorPair *stack = (DrawTextCursorPair *)D_8009D12C;
         if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
             int x = D_8009D124, y = D_8009D128;
-            g_TextCursorStackState.pointer = (int *)(stack + 1);
+            D_8009D12C = (int *)(stack + 1);
             stack->x = x;
             stack->y = y;
         } else BoundsCheck_AssertStub(2);
@@ -662,11 +651,11 @@ void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
         D_8009D128 = savedY;
     }
     if (cursor) {
-        DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        DrawTextCursorPair *stack = (DrawTextCursorPair *)D_8009D12C;
         if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
             stack->x = D_8009D124;
             stack->y = savedY;
-            g_TextCursorStackState.pointer = (int *)(stack + 1);
+            D_8009D12C = (int *)(stack + 1);
         } else BoundsCheck_AssertStub(2);
         {
             u8 code = *cursor;
@@ -679,20 +668,20 @@ void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
             }
         }
         {
-            DrawTextCursorPair *restore = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+            DrawTextCursorPair *restore = (DrawTextCursorPair *)D_8009D12C;
             if ((DrawTextCursorPair *)g_TextCursorStackBottom < restore) {
                 int x = restore[-1].x, y = restore[-1].y;
-                g_TextCursorStackState.pointer = (int *)(restore - 1);
+                D_8009D12C = (int *)(restore - 1);
                 D_8009D124 = x;
                 D_8009D128 = y;
             } else BoundsCheck_AssertStub(3);
         }
     }
     {
-        DrawTextCursorPair *restore = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        DrawTextCursorPair *restore = (DrawTextCursorPair *)D_8009D12C;
         if ((DrawTextCursorPair *)g_TextCursorStackBottom < restore) {
             int x = restore[-1].x, y = restore[-1].y;
-            g_TextCursorStackState.pointer = (int *)(restore - 1);
+            D_8009D12C = (int *)(restore - 1);
             D_8009D124 = x;
             D_8009D128 = y;
         } else BoundsCheck_AssertStub(3);
@@ -747,10 +736,10 @@ void Draw_PrintTextById(unsigned int textId) {
 void Draw_PrintTextWrapped(u8 *text, int width) {
     while (*text != 0xFF) {
         int used;
-        DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        DrawTextCursorPair *stack = (DrawTextCursorPair *)D_8009D12C;
         if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
             int x = g_DrawSpriteX, y = g_DrawSpriteY;
-            g_TextCursorStackState.pointer = (int *)(stack + 1);
+            D_8009D12C = (int *)(stack + 1);
             stack->x = x;
             stack->y = y;
         } else BoundsCheck_AssertStub(2);
@@ -778,10 +767,10 @@ void Draw_PrintTextWrapped(u8 *text, int width) {
             }
         }
         {
-            DrawTextCursorPair *restore = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+            DrawTextCursorPair *restore = (DrawTextCursorPair *)D_8009D12C;
             if ((DrawTextCursorPair *)g_TextCursorStackBottom < restore) {
                 int x = restore[-1].x, y = restore[-1].y;
-                g_TextCursorStackState.pointer = (int *)(restore - 1);
+                D_8009D12C = (int *)(restore - 1);
                 g_DrawSpriteX = x;
                 g_DrawSpriteY = y;
             } else BoundsCheck_AssertStub(3);
