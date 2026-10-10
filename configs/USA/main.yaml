@@ -195,8 +195,8 @@ segments:
       - [0x7B5C, c, task/Task_EntityCommandOps]
       - [0x7C44, c, entity/Entity_ComputeVelocityToTarget]
       - [0x7D40, c, entity/Entity_MovementScriptControl]
-      - [0x7EB8, c, entity/Entity_SetCurrentFlags]
-      - [0x7EE0, c, entity/Entity_GetCurrentNodeId]
+      # Adjacent actor-flag and current-node opcodes share the task ABI.
+      - [0x7EB8, c, entity/Entity_FlagAndNodeOpcodes]
       # Random-range and field-sfx opcodes: contiguous default-profile pair.
       - [0x7EFC, c, task/Task_RandomAndFieldSfx]
       # Table opcodes share the current TaskNode field ABI.
