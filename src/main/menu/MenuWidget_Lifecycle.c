@@ -9,6 +9,45 @@
 MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void);
 
 
+MenuWidgetNode *g_MenuWidgetCurrentNode;
+
+MenuWidgetNode *g_MenuWidgetSavedNode;
+
+MenuWidgetNode *g_MenuWidgetActiveListHead;
+
+void MenuWidget_SetCurrentNode(MenuWidgetNode *node) {
+    g_MenuWidgetCurrentNode = node;
+}
+
+MenuWidgetNode *MenuWidget_GetCurrentNode(void) {
+    return g_MenuWidgetCurrentNode;
+}
+
+void MenuWidget_SaveAndSetCurrentNode(MenuWidgetNode *arg0) {
+    g_MenuWidgetSavedNode = g_MenuWidgetCurrentNode;
+    g_MenuWidgetCurrentNode = arg0;
+}
+
+void MenuWidget_RestoreSavedCurrentNode(void) {
+    MenuWidgetNode *node;
+    MenuWidgetNode *pending;
+
+    node = g_MenuWidgetActiveListHead;
+    if (node != 0) {
+        pending = g_MenuWidgetSavedNode;
+        while (node != 0) {
+            if (node == pending) {
+                break;
+            }
+            node = node->next;
+        }
+        if (node != 0) {
+            g_MenuWidgetCurrentNode = node;
+        }
+    }
+    g_MenuWidgetSavedNode = 0;
+}
+
 MenuWidgetNode *MenuWidget_CreateSimpleNode(s32 arg0, MenuWidgetNode *arg1, MenuWidgetNode *arg2, s32 arg3) {
     s32 mode = arg0;
     register MenuWidgetNode *parent_arg asm("$19") = arg1;

@@ -621,9 +621,9 @@ segments:
       # Active-list presence, child access and node searches share widget state.
       - [0x531B0, c, menu/menu_widget]
       - [0x5327C, c, gpu/Draw_FlushPrimList]
-      - [0x534B8, c, menu/menu_widget2]
-      # Constructors, pool initialization and list drawing share widget state.
-      - [0x5352C, c, menu/MenuWidget_Lifecycle]
+      # Current/saved node selection, constructors, pool and list drawing
+      # share their typed widget state and -G8/common profile.
+      - [0x534B8, c, menu/MenuWidget_Lifecycle]
       # Grid-cell index calculation and mask filtering share the node cursor ABI.
       - [0x53C28, c, menu/MenuWidget_CellIndex]
       # List row rendering and its node mask share one widget draw flow.
