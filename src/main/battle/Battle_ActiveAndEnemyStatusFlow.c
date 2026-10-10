@@ -231,8 +231,12 @@ void Battle_DrawEnemyHP(s16 maximum, s16 current)
         s16 value = maximum;
         s16 quotient;
         s8 index = 0;
-        while ((quotient = value / 10, digits[index] = value - (s16)quotient * 10,
-               value = quotient, (s16)value != 0)) {
+        for (;;) {
+            quotient = value / 10;
+            digits[index] = value - (s16)quotient * 10;
+            value = quotient;
+            if ((s16)value == 0)
+                break;
             index = maximumLastDigit + 1;
             maximumLastDigit = index;
         }
@@ -308,8 +312,12 @@ void Battle_DrawEnemyHP(s16 maximum, s16 current)
         s16 value = savedCurrent;
         s16 quotient;
         s8 index = 0;
-        while ((quotient = value / 10, digits[index] = value - (s16)quotient * 10,
-               value = quotient, (s16)value != 0)) {
+        for (;;) {
+            quotient = value / 10;
+            digits[index] = value - (s16)quotient * 10;
+            value = quotient;
+            if ((s16)value == 0)
+                break;
             index = currentIndex + 1;
             currentIndex = index;
         }
