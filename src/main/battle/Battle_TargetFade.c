@@ -22,7 +22,7 @@ void Battle_InitFadeVars(void) {
     {                                                                                    \
         BattleEntity *entity = (target);                                                 \
         BattleEntity *actor;                                                             \
-        int kind = (s8)((Combatant *)entity->core)->field04.bytes.field05;               \
+        int kind = ((EntityAnimEventCore *)entity->core)->kind;               \
         if (kind == 1) {                                                                 \
             Render_FadeEntityColor(&entity->parent->renderObject, (level), (level),      \
                                    (level));                                             \

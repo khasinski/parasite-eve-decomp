@@ -100,6 +100,56 @@ typedef struct EnemyActionEffect {
 /* 0x0F */ u8  frame;       /* animation frame that changes state to 3 */
 } EnemyActionEffect;
 
+/* Animation-event view of an entity core. The six inline event records
+ * overlap fields in EnemyCombatant's battle-state view; keep the views
+ * separate until their shared storage/lifetime is established.
+ */
+/* The selected inline record occupies bits 21..23. The meanings of the
+ * separately cleared high bits are not yet established. */
+typedef union EntityAnimEventFlags {
+    u32 raw;
+    struct {
+        u32 reservedLow : 21;
+        u32 selectedRecord : 3;
+        u32 reservedHigh : 6;
+        u32 bit30 : 1;
+        u32 bit31 : 1;
+    } bits;
+} EntityAnimEventFlags;
+
+typedef struct EntityAnimEventCore {
+/* 0x00 */ EntityAnimEventFlags flags;
+/* 0x04 */ u8 rank;
+/* 0x05 */ s8 kind;
+/* 0x06 */ u8 baseMode;
+/* 0x07 */ u8 reserved07;
+/* 0x08 */ u8 reserved08[0x10];
+/* 0x18 */ EnemyActionEffect *active;
+/* 0x1C */ EnemyActionEffect records[6];
+/* 0x7C */ u8 parameters[6][4]; /* four per-record bytes written by script setup */
+/* 0x94 */ u8 reserved94[0x1E];
+/* 0xB2 */ u16 assetId;
+} EntityAnimEventCore;
+
+PE1_STATIC_ASSERT(sizeof(EntityAnimEventFlags) == 4, entity_anim_event_flags_size);
+PE1_STATIC_ASSERT(sizeof(EntityAnimEventCore) == 0xB4, entity_anim_event_core_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, active) == 0x18,
+                  entity_anim_event_active_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, records) == 0x1C,
+                  entity_anim_event_records_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, parameters) == 0x7C,
+                  entity_anim_event_parameters_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, assetId) == 0xB2,
+                  entity_anim_event_asset_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyActionEffect, enterStep) == 4,
+                  enemy_action_effect_enter_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyActionEffect, exitStep) == 8,
+                  enemy_action_effect_exit_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyActionEffect, frame) == 15,
+                  enemy_action_effect_frame_offset);
+
+
+
 /* Eight-byte descriptor consumed by Battle_DrawStatusPanel. The last two
  * bytes are timer/style values whose gameplay meaning varies by panel slot. */
 typedef struct BattleStatusPanel {
