@@ -615,12 +615,9 @@ segments:
       - [0x51CA0, c, gpu/Draw_WipeAndGradient]
       # Gradient palette setter and rectangle drawing share their blend state.
       - [0x52AB0, c, gpu/Draw_AllocColorTriGradient]
-      # Pool initialization, allocation and recursive destruction share node lists.
-      - [0x52D68, c, menu/MenuWidget_Pool]
-      - [0x53030, c, gpu/Draw_PushPrimToList]
-      # Node lookups, labels, constructors, scrolling, layouts and mode-3 popups
+      # Pool, recursive drawing, node lookups, labels, scrolling, layouts and popups
       # share their typed widget state and -G8/common profile.
-      - [0x531B0, c, menu/MenuWidget_Lifecycle]
+      - [0x52D68, c, menu/MenuWidget_Lifecycle]
       # Field sound event enqueue/reset and actor dispatch share queue records.
       - [0x55B6C, c, task/Task_FieldSfxQueue]
       # Reset, animation update and slot commands share GeomCtrlEntry.
