@@ -136,7 +136,7 @@ void Battle_ApplyDamage(int action);
 void Battle_ApplyPlayerHit(void) {
     u32 committed;
     register int mask asm("$5");
-    register unsigned int index asm("$3");
+    unsigned int index;
     Combatant *actor;
     int flags;
     u16 action;
@@ -165,11 +165,11 @@ void Battle_ApplyPlayerHit(void) {
         Battle_ApplyDamage((s16)ACTION_AT(index) - 3);
         Scene_LoadRoomAssets(0x55, D254_D);
 
-        index = D_8009D1D4;
-        index++;
-        action = ACTION_AT(index);
-
-        D_8009D1D4 = index;
+        {
+            unsigned int nextIndex = D_8009D1D4 + 1;
+            action = ACTION_AT(nextIndex);
+            D_8009D1D4 = nextIndex;
+        }
 
         if ((unsigned int)(action - 3) >= 0x194 || D254_E->actionMode < 4) {
             D1A0_W1 = D1A0_R1 & ~0x100;
