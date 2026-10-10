@@ -28,7 +28,7 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
     asm("" : "=r"(initial) : "0"(initial) : "$19");
     base.vertex = vertices;
     point.word = edge * sizeof(PolygonVertex) + base.word;
-    asm volatile("" : "=r"(initial) : "0"(initial), "r"(point.vertex) : "memory");
+    asm volatile("" : "=r"(initial) : "0"(initial));
     entity = initial;
     endX = vertices[edge].x;
     endZ = vertices[edge].z;
