@@ -47,6 +47,23 @@ typedef union CollisionTriangleTable {
     CollisionTriangleXYZ *xyz;
     u32 word;
 } CollisionTriangleTable;
+/* Per-region triangle index lists; the database selects one height mode. */
+typedef struct CollisionFlatRegion {
+    s16 height;
+    u16 triangleCount;
+    u16 triangleIndices[0];
+} CollisionFlatRegion;
+typedef struct CollisionPlaneRegion {
+    u32 reserved;
+    u16 triangleCount;
+    u16 triangleIndices[0];
+} CollisionPlaneRegion;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionFlatRegion, triangleIndices) == 4,
+                  collision_flat_region_indices_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionPlaneRegion, triangleIndices) == 6,
+                  collision_plane_region_indices_offset);
+
 typedef struct CollisionDatabase {
     u16 reserved00;
     u16 regionCount;                  /* 0x02: inline height-table references. */

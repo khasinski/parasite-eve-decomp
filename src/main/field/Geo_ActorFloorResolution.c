@@ -21,7 +21,7 @@ void Entity_FindFloor(u8 *entity)
     BattleEntity *actor = (BattleEntity *)entity;
     u8 *floor_data;
     u8 *simple_triangle;
-    u8 *complex_triangle;
+    CollisionFace *complex_triangle;
     u16 *initial_indices;
     u16 *indices;
     u16 triangle_count;
@@ -43,7 +43,7 @@ void Entity_FindFloor(u8 *entity)
 
     x = (u16)actor->posX.parts.integer;
     z = (u16)actor->posZ.parts.integer;
-    if (U16_AT(D_8009D1FC, 2) == 0) {
+    if (D_8009D1FC->regionCount == 0) {
         return;
     }
 
@@ -54,15 +54,15 @@ void Entity_FindFloor(u8 *entity)
             floor_table_offset += (u32)D_8009CE08;
             floor_data = *(u8 **)floor_table_offset;
             triangle_index = 0;
-            floor_value = S16_AT(floor_data, 0);
-            triangle_count = U16_AT(floor_data, 2);
-            initial_indices = (u16 *)(floor_data + 4);
+            floor_value = ((CollisionFlatRegion *)floor_data)->height;
+            triangle_count = ((CollisionFlatRegion *)floor_data)->triangleCount;
+            initial_indices = ((CollisionFlatRegion *)floor_data)->triangleIndices;
             indices = initial_indices;
             for (triangle_index = 0; triangle_index < triangle_count;
                  triangle_index++, indices++) {
                     triangle_id = *indices;
                     floor_offset = 11 * triangle_id;
-                    simple_triangle = PTR_AT(D_8009D1FC, 0x1C) +
+                    simple_triangle = (u8 *)D_8009D1FC->triangles.pointer +
                                       floor_offset * 2;
                     if (Geo_PointInTri(simple_triangle, (s16)x, (s16)z)) {
                         actor->collisionFace = simple_triangle;
@@ -78,34 +78,34 @@ void Entity_FindFloor(u8 *entity)
             floor_table_offset += (u32)D_8009CE08;
             floor_data = *(u8 **)floor_table_offset;
             triangle_index = 0;
-            triangle_count = U16_AT(floor_data, 4);
-            initial_indices = (u16 *)(floor_data + 6);
+            triangle_count = ((CollisionPlaneRegion *)floor_data)->triangleCount;
+            initial_indices = ((CollisionPlaneRegion *)floor_data)->triangleIndices;
             indices = initial_indices;
             for (triangle_index = 0; triangle_index < triangle_count;
                  triangle_index++, indices++) {
                     triangle_id = *indices;
                     floor_offset = triangle_id * 28;
-                    complex_triangle = PTR_AT(D_8009D1FC, 0x1C) + floor_offset;
+                    complex_triangle = (CollisionFace *)((u8 *)D_8009D1FC->triangles.pointer + floor_offset);
                     if (Geo_PointInTri(complex_triangle, (s16)x, (s16)z)) {
                         actor->collisionFace = complex_triangle;
                         actor->collisionFaceMirror = complex_triangle;
                         if ((actor->entityFlags & 2) == 0) {
                             x_height = Math_FixedMul(
-                                D_8009D1D8[U16_AT(complex_triangle, 2)].a,
+                                D_8009D1D8[complex_triangle->plane].a,
                                 actor->posX.fixed);
                             z_height = Math_FixedMul(
-                                D_8009D1D8[U16_AT(complex_triangle, 2)].c,
+                                D_8009D1D8[complex_triangle->plane].c,
                                 actor->posZ.fixed);
                             actor->posY.fixed = Math_FixedMul(
-                                S32_AT(complex_triangle, 4) - x_height - z_height,
-                                D_8009D1D8[U16_AT(complex_triangle, 2)].inverseB);
+                                complex_triangle->distance - x_height - z_height,
+                                D_8009D1D8[complex_triangle->plane].inverseB);
                         }
                         return;
                     }
             }
         }
         floor_index++;
-    } while (floor_index < U16_AT(D_8009D1FC, 2));
+    } while (floor_index < D_8009D1FC->regionCount);
 }
 
 
