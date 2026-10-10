@@ -333,9 +333,8 @@ void Spu_ManageVoices(int arg0, int arg1)
             mask <<= 1;
         }
         while (i < 12);
-        goto finish;
     }
-    if (mode_bits < 0)
+    else if (mode_bits < 0)
     {
         voice = ((AkaoTrack *) g_AkaoVoiceChannelTable) + id;
         mask <<= id;
@@ -352,6 +351,8 @@ void Spu_ManageVoices(int arg0, int arg1)
         }
         return;
     }
+    else
+    {
     value = mode_bits & 0x40000000;
     if (value != 0)
     {
@@ -422,8 +423,8 @@ void Spu_ManageVoices(int arg0, int arg1)
             mask <<= 1;
         }
         while (i < 12);
-        goto finish;
     }
+    else
     {
         u32 flag1;
         int control;
@@ -459,7 +460,8 @@ void Spu_ManageVoices(int arg0, int arg1)
         }
         while (i < 12);
     }
-finish:
+    }
+
     g_AkaoVoiceUpdateFlags |= AKAO_VOICE_PARAM_PITCH;
 
     Seq_MarkTrack34MaskDirty();
