@@ -130,7 +130,7 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     actor->rot_z = 0;
     D_8009D2A6++;
 
-    if (!actor->model_state.allocation_active) goto no_render_data;
+    if (actor->model_state.allocation_active) {
     if (actor == g_PlayerEntity) {
         Entity_SetActionMode(actor, 0x15);
     } else {
@@ -152,24 +152,17 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     }
     actor->allocation_block = (int)allocation;
 
-    if (scene[0] == 0) {
-        areaType = D_800B0CE2;
-        if (areaType) goto render_special;
-    }
-    goto render_generic;
-render_special: {
+    if (scene[0] == 0 && (areaType = D_800B0CE2)) {
         Render_SetupEntityPrims(&actor->render_object, actor->model_state.model_header, allocation + 0x50, 0x3C0,
                                 0x100, 0, 0x1C0, 2, (s8 **)&renderSetup,
                                 allocateFull);
-    }
-    goto render_done;
-render_generic: {
+    } else {
         archive = *D_800B0E64;
         directory = SceneAsset_ResolveOffset(archive, archive->directoryOffset);
         entry = directory->bankRootEntries;
         bankRows = SceneAsset_ResolveOffset(archive, entry & 0x3FFFFF);
         i = 0;
-        if ((entry >> 22) == 0) goto scan_done;
+        if ((entry >> 22) != 0) {
         sceneType = scene[0];
         count = entry >> 22;
         walk = bankRows;
@@ -177,6 +170,7 @@ scan_loop:
         if (walk->source.bytes.id == sceneType) goto scan_done;
         ++i;
         if (i < count) { ++walk; goto scan_loop; }
+        }
 scan_done:
         allocation = actor->allocation_block;
         value = bankRows[i].trailing;
@@ -196,9 +190,8 @@ render_done:
                             (s16)actor->anim.parts.integer, D_800BEA40, D_800B89F8);
         actor->render_object.header->shadow_radius = actor->render_object.hit_cylinder.radius * 2;
     }
-    goto finish;
-no_render_data:
-    actor->flags |= 0xE0;
-finish:
+    } else {
+        actor->flags |= 0xE0;
+    }
     return actor;
 }
