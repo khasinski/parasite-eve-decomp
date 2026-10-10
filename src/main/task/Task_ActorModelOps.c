@@ -19,14 +19,12 @@
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
-extern FieldActor *D2F0_setup[] __asm__("D_8009D2F0");
+extern FieldActor *D_8009D2F0[];
 extern FieldActor *D2F0_matrix[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_axis1[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_axis2[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_translation[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_color0[] __asm__("D_8009D2F0");
-extern FieldActor *D2F0_color1[] __asm__("D_8009D2F0");
-extern FieldActor *D2F0_color2[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_render0[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_render1[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_render2[] __asm__("D_8009D2F0");
@@ -35,7 +33,7 @@ extern FieldActor *D2F0_render4[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_render5[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_flags[] __asm__("D_8009D2F0");
 extern FieldActor *D2F0_redraw[] __asm__("D_8009D2F0");
-extern Pe1GlobalSlot CDDC_draw0 __asm__("D_8009CDDC");
+extern Pe1GlobalSlot D_8009CDDC;
 extern Pe1GlobalSlot CDDC_toggle0_load __asm__("D_8009CDDC");
 extern Pe1GlobalSlot CDDC_toggle0_store __asm__("D_8009CDDC");
 extern Pe1GlobalSlot CDDC_draw1 __asm__("D_8009CDDC");
@@ -66,7 +64,7 @@ int Task_SetGteMatrix(int **args) {
     TaskNode *task_state;
     u32 flags;
 
-    setup_actor = D2F0_setup[0];
+    setup_actor = D_8009D2F0[0];
     setup_actor->render_object.model_matrix.translation[0] = Pe1Fixed_Integer(&setup_actor->pos_x);
     setup_actor->render_object.model_matrix.translation[1] = Pe1Fixed_Integer(&setup_actor->pos_y);
     setup_actor->render_object.model_matrix.translation[2] = Pe1Fixed_Integer(&setup_actor->pos_z);
@@ -116,8 +114,8 @@ int Task_SetGteMatrix(int **args) {
 
     color_actor = D2F0_color0[0];
     color_actor->render_object.shade = *args[0];
-    D2F0_color1[0]->render_object.lightNegativeY = *args[1];
-    D2F0_color2[0]->render_object.lightPositiveY = *args[2];
+    D_8009D2F0[0]->render_object.lightNegativeY = *args[1];
+    D_8009D2F0[0]->render_object.lightPositiveY = *args[2];
 
     Render_InitRoomPrimState(&D2F0_render0[0]->render_object);
     render_actor = D2F0_render1[0];
@@ -127,7 +125,7 @@ int Task_SetGteMatrix(int **args) {
     Render_TransformSkinnedVertices(&D2F0_render3[0]->render_object, D_800B89F8);
     Render_DrawObject(&D2F0_render4[0]->render_object, D_800BEA40.words);
     Render_UpdateClutTable(&D2F0_render5[0]->render_object, 1,
-                           (s16)CDDC_draw0.value.signed_value);
+                           (s16)D_8009CDDC.value.signed_value);
 
     flags = (flag_actor = D2F0_flags[0])->flags;
     if ((flags & 0x10000000) != 0) {

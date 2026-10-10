@@ -11,7 +11,7 @@
  * at the bit index of a single-bit mask. The helper's only caller is the
  * table builder that precedes it (main_tu_evidence G0344). */
 
-extern s32 D_8009D1A0r[] __asm__("g_GameStateFlags");
+extern s32 g_GameStateFlags[];
 extern s32 D_8009D1A0w[] __asm__("g_GameStateFlags");
 extern s32 g_SceneFlagBits;
 extern s32 g_BattleControlFlags;
@@ -59,7 +59,7 @@ void Boot_BuildRenderFlagTable(void) {
     Gte_StoreTableEntry(0x20000000, 0x2000);
     Gte_StoreTableEntry(0x40000000, 0x4000);
     Gte_StoreTableEntry(0x80000000, 0x8000);
-    D_8009D1A0w[0] = D_8009D1A0r[0] | 0x4000;
+    D_8009D1A0w[0] = g_GameStateFlags[0] | 0x4000;
 }
 
 void Gte_StoreTableEntry(u32 mask, int value) {
@@ -95,7 +95,7 @@ extern u32 D_8009D1E4;
 extern u32 D_8009D1F4;
 extern u32 D_8009D238;
 extern u32 D_8009D26C __asm__("g_FieldPadBits");
-extern u32 D_8009D280[] __asm__("g_SceneDispatchToken");
+extern u32 g_SceneDispatchToken[];
 extern u32 D_8009D2A8;
 extern u8 D_8009D1C0[];
 extern u8 D_800921F8[];
@@ -193,7 +193,7 @@ void Field_HandleStateTransition(void) {
                 if ((mask & sequence_mask) == sequence_mask) {
                     D_8009D2A8++;
                     if (D_8009D2A8 == 9) {
-                        D_8009D280[0] = 0xAA108448;
+                        g_SceneDispatchToken[0] = 0xAA108448;
                         field_flags_write[0] = flags | 0x12000;
                     }
                 } else {
