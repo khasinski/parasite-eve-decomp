@@ -1,8 +1,6 @@
 #include "pe1/field_anim.h"
 #include "pe1/field_actor.h"
 
-extern FieldAnimObjectPrefix *g_FieldEngineObject __asm__("D_800F32D0");
-
 void Asset_Find08w(int arg0, int arg1, int arg2, int arg3, int arg4);
 
 void func_800D3F64(int arg0, int arg1) {
@@ -16,7 +14,7 @@ void func_800D3F64(int arg0, int arg1) {
     int y;
     int z;
 
-    ctx = g_FieldEngineObject;
+    ctx = D_800F32D0;
     child = ctx->actor;
     node = child->render_object.matrices;
     x = node->translation[0];
@@ -41,7 +39,7 @@ int func_800D3FD8(void) {
     FieldActorState *node;
     int value;
 
-    ctx = g_FieldEngineObject;
+    ctx = D_800F32D0;
     node = ctx->actor->state;
     value = 0x80;
     if (node != 0) {

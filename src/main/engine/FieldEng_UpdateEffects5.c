@@ -248,8 +248,6 @@ int func_800CBC68(void *arg0, FieldEngSlot *state, FieldAnimGlowPoint *anim) {
 
 
 extern u8 D_800E0D6C[];
-extern s16 D_800E2290_state __asm__("D_800E2290");
-extern s16 D_800E2292_state __asm__("D_800E2292");
 extern volatile s16 D_800E2294_state __asm__("D_800E2294");
 extern u8 D_800E2284;
 extern u8 D_800E2285;
@@ -320,11 +318,11 @@ int func_800CBCA4(u8 *arg0) {
 
     tmp = S16(obj, 0x2A);
     setupValue = -0x64;
-    D_800E2290_state = tmp;
+    D_800E2290.x = tmp;
     tmp = S16(obj, 0x2E);
     y_scale = 0x400;
     D_800F3470 = obj;
-    D_800E2292_state = tmp;
+    D_800E2292 = tmp;
 
     tmp = 0;
     asm volatile("" : "=r"(tmp) : "0"(tmp) : "memory");
