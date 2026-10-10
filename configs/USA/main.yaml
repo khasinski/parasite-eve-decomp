@@ -683,8 +683,8 @@ segments:
       # from main), the memory layout and the scene voice-bank reset defined beside it
       # (private evidence into the reset; helper/call/private evidence over the rest).
       - [0x5ADBC, c, boot/Boot_GameStateInit]
+      # Startup data and field background loading share scene resource state.
       - [0x5B1E4, c, scene/Scene_LoadSceneData]
-      - [0x5B540, c, scene/Scene_LoadFieldBg]
       - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]
       - [0x5BCF8, c, scene/Scene_LoadRoom]
       - [0x5C568, c, overlay/Overlay_StreamTexturePage]

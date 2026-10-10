@@ -75,7 +75,9 @@ typedef struct Pe1GameState {
     Pe1U32 bank_work_end;            /* 0x12C */
     Pe1U32 bank_work_far_end;        /* 0x130: voice bank base + 0x2800 */
     void *scene_object_tables[3];    /* 0x134 */
-    Pe1U8 unk_140[0x0C];
+    /* Startup resource tables selected by keys 0x57D40D84 and 0x57D41D84. */
+    void *startup_resource_tables[2]; /* 0x140 */
+    u8 *startup_resource_blob;       /* 0x148 */
     void *bank_asset_source;         /* 0x14C */
     Pe1U32 voice_bank_base;          /* 0x150 */
     Pe1U32 voice_bank_base_1400;     /* 0x154 */

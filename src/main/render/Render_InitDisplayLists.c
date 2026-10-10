@@ -119,7 +119,7 @@ retryFog:
     PutDispEnv(&D_800BCE80[D_8009CDDC]);
     SetDispMask(1);
     while (!done) {
-        ClearOTagR(D_800B0E38[D_8009CDDC], 0x1000);
+        ClearOTagR((u32 *)D_800B0E38.ordering[D_8009CDDC], 0x1000);
         switch (state) {
         case 0:
             if (DsSystemStatus() == 1 && DsQueueLen() == 0) {
@@ -238,7 +238,7 @@ retryFog:
         PutDispEnv(&D_800BCE80[D_8009CDDC]);
         PutDrawEnv(&D_800BCDC8[D_8009CDDC]);
         MoveImage(&rect, 0, D_8009CDDC ? 224 : 0);
-        DrawOTag(&D_800B0E38[D_8009CDDC][0xFFF]);
+        DrawOTag((u32 *)D_800B0E38.ordering[D_8009CDDC] + 0xFFF);
         D_8009CDDC ^= 1;
     }
     VSync(0);
