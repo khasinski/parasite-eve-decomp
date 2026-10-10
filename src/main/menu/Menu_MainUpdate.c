@@ -28,9 +28,6 @@ s16 Entity_ApplyHitAndSetAnim(void *);                 /* static */
 void Entity_UpdateTimers(void);
 extern s32 D_8009CDDC;
 /* Separate declarations preserve the original GCC quantities for each tail. */
-extern s32 draw_slot_entity0 __asm__("D_8009CDDC");
-extern s32 draw_slot_entity1 __asm__("D_8009CDDC");
-extern s32 draw_slot_entity2 __asm__("D_8009CDDC");
 extern s32 draw_slot_status0 __asm__("D_8009CDDC");
 extern s32 draw_slot_status1 __asm__("D_8009CDDC");
 extern s32 draw_slot_status2 __asm__("D_8009CDDC");
@@ -278,7 +275,7 @@ block_after_d2e8:
             *(&D_800B016A[0] + (D_8009CDDC * 0x48)) = var_a3;
             *(&D_800B0170[0] + (D_8009CDDC * 0x48)) = var_a2;
             *(&D_800B0171[0] + (D_8009CDDC * 0x48)) = var_a1;
-            var_v0_3 = draw_slot_entity0;
+            var_v0_3 = draw_slot_status0;
             goto block_40;
         }
         if (var_v1 == 1) {
@@ -301,7 +298,7 @@ block_after_d2e8:
             *(&D_800B016A[0] + (D_8009CDDC * 0x48)) = var_a0;
             *(&D_800B0170[0] + (D_8009CDDC * 0x48)) = var_a2;
             *(&D_800B0171[0] + (D_8009CDDC * 0x48)) = var_a1;
-            var_v0_3 = draw_slot_entity1;
+            var_v0_3 = draw_slot_status1;
             goto block_40;
         }
         if (var_v1 == 2) {
@@ -327,7 +324,7 @@ block_after_d2e8:
             *(&D_800B016A[0] + (D_8009CDDC * 0x48)) = var_a3;
             *(&D_800B0170[0] + (D_8009CDDC * 0x48)) = var_a2;
             *(&D_800B0171[0] + (D_8009CDDC * 0x48)) = var_a1;
-            var_v0_3 = draw_slot_entity2;
+            var_v0_3 = draw_slot_status2;
             goto block_40;
         }
         var_a2 = 0xC1;

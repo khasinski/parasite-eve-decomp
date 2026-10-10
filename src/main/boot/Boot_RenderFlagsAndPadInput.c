@@ -74,10 +74,7 @@ void Gte_StoreTableEntry(u32 mask, int value) {
     D_800A76F0[index] = value;
 }
 
-extern u32 field_flags_read_0[4] __asm__("g_GameStateFlags");
-extern u32 field_flags_read_1[4] __asm__("g_GameStateFlags");
 extern u32 field_flags_read_3[4] __asm__("g_GameStateFlags");
-extern u32 field_flags_read_4[4] __asm__("g_GameStateFlags");
 extern u32 field_flags_read_5[4] __asm__("g_GameStateFlags");
 extern u32 field_flags_read_6[4] __asm__("g_GameStateFlags");
 extern u32 field_flags_write[4] __asm__("g_GameStateFlags");
@@ -130,7 +127,7 @@ void Field_HandleStateTransition(void) {
     u8 analog;
 
     if (PadGetState(0) == 0) {
-        u32 initial_flags = field_flags_read_0[0];
+        u32 initial_flags = field_flags_read_6[0];
         if ((initial_flags & 0x4001) == 0) {
             D_8009D1F4 = 4;
             D_8009D26C = 4;
@@ -146,7 +143,7 @@ void Field_HandleStateTransition(void) {
         goto clear_input;
     }
 
-    if (field_flags_read_1[0] & 0x4000) {
+    if (field_flags_read_6[0] & 0x4000) {
         mode = PadGetState(0);
         if (mode == 2) {
             field_flags_write[0] = field_flags_read_5[0] & ~0x4000;
@@ -155,7 +152,7 @@ void Field_HandleStateTransition(void) {
         } else if (mode == 6 && PadInfoMode(0, 2, 0) != 0) {
             if ((field_flags_read_3[0] & 0x8000) == 0) {
                 PadSetMainMode(0, 1, 0);
-                field_flags_write[0] = field_flags_read_4[0] | 0x8000;
+                field_flags_write[0] = field_flags_read_5[0] | 0x8000;
             } else {
                 PadSetActAlign(0, D_800921F8);
                 field_flags_write[0] = field_flags_read_5[0] & ~0x4000;
