@@ -194,9 +194,8 @@ segments:
       - [0x7B1C, c, task/Task_JumpIfZero]
       - [0x7B5C, c, task/Task_EntityCommandOps]
       - [0x7C44, c, entity/Entity_ComputeVelocityToTarget]
-      - [0x7D40, c, entity/Entity_MovementScriptControl]
-      # Adjacent actor-flag and current-node opcodes share the task ABI.
-      - [0x7EB8, c, entity/Entity_FlagAndNodeOpcodes]
+      # Movement wait, script selection and actor/node flag opcodes.
+      - [0x7D40, c, entity/Entity_ScriptControlOps]
       # Random-range and field-sfx opcodes: contiguous default-profile pair.
       - [0x7EFC, c, task/Task_RandomAndFieldSfx]
       # Table opcodes share the current TaskNode field ABI.
