@@ -70,13 +70,10 @@ RelocBlock *Task_RelocBlock(RelocBlock *block) {
     limit = 0x80000000U;
     g_SceneDataTable1 = block;
     isAbsolute = limit < offset;
-    if (!isAbsolute) {
-        goto relocate;
+    if (isAbsolute) {
+        return block;
     }
 
-    return block;
-
-relocate:
     i = 0;
     count = block->count;
     block->u0.baseOffset = (RelocU32)((char *)block + offset);
