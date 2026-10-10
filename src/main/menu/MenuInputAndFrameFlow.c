@@ -422,8 +422,6 @@ void Draw_InitBuffers(void) {
 int g_DrawPresentImage;
 
 extern int g_ActiveDrawSlot[];
-extern int g_ActiveDrawBuffer;
-extern int g_DrawPacketBufferBase;
 extern int g_DrawBufferIndex;
 
 void Draw_SetPresentImage(int arg0) {
@@ -434,7 +432,7 @@ void Draw_SelectBuffer(void) {
     int index;
     int offset;
     DrawFrameBuffer *entry;
-    int value0;
+    u8 *value0;
     u32 *value1;
 
     if (g_DrawPresentEnabled != 0) {
@@ -446,11 +444,11 @@ void Draw_SelectBuffer(void) {
     offset = ((index << 4) - index) << 3;
     g_DrawBufferIndex = index;
     entry = &D_800A2180[index];
-    value0 = *(int *)((u8 *)g_DrawBufferFrontBases + offset);
+    value0 = *(u8 **)((u8 *)g_DrawBufferFrontBases + offset);
     value1 = *(u32 **)((u8 *)g_DrawBufferOtBases + offset);
     D_8009D0FC = entry;
-    g_DrawPacketBufferBase = value0;
-    g_ActiveDrawBuffer = value0;
+    g_DrawPacketArenaBase = value0;
+    g_DrawPacketCursor = value0;
     D_8009D118 = value1;
     g_DrawOrderingTableEntry = value1 + 1;
 

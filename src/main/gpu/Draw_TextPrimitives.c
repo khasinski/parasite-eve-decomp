@@ -80,8 +80,6 @@ void Draw_AllocSprite(int index) {
 }
 
 
-extern u32 g_ActiveDrawBuffer;
-extern s32 g_DrawPacketBufferBase;
 extern s32 g_DrawPrimColor;
 extern s32 g_DrawColorShaded;
 extern u16 g_TextCursorX;
@@ -89,8 +87,8 @@ extern u16 g_TextCursorY;
 
 void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     DrawGlyphDescriptor *glyph;
-    u32 oldPacket;
-    u32 nextPacket;
+    u8 *oldPacket;
+    u8 *nextPacket;
     RenderTexturedQuad *packet;
     u16 base_x;
     u16 base_y;
@@ -102,10 +100,10 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     glyph = Draw_LookupGlyphDescriptor(arg0);
     /* Preserve the descriptor's register across packet setup. */
     asm volatile("" : "=r"(glyph) : "0"(glyph));
-    oldPacket = g_ActiveDrawBuffer;
-    nextPacket = oldPacket + 0x28;
-    if (nextPacket < (g_DrawPacketBufferBase + 0x4000)) {
-        g_ActiveDrawBuffer = nextPacket;
+    oldPacket = g_DrawPacketCursor;
+    nextPacket = oldPacket + sizeof(RenderTexturedQuad);
+    if (nextPacket < (g_DrawPacketArenaBase + 0x4000)) {
+        g_DrawPacketCursor = nextPacket;
         packet = (RenderTexturedQuad *)oldPacket;
     } else {
         BoundsCheck_AssertStub(1);
