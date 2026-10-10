@@ -65,10 +65,10 @@ void Scene_TickTimers(void) {
                 }
             }
         }
-        flags_p = (u32 *)((char *)flags_p + 0xC);
+        flags_p += sizeof(GameTimerEntry) / sizeof(*flags_p);
         entry++;
-        limit_p = (int *)((char *)limit_p + 0xC);
+        limit_p += sizeof(GameTimerEntry) / sizeof(*limit_p);
         i++;
-        current_p = (int *)((char *)current_p + 0xC);
+        current_p += sizeof(GameTimerEntry) / sizeof(*current_p);
     } while (i < 4);
 }
