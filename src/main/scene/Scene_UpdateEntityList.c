@@ -8,7 +8,7 @@ FieldSfxU8 g_FieldSfxQueueCount;
 
 static inline void Start(FieldActor *actor, FieldSfxQueueEntry *event)
 {
-    TaskNode *node = Task_AllocNode((int)actor->script_cursor_19c, 0);
+    TaskNode *node = Task_AllocNode(actor->script_cursor_19c, 0);
 
     node->flags |= 4;
     node->trigger_value = event->taskValue;

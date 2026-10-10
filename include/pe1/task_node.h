@@ -33,6 +33,6 @@ typedef struct TaskNode {
 extern TaskNode *D_8009D300;
 extern TaskNode D_8009D310[72];
 
-TaskNode *Task_AllocNode(int current, TaskNode *previous);
+TaskNode *Task_AllocNode(unsigned int *script, TaskNode *previous);
 
 #endif /* PE1_TASK_NODE_H */

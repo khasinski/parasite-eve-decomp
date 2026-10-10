@@ -124,7 +124,7 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
 
     table = *(u32 **)D_800B161C;
     actor->script_base = (u8 *)table[2 + scene[0]];
-    actor->task_node_lists[2] = Task_AllocNode((int)actor->script_base, 0);
+    actor->task_node_lists[2] = Task_AllocNode((unsigned int *)actor->script_base, 0);
     actor->rot_x = 0;
     actor->rot_y = 0;
     actor->rot_z = 0;

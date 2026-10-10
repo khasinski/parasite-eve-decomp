@@ -42,10 +42,10 @@ int Entity_SelectFieldSetter(int **arg0) {
         selector = *arg0[0];
         switch (selector) {
         case 1:
-            g_CurrentEntity[0]->script_cursor_1a0 = (g_CurrentEntity[0]->script_base + (value << 1));
+            g_CurrentEntity[0]->script_cursor_1a0 = (unsigned int *)(g_CurrentEntity[0]->script_base + (value << 1));
             break;
         case 2:
-            g_CurrentEntity[0]->script_cursor_19c = (g_CurrentEntity[0]->script_base + (value << 1));
+            g_CurrentEntity[0]->script_cursor_19c = (unsigned int *)(g_CurrentEntity[0]->script_base + (value << 1));
             break;
         case 3:
             g_TaskNodePool->next_value = (int)(g_CurrentEntity[0]->script_base + (value << 1));

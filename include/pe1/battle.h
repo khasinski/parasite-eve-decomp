@@ -340,8 +340,8 @@ typedef struct BattleEntity {
 /* 0x190 */ u8   pad_190[4];
 /* 0x194 */ void *actionCheckFn; /* Entity_CheckActionIdMatch fn ptr (Battle_StartEncounter.c:124) */
 /* 0x198 */ u8   pad_198[4];
-/* 0x19C */ s32  scriptCursor19C;
-/* 0x1A0 */ s32  scriptCursor1A0;
+/* 0x19C */ u32 *scriptCursor19C;
+/* 0x1A0 */ u32 *scriptCursor1A0;
 /* 0x1A4 */ void *collisionFace;
 /* 0x1A8 */ void *collisionFaceMirror;
 /* 0x1AC */ s32  allocationActive; /* nonzero when allocationBlock must be released */

@@ -7,7 +7,7 @@
 extern TaskNode *g_TaskNodeFreeListHead;
 extern unsigned short g_TaskNodeSeqCounter;
 
-TaskNode *Task_AllocNode(int arg0, TaskNode *arg1) {
+TaskNode *Task_AllocNode(unsigned int *script, TaskNode *arg1) {
     TaskNode *node;
     TaskNode *next;
     unsigned short seq;
@@ -33,7 +33,7 @@ TaskNode *Task_AllocNode(int arg0, TaskNode *arg1) {
     seq = g_TaskNodeSeqCounter;
     value = 1;
     node->trigger_value = 0;
-    node->current.value = arg0;
+    node->current.script = script;
     node->next_value = 0;
     node->active = value;
     node->flags = 0;
