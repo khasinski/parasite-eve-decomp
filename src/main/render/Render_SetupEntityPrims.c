@@ -1,4 +1,88 @@
 #include "pe1/render_setup.h"
+#define NULL ((void *)0)
+
+extern s32 g_ActiveDrawSlot;
+/* Texture-page transition deltas, indexed by old and requested page. */
+extern s16 D_800921D8[4][4];
+
+void Field_GetMapEntry(RenderObjectEntity *arg0, s32 arg1) {
+    RenderObjectEntity *t0;
+    short page;
+    int packetOffset;
+    s32 a3;
+    u8 *a2;
+    s32 a0;
+    s32 a1;
+    register s32 v0 asm("$2");
+    RenderObjectHeader *header;
+    s16 (*deltas)[4];
+    /* Retail reserves 16 unused bytes; their original purpose is unknown. */
+    s32 stack_pad[4];
+
+    t0 = arg0;
+    asm("" : "=r"(t0) : "0"(t0));
+    header = t0->header;
+    a3 = g_ActiveDrawSlot;
+    a0 = 0;
+    if (header != NULL) {
+        if (t0->draw_count != 0) {
+            v0 = t0->header->packet34_count;
+            a2 = t0->primitive_buffer;
+            if (v0 != 0) {
+                v0 = a3 * 0x34;
+                goto has_entry;
+            } else {
+                v0 = t0->header->packet28_count;
+                if (v0 != 0) {
+                    v0 = a3 * 0x28;
+has_entry:
+                    v0 = (s32) ((u8 *) v0 + (s32) a2);
+                    v0 = ((RenderPacketState *)v0)->page_bits;
+                    v0 &= 0x7F;
+                    a0 = (u32) v0 >> 5;
+                }
+            }
+            page = arg1;
+            if (page != a0) {
+                v0 = a0 << 3;
+                deltas = D_800921D8;
+                v0 = (s32) ((u8 *)deltas + v0);
+                a0 = ((s16 *)v0)[page];
+                v0 = t0->header->packet34_count;
+                a1 = 0;
+                if (v0 > 0) {
+                    v0 = ((((a3 << 1) + a3) << 2) + a3);
+                    packetOffset = v0 << 2;
+                    do {
+                        RenderPacketState *packet = (RenderPacketState *)(a2 + packetOffset);
+                        packet->page_bits =
+                            packet->page_bits + a0;
+                        v0 = t0->header->packet34_count;
+                        __asm__ volatile("" ::: "memory");
+                        a1 += 1;
+                        a2 += 2 * sizeof(RenderPacket34);
+                    } while (a1 < v0);
+                }
+                v0 = t0->header->packet28_count;
+                a1 = 0;
+                if (v0 > 0) {
+                    v0 = (a3 << 2) + a3;
+                    a3 = v0 << 3;
+                    do {
+                        RenderPacketState *packet = (RenderPacketState *)(a2 + a3);
+                        packet->page_bits =
+                            packet->page_bits + a0;
+                        v0 = t0->header->packet28_count;
+                        __asm__ volatile("" ::: "memory");
+                        a1 += 1;
+                        a2 += 2 * sizeof(RenderPacket28);
+                    } while (a1 < v0);
+                }
+            }
+        }
+    }
+}
+
 
 /* Parses a model block into the render object: section pointers, the
  * double-buffered GPU packets (command codes and texture coordinates), the

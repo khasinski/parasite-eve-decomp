@@ -366,8 +366,8 @@ segments:
       - [0x2C8B4, c, render/Render_DrawObjectAlt]
       # Variant draw, animation stepping, fade and blend update shared object state.
       - [0x2CAE0, c, render/Render_DrawObjectVariant]
-      - [0x2D6F8, c, field/Field_GetMapEntry]
-      - [0x2D850, c, render/Render_SetupEntityPrims]
+      # Texture-page changes and model packet setup share RenderObjectEntity and packet types.
+      - [0x2D6F8, c, render/Render_SetupEntityPrims]
       - [0x2E02C, c, entity/Util_ReturnTrue]
       # Animated draw, packet setup and object-state helpers share RenderObjectEntity
       # and RenderMatrix; contiguous handlers with the default compiler profile.
