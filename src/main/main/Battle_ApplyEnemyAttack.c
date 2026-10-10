@@ -8,9 +8,9 @@
 #define EFFECT_FIELD(base, type, member) \
     (*(type *)((base) + PE1_OFFSETOF(EnemyActionEffect, member)))
 #define COMBATANT_ATTRIBUTES(base) \
-    (*(u8 **)((base) + PE1_OFFSETOF(Combatant, attributes)))
+    ((Combatant *)(base))->attributes
 #define ATTRIBUTE_EFFECT_FLAGS(base) \
-    (*(s32 *)((base) + PE1_OFFSETOF(BattleAttributes, effectFlags)))
+    ((BattleAttributes *)(base))->effectFlags
 
 int Inv_FindItemById(int arg0);
 
@@ -84,14 +84,14 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             u8 *pD;
             register s32 f asm("$2");
             pD = D278_4;
-            f = *(s32 *)(pD + 0x4C);
+            f = ((Combatant *)pD)->stateFlags;
             g_ActorEffectFlag100Timer = 0;
-            *(s32 *)(pD + 0x4C) = f & ~0x100;
+            ((Combatant *)pD)->stateFlags = f & ~0x100;
             f = *(volatile s32 *)(pD + 0x4C);
             f &= ~0x200;
             f &= ~0x400;
             f &= ~0x800;
-            *(s32 *)(pD + 0x4C) = f;
+            ((Combatant *)pD)->stateFlags = f;
         }
         break;
     case 3:
@@ -123,7 +123,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
                 a3v = r + 3;
             }
             *(s16 *)(pD + 0x42) = 0x2328;
-            *(s32 *)(pD + 0x4C) = (*(s32 *)(pD + 0x4C) & ~0x60000) | (((r - ((a3v >> 2) << 2)) & 3) << 17);
+            ((Combatant *)pD)->stateFlags = (((Combatant *)pD)->stateFlags & ~0x60000) | (((r - ((a3v >> 2) << 2)) & 3) << 17);
         }
         break;
     case 4:
@@ -224,12 +224,12 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             s32 f;
             g_ActorEffectFlag100Timer = 0;
             hp = *(s16 *)(pD + 0xC);
-            *(s32 *)(pD + 0x4C) = *(s32 *)(pD + 0x4C) & ~0x100;
+            ((Combatant *)pD)->stateFlags = ((Combatant *)pD)->stateFlags & ~0x100;
             f = *(volatile s32 *)(pD + 0x4C);
             f &= ~0x200;
             f &= ~0x400;
             f &= ~0x800;
-            *(s32 *)(pD + 0x4C) = f;
+            ((Combatant *)pD)->stateFlags = f;
             if (hp >= 2) {
                 *(s16 *)(pD + 0xC) = 1;
             } else if (hp == 1) {

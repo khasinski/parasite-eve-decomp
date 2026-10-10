@@ -6,9 +6,9 @@
 #define NULL ((void *)0)
 
 #define COMBATANT_ATTRIBUTES(base) \
-    (*(u8 **)((base) + PE1_OFFSETOF(Combatant, attributes)))
+    ((Combatant *)(base))->attributes
 #define ATTRIBUTE_EFFECT_FLAGS(base) \
-    (*(s32 *)((base) + PE1_OFFSETOF(BattleAttributes, effectFlags)))
+    ((BattleAttributes *)(base))->effectFlags
 
 extern BattleActionSoundTable D_80010760;
 
@@ -148,9 +148,9 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
     case 3:
         {
             u8 *p = D278_5;
-            s32 f = *(s32 *)(p + 0x4C);
+            s32 f = ((Combatant *)p)->stateFlags;
             if ((f & 3) != 3) {
-                *(s32 *)(p + 0x4C) = f & ~3;
+                ((Combatant *)p)->stateFlags = f & ~3;
             }
             dmg = 0x640000;
         }
@@ -158,28 +158,28 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
     case 4:
         {
             u8 *p = D278_6;
-            s32 f = *(s32 *)(p + 0x4C);
+            s32 f = ((Combatant *)p)->stateFlags;
             register s32 c asm("$2");
             if ((f & 3) != 3) {
-                *(s32 *)(p + 0x4C) = f & ~3;
+                ((Combatant *)p)->stateFlags = f & ~3;
                 p = D278_7;
-                f = *(s32 *)(p + 0x4C);
+                f = ((Combatant *)p)->stateFlags;
             }
             c = 0xC;
             if ((f & 0xC) != c) {
-                *(s32 *)(p + 0x4C) = f & ~0xC;
+                ((Combatant *)p)->stateFlags = f & ~0xC;
                 D2E8B = D2E8A & ~0x10;
             }
             p = D278_8;
-            f = *(s32 *)(p + 0x4C);
+            f = ((Combatant *)p)->stateFlags;
             if ((f & 0x30) != 0x30) {
-                *(s32 *)(p + 0x4C) = f & ~0x30;
+                ((Combatant *)p)->stateFlags = f & ~0x30;
                 p = D278_9;
-                f = *(s32 *)(p + 0x4C);
+                f = ((Combatant *)p)->stateFlags;
             }
             c = 0xC0;
             if ((f & 0xC0) != c) {
-                *(s32 *)(p + 0x4C) = f & ~0xC0;
+                ((Combatant *)p)->stateFlags = f & ~0xC0;
             }
         }
         pshared = D278_10;
@@ -188,7 +188,7 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
     case 5:
         {
             u8 *p = D278_11;
-            *(s32 *)(p + 0x4C) = *(s32 *)(p + 0x4C) | 0x200;
+            ((Combatant *)p)->stateFlags = ((Combatant *)p)->stateFlags | 0x200;
             *(s32 *)(p + 8) = *(s32 *)(p + 8) - (*(s32 *)(p + 0x28) / 3);
         }
         break;
@@ -258,12 +258,12 @@ poison8:
             u8 *p = D278_13;
             s32 f;
             s32 m;
-            *(s32 *)(p + 0x4C) = *(s32 *)(p + 0x4C) | 0x100;
+            ((Combatant *)p)->stateFlags = ((Combatant *)p)->stateFlags | 0x100;
             f = *(volatile s32 *)(p + 0x4C);
             g_ActorEffectFlag100Timer = 0x1C2;
             m = f & 0xC0;
             if (m == 0x40 || m == 0x80) {
-                *(s32 *)(p + 0x4C) = f & ~0xC0;
+                ((Combatant *)p)->stateFlags = f & ~0xC0;
             }
             dmg = 0xC80000;
         }
@@ -292,49 +292,49 @@ conf10:
         break;
     case 11:
         dmg = 0x01900000;
-        *(s32 *)(D278_15 + 0x4C) = *(s32 *)(D278_15 + 0x4C) | 0x400;
+        ((Combatant *)D278_15)->stateFlags = ((Combatant *)D278_15)->stateFlags | 0x400;
         break;
     case 12:
         dmg = 0x03E80000;
-        *(s32 *)(D278_16 + 0x4C) = *(s32 *)(D278_16 + 0x4C) | 0x800;
+        ((Combatant *)D278_16)->stateFlags = ((Combatant *)D278_16)->stateFlags | 0x800;
         break;
     case 18:
         {
             u8 *q = D278_17;
-            s32 g = *(s32 *)(q + 0x4C);
+            s32 g = ((Combatant *)q)->stateFlags;
             u8 *p;
             s32 f;
             register s32 c18 asm("$2");
             *(u16 *)(q + 0xC) = *(u16 *)(q + 0x1C);
             if ((g & 3) != 3) {
-                *(s32 *)(q + 0x4C) = g & ~3;
+                ((Combatant *)q)->stateFlags = g & ~3;
             }
             p = D278_19;
-            f = *(s32 *)(p + 0x4C);
+            f = ((Combatant *)p)->stateFlags;
             if ((f & 0xC) != 0xC) {
-                *(s32 *)(p + 0x4C) = f & ~0xC;
+                ((Combatant *)p)->stateFlags = f & ~0xC;
                 D2E8B = D2E8A & ~0x10;
                 __asm__ __volatile__("");
                 p = D278_20;
-                f = *(s32 *)(p + 0x4C);
+                f = ((Combatant *)p)->stateFlags;
             }
             c18 = 0x30;
             if ((f & 0x30) != c18) {
-                *(s32 *)(p + 0x4C) = f & ~0x30;
+                ((Combatant *)p)->stateFlags = f & ~0x30;
             }
             p = D278_21;
-            f = *(s32 *)(p + 0x4C);
+            f = ((Combatant *)p)->stateFlags;
             if ((f & 0xC0) != 0xC0) {
-                *(s32 *)(p + 0x4C) = f & ~0xC0;
+                ((Combatant *)p)->stateFlags = f & ~0xC0;
             }
         }
         pshared = D278_55;
         dmg = 0x05140000;
 clear1000:
-        *(s32 *)(pshared + 0x4C) = *(s32 *)(pshared + 0x4C) & ~0x1000;
+        ((Combatant *)pshared)->stateFlags = ((Combatant *)pshared)->stateFlags & ~0x1000;
         break;
     case 19:
-        *(s32 *)(D278_23 + 0x4C) = (*(s32 *)(D278_23 + 0x4C) | 0x80000) & 0xFFDFFFFF;
+        ((Combatant *)D278_23)->stateFlags = (((Combatant *)D278_23)->stateFlags | 0x80000) & 0xFFDFFFFF;
         break;
     }
     {
