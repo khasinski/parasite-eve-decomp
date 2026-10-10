@@ -192,8 +192,8 @@ typedef struct AkaoTrack {
     /* 0x030 */ AkaoU32 pitch_base;
     /* 0x034 */ AkaoU32 voice_mask_a;
     /* 0x038 */ AkaoU32 flags;
-    /* 0x03C */ AkaoU32 voice_mask_b;
-    /* 0x040 */ AkaoU32 pan_base;
+    /* 0x03C */ AkaoU32 pitch_offset; /* 8.8 voice pitch command value */
+    /* 0x040 */ AkaoU32 pitch_offset_step; /* signed increment accessed as a word by slides */
     /* 0x044 */ int expression_value;
     /* 0x048 */ int expression_delta;
     /* 0x04C */ int pitch_slide_step;
@@ -210,7 +210,7 @@ typedef struct AkaoTrack {
     /* 0x06A */ AkaoS16 volume;
     /* 0x06C */ AkaoU16 volume_base;
     /* 0x06E */ AkaoU16 volume_duration;
-    /* 0x070 */ AkaoU16 field_70;
+    /* 0x070 */ AkaoU16 pitch_offset_duration; /* countdown in Akao_NoteTimingFlow */
     /* 0x072 */ AkaoU16 expression_duration;
     /* 0x074 */ AkaoU16 panpot_duration;
     /* 0x076 */ AkaoU16 panpot; /* 8.8 stereo position, set by the voice pan commands */

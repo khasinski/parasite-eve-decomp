@@ -1611,15 +1611,16 @@ void Spu_SetVoicePitchImmediateMasked(int *arg0) {
         i = 0;
         voice = base + 0xF4;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0xF4);
             if ((active & mask) != 0) {
-                if ((*(u32 *)(voice - 0xC8) & arg0[2]) != 0) {
+                if ((parameters->key_on_mask & arg0[2]) != 0) {
                     value = ((u8 *)arg0)[0xC];
-                    dirty = *(volatile u32 *)voice;
-                    *(u16 *)(voice - 0x84) = 0;
+                    dirty = ((volatile AkaoTrack *)parameters)->update_flags;
+                    parameters->pitch_offset_duration = 0;
                     value <<= 8;
                     dirty |= AKAO_VOICE_PARAM_PITCH;
-                    *(u32 *)(voice - 0xB8) = value;
-                    *(u32 *)voice = dirty;
+                    parameters->pitch_offset = value;
+                    parameters->update_flags = dirty;
                 }
             }
             i++;
@@ -1630,15 +1631,16 @@ void Spu_SetVoicePitchImmediateMasked(int *arg0) {
         i = 0;
         voice = base + 0xF4;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0xF4);
             if ((active & mask) != 0) {
-                if (*(int *)(voice - 0xCC) == arg0[1]) {
+                if (*(int *)&parameters->key_off_mask == arg0[1]) {
                     value = ((u8 *)arg0)[0xC];
-                    dirty = *(volatile u32 *)voice;
-                    *(u16 *)(voice - 0x84) = 0;
+                    dirty = ((volatile AkaoTrack *)parameters)->update_flags;
+                    parameters->pitch_offset_duration = 0;
                     value <<= 8;
                     dirty |= AKAO_VOICE_PARAM_PITCH;
-                    *(u32 *)(voice - 0xB8) = value;
-                    *(u32 *)voice = dirty;
+                    parameters->pitch_offset = value;
+                    parameters->update_flags = dirty;
                 }
             }
             i++;
@@ -1671,15 +1673,16 @@ void Spu_SlideVoicePitchMasked(int *arg0) {
         i = 0;
         voice = base + 0x70;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0x70);
             if ((active & mask) != 0) {
-                if ((*(u32 *)(voice - 0x44) & arg0[2]) != 0) {
+                if ((parameters->key_on_mask & arg0[2]) != 0) {
                     step = 1;
                     if (arg0[3] != 0) {
                         step = arg0[3];
                     }
-                    delta = PitchDelta(((u8 *)arg0)[0x10], *(int *)(voice - 0x34), step);
-                    *(short *)voice = step;
-                    *(int *)(voice - 0x30) = (short)delta;
+                    delta = PitchDelta(((u8 *)arg0)[0x10], *(int *)&parameters->pitch_offset, step);
+                    *(short *)&parameters->pitch_offset_duration = step;
+                    *(int *)&parameters->pitch_offset_step = (short)delta;
                 }
             }
             i++;
@@ -1690,15 +1693,16 @@ void Spu_SlideVoicePitchMasked(int *arg0) {
         i = 0;
         voice = base + 0x70;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0x70);
             if ((active & mask) != 0) {
-                if (*(int *)(voice - 0x48) == arg0[1]) {
+                if (*(int *)&parameters->key_off_mask == arg0[1]) {
                     step = 1;
                     if (arg0[3] != 0) {
                         step = arg0[3];
                     }
-                    delta = PitchDelta(((u8 *)arg0)[0x10], *(int *)(voice - 0x34), step);
-                    *(short *)voice = step;
-                    *(int *)(voice - 0x30) = (short)delta;
+                    delta = PitchDelta(((u8 *)arg0)[0x10], *(int *)&parameters->pitch_offset, step);
+                    *(short *)&parameters->pitch_offset_duration = step;
+                    *(int *)&parameters->pitch_offset_step = (short)delta;
                 }
             }
             i++;

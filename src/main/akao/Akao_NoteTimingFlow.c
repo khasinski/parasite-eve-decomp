@@ -122,13 +122,13 @@ void SPU_StepReverbLoad(void)
                         track->update_flags |= 3;
                     track->panpot = value;
                 }
-                if (track->field_70) {
-                    old = track->voice_mask_b;
-                    track->field_70--;
-                    value = old + track->pan_base;
+                if (track->pitch_offset_duration) {
+                    old = track->pitch_offset;
+                    track->pitch_offset_duration--;
+                    value = old + track->pitch_offset_step;
                     if ((value & 0xFF00) != (old & 0xFF00))
                         track->update_flags |= 0x10;
-                    track->voice_mask_b = value;
+                    track->pitch_offset = value;
                 }
                 pending ^= count;
             }
