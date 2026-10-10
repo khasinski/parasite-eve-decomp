@@ -49,19 +49,19 @@ void Save_AppendMetadataChar(unsigned char ch) {
 
     length = g_SaveMetadataWindowLength;
     cursor = g_SaveMetadataCursor;
+    used = 0;
     if (length > 0) {
-        used = 0;
         terminator = 0xFF;
 
-loop:
-        value = *cursor;
-        if (value != terminator) {
-            used += value < 0xFA;
-            cursor++;
-            if (used < length) {
-                goto loop;
+        do {
+            value = *cursor;
+            if (value != terminator) {
+                used += value < 0xFA;
+                cursor++;
+            } else {
+                break;
             }
-        }
+        } while (used < length);
 
         has_room = used < g_SaveMetadataWindowLength;
         if (has_room != 0) {
