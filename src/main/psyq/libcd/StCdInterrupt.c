@@ -203,11 +203,9 @@ void StCdInterrupt(void) {
                             copyDestination++;
                         } while (copyIndex < 8U);
                         D_800A34A0 = D_800C0DC8;
-                        goto begin_frame;
                     }
                 begin_frame:
                     D_800BE9E4 = D_800BE998;
-                    goto transfer_sector;
                 }
             transfer_sector:
                 D_8009B374 = 0xA;
