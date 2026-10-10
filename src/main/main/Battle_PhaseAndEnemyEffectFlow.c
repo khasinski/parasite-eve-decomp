@@ -52,35 +52,12 @@ extern BattleGameStateWindow D_8009D1A0_r4 __asm__("D_8009D1A0");
 extern BattleGameStateWindow D_8009D1A0_w4 __asm__("D_8009D1A0");
 extern u8 D_8009D1D4;
 extern LargeSymbol D_8009D20C_o __asm__("D_8009D20C");
-extern LargeSymbol D_8009D254_0 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_1 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_2 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_3 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_4 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_5 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_6 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_7 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_8 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_9 __asm__("D_8009D254");
 extern void *D_8009D254_10 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_11 __asm__("D_8009D254");
-extern LargeSymbol D_8009D254_12 __asm__("D_8009D254");
 extern LargeSymbol D_8009D254_13 __asm__("D_8009D254");
 extern LargeSymbol D_8009D254_14 __asm__("D_8009D254");
 extern LargeSymbol D_8009D254_15 __asm__("D_8009D254");
 extern s32 D_8009D258;
-extern LargeSymbol D_8009D278_0 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_1 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_2 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_3 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_4 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_5 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_6 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_7 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_8 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_9 __asm__("D_8009D278");
 extern LargeSymbol D_8009D278_10 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_11 __asm__("D_8009D278");
 extern LargeSymbol D_8009D278_13 __asm__("D_8009D278");
 extern s16 D_8009D27C;
 extern LargeSymbol D_8009D2A0_o __asm__("D_8009D2A0");
@@ -180,7 +157,7 @@ void Battle_AdvancePhase(void) {
         D1A0_W0 = D1A0_R0 & ~0x100;
         return;
     }
-    if (M2C_FIELD(D278(0), s32 *, 0x4C) & 0x200000) {
+    if (M2C_FIELD(D278(13), s32 *, 0x4C) & 0x200000) {
         sp18 = D_8001074C;
         copy_dst = (u8 *)sp30.soundId;
         copy_src = (const u8 *)D_80010760.soundId;
@@ -212,13 +189,13 @@ copy_tail:
 after_command:
         action = command_value - 0x183;
         var_a0_2 = temp_s2->entity;
-        var_a1 = D254(0);
+        var_a1 = D254(14);
         if (var_a0_2 != var_a1) {
             temp_v0 = Battle_CalcAngleToTarget(var_a0_2 + 0x1B4, var_a1 + 0x28);
             var_a0_2 = (s32) D_8009D1D4;
             var_a1 = (void *) (var_a0_2 & 0xFF);
             var_a2 = (M2C_UNK *) ((s32) var_a1 * 8);
-            M2C_FIELD(D254(1), s16 *, 0x3A) = temp_v0;
+            M2C_FIELD(D254(15), s16 *, 0x3A) = temp_v0;
             var_a3 = NULL;
             if (*(s16 *)((u8 *)D_800BE834 + (s32)var_a2) - 0x183 == 0x13) {
                 var_a2 = NULL;
@@ -271,11 +248,11 @@ block_35:
                 D_8009D1D4 = var_v0_3;
                 temp_v1_3 -= 3;
                 temp_v1_3 = (u32) temp_v1_3 < 0x194U;
-                if (!temp_v1_3 || ((u8) M2C_FIELD(D254(2), u8 *, 0xE) < 4U)) {
+                if (!temp_v1_3 || ((u8) M2C_FIELD(D254(14), u8 *, 0xE) < 4U)) {
                     D1A0_W1 = D1A0_R1 & ~0x100;
                 }
-                Entity_SetActionMode(D254(3), M2C_FIELD(D278(1), u8 *, 0x12), var_a2, (s32) var_a3);
-                M2C_FIELD(D278(2), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(2), s32 *, 0x4C) | 0x200000);
+                Entity_SetActionMode(D254(15), M2C_FIELD(D278(13), u8 *, 0x12), var_a2, (s32) var_a3);
+                M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) | 0x200000);
                 return;
             }
             goto block_39;
@@ -283,14 +260,14 @@ block_35:
 block_39:
         Pm_StopAll();
         if (action == 6) {
-            temp_a0_2 = M2C_FIELD(D278(3), void **, 0x68);
+            temp_a0_2 = M2C_FIELD(D278(13), void **, 0x68);
             if (!(M2C_FIELD(temp_a0_2, s32 *, 0xC) & 0x3FF)) {
                 BattleCmd_CommitAmmoAndUpdate(temp_a0_2);
             }
-            M2C_FIELD(D278(4), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(4), s32 *, 0x4C) | 0x100000);
+            M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) | 0x100000);
             temp_a0_3 = M2C_FIELD(temp_s2, s32 *, 0);
             temp_s0 = M2C_FIELD(temp_a0_3, s16 *, 0x26A) - D_8009D27C;
-            temp_v0_2 = ratan2(temp_s0, Battle_CalcDistToPlayer((void *) temp_a0_3, D254(4)));
+            temp_v0_2 = ratan2(temp_s0, Battle_CalcDistToPlayer((void *) temp_a0_3, D254(14)));
             if (temp_v0_2 < -0xAB) {
                 var_v1 = 0;
             } else {
@@ -299,14 +276,14 @@ block_39:
                     var_v1 = 1;
                 }
             }
-            Entity_SetActionMode(D254(5), M2C_FIELD((void *)((s32)var_v1 + (s32)D278(5)), u8 *, 0x14));
-            M2C_FIELD(D278(6), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(6), s32 *, 0x4C) & 0xFFDFFFFF);
+            Entity_SetActionMode(D254(15), M2C_FIELD((void *)((s32)var_v1 + (s32)D278(13)), u8 *, 0x14));
+            M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) & 0xFFDFFFFF);
             D_8009CE39 = 0x58;
             D_8009CE38 = 0;
             D_8009CE3A = 0x18;
             D_8009CE3B = 0;
         } else {
-            Entity_SetActionMode(D254(6), 0xFU);
+            Entity_SetActionMode(D254(14), 0xFU);
         }
         if (action != 0x13) {
             D_8009D258 = Scene_LoadRoomAssets(sp18.bytes[action], (void *) M2C_FIELD(temp_s2, s32 *, 0));
@@ -319,13 +296,13 @@ block_39:
             var_v0_5 = M2C_FIELD(temp_v0_3, s16 *, 0x26C);
         } else {
             var_a0_3 = sp30.soundId[action];
-            var_a2_2 = M2C_FIELD(D254(7), s16 *, 0x2A);
-            var_a3_2 = M2C_FIELD(D254(7), s16 *, 0x2E);
-            var_v0_5 = M2C_FIELD(D254(7), s16 *, 0x32);
+            var_a2_2 = M2C_FIELD(D254(15), s16 *, 0x2A);
+            var_a3_2 = M2C_FIELD(D254(15), s16 *, 0x2E);
+            var_v0_5 = M2C_FIELD(D254(15), s16 *, 0x32);
         }
         Akao_SendPositionalCmdStereo(var_a0_3, 0, var_a2_2, var_a3_2, var_v0_5);
         var_a1 = (void *)0xFFDFFFFF;
-        var_a0_4 = D278(7);
+        var_a0_4 = D278(13);
         actor_flags = M2C_FIELD(var_a0_4, s32 *, 0x4C);
         D1A0_W2 = D1A0_R2 | 0x100;
         actor_flags &= (s32)var_a1;
@@ -333,13 +310,13 @@ block_39:
         goto block_55;
     }
 block_55:
-    actor = D278(8);
+    actor = D278(10);
     actor_flags = M2C_FIELD(actor, s32 *, 0x4C);
     if (actor_flags & 0x80000) {
         if ((Battle_StepAyaAction() << 0x18) != 0) {
             end_slot = D_8009D1D4;
-            aya_actor = D278(9);
-            aya_player = D254(8);
+            aya_actor = D278(13);
+            aya_player = D254(14);
             M2C_FIELD(aya_actor, s32 *, 8) = 0;
             M2C_FIELD(aya_player, s32 *, 0x98) = (s32) (M2C_FIELD(aya_player, s32 *, 0x98) & ~0x100);
             var_s0_4 = end_slot - 7;
@@ -348,7 +325,7 @@ block_55:
                 do {
                     var_v0_6 = var_a2_2 * 8;
                     temp_a0_4 = *(s32 *)(D_800BE830_BYTES + var_v0_6);
-                    if (temp_a0_4 != D254(9)) {
+                    if (temp_a0_4 != D254(15)) {
                         Battle_UpdateEntityFacing(temp_a0_4);
                     }
                     var_s0_4 += 1;
@@ -376,13 +353,13 @@ block_55:
             Battle_HaltOnPositiveX();
         }
     } else if (actor_flags & 0x100000) {
-        temp_v0 = Battle_CalcAngleToTarget(M2C_FIELD(temp_s2, s32 *, 0) + 0x1B4, D254(11) + 0x28);
-        M2C_FIELD(D254(12), s16 *, 0x3A) = temp_v0;
+        temp_v0 = Battle_CalcAngleToTarget(M2C_FIELD(temp_s2, s32 *, 0) + 0x1B4, D254(14) + 0x28);
+        M2C_FIELD(D254(15), s16 *, 0x3A) = temp_v0;
         Battle_StepCharacterAction(temp_s2);
         if ((u32) (*((D_8009D258 * 0xA0C) + D_800942E4) - 1) >= 2U) {
             var_a2_2 = 0xFFEFFFFF;
             temp_a0_3 = -0x101;
-            var_a1 = D278(11);
+            var_a1 = D278(13);
             character_state = (s32)D254(13);
             M2C_FIELD(var_a1, s32 *, 8) = 0;
             M2C_FIELD((void *)character_state, s32 *, 0x98) = (s32) (M2C_FIELD((void *)character_state, s32 *, 0x98) & temp_a0_3);
