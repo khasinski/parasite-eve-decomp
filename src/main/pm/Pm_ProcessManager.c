@@ -589,10 +589,6 @@ int Scene_FreeEntityTable(void *owner)
 
 extern s32 g_PlayerEntity[];
 #define g_PlayerEntity (g_PlayerEntity[0])
-/* Separate symbol views retain the retail read/modify/write instruction order. */
-extern s32 D_800B0CD8_r[] __asm__("g_GameState");
-extern s32 D_800B0CD8_w[] __asm__("g_GameState");
-
 s32 Pm_StopAll(void) {
     u8 *clear_base;
     u8 *base_v0;
@@ -634,7 +630,7 @@ loop_1:
                         var_a0 += 1;
                         var_v1 += 1;
                     } while (var_a0 < 0x73U);
-                    D_800B0CD8_w[0] = D_800B0CD8_r[0] & 0xFFFEFFFF;
+                    g_GameState &= 0xFFFEFFFF;
                 }
                 var_a1->state = 0;
                 var_a1->command = 0xFFU;
@@ -710,9 +706,9 @@ s32 Pm_StopUpperHalf(void) {
                     clear_index++;
                     clear_ptr++;
                 } while (clear_index < 0x73U);
-                game_state = D_800B0CD8_r[0];
+                game_state = g_GameState;
                 game_state &= 0xFFFEFFFF;
-                D_800B0CD8_w[0] = game_state;
+                g_GameState = game_state;
             }
             fill = 0xFF;
 
@@ -780,9 +776,9 @@ s32 Pm_StopLowerHalf(void) {
                     clear_index++;
                     clear_ptr++;
                 } while (clear_index < 0x73U);
-                game_state = D_800B0CD8_r[0];
+                game_state = g_GameState;
                 game_state &= 0xFFFEFFFF;
-                D_800B0CD8_w[0] = game_state;
+                g_GameState = game_state;
             }
             fill = 0xFF;
 
