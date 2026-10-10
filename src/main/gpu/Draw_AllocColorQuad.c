@@ -72,7 +72,7 @@ void Draw_AllocColorQuad(int width, int height) {
     }
     if (first != 0) {
         *(u32 *)&first->r0 = 0x808080;
-        ((u8 *)first)[3] = 8;
+        ((RenderPacketTag *)&first->tag)->bytes.length = 8;
         first->code = 0x38;
     }
 
@@ -139,7 +139,7 @@ ratio_done:
     }
     if (second != 0) {
         *(u32 *)&second->r0 = 0x808080;
-        ((u8 *)second)[3] = 8;
+        ((RenderPacketTag *)&second->tag)->bytes.length = 8;
         second->code = 0x38;
     }
 
@@ -201,7 +201,7 @@ ratio_done:
         } else {
             *(u32 *)&tile->r0 = D_8009D110;
         }
-        ((u8 *)tile)[3] = 3;
+        ((RenderPacketTag *)&tile->tag)->bytes.length = 3;
         tile->code = 0x60;
     }
     tileMask24 = 0xFFFFFF;

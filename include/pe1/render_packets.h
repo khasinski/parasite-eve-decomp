@@ -3,14 +3,20 @@
 
 #include "common.h"
 
+/* GPU DMA link: 24-bit next-packet address and an 8-bit command length. */
+typedef union RenderPacketTag {
+    u32 word;
+    struct { u8 address[3], length; } bytes;
+    struct { u32 address : 24, length : 8; } link;
+} RenderPacketTag;
+
+PE1_STATIC_ASSERT(sizeof(RenderPacketTag) == 4, render_packet_tag_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacketTag, bytes.length) == 3,
+                  render_packet_tag_length_offset);
+
 /* Variable-size textured sprite packet used by the glyph renderer. */
 typedef struct RenderSpritePacket {
-    union {
-        u32 word;
-        struct {
-            u8 address[3], length;
-        } bytes;
-    } tag;
+    RenderPacketTag tag;
     union {
         u32 word;
         struct {
