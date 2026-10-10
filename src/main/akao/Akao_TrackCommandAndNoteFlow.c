@@ -475,18 +475,20 @@ void Akao_PlayNote(AkaoTrack *track, unsigned int mask) {
     track->note_pitch = note;
     if (old_note != 0xFF) {
         if (track->parent_track_id == 0) {
-            if ((*(u32 *)(g_AkaoCurTrack + 0x14) & mask & g_SpuActiveVoiceMask) != 0) {
-                goto call;
+            if ((*(u32 *)(g_AkaoCurTrack + 0x14) & mask & g_SpuActiveVoiceMask) == 0) {
+                track->update_flags |= AKAO_VOICE_PARAM_PITCH;
+                track->pitch_base =
+                    (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
+                    *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
             }
+        } else {
+            track->update_flags |= AKAO_VOICE_PARAM_PITCH;
+            track->pitch_base =
+                (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
+                *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
         }
-
-        track->update_flags |= AKAO_VOICE_PARAM_PITCH;
-        track->pitch_base =
-            (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
-            *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
     }
 
-call:
     SeqOp_SetVoiceInstrument(track, (AkaoInstrument *)table, *(int *)table);
     track->flags &= ~AKAO_TRACK_FLAG_PENDING_NOTE_PITCH;
 }
@@ -514,18 +516,20 @@ void Akao_TieNote(AkaoTrack *track, unsigned int mask) {
     track->note_pitch = note;
     if (old_note != 0xFF) {
         if (track->parent_track_id == 0) {
-            if ((*(u32 *)(g_AkaoCurTrack + 0x14) & mask & g_SpuActiveVoiceMask) != 0) {
-                goto call;
+            if ((*(u32 *)(g_AkaoCurTrack + 0x14) & mask & g_SpuActiveVoiceMask) == 0) {
+                track->update_flags |= AKAO_VOICE_PARAM_PITCH;
+                track->pitch_base =
+                    (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
+                    *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
             }
+        } else {
+            track->update_flags |= AKAO_VOICE_PARAM_PITCH;
+            track->pitch_base =
+                (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
+                *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
         }
-
-        track->update_flags |= AKAO_VOICE_PARAM_PITCH;
-        track->pitch_base =
-            (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
-            *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
     }
 
-call:
     SeqOp_SetVoiceInstrument(track, (AkaoInstrument *)table, 0x1010);
     track->flags &= ~AKAO_TRACK_FLAG_PENDING_NOTE_PITCH;
 }
