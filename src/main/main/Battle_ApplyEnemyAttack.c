@@ -77,17 +77,18 @@ void Battle_ApplyEnemyAttack(EnemyCombatant *ent) {
         break;
     case 2:
         {
-            Combatant *pD;
-            register s32 f asm("$2");
-            pD = (Combatant *)D278_4;
-            f = pD->stateFlags;
+            Combatant *pD = (Combatant *)D278_4;
+            s32 flags;
+            flags = pD->stateFlags;
             g_ActorEffectFlag100Timer = 0;
-            pD->stateFlags = f & ~0x100;
-            f = ((volatile Combatant *)pD)->stateFlags;
-            f &= ~0x200;
-            f &= ~0x400;
-            f &= ~0x800;
-            pD->stateFlags = f;
+            pD->stateFlags = flags & ~0x100;
+            {
+                s32 remainingFlags = ((volatile Combatant *)pD)->stateFlags;
+                remainingFlags &= ~0x200;
+                remainingFlags &= ~0x400;
+                remainingFlags &= ~0x800;
+                pD->stateFlags = remainingFlags;
+            }
         }
         break;
     case 3:
