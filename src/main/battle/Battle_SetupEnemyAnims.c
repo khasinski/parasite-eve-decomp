@@ -29,11 +29,11 @@ void Battle_SetupEnemyAnims(void) {
         (combatant->stat22 * scaleTable.values[actionId]) / 10;
     combatant->actionMode12 = 4;
     D_8009D278->actionMode13 = 5;
-    D_8009D278->actionMode14 = 6;
+    D_8009D278->targetAngleActionModes[0] = 6;
     D_8009D278->actionMode17 = 7;
-    D_8009D278->actionMode15 = 8;
+    D_8009D278->targetAngleActionModes[1] = 8;
     D_8009D278->actionMode18 = 9;
-    D_8009D278->actionMode16 = 10;
+    D_8009D278->targetAngleActionModes[2] = 10;
     D_8009D278->actionMode19 = 11;
 
     animRow = animTable.rows[actionId];

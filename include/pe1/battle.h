@@ -199,9 +199,7 @@ typedef struct Combatant {
 /* 0x10 */ u16  hpAlive;       /* authoritative ">0 == alive" HP (target tests); on player doubles as EXP/level gauge clamped 0x2328 (Battle_BuildTargetList.c:47; Battle_Update.c:155). TENTATIVE width: some reads s32 */
 /* 0x12 */ u8   actionMode12;  /* action-mode id table [0x12..0x19], filled per enemy by facing (Battle_SetupEnemyAnims.c:38-46): 4 idle, 0xD special */
 /* 0x13 */ s8   actionMode13;
-/* 0x14 */ u8   actionMode14;
-/* 0x15 */ u8   actionMode15;
-/* 0x16 */ u8   actionMode16;
+/* 0x14 */ u8   targetAngleActionModes[3]; /* selected by the relative target angle in Battle_AdvancePhase */
 /* 0x17 */ u8   actionMode17;
 /* 0x18 */ s8   actionMode18;
 /* 0x19 */ s8   actionMode19;

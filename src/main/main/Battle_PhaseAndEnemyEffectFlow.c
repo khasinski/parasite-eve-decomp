@@ -266,7 +266,7 @@ block_39:
                     var_v1 = 1;
                 }
             }
-            Entity_SetActionMode(D254(15), M2C_FIELD((void *)((s32)var_v1 + (s32)D278(13)), u8 *, 0x14));
+            Entity_SetActionMode(D254(15), *(u8 *)((char *)((void *)((s32)var_v1 + (s32)D278(13))) + PE1_OFFSETOF(Combatant, targetAngleActionModes)));
             M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) & 0xFFDFFFFF);
             D_8009CE39 = 0x58;
             D_8009CE38 = 0;
