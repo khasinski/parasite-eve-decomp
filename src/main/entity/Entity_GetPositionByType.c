@@ -20,10 +20,10 @@ int Entity_GetPositionByType(int **args) {
     if (selector == 0) {
         player = D_8009D254.value.pointer;
         if (player == 0) {
-            goto not_found;
+            *args[6] = -1;
+            return 1;
         }
         entity = player;
-        goto found;
     } else {
         entity = D_8009D20C[0];
         entity_id = selector;
@@ -36,17 +36,11 @@ int Entity_GetPositionByType(int **args) {
             entity = PTR_AT(entity, 4);
         }
         if (entity == 0) {
-            goto not_found;
+            *args[6] = -1;
+            return 1;
         }
     }
 
-    goto found;
-
-not_found:
-    *args[6] = -1;
-    return 1;
-
-found:
     *args[6] = 1;
     switch (*args[0]) {
     case 0:
