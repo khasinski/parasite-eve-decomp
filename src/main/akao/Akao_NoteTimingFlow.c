@@ -652,21 +652,13 @@ int Akao_LookupPitchPeriod(int arg0, int arg1, int arg2) {
         address_or_period += (unsigned int)(address_or_period * arg2) >> 7;
     }
 
-    if ((unsigned int)shift < 7) {
-        goto less_than_7;
+    if ((unsigned int)shift >= 7) {
+        offset = shift - 6;
+        address_or_period <<= offset;
+    } else if ((unsigned int)row < 6) {
+        offset = 6 - row;
+        address_or_period = (unsigned int)address_or_period >> offset;
     }
-    offset = shift - 6;
-    address_or_period <<= offset;
-    goto done;
-
-less_than_7:
-    if ((unsigned int)row >= 6) {
-        goto done;
-    }
-    offset = 6 - row;
-    address_or_period = (unsigned int)address_or_period >> offset;
-
-done:
     return address_or_period & 0xFFFF;
 }
 /* MASPSX_FLAGS: --expand-div */
