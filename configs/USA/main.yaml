@@ -239,8 +239,8 @@ segments:
       # default-profile handlers on the current actor (main_tu_evidence
       # G0199..G0215 have no split evidence between them).
       - [0xA404, c, task/Task_SceneCommandOps]
-      - [0xACAC, c, entity/Entity_AdvanceAnim]
-      - [0xAE80, c, entity/entity_set]
+      # Animation advancement and action selection share per-model action tables.
+      - [0xACAC, c, entity/Entity_AnimationState]
       # Collision-state reset and database relocation share the collision table globals (G0227).
       - [0xB090, c, entity/Entity_CollisionDatabase]
       - [0xB1F8, c, entity/Entity_UpdateList]

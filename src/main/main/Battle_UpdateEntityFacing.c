@@ -1,4 +1,4 @@
-#include "pe1/battle.h"
+#include "pe1/entity_animation.h"
 #include "pe1/gte.h"
 
 typedef struct FacingMotion {
@@ -29,7 +29,6 @@ typedef struct FacingCore {
 extern Combatant *D_8009D278;
 extern BattleEntity *D_8009D254;
 int Battle_CalcRelativeAngle(BattleEntity *, BattleEntity *);
-void Entity_SetActionMode(BattleEntity *, int);
 
 void Battle_UpdateEntityFacing(BattleEntity *entity)
 {
