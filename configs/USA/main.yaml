@@ -621,12 +621,9 @@ segments:
       # Active-list presence, child access and node searches share widget state.
       - [0x531B0, c, menu/menu_widget]
       - [0x5327C, c, gpu/Draw_FlushPrimList]
-      # Current/saved node selection, constructors, pool, cell indices and rows
+      # Selection, constructors, pool, cells, rows and cursor scrolling
       # share their typed widget state and -G8/common profile.
       - [0x534B8, c, menu/MenuWidget_Lifecycle]
-      # Cursor bounds and scrolling use one MenuWidgetNode viewport model.
-      - [0x54530, c, menu/MenuWidget_CursorClamp]
-      - [0x5460C, c, menu/Menu_StepScrollCursor]
       - [0x54FD0, c, gpu/Draw_SetPrimCallback]
       # Widget column-layout table: reset, mode, save and restore share the table and its mode word.
       - [0x55164, c, menu/MenuWidget_ColumnLayout]
