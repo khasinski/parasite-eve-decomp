@@ -70,11 +70,7 @@ void Entity_RelocateSceneData(void) {
     offset = *(u32 *)&base->vertices;
     g_CollisionDb = base;
 
-    if (!(0x80000000U < offset)) {
-        goto relocate;
-    }
-
-    {
+    if (0x80000000U < offset) {
         struct CollisionPlane *planes;
         s16 **heights;
 
@@ -82,10 +78,9 @@ void Entity_RelocateSceneData(void) {
         heights = (s16 **)base->regions;
         g_RegionHeightTable = heights;
         g_CollisionPlaneTable = planes;
+        return;
     }
-    return;
 
-relocate:
     base->vertices.word = (u32)base + offset;
     base->triangles.word = (u32)base + base->triangles.word;
     base->rampEdges.word = (u32)base + base->rampEdges.word;
