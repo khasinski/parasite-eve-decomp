@@ -139,9 +139,7 @@ void Field_HandleStateTransition(void) {
     }
 
     mode = D_800BE9A0 & 0xF000;
-    if ((mode != 0x4000) && (mode != 0x7000)) {
-        goto clear_input;
-    }
+    if (!((mode != 0x4000) && (mode != 0x7000))) {
 
     if (field_flags_read_6[0] & 0x4000) {
         mode = PadGetState(0);
@@ -286,8 +284,8 @@ void Field_HandleStateTransition(void) {
     D_8009D1F4 = changed & final_pad;
     D_8009D1E4 = changed & final_old;
     return;
+    }
 
-clear_input:
     D_8009D26C = 0;
     D_8009D1F4 = 0;
     D_8009D1E4 = 0;
