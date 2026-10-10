@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/scene_transition.h"
 #include "pe1/scene_entity_textures.h"
 #include "pe1/scene_assets.h"
 #include "pe1/cdrom.h"
@@ -129,7 +130,6 @@ retry:
 }
 
 void Entity_SetActionMode(void *entity, int mode);
-int Scene_SetStoryDay(int storyDay);
 /* Keep independent C lvalues for the retail flag loads across switch cases. */
 extern struct { char _[16]; } D_800B0CE2_o __asm__("g_SceneAreaType");
 extern struct { char _[16]; } D_800B0CE2_w __asm__("g_SceneAreaType");

@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+#include "pe1/scene_transition.h"
 #include "pe1/render_camera.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/game_state.h"
@@ -42,7 +43,6 @@ void Gte_SetBackColor(void *arg0, int arg1, int arg2, int arg3);
 void Gte_SetLightColor(void *arg0, int arg1, int arg2, int arg3, int arg4);
 int CdRom_DetectDiscChange(void);
 int Scene_LoadEntityTexture(void);
-void Scene_SetStoryDay(s8 storyDay);
 int Scene_LoadEntityTextures(void);
 void Entity_RelocateSceneData(void);
 void Render_SetupFogLayer(void *source);

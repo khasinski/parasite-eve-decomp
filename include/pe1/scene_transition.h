@@ -49,5 +49,7 @@
  */
 
 int Render_BeginSceneLoad(void);
+/* -1 applies the pending story day; ordinary days update the shared scene state. */
+int Scene_SetStoryDay(int storyDay);
 
 #endif /* PE1_SCENE_TRANSITION_H */
