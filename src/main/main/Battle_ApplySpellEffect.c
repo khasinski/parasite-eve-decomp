@@ -57,108 +57,57 @@ extern struct { char _[16]; } g_PlayerEntity_oa __asm__("g_PlayerEntity");
 extern struct { char _[16]; } g_PlayerEntity_ob __asm__("g_PlayerEntity");
 #define D254A (*(u8 **)&g_PlayerEntity_oa)
 #define D254B (*(u8 **)&g_PlayerEntity_ob)
-extern struct { char _[16]; } D278_o1 __asm__("g_ActiveActor");
-#define D278_1 (*(u8 **)&D278_o1)
-extern struct { char _[16]; } D278_o2 __asm__("g_ActiveActor");
-#define D278_2 (*(u8 **)&D278_o2)
-extern struct { char _[16]; } D278_o3 __asm__("g_ActiveActor");
-#define D278_3 (*(u8 **)&D278_o3)
-extern struct { char _[16]; } D278_o4 __asm__("g_ActiveActor");
-#define D278_4 (*(u8 **)&D278_o4)
-extern struct { char _[16]; } D278_o5 __asm__("g_ActiveActor");
-#define D278_5 (*(u8 **)&D278_o5)
-extern struct { char _[16]; } D278_o6 __asm__("g_ActiveActor");
-#define D278_6 (*(u8 **)&D278_o6)
-extern struct { char _[16]; } D278_o7 __asm__("g_ActiveActor");
-#define D278_7 (*(u8 **)&D278_o7)
-extern struct { char _[16]; } D278_o8 __asm__("g_ActiveActor");
-#define D278_8 (*(u8 **)&D278_o8)
-extern struct { char _[16]; } D278_o9 __asm__("g_ActiveActor");
-#define D278_9 (*(u8 **)&D278_o9)
-extern struct { char _[16]; } D278_o10 __asm__("g_ActiveActor");
-#define D278_10 (*(u8 **)&D278_o10)
-extern struct { char _[16]; } D278_o11 __asm__("g_ActiveActor");
-#define D278_11 (*(u8 **)&D278_o11)
-extern struct { char _[16]; } D278_o12 __asm__("g_ActiveActor");
-#define D278_12 (*(u8 **)&D278_o12)
-extern struct { char _[16]; } D278_o13 __asm__("g_ActiveActor");
-#define D278_13 (*(u8 **)&D278_o13)
-extern struct { char _[16]; } D278_o14 __asm__("g_ActiveActor");
-#define D278_14 (*(u8 **)&D278_o14)
-extern struct { char _[16]; } D278_o15 __asm__("g_ActiveActor");
-#define D278_15 (*(u8 **)&D278_o15)
-extern struct { char _[16]; } D278_o16 __asm__("g_ActiveActor");
-#define D278_16 (*(u8 **)&D278_o16)
-extern struct { char _[16]; } D278_o17 __asm__("g_ActiveActor");
-#define D278_17 (*(u8 **)&D278_o17)
-extern struct { char _[16]; } D278_o18 __asm__("g_ActiveActor");
-#define D278_18 (*(u8 **)&D278_o18)
-extern struct { char _[16]; } D278_o19 __asm__("g_ActiveActor");
-#define D278_19 (*(u8 **)&D278_o19)
-extern struct { char _[16]; } D278_o20 __asm__("g_ActiveActor");
-#define D278_20 (*(u8 **)&D278_o20)
-extern struct { char _[16]; } D278_o21 __asm__("g_ActiveActor");
-#define D278_21 (*(u8 **)&D278_o21)
-extern struct { char _[16]; } D278_o22 __asm__("g_ActiveActor");
-#define D278_22 (*(u8 **)&D278_o22)
-extern struct { char _[16]; } D278_o23 __asm__("g_ActiveActor");
-#define D278_23 (*(u8 **)&D278_o23)
-extern struct { char _[16]; } D278_o24 __asm__("g_ActiveActor");
-#define D278_24 (*(u8 **)&D278_o24)
-extern struct { char _[16]; } D278_o25 __asm__("g_ActiveActor");
-#define D278_25 (*(u8 **)&D278_o25)
-extern struct { char _[16]; } D278_o26 __asm__("g_ActiveActor");
-#define D278_26 (*(u8 **)&D278_o26)
-extern struct { char _[16]; } D278_o27 __asm__("g_ActiveActor");
-#define D278_27 (*(u8 **)&D278_o27)
-extern struct { char _[16]; } D278_o28 __asm__("g_ActiveActor");
-#define D278_28 (*(u8 **)&D278_o28)
-extern struct { char _[16]; } D278_o29 __asm__("g_ActiveActor");
-#define D278_29 (*(u8 **)&D278_o29)
-extern struct { char _[16]; } D278_o30 __asm__("g_ActiveActor");
-#define D278_30 (*(u8 **)&D278_o30)
-extern struct { char _[16]; } D278_o31 __asm__("g_ActiveActor");
-#define D278_31 (*(u8 **)&D278_o31)
-extern struct { char _[16]; } D278_o32 __asm__("g_ActiveActor");
-#define D278_32 (*(u8 **)&D278_o32)
-extern struct { char _[16]; } D278_o33 __asm__("g_ActiveActor");
-#define D278_33 (*(u8 **)&D278_o33)
-extern struct { char _[16]; } D278_o34 __asm__("g_ActiveActor");
-#define D278_34 (*(u8 **)&D278_o34)
-extern struct { char _[16]; } D278_o35 __asm__("g_ActiveActor");
-#define D278_35 (*(u8 **)&D278_o35)
-extern struct { char _[16]; } D278_o36 __asm__("g_ActiveActor");
-#define D278_36 (*(u8 **)&D278_o36)
-extern struct { char _[16]; } D278_o37 __asm__("g_ActiveActor");
-#define D278_37 (*(u8 **)&D278_o37)
-extern struct { char _[16]; } D278_o38 __asm__("g_ActiveActor");
-#define D278_38 (*(u8 **)&D278_o38)
-extern struct { char _[16]; } D278_o39 __asm__("g_ActiveActor");
-#define D278_39 (*(u8 **)&D278_o39)
-extern struct { char _[16]; } D278_o40 __asm__("g_ActiveActor");
-#define D278_40 (*(u8 **)&D278_o40)
-extern struct { char _[16]; } D278_o41 __asm__("g_ActiveActor");
-#define D278_41 (*(u8 **)&D278_o41)
-extern struct { char _[16]; } D278_o42 __asm__("g_ActiveActor");
-#define D278_42 (*(u8 **)&D278_o42)
-extern struct { char _[16]; } D278_o43 __asm__("g_ActiveActor");
-#define D278_43 (*(u8 **)&D278_o43)
-extern struct { char _[16]; } D278_o44 __asm__("g_ActiveActor");
-#define D278_44 (*(u8 **)&D278_o44)
-extern struct { char _[16]; } D278_o45 __asm__("g_ActiveActor");
-#define D278_45 (*(u8 **)&D278_o45)
-extern struct { char _[16]; } D278_o46 __asm__("g_ActiveActor");
-#define D278_46 (*(u8 **)&D278_o46)
-extern struct { char _[16]; } D278_o47 __asm__("g_ActiveActor");
-#define D278_47 (*(u8 **)&D278_o47)
-extern struct { char _[16]; } D278_o48 __asm__("g_ActiveActor");
-#define D278_48 (*(u8 **)&D278_o48)
-extern struct { char _[16]; } D278_o49 __asm__("g_ActiveActor");
-#define D278_49 (*(u8 **)&D278_o49)
-extern struct { char _[16]; } D278_o50 __asm__("g_ActiveActor");
-#define D278_50 (*(u8 **)&D278_o50)
-extern struct { char _[16]; } D278_o51 __asm__("g_ActiveActor");
-#define D278_51 (*(u8 **)&D278_o51)
+#define D278_1 (*(u8 **)&D278_o52)
+#define D278_2 (*(u8 **)&D278_o52)
+#define D278_3 (*(u8 **)&D278_o52)
+#define D278_4 (*(u8 **)&D278_o52)
+#define D278_5 (*(u8 **)&D278_o52)
+#define D278_6 (*(u8 **)&D278_o52)
+#define D278_7 (*(u8 **)&D278_o54)
+#define D278_8 (*(u8 **)&D278_o54)
+#define D278_9 (*(u8 **)&D278_o53)
+#define D278_10 (*(u8 **)&D278_o53)
+#define D278_11 (*(u8 **)&D278_o52)
+#define D278_12 (*(u8 **)&D278_o54)
+#define D278_13 (*(u8 **)&D278_o53)
+#define D278_14 (*(u8 **)&D278_o52)
+#define D278_15 (*(u8 **)&D278_o54)
+#define D278_16 (*(u8 **)&D278_o53)
+#define D278_17 (*(u8 **)&D278_o52)
+#define D278_18 (*(u8 **)&D278_o54)
+#define D278_19 (*(u8 **)&D278_o53)
+#define D278_20 (*(u8 **)&D278_o54)
+#define D278_21 (*(u8 **)&D278_o54)
+#define D278_22 (*(u8 **)&D278_o52)
+#define D278_23 (*(u8 **)&D278_o53)
+#define D278_24 (*(u8 **)&D278_o54)
+#define D278_25 (*(u8 **)&D278_o52)
+#define D278_26 (*(u8 **)&D278_o53)
+#define D278_27 (*(u8 **)&D278_o54)
+#define D278_28 (*(u8 **)&D278_o52)
+#define D278_29 (*(u8 **)&D278_o53)
+#define D278_30 (*(u8 **)&D278_o54)
+#define D278_31 (*(u8 **)&D278_o52)
+#define D278_32 (*(u8 **)&D278_o53)
+#define D278_33 (*(u8 **)&D278_o54)
+#define D278_34 (*(u8 **)&D278_o52)
+#define D278_35 (*(u8 **)&D278_o53)
+#define D278_36 (*(u8 **)&D278_o54)
+#define D278_37 (*(u8 **)&D278_o52)
+#define D278_38 (*(u8 **)&D278_o53)
+#define D278_39 (*(u8 **)&D278_o54)
+#define D278_40 (*(u8 **)&D278_o52)
+#define D278_41 (*(u8 **)&D278_o53)
+#define D278_42 (*(u8 **)&D278_o54)
+#define D278_43 (*(u8 **)&D278_o52)
+#define D278_44 (*(u8 **)&D278_o53)
+#define D278_45 (*(u8 **)&D278_o54)
+#define D278_46 (*(u8 **)&D278_o52)
+#define D278_47 (*(u8 **)&D278_o53)
+#define D278_48 (*(u8 **)&D278_o54)
+#define D278_49 (*(u8 **)&D278_o52)
+#define D278_50 (*(u8 **)&D278_o53)
+#define D278_51 (*(u8 **)&D278_o54)
 extern struct { char _[16]; } D278_o52 __asm__("g_ActiveActor");
 #define D278_52 (*(u8 **)&D278_o52)
 extern struct { char _[16]; } D278_o53 __asm__("g_ActiveActor");
