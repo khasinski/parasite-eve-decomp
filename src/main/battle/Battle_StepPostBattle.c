@@ -125,7 +125,7 @@ void Battle_StepPostBattle(void)
             {
                 u8 state = D_8009CE74;
                 D_8009CE70 = 0x1E;
-                asm volatile("" : "=r"(state) : "0"(state) : "memory");
+                asm volatile("" : "=r"(state) : "0"(state));
                 nextStage = state + 1;
             }
             goto storeNextStage;
@@ -142,7 +142,7 @@ void Battle_StepPostBattle(void)
         u8 timer;
         register RenderTexturedQuad *base asm("$3");
         s32 frame;
-        asm volatile("" : : "r"(brightnessBase), "r"(top) : "memory");
+        asm volatile("" : : "r"(brightnessBase), "r"(top));
         brightness = brightnessBase - (D_8009CE70 * 4);
         *(D_800BE9F4 + (D_8009CDDC * 0x28)) = brightness;
         *(D_800BE9F5 + (D_8009CDDC * 0x28)) = brightness;
@@ -151,7 +151,7 @@ void Battle_StepPostBattle(void)
         frame = D_8009CDDC;
         expandingPanel = &base[frame];
         timer = D_8009CE70;
-        asm volatile("" : "=r"(expandingPanel) : "0"(expandingPanel), "r"(timer));
+        asm volatile("" : "=r"(expandingPanel) : "0"(expandingPanel));
         remainingFrames = timer & 0xFF;
         horizontalInset = remainingFrames * 4;
         horizontalEdge = 0x64 - horizontalInset;
@@ -174,7 +174,7 @@ void Battle_StepPostBattle(void)
             {
                 u8 state = D_8009CE74;
                 D_8009CE70 = 0x50;
-                asm volatile("" : "=r"(state) : "0"(state) : "memory");
+                asm volatile("" : "=r"(state) : "0"(state));
                 nextStage = state + 1;
             }
             goto storeNextStage;
@@ -192,7 +192,7 @@ void Battle_StepPostBattle(void)
             register u16 right asm("$5");
             pulse &= 255;
             raisingPanel = &base[frame];
-            asm volatile("" : "=r"(raisingPanel), "=r"(pulse) : "0"(raisingPanel), "1"(pulse), "r"(left));
+            asm volatile("" : "=r"(raisingPanel), "=r"(pulse) : "0"(raisingPanel), "1"(pulse));
             top = 122 - pulse;
             right = 220;
             edgeCoordinate = 124;
