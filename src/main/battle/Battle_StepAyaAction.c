@@ -26,7 +26,6 @@ s32 Battle_StepAyaAction(void)
   s32 targetDistance;
   s32 slot;
   s32 flags;
-  s32 attackFlags;
   s32 finished;
   s8 attackStep;
   u32 effectId;
@@ -222,6 +221,8 @@ s32 Battle_StepAyaAction(void)
       Entity_SetActionMode(D_8009D254, ((D_8009CE48 * 2) + 9) & 0xFFFF);
       {
         Combatant *attacker;
+        u32 hitFlags;
+        u32 classFlags;
         register unsigned attackMask asm("$6");
         unsigned countMask;
         register unsigned index asm("$3");
@@ -243,12 +244,12 @@ s32 Battle_StepAyaAction(void)
         /* Keep the word lvalue view: direct members change stock GCC scheduling. */
         targetCore = target->core;
         countMask = 0xFFFC7FFF;
-        flags = ((*(u32 *)&targetCore->coreFlags) & (~0x6000)) | 0x2000;
+        hitFlags = ((*(u32 *)&targetCore->coreFlags) & (~0x6000)) | 0x2000;
         attacker = D_8009D278;
-        (*(u32 *)&targetCore->coreFlags) = flags;
-        attackFlags = (flags & attackMask) | (((((u32) attacker->action->attackWord) >> 0x14) & 3) << 0x12);
-        (*(u32 *)&targetCore->coreFlags) = attackFlags;
-        (*(u32 *)&targetCore->coreFlags) = (s32) ((attackFlags & countMask) | ((D_8009CE55 & hitCountMask) << 0xF));
+        (*(u32 *)&targetCore->coreFlags) = hitFlags;
+        classFlags = (hitFlags & attackMask) | (((((u32) attacker->action->attackWord) >> 0x14) & 3) << 0x12);
+        (*(u32 *)&targetCore->coreFlags) = classFlags;
+        (*(u32 *)&targetCore->coreFlags) = (s32) ((classFlags & countMask) | ((D_8009CE55 & hitCountMask) << 0xF));
         if (D_8009CE48 == 2)
         {
           effectTarget = D_800BE830[targetIndex].actor;
