@@ -596,11 +596,8 @@ segments:
       # Shared string-table lookup family.
       - [0x4E44C, c, table/Str_LookupTables]
       - [0x4E608, c, table/Tbl_FindNthNonEmpty]
-      # Event queue initialization, enqueue and masked dequeue share their pool.
+      # Event queue, input dispatch and frame presentation share -G8/common.
       - [0x4E688, c, menu/queue]
-      # Input flags, queued dispatch and frame presentation share a direct
-      # status-remapping call and the same matching -G8/common profile.
-      - [0x4E838, c, menu/MenuInputAndFrameFlow]
       # Base-offset setter and Y accessor share one default-profile object.
       - [0x4F050, c, gpu/Draw_BaseOffset]
       # Text cursor set/offset, the cursor stack push/pop and the draw-colour
