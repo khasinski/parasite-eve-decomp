@@ -199,8 +199,7 @@ int Task_WaitAnimRange(void) {
     max_frame = g_CurrentEntity[0]->action;
     frame = next >> 16;
     if (max_frame < frame) {
-        divisor = max_frame + 1;
-        next = (frame % divisor) << 16;
+        next = (frame % (max_frame + 1)) << 16;
         cmp = target < next;
         if (cmp) {
             return 0;
