@@ -17,20 +17,20 @@ int Inv_FindItemById(int arg0);
 #define D278_0 (*(u8 **)&D278_o16)
 #define D278_1 (*(u8 **)&D278_o16)
 #define D278_2 (*(u8 **)&D278_o17)
-#define D278_3 (*(u8 **)&D278_o15)
+#define D278_3 ((u8 *)g_ActiveActor)
 #define D278_4 (*(u8 **)&D278_o16)
 #define D278_5 (*(u8 **)&D278_o17)
-#define D278_6 (*(u8 **)&D278_o15)
+#define D278_6 ((u8 *)g_ActiveActor)
 #define D278_7 (*(u8 **)&D278_o16)
 #define D278_8 (*(u8 **)&D278_o17)
-#define D278_9 (*(u8 **)&D278_o15)
+#define D278_9 ((u8 *)g_ActiveActor)
 #define D278_10 (*(u8 **)&D278_o16)
 #define D278_11 (*(u8 **)&D278_o17)
-#define D278_12 (*(u8 **)&D278_o15)
+#define D278_12 ((u8 *)g_ActiveActor)
 #define D278_13 (*(u8 **)&D278_o16)
 #define D278_14 (*(u8 **)&D278_o17)
-extern struct { char _[16]; } D278_o15 __asm__("g_ActiveActor");
-#define D278_15 (*(u8 **)&D278_o15)
+extern Combatant *g_ActiveActor;
+#define D278_15 ((u8 *)g_ActiveActor)
 extern struct { char _[16]; } D278_o16 __asm__("g_ActiveActor");
 #define D278_16 (*(u8 **)&D278_o16)
 extern struct { char _[16]; } D278_o17 __asm__("g_ActiveActor");
