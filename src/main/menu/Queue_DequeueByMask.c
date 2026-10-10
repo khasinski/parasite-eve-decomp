@@ -18,40 +18,35 @@ void Queue_DequeueByMask(int mask, MenuQueueEntry *out_arg) {
     }
 
     head = g_MenuEventQueueHead;
-    if (head == 0) {
-        goto fail;
+    if (head != 0) {
+        entry = head;
+        prev = 0;
+        while (entry != 0 && (entry->payload.values.value0 & mask) == 0) {
+            prev = entry;
+            entry = entry->next;
+        }
+
+        if (entry != 0) {
+            if (prev != 0) {
+                prev->next = entry->next;
+            } else {
+                g_MenuEventQueueHead = entry->next;
+            }
+
+            if (entry == g_MenuEventQueueTail) {
+                g_MenuEventQueueTail = prev;
+            }
+
+            {
+                MenuQueueEntry *oldFree = (MenuQueueEntry *)g_MenuEventQueueFreeList;
+                g_MenuEventQueueFreeList = entry;
+                entry->next = oldFree;
+            }
+            *out = *entry;
+            return;
+        }
     }
 
-    entry = head;
-    prev = 0;
-    while (entry != 0 && (entry->payload.values.value0 & mask) == 0) {
-        prev = entry;
-        entry = entry->next;
-    }
-
-    if (entry == 0) {
-        goto fail;
-    }
-
-    if (prev != 0) {
-        prev->next = entry->next;
-    } else {
-        g_MenuEventQueueHead = entry->next;
-    }
-
-    if (entry == g_MenuEventQueueTail) {
-        g_MenuEventQueueTail = prev;
-    }
-
-    {
-        MenuQueueEntry *oldFree = (MenuQueueEntry *)g_MenuEventQueueFreeList;
-        g_MenuEventQueueFreeList = entry;
-        entry->next = oldFree;
-    }
-    *out = *entry;
-    return;
-
-fail:
     out->payload.values.value0 = 0;
     out->payload.values.value1 = 0;
 }

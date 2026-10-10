@@ -71,7 +71,7 @@ void Inv_ShowItemDescriptionPanel(s32 arg0)
       new_var3 = Str_LookupTable8((*((u8 *) (((s8 *) var_s0) + 4))) - 1);
       var_a0 = var_s0;
       var_a1 = new_var3;
-      goto block_14;
+      Sfx_DrawSlotRow(var_a0, var_a1);
     }
   }
   else
@@ -91,7 +91,6 @@ void Inv_ShowItemDescriptionPanel(s32 arg0)
       var_a1 = Str_LookupTable8((*((u8 *) (((s8 *) temp_s0) + 4))) - 1);
       var_a0 = temp_s0;
     }
-    block_14:
     Sfx_DrawSlotRow(var_a0, var_a1);
 
   }
