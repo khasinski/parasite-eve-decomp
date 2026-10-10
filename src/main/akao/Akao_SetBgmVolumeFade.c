@@ -13,10 +13,8 @@ void Akao_SetBgmVolumeFade(void) {
     if (*slot != 0) {
         value = 0x7F;
         value = Akao_SendTableCommand(*slot, 0x450, 0x100, 0x80, value);
-        goto done;
+    } else {
+        value = 0;
     }
-    value = 0;
-
-done:
     g_AkaoPendingBgmVolumeFade = value;
 }

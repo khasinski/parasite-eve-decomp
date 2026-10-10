@@ -76,15 +76,11 @@ int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4) {
     void *entry = Asset_FindTable2CByU16Key(arg0, arg1);
     int ret;
 
-    if (entry == 0) {
-        goto fail;
+    if (entry != 0) {
+        ret = Akao_Cmd_24(entry, arg2, arg3, arg4);
+    } else {
+        ret = -1;
     }
-    ret = Akao_Cmd_24(entry, arg2, arg3, arg4);
-    goto done;
-
-fail:
-    ret = -1;
-done:
     return ret;
 }
 
