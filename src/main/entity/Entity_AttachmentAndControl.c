@@ -1,7 +1,50 @@
 #include "pe1/player_entity.h"
+#include "pe1/render_setup.h"
+#include "pe1/pm.h"
+extern FieldActor *g_CurrentEntity;
+extern RenderObjectEntity g_PlayerBattleEntity[];
+extern unsigned short D_800B0D88;
+
+
+extern int g_BattleModeState;
+
+int Task_Noop3(void) {
+    return 1;
+}
+
+int Task_Noop4(void) {
+    return 1;
+}
+
+int Task_SetAnimInterpRate(short **arg0) {
+    short **args = arg0;
+    FieldActor *current;
+    FieldActor *selected;
+    unsigned short flags;
+
+    Anim_SetInterpRate(&g_CurrentEntity->render_object, *args[0]);
+
+    current = g_CurrentEntity;
+    flags = current->render_object.flags_9C;
+    selected = g_PlayerEntity;
+    current->render_object.flags_9C = flags | 2;
+
+    if (current == selected) {
+        Anim_SetInterpRate(g_PlayerBattleEntity, *args[0]);
+        D_800B0D88 |= 2;
+    }
+
+    return 1;
+}
+
+int Menu_GetModeState(int **arg0) {
+    *arg0[0] = g_BattleModeState;
+    return 1;
+}
+
+/* Attachment animation and control use the same current actor. */
 
 extern FieldActor *g_FieldActorListHead;
-extern FieldActor *g_CurrentEntity;
 
 int Entity_CopyAttachmentData(int **arg0)
 {
@@ -46,10 +89,8 @@ int Entity_CopyAttachmentData(int **arg0)
 }
 
 /* Adjacent script handlers share actor selection and render-object state. */
-#include "pe1/pm.h"
 
 
-extern int g_BattleModeState;
 
 int Task_ResetEntityRenderObj(void) {
     Render_ClearObjectAnim(&g_CurrentEntity->render_object);

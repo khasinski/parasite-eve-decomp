@@ -225,9 +225,8 @@ segments:
       # Task_DrawYield; g_CombatModeFlags is shared by the first two units.
       - [0x8E60, c, task/Task_SystemCommandOps]
       - [0x97DC, c, task/Task_DrawYield]
-      - [0x98AC, c, task/Task_AnimRateOps]
-      # Attachment animation and actor-control opcodes share FieldActor.
-      - [0x9970, c, entity/Entity_AttachmentAndControl]
+      # Animation rate, attachment and actor-control opcodes share FieldActor.
+      - [0x98AC, c, entity/Entity_AttachmentAndControl]
       - [0x9C10, c, entity/Entity_YieldOnLoading]
       - [0x9C50, c, task/Task_ItemCountOps]
       - [0x9D40, c, entity/Entity_InitWithTimeout]
