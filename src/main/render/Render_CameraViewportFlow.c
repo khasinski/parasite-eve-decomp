@@ -630,8 +630,8 @@ int Render_InitRoomPrimState(void *objectArg)
         register u32 a asm("$12");
         register u32 b asm("$13");
         register u32 c asm("$14");
-        /* Commit the overlapping halfword aliases before reading words. */
-        asm("" : "=r"(matrix) : "0"(matrix) : "memory");
+        /* Preserve matrix register scheduling before loading the GTE words. */
+        asm("" : "=r"(matrix) : "0"(matrix));
         a = matrix[0];
         b = matrix[1];
         gte_ctc2_16(a);
