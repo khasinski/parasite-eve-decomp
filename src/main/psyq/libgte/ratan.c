@@ -17,7 +17,7 @@ int __attribute__((section(".text.ratan2"))) ratan2(int y, int x) {
     y_less_than_x = y < x;
     if (x == 0) {
         result = 0;
-        if (y == 0) goto done;
+        if (y == 0) return result;
         asm volatile("" : "=r"(x));
         y_less_than_x = y < x;
     }

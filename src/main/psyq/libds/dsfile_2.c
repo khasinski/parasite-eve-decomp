@@ -52,8 +52,7 @@ int DS_newmedia(void) {
     sectors = (char *)&g_DslDirectoryCache[0].sector;
     names = sectors + 4;
     limit = end;
-next_record:
-    {
+    while (1) {
         record = (IsoPathRecord *)cursor;
         if (record->nameLength == 0) goto finished;
         memcpy(count * sizeof(DslDirectoryCacheEntry) + sectors,
@@ -71,7 +70,8 @@ next_record:
                    g_DslDirectoryCache[count].directoryId,
                    g_DslDirectoryCache[count].parentDirectoryId, name);
         if (++count >= DSL_MAX_DIR) goto finished;
-        if (cursor < limit) goto next_record;
+        if (cursor < limit) continue;
+        break;
     }
 finished:
     if (count < DSL_MAX_DIR) g_DslDirectoryCache[count].parentDirectoryId = 0;

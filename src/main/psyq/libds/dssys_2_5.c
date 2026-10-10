@@ -320,21 +320,23 @@ s32 DsSync(s32 inId, void *inResult) {
             searched = 0;
             if (id != 0) {
                 offset = backward * 0x10;
-            scanBackward:
-                backward -= 1;
-                if (*(int *)((char *)D_800A3610 + offset) != id) {
-                    if (backward < 0) {
-                        backward = 7;
-                    }
-                    searched += 1;
-                    offset = backward * 0x10;
-                    if (searched >= 8) {
-                        selected = 0;
+                while (1) {
+                    backward -= 1;
+                    if (*(int *)((char *)D_800A3610 + offset) != id) {
+                        if (backward < 0) {
+                            backward = 7;
+                        }
+                        searched += 1;
+                        offset = backward * 0x10;
+                        if (searched >= 8) {
+                            selected = 0;
+                        } else {
+                            continue;
+                        }
                     } else {
-                        goto scanBackward;
+                        goto publishResult;
                     }
-                } else {
-                    goto publishResult;
+                    break;
                 }
             } else {
                 offset = backward * 0x10;

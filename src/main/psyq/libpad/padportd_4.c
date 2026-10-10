@@ -87,15 +87,17 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
                 data = port->payload_28;
                 j = 0;
                 if (limit) {
-                search:
-                    if (*map != i || !(*data & mask)) {
-                        map++;
-                        j++;
-                        data++;
-                        if (j < limit)
-                            goto search;
-                    } else
-                        goto selected;
+                    while (1) {
+                        if (*map != i || !(*data & mask)) {
+                            map++;
+                            j++;
+                            data++;
+                            if (j < limit)
+                                continue;
+                        } else
+                            goto selected;
+                        break;
+                    }
                 }
             search_done:
                 if (active) {

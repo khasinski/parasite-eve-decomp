@@ -44,7 +44,7 @@ start:
                                          (DslCB)DS_read_cbsync, -1);
     }
     result = 0;
-    if (!mode) goto done;
+    if (!mode) return result;
     result = VSync(-1);
     state = &g_CdReadStartVsync;
     asm volatile("" : "=r"(state) : "0"(state));

@@ -26,8 +26,8 @@ void CQ_delete_command(void) {
         state = initial;
         active = g_CdDsReadQueue[index].active;
     }
-again:
-    if (*count <= 0) goto done;
+    while (1) {
+    if (*count <= 0) break;
     index = g_CdDsReadQueueState;
     /* Keep the counter setup after the queue index load. */
     asm volatile("" : : "r"(index) : "$4");
@@ -50,7 +50,9 @@ again:
     state[0]++;
     if (state[0] >= 8) state[0] = 0;
     state[2]--;
-    if (g_CdDsReadQueue[state[0]].active == active) goto again;
+    if (g_CdDsReadQueue[state[0]].active == active) continue;
+    break;
+    }
 done:
     end = &g_CdDsReadIndex;
     *end = end[-1];
