@@ -20,30 +20,27 @@ s32 Entity_QueryField(s32 *args[]) {
     if (key == 0) {
         FieldActor *tmp = g_PlayerEntity;
         if (tmp == NULL) {
-            goto not_found;
+            *args[3] = -1;
+            return 1;
         }
         node = tmp;
-        goto found;
-    }
-    node = g_CurrentEntity;
-    if ((key != node->type_id) || (*args[2] != node->sub_id)) {
-        node = g_FieldActorListHead;
-        if (node != NULL) {
-            s32 k = *(s32 *)*(s32 * volatile *)&args[1];
-            while (node != NULL && ((node->type_id != k) ||
-                   (node->sub_id != *args[2]) || (node->flags & 0x10))) {
-                node = node->next;
+    } else {
+        node = g_CurrentEntity;
+        if ((key != node->type_id) || (*args[2] != node->sub_id)) {
+            node = g_FieldActorListHead;
+            if (node != NULL) {
+                s32 k = *(s32 *)*(s32 * volatile *)&args[1];
+                while (node != NULL && ((node->type_id != k) ||
+                       (node->sub_id != *args[2]) || (node->flags & 0x10))) {
+                    node = node->next;
+                }
             }
             if (node == NULL) {
-                goto not_found;
+                *args[3] = -1;
+                return 1;
             }
-            goto found;
         }
-not_found:
-        *args[3] = -1;
-        return 1;
     }
-found:
     sel = *args[0];
     switch (sel) {
     case 0:
@@ -93,29 +90,26 @@ s32 Entity_GetDistanceComponents(s32 *args[]) {
         FieldActor *tmp;
         tmp = g_PlayerEntity;
         if (tmp == NULL) {
-            goto block_9;
+            *args[2] = -1;
+            return 1;
         }
         node = tmp;
-        goto block_10;
-    }
-    node = g_FieldActorListHead;
-    if (node != NULL) {
-        s32 key;
-        key = key0;
-        while (node != NULL && ((node->type_id != key) ||
-               (node->sub_id != *args[1]) || (node->flags & 0x10))) {
-            node = node->next;
-        }
+    } else {
+        node = g_FieldActorListHead;
         if (node != NULL) {
-            goto block_10;
+            s32 key;
+            key = key0;
+            while (node != NULL && ((node->type_id != key) ||
+                   (node->sub_id != *args[1]) || (node->flags & 0x10))) {
+                node = node->next;
+            }
+        }
+        if (node == NULL) {
+            *args[2] = -1;
+            return 1;
         }
     }
 
-block_9:
-    *args[2] = -1;
-    return 1;
-
-block_10:
     {
         FieldActor *state;
         s32 node_x;
