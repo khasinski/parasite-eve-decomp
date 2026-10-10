@@ -23,15 +23,14 @@ double __adddf3(double x, double y) {
     w.zero.bits.hi = 0;
     if (!(left.bits.hi & 0x7fffffff) && !left.bits.lo)
         return y;
-    if (right.bits.hi & 0x7fffffff)
-        goto decode;
-    {
-        register int raw = (int)left.bits.hi >> 20;
-        asm("" : : "r"(raw));
+    if (!(right.bits.hi & 0x7fffffff)) {
+        {
+            register int raw = (int)left.bits.hi >> 20;
+            asm("" : : "r"(raw));
+        }
+        if (!right.bits.lo)
+            return left.value;
     }
-    if (!right.bits.lo)
-        return left.value;
-decode:;
     {
         register int raw = (int)left.bits.hi >> 20;
         exponent = raw & 0x7ff;
