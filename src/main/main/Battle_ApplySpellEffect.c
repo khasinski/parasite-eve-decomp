@@ -19,40 +19,23 @@ s32 rand(void);
 extern struct { char _[16]; } D_8009D1A0_o __asm__("g_GameStateFlags");
 #define g_GameStateFlags (*(s32 *)&D_8009D1A0_o)
 extern void *g_BattleActiveEntity;
-extern struct { char _[16]; } D1AC_o1 __asm__("g_BattleResultFlags");
-#define D1AC_1 (*(s32 *)&D1AC_o1)
-extern struct { char _[16]; } D1AC_o2 __asm__("g_BattleResultFlags");
-#define D1AC_2 (*(s32 *)&D1AC_o2)
-extern struct { char _[16]; } D1AC_o3 __asm__("g_BattleResultFlags");
-#define D1AC_3 (*(s32 *)&D1AC_o3)
-extern struct { char _[16]; } D1AC_o4 __asm__("g_BattleResultFlags");
-#define D1AC_4 (*(s32 *)&D1AC_o4)
-extern struct { char _[16]; } D1AC_o5 __asm__("g_BattleResultFlags");
-#define D1AC_5 (*(s32 *)&D1AC_o5)
-extern struct { char _[16]; } D1AC_o6 __asm__("g_BattleResultFlags");
-#define D1AC_6 (*(s32 *)&D1AC_o6)
-extern struct { char _[16]; } D1AC_o7 __asm__("g_BattleResultFlags");
-#define D1AC_7 (*(s32 *)&D1AC_o7)
-extern struct { char _[16]; } D1AC_o8 __asm__("g_BattleResultFlags");
-#define D1AC_8 (*(s32 *)&D1AC_o8)
-extern struct { char _[16]; } D1AC_o9 __asm__("g_BattleResultFlags");
-#define D1AC_9 (*(s32 *)&D1AC_o9)
-extern struct { char _[16]; } D1AC_o10 __asm__("g_BattleResultFlags");
-#define D1AC_10 (*(s32 *)&D1AC_o10)
-extern struct { char _[16]; } D1AC_o11 __asm__("g_BattleResultFlags");
-#define D1AC_11 (*(s32 *)&D1AC_o11)
-extern struct { char _[16]; } D1AC_o12 __asm__("g_BattleResultFlags");
-#define D1AC_12 (*(s32 *)&D1AC_o12)
-extern struct { char _[16]; } D1AC_o13 __asm__("g_BattleResultFlags");
-#define D1AC_13 (*(s32 *)&D1AC_o13)
-extern struct { char _[16]; } D1AC_o14 __asm__("g_BattleResultFlags");
-#define D1AC_14 (*(s32 *)&D1AC_o14)
-extern struct { char _[16]; } D1AC_o15 __asm__("g_BattleResultFlags");
-#define D1AC_15 (*(s32 *)&D1AC_o15)
-extern struct { char _[16]; } D1AC_o16 __asm__("g_BattleResultFlags");
-#define D1AC_16 (*(s32 *)&D1AC_o16)
-extern struct { char _[16]; } D1AC_o17 __asm__("g_BattleResultFlags");
-#define D1AC_17 (*(s32 *)&D1AC_o17)
+#define D1AC_1 (*(s32 *)&D1AC_o22)
+#define D1AC_2 (*(s32 *)&D1AC_o22)
+#define D1AC_3 (*(s32 *)&D1AC_o22)
+#define D1AC_4 (*(s32 *)&D1AC_o22)
+#define D1AC_5 (*(s32 *)&D1AC_o22)
+#define D1AC_6 (*(s32 *)&D1AC_o22)
+#define D1AC_7 (*(s32 *)&D1AC_o22)
+#define D1AC_8 (*(s32 *)&D1AC_o22)
+#define D1AC_9 (*(s32 *)&D1AC_o22)
+#define D1AC_10 (*(s32 *)&D1AC_o22)
+#define D1AC_11 (*(s32 *)&D1AC_o22)
+#define D1AC_12 (*(s32 *)&D1AC_o22)
+#define D1AC_13 (*(s32 *)&D1AC_o22)
+#define D1AC_14 (*(s32 *)&D1AC_o22)
+#define D1AC_15 (*(s32 *)&D1AC_o23)
+#define D1AC_16 (*(s32 *)&D1AC_o24)
+#define D1AC_17 (*(s32 *)&D1AC_o25)
 extern struct { char _[16]; } D1AC_o18 __asm__("g_BattleResultFlags");
 #define D1AC_18 (*(s32 *)&D1AC_o18)
 extern struct { char _[16]; } D1AC_o19 __asm__("g_BattleResultFlags");
