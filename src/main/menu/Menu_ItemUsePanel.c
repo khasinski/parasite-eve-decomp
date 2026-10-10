@@ -13,7 +13,6 @@
 void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void Queue_Init(void);
-void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_InvItemUsableFlag;
 ItemDataRecord *g_MenuSelectedItemData;
 void Menu_DrawEquipStatsPanel(void);

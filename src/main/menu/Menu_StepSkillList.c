@@ -15,7 +15,6 @@ void Inv_BuildFilteredPackedList(int mask);
 void Inv_BuildFilteredPackedListExcluding(int mask, int excluded);
 int Inv_RestoreSelection(unsigned int index);
 M2C_UNK func_80064B74();
-void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_MenuEquipMode;
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;

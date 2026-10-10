@@ -7,8 +7,6 @@
 
 #define NULL ((void *)0)
 
-void MenuWidget_SetColumnLayout(void *node, int value);
-void MenuWidget_ClearColumnLayout(void *node);
 
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;

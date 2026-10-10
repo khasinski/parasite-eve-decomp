@@ -331,7 +331,6 @@ MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void) {
     }
     return result;
 }
-void MenuWidget_ApplyColumnLayout(void *node);
 
 
 MenuWidgetNode *MenuWidget_CreateNode(s32 arg0, MenuWidgetNode *arg1, MenuWidgetNode *arg2) {

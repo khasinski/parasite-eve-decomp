@@ -62,8 +62,7 @@ void MenuWidget_SaveColumnLayout(MenuWidgetNode *node) {
     }
 }
 
-void MenuWidget_ApplyColumnLayout(void *arg0) {
-    MenuWidgetNode *node = arg0;
+void MenuWidget_ApplyColumnLayout(MenuWidgetNode *node) {
     MenuWidgetSavedLayout *entry;
     int flag;
 
@@ -91,8 +90,7 @@ void MenuWidget_ApplyColumnLayout(void *arg0) {
     }
 }
 
-void MenuWidget_SetColumnLayout(void *arg0, int arg1) {
-    MenuWidgetNode *node = arg0;
+void MenuWidget_SetColumnLayout(MenuWidgetNode *node, int arg1) {
     MenuWidgetSavedLayout *entry;
     int flag;
 
@@ -121,8 +119,7 @@ void MenuWidget_SetColumnLayout(void *arg0, int arg1) {
     }
 }
 
-void MenuWidget_ClearColumnLayout(void *ptr) {
-    MenuWidgetNode *node = ptr;
+void MenuWidget_ClearColumnLayout(MenuWidgetNode *node) {
 
     node->aux_index = -1;
     node->cursor_x = -1;
