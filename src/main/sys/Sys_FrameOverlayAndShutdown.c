@@ -1,3 +1,4 @@
+#include "pe1/draw_buffers.h"
 /* End-of-frame overlay pass (draw the game-state primitives into the
  * current draw buffer with background clear off and send the queued AKAO
  * commands), soft-reset shutdown and screen vertical-offset update. These
@@ -7,7 +8,6 @@
 #include "pe1/game_state.h"
 #include "pe1/font.h"
 
-extern DRAWENV g_RenderDrawEnvArray[2];
 extern s32 g_ActiveDrawSlot;
 extern int g_SceneDispatchToken;
 extern int D_800A77F4;

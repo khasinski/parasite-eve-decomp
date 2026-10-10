@@ -1,3 +1,4 @@
+#include "pe1/draw_buffers.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/boot_disc_check.h"
 #include "pe1/render_tint.h"
@@ -22,7 +23,6 @@ typedef union GpuDrawEnabledFlag {
 
 extern GpuDrawEnabledFlag g_DrawEnabled;
 extern short g_SeqElapsed;
-extern char g_RenderDispEnvArray[];
 extern char D_800F34F8[];
 extern char D_8010BD00[];
 extern char D_80120D08[];
@@ -66,7 +66,7 @@ int Gpu_InitDisplay(int mode) {
     mode_reg = mode;
     VSync(0);
     SetDispMask(0);
-    PutDispEnv((DISPENV *)g_RenderDispEnvArray);
+    PutDispEnv(g_RenderDispEnvArray);
 
     rect.x = 0;
     rect.y = 0;

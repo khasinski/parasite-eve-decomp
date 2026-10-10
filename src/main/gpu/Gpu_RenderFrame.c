@@ -1,3 +1,4 @@
+#include "pe1/draw_buffers.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/render_packets.h"
 /* CC1_FLAGS: -G8 */
@@ -15,8 +16,6 @@ int Gpu_CheckDrawStatus(void);
 
 extern int g_GameState[];
 extern int g_ActiveDrawSlot;
-extern DISPENV g_RenderDispEnvArray[];
-extern DRAWENV g_RenderDrawEnvArray[];
 
 #define D_800B0CD8_WORD (g_GameState[0])
 

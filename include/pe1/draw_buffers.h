@@ -24,4 +24,8 @@ extern DrawFrameBuffer D_800A2180[];
 extern DrawFrameBuffer *D_8009D0FC;
 extern u32 *D_8009D118;
 
+/* Main renderer keeps two SDK environments alongside its buffer pointers. */
+extern DISPENV g_RenderDispEnvArray[2];
+extern DRAWENV g_RenderDrawEnvArray[2];
+
 #endif
