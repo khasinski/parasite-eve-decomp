@@ -27,20 +27,18 @@ void BattleCmd_ChangeWeaponAndSync(int arg0) {
         current = g_PlayerEntity[0];
         if (current != 0) {
             g_AyaHpCurrent = COMBATANT_FIELD(current, unsigned short *, curHP);
-            if (COMBATANT_FIELD(current, void **, action) == 0) {
-                goto out;
+            if (COMBATANT_FIELD(current, void **, action) != 0) {
+                saved = Inv_IsActiveListOverrideSelected();
+                Inv_SelectActiveList(0);
+                entry = Inv_LookupActiveListData(g_AyaEquippedWeaponSlot);
+                if (entry != 0) {
+                    ITEM_FIELD(entry, short *, ammo) = ACTION_FIELD(
+                        COMBATANT_FIELD(current, void **, action), int *, attackWord) & 0x3FF;
+                }
+                Inv_SelectActiveList(saved);
             }
-            saved = Inv_IsActiveListOverrideSelected();
-            Inv_SelectActiveList(0);
-            entry = Inv_LookupActiveListData(g_AyaEquippedWeaponSlot);
-            if (entry != 0) {
-                ITEM_FIELD(entry, short *, ammo) = ACTION_FIELD(
-                    COMBATANT_FIELD(current, void **, action), int *, attackWord) & 0x3FF;
-            }
-            Inv_SelectActiveList(saved);
         }
     }
-out:;
 }
 
 #undef ITEM_FIELD
