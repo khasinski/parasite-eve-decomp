@@ -5,7 +5,6 @@
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
 void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void Menu_PlayConfirmSound(void);

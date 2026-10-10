@@ -175,6 +175,10 @@ extern MenuWidgetNode *g_MenuWidgetSavedNode;
  */
 
 
+int MenuWidget_HasActiveNodes(void);
+MenuWidgetNode *MenuWidget_FindByFieldValue(int value);
+MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
+
 void MenuWidget_UpdateAndDraw(void);
 
 #endif

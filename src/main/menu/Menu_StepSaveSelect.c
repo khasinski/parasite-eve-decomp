@@ -9,7 +9,6 @@
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 MemCardSaveSlot *MemCard_GetSlot();
-s32 MenuWidget_FindByModeAndSelectedBase();
 s32 MenuWidget_GetCellIndex();
 M2C_UNK MenuWidget_SetCurrentNode();
 M2C_UNK Save_SetTitleStyleFlag();

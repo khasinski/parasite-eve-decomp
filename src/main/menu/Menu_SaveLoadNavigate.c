@@ -5,7 +5,6 @@
 #include "pe1/inventory.h"
 
 int MenuWidget_GridCellIndex(MenuWidgetNode *ptr);
-MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void MenuWidget_InitPool(void);
 void Menu_PlayConfirmSound(void);

@@ -2,19 +2,14 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #include "pe1/inventory.h"
+#include "pe1/menu_inventory.h"
 #include "pe1/menu_confirm_callback.h"
 #include "pe1/menu_item_record.h"
 
 int g_MenuEquipMode;
 int g_MenuItemRenameMode;
 
-int MenuWidget_FindByModeAndSelectedBase(int arg0, int arg1);
-int MenuWidget_GridCellIndex(int arg0);
 int Inv_GetPackedListItem(int arg0);
-void MenuWidget_NavScrollTo(int arg0);
-void MenuWidget_SetCurrentNode(int arg0);
-int MenuWidget_GetCurrentNode(void);
-void MenuWidget_ClearCursorY(int arg0);
 void Menu_CloseContextHelpPanel(void);
 int Inv_GetActiveListItem(int arg0);
 
@@ -42,7 +37,7 @@ void Menu_ItemUseAction(struct MenuWidgetNode *arg0, int arg1) {
             MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 0x32));
         } else {
             if (MenuWidget_GetCurrentNode() != 0) {
-                MenuWidget_ClearCursorY(*(int *)(MenuWidget_GetCurrentNode() + 4));
+                MenuWidget_ClearCursorY(MenuWidget_GetCurrentNode()->parent);
             }
             MenuWidget_ClearCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0x1B));
         }

@@ -5,7 +5,6 @@
 
 extern MenuWidgetNode *g_MenuActiveWidget;
 
-MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 int MenuWidget_GridCellIndex(MenuWidgetNode *node);
 int Inv_RestoreSelection(unsigned int index);
 int Inv_GetActiveListItemType(int index);

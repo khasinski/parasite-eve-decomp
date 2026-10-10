@@ -2,7 +2,6 @@
 #include "common.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-s32 MenuWidget_FindByModeAndSelectedBase(M2C_UNK, M2C_UNK); /* extern */
 s32 MenuWidget_GetCurrentNode();                    /* extern */
 M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 M2C_UNK MenuWidget_SetCursorY(s32);                 /* extern */

@@ -10,8 +10,7 @@ void MenuWidget_InitPool(void);
 void Inventory_OpenAyaItemList(unsigned int mode);
 
 MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int index);
-MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode,
-                                                     int selectedBase);
+
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void MenuWidget_RestoreSavedCurrentNode(void);
 void func_80064A54(MenuWidgetNode *node);

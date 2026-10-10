@@ -4,7 +4,6 @@
 
 extern int D_8009CF0C, D_8009CF30, D_8009CF34, D_8009CF1C;
 MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *, int);
-MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int, int);
 void MenuWidget_OffsetPosition(MenuWidgetNode *, int, int);
 void MenuWidget_ClearCursorY(MenuWidgetNode *);
 void MenuWidget_ClampScroll(MenuWidgetNode *);

@@ -6,7 +6,6 @@
 
 extern int D_8009CF0C;
 extern int D_800A1888[], D_800A188C[], D_800A1890[], D_800A1894[];
-MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int, int);
 int MenuWidget_IsCursorYClear(MenuWidgetNode *ptr);
 int MenuWidget_GridCellIndex(MenuWidgetNode *);
 int Inv_GetPackedListItem(int);

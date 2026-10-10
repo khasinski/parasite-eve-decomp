@@ -5,7 +5,6 @@
 
 #define NULL ((void *)0)
 #include "m2c_macros.h"
-void *MenuWidget_FindByModeAndSelectedBase(M2C_UNK, M2C_UNK); /* extern */
 s32 MenuWidget_FindLastMode1WithCursorX();          /* extern */
 M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 M2C_UNK Queue_Init();                            /* extern */
