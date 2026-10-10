@@ -72,10 +72,10 @@ void Entity_RelocateSceneData(void) {
 
     if (0x80000000U < offset) {
         struct CollisionPlane *planes;
-        s16 **heights;
+        CollisionRegionEntry *heights;
 
         planes = base->planes.pointer;
-        heights = (s16 **)base->regions;
+        heights = base->regions;
         g_RegionHeightTable = heights;
         g_CollisionPlaneTable = planes;
         return;
@@ -107,7 +107,7 @@ void Entity_RelocateSceneData(void) {
         wordCount >>= 5;
         g_CollisionPlaneTable = (struct CollisionPlane *)cursor;
         regionCountAddress = &actor->regionCount;
-        g_RegionHeightTable = (s16 **)dst;
+        g_RegionHeightTable = (CollisionRegionEntry *)dst;
         count = *regionCountAddress;
         wordCount++;
         g_SceneDataTable2 = (char *)entry;

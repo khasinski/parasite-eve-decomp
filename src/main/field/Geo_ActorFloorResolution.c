@@ -119,7 +119,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
 
     if (table_base == 0) {
         char *base;
-        CollisionFlatRegion **table;
+        CollisionRegionEntry *table;
         int idx;
 
         idx = index_v1 & 0xFFFF;
@@ -128,8 +128,8 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
         entry = (CollisionTriangleHeader *)&((CollisionTriangleXZ *)base)[idx];
         actor_s2->collisionFace = entry;
         actor_s2->collisionFaceMirror = entry;
-        table = (CollisionFlatRegion **)g_RegionHeightTable;
-        value = table[entry->region]->height;
+        table = g_RegionHeightTable;
+        value = table[entry->region].flat->height;
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
         value <<= 16;
@@ -329,7 +329,7 @@ void Entity_UpdateAndRender(BattleEntity *actor)
         CollisionTriangleHeader *floor = face;
         u8 region = floor->region;
         u32 flags = actor->entityFlags;
-        int height = ((CollisionFlatRegion *)D_8009CE08[region])->height;
+        int height = D_8009CE08[region].flat->height;
 
         if (flags & 2) {
             if (actor->posY.fixed >= height && actor->baseY < height) {

@@ -96,6 +96,14 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionFlatRegion, triangleIndices) == 4,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionPlaneRegion, triangleIndices) == 6,
                   collision_plane_region_indices_offset);
 
+/* A relative byte offset on disk, or a region pointer after relocation. */
+typedef union CollisionRegionEntry {
+    u32 word;
+    s16 *height;
+    CollisionFlatRegion *flat;
+    CollisionPlaneRegion *plane;
+} CollisionRegionEntry;
+
 typedef struct CollisionDatabase {
     u16 reserved00;
     u16 regionCount;                  /* 0x02: inline height-table references. */
@@ -107,14 +115,14 @@ typedef struct CollisionDatabase {
     CollisionTriangleTable triangles; /* 0x1C: XZ or XYZ triangles. */
     union { struct CollisionPlane *pointer; u32 word; } planes; /* 0x20 */
     union { struct RampEdge *pointer; u32 word; } rampEdges; /* 0x24 */
-    union { s16 *height; u32 word; } regions[0]; /* 0x28: variable-length tail. */
+    CollisionRegionEntry regions[0]; /* 0x28: variable-length tail. */
 } CollisionDatabase;
 
 
 extern CollisionDatabase *g_CollisionDb;
 /* Active views published by the scene-data relocator. */
 extern struct CollisionPlane *g_CollisionPlaneTable;
-extern s16 **g_RegionHeightTable;
+extern CollisionRegionEntry *g_RegionHeightTable;
 
 PE1_STATIC_ASSERT(sizeof(CollisionTriangleHeader) == 2, collision_triangle_header_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionTriangleHeader, region) == 1,

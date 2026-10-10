@@ -88,7 +88,7 @@ typedef struct CollisionPlane {
 /* Plane-table pointer; existing floor queries require a fresh read. */
 extern CollisionPlane *volatile D_8009D1D8;
 /* Flat mode: per-region records that start with the region height. */
-extern s16 **D_8009CE08;
+extern CollisionRegionEntry *D_8009CE08;
 /* Bounding box of the ramp edge the player last crossed. */
 extern u16 D_8009CE1C, D_8009CE20, D_8009CE24, D_8009CE28;
 /* One bit per triangle already visited by the floor search. */
