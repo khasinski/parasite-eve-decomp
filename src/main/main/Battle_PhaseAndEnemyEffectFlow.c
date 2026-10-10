@@ -74,7 +74,7 @@ extern QueueCommand D_800BE834[];
 void Battle_AdvancePhase(void) {
     Tbl20 sp18;
     BattleActionSoundTable sp30;
-    M2C_UNK *temp_v1_2;
+    BattleEntity *temp_v1_2;
     M2C_UNK *var_a2;
     M2C_UNK *var_a3;
     s16 temp_v0;
@@ -118,7 +118,7 @@ void Battle_AdvancePhase(void) {
     void *temp_t0;
     EnemyCombatant *temp_v0_4;
     void *temp_v1;
-    void *temp_v1_6;
+    BattleEntity *temp_v1_6;
     EnemyCombatant *temp_v1_8;
     void *var_a0_4;
     void *var_a1;
@@ -186,7 +186,7 @@ after_command:
             var_a0_2 = (s32) D_8009D1D4;
             var_a1 = (void *) (var_a0_2 & 0xFF);
             var_a2 = (M2C_UNK *) ((s32) var_a1 * 8);
-            M2C_FIELD(D254(15), s16 *, 0x3A) = temp_v0;
+            ((BattleEntity *)D254(15))->facingAngle = temp_v0;
             var_a3 = NULL;
             if (*(s16 *)((u8 *)D_800BE834 + (s32)var_a2) - 0x183 == 0x13) {
                 var_a2 = NULL;
@@ -195,8 +195,8 @@ after_command:
                 if ((s32) var_a1 < (s32) temp_v1) {
                     loop_limit.value = (s32) temp_v1;
 loop_17:
-                    temp_v1_2 = *(void **)(D_800BE830_BYTES + ((var_s0 & 0xFF) * 8));
-                    if ((temp_v1_2 == NULL) || (M2C_FIELD(M2C_FIELD(temp_v1_2, void **, 0), s32 *, 0x10) <= 0) || (M2C_FIELD(temp_v1_2, s32 *, 0x98) & 0x4000)) {
+                    temp_v1_2 = D_800BE830[var_s0 & 0xFF].actor;
+                    if ((temp_v1_2 == NULL) || (((EnemyCombatant *)temp_v1_2->core)->hpAlive <= 0) || (*(s32 *)&temp_v1_2->entityFlags & 0x4000)) {
                         var_s0 += 1;
                         if ((var_s0 & 0xFF) < loop_limit.value) {
                             goto loop_17;
@@ -230,7 +230,7 @@ block_search_done:
                 goto block_39;
             }
             temp_v1_6 = *(void **)(D_800BE830_BYTES + (s32)var_a2);
-            if ((temp_v1_6 == NULL) || (M2C_FIELD(M2C_FIELD(temp_v1_6, void **, 0), s32 *, 0x10) <= 0) || (M2C_FIELD(temp_v1_6, s32 *, 0x98) & 0x4000)) {
+            if ((temp_v1_6 == NULL) || (((EnemyCombatant *)temp_v1_6->core)->hpAlive <= 0) || (*(s32 *)&temp_v1_6->entityFlags & 0x4000)) {
                 var_v0_3 = D_8009D1D4 + 1;
 block_35:
                 temp_v1_3 = var_v0_3 & 0xFF;
@@ -239,7 +239,7 @@ block_35:
                 D_8009D1D4 = var_v0_3;
                 temp_v1_3 -= 3;
                 temp_v1_3 = (u32) temp_v1_3 < 0x194U;
-                if (!temp_v1_3 || ((u8) M2C_FIELD(D254(14), u8 *, 0xE) < 4U)) {
+                if (!temp_v1_3 || ((u8) ((BattleEntity *)D254(14))->actionMode < 4U)) {
                     D1A0_W1 = D1A0_R1 & ~0x100;
                 }
                 Entity_SetActionMode(D254(15), ((Combatant *)D278(13))->actionMode12, var_a2, (s32) var_a3);
@@ -287,9 +287,9 @@ block_39:
             var_v0_5 = soundActor->renderObject.target_z;
         } else {
             var_a0_3 = sp30.soundId[action];
-            var_a2_2 = M2C_FIELD(D254(15), s16 *, 0x2A);
-            var_a3_2 = M2C_FIELD(D254(15), s16 *, 0x2E);
-            var_v0_5 = M2C_FIELD(D254(15), s16 *, 0x32);
+            var_a2_2 = ((BattleEntity *)D254(15))->posX.parts.integer;
+            var_a3_2 = ((BattleEntity *)D254(15))->posY.parts.integer;
+            var_v0_5 = ((BattleEntity *)D254(15))->posZ.parts.integer;
         }
         Akao_SendPositionalCmdStereo(var_a0_3, 0, var_a2_2, var_a3_2, var_v0_5);
         var_a1 = (void *)0xFFDFFFFF;
@@ -344,7 +344,7 @@ block_55:
         }
     } else if (actor_flags & 0x100000) {
         temp_v0 = Battle_CalcAngleToTarget(&temp_s2->actor->renderObject, D254(14) + 0x28);
-        M2C_FIELD(D254(15), s16 *, 0x3A) = temp_v0;
+        ((BattleEntity *)D254(15))->facingAngle = temp_v0;
         Battle_StepCharacterAction(temp_s2);
         if ((u32) (*((D_8009D258 * 0xA0C) + D_800942E4) - 1) >= 2U) {
             var_a2_2 = 0xFFEFFFFF;
@@ -363,13 +363,13 @@ block_55:
             Battle_HaltOnPositiveX();
         }
     } else {
-        if (M2C_FIELD(D254(14), u8 *, 0xF) == M2C_FIELD(D254(14), u16 *, 0x1A)) {
+        if (((BattleEntity *)D254(14))->animLastFrame == ((BattleEntity *)D254(14))->animPrev.parts.integer) {
             Entity_SetActionMode(D254(14), actor->actionMode12);
         }
         if ((((u32) (*((D_8009D258 * 0xA0C) + D_800942E4) - 1) >= 2U) || (temp_s2->field04 == 0x196)) && (((Combatant *)D278(13))->stateFlags = (s32) (((Combatant *)D278(13))->stateFlags | 0x200000), Battle_ApplySpellEffect(temp_s2->field04 - 0x183, temp_s2->actor), (temp_s2->field04 != 0x196))) {
             temp_v0_6 = D_8009D1D4 + 1;
             D_8009D1D4 = temp_v0_6;
-            if (((u32) (D_800BE834[temp_v0_6 & 0xFF].value - 3) >= 0x194U) || ((u8) M2C_FIELD(D254(15), u8 *, 0xE) < 4U)) {
+            if (((u32) (D_800BE834[temp_v0_6 & 0xFF].value - 3) >= 0x194U) || ((u8) ((BattleEntity *)D254(15))->actionMode < 4U)) {
                 D1A0_W4 = D1A0_R4 & ~0x100;
             }
             temp_a0_4 = (u8)D_8009CE3C;
