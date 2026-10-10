@@ -243,9 +243,9 @@ segments:
       # Collision-state reset and database relocation share the collision table globals (G0227).
       - [0xB090, c, entity/Entity_CollisionDatabase]
       - [0xB1F8, c, entity/Entity_UpdateList]
-      # Actor floor lookup, position resolution, per-actor update, floor-boundary clipping and ramp sliding share the collision state (G0227).
+      # Actor floor lookup, boundary clipping, ramp sliding and polygon
+      # containment share collision state and PolygonVertex (G0227).
       - [0xB278, c, field/Geo_ActorFloorResolution]
-      - [0xD2B0, c, field/Geo_PointInPoly]
       # Wall sliding, nearest-edge testing and collision response share state.
       - [0xD3A0, c, field/Entity_ApplyCollisionResponse]
       - [0xDA68, c, entity/Entity_CheckActionIdMatch]
