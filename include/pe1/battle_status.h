@@ -20,10 +20,7 @@ typedef struct BattleStatusMarkerBody {
 } BattleStatusMarkerBody;
 
 /* Texture-page command followed by a variable-size UI sprite. */
-typedef struct BattleGaugePrim {
-    RenderTexturePagePacket texture_page;
-    RenderSpritePacket sprite;
-} BattleGaugePrim;
+typedef RenderPagedSpritePacket BattleGaugePrim;
 
 extern BattleStatusLinePrim D_8009E358[6];
 extern int g_ActiveDrawSlot;
