@@ -2,6 +2,7 @@
 #define PE1_SCENE_ENTITY_TEXTURES_H
 
 #include "common.h"
+#include "pe1/render_setup.h"
 #include "pe1/scene_assets.h"
 #include "pe1/field_actor.h"
 #include "pe1/player_entity.h"
@@ -23,9 +24,6 @@ extern u8 g_EntityRenderScratch[];
 int Scene_UpdateBgDraw(void);
 int CdRom_PollReady(void);
 int CdRom_ReadSectorsFromLba(u32 lba, void *destination, u32 size);
-int Render_SetupEntityPrims(void *object, void *model, void *work, int a3,
-                            int a4, int a5, int a6, int a7, void *setup,
-                            int a9);
 int Render_InitRoomPrimState(void *object);
 void Render_DrawWithAnim(void *object, int animation, int frame,
                          void *matrices, void *scratch);

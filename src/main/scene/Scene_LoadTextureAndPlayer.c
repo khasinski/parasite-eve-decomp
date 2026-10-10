@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/render_setup.h"
 #include "pe1/scene_assets.h"
 #include "pe1/cdrom.h"
 #include "pe1/field_actor.h"
@@ -129,7 +130,6 @@ retry:
 }
 
 void Entity_SetActionMode(void *entity, int mode);
-M2C_UNK Render_SetupEntityPrims(void *, s32, s32, M2C_UNK, s32, s32, s32, s32, M2C_UNK *, s32); /* extern */
 M2C_UNK Render_DrawWithAnim(void *, s32, M2C_UNK, M2C_UNK *, M2C_UNK *); /* extern */
 int Render_InitRoomPrimState(void *object);
 int Scene_LoadEntityTexture(void);
@@ -253,7 +253,7 @@ block_21:
         M2C_FIELD(playerForActionMode, s32 *, 0x1B0) = D_800B0EEC;
         Entity_SetActionMode(playerForActionMode, 0x15);
         playerForRenderSetup = g_PlayerEntity;
-        Render_SetupEntityPrims(playerForRenderSetup + 0x1B4, M2C_FIELD(playerForRenderSetup, s32 *, 0x1AC), M2C_FIELD(playerForRenderSetup, s32 *, 0x278) + 0x50, 0x3C0, 0x100, 0, 0x1C0, 2, &sp28, 1);
+        Render_SetupEntityPrims((RenderObjectEntity *)(playerForRenderSetup + 0x1B4), (RenderObjectHeader *)M2C_FIELD(playerForRenderSetup, s32 *, 0x1AC), (u8 *)(M2C_FIELD(playerForRenderSetup, s32 *, 0x278) + 0x50), 0x3C0, 0x100, 0, 0x1C0, 2, (s8 **)&sp28, 1);
         playerForRoomPrims = g_PlayerEntity;
         Render_InitRoomPrimState(playerForRoomPrims + 0x1B4);
         playerForAnimation = g_PlayerEntity;

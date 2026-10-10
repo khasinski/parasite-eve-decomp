@@ -88,7 +88,7 @@ has_entry:
  * double-buffered GPU packets (command codes and texture coordinates), the
  * animated part lookup entries and one identity matrix per part. */
 int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
-                            RenderPrimCursor prims, s16 x, s16 y, s16 unused,
+                            u8 *packetBuffer, s16 x, s16 y, s16 unused,
                             s16 paletteRow, s16 initCount, s8 **textureOut,
                             int setup)
 {
@@ -116,8 +116,8 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
     obj->vertex_colours = cursor.colours;
     cursor.colours += header->vertex_count;
     obj->primitive_descriptors = cursor.descriptors;
-    prim = prims;
-    obj->primitive_buffer = prims.bytes;
+    prim.bytes = packetBuffer;
+    obj->primitive_buffer = packetBuffer;
     desc = cursor.descriptors;
     obj->draw_count = setup;
 

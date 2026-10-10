@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/player_entity.h"
+#include "pe1/render_setup.h"
 #include "pe1/scene_assets.h"
 #include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
@@ -25,7 +26,6 @@ extern u8 D_800BEA40[];
 void Battle_InitEquipLists();
 void Entity_SetActionMode();
 void *Entity_AllocBlock();
-void Render_SetupEntityPrims();
 void Render_InitRoomPrimState();
 void Render_DrawWithAnim();
 
@@ -158,8 +158,8 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     }
     goto render_generic;
 render_special: {
-        Render_SetupEntityPrims((u8 *)actor + 0x1B4, (u8 *)actor->allocation_active, allocation + 0x50, 0x3C0,
-                                0x100, 0, 0x1C0, 2, (u8 **)&renderSetup,
+        Render_SetupEntityPrims(&actor->render_object, (RenderObjectHeader *)actor->allocation_active, allocation + 0x50, 0x3C0,
+                                0x100, 0, 0x1C0, 2, (s8 **)&renderSetup,
                                 allocateFull);
     }
     goto render_done;
@@ -180,10 +180,10 @@ scan_loop:
 scan_done:
         allocation = actor->allocation_block;
         value = bankRows[i].trailing;
-        Render_SetupEntityPrims((u8 *)actor + 0x1B4, (u8 *)actor->allocation_active, allocation + 0x50,
+        Render_SetupEntityPrims(&actor->render_object, (RenderObjectHeader *)actor->allocation_active, allocation + 0x50,
                                 (value >> 6) & 0x3C0, (value >> 9) & 0x180,
                                 0, ((bankRows[i].trailing >> 18) & 0xFF) + 0x1C0,
-                                (bankRows[i].trailing >> 8) & 0xF, (u8 **)&renderSetup,
+                                (bankRows[i].trailing >> 8) & 0xF, (s8 **)&renderSetup,
                                 allocateFull);
     }
 render_done:

@@ -61,4 +61,9 @@ void Anim_SetInterpRate(RenderObjectEntity *object, int rate);
 void Render_InitPrimBlock(RenderObjectEntity *object, s16 x, s16 y, int unused,
                           unsigned int palette_row);
 
+int Render_SetupEntityPrims(RenderObjectEntity *object, RenderObjectHeader *model,
+                            u8 *packetBuffer, s16 x, s16 y, s16 unused,
+                            s16 paletteRow, s16 initCount, s8 **textureOut,
+                            int setup);
+
 #endif /* PE1_RENDER_SETUP_H */

@@ -195,8 +195,8 @@ retry:
         } else {
             model = state->scene_object_model;
         }
-        Render_SetupEntityPrims(&state->scene_object, model,
-            state->scene_object_work, 0x2C0, 0x80, 0, 0x1C2, 0, setup, 1);
+        Render_SetupEntityPrims((RenderObjectEntity *)&state->scene_object, model,
+            state->scene_object_work, 0x2C0, 0x80, 0, 0x1C2, 0, (s8 **)setup, 1);
         if (state->scene_object.animation_source == 0 && g_PlayerEntity != 0) {
             state->scene_object.animation_source = &g_PlayerEntity->render_object;
             state->scene_object.animation_state = 3;
