@@ -1,9 +1,10 @@
-/* Script opcodes from 0x80019C04 to 0x8001A214: roam flag, angle to a point,
+/* Script opcodes from 0x80019C04 up to 0x8001A4AC: roam flag, angle to a point,
  * spawn snap, scene exit and save overlay, game-time conversion, actor parent
- * links and the trigonometry helpers. All are default-profile handlers that
+ * links, relative position, script-base queries and inventory helpers. All are default-profile handlers that
  * read the current actor through absolute addresses. */
 #include "common.h"
 #include "pe1/field_actor.h"
+#include "pe1/field_collision.h"
 
 #define NULL ((void *)0)
 
@@ -223,5 +224,149 @@ int Task_GetSqrt(int **arg0) {
 
 int Task_SetEntityFlag1000000(void) {
     g_CurrentEntity->flags |= 0x1000000;
+    return 1;
+}
+
+
+
+
+
+int Math_FixedMul(int arg0, int arg1);
+
+int Entity_PolarToPosition(int **arg0)
+{
+    int **args;
+    short angle;
+    int radius;
+    int *ptr;
+    int value;
+    int radiusInput;
+    int *angleInput;
+    FieldActor *current_v1;
+    int angleValue;
+    FieldActor *current_v0;
+    int base;
+    args = arg0;
+    angleInput = args[1];
+    ptr = angleInput;
+    angleValue = *ptr;
+    value = angleValue;
+    angle = 0x1400 - value;
+    ptr = args[0];
+    radiusInput = *ptr;
+    radius = radiusInput;
+    value = rcos(angle);
+    radius = -radius;
+    value = Math_FixedMul(radius, value << 4);
+    {
+        int *dst;
+        dst = args[2];
+        *dst = value;
+    }
+    value = rsin(angle);
+    value = Math_FixedMul(radius, value << 4);
+    {
+        int *dst;
+        dst = args[3];
+        *dst = value;
+    }
+    {
+        int *dst;
+        dst = args[2];
+        current_v1 = g_CurrentEntity;
+        value = *dst;
+        value += current_v1->pos_x;
+        *dst = value;
+    }
+    {
+        int *dst;
+        int loaded;
+        dst = args[3];
+        current_v0 = g_CurrentEntity;
+        loaded = *dst;
+        base = current_v0->pos_z;
+        loaded += base;
+        *dst = loaded;
+    }
+    return 1;
+}
+
+
+
+extern int *D_8009D248;
+extern short D_8009D1CC;
+extern char D_800BCFFC;
+
+int Entity_PopCount(int **arg0) {
+    int value;
+    int count;
+
+    value = *arg0[0];
+    count = 0;
+    while (value != 0) {
+        value &= value - 1;
+        count++;
+    }
+
+    *arg0[1] = count;
+    return 1;
+}
+
+int func_8001A32C(void) {
+    g_CurrentEntity->flags |= 2;
+    return 1;
+}
+
+int func_8001A350(void) {
+    g_CurrentEntity->flags &= -3;
+    return 1;
+}
+
+int func_8001A374(int **arg0) {
+    D_800BCFFC = *arg0[0];
+    return 1;
+}
+
+
+
+
+int Entity_CallAction(int **arg0)
+{
+    int **args;
+    int *offsetInput;
+    int **xSlot;
+    int polygonOffset;
+    u8 *base;
+    FieldActor *current;
+    args = arg0;
+    offsetInput = args[3];
+    polygonOffset = *offsetInput;
+    current = g_CurrentEntity;
+    xSlot = &args[0];
+    base = current->script_base;
+    polygonOffset <<= 1;
+    *args[4] = Geo_PointInPoly(**xSlot, *args[1], (const PolygonVertex *) (base + polygonOffset), *(u16 *)args[2]);
+    return 1;
+}
+
+
+
+
+int Inv_CountTotal(void);
+int Inv_GetAyaSlotLimit(void);
+
+int Task_SetInventorySlotPointer(int **arg0) {
+    D_8009D248 = (int *)(g_CurrentEntity->script_base + (*arg0[0] << 1));
+    D_8009D1CC = *arg0[1];
+    return 1;
+}
+
+int Task_GetInventoryTotal(int **arg0) {
+    *arg0[0] = Inv_CountTotal();
+    return 1;
+}
+
+int Task_GetInventorySlotLimit(int **arg0) {
+    *arg0[0] = Inv_GetAyaSlotLimit();
     return 1;
 }

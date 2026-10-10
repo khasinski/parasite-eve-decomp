@@ -239,9 +239,6 @@ segments:
       # default-profile handlers on the current actor (main_tu_evidence
       # G0199..G0215 have no split evidence between them).
       - [0xA404, c, task/Task_SceneCommandOps]
-      - [0xAA14, c, entity/Entity_PolarToPosition]
-      - [0xAAF0, c, entity/Entity_PopCount]
-      - [0xAB90, c, entity/Entity_ScriptBaseOps]
       - [0xACAC, c, entity/Entity_AdvanceAnim]
       - [0xAE80, c, entity/entity_set]
       # Collision-state reset and database relocation share the collision table globals (G0227).
