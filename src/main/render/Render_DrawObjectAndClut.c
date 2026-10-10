@@ -68,7 +68,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
         return;
     *baseColour = D_8009CDA0;
     matrix = (s32 *)entity->matrices;
-    __asm__("" : "=r"(matrix) : "0"(matrix) : "memory");
+    __asm__("" : "=r"(matrix) : "0"(matrix));
     shadeR = *(volatile u8 *)&entity->shade;
     shadeG = *(volatile u8 *)&entity->shade;
     shadeB = *(volatile u8 *)&entity->shade;

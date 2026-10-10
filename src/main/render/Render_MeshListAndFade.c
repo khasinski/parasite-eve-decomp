@@ -93,7 +93,7 @@ int Render_DrawSpriteEntry(GeomEntry *input)
         raw_y = screen_src + screen_add;
         scroll_y = raw_y;
     }
-    asm volatile("" : : "r"(scroll_x), "r"(scroll_y) : "memory");
+    asm volatile("" : : "r"(scroll_y));
     {
         register u32 texture_word asm("$2");
         texture_word = *(u32 *)entry;
