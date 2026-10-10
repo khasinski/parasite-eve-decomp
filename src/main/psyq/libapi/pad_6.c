@@ -51,17 +51,16 @@ int func_8007E160(void)
   if ((new_var & 1) == 0)
   {
     result = 0;
-    goto done;
   }
-  ;
-  if ((state[0] & 1) != 0)
+  else if ((state[0] & 1) != 0)
   {
     new_var = 1;
     result = new_var;
-    goto done;
   }
-  result = (long) 0;
-  done:
+  else
+  {
+    result = (long) 0;
+  }
   return result;
 
 }

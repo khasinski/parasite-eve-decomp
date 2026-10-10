@@ -49,18 +49,15 @@ int CD_init(void) {
     CD_cw(cmd, arg, zero, zero);
     if (D_8009AFC4 & 0x10) CD_cw(1, zero, zero, zero);
     if (CD_cw(10, zero, zero, zero)) return -1;
-    if (CD_cw(12, zero, zero, zero)) goto fail;
-    {
+    if (!CD_cw(12, zero, zero, zero)) {
         register int status asm("$4") = CD_sync(zero, zero);
         register int two asm("$3") = 2;
         asm volatile("" : "=r"(status), "=r"(two) : "0"(status), "1"(two));
         if (status != two) return -1;
         result = 0;
-        goto done;
+    } else {
+        asm volatile("");
+        result = -1;
     }
-fail:
-    asm volatile("");
-    result = -1;
-done:
     return result;
 }
