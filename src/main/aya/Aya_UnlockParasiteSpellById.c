@@ -15,19 +15,19 @@ int Aya_UnlockParasiteSpellById(int arg0)
   start = Aya_GetParasiteSpellUnlockTable();
   i = 0;
   entry = start;
-  loop:
-  if ((*entry) == arg0)
+  while (1)
   {
-    goto done;
-  }
-
-  i++;
-  if (i < 20)
-  {
+    if ((*entry) == arg0)
+    {
+      break;
+    }
+    i++;
+    if (i >= 20)
+    {
+      break;
+    }
     entry += 2;
-    goto loop;
   }
-  done:
   found = i < 20;
 
   new_var2 = found;
