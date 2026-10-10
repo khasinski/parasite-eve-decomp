@@ -179,16 +179,16 @@ int Gpu_CheckDrawStatus(void) {
             flag = D_800B0DBB;
             if (flag != 0) {
                 result = 2;
-                goto done;
+            } else {
+                result = 1;
             }
-            result = 1;
-            goto done;
+        } else {
+            result = 0;
         }
+    } else {
+        result = 0;
     }
 
-    result = 0;
-
-done:
     return result;
 }
 
