@@ -11,8 +11,8 @@
 #include "pe1/menu_inventory.h"
 
 /* Item selection masks, ammunition transfer between compared weapons, the
- * weapon comparison panel and the per-slot item actions. Contiguous at
- * 0x80056B24 and joined by the comparison records and private state. */
+ * weapon comparison panel and the per-slot item actions and active-list controller. Contiguous at
+ * 0x80055760 and joined by the comparison records and list state. */
 
 u32 *D_8009D058;
 void *Str_LookupTable8(unsigned int index);
@@ -652,4 +652,129 @@ void Battle_UseItem(s32 arg0) {
     if (*(u8 *)&temp_v0->bonusStats[0] == 1) {
         BattleCmd_ChangeWeaponAndSync(arg0);
     }
+}
+
+/* Active-list removal and tracked equipped slots. The two armor aliases
+ * preserve independent address reads across the slot write. */
+extern s8 g_AyaEquippedWeaponSlot[];
+extern s8 g_AyaEquippedArmorSlot[];
+extern struct { char _[16]; } D_800C0E22_l1_o __asm__("g_AyaEquippedArmorSlot");
+extern struct { char _[16]; } D_800C0E22_s0_o __asm__("g_AyaEquippedArmorSlot");
+#define D_800C0E22_l0 (*(s8 *)&D_800C0E22_l1_o)
+#define D_800C0E22_l1 (*(s8 *)&D_800C0E22_l1_o)
+#define D_800C0E22_s0 (*(s8 *)&D_800C0E22_s0_o)
+extern u16 g_BattleCountTable[];
+extern int g_MenuBattleCount;
+
+void Inv_DropCurrentSelectionItem(void) {
+    MenuWidgetNode *node = MenuWidget_FindByModeAndSelectedBase(2, 1);
+    int index;
+
+    if (node != 0) {
+        index = MenuWidget_GridCellIndex(node);
+        if (index >= 0) {
+            Inv_RemoveActiveListItem(index);
+        }
+    }
+}
+
+int Inv_SwapSlots(int unused, int from, int unused2, int to) {
+    g_InvItemPtr[from] ^= g_InvItemPtr[to];
+    g_InvItemPtr[to] ^= g_InvItemPtr[from];
+    g_InvItemPtr[from] ^= g_InvItemPtr[to];
+
+    if (g_AyaEquippedWeaponSlot[0] == from) {
+        g_AyaEquippedWeaponSlot[0] = to;
+    } else if (g_AyaEquippedWeaponSlot[0] == to) {
+        g_AyaEquippedWeaponSlot[0] = from;
+    }
+
+    if (g_AyaEquippedArmorSlot[0] == from) {
+        g_AyaEquippedArmorSlot[0] = to;
+    } else if (g_AyaEquippedArmorSlot[0] == to) {
+        g_AyaEquippedArmorSlot[0] = from;
+    }
+
+    Inv_RebuildSelectableMask();
+    return 1;
+}
+
+
+int Inv_ClearActiveListSlot(int arg0) {
+    int value;
+
+    value = g_InvItemPtr[arg0];
+    g_InvItemPtr[arg0] = 0;
+    return value;
+}
+
+
+s32 Inv_RemoveActiveListItem(s32 arg0) {
+    s32 sp10;
+    s16 *slot;
+    s32 selected;
+    s32 removed;
+    s32 offset;
+    s32 activeList;
+
+    selected = arg0;
+    if ((g_InvItemPtr == g_AyaInventoryItems) && (D_800C0E22_l0 == selected)) {
+        Inv_GetActiveSlotCount(&sp10);
+    }
+
+    activeList = g_InvItemPtr;
+    offset = selected << 1;
+    slot = (s16 *)(offset + activeList);
+    activeList = *slot;
+    *slot = 0;
+    removed = activeList;
+
+    if (activeList >= 0x100) {
+        g_InvItemSlotArray[removed - 0x100].pad_00[0] = 0;
+    }
+
+    if ((g_InvItemPtr == g_AyaInventoryItems) && (D_800C0E22_l1 == selected)) {
+        D_800C0E22_s0 = -1;
+        Inv_CheckFreeSlotCapacity(sp10);
+        Inv_CompactActiveListSlots();
+        Inv_SetActiveList(3, 0);
+    }
+
+    return removed;
+}
+
+
+int Inv_LoadWayneItemsAsOverride(short *items) {
+    int count = 0;
+
+    if (items != 0) {
+        int base = D_8009D03C;
+        u16 *out = g_BattleCountTable;
+        int end = base + 3;
+        int id;
+        while (count < 10 && (id = items[0]) != 0) {
+            if ((base <= id) && (id < end)) {
+                int temp = id + 6;
+
+                id = temp - base;
+                temp = id + 0x200;
+                *out = temp;
+                g_InvCategoryItemTable[id].count = (u16)items[1];
+                out++;
+            } else {
+                *out = id;
+                out++;
+            }
+
+            count++;
+            items += 2;
+        }
+
+        g_InvActiveListOverride = g_BattleCountTable;
+        g_InvOverrideSlotLimit = count;
+        Inv_RebuildSelectableMask();
+    }
+
+    g_MenuBattleCount = count;
+    return count;
 }

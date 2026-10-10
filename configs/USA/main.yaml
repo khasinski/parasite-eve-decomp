@@ -569,10 +569,9 @@ segments:
       - [0x45E10, c, item/Item_PackParasiteSpells]
       - [0x45E68, c, aya/Aya_UnlockParasiteSpellById]
       - [0x45EE8, c, item/inv3]
-      # Menu selection, masks, searches, ammo transfer and snapshots share a 0x1858-byte unit.
-      # Selection masks, ammo transfer, weapon comparison panel and item actions: shared comparison records join the run.
+      # Selection masks, ammo transfer, comparison panels, item actions and
+      # the active-list controller share records and direct calls (-G8).
       - [0x45F60, c, item/Inv_ItemActions]
-      - [0x48410, c, item/Inv_ActiveListController]
       - [0x486CC, c, menu/menu_get]
       - [0x48830, c, item/Inv_TransferItem]
       - [0x48B3C, c, item/Inv_CanAddActiveListItemToAya]
