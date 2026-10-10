@@ -650,10 +650,9 @@ segments:
       - [0x5B1E4, c, scene/Scene_LoadSceneData]
       - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]
       - [0x5BCF8, c, scene/Scene_LoadRoom]
-      # Texture-page streaming and disc-change gating share typed game state.
-      - [0x5C568, c, overlay/Overlay_StreamTexturePage]
-      # Texture streaming, player startup, story-day changes and scene object setup.
-      - [0x5C6CC, c, scene/Scene_LoadTextureAndPlayer]
+      # Texture-page streaming, disc-change gating, entity textures, player
+      # startup and story-day changes share scene state and the default profile.
+      - [0x5C568, c, scene/Scene_LoadTextureAndPlayer]
       - [0x5D468, c, scene/Scene_UpdateBgDraw]
       # The range scanner repeatedly drives the shared CD sector-read state.
       - [0x5D5A4, c, cdrom/CD_SectorReadFlow]
