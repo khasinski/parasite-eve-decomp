@@ -1,4 +1,132 @@
+/* CC1_FLAGS: -fno-force-mem */
+/* MASPSX_FLAGS: --expand-div */
+
 #include "pe1/geom_state.h"
+#include "pe1/game_state.h"
+
+/* Geometry animation control: reset, update and script setup commands. */
+
+
+extern GeomState * D_800B1624;
+
+int Obj_ResetAllEntries(void) __asm__("func_800655D4");
+
+int Obj_ResetAllEntries(void) {
+    GeomState *state;
+    register GeomStateAddress cursor asm("a0");
+    u8 *entryBase;
+    GeomEntry *renderEntries;
+    unsigned int i;
+    unsigned int count;
+    unsigned int value100;
+    unsigned int value1;
+    int framePad[2];
+
+
+    state = D_800B1624;
+    cursor.state = D_800B1624;
+    entryBase = cursor.bytes + state->ctrl_offset;
+    renderEntries = (GeomEntry *)(cursor.bytes + state->entry_offset);
+    count = state->entry_count;
+    i = 0;
+
+    if (count != 0) {
+        value100 = 0x100;
+        value1 = 1;
+        cursor.bytes = entryBase;
+        do {
+            register unsigned int oldValue asm("v1") = (u8)cursor.ctrl->position.parts.groupFraction;
+            u8 *indexedPtr = cursor.bytes + cursor.ctrl->slot_offset;
+            unsigned int renderIndex;
+
+            cursor.ctrl->step = value100;
+            cursor.ctrl->elapsed = 0;
+            cursor.ctrl->head.b.flags = value1;
+            cursor.ctrl->position.packed = oldValue;
+            renderIndex = *indexedPtr;
+            renderEntries[renderIndex].flags |= 2;
+            i++;
+            cursor.ctrl++;
+        } while (i < count);
+    }
+
+
+    return 0;
+}
+
+
+
+/* Historical name: advances the current group's geometry animations. */
+int Scene_CheckBattleFlag(void)
+{
+    GeomState *state;
+    GeomCtrlEntry *controls;
+    GeomEntry *entries;
+    unsigned int i, count;
+
+    if (!(g_GameStateFlags & 0x104) &&
+        (g_GameState.flags & 0xC00000) != 0x800000) {
+        state = D_800B1624;
+        controls = (GeomCtrlEntry *)((u8 *)state + state->ctrl_offset);
+        entries = (GeomEntry *)((u8 *)state + state->entry_offset);
+        count = state->entry_count;
+        for (i = 0; i < count; i++) {
+            GeomCtrlEntry *control = &controls[i];
+            int position = control->position.bits.value;
+
+            if ((control->head.b.flags & 2) &&
+                (control->head.b.flags & 0x14) &&
+                control->position.bits.group == g_GeomGroupSel) {
+                unsigned int j;
+                GeomAnimationSlot *slots =
+                    (GeomAnimationSlot *)((u8 *)control + control->slot_offset);
+                unsigned int frames = control->head.packed >> 8;
+                GeomAnimationSlot *slot;
+
+                for (j = 0; j < frames; j++)
+                    entries[slots[j].entry].flags &= ~2;
+                /* Subtraction retains retail's address-add operand order. */
+                slot = slots - (-(position >> 8));
+                entries[slot->entry].flags |= 2;
+                if (slot->duration < 0) {
+                    slot->duration = 0;
+                    control->elapsed = 0;
+                    control->head.b.flags &= ~4;
+                    return 0;
+                }
+                {
+                    unsigned short elapsed = control->elapsed + 1;
+                    control->elapsed = elapsed;
+                    if (elapsed >= slot->duration) {
+                        int next;
+                        unsigned int length;
+
+                        control->elapsed = 0;
+                        control->position.bits.value = position + control->step;
+                        next = control->position.bits.value;
+                        length = control->head.packed >> 8;
+                        if ((next >> 8) >= (int)length) {
+                            if (control->head.b.flags & 0x20)
+                                control->position.bits.value = next % (int)(length << 8);
+                            else
+                                control->position.bits.value = 0;
+                            control->head.b.flags &= ~4;
+                        } else if ((next >> 8) < 0) {
+                            if (control->head.b.flags & 0x20)
+                                control->position.bits.value = (int)(length << 8) -
+                                    (-next % (int)(length << 8));
+                            else
+                                control->position.bits.value = (length - 1) << 8;
+                            control->head.b.flags &= ~4;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 
 /* Contiguous commands update the shared geometry animation control table. */
 

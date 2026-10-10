@@ -650,10 +650,9 @@ segments:
       - [0x55A60, c, menu/MenuWidget_EaseNodePosition]
       - [0x55B6C, c, task/Task_FieldSfxQueue]
       - [0x55C00, c, scene/Scene_UpdateEntityList]
-      - [0x55DD4, c, render/Obj_ResetAllEntries]
-      - [0x55E74, c, scene/Scene_CheckBattleFlag]
-      # Limit, flags and slot commands share the geometry animation control table.
-      - [0x5610C, c, render/Obj_ControlEntries]
+      # Reset, animation update and slot commands share GeomCtrlEntry.
+      # Reset/setup also byte-match under the update profile (-fno-force-mem).
+      - [0x55DD4, c, render/Obj_ControlEntries]
       # View state reset, camera clamp, bounds, viewport and GTE offsets, scroll mode and screen transitions share private state (G0819).
       - [0x56370, c, render/Render_CameraViewportFlow]
       - [0x57760, c, field/Geo_LoadMeshEntry]
