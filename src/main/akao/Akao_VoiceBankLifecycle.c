@@ -925,19 +925,22 @@ void Seq_SelectPlaybackBankWithCountdown(int *arg0)
   g_AkaoSeqLoopCounter = value;
 }
 
-void Seq_StartDefaultNestedStream(int *arg0) {
-    int old1 = arg0[1];
-    int old2 = arg0[2];
+void Seq_StartDefaultNestedStream(AkaoNestedSource *source) {
+    int old1 = source->key_off_mask;
+    int old2 = source->key_on_mask;
 
-    arg0[1] = 0x400;
-    arg0[2] = 0x1000000;
-    arg0[3] = 0x80;
-    arg0[4] = 0x7F;
-    Seq_StartNestedStreams((AkaoNestedSource *)arg0, (void *)old1, (void *)old2);
+    source->key_off_mask = 0x400;
+    source->key_on_mask = 0x1000000;
+    /* Retail initializes the pan byte and its padding as one word. */
+    *(u32 *)&source->pan = 0x80;
+    source->pan_target = 0x7F;
+    Seq_StartNestedStreams(source, (void *)old1, (void *)old2);
 }
 void Akao_LoadSamplePairFromIndex(int *arg0, int *arg1, int arg2);
 
-void Seq_StartIndexedNestedStreamWithDefaults(int *arg0) {
+void Seq_StartIndexedNestedStreamWithDefaults(AkaoNestedSource *source) {
+    /* Keep the word view for retail store scheduling in this wrapper. */
+    int *arg0 = (int *)source;
     int old1;
     int old2;
 
@@ -945,15 +948,15 @@ void Seq_StartIndexedNestedStreamWithDefaults(int *arg0) {
     arg0[2] = 0x2000000;
     arg0[3] = 0x80;
     arg0[4] = 0x7F;
-    Seq_StartNestedStreams((AkaoNestedSource *)arg0, (void *)old1, (void *)old2);
+    Seq_StartNestedStreams(source, (void *)old1, (void *)old2);
 }
 
-void Seq_StartIndexedNestedStream(int *arg0) {
+void Seq_StartIndexedNestedStream(AkaoNestedSource *source) {
     int old1;
     int old2;
 
-    Akao_LoadSamplePairFromIndex(&old1, &old2, arg0[1]);
-    Seq_StartNestedStreams((AkaoNestedSource *)arg0, (void *)old1, (void *)old2);
+    Akao_LoadSamplePairFromIndex(&old1, &old2, source->key_off_mask);
+    Seq_StartNestedStreams(source, (void *)old1, (void *)old2);
 }
 
 

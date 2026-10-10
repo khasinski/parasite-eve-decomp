@@ -15,6 +15,11 @@ typedef struct AkaoRelativeNestedCommand {
 typedef char AkaoRelativeNestedCommandSizeCheck[
     (sizeof(AkaoRelativeNestedCommand) == 0x18) ? 1 : -1];
 
+void Seq_StartDefaultNestedStream(AkaoNestedSource *source);
+void Seq_StartIndexedNestedStreamWithDefaults(AkaoNestedSource *source);
+void Seq_StartIndexedNestedStream(AkaoNestedSource *source);
+void Seq_StartRelativeNestedStream(AkaoRelativeNestedCommand *command);
+
 typedef signed char AkaoCommandS8;
 
 enum AkaoSequenceOpcode {
