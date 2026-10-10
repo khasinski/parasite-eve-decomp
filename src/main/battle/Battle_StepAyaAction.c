@@ -33,7 +33,7 @@ s32 Battle_StepAyaAction(void)
   u32 targetEffectId;
   int hitCountMask;
   register s32 transfer asm("$2");
-  u32 *targetFlags;
+  EnemyCombatant *targetCore;
   finished = 0;
   switch (D_8009D25C)
   {
@@ -240,14 +240,15 @@ s32 Battle_StepAyaAction(void)
         targetIndex = index;
         target = D_800BE830[targetIndex].actor;
         attackMask |= 0xFFFF;
-        targetFlags = target->core;
+        /* Keep the word lvalue view: direct members change stock GCC scheduling. */
+        targetCore = target->core;
         countMask = 0xFFFC7FFF;
-        flags = ((*targetFlags) & (~0x6000)) | 0x2000;
+        flags = ((*(u32 *)&targetCore->coreFlags) & (~0x6000)) | 0x2000;
         attacker = D_8009D278;
-        *targetFlags = flags;
+        (*(u32 *)&targetCore->coreFlags) = flags;
         attackFlags = (flags & attackMask) | (((((u32) attacker->action->attackWord) >> 0x14) & 3) << 0x12);
-        *targetFlags = attackFlags;
-        *targetFlags = (s32) ((attackFlags & countMask) | ((D_8009CE55 & hitCountMask) << 0xF));
+        (*(u32 *)&targetCore->coreFlags) = attackFlags;
+        (*(u32 *)&targetCore->coreFlags) = (s32) ((attackFlags & countMask) | ((D_8009CE55 & hitCountMask) << 0xF));
         if (D_8009CE48 == 2)
         {
           effectTarget = D_800BE830[targetIndex].actor;
