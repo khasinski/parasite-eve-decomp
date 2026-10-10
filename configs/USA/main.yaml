@@ -610,9 +610,9 @@ segments:
       # share draw state and allocation calls; identical under one -G8 profile.
       - [0x4F358, c, gpu/Draw_TextPrimitives]
       - [0x51844, c, gpu/Draw_AllocColorQuad]
-      - [0x51CA0, c, gpu/draw3]
-      # Screen wipes, gradients and the colour triangle/quad packet allocators (G0762).
-      - [0x51D3C, c, gpu/Draw_WipeAndGradient]
+      # Blend colour, screen wipes, gradients and colour packet allocators share
+      # the draw runtime and matching -G8/common profile.
+      - [0x51CA0, c, gpu/Draw_WipeAndGradient]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
       - [0x52ABC, c, gpu/Draw_AllocColorTriGradient]
       # Pool initialization and node allocation use the same free/active-list state.
