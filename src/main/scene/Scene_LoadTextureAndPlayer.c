@@ -333,12 +333,12 @@ block_21:
         M2C_FIELD(M2C_FIELD(playerForScaleUpdate, void **, 0x1B4), s16 *, 0x14) = (s16) (M2C_FIELD(playerForScaleUpdate, s16 *, 0x224) * 2);
         g_GameStateFlagsAfterPlayerInit.flags = (g_GameState.flags & 0xFFF9FFFF);
         if (arg0v != 0) {
-            phaseValue = M2C_FIELD(gameState, s32 *, 0);
+            phaseValue = gameState->flags;
             var_v0_2 = phaseValue | 0x80000;
         } else {
-            var_v0_2 = M2C_FIELD(gameState, s32 *, 0) & 0xFFF7FFFF;
+            var_v0_2 = gameState->flags & 0xFFF7FFFF;
         }
-        M2C_FIELD(gameState, s32 *, 0) = var_v0_2;
+        gameState->flags = var_v0_2;
         gameState->scene_init_phase = 0x20;
         /* fallthrough */
     default:
