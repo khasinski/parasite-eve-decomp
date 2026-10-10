@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "pe1/menu_widget.h"
-#include "../../../tools/m2c/m2c_macros.h"
 
 void MenuWidget_InitPoolUnk(void) {
     MenuWidgetNode *node;
@@ -29,9 +28,8 @@ void MenuWidget_InitPoolUnk(void) {
 #include "pe1/bounds_check.h"
 
 
-MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1);
 
-MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
+MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, MenuWidgetNode *arg1) {
     s32 var_a0;
     s32 var_a0_2;
     s32 var_v0;
@@ -39,7 +37,7 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     MenuWidgetNode *temp_v1;
     MenuWidgetNode *temp_next;
     MenuWidgetNode **var_a1;
-    register void *var_v1 asm("$3");
+    register MenuWidgetNode **var_v1 asm("$3");
     MenuWidgetNode *temp_s2;
     MenuWidgetNode *temp_s1;
 
@@ -71,10 +69,10 @@ MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *arg0, void *arg1) {
     temp_s0->flags = 0;
     if (temp_s1 != NULL) {
         var_a0_2 = 0;
-        var_v1 = temp_s1;
-        while (var_a0_2 < 4 && M2C_FIELD(var_v1, s32 *, 8) != 0) {
+        var_v1 = (MenuWidgetNode **)temp_s1;
+        while (var_a0_2 < 4 && var_v1[2] != 0) {
             var_a0_2 += 1;
-            var_v1 += 4;
+            var_v1++;
         }
         var_v0 = var_a0_2 < 4;
         if (var_v0 != 0) {

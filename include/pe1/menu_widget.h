@@ -46,6 +46,8 @@ typedef struct MenuWidgetNode {
     int (*selectionAvailable)(int index); /* +0x8C item-slot filter callback. */
 } MenuWidgetNode;
 
+MenuWidgetNode *MenuWidget_AllocNode(MenuWidgetNode *parent, MenuWidgetNode *attachTo);
+
 /* parent is recorded for input dispatch; attachTo supplies a free child slot.
  * The simple node's last argument initializes cursor_x. */
 MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent,

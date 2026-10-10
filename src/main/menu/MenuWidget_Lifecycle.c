@@ -40,10 +40,10 @@ MenuWidgetNode *MenuWidget_CreateSimpleNode(s32 arg0, MenuWidgetNode *arg1, Menu
 
     {
         int i;
-        register s32 *ptr asm("$5");
+        register MenuWidgetNode **ptr asm("$5");
 
         i = 3;
-        ptr = (s32 *)((char *)node + 0xC);
+        ptr = &node->children[1];
         do {
             ptr[2] = 0;
             i--;
@@ -326,10 +326,10 @@ MenuWidgetNode *MenuWidget_CreateNode(s32 arg0, MenuWidgetNode *arg1, MenuWidget
 
     {
         int i;
-        register s32 *ptr asm("$5");
+        register MenuWidgetNode **ptr asm("$5");
 
         i = 3;
-        ptr = (s32 *)((char *)node + 0xC);
+        ptr = &node->children[1];
         do {
             ptr[2] = 0;
             i--;
