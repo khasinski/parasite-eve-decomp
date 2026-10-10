@@ -41,7 +41,7 @@ void Render_AnimationFrame(void) {
         }
         frame = 10;
         width = (g_BattleAttackAnimFrame << 4) + frame;
-        asm volatile("" : : : "memory");
+        asm volatile("" : "=m"(g_BattleAttackAnimFrame) : "m"(g_BattleAttackAnimFrame));
         current_frame = g_BattleAttackAnimFrame;
     }
 
