@@ -24,12 +24,9 @@ void Battle_ResolveHitOnTimer(void)
     BattleEntity *selectedActor;
     BattleEntity *singleTarget;
     BattleEntity *effectTarget;
-    register BattleEntity *multiTarget asm("$16");
     register BattleEntity *coneTarget;
     register BattleInitSlot *selectedSlot;
-    EnemyCombatant *multiCandidate;
     register EnemyCombatant *selectedCore;
-    register EnemyCombatant *multiCore;
     register EnemyCombatant *coneCandidate;
     register EnemyCombatant *coneCore;
     register EnemyCombatant *resultCore;
@@ -38,7 +35,6 @@ void Battle_ResolveHitOnTimer(void)
     s32 targetAngle;
     register s16 savedReaction;
     u16 playerAngle;
-    u32 multiFlags;
     u32 coneFlags;
     u8 hitTimer;
     hitTimer = D_8009D274 + 1;
@@ -99,6 +95,11 @@ void Battle_ResolveHitOnTimer(void)
         }
         if (actionId == 6)
         {
+            register BattleEntity *multiTarget asm("$16");
+            EnemyCombatant *multiCandidate;
+            register EnemyCombatant *multiCore;
+            u32 multiFlags;
+
             Battle_CheckEvasion(selectedSlot->actor, (BattleEvasionOutcome *)&D_8009CE54, 0);
             selectedActor = selectedSlot->actor;
             selectedCore = selectedActor->core;
