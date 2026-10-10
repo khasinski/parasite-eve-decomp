@@ -1,10 +1,9 @@
+#include "pe1/battle_context.h"
 #include "common.h"
 #include "pe1/field_actor.h"
 
 extern FieldActor *g_FieldActorListHead;
 
-void *Battle_GetContextField(int arg0);
-void *Battle_GetEnemyContextField(FieldActor *arg0, int arg1);
 
 int Entity_FindByTypeId(int **arg0) {
     FieldActor *obj;
@@ -13,7 +12,7 @@ int Entity_FindByTypeId(int **arg0) {
 
     type = *arg0[0];
     if (type == 0) {
-        *arg0[3] = (int)Battle_GetContextField(*(u8 *)arg0[2]);
+        *arg0[3] = Battle_GetContextField(*(u8 *)arg0[2]);
     } else {
         obj = g_FieldActorListHead;
         cmpType = type;
@@ -34,7 +33,7 @@ int Entity_FindByTypeId(int **arg0) {
         if (obj == 0) {
             return 1;
         }
-        *arg0[3] = (int)Battle_GetEnemyContextField(obj, *(u8 *)arg0[2]);
+        *arg0[3] = Battle_GetEnemyContextField(obj, *(u8 *)arg0[2]);
     }
     return 1;
 }
@@ -43,7 +42,6 @@ int Entity_FindByTypeId(int **arg0) {
 
 extern FieldActor *g_CurrentEntity;
 
-void Battle_SetContextField(int arg0, int arg1);
 int Entity_SetField(char ***arg0) {
     FieldActor *ctx = g_CurrentEntity;
 
@@ -61,7 +59,6 @@ int Entity_SetField(char ***arg0) {
 
 extern FieldActor *g_FieldActorListHead;
 
-void Battle_SetContextField(int arg0, int arg1);
 int Entity_SetFieldByTypeId(int **arg0) {
     FieldActor *obj;
     register int type;

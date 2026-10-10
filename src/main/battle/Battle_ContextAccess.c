@@ -1,3 +1,4 @@
+#include "pe1/battle_context.h"
 #include "common.h"
 #include "pe1/battle.h"
 

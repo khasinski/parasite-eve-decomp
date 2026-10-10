@@ -1,10 +1,12 @@
+#include "pe1/battle_context.h"
 #include "common.h"
 #include "pe1/battle.h"
+#include "pe1/field_actor.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
-s32 Battle_GetEnemyContextField(void *arg0, s32 arg1) {
-    EnemyCombatant *ctx = *(EnemyCombatant **)arg0;
+s32 Battle_GetEnemyContextField(FieldActor *arg0, s32 arg1) {
+    EnemyCombatant *ctx = (EnemyCombatant *)arg0->state;
     s32 ret = -1000;
     u32 word;
     s32 flags;

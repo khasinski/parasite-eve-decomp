@@ -1,3 +1,4 @@
+#include "pe1/battle_context.h"
 /* Script opcodes: test, set and clear the global game-state flags, set the
  * battle mode state and read a battle context field of the current actor.
  * Contiguous default-profile handlers. */
@@ -7,8 +8,6 @@ extern int g_GameStateFlags;
 extern int g_BattleModeState;
 extern FieldActor *g_CurrentEntity;
 
-void *Battle_GetContextField(int arg0);
-void *Battle_GetEnemyContextField(FieldActor *arg0, int arg1);
 
 int Scene_TestGlobalFlags(int **arg0) {
     int flags;
@@ -48,9 +47,9 @@ int Entity_GetField(char ***arg0) {
     FieldActor *ctx = g_CurrentEntity;
 
     if (ctx->type_id == 0) {
-        *arg0[1] = Battle_GetContextField(*(unsigned char *)arg0[0]);
+        *(int *)arg0[1] = Battle_GetContextField(*(unsigned char *)arg0[0]);
     } else {
-        *arg0[1] = Battle_GetEnemyContextField(ctx, *(unsigned char *)arg0[0]);
+        *(int *)arg0[1] = Battle_GetEnemyContextField(ctx, *(unsigned char *)arg0[0]);
     }
     return 1;
 }
