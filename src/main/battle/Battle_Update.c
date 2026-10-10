@@ -60,7 +60,7 @@ void Battle_Update(void) {
                     int bottomBlue = 0xF9;
                     BATTLE_HUD_SLOT_BYTE(D_800B00EC, 0x24) = 0;
                     BATTLE_HUD_SLOT_BYTE(D_800B00ED, 0x24) = topGreen;
-                    asm volatile("" : : "r"(topGreen), "r"(topBlue), "r"(bottomRed), "r"(bottomGreen), "r"(bottomBlue));
+                    asm volatile("" : : "r"(bottomBlue));
                     BATTLE_HUD_SLOT_BYTE(D_800B00EE, 0x24) = topBlue;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F4, 0x24) = bottomRed;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F5, 0x24) = bottomGreen;
@@ -81,7 +81,7 @@ void Battle_Update(void) {
                     int blue = 0xBE;
                     BATTLE_HUD_SLOT_BYTE(D_800B00EC, 0x24) = red;
                     BATTLE_HUD_SLOT_BYTE(D_800B00ED, 0x24) = green;
-                    asm volatile("" : : "r"(red), "r"(green), "r"(blue));
+                    asm volatile("" : : "r"(blue));
                     BATTLE_HUD_SLOT_BYTE(D_800B00EE, 0x24) = blue;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F4, 0x24) = red;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F5, 0x24) = green;
@@ -104,7 +104,7 @@ void Battle_Update(void) {
                     int bottomBlue = 0x82;
                     BATTLE_HUD_SLOT_BYTE(D_800B00EC, 0x24) = topRed;
                     BATTLE_HUD_SLOT_BYTE(D_800B00ED, 0x24) = topGreen;
-                    asm volatile("" : : "r"(topRed), "r"(topGreen), "r"(topBlue), "r"(bottomGreen), "r"(bottomBlue));
+                    asm volatile("" : : "r"(bottomBlue));
                     BATTLE_HUD_SLOT_BYTE(D_800B00EE, 0x24) = topBlue;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F4, 0x24) = 0;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F5, 0x24) = bottomGreen;
@@ -125,7 +125,7 @@ void Battle_Update(void) {
                     int blue = 0xBE;
                     BATTLE_HUD_SLOT_BYTE(D_800B00EC, 0x24) = red;
                     BATTLE_HUD_SLOT_BYTE(D_800B00ED, 0x24) = green;
-                    asm volatile("" : : "r"(red), "r"(green), "r"(blue));
+                    asm volatile("" : : "r"(blue));
                     BATTLE_HUD_SLOT_BYTE(D_800B00EE, 0x24) = blue;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F4, 0x24) = red;
                     BATTLE_HUD_SLOT_BYTE(D_800B00F5, 0x24) = green;
