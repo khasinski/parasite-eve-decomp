@@ -71,12 +71,12 @@ int Task_DispatchScriptCmd(TaskScriptArgs *args)
                 goto cmd_835;
             }
             if (opcode < 0x836) {
-                goto done;
+                return 1;
             }
             if (opcode == 0x898) {
                 goto cmd_898;
             }
-            goto done;
+            return 1;
         }
         if (opcode == 0x960) {
             goto cmd_960;
@@ -85,7 +85,7 @@ int Task_DispatchScriptCmd(TaskScriptArgs *args)
             if (opcode == 0x8FC) {
                 goto cmd_8fc;
             }
-            goto done;
+            return 1;
         }
         if (opcode == 0x961) {
             goto cmd_961;
@@ -93,7 +93,7 @@ int Task_DispatchScriptCmd(TaskScriptArgs *args)
         if (opcode == 0x962) {
             goto cmd_962;
         }
-        goto done;
+        return 1;
     }
     if (opcode == 0xAF1) {
         goto cmd_af1;
@@ -106,7 +106,7 @@ int Task_DispatchScriptCmd(TaskScriptArgs *args)
             if (opcode == 0xA28) {
                 goto cmd_a28;
             }
-            goto done;
+            return 1;
         }
         if (opcode == 0xA8C) {
             goto cmd_a8c;
@@ -114,7 +114,7 @@ int Task_DispatchScriptCmd(TaskScriptArgs *args)
         if (opcode == 0xAF0) {
             goto cmd_af0;
         }
-        goto done;
+        return 1;
     }
     if (opcode == 0xBB8) {
         goto find_entity;
@@ -123,7 +123,7 @@ int Task_DispatchScriptCmd(TaskScriptArgs *args)
         if (opcode == 0xB54) {
             goto cmd_b54;
         }
-        goto done;
+        return 1;
     }
     if (opcode == 0xC1C) {
         goto cmd_c1c;
@@ -131,7 +131,7 @@ int Task_DispatchScriptCmd(TaskScriptArgs *args)
     if (opcode == 0xC80) {
         goto cmd_c80;
     }
-    goto done;
+    return 1;
 
 cmd_835:
         D_800B0CD8[0] |= 0x800;
@@ -198,18 +198,18 @@ cmd_b54:
 find_entity:
         initial_entity_id = ARG_WORD(args->arg1);
         if (initial_entity_id == 0) {
-            goto done;
+            return 1;
         }
         entity = D_8009D20C[0];
         entity_id = initial_entity_id;
         if (entity == 0) {
-            goto done;
+            return 1;
         }
         while (1) {
             if (U8_AT(entity, 0xC) == entity_id) {
                 if (U8_AT(entity, 0xD) == ARG_WORD(args->arg2)) {
                     if ((U32_AT(entity, 0x98) & 0x10) == 0) {
-                        goto done;
+                        return 1;
                     }
                 }
             }

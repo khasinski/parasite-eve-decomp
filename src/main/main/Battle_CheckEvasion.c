@@ -64,7 +64,7 @@ forced:
         return;
     }
 
-    if (distance >= 1801) goto done;
+    if (distance >= 1801) return;
     if (distance < 1501) goto below_1501;
     hit = (s16)roll < 25;
     goto check_evasion;
@@ -76,10 +76,10 @@ below_1201:
     if (distance < 1001) goto close_range;
     hit = (s16)roll < 80;
 check_evasion:
-    if (!hit) goto done;
+    if (!hit) return;
     outcome->status = 1;
     outcome->reaction = 1;
-    goto done;
+    return;
 
 close_range:
     special = (D_8009D278->action->turnWord >> 17) & 1;

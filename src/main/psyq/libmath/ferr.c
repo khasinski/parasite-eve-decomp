@@ -16,7 +16,7 @@ int _err_math(int arg0, int arg1) {
     if (arg0 == 0x22) {
         goto event302;
     }
-    goto done;
+    return 0;
 
 event301:
     DeliverEvent(0xF4000002, 0x301);

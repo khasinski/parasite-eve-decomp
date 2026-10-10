@@ -1073,7 +1073,7 @@ void Seq_SlideTrackPitch(int *arg0) {
         ((AkaoTrack *)track)->pitch_slide_step = target;
         Seq_MarkDirtyTracks(base);
     }
-    goto done;
+    return;
 
 secondary_track:
     if (arg0 != 0) {
@@ -1133,7 +1133,7 @@ void Seq_TrackPitchSetup(int *arg0) {
         ((AkaoTrack *)track)->pitch_slide_step = delta;
         Seq_MarkDirtyTracks(base);
     }
-    goto done;
+    return;
 
 secondary_track:
     if (selector != 0) {

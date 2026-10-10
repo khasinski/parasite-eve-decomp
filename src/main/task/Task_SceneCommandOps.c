@@ -117,7 +117,7 @@ s32 Task_SetEntityParentLink(s32 *args[]) {
 
         tmp = g_PlayerEntity;
         if (tmp == NULL) {
-            goto done;
+            return 1;
         }
         node = tmp;
         goto link;
