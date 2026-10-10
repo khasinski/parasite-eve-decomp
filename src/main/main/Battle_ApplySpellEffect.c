@@ -124,7 +124,7 @@ extern struct { char _[16]; } g_FieldMoveLock_ob __asm__("g_FieldMoveLock");
 void Battle_ApplySpellEffect(u32 idx, BattleEntity *ent) {
     BattleActionSoundTable soundTable;
     s32 dmg;
-    register u8 *pshared asm("$2");
+    register Combatant *pshared asm("$2");
 
     dmg = 0;
     if (!(g_GameStateFlags & 2)) {
@@ -147,49 +147,49 @@ void Battle_ApplySpellEffect(u32 idx, BattleEntity *ent) {
         break;
     case 3:
         {
-            u8 *p = D278_5;
-            s32 f = ((Combatant *)p)->stateFlags;
+            Combatant *p = (Combatant *)D278_5;
+            s32 f = p->stateFlags;
             if ((f & 3) != 3) {
-                ((Combatant *)p)->stateFlags = f & ~3;
+                p->stateFlags = f & ~3;
             }
             dmg = 0x640000;
         }
         break;
     case 4:
         {
-            u8 *p = D278_6;
-            s32 f = ((Combatant *)p)->stateFlags;
+            Combatant *p = (Combatant *)D278_6;
+            s32 f = p->stateFlags;
             register s32 c asm("$2");
             if ((f & 3) != 3) {
-                ((Combatant *)p)->stateFlags = f & ~3;
-                p = D278_7;
-                f = ((Combatant *)p)->stateFlags;
+                p->stateFlags = f & ~3;
+                p = (Combatant *)D278_7;
+                f = p->stateFlags;
             }
             c = 0xC;
             if ((f & 0xC) != c) {
-                ((Combatant *)p)->stateFlags = f & ~0xC;
+                p->stateFlags = f & ~0xC;
                 D2E8B = D2E8A & ~0x10;
             }
-            p = D278_8;
-            f = ((Combatant *)p)->stateFlags;
+            p = (Combatant *)D278_8;
+            f = p->stateFlags;
             if ((f & 0x30) != 0x30) {
-                ((Combatant *)p)->stateFlags = f & ~0x30;
-                p = D278_9;
-                f = ((Combatant *)p)->stateFlags;
+                p->stateFlags = f & ~0x30;
+                p = (Combatant *)D278_9;
+                f = p->stateFlags;
             }
             c = 0xC0;
             if ((f & 0xC0) != c) {
-                ((Combatant *)p)->stateFlags = f & ~0xC0;
+                p->stateFlags = f & ~0xC0;
             }
         }
-        pshared = D278_10;
+        pshared = (Combatant *)D278_10;
         dmg = 0x02580000;
         goto clear1000;
     case 5:
         {
-            u8 *p = D278_11;
-            ((Combatant *)p)->stateFlags = ((Combatant *)p)->stateFlags | 0x200;
-            ((Combatant *)p)->exp_or_acc = ((Combatant *)p)->exp_or_acc - (((Combatant *)p)->maxAtk / 3);
+            Combatant *p = (Combatant *)D278_11;
+            p->stateFlags = p->stateFlags | 0x200;
+            p->exp_or_acc = p->exp_or_acc - (p->maxAtk / 3);
         }
         break;
     case 7:
@@ -255,15 +255,15 @@ poison8:
         break;
     case 9:
         {
-            u8 *p = D278_13;
+            Combatant *p = (Combatant *)D278_13;
             s32 f;
             s32 m;
-            ((Combatant *)p)->stateFlags = ((Combatant *)p)->stateFlags | 0x100;
+            p->stateFlags = p->stateFlags | 0x100;
             f = ((volatile Combatant *)p)->stateFlags;
             g_ActorEffectFlag100Timer = 0x1C2;
             m = f & 0xC0;
             if (m == 0x40 || m == 0x80) {
-                ((Combatant *)p)->stateFlags = f & ~0xC0;
+                p->stateFlags = f & ~0xC0;
             }
             dmg = 0xC80000;
         }
@@ -300,55 +300,55 @@ conf10:
         break;
     case 18:
         {
-            u8 *q = D278_17;
-            s32 g = ((Combatant *)q)->stateFlags;
-            u8 *p;
+            Combatant *q = (Combatant *)D278_17;
+            s32 g = q->stateFlags;
+            Combatant *p;
             s32 f;
             register s32 c18 asm("$2");
-            ((Combatant *)q)->curHP = ((Combatant *)q)->maxHP;
+            q->curHP = q->maxHP;
             if ((g & 3) != 3) {
-                ((Combatant *)q)->stateFlags = g & ~3;
+                q->stateFlags = g & ~3;
             }
-            p = D278_19;
-            f = ((Combatant *)p)->stateFlags;
+            p = (Combatant *)D278_19;
+            f = p->stateFlags;
             if ((f & 0xC) != 0xC) {
-                ((Combatant *)p)->stateFlags = f & ~0xC;
+                p->stateFlags = f & ~0xC;
                 D2E8B = D2E8A & ~0x10;
                 __asm__ __volatile__("");
-                p = D278_20;
-                f = ((Combatant *)p)->stateFlags;
+                p = (Combatant *)D278_20;
+                f = p->stateFlags;
             }
             c18 = 0x30;
             if ((f & 0x30) != c18) {
-                ((Combatant *)p)->stateFlags = f & ~0x30;
+                p->stateFlags = f & ~0x30;
             }
-            p = D278_21;
-            f = ((Combatant *)p)->stateFlags;
+            p = (Combatant *)D278_21;
+            f = p->stateFlags;
             if ((f & 0xC0) != 0xC0) {
-                ((Combatant *)p)->stateFlags = f & ~0xC0;
+                p->stateFlags = f & ~0xC0;
             }
         }
-        pshared = D278_55;
+        pshared = (Combatant *)D278_55;
         dmg = 0x05140000;
 clear1000:
-        ((Combatant *)pshared)->stateFlags = ((Combatant *)pshared)->stateFlags & ~0x1000;
+        pshared->stateFlags = pshared->stateFlags & ~0x1000;
         break;
     case 19:
         ((Combatant *)D278_23)->stateFlags = (((Combatant *)D278_23)->stateFlags | 0x80000) & 0xFFDFFFFF;
         break;
     }
     {
-        u8 *p = D278_24;
-        s16 t = (s16)((Combatant *)p)->maxHP;
-        if (t < (s16)((Combatant *)p)->curHP) {
-            ((Combatant *)p)->curHP = t;
-            p = D278_26;
+        Combatant *p = (Combatant *)D278_24;
+        s16 t = (s16)p->maxHP;
+        if (t < (s16)p->curHP) {
+            p->curHP = t;
+            p = (Combatant *)D278_26;
         }
         if (!(ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(p)) & 0x200)) {
-            ((Combatant *)p)->exp_or_acc = ((Combatant *)p)->exp_or_acc - dmg;
+            p->exp_or_acc = p->exp_or_acc - dmg;
             return;
         }
-        ((Combatant *)p)->exp_or_acc = ((Combatant *)p)->exp_or_acc - ((dmg * 2) / 3);
+        p->exp_or_acc = p->exp_or_acc - ((dmg * 2) / 3);
     }
 }
 
