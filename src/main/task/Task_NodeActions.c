@@ -30,13 +30,14 @@ int Task_SpawnChildNode(int **args) {
         u16 seq;
         register int value asm("$4");
         int base;
+        int scriptValue;
         TaskNode *next;
 
         value_ptr = args[0];
         state = g_CurrentEntity[0];
         entry = g_TaskNodeFreeListHead;
         seq = g_TaskNodeSeqCounter;
-        value = *value_ptr;
+        scriptValue = *value_ptr;
         base = (int)state->script_base;
         asm volatile("" : "=r"(entry) : "0"(entry));
         next = entry->next;
@@ -47,8 +48,7 @@ int Task_SpawnChildNode(int **args) {
         entry->active = 1;
         entry->seq = seq;
         entry->flags = 0;
-        value <<= 1;
-        value += base;
+        value = (scriptValue << 1) + base;
         entry->current.value = value;
         {
             TaskNode *head = state->task_node_lists[2];
