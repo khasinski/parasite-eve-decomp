@@ -1,6 +1,10 @@
 #ifndef PE1_MENU_STATE_H
 #define PE1_MENU_STATE_H
 
+/* 0: closed, 1: opening, 2+: save polling runs in the menu frame. */
+extern int g_MemCardDialogState;
+void MemCard_SetDialogActive(int active);
+
 extern int g_MenuBattleEquipMode;
 int Menu_GetEquipMode(void);
 

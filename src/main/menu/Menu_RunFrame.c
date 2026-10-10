@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 #include "pe1/menu_background.h"
 #include "pe1/inventory_slots.h"
 #include "pe1/menu_queue.h"
@@ -11,7 +12,6 @@ void MemCard_UpdateSavePolling(void);
 void MemCard_DelayedCallback(void);
 void Evt_DeferredExec(void);
 void Menu_ProcessSwapReturnIfPending(void);
-extern s32 g_MemCardDialogState;
 u32 g_MenuErrorSoundPending;
 extern s32 g_MenuActiveListTarget[];
 #define g_MenuActiveListTarget (g_MenuActiveListTarget[0])

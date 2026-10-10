@@ -578,9 +578,8 @@ segments:
       # Metadata-window reset, selection, editing, loading and accessors share
       # one contiguous 0x2AC-byte -G8 unit, including its common index.
       - [0x4C498, c, save/Save_MetadataWindow]
-      # Item lookup and player inventory opening share the saved menu mode.
+      # Item lookup, inventory opening and card-dialog gating share menu state.
       - [0x4C744, c, item/Inv_FindItem]
-      - [0x4C9EC, c, memcard/MemCard_SetDialogActive]
       - [0x4CA5C, c, save/Save_BuildHeader]
       - [0x4CB74, c, save/Save_RestoreHeader]
       # Error-sound requests and both frame entry points share their pending
