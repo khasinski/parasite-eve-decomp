@@ -266,12 +266,13 @@ body:
     voice = (AkaoTrack *)arg1;
     field = (u16 *)voice + 0x8B;
     do {
+        AkaoTrack *parameters = (AkaoTrack *)((u8 *)field - 0x116);
         i++;
-        field[-0x60] = mode3;
-        field[-0x5F] = mode1;
+        parameters->note_length = mode3;
+        parameters->pan_duration = mode1;
         voice->pc = (AkaoU8 *)fallback;
-        *(u32 *)(field - 0x11) |= AKAO_VOICE_PARAM_ADSR_RELEASE;
-        *field = mode5;
+        parameters->update_flags |= AKAO_VOICE_PARAM_ADSR_RELEASE;
+        parameters->adsr_release_rate = mode5;
         voice++;
         field += 0x8E;
     } while (i < 0x18);
@@ -309,22 +310,23 @@ void Spu_ManageVoices(int arg0, int arg1)
         field = (u32 *)voice + 0xE;
         do
         {
+            AkaoTrack *parameters = (AkaoTrack *)((u8 *)field - 0x38);
             if ((active & mask) != 0)
             {
-                if ((field[-3] & mode_bits) != 0)
+                if ((parameters->key_on_mask & mode_bits) != 0)
                 {
-                    flags = field[0];
+                    flags = parameters->flags;
                     value = flags & flag1;
                     if (value != 0)
                     {
                         value = flags | id;
-                        field[0] = value;
+                        parameters->flags = value;
                     }
                     else
                     {
                         g_SpuPendingKeyOffMask |= mask;
                         SeqOp_DeactivateVoice((char *) voice, mask);
-                        field[0] = 0;
+                        parameters->flags = 0;
                     }
                 }
             }
@@ -399,22 +401,23 @@ void Spu_ManageVoices(int arg0, int arg1)
         field = (u32 *)voice + 0xE;
         do
         {
+            AkaoTrack *parameters = (AkaoTrack *)((u8 *)field - 0x38);
             if ((active & mask) != 0)
             {
-                if (best == field[6])
+                if (best == *(u32 *)&parameters->field_50_duration)
                 {
-                    flags = field[0];
+                    flags = parameters->flags;
                     value = flags & flag1;
                     if (value != 0)
                     {
                         value = flags | control;
-                        field[0] = value;
+                        parameters->flags = value;
                     }
                     else
                     {
                         g_SpuPendingKeyOffMask |= mask;
                         SeqOp_DeactivateVoice((char *) voice, mask);
-                        field[0] = 0;
+                        parameters->flags = 0;
                     }
                 }
             }
@@ -435,22 +438,23 @@ void Spu_ManageVoices(int arg0, int arg1)
         field = (u32 *)voice + 0xE;
         do
         {
+            AkaoTrack *parameters = (AkaoTrack *)((u8 *)field - 0x38);
             if ((active & mask) != 0)
             {
-                if (field[-4] == id)
+                if (parameters->key_off_mask == id)
                 {
-                    flags = field[0];
+                    flags = parameters->flags;
                     value = flags & flag1;
                     if (value != 0)
                     {
                         value = flags | control;
-                        field[0] = value;
+                        parameters->flags = value;
                     }
                     else
                     {
                         g_SpuPendingKeyOffMask |= mask;
                         SeqOp_DeactivateVoice((char *) voice, mask);
-                        field[0] = 0;
+                        parameters->flags = 0;
                     }
                 }
             }
