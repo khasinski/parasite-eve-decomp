@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "pe1/battle.h"
-#include <m2c_macros.h>
 
 #define NULL ((void *)0)
 typedef struct { u8 bytes[0x14]; } __attribute__((packed)) Tbl20;
@@ -74,8 +73,8 @@ void Battle_AdvancePhase(void) {
     Tbl20 sp18;
     BattleActionSoundTable sp30;
     BattleEntity *temp_v1_2;
-    M2C_UNK *var_a2;
-    M2C_UNK *var_a3;
+    BattleEntity *var_a2;
+    int targetFound;
     s16 temp_v0;
     s32 var_a2_2;
     s32 var_a3_2;
@@ -165,7 +164,7 @@ void Battle_AdvancePhase(void) {
         goto aligned_copy;
 block_found:
         var_a2 = temp_v1_2;
-        var_a3 = (M2C_UNK *)1;
+        targetFound = 1;
         goto block_search_done;
 aligned_copy:
         do {
@@ -184,9 +183,9 @@ after_command:
             temp_v0 = Battle_CalcAngleToTarget(var_a0_2 + 0x1B4, var_a1 + 0x28);
             var_a0_2 = (s32) D_8009D1D4;
             var_a1 = (void *) (var_a0_2 & 0xFF);
-            var_a2 = (M2C_UNK *) ((s32) var_a1 * 8);
+            var_a2 = (BattleEntity *) ((s32) var_a1 * 8);
             ((BattleEntity *)D254(15))->facingAngle = temp_v0;
-            var_a3 = NULL;
+            targetFound = 0;
             if (*(s16 *)((u8 *)D_800BE834 + (s32)var_a2) - 0x183 == 0x13) {
                 var_a2 = NULL;
                 var_s0 = var_a0_2;
@@ -205,7 +204,7 @@ loop_17:
                     }
                 }
 block_search_done:
-                if (!((s32) var_a3 & 0xFF)) {
+                if (!(targetFound & 0xFF)) {
                     var_v0_3 = D_8009D1D4 + 7;
                     goto block_35;
                 }
@@ -241,8 +240,8 @@ block_35:
                 if (!temp_v1_3 || ((u8) ((BattleEntity *)D254(14))->actionMode < 4U)) {
                     D1A0_W1 = D1A0_R1 & ~0x100;
                 }
-                Entity_SetActionMode(D254(15), ((Combatant *)D278(13))->actionMode12, var_a2, (s32) var_a3);
-                M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) | 0x200000);
+                Entity_SetActionMode(D254(15), ((Combatant *)D278(13))->actionMode12, var_a2, targetFound);
+                *(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) = (s32) (*(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) | 0x200000);
                 return;
             }
         }
@@ -254,7 +253,7 @@ block_39:
             if (!(*(s32 *)&queuedAction->attackWord & 0x3FF)) {
                 BattleCmd_CommitAmmoAndUpdate(queuedAction);
             }
-            M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) | 0x100000);
+            *(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) = (s32) (*(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) | 0x100000);
             attackTarget = temp_s2->actor;
             temp_s0 = attackTarget->renderObject.target_y - D_8009D27C;
             temp_v0_2 = ratan2(temp_s0, Battle_CalcDistToPlayer(attackTarget, D254(14)));
@@ -267,7 +266,7 @@ block_39:
                 }
             }
             Entity_SetActionMode(D254(15), *(u8 *)((char *)((void *)((s32)var_v1 + (s32)D278(13))) + PE1_OFFSETOF(Combatant, targetAngleActionModes)));
-            M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) & 0xFFDFFFFF);
+            *(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) = (s32) (*(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) & 0xFFDFFFFF);
             D_8009CE39 = 0x58;
             D_8009CE38 = 0;
             D_8009CE3A = 0x18;
@@ -338,7 +337,7 @@ block_55:
                     var_a0_4 = ((BattleEntity *)var_a0_4)->next;
                 } while (var_a0_4 != NULL);
             }
-            M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) & 0xFFF7FFFF);
+            *(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) = (s32) (*(s32 *)((char *)D278(10) + PE1_OFFSETOF(Combatant, stateFlags)) & 0xFFF7FFFF);
             Battle_HaltOnPositiveX();
         }
     } else if (actor_flags & 0x100000) {
