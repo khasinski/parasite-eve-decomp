@@ -947,7 +947,7 @@ void Seq_MarkTrack3CMaskDirty(void);
 
 void SeqOp_SetMask(AkaoTrack *track, u32 mask) {
     if (track->parent_track_id == 0) {
-        ((AkaoTrack *)g_AkaoCurTrack)->voice_mask_b |= mask;
+        ((AkaoSequencerBank *)g_AkaoCurTrack)->adsr_dirty_mask |= mask;
     } else if ((track->flags & 0x10000) != 0) {
         g_AkaoTrack3CMask |= mask;
     }
@@ -957,7 +957,7 @@ void SeqOp_SetMask(AkaoTrack *track, u32 mask) {
 
 void SeqOp_ClearTrack3CMask(AkaoTrack *track, u32 mask) {
     if (track->parent_track_id == 0) {
-        ((AkaoTrack *)g_AkaoCurTrack)->voice_mask_b &= ~mask;
+        ((AkaoSequencerBank *)g_AkaoCurTrack)->adsr_dirty_mask &= ~mask;
     } else {
         g_AkaoTrack3CMask &= ~mask;
     }
