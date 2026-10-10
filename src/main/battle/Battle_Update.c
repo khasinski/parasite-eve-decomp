@@ -56,7 +56,7 @@ void Battle_Update(void) {
                     register int topGreen asm("$8") = 0x46;
                     register int topBlue asm("$7") = 0x82;
                     register int bottomRed asm("$6") = 0x9F;
-                    register int bottomGreen asm("$5") = 0xFF;
+                    int bottomGreen = 0xFF;
                     int bottomBlue = 0xF9;
                     BATTLE_HUD_SLOT_BYTE(D_800B00EC, 0x24) = 0;
                     BATTLE_HUD_SLOT_BYTE(D_800B00ED, 0x24) = topGreen;
@@ -76,7 +76,7 @@ void Battle_Update(void) {
                     asm("" : : "i"(0));
                     BATTLE_HUD_SLOT_BYTE(D_800B692E, 0x1C) = bottomBlue;
                 } else if (((g_BattleTurnFrameCounterView[0]) & 3) == 1) {
-                    register int red asm("$5") = 0x50;
+                    int red = 0x50;
                     register int green asm("$6") = 0xA3;
                     int blue = 0xBE;
                     BATTLE_HUD_SLOT_BYTE(D_800B00EC, 0x24) = red;
@@ -100,7 +100,7 @@ void Battle_Update(void) {
                     register int topRed asm("$7") = 0x9F;
                     register int topGreen asm("$8") = 0xFF;
                     register int topBlue asm("$6") = 0xF9;
-                    register int bottomGreen asm("$5") = 0x46;
+                    int bottomGreen = 0x46;
                     int bottomBlue = 0x82;
                     BATTLE_HUD_SLOT_BYTE(D_800B00EC, 0x24) = topRed;
                     BATTLE_HUD_SLOT_BYTE(D_800B00ED, 0x24) = topGreen;
@@ -268,14 +268,12 @@ void Battle_Update(void) {
             }
             victoryEntity = (g_BattleTurnEntityListView[0]);
             if (victoryEntity != 0) {
-            updateVictoryEntity:
-                if ((victoryEntity != (g_BattleTurnPlayerView[0])) && (victoryEntity->core != 0)) {
-                    Battle_UpdateEnemy(victoryEntity);
-                }
-                victoryEntity = victoryEntity->next;
-                if (victoryEntity != 0) {
-                    goto updateVictoryEntity;
-                }
+                do {
+                    if ((victoryEntity != (g_BattleTurnPlayerView[0])) && (victoryEntity->core != 0)) {
+                        Battle_UpdateEnemy(victoryEntity);
+                    }
+                    victoryEntity = victoryEntity->next;
+                } while (victoryEntity != 0);
             }
 
         } else if (phase == 4) {
