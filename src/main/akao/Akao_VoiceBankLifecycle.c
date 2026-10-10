@@ -117,7 +117,7 @@ void Akao_StepSequencerVoice(void *arg0) {
     M2C_FIELD(p2c8a, void **, 0x2C) = arg0v;
     tld = M2C_FIELD(arg0v, s32 *, 0);
     mask = tld & kFFFa;
-    tret = Akao_ForEachVoiceMasked(g_AkaoVoiceStateTable2, M2C_FIELD(p2c8a, s32 *, 0x6C));
+    tret = Akao_ForEachVoiceMasked(g_AkaoVoiceStateTable2, ((AkaoSequencerState *)p2c8a)->secondary.active_voice_mask);
     tnor = ~tret;
     tcd = ~g_SpuActiveVoiceMask & kFFFa;
     tand = tnor & tcd;
@@ -148,7 +148,7 @@ void Akao_StepSequencerVoice(void *arg0) {
     p2c8c->field_0C = tw2 & kFFFb;
         tv0 = p2c8c->status_flags & km102;
     tcde = g_AkaoVoiceKeyOnState & 0x100;
-    *(volatile s32 *)p2c8c = tv0;
+    ((volatile AkaoSequencerBank *)p2c8c)->status_flags = tv0;
     p2c8c->status_flags = tv0 | tcde;
     do {
         AkaoTrack *voice = (AkaoTrack *)(base - 0x116);
