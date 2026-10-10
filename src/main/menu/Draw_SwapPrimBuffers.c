@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G0 */
+/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #include "pe1/menu_inventory.h"
@@ -79,4 +79,14 @@ void Draw_SwapPrimBuffers(MenuWidgetNode *list)
     navigation->list = list;
     navigation->flags = list->layout_flags;
     list->popup_node = node;
+}
+
+
+#include "pe1/menu_widget.h"
+
+void MenuWidget_DestroyPopupNode(MenuWidgetNode *node) {
+    MenuWidgetNode *owner = ((MenuWidgetListNavigation *)node)->list;
+
+    owner->popup_node = 0;
+    MenuWidget_DestroyNodeRecursive(node);
 }
