@@ -364,9 +364,8 @@ segments:
       # follows stays separate.
       - [0x2C17C, c, render/Render_DrawObjectAndClut]
       - [0x2C8B4, c, render/Render_DrawObjectAlt]
-      # Object variant draw and the interpolation-rate setter it feeds (G0320).
+      # Variant draw, interpolation-rate setup and object animation/colour stepping.
       - [0x2CAE0, c, render/Render_DrawObjectVariant]
-      - [0x2CE38, c, render/Render_TickObject]
       - [0x2D2EC, c, render/Render_PrimitiveColorAndBlend]
       - [0x2D6F8, c, field/Field_GetMapEntry]
       - [0x2D850, c, render/Render_SetupEntityPrims]
@@ -1176,7 +1175,7 @@ segments:
       # Psy-Q 4.6 DSFILE.OBJ media-state words and section padding.
       - [0x8BEDC, .data, psyq/libds/dsfile]
       - [0x8BEEC, data, main/dtail_gp_post_dsfile]
-      - {start: 0x8D5A0, type: .sdata, name: render/Render_TickObject, linker_section_order: .data}
+      - {start: 0x8D5A0, type: .sdata, name: render/Render_DrawObjectVariant, linker_section_order: .data}
       - [0x8D5A4, data, main/dtail_gp_post_render_color]
       - [0x8DA54, .data, field/Entity_ApplyCollisionResponse]
       - [0x8DA58, data, main/dtail_gp_post_collision_actor]
