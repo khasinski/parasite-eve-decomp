@@ -87,6 +87,7 @@ s32 Entity_GetDistanceComponents(s32 *args[]) {
     s32 var_v0;
     s32 var_v0_2;
     s32 var_v0_3;
+    int sourceX;
     s32 key0;
     FieldActor *node;
 
@@ -121,15 +122,15 @@ block_10:
     {
         FieldActor *state;
         s32 node_x;
-        register s32 state_x asm("$7");
         s32 *out;
         state = g_CurrentEntityForDistanceX[0];
+        sourceX = state->pos_x;
         node_x = node->pos_x;
-        state_x = state->pos_x;
         out = args[2];
-        var_v0 = state_x - node_x;
+        var_v0 = sourceX;
+        var_v0 = var_v0 - node_x;
         if (var_v0 < 0) {
-            var_v0 = node_x - state_x;
+            var_v0 = node_x - sourceX;
         }
         *out = var_v0;
     }
