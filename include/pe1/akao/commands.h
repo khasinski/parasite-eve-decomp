@@ -38,6 +38,35 @@ enum AkaoSequenceOpcode {
     AKAO_SEQ_OP_BREAK_LOOP_ON_REPEAT = 0xF1
 };
 
+/* Bank pitch messages use full signed words before masking pitch to 7 bits.
+ * The bank selector is at +0x10 in all three message layouts. */
+typedef struct AkaoBankPitchCommand {
+    int opcode;
+    int pitch;
+    int reserved[2];
+    int bank_selector;
+} AkaoBankPitchCommand;
+
+typedef struct AkaoBankPitchSlideCommand {
+    int opcode;
+    int duration;
+    int target;
+    int reserved;
+    int bank_selector;
+} AkaoBankPitchSlideCommand;
+
+typedef struct AkaoBankPitchRangeCommand {
+    int opcode;
+    int duration;
+    int start;
+    int target;
+    int bank_selector;
+} AkaoBankPitchRangeCommand;
+
+void Seq_SetTrackPitchImmediate(AkaoBankPitchCommand *command);
+void Seq_SlideTrackPitch(AkaoBankPitchSlideCommand *command);
+void Seq_TrackPitchSetup(AkaoBankPitchRangeCommand *command);
+
 typedef struct AkaoValueCommand {
     int pad_0;
     int field_4;

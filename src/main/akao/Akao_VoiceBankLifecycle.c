@@ -1005,8 +1005,8 @@ void Spu_ManageVoicesCmd(int *arg0) {
     Spu_ManageVoices(arg0[1], arg0[2]);
 }
 
-void Seq_SetTrackPitchImmediate(int *arg0) {
-    int *msg;
+void Seq_SetTrackPitchImmediate(AkaoBankPitchCommand *arg0) {
+    AkaoBankPitchCommand *msg;
     int selector;
     AkaoSequencerBank *track;
     AkaoSequencerBank *primary_track;
@@ -1014,11 +1014,11 @@ void Seq_SetTrackPitchImmediate(int *arg0) {
     char *base;
 
     msg = arg0;
-    selector = msg[4];
+    selector = msg->bank_selector;
     if (selector == 0 || selector == ((AkaoSequencerBank *)g_AkaoCurTrackBytes)->bank_id) {
         int value;
         base = g_AkaoVoiceStateTableBytes;
-        value = msg[1];
+        value = msg->pitch;
         primary_track = g_AkaoCurTrack;
         value &= 0x7F;
         value <<= 16;
@@ -1031,7 +1031,7 @@ void Seq_SetTrackPitchImmediate(int *arg0) {
             int value;
             next_track = track + 1;
             base = g_AkaoVoiceStateTable2Bytes;
-            value = msg[1];
+            value = msg->pitch;
             g_AkaoCurTrack = (AkaoSequencerBank *)next_track;
             ((AkaoSequencerState *)track)->secondary.pitch_slide_duration = 0;
             value &= 0x7F;
@@ -1043,7 +1043,7 @@ void Seq_SetTrackPitchImmediate(int *arg0) {
     }
 }
 
-void Seq_SlideTrackPitch(int *arg0) {
+void Seq_SlideTrackPitch(AkaoBankPitchSlideCommand *arg0) {
     register int raw asm("$2");
     int duration;
     register int target asm("$5");
@@ -1052,14 +1052,14 @@ void Seq_SlideTrackPitch(int *arg0) {
     char *base;
     AkaoSequencerBank *next_track;
 
-    raw = arg0[1];
+    raw = arg0->duration;
     duration = 1;
     if (raw != 0) {
         duration = raw;
     }
 
-    raw = arg0[2];
-    selector = arg0[4];
+    raw = arg0->target;
+    selector = arg0->bank_selector;
     raw &= 0x7F;
     target = raw << 16;
 
@@ -1098,7 +1098,7 @@ done:
     return;
 }
 
-void Seq_TrackPitchSetup(int *arg0) {
+void Seq_TrackPitchSetup(AkaoBankPitchRangeCommand *arg0) {
     register int raw asm("$2");
     int duration;
     int selector;
@@ -1108,13 +1108,13 @@ void Seq_TrackPitchSetup(int *arg0) {
     char *base;
     AkaoSequencerBank *next_track;
 
-    raw = arg0[1];
+    raw = arg0->duration;
     duration = 1;
     if (raw != 0) {
         duration = raw;
     }
 
-    selector = arg0[4];
+    selector = arg0->bank_selector;
     if (selector != 0) {
         track = g_AkaoCurTrack;
         if (selector != track->bank_id) {
@@ -1123,12 +1123,12 @@ void Seq_TrackPitchSetup(int *arg0) {
     }
 
     {
-        start = arg0[2];
+        start = arg0->start;
         track = g_AkaoCurTrack;
         start &= 0x7F;
         start <<= 16;
         *(int *)&track->pitch_current = start;
-        raw = arg0[3];
+        raw = arg0->target;
         raw &= 0x7F;
         delta = raw << 16;
         delta -= start;
@@ -1143,11 +1143,11 @@ void Seq_TrackPitchSetup(int *arg0) {
 secondary_track:
     if (selector != 0) {
         if (selector == ((AkaoSequencerState *)track)->secondary.bank_id) {
-            start = arg0[2];
+            start = arg0->start;
             start &= 0x7F;
             start <<= 16;
             *(int *)&((AkaoSequencerState *)track)->secondary.pitch_current = start;
-            raw = arg0[3];
+            raw = arg0->target;
             raw &= 0x7F;
             delta = raw << 16;
             delta -= start;
