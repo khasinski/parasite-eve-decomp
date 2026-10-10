@@ -432,17 +432,15 @@ loop_12:
         temp_s1_10 = bufferIndex * 0x118;
         base3 = (u32)D_8009E500;
         body3 = base3 + 8;
-loop_14:
-        temp_s0_19 = (i & 0xFF) * 0x1C;
-        Gpu_InitDrawModeSprtPacket(temp_s1_10 + (temp_s0_19 + base3), hudPage);
-        i += 1;
-        temp_s0_20 = temp_s1_10 + temp_s0_19 + body3;
-        temp_s0_20->color.bytes.r = 0x80;
-        temp_s0_20->color.bytes.g = 0x80;
-        temp_s0_20->color.bytes.b = 0x80;
-        if ((u32) (i & 0xFF) < 0xAU) {
-            goto loop_14;
-        }
+        do {
+            temp_s0_19 = (i & 0xFF) * 0x1C;
+            Gpu_InitDrawModeSprtPacket(temp_s1_10 + (temp_s0_19 + base3), hudPage);
+            i += 1;
+            temp_s0_20 = temp_s1_10 + temp_s0_19 + body3;
+            temp_s0_20->color.bytes.r = 0x80;
+            temp_s0_20->color.bytes.g = 0x80;
+            temp_s0_20->color.bytes.b = 0x80;
+        } while ((u32) (i & 0xFF) < 0xAU);
         temp_s2_6 = bufferIndex * 0x1C;
         Gpu_InitDrawModeSprtPacket(temp_s2_6 + D_8009E768, hudPage);
         i = 0;
@@ -524,27 +522,25 @@ loop_18:
         temp_s0_30->color.bytes.g = 0x80;
         temp_s0_30->color.bytes.b = 0;
 
-loop_20:
-        glyph = Draw_LookupGlyphDescriptor(((u8)i) + 0x6A);
-        pageCode = GetTPage(0, 0, 0x1C0, 0);
-        temp_s0_31 = ((u8)i) * 0x1C;
-        Gpu_InitDrawModeSprtPacket(temp_s4_3 + (temp_s0_31 + glyphBase), pageCode);
-        temp_s0_32 = temp_s4_3 + temp_s0_31;
-        temp_v1 = temp_s0_32 + body6;
-        temp_v1->u = (u8) glyph->u;
-        temp_v1->v = (u8) glyph->v;
-        *(u16 *)(D_8009E976 + temp_s0_32) = glyph->clut;
-        temp_v1->width = (s16) glyph->width;
-        glyphHeight = glyph->height;
-        i += 1;
-        temp_v1->color.bytes.r = 0x80;
-        temp_v1->color.bytes.g = 0x80;
-        temp_v1->color.bytes.b = 0x80;
-        temp_v1->height = (s16) glyphHeight;
+        do {
+            glyph = Draw_LookupGlyphDescriptor(((u8)i) + 0x6A);
+            pageCode = GetTPage(0, 0, 0x1C0, 0);
+            temp_s0_31 = ((u8)i) * 0x1C;
+            Gpu_InitDrawModeSprtPacket(temp_s4_3 + (temp_s0_31 + glyphBase), pageCode);
+            temp_s0_32 = temp_s4_3 + temp_s0_31;
+            temp_v1 = temp_s0_32 + body6;
+            temp_v1->u = (u8) glyph->u;
+            temp_v1->v = (u8) glyph->v;
+            *(u16 *)(D_8009E976 + temp_s0_32) = glyph->clut;
+            temp_v1->width = (s16) glyph->width;
+            glyphHeight = glyph->height;
+            i += 1;
+            temp_v1->color.bytes.r = 0x80;
+            temp_v1->color.bytes.g = 0x80;
+            temp_v1->color.bytes.b = 0x80;
+            temp_v1->height = (s16) glyphHeight;
 
-        if ((u32) (i & 0xFF) < 0xDU) {
-            goto loop_20;
-        }
+        } while ((u32) (i & 0xFF) < 0xDU);
         pageCode = GetTPage(0, 0, 0x1C0, 0);
         temp_s0_33 = bufferIndex * 0x1C;
         Gpu_InitDrawModeSprtPacket(temp_s0_33 + D_8009EC38, pageCode);
