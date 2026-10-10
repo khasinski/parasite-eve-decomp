@@ -291,7 +291,7 @@ void Battle_DrawEnemyHP(s16 maximum, s16 current)
                 s32 frameOffset = frameEnd * 140;
                 {
                     s32 index = maximumIndex;
-                    u8 *page = index * 28 + D_8009E1D0;
+                    RenderTexturePagePacket *page = &((RenderPagedSpritePacket *)D_8009E1D0)[index].page;
                     AddPrim((u32 *)(*(u8 **)((u8 *)D_800B0E38.ordering + otOffset) + 20), (u32 *)(frameOffset + (u32)page));
                 }
             }
@@ -372,7 +372,7 @@ void Battle_DrawEnemyHP(s16 maximum, s16 current)
                 s32 frameOffset = frameEnd * 112;
                 {
                     s32 index = currentIndex;
-                    u8 *page = index * 28 + D_8009E0F0;
+                    RenderTexturePagePacket *page = &((RenderPagedSpritePacket *)D_8009E0F0)[index].page;
                     AddPrim((u32 *)(*(u8 **)((u8 *)D_800B0E38.ordering + otOffset) + 20), (u32 *)(frameOffset + (u32)page));
                 }
             }

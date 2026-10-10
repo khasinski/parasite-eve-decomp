@@ -99,6 +99,17 @@ typedef struct RenderTexturePagePacket {
     u32 command;
 } RenderTexturePagePacket;
 
+/* Texture-page command followed by the variable-size sprite it configures. */
+typedef struct RenderPagedSpritePacket {
+    RenderTexturePagePacket page;
+    RenderSpritePacket sprite;
+} RenderPagedSpritePacket;
+
+PE1_STATIC_ASSERT(sizeof(RenderPagedSpritePacket) == 0x1C,
+                  render_paged_sprite_packet_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPagedSpritePacket, sprite) == 8,
+                  render_paged_sprite_packet_sprite_offset);
+
 typedef union RenderTileTexture {
     u32 words[2];
     u8 bytes[8];

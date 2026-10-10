@@ -56,10 +56,7 @@ extern u8 D_8009E976[];
 extern u8 D_8009EC38[];
 extern u8 D_800B00E8[];
 extern u8 D_800B0130[];
-typedef struct {
-    RenderTexturePagePacket page;
-    RenderSpritePacket sprite;
-} HudSprite;
+typedef RenderPagedSpritePacket HudSprite;
 extern HudSprite D_800B01C0[2][10][5];
 extern u8 D_800B6920[];
 extern u8 D_800B6936[];
