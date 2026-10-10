@@ -847,7 +847,7 @@ int Render_DrawRoom(RenderShadowActor *actor)
     normalZ = normal.z;
     local.matrix.m[1][1] = 0x1000;
     up.y = 0x1000;
-    asm volatile("" : : "r"(normalX), "r"(normalY), "r"(normalZ), "m"(up.y));
+    asm volatile("" : : "r"(normalX), "r"(normalY));
     local.matrix.m[0][1] = 0;
     local.matrix.m[2][1] = 0;
     up.x = 0;
