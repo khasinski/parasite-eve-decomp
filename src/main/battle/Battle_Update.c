@@ -26,11 +26,8 @@ void Battle_Update(void) {
             D_8009CE7C = 6;
             D_8009D28C = 0;
         }
-        if (!(D_8009D278->stateFlags & 0x80000)) {
-            goto restorePhase;
-        }
-    } else {
-    restorePhase:
+    }
+    if (!(D_8009D278->stateFlags & 0x80000)) {
         previousPhase = D_8009CE7C;
         if (previousPhase == 6) {
             D_8009CE7C = 0;
