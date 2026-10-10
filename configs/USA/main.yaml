@@ -583,9 +583,9 @@ segments:
       - [0x4C9EC, c, memcard/MemCard_SetDialogActive]
       - [0x4CA5C, c, save/Save_BuildHeader]
       - [0x4CB74, c, save/Save_RestoreHeader]
-      - [0x4CC88, c, menu/Menu_RequestErrorSound]
-      # Argument and default entry points share one 0x1F0-byte -G8 menu-frame object.
-      - [0x4CC98, c, menu/Menu_RunFrame]
+      # Error-sound requests and both frame entry points share their pending
+      # flag in one contiguous -G8 menu-frame unit.
+      - [0x4CC88, c, menu/Menu_RunFrame]
       # Bonus-slot selection and inventory bootstrap share the inventory runtime.
       - [0x4CE88, c, item/Inv_EquipmentSelection]
       - [0x4E140, c, save/Save_GetCurrentMapNumber]

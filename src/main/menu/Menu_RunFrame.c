@@ -1,6 +1,6 @@
 #include "common.h"
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #define NULL ((void *)0)
 #include "m2c_macros.h"
@@ -20,9 +20,14 @@ M2C_UNK Draw_PresentFrame(M2C_UNK);                     /* extern */
 M2C_UNK MenuWidget_UpdateAndDraw();                            /* extern */
 extern u8 g_SavedMenuMode;
 extern s32 g_MemCardDialogState;
-extern s32 g_MenuErrorSoundPending;
+u32 g_MenuErrorSoundPending;
 extern s32 g_MenuActiveListTarget[];
 #define g_MenuActiveListTarget (g_MenuActiveListTarget[0])
+
+/* Queued by frontend commands, consumed by either frame entry point. */
+void Menu_RequestErrorSound(void) {
+    g_MenuErrorSoundPending = 1;
+}
 
 s32 Menu_RunFrameWithArg(s32 arg0) {
     if (Menu_SaveBgIsFadeActive() == 0) {
