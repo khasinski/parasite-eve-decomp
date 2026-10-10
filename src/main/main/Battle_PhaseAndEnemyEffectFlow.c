@@ -74,6 +74,7 @@ void Battle_AdvancePhase(void) {
     BattleActionSoundTable sp30;
     BattleEntity *temp_v1_2;
     BattleEntity *var_a2;
+    int queueOffset;
     int targetFound;
     s16 temp_v0;
     s32 var_a2_2;
@@ -183,10 +184,11 @@ after_command:
             temp_v0 = Battle_CalcAngleToTarget(var_a0_2 + 0x1B4, var_a1 + 0x28);
             var_a0_2 = (s32) D_8009D1D4;
             var_a1 = (void *) (var_a0_2 & 0xFF);
-            var_a2 = (BattleEntity *) ((s32) var_a1 * 8);
+            queueOffset = (s32)var_a1 * 8;
+            var_a2 = (BattleEntity *)queueOffset;
             ((BattleEntity *)D254(15))->facingAngle = temp_v0;
             targetFound = 0;
-            if (*(s16 *)((u8 *)D_800BE834 + (s32)var_a2) - 0x183 == 0x13) {
+            if (*(s16 *)((u8 *)D_800BE834 + queueOffset) - 0x183 == 0x13) {
                 var_a2 = NULL;
                 var_s0 = var_a0_2;
                 temp_v1 = var_a1 + 7;
@@ -227,7 +229,7 @@ block_search_done:
                 }
                 goto block_39;
             }
-            temp_v1_6 = *(void **)(D_800BE830_BYTES + (s32)var_a2);
+            temp_v1_6 = *(void **)(D_800BE830_BYTES + queueOffset);
             if ((temp_v1_6 == NULL) || (((EnemyCombatant *)temp_v1_6->core)->hpAlive <= 0) || (*(s32 *)&temp_v1_6->entityFlags & 0x4000)) {
                 var_v0_3 = D_8009D1D4 + 1;
 block_35:
