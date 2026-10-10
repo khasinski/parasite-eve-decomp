@@ -221,15 +221,15 @@ s32 Task_GetAngleToEntity(s32 *args[]) {
         if (node == NULL) {
             goto fail;
         }
-loop:
-        if ((node->type_id != key2) ||
-            (node->sub_id != *args[1]) ||
-            (node->flags & 0x10)) {
-            node = node->next;
-            if (node != NULL) {
-                goto loop;
+        do {
+            if ((node->type_id != key2) ||
+                (node->sub_id != *args[1]) ||
+                (node->flags & 0x10)) {
+                node = node->next;
+            } else {
+                break;
             }
-        }
+        } while (node != NULL);
         if (node != NULL) {
             goto found;
         }
