@@ -164,13 +164,13 @@ static inline void MoveCursor(u32 dx, u32 dy)
 
 static inline void PushCursor(void)
 {
-    int *stack = g_TextCursorStack;
-    if (stack < g_TextCursorStackTop) {
+    DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStack;
+    if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
         /* Capture both coordinates before writing into the shared stack. */
         int x = D_8009D124, y = D_8009D128;
-        g_TextCursorStack = stack + 2;
-        stack[0] = x;
-        stack[1] = y;
+        g_TextCursorStack = (int *)(stack + 1);
+        stack->x = x;
+        stack->y = y;
     } else {
         BoundsCheck_AssertStub(2);
     }
@@ -178,10 +178,10 @@ static inline void PushCursor(void)
 
 static inline void PopCursor(void)
 {
-    int *stack = g_TextCursorStack;
-    if (g_TextCursorStackBottom < stack) {
-        g_TextCursorStack = stack - 2;
-        SetCursor(stack[-2], stack[-1]);
+    DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStack;
+    if ((DrawTextCursorPair *)g_TextCursorStackBottom < stack) {
+        g_TextCursorStack = (int *)(stack - 1);
+        SetCursor(stack[-1].x, stack[-1].y);
     } else {
         BoundsCheck_AssertStub(3);
     }

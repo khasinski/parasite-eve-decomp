@@ -471,12 +471,12 @@ void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
     int measured;
     int savedY;
     {
-        int *stack = g_TextCursorStackState.pointer;
-        if (stack < g_TextCursorStackTop) {
+        DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
             int x = D_8009D124, y = D_8009D128;
-            g_TextCursorStackState.pointer = stack + 2;
-            ((DrawTextCursorPair *)stack)->x = x;
-            ((DrawTextCursorPair *)stack)->y = y;
+            g_TextCursorStackState.pointer = (int *)(stack + 1);
+            stack->x = x;
+            stack->y = y;
         } else BoundsCheck_AssertStub(2);
     }
     cursor = text;
@@ -508,11 +508,11 @@ void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
         D_8009D128 = savedY;
     }
     if (cursor) {
-        int *stack = g_TextCursorStackState.pointer;
-        if (stack < g_TextCursorStackTop) {
-            ((DrawTextCursorPair *)stack)->x = D_8009D124;
-            ((DrawTextCursorPair *)stack)->y = savedY;
-            g_TextCursorStackState.pointer = stack + 2;
+        DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
+            stack->x = D_8009D124;
+            stack->y = savedY;
+            g_TextCursorStackState.pointer = (int *)(stack + 1);
         } else BoundsCheck_AssertStub(2);
         {
             u8 code = *cursor;
@@ -525,20 +525,20 @@ void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
             }
         }
         {
-            int *restore = g_TextCursorStackState.pointer;
-            if (g_TextCursorStackBottom < restore) {
-                int x = ((DrawTextCursorPair *)(restore - 2))->x, y = ((DrawTextCursorPair *)(restore - 2))->y;
-                g_TextCursorStackState.pointer = restore - 2;
+            DrawTextCursorPair *restore = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+            if ((DrawTextCursorPair *)g_TextCursorStackBottom < restore) {
+                int x = restore[-1].x, y = restore[-1].y;
+                g_TextCursorStackState.pointer = (int *)(restore - 1);
                 D_8009D124 = x;
                 D_8009D128 = y;
             } else BoundsCheck_AssertStub(3);
         }
     }
     {
-        int *restore = g_TextCursorStackState.pointer;
-        if (g_TextCursorStackBottom < restore) {
-            int x = ((DrawTextCursorPair *)(restore - 2))->x, y = ((DrawTextCursorPair *)(restore - 2))->y;
-            g_TextCursorStackState.pointer = restore - 2;
+        DrawTextCursorPair *restore = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        if ((DrawTextCursorPair *)g_TextCursorStackBottom < restore) {
+            int x = restore[-1].x, y = restore[-1].y;
+            g_TextCursorStackState.pointer = (int *)(restore - 1);
             D_8009D124 = x;
             D_8009D128 = y;
         } else BoundsCheck_AssertStub(3);
@@ -593,12 +593,12 @@ void Draw_PrintTextById(unsigned int textId) {
 void Draw_PrintTextWrapped(u8 *text, int width) {
     while (*text != 0xFF) {
         int used;
-        int *stack = g_TextCursorStackState.pointer;
-        if (stack < g_TextCursorStackTop) {
+        DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+        if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
             int x = g_DrawSpriteX, y = g_DrawSpriteY;
-            g_TextCursorStackState.pointer = stack + 2;
-            ((DrawTextCursorPair *)stack)->x = x;
-            ((DrawTextCursorPair *)stack)->y = y;
+            g_TextCursorStackState.pointer = (int *)(stack + 1);
+            stack->x = x;
+            stack->y = y;
         } else BoundsCheck_AssertStub(2);
         used = 0;
         while (used < width) {
@@ -624,10 +624,10 @@ void Draw_PrintTextWrapped(u8 *text, int width) {
             }
         }
         {
-            int *restore = g_TextCursorStackState.pointer;
-            if (g_TextCursorStackBottom < restore) {
-                int x = ((DrawTextCursorPair *)(restore - 2))->x, y = ((DrawTextCursorPair *)(restore - 2))->y;
-                g_TextCursorStackState.pointer = restore - 2;
+            DrawTextCursorPair *restore = (DrawTextCursorPair *)g_TextCursorStackState.pointer;
+            if ((DrawTextCursorPair *)g_TextCursorStackBottom < restore) {
+                int x = restore[-1].x, y = restore[-1].y;
+                g_TextCursorStackState.pointer = (int *)(restore - 1);
                 g_DrawSpriteX = x;
                 g_DrawSpriteY = y;
             } else BoundsCheck_AssertStub(3);
@@ -944,12 +944,12 @@ static inline void SetCursor(u32 x, u32 y)
 
 static inline void PushCursor(void)
 {
-    int *stack = g_TextCursorStack;
-    if (stack < g_TextCursorStackTop) {
+    DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStack;
+    if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
         int x = D_8009D124, y = D_8009D128;
-        g_TextCursorStack = stack + 2;
-        ((DrawTextCursorPair *)stack)->x = x;
-        ((DrawTextCursorPair *)stack)->y = y;
+        g_TextCursorStack = (int *)(stack + 1);
+        stack->x = x;
+        stack->y = y;
     } else {
         BoundsCheck_AssertStub(2);
     }
@@ -957,10 +957,10 @@ static inline void PushCursor(void)
 
 static inline void PopCursor(void)
 {
-    int *stack = g_TextCursorStack;
-    if (g_TextCursorStackBottom < stack) {
-        g_TextCursorStack = stack - 2;
-        SetCursor(stack[-2], stack[-1]);
+    DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStack;
+    if ((DrawTextCursorPair *)g_TextCursorStackBottom < stack) {
+        g_TextCursorStack = (int *)(stack - 1);
+        SetCursor(stack[-1].x, stack[-1].y);
     } else {
         BoundsCheck_AssertStub(3);
     }
@@ -1073,13 +1073,13 @@ void Draw_PrintNumberWidth2(int value) {
 /* Moves the cursor and saves the new position. */
 static inline void PushCursorAt(int x, int y)
 {
-    int *stack = g_TextCursorStack;
+    DrawTextCursorPair *stack = (DrawTextCursorPair *)g_TextCursorStack;
 
     SetCursor(x, y);
-    if (stack < g_TextCursorStackTop) {
-        ((DrawTextCursorPair *)stack)->x = x;
-        ((DrawTextCursorPair *)stack)->y = y;
-        g_TextCursorStack = stack + 2;
+    if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
+        stack->x = x;
+        stack->y = y;
+        g_TextCursorStack = (int *)(stack + 1);
     } else {
         BoundsCheck_AssertStub(2);
     }
