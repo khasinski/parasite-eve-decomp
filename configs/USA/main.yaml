@@ -628,10 +628,9 @@ segments:
       # Saved widget layout slots, mode/reset and centered table text share one TU.
       - [0x55164, c, menu/MenuWidget_ColumnLayout]
       - [0x55480, c, menu/Draw_DropShadow]
-      # Mode-3 popup construction, destruction, drawing and navigation share
+      # Mode-3 popup construction, destruction, drawing, navigation and easing share
       # the typed list navigation view and owner lookup.
       - [0x55508, c, menu/Draw_SwapPrimBuffers]
-      - [0x55A60, c, menu/MenuWidget_EaseNodePosition]
       - [0x55B6C, c, task/Task_FieldSfxQueue]
       - [0x55C00, c, scene/Scene_UpdateEntityList]
       # Reset, animation update and slot commands share GeomCtrlEntry.

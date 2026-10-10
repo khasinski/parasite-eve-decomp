@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: -G8 --use-comm-section --expand-div */
 
 #include "pe1/menu_inventory.h"
 
@@ -185,4 +185,26 @@ int Menu_StepListNavigate(MenuWidgetListNavigation *node, unsigned int flags) {
         handled = 1;
     }
     return handled || !(node->flags & 0x40);
+}
+
+#include "pe1/menu_widget.h"
+
+#define NULL ((void *)0)
+void MenuWidget_EaseNodePosition(MenuWidgetNode *arg0) {
+    s32 temp_a2;
+    s32 temp_v1;
+    s32 temp_v1_2;
+    MenuWidgetNode *temp_a1;
+    MenuWidgetListNavigation *navigation = (MenuWidgetListNavigation *)arg0;
+
+    temp_a1 = navigation->list;
+    if (arg0 != NULL) {
+        temp_v1 = temp_a1->visible_rows;
+        temp_a2 = temp_a1->y_limit;
+        if (temp_v1 < temp_a2) {
+            navigation->drawState = ((temp_a1->disabled * temp_v1 * temp_v1) / temp_a2);
+            temp_v1_2 = temp_a1->disabled;
+            navigation->visibleRows = ((temp_v1_2 * temp_a1->visible_rows * ((temp_v1_2 * temp_a1->scroll_y) - temp_a1->scroll_adjust)) / (temp_a1->y_limit * temp_v1_2));
+        }
+    }
 }
