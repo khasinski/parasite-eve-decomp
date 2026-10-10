@@ -204,7 +204,7 @@ void Battle_ApplySpellEffect(u32 idx, BattleEntity *ent) {
             m5 = 0xFFFEFFFF;
             m8 = 0xFFFDFFFF;
             m9 = 0xFFFBFFFF;
-                        e = *(Combatant **)ent;
+            e = (Combatant *)ent->core;
             v = D1AC_14;
             { s32 b = (*(u32 *)&e->statusFlags2 & 3) == 2; v &= ~0x1000; v |= b << 0xC; }
             D1AC_15 = v;
@@ -223,7 +223,7 @@ void Battle_ApplySpellEffect(u32 idx, BattleEntity *ent) {
             D1AC_21 = m5;
             {
                 register s32 sv asm("$2");
-                if (((*(u32 *)&(*(Combatant **)ent)->statusFlags2 >> 6) & 3) == 2) {
+                if (((*(u32 *)&(*(Combatant **)&ent->core)->statusFlags2 >> 6) & 3) == 2) {
                     sv = (m5 & ~0xC00) | 0x400;
                 } else {
                     sv = m5 & ~0xC00;
@@ -238,7 +238,7 @@ void Battle_ApplySpellEffect(u32 idx, BattleEntity *ent) {
         break;
     case 8:
         {
-            s32 m = (*(u32 *)&(*(Combatant **)ent)->statusFlags2 >> 8) & 3;
+            s32 m = (*(u32 *)&((Combatant *)ent->core)->statusFlags2 >> 8) & 3;
             if (m != 0) {
                 if (m == 2) {
                     goto poison8;
@@ -246,7 +246,7 @@ void Battle_ApplySpellEffect(u32 idx, BattleEntity *ent) {
             } else if (!(rand() & 1)) {
 poison8:
                 {
-                    Combatant *e = *(Combatant **)ent;
+                    Combatant *e = (Combatant *)ent->core;
                     *(s32 *)&e->coreFlags = *(s32 *)&e->coreFlags | 1;
                 }
             }
@@ -270,7 +270,7 @@ poison8:
         break;
     case 10:
         {
-            s32 m = (*(u32 *)&(*(Combatant **)ent)->statusFlags2 >> 0xA) & 3;
+            s32 m = (*(u32 *)&((Combatant *)ent->core)->statusFlags2 >> 0xA) & 3;
             if (m != 0) {
                 if (m == 2) {
                     goto conf10;
@@ -279,7 +279,7 @@ poison8:
 conf10:
                 {
                     s32 r = rand();
-                    Combatant *e = *(Combatant **)ent;
+                    Combatant *e = (Combatant *)ent->core;
                     s32 nv = *(s32 *)&e->coreFlags & ~0xE;
                     nv |= (((r % 3) + 3) & 7) * 2;
                     *(s32 *)&e->coreFlags = nv;
