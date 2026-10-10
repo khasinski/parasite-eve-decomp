@@ -80,6 +80,7 @@ void Battle_AdvancePhase(void) {
     s32 var_v0_5;
     s32 temp_a0_3;
     s32 temp_a0_4;
+    BattleEntity *facingTarget;
     s32 temp_s0;
     s32 action;
     s32 command_value;
@@ -96,7 +97,6 @@ void Battle_AdvancePhase(void) {
     s32 var_s0_2;
     s32 var_s0_4;
     s32 var_v0_2;
-    s32 var_v0_6;
     s32 var_v1;
     EnemyActionEffect *effect;
     s8 var_a0;
@@ -308,10 +308,9 @@ block_55:
             var_a2_2 = var_s0_4 & 0xFF;
             if ((u32)var_a2_2 < end_slot) {
                 do {
-                    var_v0_6 = var_a2_2 * 8;
-                    temp_a0_4 = *(s32 *)(D_800BE830_BYTES + var_v0_6);
-                    if (temp_a0_4 != D254(15)) {
-                        Battle_UpdateEntityFacing(temp_a0_4);
+                    facingTarget = D_800BE830[var_a2_2].actor;
+                    if (facingTarget != D254(15)) {
+                        Battle_UpdateEntityFacing(facingTarget);
                     }
                     var_s0_4 += 1;
                     var_a2_2 = var_s0_4 & 0xFF;
