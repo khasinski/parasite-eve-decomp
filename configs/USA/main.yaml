@@ -613,8 +613,6 @@ segments:
       # Blend colour, screen wipes, gradients and colour packet allocators share
       # the draw runtime and matching -G8/common profile.
       - [0x51CA0, c, gpu/Draw_WipeAndGradient]
-      # Gradient palette setter and rectangle drawing share their blend state.
-      - [0x52AB0, c, gpu/Draw_AllocColorTriGradient]
       # Pool, recursive drawing, node lookups, labels, scrolling, layouts and popups
       # share their typed widget state and -G8/common profile.
       - [0x52D68, c, menu/MenuWidget_Lifecycle]

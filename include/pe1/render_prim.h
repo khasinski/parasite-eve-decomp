@@ -37,6 +37,19 @@ typedef struct RenderColorTilePacket {
     u16 x0, y0, w, h;
 } RenderColorTilePacket;
 
+/* Flat-colour triangle packet (POLY_F3). Coordinates retain the unsigned
+ * halfword view used by the wipe renderer. */
+typedef struct RenderColorTrianglePacket {
+    u32 tag;
+    u8 r, g, b, code;
+    u16 x0, y0, x1, y1, x2, y2;
+} RenderColorTrianglePacket;
+
+PE1_STATIC_ASSERT(sizeof(RenderColorTrianglePacket) == 0x14,
+                  render_color_triangle_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderColorTrianglePacket, x0) == 8,
+                  render_color_triangle_first_vertex);
+
 /* Four-vertex Gouraud quad (POLY_G4), used for HUD gauge gradients. */
 typedef struct RenderGouraudQuad {
     u32 tag;

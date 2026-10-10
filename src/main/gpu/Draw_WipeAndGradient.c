@@ -39,11 +39,7 @@ void Draw_BlendColor(int arg0) {
     }
 }
 
-typedef struct ColorTriPrim {
-    u32 tag;
-    u8 r, g, b, code;
-    u16 x0, y0, x1, y1, x2, y2;
-} ColorTriPrim;
+typedef RenderColorTrianglePacket ColorTriPrim;
 
 typedef struct {
     s16 y, x;
@@ -443,5 +439,38 @@ void Draw_AllocColorTri(int width, int height, int pulse) {
         u32 *ot = D_8009D11C;
         drawMode->tag = (drawMode->tag & maskTop) | (*ot & mask24);
         *ot = (*ot & maskTop) | ((u32)drawMode & mask24);
+    }
+}
+
+
+int g_DrawGradientBlendColor;
+
+void Menu_SetSaveSlotBlendBase(int arg0) {
+    g_DrawGradientBlendColor = arg0;
+}
+
+void Draw_AllocColorTriGradient(int width, int height, int mode, int pulse)
+{
+    if (g_DrawGradientBlendColor != 0) {
+        Draw_BlendColorInline(g_DrawGradientBlendColor);
+    }
+
+    g_DrawVertexWritePtr = (u16 *)g_TextCursorStackTop;
+    DRAW_PUSH_WIPE_VERTEX(g_TextCursorX, g_TextCursorY,
+                          (u16 *)g_TextCursorStackTop + 0x18);
+    DRAW_PUSH_WIPE_VERTEX(g_TextCursorX + width, g_TextCursorY,
+                          (u16 *)g_TextCursorStackTop + 0x18);
+    DRAW_PUSH_WIPE_VERTEX(g_TextCursorX, g_TextCursorY + height,
+                          (u16 *)g_TextCursorStackTop + 0x18);
+    DRAW_PUSH_WIPE_VERTEX(g_TextCursorX + width, g_TextCursorY + height,
+                          (u16 *)g_TextCursorStackTop + 0x18);
+
+    Draw_EmitWipeBar(D_800930A8, mode);
+    g_TextCursorX -= 2;
+    g_TextCursorY -= 2;
+    Draw_AllocColorTri(width + 4, height + 4, pulse);
+
+    if (g_DrawGradientBlendColor != 0) {
+        Draw_BlendColorInline(g_SavedDrawBlendColor[0]);
     }
 }
