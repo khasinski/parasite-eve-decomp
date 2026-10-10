@@ -292,7 +292,7 @@ u8 Render_StepFontLoad(void) {
 
 store:
         g_FontSelectionState.selected = slot;
-    __asm__ volatile("" : : : "memory");
+    __asm__ volatile("" : "=m"(g_FontSelectionState) : "m"(g_FontSelectionState));
     result = g_FontSelectionState.table;
     return result->groups.codes[result->slots.indices[D_80091A1F_rd[0]]];
 }
@@ -345,7 +345,7 @@ u8 Render_FindFontGlyphSlot(void) {
     slot = 0xFF;
 store:
     *(u8 *)&D_80091A1F_o = slot;
-    __asm__ volatile("" : : : "memory");
+    __asm__ volatile("" : "=m"(g_FontSelectionState) : "m"(g_FontSelectionState));
     result = g_FontSelectionState.table;
     return result->groups.codes[result->slots.indices[g_FontSelectionState.selected]];
 }
@@ -484,7 +484,7 @@ int Menu_FindSelectedEquipSlotItem(void) {
     slot = 0xFF;
 store:
     g_FontSelectionState.selected = slot;
-    __asm__ volatile("" : : : "memory");
+    __asm__ volatile("" : "=m"(g_FontSelectionState) : "m"(g_FontSelectionState));
     result = g_FontSelectionState.table;
     return result->groups.codes[result->slots.indices[D_80091A1F_rd[0]]];
 }
