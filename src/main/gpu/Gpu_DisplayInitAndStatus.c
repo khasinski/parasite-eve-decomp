@@ -52,8 +52,6 @@ extern volatile int g_LoadedSceneAssetBlock;
 extern volatile int D_800B0E68;
 extern volatile int g_SceneLoadScratchBuffer;
 
-#define LAUNDER2(a, b) asm volatile("" : "=r"(a), "=r"(b) : "0"(a), "1"(b))
-
 int Gpu_InitDisplay(int mode) {
     int mode_reg;
     int one;
@@ -80,7 +78,7 @@ int Gpu_InitDisplay(int mode) {
 
     const_48000 = 0x48000;
     slots = &g_OtBufferTable;
-    LAUNDER2(const_48000, slots);
+    asm volatile("" : "=r"(slots) : "0"(slots));
 
     ptr = (int)D_800F34F8;
     ptr2 = ptr + 0x1800;
