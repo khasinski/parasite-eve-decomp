@@ -120,7 +120,8 @@ int Akao_StepNoteSequencer(unsigned char *input, unsigned available)
                 if ((g_AkaoCurTrack[1].status_flags & 0x100) == 0) {
                     address = 0x38000;
                     g_AkaoVoiceKeyOnState |= 0x100;
-                    goto address_selected;
+                } else {
+                    g_AkaoVoiceKeyOnState &= ~0x100U;
                 }
             } else {
                 asm volatile("" : "=r"(address) : "0"(address));
@@ -129,13 +130,16 @@ int Akao_StepNoteSequencer(unsigned char *input, unsigned available)
                     if ((g_AkaoCurTrack[0].status_flags & 0x100) == 0) {
                         address = 0x38000;
                         g_AkaoVoiceKeyOnState |= 0x100;
-                        goto address_selected;
+                    } else {
+                        g_AkaoVoiceKeyOnState &= ~0x100U;
                     }
+                } else {
+                    g_AkaoVoiceKeyOnState &= ~0x100U;
                 }
             }
+        } else {
+            g_AkaoVoiceKeyOnState &= ~0x100U;
         }
-        g_AkaoVoiceKeyOnState &= ~0x100U;
-address_selected:
         SpuSetTransferStartAddr(address);
         Spu_UploadWithPrepare((int)input, upload_size);
         rebase_instruments = instruments;
