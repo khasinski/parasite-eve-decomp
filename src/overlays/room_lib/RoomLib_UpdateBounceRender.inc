@@ -36,7 +36,7 @@ int ROOMLIB_UPDATE_BOUNCE_RENDER_NAME(int mode, RoomLineBurstParticle *fx) {
     if (mode == 2) {
         goto mode2;
     }
-    goto ret0;
+    return 0;
 
 mode1:
     if (fx->state == 0) {
@@ -45,7 +45,7 @@ mode1:
     if (fx->state == 1) {
         goto updateRise;
     }
-    goto ret0;
+    return 0;
 
 updateBounce:
     {
@@ -108,7 +108,7 @@ mode2:
     if (fx->state == 1) {
         goto drawRise;
     }
-    goto ret0;
+    return 0;
 
 drawBounce:
     {

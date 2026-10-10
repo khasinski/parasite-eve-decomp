@@ -32,13 +32,13 @@ int RoomLib_UpdateTimedRender(int mode, RoomFxTimedRenderState *state) {
     switch (mode) {
     case 1:
         if (state->disabled != 0) {
-            goto ret0;
+            return 0;
         }
         state->frame++;
         if ((short)state->frame < 24) {
             goto ret0;
         }
-        goto ret1;
+        return 1;
     case 2:
         if (state->disabled != 0) {
             goto disabled;
@@ -51,7 +51,7 @@ int RoomLib_UpdateTimedRender(int mode, RoomFxTimedRenderState *state) {
         angle = rsin((D_800E27EC << 10) / 24);
         func_800D0728(state, 0x578, 0x640, 0x14, seedPtr, angle, angle, 0,
                       &work, 0x80, 1);
-        goto ret0;
+        return 0;
     }
 ret0:
     return 0;
@@ -136,12 +136,12 @@ int RoomLib_ControlTimedSpawn(int mode, RoomTimedSpawnState *state) {
         if (mode == 0) {
             goto mode0;
         }
-        goto ret0;
+        return 0;
     }
     if (mode == 2) {
         goto mode2;
     }
-    goto ret0;
+    return 0;
 
 mode0:
     func_800CE870(((void **)D_800F32D0)[2], 0, &state->position);

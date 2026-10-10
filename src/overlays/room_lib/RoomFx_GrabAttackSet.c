@@ -48,7 +48,7 @@ int RoomFx_GrabConfigure(char *obj, int arg1, int op, int arg3, int arg4) {
     if (op == 0x200) {
         goto op200;
     }
-    goto done;
+    return 0;
 
 op19:
     if (arg1 == 1) {
@@ -66,7 +66,7 @@ op200:
             if (*(unsigned char *)(node + 0xC) == arg3) {
                 if (*(unsigned char *)(node + 0xD) == arg4) {
                     if ((*(int *)(node + 0x98) & 0x10) == 0) {
-                        goto done;
+                        return 0;
                     }
                 }
             }

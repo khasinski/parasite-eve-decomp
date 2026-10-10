@@ -1787,7 +1787,7 @@ int RoomLib_ConfigureHandlerA(RoomEnt *o, int arg1, unsigned int op, int arg3, i
     if (op == 4) {
         goto case4;
     }
-    goto done;
+    return 0;
 high:
     if (op == 0x19) {
         goto case25;
@@ -1795,10 +1795,10 @@ high:
     if (op == 0x1C) {
         goto case28;
     }
-    goto done;
+    return 0;
 case25:
     if (arg1 != 1) {
-        goto done;
+        return 0;
     }
     o->sub.signal = (int *)arg3;
     *(int *)arg3 = arg1;

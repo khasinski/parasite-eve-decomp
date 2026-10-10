@@ -36,7 +36,7 @@ int RoomEffect_SparkRingParticle(int mode, RoomSparkRingParticle *state) {
         int y;
 
         if (state->state != 0) {
-            goto ret0;
+            return 0;
         }
         state->timer++;
         state->x += state->vx;
@@ -56,11 +56,11 @@ int RoomEffect_SparkRingParticle(int mode, RoomSparkRingParticle *state) {
         if (state->timer < 24) {
             goto ret0;
         }
-        goto ret1;
+        return 1;
     }
     case 2:
         if (state->state != 0) {
-            goto ret0;
+            return 0;
         }
         scale = rsin((state->timer << 10) / 24) * 2 + 0x1000;
         rcos((state->timer * 1204) / 24);
@@ -86,9 +86,9 @@ int RoomEffect_SparkRingParticle(int mode, RoomSparkRingParticle *state) {
                       (s16)D_800F3368.parameter02 * (state->timer / 3) + 0x20,
                       (unsigned short)func_80077AA4(0x10, texture),
                       1, 0xA0, (RenderColor *)&out);
-        goto ret0;
+        return 0;
     default:
-        goto ret0;
+        return 0;
     }
 
 ret0:
@@ -574,12 +574,12 @@ int RoomEffect_BurstSparkSpawner(int mode, int *count) {
         if (mode == 0) {
             goto mode0;
         }
-        goto ret0;
+        return 0;
     }
     if (mode == 2) {
         goto mode2;
     }
-    goto ret0;
+    return 0;
 
 mode0:
     if (D_800E2368->active != 0) {

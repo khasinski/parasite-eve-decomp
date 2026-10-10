@@ -396,11 +396,11 @@ int RoomEffect_BurstOrbController(int mode, void *unused, s32 *state) {
     if (mode < 2) {
         if (mode == 0)
             goto init;
-        goto done;
+        return 0;
     }
     if (mode == 2)
         goto configure;
-    goto done;
+    return 0;
 init:
     if (D_800E2368->active) {
         RoomSparkNode **slot = (RoomSparkNode **)D_800F32D0->pool;
@@ -554,11 +554,11 @@ int RoomEffect_DampedSparkController(int mode, void *unused, void *state) {
     if (mode < 2) {
         if (mode == 0)
             goto init;
-        goto done;
+        return 0;
     }
     if (mode == 2)
         goto configure;
-    goto done;
+    return 0;
 init:
     {
         int handle = func_800D3FD8();
