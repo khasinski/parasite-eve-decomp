@@ -596,8 +596,8 @@ segments:
       # Shared string-table lookup family.
       - [0x4E44C, c, table/Str_LookupTables]
       - [0x4E608, c, table/Tbl_FindNthNonEmpty]
+      # Event queue initialization, enqueue and masked dequeue share their pool.
       - [0x4E688, c, menu/queue]
-      - [0x4E76C, c, menu/Queue_DequeueByMask]
       # Input flags, queued dispatch and frame presentation share a direct
       # status-remapping call and the same matching -G8/common profile.
       - [0x4E838, c, menu/MenuInputAndFrameFlow]

@@ -21,6 +21,9 @@ typedef struct MenuQueueEntry {
 
 typedef MenuQueueEntry MenuInputQueuedEvent;
 
+void Queue_Enqueue(int value0, int value1);
+void Queue_DequeueByMask(int mask, MenuQueueEntry *out);
+
 PE1_STATIC_ASSERT(sizeof(MenuQueueEntry) == 0x0C, menu_queue_entry_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuQueueEntry, next) == 0x00,
                   menu_queue_entry_next_offset);
