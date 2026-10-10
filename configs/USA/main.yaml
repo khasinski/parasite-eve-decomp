@@ -621,12 +621,9 @@ segments:
       # Active-list presence, child access and node searches share widget state.
       - [0x531B0, c, menu/menu_widget]
       - [0x5327C, c, gpu/Draw_FlushPrimList]
-      # Selection, constructors, pool, cells, rows and cursor scrolling
+      # Selection, constructors, pool, cells, rows, scrolling and saved layouts
       # share their typed widget state and -G8/common profile.
       - [0x534B8, c, menu/MenuWidget_Lifecycle]
-      - [0x54FD0, c, gpu/Draw_SetPrimCallback]
-      # Saved widget layout slots, mode/reset and centered table text share one TU.
-      - [0x55164, c, menu/MenuWidget_ColumnLayout]
       - [0x55480, c, menu/Draw_DropShadow]
       # Mode-3 popup construction, destruction, drawing, navigation and easing share
       # the typed list navigation view and owner lookup.

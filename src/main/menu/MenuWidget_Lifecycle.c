@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: -G8 --use-comm-section --expand-div */
 #include "pe1/menu_widget.h"
 #include "pe1/draw_state.h"
 #include "pe1/menu_scroll_cursor.h"
@@ -1127,4 +1127,207 @@ int Menu_StepScrollCursor(MenuWidgetNode *node, unsigned int buttons)
         changed = 1;
     }
     return changed;
+}
+
+#include "common.h"
+
+#include "pe1/menu_widget.h"
+
+void Draw_SetPrimCallback(MenuWidgetNode *arg0, s32 arg1) {
+    MenuWidgetNode *temp_a1_2;
+    s32 temp_a2;
+    s32 temp_v1;
+    s32 t58b;
+    s32 t48;
+    s32 t5C;
+    s32 temp_v1_2;
+    s32 temp_v1_3;
+    s32 temp_v1_4;
+    s32 var_a1;
+    s32 var_a2;
+    MenuWidgetNode *temp_a1;
+
+    temp_v1 = arg0->grid_width;
+    arg0->y_limit = (((arg1 + temp_v1) - 1) / temp_v1);
+    var_a2 = 0;
+    if (arg0->grid_width == 2) {
+        var_a2 = arg1 & 1;
+    }
+    __asm__ volatile("" : "=m"(arg0->y_limit) : "m"(arg0->y_limit));
+    t48 = arg0->cursor_y;
+    temp_v1_2 = arg0->y_limit;
+    arg0->has_scroll = var_a2;
+    if (t48 >= temp_v1_2) {
+        arg0->cursor_y = temp_v1_2 - 1;
+    }
+    if ((arg0->has_scroll != 0) && (arg0->cursor_x == 1) &&
+        (arg0->cursor_y == (arg0->y_limit - 1))) {
+        arg0->cursor_x = 0;
+    }
+    var_a1 = arg0->visible_rows_mirror;
+    temp_v1_3 = arg0->y_limit;
+    temp_a2 = arg0->visible_rows;
+    if (temp_v1_3 < var_a1) {
+        var_a1 = temp_v1_3;
+        temp_v1_3 = *(volatile s32 *)&arg0->y_limit;
+    }
+    temp_v1_4 = temp_v1_3 - var_a1;
+    arg0->visible_rows = var_a1;
+    if (temp_v1_4 < arg0->scroll_y) {
+        arg0->scroll_y = temp_v1_4;
+    }
+    temp_a1 = arg0->parent;
+    if ((temp_a1 != 0) && (temp_a1->mode == 1)) {
+        temp_a1->visible_rows += arg0->disabled * (arg0->visible_rows - temp_a2);
+    }
+    temp_a1_2 = arg0->popup_node;
+    if (temp_a1_2 != 0) {
+        t58b = arg0->y_limit;
+        if (arg0->visible_rows_mirror >= t58b) {
+            MenuWidget_DestroyPopupNode(temp_a1_2);
+        }
+    } else {
+        t58b = arg0->y_limit;
+        if (arg0->visible_rows_mirror < t58b) {
+            Draw_SwapPrimBuffers(arg0);
+        }
+    }
+}
+
+#include "common.h"
+#include "pe1/draw_state.h"
+#include "pe1/menu_widget.h"
+
+int g_MenuWidgetColumnLayoutMode;
+extern MenuWidgetSavedLayout g_MenuWidgetColumnLayoutTable[];
+void bzero(void *ptr, int size);
+extern int g_DrawTextPosX;
+
+/* Saved cursor/scroll positions of menu widgets (one 4-byte slot per
+ * aux_index): reset, mode, save and restore. Sys_InitStateBuffer (historical
+ * name) is the unconditional reset; the eight slots set to -1 start with no
+ * saved column. */
+
+void Sys_InitStateBuffer(void) {
+    bzero(g_MenuWidgetColumnLayoutTable, 0x120);
+    g_MenuWidgetColumnLayoutTable[6].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[16].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[20].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[22].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[24].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[25].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[49].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[53].cursorX = -1;
+}
+
+void MenuWidget_SetColumnLayoutMode(int arg0) {
+    g_MenuWidgetColumnLayoutMode = arg0;
+    if (arg0 == 0) {
+        bzero(g_MenuWidgetColumnLayoutTable, 0x120);
+        g_MenuWidgetColumnLayoutTable[6].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[16].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[20].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[22].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[24].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[25].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[49].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[53].cursorX = -1;
+    }
+}
+
+int MenuWidget_GetColumnLayoutMode(void) {
+    return g_MenuWidgetColumnLayoutMode;
+}
+
+void MenuWidget_SaveColumnLayout(MenuWidgetNode *node) {
+    int index;
+    MenuWidgetSavedLayout *slot;
+
+    if (g_MenuWidgetColumnLayoutMode == 0 && ((node->layout_flags & 0x20) == 0)) {
+        return;
+    }
+
+    index = node->aux_index;
+    if ((unsigned int)index < 0x48) {
+        slot = &g_MenuWidgetColumnLayoutTable[index];
+        slot->cursorX = node->cursor_x;
+        slot->cursorY = node->cursor_y;
+        slot->scrollY = node->scroll_y;
+    }
+}
+
+void MenuWidget_ApplyColumnLayout(MenuWidgetNode *node) {
+    MenuWidgetSavedLayout *entry;
+    int flag;
+
+    if (node == 0) {
+        return;
+    }
+    if (node->aux_index < 0) {
+        return;
+    }
+
+    entry = &g_MenuWidgetColumnLayoutTable[node->aux_index];
+    flag = g_MenuWidgetColumnLayoutMode;
+    node->cursor_x = entry->cursorX;
+    if ((flag != 0) || ((node->layout_flags & 0x20) != 0)) {
+        node->cursor_y = entry->cursorY;
+        if (node->y_limit <= node->cursor_y) {
+            node->cursor_y = node->y_limit - 1;
+        }
+        if ((node->has_scroll != 0) &&
+            (node->cursor_x == 1) &&
+            (node->cursor_y == (node->y_limit - 1))) {
+            node->cursor_x = 0;
+        }
+        node->scroll_y = entry->scrollY;
+    }
+}
+
+void MenuWidget_SetColumnLayout(MenuWidgetNode *node, int arg1) {
+    MenuWidgetSavedLayout *entry;
+    int flag;
+
+    node->aux_index = arg1;
+    if (node == 0) {
+        return;
+    }
+    if (arg1 < 0) {
+        return;
+    }
+
+    entry = &g_MenuWidgetColumnLayoutTable[arg1];
+    flag = g_MenuWidgetColumnLayoutMode;
+    node->cursor_x = entry->cursorX;
+    if ((flag != 0) || ((node->layout_flags & 0x20) != 0)) {
+        node->cursor_y = entry->cursorY;
+        if (node->y_limit <= node->cursor_y) {
+            node->cursor_y = node->y_limit - 1;
+        }
+        if ((node->has_scroll != 0) &&
+            (node->cursor_x == 1) &&
+            (node->cursor_y == (node->y_limit - 1))) {
+            node->cursor_x = 0;
+        }
+        node->scroll_y = entry->scrollY;
+    }
+}
+
+void MenuWidget_ClearColumnLayout(MenuWidgetNode *node) {
+
+    node->aux_index = -1;
+    node->cursor_x = -1;
+}
+
+void MenuWidget_DrawCenteredText(u8 *text) {
+    Draw_PrintCenteredTextInWidth(text, g_DrawTextPosX);
+}
+
+#include "pe1/draw_state.h"
+#include "pe1/text.h"
+
+extern int D_8009D164;
+
+void MenuWidget_DrawCenteredTableText(int text_id) {
+    Draw_PrintCenteredTextInWidth(Str_LookupTable4(text_id), D_8009D164);
 }
