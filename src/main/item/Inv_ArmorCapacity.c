@@ -261,7 +261,7 @@ static inline void ClampAmmo(ItemDataRecord *item) {
 static inline void DeleteSlot(int slot) {
     int id = D_8009D048[slot];
     D_8009D048[slot] = 0;
-    if (id >= 256) D_800C0E20.equipment[id - 256].pad_00[0] = 0;
+    if (id >= 256) D_800C0E20.equipment[id - 256].iconId = 0;
 }
 static inline int ItemKind(int slot) {
     ItemDataRecord *item = LookupActiveItem(slot);

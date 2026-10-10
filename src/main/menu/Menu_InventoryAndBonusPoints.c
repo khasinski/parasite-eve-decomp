@@ -132,7 +132,7 @@ void Menu_StepInventoryRoot(int mode, int list, int item)
         panel->update = Menu_BonusPointCancelHandler;
         node->draw = Menu_DrawEmptyList;
         node->cursor_x = -1;
-        D_800A1960.pad_00[0] = 0;
+        D_800A1960.iconId = 0;
     }
     panel->draw = Menu_StepEquipSlotSelect2;
     if (data)

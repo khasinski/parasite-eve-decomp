@@ -70,13 +70,13 @@ int Inv_RebuildWithBonusSlots(int minSecond, int minThird) {
         if (D_8009D0CC) {
             scan = D_800C0E20.equipment;
             for (; scan < D_800C0E20.equipment + 128 &&
-                   !(scan->pad_00[0] && scan->kind < 9 && (scan->flags & 0x10));
+                   !(scan->iconId && scan->kind < 9 && (scan->flags & 0x10));
                  scan++)
                 ;
         } else {
             scan = D_800C0E20.equipment;
             for (; scan < D_800C0E20.equipment + 128 &&
-                   !(scan->pad_00[0] && scan->kind == 9 && (scan->flags & 0x10));
+                   !(scan->iconId && scan->kind == 9 && (scan->flags & 0x10));
                  scan++)
                 ;
         }
@@ -102,7 +102,7 @@ int Inv_TransferToStorage(void) {
         if (i >= D_8009D040) break;
         index = i >= 0 && i < D_8009D040 ? D_800A1D9C[i] : 0;
         item = LookupActiveItem(index);
-        if (item->tailCount < item->pad_00[1]) {
+        if (item->tailCount < item->tailCapacity) {
             count++;
             D_8009D058[i >> 5] |= 1u << (i & 31);
         }
@@ -123,7 +123,7 @@ static inline int TakeTagged(int armor) {
     ItemDataRecord *p;
     int id = 0;
     for (p = D_800C0E20.equipment; p < D_800C0E20.equipment + 128; p++) {
-        if (p->pad_00[0] && (armor ? p->kind == 9 : p->kind != 9) && (p->flags & 16)) break;
+        if (p->iconId && (armor ? p->kind == 9 : p->kind != 9) && (p->flags & 16)) break;
     }
     if (p < D_800C0E20.equipment + 128) {
         s16 *slot;
@@ -181,7 +181,7 @@ static inline void RemoveItem(int index) {
         Inv_GetActiveSlotCount(&required);
     id = D_8009D048[index];
     D_8009D048[index] = 0;
-    if (id >= 256) D_800C0E20.equipment[id - 256].pad_00[0] = 0;
+    if (id >= 256) D_800C0E20.equipment[id - 256].iconId = 0;
     if (D_8009D048 == D_800C0E48 && D_800C0E20.tracked[2] == index) {
         D_800C0E20.tracked[2] = -1;
         Inv_CheckFreeSlotCapacity(required);

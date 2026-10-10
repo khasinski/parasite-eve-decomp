@@ -74,7 +74,7 @@ void Inv_RebuildSelectionBitset(void) {
         end = limit_tmp;
         do {
             if ((entry->flags & 0x18) == 0) {
-                entry->pad_00[0] = 0;
+                entry->iconId = 0;
             }
             entry->flags &= 0xF7;
             entry++;

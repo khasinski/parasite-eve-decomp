@@ -20,7 +20,9 @@ enum ItemKind {
  * are the ItemId enum; tailData mods are ItemMod codes (see item_ids.h).
  */
 typedef struct ItemDataRecord {
-/* 0x00 */ u8  pad_00[4];
+/* 0x00 */ u8  iconId;       /* one-based glyph selector; zero marks a free equipment record */
+/* 0x01 */ u8  tailCapacity; /* compared with tailCount when filtering writable records */
+/* 0x02 */ u8  reserved02[2];
 /* 0x04 */ u8  itemId;       /* ItemId type code (E-Reg value) */
 /* 0x05 */ u8  flags;
 /* 0x06 */ u8  kind;
@@ -96,6 +98,10 @@ ItemDataRecord *Item_LookupBaseData(unsigned int index);
 void Inv_ClearEquipFlagForKind(ItemDataRecord *record);
 
 PE1_STATIC_ASSERT(sizeof(ItemDataRecord) == 0x20, item_data_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, iconId) == 0x00,
+                  item_data_record_icon_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, tailCapacity) == 0x01,
+                  item_data_record_tail_capacity_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, itemId) == 0x04,
                   item_data_record_id_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, flags) == 0x05,

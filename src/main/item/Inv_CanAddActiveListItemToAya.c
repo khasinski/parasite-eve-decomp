@@ -125,7 +125,7 @@ static inline int FindFreeEquipmentRecord(void) {
 
     if (p < D_800C0E20.equipment + 128) {
         do {
-            if (!p->pad_00[0])
+            if (!p->iconId)
                 break;
             p++;
         } while (p < end);

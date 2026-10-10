@@ -9,7 +9,7 @@ static inline int FindFreeEquipmentRecord(void) {
 
     if (p < end) {
         do {
-            if (!p->pad_00[0])
+            if (!p->iconId)
                 break;
             p++;
         } while (p < end);

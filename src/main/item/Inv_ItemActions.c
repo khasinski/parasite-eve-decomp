@@ -730,7 +730,7 @@ s32 Inv_RemoveActiveListItem(s32 arg0) {
     removed = activeList;
 
     if (activeList >= 0x100) {
-        g_InvItemSlotArray[removed - 0x100].pad_00[0] = 0;
+        g_InvItemSlotArray[removed - 0x100].iconId = 0;
     }
 
     if ((g_InvItemPtr == g_AyaInventoryItems) && (D_800C0E22_l1 == selected)) {
