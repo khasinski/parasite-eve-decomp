@@ -87,27 +87,22 @@ void Inv_BuildFilteredPackedListExcluding(int mask, int excluded) {
                 if ((unsigned int)(item_id - 0x100) < 0x80) {
                     lookup = (ItemDataRecord *)(g_EquipItemDataTable +
                                                (item_id << 5));
-                    goto have_lookup;
                 } else {
                     offset = item_id - 1;
                     if ((unsigned int)offset < 0xFF) {
                         lookup = Item_LookupBaseData(offset);
-                        goto have_lookup;
                     } else if ((unsigned int)(saved_item_id - 0x200) < 9) {
                         int shifted;
                         shifted = saved_item_id << 5;
                         lookup = (ItemDataRecord *)(g_KeyItemDataTable + shifted);
-                        goto have_lookup;
                     } else {
                         lookup = 0;
-                        goto have_lookup;
                     }
                 }
+                data = lookup;
+                goto filter;
             }
 
-have_lookup:
-            data = lookup;
-            goto filter;
 invalid_index:
             data = 0;
 filter:
