@@ -62,11 +62,11 @@ s32 Battle_StepAyaAction(void)
         D_8009CE5C = transfer;
         render = &player->renderObject;
         transfer = D_8009D2E8;
-        asm volatile("" : : "r"(transfer), "r"(render), "r"(rate), "r"(mask));
+        asm volatile("" : : "r"(transfer));
         entityFlags = player->entityFlags;
         transfer &= mask;
         entityFlags |= 0x80;
-        asm volatile("" : : "r"(transfer), "r"(entityFlags));
+        asm volatile("" : : "r"(entityFlags));
         D_8009D2E8 = transfer;
         player->entityFlags = entityFlags;
         Anim_SetInterpRate(render, rate);
@@ -341,7 +341,7 @@ s32 Battle_StepAyaAction(void)
         player->rotationX = transfer;
         transfer = D_8009CE58[1];
         player->facingAngle = transfer;
-        asm volatile("" : : "r"(x), "r"(y), "r"(transfer), "r"(effect));
+        asm volatile("" : : "r"(transfer));
         rotationZ = D_8009CE5C;
         player->rotationZ = rotationZ;
         transfer = player->posZ.parts.integer;
