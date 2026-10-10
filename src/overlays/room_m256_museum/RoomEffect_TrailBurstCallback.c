@@ -116,7 +116,7 @@ s32 func_801940B0(int mode, void *effect) {
                 }
 
             }
-            goto done;
+            return 0;
         case 1:
             state->frame = (s16) ((u16) state->frame + 1);
             history = (state->index * 0x88) + D_80195EFC;
@@ -226,12 +226,12 @@ updateHistory:
                             particle->y = (u16) impactY;
                         }
                         state->ending = 1;
-                        goto done;
+                        return 0;
                     }
                 }
             }
 
-            goto done;
+            return 0;
         case 2:
             {
                 register unsigned frame asm("$3") = *(volatile u16 *)&state->frame;
@@ -319,7 +319,7 @@ checkLifetime:
             func_800D004C(state, 0x190, 0x190, 8, 0, 0x1000, 0x1000, &color.r, 0, fade, 1);
             historySample = D_80195EFC + ((func_80071A54() & 7) * 8);
             func_800D004C((void *)((unsigned)(state->index * 0x88) + (unsigned)historySample), 0x1F4, 0x1F4, 6, 0, 0x1000, 0x1000, &color.r, 0, (u32)fade >> 1, 1);
-            goto done;
+            return 0;
         case 1:
             firstFade = rcos(state->frame << 6) / 32;
             renderScale = rcos(state->frame << 6);
@@ -419,7 +419,7 @@ checkLifetime:
             func_800C6FA0(D_80195EF8, fade & 0xFFFF);
             func_800C71E4(D_80195EF8, &transform);
             func_800C6F4C(D_80195EF8);
-            goto done;
+            return 0;
         case 3:
             pulseSine = rsin(state->frame << 6);
             renderScale = ((s32) ((pulseSine >> 0x1F) + pulseSine) >> 1) + 0x1000;
@@ -477,11 +477,11 @@ checkLifetime:
                 func_800CEE20(state, &spriteRotation, renderScale, renderScale, 0x92, func_80077AA4(0x80, ringClutY) & 0xFFFF, 1, fade, &darkColor.r);
                 D_800F3372 = 0;
             }
-            goto done;
+            return 0;
         }
         break;
     default:
-        goto done;
+        break;
     }
 done:
     return 0;

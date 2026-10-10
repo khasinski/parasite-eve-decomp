@@ -238,7 +238,7 @@ L478:
         goto L4C4;
     }
     if (kind == 6) {
-        goto L5B0;
+        return;
     }
     goto L594;
 
@@ -247,13 +247,13 @@ L4C4:
         goto L594;
     }
     if ((s16)s0 < 0x12) {
-        goto L5B0;
+        return;
     }
     p = arg0->completion_state;
     if (p != 0) {
         *p = 2;
     }
-    goto L5B0;
+    return;
 
 L4F8:
     val = ((u16 *)&s1->anim_prev)[1];
@@ -269,11 +269,11 @@ L4F8:
     }
     signed_val = (s16)raw_val;
     if (signed_val >= 3) {
-        goto L5B0;
+        return;
     }
     signed_s4 = (s16)s4;
     if (signed_s4 < 3) {
-        goto L5B0;
+        return;
     }
     {
         /* One load of the player's state for the read and the write. */
@@ -284,7 +284,7 @@ L4F8:
     if (s1->state != 0) {
         s1->state->core_flags |= 0x80000000;
     }
-    goto L5B0;
+    return;
 
 L594:
     func_80020CE4();

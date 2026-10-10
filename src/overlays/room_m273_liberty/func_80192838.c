@@ -42,16 +42,10 @@ void func_80192838(RoomSelectionState *state) {
                 actor->anim.fixed = 0;
                 --stateTail->phase_countdown;
             }
-            goto update_vertical_motion;
-        }
-
-        if ((s16)previousFrame <= 0 && (s16)currentFrame > 0) {
+        } else if ((s16)previousFrame <= 0 && (s16)currentFrame > 0) {
             u8 *substate = ((RoomM273ActorState *)actor->state)->substate;
             substate[1] = stateTail->pending_action;
-            goto update_vertical_motion;
-        }
-
-        if ((s16)previousFrame < 34 && (s16)currentFrame >= 34) {
+        } else if ((s16)previousFrame < 34 && (s16)currentFrame >= 34) {
             s32 delta = ((s32)(s16)g_RoomFloorY->raw << 16) - actor->pos_y;
             if (delta < 0) {
                 delta += 15;
@@ -59,18 +53,12 @@ void func_80192838(RoomSelectionState *state) {
             stateTail->vertical_step = 4;
             stateTail->vertical_step = delta >> stateTail->vertical_step;
             stateTail->vertical_ticks = 16;
-            goto update_vertical_motion;
-        }
-
-        if ((s16)previousFrame < 50 && (s16)currentFrame >= 50) {
+        } else if ((s16)previousFrame < 50 && (s16)currentFrame >= 50) {
             if (stateTail->placement_checked == 0) {
                 func_80020CE4();
                 func_80192C00(actor, stateTail);
             }
-            goto update_vertical_motion;
-        }
-
-        if ((s16)previousFrame < 3 && (s16)currentFrame >= 3) {
+        } else if ((s16)previousFrame < 3 && (s16)currentFrame >= 3) {
             FieldActorState *playerState = g_PlayerEntity->state;
             if (playerState != 0 && playerState->amount > 0) {
                 playerState->flags |= 0x4000;
@@ -78,19 +66,13 @@ void func_80192838(RoomSelectionState *state) {
                     actor->state->core_flags |= 0x80000000;
                 }
             }
-            goto update_vertical_motion;
-        }
-
-        if ((s16)currentFrame >= actor->action - 1) {
+        } else if ((s16)currentFrame >= actor->action - 1) {
             if (actor->state != 0) {
                 u8 *substate = ((RoomM273ActorState *)actor->state)->substate;
                 substate[0] = 4;
             }
             func_80192D8C(state);
         }
-        goto update_vertical_motion;
-
-    update_vertical_motion:
         if (stateTail->vertical_ticks != 0) {
             actor->pos_y += stateTail->vertical_step;
             --stateTail->vertical_ticks;
