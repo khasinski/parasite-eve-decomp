@@ -18,7 +18,6 @@ void Draw_PrintNumberWidth3Unk(int value);
 M2C_UNK func_800605F8();
 M2C_UNK func_800614AC();
 M2C_UNK Draw_EmitWipeBarRect();
-void Menu_SetSaveSlotBlendBase(int arg0);
 M2C_UNK func_80064C54();
 extern void *g_MenuActiveWidget;
 extern s32 g_SavedDrawBlendColor[];

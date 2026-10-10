@@ -22,6 +22,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DrawTextCursorPair, y) == 4,
 PE1_STATIC_ASSERT(sizeof(DrawGlyphDescriptor) == 8, draw_glyph_descriptor_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DrawGlyphDescriptor, mode) == 6, draw_glyph_mode_offset);
 DrawGlyphDescriptor *Draw_LookupGlyphDescriptor(int index);
+void Menu_SetSaveSlotBlendBase(int color);
 
 /* Semantic C names for the existing, independently addressed linker objects. */
 extern unsigned char *D_8009D100;
