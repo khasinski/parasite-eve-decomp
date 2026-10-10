@@ -7,7 +7,7 @@ extern unsigned char D_800C1EAC[];
 extern signed char g_AyaEquippedWeaponSlot[];
 extern signed char g_AyaEquippedArmorSlot[];
 
-unsigned int g_SavedMenuMode;
+SavedMenuMode g_SavedMenuMode;
 
 unsigned int Menu_GetActiveMode(void);
 void Window_SetBoundsByMode(int mode);
@@ -116,6 +116,27 @@ done:
 
 
 void Menu_ResetInputState(void) {
-    g_SavedMenuMode = Menu_GetActiveMode() & 0xFF;
+    g_SavedMenuMode.value = Menu_GetActiveMode() & 0xFF;
     Window_SetBoundsByMode(0);
+}
+
+/* Open the player inventory using the same saved menu mode. */
+
+extern unsigned int g_MenuBattleEquipMode;
+
+void BattleCmd_SyncActiveAmmo(void);
+void Menu_CreateInventoryTabView(void);
+void Menu_PlayConfirmSound(void);
+
+void Inventory_OpenAyaItemList(unsigned int arg) {
+    g_MenuBattleEquipMode = arg;
+    g_SavedMenuMode.value = Menu_GetActiveMode() & 0xFF;
+    Window_SetBoundsByMode(0);
+    BattleCmd_SyncActiveAmmo();
+    g_InvItemPtr = g_AyaInventoryItems;
+    g_InvSlotLimit = Inv_GetAyaSlotLimit();
+    g_InvSelectionBits = g_AyaItemSelectionBits;
+    g_InvSelectionBitWords = 2;
+    Menu_CreateInventoryTabView();
+    Menu_PlayConfirmSound();
 }

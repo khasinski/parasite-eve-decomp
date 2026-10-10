@@ -1,3 +1,4 @@
+#include "pe1/inventory_slots.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -12,7 +13,6 @@ extern unsigned int g_MenuActionSubmenuSel;
 
 extern void Akao_Cmd_80_81_82(int arg0);
 
-extern unsigned int g_SavedMenuMode;
 extern unsigned int g_MemCardDialogState;
 extern unsigned int g_MenuErrorSoundPending;
 /* g_GameState lives at 0x800B0CD8, outside the gp window; the incomplete
@@ -59,7 +59,7 @@ void BoundsCheck_AssertStub(int code)
 void Menu_FullInit(void) {
     Menu_SetBattleEquipMode(0);
     Save_ResetMetadataWindow(0);
-    g_SavedMenuMode = 0;
+    g_SavedMenuMode.value = 0;
     g_MemCardDialogState = 0;
     g_MenuErrorSoundPending = 0;
     Menu_ResetStateFlags();

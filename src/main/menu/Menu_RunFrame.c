@@ -11,7 +11,6 @@ void MemCard_UpdateSavePolling(void);
 void MemCard_DelayedCallback(void);
 void Evt_DeferredExec(void);
 void Menu_ProcessSwapReturnIfPending(void);
-extern u8 g_SavedMenuMode;
 extern s32 g_MemCardDialogState;
 u32 g_MenuErrorSoundPending;
 extern s32 g_MenuActiveListTarget[];
@@ -43,7 +42,7 @@ s32 Menu_RunFrameWithArg(s32 arg0) {
             Inv_SetActiveList(9, 0);
         }
         if (Menu_GetCommandResult() != 0) {
-            Window_SetBoundsByMode(g_SavedMenuMode);
+            Window_SetBoundsByMode(g_SavedMenuMode.bytes.mode);
         }
         return Menu_GetCommandResult();
     }
@@ -72,7 +71,7 @@ s32 Menu_RunFrame(void) {
             Inv_SetActiveList(9, 0);
         }
         if (Menu_GetCommandResult() != 0) {
-            Window_SetBoundsByMode(g_SavedMenuMode);
+            Window_SetBoundsByMode(g_SavedMenuMode.bytes.mode);
         }
         return Menu_GetCommandResult();
     }

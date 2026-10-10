@@ -36,6 +36,13 @@ extern s32 D_8009D080;
 extern s16 D_800C1F80[];
 extern s16 D_800A1D9C[];
 extern u8 D_8009DE64[];
+/* Saved by inventory commands as a word; the frame loop reads its low byte. */
+typedef union SavedMenuMode {
+    u32 value;
+    struct { u8 mode; u8 reserved[3]; } bytes;
+} SavedMenuMode;
+extern SavedMenuMode g_SavedMenuMode;
+
 void Inv_SetActiveList(int mode, int *slot);
 int Inv_LoadWayneItemsAsOverride(short *items);
 extern u8 D_800C0E0C;
