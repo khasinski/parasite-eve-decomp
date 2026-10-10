@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 #include "common.h"
 #include "pe1/menu_dialog.h"
 #include "pe1/menu_inventory.h"
@@ -9,7 +10,6 @@
 void Queue_Init(void);
 s32 Inv_GetPackedListCursor(void);
 void Menu_StepInventoryRoot(s32 arg0, s32 arg1, s32 arg2);
-void Menu_RequestErrorSound(void);
 void Menu_OpenRenameScreen(s32 arg0);
 
 void Menu_DrawContextHelpText(void);

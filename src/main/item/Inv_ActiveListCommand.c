@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
@@ -11,7 +12,6 @@ extern BattleEntity *D_8009D254[];
 extern u8 *D_8009D1E0;
 extern int D_8009D010;
 #include "pe1/battle_modifiers.h"
-int Menu_GetBattleEquipMode(void);
 void Battle_DispatchSpecialAction(int);
 void MenuWidget_InitPool(void);
 

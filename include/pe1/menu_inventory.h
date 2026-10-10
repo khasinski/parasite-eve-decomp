@@ -1,6 +1,8 @@
 #ifndef PE1_MENU_INVENTORY_H
 #define PE1_MENU_INVENTORY_H
 
+#include "pe1/menu_state.h"
+
 #include "pe1/menu_widget.h"
 
 #include "pe1/bounds_check.h"
@@ -81,7 +83,6 @@ int Menu_StatSlotInputHandler(MenuWidgetNode *node, unsigned int flags);
 int Menu_StepListNavigate(MenuWidgetListNavigation *node, unsigned int flags);
 
 int Menu_CheckItemAffordable(int actionId);
-int Menu_GetBattleEquipMode(void);
 extern int D_8009CF3C; /* Restricts selected parasite actions when nonzero. */
 /* Incomplete arrays retain the retail full-address HP accesses with -G8. */
 extern u16 D_800C0E08[]; /* Current HP. */

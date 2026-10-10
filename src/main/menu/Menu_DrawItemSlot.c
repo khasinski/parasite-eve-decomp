@@ -1,10 +1,10 @@
+#include "pe1/menu_state.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 #include "pe1/menu_inventory.h"
 
 int g_MenuItemContextFlag;
 int g_MenuActiveWidget;
 
-int Menu_GetBattleEquipMode(void);
 int Battle_IsActiveWrapped(void);
 void Draw_SetTextDimmed(int value);
 void Draw_OffsetCursor(int x, int y);

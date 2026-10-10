@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 #include "pe1/menu_widget.h"
 
 /* CC1_FLAGS: -G8 */
@@ -9,7 +10,6 @@ extern int D_800A1888[], D_800A188C[], D_800A1890[], D_800A1894[];
 
 extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int index);
 extern int MenuWidget_GridCellIndex(MenuWidgetNode *node);
-extern int Menu_GetBattleEquipMode(void);
 extern void MenuWidget_NavScrollTo(int mode);
 extern void Menu_CreateEquipScreen(MenuWidgetNode *node);
 extern void Menu_CreateSkillActionScreen(MenuWidgetNode *node);

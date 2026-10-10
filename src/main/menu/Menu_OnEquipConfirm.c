@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/menu_inventory.h"
@@ -52,7 +53,6 @@ extern int D_800A1890[];
 extern int D_800A1894[];
 extern u8 D_800A1980[];
 
-int Menu_GetBattleEquipMode(void);
 void Menu_StepInventoryRoot(int flags, int arg1, int arg2);
 void Menu_ConfigureScreen(void);
 

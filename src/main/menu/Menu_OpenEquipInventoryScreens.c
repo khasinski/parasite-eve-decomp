@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "pe1/menu_equipment.h"
@@ -27,7 +28,6 @@ extern s32 D_8009D008;
 extern short D_800C0E46[];
 void Inv_ResetActiveList(void);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-int Menu_GetBattleEquipMode(void);
 void Menu_CreateBonusPointAllocationView(void);
 void Menu_CreateContextHelpPanel(void);
 void MenuWidget_NavScrollTo(int arg0);

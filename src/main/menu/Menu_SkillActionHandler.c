@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 #include "common.h"
 #include "pe1/menu_dialog.h"
 #include "pe1/menu_inventory.h"
@@ -22,7 +23,6 @@ extern int D_8009CF10;
 extern int D_8009CFA0;
 extern unsigned char D_800A1980[];
 
-int Menu_GetBattleEquipMode(void);
 void MenuWidget_NavScrollTo(int arg0);
 void Battle_UseItem(int arg0);
 

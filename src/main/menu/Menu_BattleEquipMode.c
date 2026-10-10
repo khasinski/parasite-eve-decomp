@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 

@@ -14,13 +14,11 @@ extern unsigned int g_MenuActionSubmenuSel;
 
 extern void Akao_Cmd_80_81_82(int arg0);
 
-extern unsigned int g_MenuErrorSoundPending;
 /* g_GameState lives at 0x800B0CD8, outside the gp window; the incomplete
  * array type keeps -G8 from treating this 4-byte extern as small data and
  * matches retail's materialized-pointer read-modify-write. */
 extern unsigned int g_GameState[];
 
-void Menu_SetBattleEquipMode(int);
 void Save_ResetMetadataWindow(int);
 void Menu_ResetStateFlags(void);
 void Inv_SetDefaultItemId(void);

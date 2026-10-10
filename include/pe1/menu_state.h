@@ -6,6 +6,11 @@ extern int g_MemCardDialogState;
 void MemCard_SetDialogActive(int active);
 
 extern int g_MenuBattleEquipMode;
+void Menu_SetBattleEquipMode(int mode);
+int Menu_GetBattleEquipMode(void);
+
+extern unsigned int g_MenuErrorSoundPending;
+void Menu_RequestErrorSound(void);
 int Menu_GetEquipMode(void);
 
 extern int D_8009CF78;

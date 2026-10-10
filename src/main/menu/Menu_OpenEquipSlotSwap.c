@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 #include "common.h"
 #include "pe1/inventory.h"
 #include "pe1/menu_widget.h"
@@ -10,7 +11,6 @@ MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase)
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void Menu_CreateContextHelpPanel(void);
 s32 Inv_GetAyaSlotLimit();
-void Menu_SetBattleEquipMode(int mode);
 void Queue_Init(void);
 extern s32 g_MenuSelectionLocked;
 extern s32 g_MenuActionSubmenuOpen;

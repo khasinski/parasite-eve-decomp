@@ -1,3 +1,4 @@
+#include "pe1/menu_state.h"
 #include "pe1/menu_bonus_stats.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -14,7 +15,6 @@
 /* Inventory stat-panel setup and its adjacent draw callbacks. */
 
 
-s32 Menu_GetBattleEquipMode();                                /* extern */
 extern s32 g_MenuItemContextFlag;
 extern s32 g_MenuBattleStatusOverlayActive;
 extern s32 g_MenuSelectionLocked;
