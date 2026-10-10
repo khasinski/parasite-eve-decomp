@@ -20,20 +20,17 @@ int Entity_FindByTypeId(int **arg0) {
         if (obj == 0) {
             return 1;
         }
-loop:
-        if (obj->type_id != cmpType) {
-            goto next;
-        }
-        if (obj->sub_id != *arg0[1]) {
-            goto next;
-        }
-        if ((obj->flags & 0x10) != 0) {
-next:
-            obj = obj->next;
-            if (obj != 0) {
-                goto loop;
+        do {
+            if (obj->type_id != cmpType) {
+                obj = obj->next;
+            } else if (obj->sub_id != *arg0[1]) {
+                obj = obj->next;
+            } else if ((obj->flags & 0x10) != 0) {
+                obj = obj->next;
+            } else {
+                break;
             }
-        }
+        } while (obj != 0);
         if (obj == 0) {
             return 1;
         }
@@ -79,20 +76,17 @@ int Entity_SetFieldByTypeId(int **arg0) {
         if (obj == 0) {
             return 1;
         }
-loop:
-        if (obj->type_id != cmpType) {
-            goto next;
-        }
-        if (obj->sub_id != *arg0[1]) {
-            goto next;
-        }
-        if ((obj->flags & 0x10) != 0) {
-next:
-            obj = obj->next;
-            if (obj != 0) {
-                goto loop;
+        do {
+            if (obj->type_id != cmpType) {
+                obj = obj->next;
+            } else if (obj->sub_id != *arg0[1]) {
+                obj = obj->next;
+            } else if ((obj->flags & 0x10) != 0) {
+                obj = obj->next;
+            } else {
+                break;
             }
-        }
+        } while (obj != 0);
         if (obj != 0) {
             Entity_WriteFieldByCmd(obj, *(u8 *)arg0[2], *arg0[3]);
         }
