@@ -14,7 +14,7 @@ int D_8009D258;
 
 /* Advances Aya's 17-state action, saving her pose, visiting the selected
  * targets, and restoring normal animation/visibility at completion.
- * Matching debt: 14 register pins and 7 empty compiler barriers retain
+ * Matching debt: register pins and empty compiler barriers retain
  * retail allocation and scheduling. No instruction ASM or tool patches. */
 s32 Battle_StepAyaAction(void)
 {
@@ -32,7 +32,6 @@ s32 Battle_StepAyaAction(void)
   u32 effectId;
   u32 targetEffectId;
   int hitCountMask;
-  register u8 nextState asm("$2");
   register s32 transfer asm("$2");
   u32 *targetFlags;
   finished = 0;
@@ -88,8 +87,7 @@ s32 Battle_StepAyaAction(void)
     {
       if (D_800B0D8A == 0)
       {
-        nextState = D_8009D25C + 1;
-        D_8009D25C = nextState;
+        D_8009D25C++;
         break;
       }
     }
@@ -109,8 +107,7 @@ s32 Battle_StepAyaAction(void)
       assetOwner = D_8009D254;
       Scene_LoadRoomAssets(0x6CU, assetOwner);
       D_8009CE4C = 0x1E;
-      nextState = D_8009D25C + 1;
-      D_8009D25C = nextState;
+      D_8009D25C++;
       break;
     }
       break;
@@ -182,8 +179,7 @@ s32 Battle_StepAyaAction(void)
       D_8009D254->baseZ = D_8009D254->posZ.fixed;
       Asset_Find08Alt(0x4B6, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, D_8009D254->posZ.parts.integer);
       D_8009CE4C = 0x1E;
-      nextState = D_8009D25C + 1;
-      D_8009D25C = nextState;
+      D_8009D25C++;
       break;
     }
       break;
@@ -352,8 +348,7 @@ s32 Battle_StepAyaAction(void)
         transfer = player->posZ.parts.integer;
         Asset_Find08Alt(effect, 0, x, y, transfer);
         D_8009CE4C = 0x1E;
-        nextState = D_8009D25C + 1;
-        D_8009D25C = nextState;
+        D_8009D25C++;
         break;
       }
       break;
