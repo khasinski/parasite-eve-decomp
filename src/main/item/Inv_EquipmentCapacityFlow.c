@@ -111,14 +111,18 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
         count = item_b->tailCount;
         modifier = item_a->tailData[mod_index];
         i = 0;
-        if (count <= 0) goto first_after;
-first_loop:
-        if (item_b->tailData[i] == modifier) goto first_found;
-        ++i;
-        if (i < count) goto first_loop;
-first_found:
-        if (i < item_b->tailCount) return 4;
-first_after:;
+        if (count > 0) {
+            while (1) {
+                if (item_b->tailData[i] == modifier) {
+                    break;
+                }
+                ++i;
+                if (i >= count) {
+                    break;
+                }
+            }
+            if (i < item_b->tailCount) return 4;
+        }
 
         for (i = 0; i < item_b->tailCount; i++) {
             if (item_b->tailData[i] == 0) {
@@ -137,19 +141,23 @@ first_after:;
                 int third_modifier;
                 register int third_loop_count asm("$4");
                 third_count = item_b->tailCount;
-                if (third_count <= 0) goto third_return3;
-                i = 0;
-                third_modifier = modifier;
-                third_loop_count = third_count;
-third_loop:
-                if ((item_b->tailData[i] & 0xE0) == third_modifier) goto third_found;
-                ++i;
-                if (i < third_loop_count) goto third_loop;
-third_found:
-                if (i < item_b->tailCount) goto third_done;
-third_return3:
-                return 3;
-third_done:;
+                if (third_count > 0) {
+                    i = 0;
+                    third_modifier = modifier;
+                    third_loop_count = third_count;
+                    while (1) {
+                        if ((item_b->tailData[i] & 0xE0) == third_modifier) {
+                            break;
+                        }
+                        ++i;
+                        if (i >= third_loop_count) {
+                            break;
+                        }
+                    }
+                    if (i >= item_b->tailCount) return 3;
+                } else {
+                    return 3;
+                }
             }
         }
     }
@@ -162,24 +170,28 @@ third_done:;
             int slot;
             raw_count = item_a->tailCount;
             i = 0;
-            if (raw_count <= 0) goto equip_after;
-            loop_count = raw_count;
-equip_loop:
-            raw_count = item_a->tailData[i];
-            raw_count &= 0x1F;
-            slot = raw_count - 8;
-            if ((unsigned int)slot < 3) goto equip_found;
-            ++i;
-            if (i < loop_count) goto equip_loop;
-equip_found:
-            if (i < item_a->tailCount) {
-                int equip_mask = 1 << slot;
-                different_slot = i != mod_index;
-                result = Inv_CheckFreeSlotCapacity(equip_mask);
-                if (result != 0) goto return_result;
-                if (different_slot != 0 || mod_index < 0) result = 5;
+            if (raw_count > 0) {
+                loop_count = raw_count;
+                while (1) {
+                    raw_count = item_a->tailData[i];
+                    raw_count &= 0x1F;
+                    slot = raw_count - 8;
+                    if ((unsigned int)slot < 3) {
+                        break;
+                    }
+                    ++i;
+                    if (i >= loop_count) {
+                        break;
+                    }
+                }
+                if (i < item_a->tailCount) {
+                    int equip_mask = 1 << slot;
+                    different_slot = i != mod_index;
+                    result = Inv_CheckFreeSlotCapacity(equip_mask);
+                    if (result != 0) goto return_result;
+                    if (different_slot != 0 || mod_index < 0) result = 5;
+                }
             }
-equip_after:;
         }
         return result;
     }
@@ -207,21 +219,26 @@ equip_after:;
         if ((unsigned int)final_mod >= 3) goto return_one;
         raw = item_b->tailCount;
         i = 0;
-        if (raw <= 0) goto final_call;
-        final_count = raw;
-final_loop:
-        raw = item_b->tailData[i];
-        raw &= 0x1F;
-        final_existing = raw - 8;
-        if ((unsigned int)final_existing < 3) goto final_found;
-        ++i;
-        if (i < final_count) goto final_loop;
-final_found:
-        if (i >= item_b->tailCount) goto final_call;
-        bit_existing = 1 << final_existing;
-        mask = bit_existing - (1 << final_mod);
+        if (raw > 0) {
+            final_count = raw;
+            while (1) {
+                raw = item_b->tailData[i];
+                raw &= 0x1F;
+                final_existing = raw - 8;
+                if ((unsigned int)final_existing < 3) {
+                    break;
+                }
+                ++i;
+                if (i >= final_count) {
+                    break;
+                }
+            }
+            if (i < item_b->tailCount) {
+                bit_existing = 1 << final_existing;
+                mask = bit_existing - (1 << final_mod);
+            }
+        }
     }
-final_call:
     result = Inv_CheckFreeSlotCapacity(mask);
     goto return_result;
 return_one:
