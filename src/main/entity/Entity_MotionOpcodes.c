@@ -7,6 +7,16 @@ int Math_FixedMul(int arg0, int arg1);
 int rsin(int arg0);
 int rcos(int arg0);
 
+int Entity_ClearMotionVectors(void) {
+    g_CurrentEntity->motion_x = 0;
+    g_CurrentEntity->motion_y = 0;
+    g_CurrentEntity->motion_z = 0;
+    g_CurrentEntity->accel_x = 0;
+    g_CurrentEntity->accel_y = 0;
+    g_CurrentEntity->accel_z = 0;
+    return 1;
+}
+
 int Entity_ComputeVelocity(void) {
     FieldActor *state = g_CurrentEntity;
     int temp;

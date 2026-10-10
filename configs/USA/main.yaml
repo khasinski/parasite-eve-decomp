@@ -219,8 +219,8 @@ segments:
       - [0x8AA0, c, task/Task_BattleFlagOps]
       # Task-node animation scheduling and the current-actor event command.
       - [0x8B00, c, entity/Entity_TaskAnimationOps]
-      - [0x8D6C, c, entity/Entity_ClearMotionVectors]
-      - [0x8D98, c, entity/Entity_ComputeVelocity]
+      # Motion reset and velocity calculation share the current FieldActor.
+      - [0x8D6C, c, entity/Entity_MotionOpcodes]
       # System, process-manager and object-entry opcodes: contiguous
       # default-profile handlers between Entity_ComputeVelocity and the -G8
       # Task_DrawYield; g_CombatModeFlags is shared by the first two units.
