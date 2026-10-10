@@ -230,8 +230,8 @@ segments:
       - [0x9C10, c, entity/Entity_YieldOnLoading]
       - [0x9C50, c, task/Task_ItemCountOps]
       - [0x9D40, c, entity/Entity_InitWithTimeout]
+      # Field-actor flags, movement and animation-entry commands.
       - [0x9E18, c, task/Task_FieldEntityCommands]
-      - [0xA0C4, c, battle/Task_SetBattleEntryCoords]
       - [0xA308, c, task/Task_WaitEntityFlags8]
       - [0xA378, c, task/Task_RotateEntityAngle]
       - [0xA3E4, c, task/Task_SetNodeFlag80]
