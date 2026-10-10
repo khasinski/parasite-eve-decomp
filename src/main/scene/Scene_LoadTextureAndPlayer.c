@@ -2,6 +2,7 @@
 #include "pe1/scene_assets.h"
 #include "pe1/cdrom.h"
 #include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 #include "../../../tools/m2c/m2c_macros.h"
 extern u8 D_800B0CE2[], D_8009D25C[];
 extern u32 D_800B0DD8[];
@@ -134,14 +135,7 @@ int Render_InitRoomPrimState(void *object);
 int Scene_LoadEntityTexture(void);
 void Scene_SetStoryDay(int storyDay);
 int Scene_LoadEntityTextures(void);
-/* Local typed aliases retain the independent player-pointer load sites. */
-extern FieldActor *g_PlayerEntityForActionMode __asm__("g_PlayerEntity");
-extern FieldActor *g_PlayerEntityForRenderSetup __asm__("g_PlayerEntity");
-extern FieldActor *g_PlayerEntityForRoomPrims __asm__("g_PlayerEntity");
-extern FieldActor *g_PlayerEntityForAnimation __asm__("g_PlayerEntity");
-extern FieldActor *g_PlayerEntityForScaleUpdate __asm__("g_PlayerEntity");
 /* Keep independent C lvalues for the retail flag loads across switch cases. */
-extern Pe1GameState g_GameStateFlagsCase32 __asm__("g_GameState");
 extern struct { char _[16]; } D_800B0CE2_o __asm__("g_SceneAreaType");
 extern struct { char _[16]; } D_800B0CE2_w __asm__("g_SceneAreaType");
 #define g_SceneAreaType (*(u8 *)&D_800B0CE2_o)
@@ -151,9 +145,6 @@ extern struct { char _[16]; } D_800B0CE4_o __asm__("D_800B0CE4");
 #define g_CurrentStoryDay (*(s8 *)&D_800B0CE4_o)
 extern struct { char _[16]; } D_800B0CE6_o __asm__("g_DiscChangeFlags");
 extern struct { char _[16]; } D_800B0CE6_w __asm__("g_DiscChangeFlags");
-extern Pe1GameState g_GameStateFlagsBeforeSceneSwitch __asm__("g_GameState");
-extern Pe1GameState g_GameStateFlagsAfterSceneSwitch __asm__("g_GameState");
-extern Pe1GameState g_GameStateFlagsBeforePlayerInit __asm__("g_GameState");
 extern Pe1GameState g_GameStateFlagsAfterPlayerInit __asm__("g_GameState");
 #define g_DiscChangeFlags (*(u8 *)&D_800B0CE6_o)
 extern struct { char _[16]; } D_800B0CEB_o __asm__("g_SceneAreaTypeDiscSwapBackup");
@@ -190,7 +181,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
     gameState = &g_GameState;
     switch (D_800B0DC5) {
     case 32:
-        g_GameStateFlagsCase32.flags = g_GameStateFlagsCase32.flags | 0x20000;
+        g_GameState.flags = g_GameState.flags | 0x20000;
         if (arg0v != 0) {
             temp_v1 = g_SceneAreaType;
             phaseValue = 0xE;
@@ -215,7 +206,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
         if (temp_a1 < 5U) {
             tce3 = g_SavedSceneAreaType;
             if (g_SceneAreaType != tce3) {
-                g_GameStateFlagsAfterSceneSwitch.flags = (g_GameStateFlagsBeforeSceneSwitch.flags | 0x200000);
+                g_GameStateFlagsAfterPlayerInit.flags = (g_GameState.flags | 0x200000);
             }
             th1 = temp_a1 >> 1;
             if (th1 != ((tce3 - 0xA) / 2)) {
@@ -257,19 +248,19 @@ block_20:
 block_21:
         return 1;
     case 39:
-        playerForActionMode = g_PlayerEntityForActionMode;
+        playerForActionMode = g_PlayerEntity;
         M2C_FIELD(playerForActionMode, s32 *, 0x1AC) = g_SceneMapPrimBaseTable;
         M2C_FIELD(playerForActionMode, s32 *, 0x1B0) = D_800B0EEC;
         Entity_SetActionMode(playerForActionMode, 0x15);
-        playerForRenderSetup = g_PlayerEntityForRenderSetup;
+        playerForRenderSetup = g_PlayerEntity;
         Render_SetupEntityPrims(playerForRenderSetup + 0x1B4, M2C_FIELD(playerForRenderSetup, s32 *, 0x1AC), M2C_FIELD(playerForRenderSetup, s32 *, 0x278) + 0x50, 0x3C0, 0x100, 0, 0x1C0, 2, &sp28, 1);
-        playerForRoomPrims = g_PlayerEntityForRoomPrims;
+        playerForRoomPrims = g_PlayerEntity;
         Render_InitRoomPrimState(playerForRoomPrims + 0x1B4);
-        playerForAnimation = g_PlayerEntityForAnimation;
+        playerForAnimation = g_PlayerEntity;
         Render_DrawWithAnim(playerForAnimation + 0x1B4, M2C_FIELD(playerForAnimation, s32 *, 0x1B0), 0, &D_800BEA40, &g_EntityRenderScratch);
-        playerForScaleUpdate = g_PlayerEntityForScaleUpdate;
+        playerForScaleUpdate = g_PlayerEntity;
         M2C_FIELD(M2C_FIELD(playerForScaleUpdate, void **, 0x1B4), s16 *, 0x14) = (s16) (M2C_FIELD(playerForScaleUpdate, s16 *, 0x224) * 2);
-        g_GameStateFlagsAfterPlayerInit.flags = (g_GameStateFlagsBeforePlayerInit.flags & 0xFFF9FFFF);
+        g_GameStateFlagsAfterPlayerInit.flags = (g_GameState.flags & 0xFFF9FFFF);
         if (arg0v != 0) {
             phaseValue = M2C_FIELD(gameState, s32 *, 0);
             var_v0_2 = phaseValue | 0x80000;
