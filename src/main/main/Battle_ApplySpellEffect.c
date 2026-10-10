@@ -194,7 +194,7 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
         break;
     case 7:
         {
-            u8 *e;
+            Combatant *e;
             s32 v;
             s32 m7;
             register s32 m5 asm("$5");
@@ -204,26 +204,26 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
             m5 = 0xFFFEFFFF;
             m8 = 0xFFFDFFFF;
             m9 = 0xFFFBFFFF;
-                        e = *(u8 **)ent;
+                        e = *(Combatant **)ent;
             v = D1AC_14;
-            { s32 b = (*(u32 *)(e + 0xCC) & 3) == 2; v &= ~0x1000; v |= b << 0xC; }
+            { s32 b = (*(u32 *)&e->statusFlags2 & 3) == 2; v &= ~0x1000; v |= b << 0xC; }
             D1AC_15 = v;
-            { s32 b = (*(u32 *)(e + 0xCC) & 0xC) == 8; v &= ~0x2000; v |= b << 0xD; }
+            { s32 b = (*(u32 *)&e->statusFlags2 & 0xC) == 8; v &= ~0x2000; v |= b << 0xD; }
             D1AC_16 = v;
-            { s32 b = (*(u32 *)(e + 0xCC) & 0x30) == 0x20; v &= ~0x4000; v |= b << 0xE; }
+            { s32 b = (*(u32 *)&e->statusFlags2 & 0x30) == 0x20; v &= ~0x4000; v |= b << 0xE; }
             D1AC_17 = v;
-            { s32 b = (*(u32 *)(e + 0xCC) & 0xC000) == 0x8000; v &= m7; v |= b << 0xF; }
+            { s32 b = (*(u32 *)&e->statusFlags2 & 0xC000) == 0x8000; v &= m7; v |= b << 0xF; }
             D1AC_18 = v;
             m5 = v & m5;
-            { s32 b = (*(u32 *)(e + 0xCC) & 0x30000) == 0x20000; m5 |= b << 0x10; }
+            { s32 b = (*(u32 *)&e->statusFlags2 & 0x30000) == 0x20000; m5 |= b << 0x10; }
             D1AC_19 = m5;
-            { s32 b = (*(u32 *)(e + 0xCC) & 0x3000) == 0x2000; m5 &= m8; m5 |= b << 0x11; }
+            { s32 b = (*(u32 *)&e->statusFlags2 & 0x3000) == 0x2000; m5 &= m8; m5 |= b << 0x11; }
             D1AC_20 = m5;
-            { s32 b = (*(u32 *)(e + 0xCC) & 0xC00) == 0x800; m5 &= m9; m5 |= b << 0x12; }
+            { s32 b = (*(u32 *)&e->statusFlags2 & 0xC00) == 0x800; m5 &= m9; m5 |= b << 0x12; }
             D1AC_21 = m5;
             {
                 register s32 sv asm("$2");
-                if (((*(u32 *)(*(u8 **)ent + 0xCC) >> 6) & 3) == 2) {
+                if (((*(u32 *)&(*(Combatant **)ent)->statusFlags2 >> 6) & 3) == 2) {
                     sv = (m5 & ~0xC00) | 0x400;
                 } else {
                     sv = m5 & ~0xC00;
@@ -238,7 +238,7 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
         break;
     case 8:
         {
-            s32 m = (*(u32 *)(*(u8 **)ent + 0xCC) >> 8) & 3;
+            s32 m = (*(u32 *)&(*(Combatant **)ent)->statusFlags2 >> 8) & 3;
             if (m != 0) {
                 if (m == 2) {
                     goto poison8;
@@ -246,8 +246,8 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
             } else if (!(rand() & 1)) {
 poison8:
                 {
-                    u8 *e = *(u8 **)ent;
-                    *(s32 *)e = *(s32 *)e | 1;
+                    Combatant *e = *(Combatant **)ent;
+                    *(s32 *)&e->coreFlags = *(s32 *)&e->coreFlags | 1;
                 }
             }
             dmg = 0x5A0000;
@@ -270,7 +270,7 @@ poison8:
         break;
     case 10:
         {
-            s32 m = (*(u32 *)(*(u8 **)ent + 0xCC) >> 0xA) & 3;
+            s32 m = (*(u32 *)&(*(Combatant **)ent)->statusFlags2 >> 0xA) & 3;
             if (m != 0) {
                 if (m == 2) {
                     goto conf10;
@@ -279,12 +279,12 @@ poison8:
 conf10:
                 {
                     s32 r = rand();
-                    u8 *e = *(u8 **)ent;
-                    s32 nv = *(s32 *)e & ~0xE;
+                    Combatant *e = *(Combatant **)ent;
+                    s32 nv = *(s32 *)&e->coreFlags & ~0xE;
                     nv |= (((r % 3) + 3) & 7) * 2;
-                    *(s32 *)e = nv;
+                    *(s32 *)&e->coreFlags = nv;
                     Entity_SetActionMode(ent, 4, r / 3, nv);
-                    *(s32 *)(ent + 0x98) = *(s32 *)(ent + 0x98) | 0x1000;
+                    ((BattleEntity *)ent)->entityFlags = ((BattleEntity *)ent)->entityFlags | 0x1000;
                 }
             }
             dmg = 0x960000;
