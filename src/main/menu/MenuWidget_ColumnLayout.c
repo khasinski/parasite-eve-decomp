@@ -5,7 +5,7 @@
 #include "pe1/menu_widget.h"
 
 int g_MenuWidgetColumnLayoutMode;
-extern s8 g_MenuWidgetColumnLayoutTable[][4];
+extern MenuWidgetSavedLayout g_MenuWidgetColumnLayoutTable[];
 void bzero(void *ptr, int size);
 extern int g_DrawTextPosX;
 
@@ -16,28 +16,28 @@ extern int g_DrawTextPosX;
 
 void Sys_InitStateBuffer(void) {
     bzero(g_MenuWidgetColumnLayoutTable, 0x120);
-    g_MenuWidgetColumnLayoutTable[6][0] = -1;
-    g_MenuWidgetColumnLayoutTable[16][0] = -1;
-    g_MenuWidgetColumnLayoutTable[20][0] = -1;
-    g_MenuWidgetColumnLayoutTable[22][0] = -1;
-    g_MenuWidgetColumnLayoutTable[24][0] = -1;
-    g_MenuWidgetColumnLayoutTable[25][0] = -1;
-    g_MenuWidgetColumnLayoutTable[49][0] = -1;
-    g_MenuWidgetColumnLayoutTable[53][0] = -1;
+    g_MenuWidgetColumnLayoutTable[6].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[16].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[20].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[22].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[24].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[25].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[49].cursorX = -1;
+    g_MenuWidgetColumnLayoutTable[53].cursorX = -1;
 }
 
 void MenuWidget_SetColumnLayoutMode(int arg0) {
     g_MenuWidgetColumnLayoutMode = arg0;
     if (arg0 == 0) {
         bzero(g_MenuWidgetColumnLayoutTable, 0x120);
-        g_MenuWidgetColumnLayoutTable[6][0] = -1;
-        g_MenuWidgetColumnLayoutTable[16][0] = -1;
-        g_MenuWidgetColumnLayoutTable[20][0] = -1;
-        g_MenuWidgetColumnLayoutTable[22][0] = -1;
-        g_MenuWidgetColumnLayoutTable[24][0] = -1;
-        g_MenuWidgetColumnLayoutTable[25][0] = -1;
-        g_MenuWidgetColumnLayoutTable[49][0] = -1;
-        g_MenuWidgetColumnLayoutTable[53][0] = -1;
+        g_MenuWidgetColumnLayoutTable[6].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[16].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[20].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[22].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[24].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[25].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[49].cursorX = -1;
+        g_MenuWidgetColumnLayoutTable[53].cursorX = -1;
     }
 }
 
@@ -47,7 +47,7 @@ int MenuWidget_GetColumnLayoutMode(void) {
 
 void MenuWidget_SaveColumnLayout(MenuWidgetNode *node) {
     int index;
-    signed char *slot;
+    MenuWidgetSavedLayout *slot;
 
     if (g_MenuWidgetColumnLayoutMode == 0 && ((node->layout_flags & 0x20) == 0)) {
         return;
@@ -55,16 +55,16 @@ void MenuWidget_SaveColumnLayout(MenuWidgetNode *node) {
 
     index = node->aux_index;
     if ((unsigned int)index < 0x48) {
-        slot = g_MenuWidgetColumnLayoutTable[index];
-        slot[0] = node->cursor_x;
-        slot[1] = node->cursor_y;
-        slot[2] = node->scroll_y;
+        slot = &g_MenuWidgetColumnLayoutTable[index];
+        slot->cursorX = node->cursor_x;
+        slot->cursorY = node->cursor_y;
+        slot->scrollY = node->scroll_y;
     }
 }
 
 void MenuWidget_ApplyColumnLayout(void *arg0) {
     MenuWidgetNode *node = arg0;
-    signed char *entry;
+    MenuWidgetSavedLayout *entry;
     int flag;
 
     if (node == 0) {
@@ -74,11 +74,11 @@ void MenuWidget_ApplyColumnLayout(void *arg0) {
         return;
     }
 
-    entry = g_MenuWidgetColumnLayoutTable[node->aux_index];
+    entry = &g_MenuWidgetColumnLayoutTable[node->aux_index];
     flag = g_MenuWidgetColumnLayoutMode;
-    node->cursor_x = entry[0];
+    node->cursor_x = entry->cursorX;
     if ((flag != 0) || ((node->layout_flags & 0x20) != 0)) {
-        node->cursor_y = entry[1];
+        node->cursor_y = entry->cursorY;
         if (node->y_limit <= node->cursor_y) {
             node->cursor_y = node->y_limit - 1;
         }
@@ -87,13 +87,13 @@ void MenuWidget_ApplyColumnLayout(void *arg0) {
             (node->cursor_y == (node->y_limit - 1))) {
             node->cursor_x = 0;
         }
-        node->scroll_y = entry[2];
+        node->scroll_y = entry->scrollY;
     }
 }
 
 void MenuWidget_SetColumnLayout(void *arg0, int arg1) {
     MenuWidgetNode *node = arg0;
-    signed char *entry;
+    MenuWidgetSavedLayout *entry;
     int flag;
 
     node->aux_index = arg1;
@@ -104,11 +104,11 @@ void MenuWidget_SetColumnLayout(void *arg0, int arg1) {
         return;
     }
 
-    entry = g_MenuWidgetColumnLayoutTable[arg1];
+    entry = &g_MenuWidgetColumnLayoutTable[arg1];
     flag = g_MenuWidgetColumnLayoutMode;
-    node->cursor_x = entry[0];
+    node->cursor_x = entry->cursorX;
     if ((flag != 0) || ((node->layout_flags & 0x20) != 0)) {
-        node->cursor_y = entry[1];
+        node->cursor_y = entry->cursorY;
         if (node->y_limit <= node->cursor_y) {
             node->cursor_y = node->y_limit - 1;
         }
@@ -117,7 +117,7 @@ void MenuWidget_SetColumnLayout(void *arg0, int arg1) {
             (node->cursor_y == (node->y_limit - 1))) {
             node->cursor_x = 0;
         }
-        node->scroll_y = entry[2];
+        node->scroll_y = entry->scrollY;
     }
 }
 
@@ -130,4 +130,13 @@ void MenuWidget_ClearColumnLayout(void *ptr) {
 
 void MenuWidget_DrawCenteredText(int arg0) {
     Draw_PrintCenteredTextInWidth(arg0, g_DrawTextPosX);
+}
+
+#include "pe1/draw_state.h"
+#include "pe1/text.h"
+
+extern int D_8009D164;
+
+void MenuWidget_DrawCenteredTableText(int text_id) {
+    Draw_PrintCenteredTextInWidth(Str_LookupTable4(text_id), D_8009D164);
 }

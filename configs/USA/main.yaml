@@ -625,9 +625,8 @@ segments:
       # share their typed widget state and -G8/common profile.
       - [0x534B8, c, menu/MenuWidget_Lifecycle]
       - [0x54FD0, c, gpu/Draw_SetPrimCallback]
-      # Widget column-layout table: reset, mode, save and restore share the table and its mode word.
+      # Saved widget layout slots, mode/reset and centered table text share one TU.
       - [0x55164, c, menu/MenuWidget_ColumnLayout]
-      - [0x55454, c, menu/MenuWidget_DrawCenteredTableText]
       - [0x55480, c, menu/Draw_DropShadow]
       - [0x55508, c, menu/Draw_SwapPrimBuffers]
       - [0x55690, c, menu/MenuWidget_DestroyPopupNode]
