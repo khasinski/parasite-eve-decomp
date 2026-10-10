@@ -369,13 +369,9 @@ segments:
       - [0x2D6F8, c, field/Field_GetMapEntry]
       - [0x2D850, c, render/Render_SetupEntityPrims]
       - [0x2E02C, c, entity/Util_ReturnTrue]
+      # Animated draw, packet setup and object-state helpers share RenderObjectEntity
+      # and RenderMatrix; contiguous handlers with the default compiler profile.
       - [0x2E034, c, render/Render_DrawWithAnim]
-      - [0x2E14C, c, render/Render_InitPrimBlock]
-      # Render-object state helpers: frame-matrix copies, table initialisation,
-      # animation attach/clear/lookup, bone transform setup, texture-coordinate
-      # offsets and the frame counter over RenderObjectEntity; contiguous
-      # default-profile run with no split evidence.
-      - [0x2E3E4, c, render/Render_ObjectStateHelpers]
       # Render_IncrementCounter's counter word lives in .text; it is data,
       # not a function (docs/CONVENTIONS.md, text-resident data).
       - {start: 0x2EE0C, type: data, name: render/Render_Counter, linker_section_order: .text, linker_section: .code_data}
