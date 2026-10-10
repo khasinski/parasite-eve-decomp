@@ -114,7 +114,7 @@ void Akao_StepSequencerVoice(void *arg0) {
     walk = (u8 *)arg0v;
     kFFFa = 0xFFFFFF;
     p2c8a = g_AkaoCurTrack;
-    M2C_FIELD(p2c8a, void **, 0x2C) = arg0v;
+    ((AkaoSequencerBank *)p2c8a)->sequence_base = arg0v;
     tld = M2C_FIELD(arg0v, s32 *, 0);
     mask = tld & kFFFa;
     tret = Akao_ForEachVoiceMasked(g_AkaoVoiceStateTable2, ((AkaoSequencerState *)p2c8a)->secondary.active_voice_mask);
@@ -225,7 +225,7 @@ void Akao_StepSequencerVoice(void *arg0) {
     kffe = 0xFFFFFF;
     __asm__ __volatile__("");
     pend->allocated_voice_mask = kffe;
-    pend->field_20[4] = 0;
+    pend->field_30 = 0;
     func_80089960(kffe);
     func_80089B28();
     func_80089CF0();
@@ -773,12 +773,12 @@ void Akao_UpdateVoiceMask(int new_base) {
     asm("" : "=r"(bank) : "0"(loaded_bank), "r"(key_on_state));
     old_status = bank->status_flags;
     allocation = bank->allocated_voice_mask;
-    bank->field_20[3] = new_base;
+    bank->sequence_base = (AkaoU8 *)new_base;
     key_on_state &= 0x100;
     old_status |= key_on_state;
     bank->status_flags = old_status;
     bank->key_on_request_mask = allocation;
-    backup_base = g_AkaoTrackStateBackup.field_20[3];
+    backup_base = (int)g_AkaoTrackStateBackup.sequence_base;
     asm volatile("" : "=r"(backup_base) : "0"(backup_base));
     delta = new_base - backup_base;
     g_AkaoVoiceUpdateFlags |= 0x90;
