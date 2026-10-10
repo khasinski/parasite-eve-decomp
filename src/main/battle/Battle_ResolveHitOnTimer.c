@@ -200,8 +200,7 @@ void Battle_ResolveHitOnTimer(void)
             }
             else
             {
-                upperBound = lowerBound < 0x600;
-                if (upperBound)
+                if (lowerBound < 0x600)
                 {
                     lowerBound = playerAngle - 0xA00;
                     upperBound = playerAngle - 0x600;
