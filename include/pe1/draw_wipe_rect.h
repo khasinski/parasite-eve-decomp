@@ -68,17 +68,23 @@ static inline void Draw_BlendColorInline(int color)
     }
 }
 
+typedef struct DrawWipeVertex {
+    s16 y, x;
+} DrawWipeVertex;
+
+PE1_STATIC_ASSERT(sizeof(DrawWipeVertex) == 4, draw_wipe_vertex_size);
+
 /* Push one (x, y) vertex, stored y first, while below `limit`. */
 #define DRAW_PUSH_WIPE_VERTEX(xValue, yValue, limit) \
     {                                                \
         int x = (xValue);                            \
         int y = (yValue);                            \
-        u16 *out = g_DrawVertexWritePtr;             \
+        DrawWipeVertex *out = (DrawWipeVertex *)g_DrawVertexWritePtr;             \
                                                      \
-        if (out < (limit)) {                         \
-            out[1] = x;                              \
-            g_DrawVertexWritePtr = out + 2;          \
-            out[0] = y;                              \
+        if (out < (DrawWipeVertex *)(limit)) {                         \
+            out->x = x;                              \
+            g_DrawVertexWritePtr = (u16 *)(out + 1);          \
+            out->y = y;                              \
         } else {                                     \
             BoundsCheck_AssertStub(4);               \
         }                                            \

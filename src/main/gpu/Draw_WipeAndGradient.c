@@ -49,9 +49,7 @@ typedef struct {
     s16 y, x;
 } __attribute__((packed)) DrawVertexPair;
 
-typedef struct DrawVertexCoord {
-    s16 y, x;
-} DrawVertexCoord;
+typedef DrawWipeVertex DrawVertexCoord;
 
 #define COORD(v) (*(DrawVertexCoord *)&(v))
 
