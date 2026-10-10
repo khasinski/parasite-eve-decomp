@@ -191,7 +191,7 @@ void Battle_DrawHPBar(void) {
             pa1 = 0;
             pa2 = 0x1C0;
             pa3 = 0;
-            asm volatile("" :  : "r"(pa0), "r"(pa1), "r"(pa2), "r"(pa3) : "$22");
+            asm volatile("" :  : "r"(pa3));
             i = 0;
             labelQuad->v3 = glyph->v + glyph->height;
             *(u16 *)(D_800BEA06 + temp_s1) = GetTPage(pa0, pa1, pa2, pa3);
