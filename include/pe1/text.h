@@ -9,6 +9,12 @@ typedef struct TextOffsetTable {
     s16 offsets[0];
 } TextOffsetTable;
 
+/* Table offsets are relative to this directory; the first word is unknown. */
+typedef struct TextTableDirectory {
+    u32 reserved;
+    s32 tableOffsets[4];
+} TextTableDirectory;
+
 void *Str_LookupTable4(unsigned int index);
 void *Str_LookupTable8(unsigned int index);
 extern int D_8009D218;

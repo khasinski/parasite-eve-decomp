@@ -3,12 +3,12 @@ extern u8 g_GlyphMetricsTable[];
 extern int g_StrLookupTableOffset;
 
 void *Str_LookupTable4(unsigned int arg0) {
-    u8 *base;
+    TextTableDirectory *directory;
     TextOffsetTable *table;
     s16 offset;
 
-    base = g_GlyphMetricsTable + g_StrLookupTableOffset;
-    table = (TextOffsetTable *)(base + *(int *)(base + 4));
+    directory = (TextTableDirectory *)(g_GlyphMetricsTable + g_StrLookupTableOffset);
+    table = (TextOffsetTable *)((u8 *)directory + directory->tableOffsets[0]);
     if (arg0 >= table->count) {
         return 0;
     }
@@ -18,12 +18,12 @@ void *Str_LookupTable4(unsigned int arg0) {
 }
 
 void *Str_LookupTable8(unsigned int arg0) {
-    u8 *base;
+    TextTableDirectory *directory;
     TextOffsetTable *table;
     s16 offset;
 
-    base = g_GlyphMetricsTable + g_StrLookupTableOffset;
-    table = (TextOffsetTable *)(base + *(int *)(base + 8));
+    directory = (TextTableDirectory *)(g_GlyphMetricsTable + g_StrLookupTableOffset);
+    table = (TextOffsetTable *)((u8 *)directory + directory->tableOffsets[1]);
     if (arg0 >= table->count) {
         return 0;
     }
@@ -33,12 +33,12 @@ void *Str_LookupTable8(unsigned int arg0) {
 }
 
 void *Str_LookupTableC(unsigned int arg0) {
-    u8 *base;
+    TextTableDirectory *directory;
     TextOffsetTable *table;
     s16 offset;
 
-    base = g_GlyphMetricsTable + g_StrLookupTableOffset;
-    table = (TextOffsetTable *)(base + *(int *)(base + 0xC));
+    directory = (TextTableDirectory *)(g_GlyphMetricsTable + g_StrLookupTableOffset);
+    table = (TextOffsetTable *)((u8 *)directory + directory->tableOffsets[2]);
     if (arg0 >= table->count) {
         return 0;
     }
@@ -48,12 +48,12 @@ void *Str_LookupTableC(unsigned int arg0) {
 }
 
 void *Str_LookupTable10(unsigned int arg0) {
-    u8 *base;
+    TextTableDirectory *directory;
     TextOffsetTable *table;
     s16 offset;
 
-    base = g_GlyphMetricsTable + g_StrLookupTableOffset;
-    table = (TextOffsetTable *)(base + *(int *)(base + 0x10));
+    directory = (TextTableDirectory *)(g_GlyphMetricsTable + g_StrLookupTableOffset);
+    table = (TextOffsetTable *)((u8 *)directory + directory->tableOffsets[3]);
     if (arg0 >= table->count) {
         return 0;
     }
@@ -64,7 +64,7 @@ void *Str_LookupTable10(unsigned int arg0) {
 extern int D_800A804C;
 
 void *Str_LookupTableEntry(int arg0) {
-    u8 *base;
+    TextTableDirectory *directory;
     TextOffsetTable *table;
     int index;
     s16 offset;
@@ -74,8 +74,8 @@ void *Str_LookupTableEntry(int arg0) {
         return 0;
     }
 
-    base = g_GlyphMetricsTable + g_StrLookupTableOffset;
-    table = (TextOffsetTable *)(base + *(int *)(base + 0x10));
+    directory = (TextTableDirectory *)(g_GlyphMetricsTable + g_StrLookupTableOffset);
+    table = (TextOffsetTable *)((u8 *)directory + directory->tableOffsets[3]);
     index += 0x7F;
     if ((u32)index >= table->count) {
         return 0;
