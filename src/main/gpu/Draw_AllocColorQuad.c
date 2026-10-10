@@ -1,17 +1,10 @@
 #include "common.h"
 #include "pe1/render_prim.h"
+#include "pe1/draw_state.h"
 /* CC1_FLAGS: -G8 -fno-schedule-insns */
 /* MASPSX_FLAGS: -G8 --expand-div */
 
-typedef RenderDrawModePacket DrawModePrim;
-typedef RenderColorTilePacket ColorTilePrim;
 
-extern u8 *D_8009D100;
-extern u8 *D_8009D104;
-extern int D_8009D10C;
-extern int D_8009D110;
-extern int D_8009D114;
-extern u32 *D_8009D11C;
 
 int Battle_GetStateFlag1(void);
 #include "pe1/bounds_check.h"
@@ -23,8 +16,8 @@ void Draw_AllocColorQuad(int width, int height) {
     register RenderGouraudQuad *first asm("$17");
     register RenderGouraudQuad *packet asm("$10");
     RenderGouraudQuad *second;
-    register ColorTilePrim *tile asm("$16");
-    register DrawModePrim *drawMode asm("$17");
+    register RenderColorTilePacket *tile asm("$16");
+    register RenderDrawModePacket *drawMode asm("$17");
     int stackPad[2];
     u8 *old, *next;
     int shadeOffset;
@@ -188,10 +181,10 @@ ratio_done:
     *ot = linkHigh | ((u32)packet & mask24);
 
     tile = 0;
-    next = old + sizeof(ColorTilePrim);
+    next = old + sizeof(RenderColorTilePacket);
     if (next < D_8009D104 + 0x4000) {
         D_8009D100 = next;
-        tile = (ColorTilePrim *)old;
+        tile = (RenderColorTilePacket *)old;
     } else {
         BoundsCheck_AssertStub(1);
     }
@@ -222,10 +215,10 @@ ratio_done:
     *ot = linkHigh | ((u32)tile & tileMask24);
 
     drawMode = 0;
-    next = old + sizeof(DrawModePrim);
+    next = old + sizeof(RenderDrawModePacket);
     if (next < D_8009D104 + 0x4000) {
         D_8009D100 = next;
-        drawMode = (DrawModePrim *)old;
+        drawMode = (RenderDrawModePacket *)old;
     } else {
         BoundsCheck_AssertStub(1);
     }
