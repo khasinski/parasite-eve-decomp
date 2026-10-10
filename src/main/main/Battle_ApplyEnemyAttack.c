@@ -3,10 +3,6 @@
 #include "pe1/inventory.h"
 #define NULL ((void *)0)
 
-#define ENEMY_FIELD(base, type, member) \
-    (*(type *)((base) + PE1_OFFSETOF(EnemyCombatant, member)))
-#define EFFECT_FIELD(base, type, member) \
-    (*(type *)((base) + PE1_OFFSETOF(EnemyActionEffect, member)))
 #define COMBATANT_ATTRIBUTES(base) \
     ((Combatant *)(base))->attributes
 #define ATTRIBUTE_EFFECT_FLAGS(base) \
@@ -45,10 +41,10 @@ extern struct { char _[16]; } D2E8_ob __asm__("g_FieldMoveLock");
 #define D2E8A (*(s32 *)&D2E8_oa)
 #define D2E8B (*(s32 *)&D2E8_ob)
 
-void Battle_ApplyEnemyAttack(u8 *ent) {
+void Battle_ApplyEnemyAttack(EnemyCombatant *ent) {
     s32 *ps = (s32 *)(D278_0 + 0x4C);
 
-    switch (EFFECT_FIELD(ENEMY_FIELD(ent, u8 *, effect), u8, effectType)) {
+    switch (ent->effect->effectType) {
     case 1:
         if ((*ps & 3) == 1) {
             break;
@@ -65,33 +61,33 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
                 break;
             }
             {
-                u8 *pD = D278_2;
+                Combatant *pD = (Combatant *)D278_2;
                 u8 lvl;
                 *ps = (f & ~3) | 1;
-                ((Combatant *)pD)->statusTimer40 = 0x2328;
-                lvl = ENEMY_FIELD(ent, u8, effectLevel);
-                ((Combatant *)pD)->subActionCounter = 0;
-                ((Combatant *)pD)->subActionStep = lvl;
+                pD->statusTimer40 = 0x2328;
+                lvl = ent->effectLevel;
+                pD->subActionCounter = 0;
+                pD->subActionStep = lvl;
             }
         }
         {
-            u8 *pD = D278_3;
-            ((Combatant *)pD)->subActionPeriod = ENEMY_FIELD(ent, u8, effectDuration);
+            Combatant *pD = (Combatant *)D278_3;
+            pD->subActionPeriod = ent->effectDuration;
         }
         break;
     case 2:
         {
-            u8 *pD;
+            Combatant *pD;
             register s32 f asm("$2");
-            pD = D278_4;
-            f = ((Combatant *)pD)->stateFlags;
+            pD = (Combatant *)D278_4;
+            f = pD->stateFlags;
             g_ActorEffectFlag100Timer = 0;
-            ((Combatant *)pD)->stateFlags = f & ~0x100;
+            pD->stateFlags = f & ~0x100;
             f = ((volatile Combatant *)pD)->stateFlags;
             f &= ~0x200;
             f &= ~0x400;
             f &= ~0x800;
-            ((Combatant *)pD)->stateFlags = f;
+            pD->stateFlags = f;
         }
         break;
     case 3:
@@ -108,7 +104,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             s32 r;
             s32 a3v;
             s32 d;
-            u8 *pD;
+            Combatant *pD;
             if ((f & 0xC) == 0xC) {
                 *ps = f & ~0xC;
                 break;
@@ -117,13 +113,13 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             *ps = (f & ~0xC) | 4;
             D2E8B = d | 0x10;
             r = rand();
-            pD = D278_6;
+            pD = (Combatant *)D278_6;
             a3v = r;
             if (r < 0) {
                 a3v = r + 3;
             }
-            ((Combatant *)pD)->statusTimer42 = 0x2328;
-            ((Combatant *)pD)->stateFlags = (((Combatant *)pD)->stateFlags & ~0x60000) | (((r - ((a3v >> 2) << 2)) & 3) << 17);
+            pD->statusTimer42 = 0x2328;
+            pD->stateFlags = (pD->stateFlags & ~0x60000) | (((r - ((a3v >> 2) << 2)) & 3) << 17);
         }
         break;
     case 4:
@@ -137,14 +133,14 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         }
         {
             s32 f = *ps;
-            u8 *pD;
+            Combatant *pD;
             if ((f & 0x30) == 0x30) {
                 *ps = f & ~0x30;
                 break;
             }
-            pD = D278_8;
+            pD = (Combatant *)D278_8;
             *ps = (f & ~0x30) | 0x10;
-            ((Combatant *)pD)->statusTimer44 = 0x2328;
+            pD->statusTimer44 = 0x2328;
         }
         break;
     case 5:
@@ -167,9 +163,9 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             }
             {
                 s32 nf = (*ps & ~0xC0) | 0x80;
-                u8 *pD = D278_10;
+                Combatant *pD = (Combatant *)D278_10;
                 *ps = nf;
-                ((Combatant *)pD)->statusTimer46 = 0x2328;
+                pD->statusTimer46 = 0x2328;
             }
         }
         break;
@@ -199,9 +195,9 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             }
             {
                 s32 nf = (*ps & ~0xC0) | 0x40;
-                u8 *pD = D278_12;
+                Combatant *pD = (Combatant *)D278_12;
                 *ps = nf;
-                ((Combatant *)pD)->statusTimer46 = 0x2328;
+                pD->statusTimer46 = 0x2328;
             }
         }
         break;
@@ -210,30 +206,30 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         break;
     case 8:
         if (!(*ps & 0x200)) {
-            u8 *pD = D278_13;
-            s32 tmp = ((Combatant *)pD)->curHP << 16;
+            Combatant *pD = (Combatant *)D278_13;
+            s32 tmp = pD->curHP << 16;
             if ((tmp >> 16) >= 2) {
-                *(s16 *)(pD + 0xC) = tmp >> 17;
+                *(s16 *)&pD->curHP = tmp >> 17;
             }
         }
         break;
     case 9:
         {
-            u8 *pD = D278_14;
+            Combatant *pD = (Combatant *)D278_14;
             s32 hp;
             s32 f;
             g_ActorEffectFlag100Timer = 0;
-            hp = *(s16 *)(pD + 0xC);
-            ((Combatant *)pD)->stateFlags = ((Combatant *)pD)->stateFlags & ~0x100;
+            hp = *(s16 *)&pD->curHP;
+            pD->stateFlags = pD->stateFlags & ~0x100;
             f = ((volatile Combatant *)pD)->stateFlags;
             f &= ~0x200;
             f &= ~0x400;
             f &= ~0x800;
-            ((Combatant *)pD)->stateFlags = f;
+            pD->stateFlags = f;
             if (hp >= 2) {
-                *(s16 *)(pD + 0xC) = 1;
+                *(s16 *)&pD->curHP = 1;
             } else if (hp == 1) {
-                *(s16 *)(pD + 0xC) = -1;
+                *(s16 *)&pD->curHP = -1;
             }
         }
         break;
@@ -242,11 +238,11 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_15)) & 0x10) {
             s32 r = rand();
             if ((r % 100) >= 0x3C) {
-                ENEMY_FIELD(ent, s16, lootItemId) = Inv_PickRandomItem(r / 100);
-                EFFECT_FIELD(ENEMY_FIELD(ent, u8 *, effect), u8, effectType) = 0;
-                Inv_FindItemById(ENEMY_FIELD(ent, s16, lootItemId));
+                ent->lootItemId = Inv_PickRandomItem(r / 100);
+                ent->effect->effectType = 0;
+                Inv_FindItemById(ent->lootItemId);
                 {
-                    s32 it = ENEMY_FIELD(ent, s16, lootItemId);
+                    s32 it = ent->lootItemId;
                     g_BattleSaveOverlayActive = 1;
                     g_CurItemEffectData = Inv_GetItemEffectData(it, 0);
                 }
@@ -257,11 +253,11 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
     case 13:
         if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_16)) & 0x10) {
             if ((rand() % 100) >= 0x3C) {
-                Inv_RollRandomItemType(&ENEMY_FIELD(ent, s16, lootItemId),
-                                       &ENEMY_FIELD(ent, s16, lootItemAux));
-                EFFECT_FIELD(ENEMY_FIELD(ent, u8 *, effect), u8, effectType) = 0;
+                Inv_RollRandomItemType(&ent->lootItemId,
+                                       &ent->lootItemAux);
+                ent->effect->effectType = 0;
                 {
-                    s32 it = ENEMY_FIELD(ent, s16, lootItemId);
+                    s32 it = ent->lootItemId;
                     g_BattleSaveOverlayActive = 1;
                     g_CurItemEffectData = Inv_GetItemEffectData(it, 0);
                 }
@@ -270,10 +266,10 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         break;
     case 16:
         if (!(*ps & 0x200)) {
-            u8 *pD = D278_17;
-            s16 t = *(s16 *)(pD + 0xC);
+            Combatant *pD = (Combatant *)D278_17;
+            s16 t = *(s16 *)&pD->curHP;
             if (t >= 2) {
-                *(s16 *)(pD + 0xC) = (t * 3) / 4;
+                *(s16 *)&pD->curHP = (t * 3) / 4;
             }
         }
         break;
@@ -282,5 +278,3 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
 
 #undef ATTRIBUTE_EFFECT_FLAGS
 #undef COMBATANT_ATTRIBUTES
-#undef EFFECT_FIELD
-#undef ENEMY_FIELD

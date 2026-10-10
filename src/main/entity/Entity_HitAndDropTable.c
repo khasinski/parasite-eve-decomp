@@ -10,7 +10,6 @@ extern void *g_BattlePendingEnemySpawn[];
 
 int rand(void);
 s16 Entity_ApplyHitAndSetAnim(void *arg0);
-void Battle_ApplyEnemyAttack(u8 *ent);
 
 #define U8(base, off) (*(u8 *)((char *)(base) + (off)))
 #define U16(base, off) (*(u16 *)((char *)(base) + (off)))
@@ -117,7 +116,7 @@ void Entity_ResolveDropTable(void *arg0) {
     }
 
     if (EFFECT_FIELD(ENEMY_FIELD(entry, char *, effect), u8, effectType) != 0) {
-        Battle_ApplyEnemyAttack(entry);
+        Battle_ApplyEnemyAttack((EnemyCombatant *)entry);
     }
 }
 

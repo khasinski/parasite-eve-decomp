@@ -664,5 +664,6 @@ int Battle_RollEscapeChance(void);
  * ==========================================================================*/
 
 void Battle_ApplyDamage(int action);
+void Battle_ApplyEnemyAttack(EnemyCombatant *enemy);
 
 #endif /* PE1_BATTLE_H */
