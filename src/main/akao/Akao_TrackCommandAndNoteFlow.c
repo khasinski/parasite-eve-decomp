@@ -1517,15 +1517,17 @@ void SeqOp_NoteOnWithVoiceAlloc(AkaoTrack *track, s32 arg1, s32 arg2, s16 arg3) 
         voice_mask = 1;
         valid_mask = 0xFFFFFF;
         used_mask = *(s32 *)(g_AkaoCurTrack + 4) | *(s32 *)(g_AkaoCurTrack + 0x30);
-loop_2:
-        if (used_mask & voice_mask) {
-            voice_mask *= 2;
-            voice_index += 1;
-            if (!(voice_mask & valid_mask)) {
+        while (1) {
+            if (used_mask & voice_mask) {
+                voice_mask *= 2;
+                voice_index += 1;
+                if (!(voice_mask & valid_mask)) {
 
-            } else {
-                goto loop_2;
+                } else {
+                    continue;
+                }
             }
+            break;
         }
         if (voice_mask & 0xFFFFFF) {
             *(s32 *)(g_AkaoCurTrack + 0x30) |= voice_mask;
@@ -1578,12 +1580,15 @@ void SeqOp_NoteOnWithPitchSlide(void *track) {
             register unsigned int limit asm("$8");
             unsigned int used = ((u32 *)check)[1] | ((u32 *)check)[12];
             limit = 0xFFFFFF;
-scan_voice:
-            if ((used & mask) != 0) {
-                mask <<= 1;
-                voice_index++;
-                if ((mask & limit) != 0)
-                    goto scan_voice;
+            while (1) {
+                if ((used & mask) != 0) {
+                    mask <<= 1;
+                    voice_index++;
+                    if ((mask & limit) != 0) {
+                        continue;
+                    }
+                }
+                break;
             }
             check = mask & 0xFFFFFF;
         }

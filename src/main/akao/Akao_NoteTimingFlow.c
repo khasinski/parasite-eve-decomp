@@ -504,13 +504,15 @@ void Akao_SetVoiceLoopAddr(AkaoTrack *track, u32 arg1) {
     var_s0 = (AkaoVoiceLoopRange *)track->repeat_target;
     var_v1 = 0;
     if (var_a0 != 0) {
-loop_4:
-        var_v1 += 1;
-        if (var_s0->max_value < arg1) {
-            var_s0 += 1;
-            if (var_v1 < var_a0) {
-                goto loop_4;
+        while (1) {
+            var_v1 += 1;
+            if (var_s0->max_value < arg1) {
+                var_s0 += 1;
+                if (var_v1 < var_a0) {
+                    continue;
+                }
             }
+            break;
         }
     }
     temp_v1 = var_s0->note;
@@ -571,13 +573,15 @@ void Akao_SetVoiceLoopAddrAlt(AkaoTrack *track, u32 arg1) {
     var_v1 = count_or_note;
     var_s0 = (AkaoVoiceLoopRange *)((u8 *)var_s0 + ((var_v1 - 1) * 8));
     if (var_v1 != 0) {
-loop_4:
-        if (arg1 < var_s0->min_value) {
-            var_v1 -= 1;
-            var_s0 -= 1;
-            if (var_v1 != 0) {
-                goto loop_4;
+        while (1) {
+            if (arg1 < var_s0->min_value) {
+                var_v1 -= 1;
+                var_s0 -= 1;
+                if (var_v1 != 0) {
+                    continue;
+                }
             }
+            break;
         }
     }
     count_or_note = var_s0->note;
