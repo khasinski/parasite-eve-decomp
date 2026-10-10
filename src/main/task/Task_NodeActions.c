@@ -234,15 +234,8 @@ int Task_TurnTowardPointStep(int **arg0) {
     int stepped;
     int original;
 
-    {
-        int active = flags & 0x20;
-        if (active != 0) {
-            goto cached_args;
-        }
-    }
-    {
+    if (!(flags & 0x20)) {
         int new_flags;
-
         x = *arg0[0];
         y = *arg0[1];
         step = *arg0[2];
@@ -251,17 +244,12 @@ int Task_TurnTowardPointStep(int **arg0) {
         node->target14 = x;
         node->target1c = step;
         node->target18.coordinate = y;
-        goto have_args;
-    }
-
-cached_args:
-    {
+    } else {
         x = node->target14;
         y = node->target18.coordinate;
         step = node->target1c;
     }
 
-have_args:
     {
         FieldActor *state;
         register int dx asm("$6");
