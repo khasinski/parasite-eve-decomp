@@ -273,64 +273,61 @@ int Task_TurnTowardPointStep(int **arg0) {
         original = state->rot_y;
     }
     stepped = angle;
-    if (angle == original) {
-        goto finish;
-    }
+    if (angle != original) {
+        {
+            int current = original;
+            int delta;
 
-    {
-        int current = original;
-        int delta;
-
-        if (current < angle) {
-            delta = angle - current;
-            if (delta < 0x800) {
-                if (step < delta) {
-                    stepped = current + step;
-                }
-            } else if (step < delta) {
-                stepped = current - step;
-                if (stepped < 0) {
-                    int wrap = current + 0x1000;
-                    wrap = wrap - angle;
-                    if (wrap < step) {
-                        stepped = angle;
+            if (current < angle) {
+                delta = angle - current;
+                if (delta < 0x800) {
+                    if (step < delta) {
+                        stepped = current + step;
+                    }
+                } else if (step < delta) {
+                    stepped = current - step;
+                    if (stepped < 0) {
+                        int wrap = current + 0x1000;
+                        wrap = wrap - angle;
+                        if (wrap < step) {
+                            stepped = angle;
+                        }
                     }
                 }
-            }
-        } else {
-            delta = current - angle;
-            if (delta < 0x800) {
-                if (step < delta) {
-                    stepped = current - step;
-                }
-            } else if (step < delta) {
-                stepped = current + step;
-                if (stepped >= 0x1001) {
-                    int wrap = angle + 0x1000;
-                    wrap = wrap - current;
-                    if (wrap < step) {
-                        stepped = angle;
+            } else {
+                delta = current - angle;
+                if (delta < 0x800) {
+                    if (step < delta) {
+                        stepped = current - step;
+                    }
+                } else if (step < delta) {
+                    stepped = current + step;
+                    if (stepped >= 0x1001) {
+                        int wrap = angle + 0x1000;
+                        wrap = wrap - current;
+                        if (wrap < step) {
+                            stepped = angle;
+                        }
                     }
                 }
             }
         }
-    }
-    {
-        FieldActor *state;
-        state = g_CurrentEntity[0];
-        stepped &= 0xFFF;
-        state->rot_y = stepped;
-    }
-    if (stepped != angle) {
-        int cursor = g_SceneDataTable0;
-        TaskNode *active = g_TaskNodePool;
-        cursor -= 0x14;
-        g_SceneDataTable0 = cursor;
-        active->active = 1;
-        return 0;
-    }
+        {
+            FieldActor *state;
+            state = g_CurrentEntity[0];
+            stepped &= 0xFFF;
+            state->rot_y = stepped;
+        }
+        if (stepped != angle) {
+            int cursor = g_SceneDataTable0;
+            TaskNode *active = g_TaskNodePool;
+            cursor -= 0x14;
+            g_SceneDataTable0 = cursor;
+            active->active = 1;
+            return 0;
+        }
 
-finish:
+    }
     {
         TaskNode *active = g_TaskNodePool;
         int f = active->flags;
