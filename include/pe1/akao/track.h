@@ -213,7 +213,7 @@ typedef struct AkaoTrack {
     /* 0x070 */ AkaoU16 field_70;
     /* 0x072 */ AkaoU16 expression_duration;
     /* 0x074 */ AkaoU16 panpot_duration;
-    /* 0x076 */ AkaoU16 panpot;
+    /* 0x076 */ AkaoU16 panpot; /* 8.8 stereo position, set by the voice pan commands */
     /* 0x078 */ AkaoU16 panpot_slide_duration;
     /* 0x07A */ AkaoU16 pitch_slide_steps;
     /* 0x07C */ AkaoU16 panpot_step;
@@ -255,7 +255,8 @@ typedef struct AkaoTrack {
     /* 0x0D2 */ AkaoS16 fixed_note_length;
     /* 0x0D4 */ AkaoS16 volume_delta;
     /* 0x0D6 */ AkaoS16 pitch_slide_delta;
-    /* 0x0D8 */ AkaoS16 pan_target;
+    /* 0x0D8 */ AkaoS16 pan_target; /* 8.8 split between the source and stereo-copy SPU slots
+                                   * (Spu_CopyVoiceToStereoSlot); separate from panpot */
     /* 0x0DA */ AkaoS16 pan_delta;
     /* 0x0DC */ AkaoS16 panpot_delta;
     /* 0x0DE */ AkaoS16 expression;
