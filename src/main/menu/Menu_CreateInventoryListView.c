@@ -26,7 +26,7 @@ void Menu_CreateInventoryListView(MenuWidgetNode *parent) {
     root->update = (void (*)())Menu_InventoryPageInputHandler;
     root->disabled = 1;
     node->draw = Menu_DrawUsableItemActionList;
-    asm("" : : : "memory");
+    asm("" : "=m"(*node) : "m"(*node));
     flags = node->layout_flags;
     is_layout_locked = g_MenuLayoutLocked;
     flags |= 0x80;

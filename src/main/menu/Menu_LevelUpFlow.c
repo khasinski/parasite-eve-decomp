@@ -67,7 +67,7 @@ void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     previous_exp = save->total_exp;
     PE1_NOP();
     g_MenuPendingTotalExp = previous_exp;
-    asm volatile("" : : : "memory");
+    asm volatile("" : "=m"(g_MenuPendingTotalExp) : "m"(g_MenuPendingTotalExp));
     g_MenuExpAllocTarget = previous_exp + exp_delta_reg;
     g_MenuExpReviewLevel = Stat_BinarySearch(g_MenuPendingTotalExp, Aya_GetLevelExpTable());
     D_8009CEFC = 1;
