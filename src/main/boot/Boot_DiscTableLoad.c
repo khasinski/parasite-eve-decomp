@@ -39,24 +39,23 @@ int Overlay_LoadTables(void) {
     int scratch;
     int status;
     int imageBase;
-    int *state;
+    Pe1GameState *state;
     u16 *range;
-    int table;
-    int main_table;
-    int large_table;
+    TimRelativeTable *main_table;
+    TimRelativeTable *large_table;
     int i;
 
     imageBase = g_PeImageBaseLba;
 
     VSync(0);
     SetDispMask(0);
-    state = (int *)&g_GameState;
+    state = &g_GameState;
     CD_ReadSectors(1, 0xCC, 0, g_SceneLoadScratchBuffer, 0x21, 1);
 
 retry_first_load:
     range = g_MainAssetLbaTbl;
     do {
-        status = CdRom_ReadSectors(imageBase + range[0], 0, state[0x57], range[1] - range[0]);
+        status = CdRom_ReadSectors(imageBase + range[0], 0, (int)state->scene_object_work, range[1] - range[0]);
     } while (status == -1);
     while (1) {
         status = DsReadSync(&scratch);
@@ -80,17 +79,16 @@ retry_first_load:
         }
     }
 
-    main_table = state[0x57];
+    main_table = (TimRelativeTable *)state->scene_object_work;
     for (i = 0; i < 3; i++) {
-        table = ((short)i << 2) + main_table;
-        Asset_LoadTimImage((TimFile *)(main_table + *(int *)table));
+        Asset_LoadTimImage((TimFile *)((u8 *)main_table + main_table->offsets[(s16)i]));
     }
 
     if (D_800A77FC & 0x2000) {
 retry_large_load_a:
         range = g_LargeTexLbaTbl;
         do {
-            status = CdRom_ReadSectors(imageBase + range[0], 0, state[0x5B], range[1] - range[0]);
+            status = CdRom_ReadSectors(imageBase + range[0], 0, (int)state->object_texture_blob, range[1] - range[0]);
         } while (status == -1);
         while (1) {
             status = DsReadSync(&scratch);
@@ -117,7 +115,7 @@ retry_large_load_a:
 retry_large_load_b:
         range = D_8009316C;
         do {
-            status = CdRom_ReadSectors(imageBase + range[0], 0, state[0x5B], range[1] - range[0]);
+            status = CdRom_ReadSectors(imageBase + range[0], 0, (int)state->object_texture_blob, range[1] - range[0]);
         } while (status == -1);
         while (1) {
             status = DsReadSync(&scratch);
@@ -143,10 +141,9 @@ retry_large_load_b:
     }
 
 large_load_done:
-    large_table = state[0x5B];
+    large_table = (TimRelativeTable *)state->object_texture_blob;
     for (i = 0; i < 0x106; i++) {
-        table = ((short)i << 2) + large_table;
-        Asset_LoadTimImage((TimFile *)(large_table + *(int *)table));
+        Asset_LoadTimImage((TimFile *)((u8 *)large_table + large_table->offsets[(s16)i]));
     }
 
     DrawSync(0);
