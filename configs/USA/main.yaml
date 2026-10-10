@@ -619,8 +619,8 @@ segments:
       - [0x52D68, c, menu/MenuWidget_Pool]
       - [0x52E9C, c, menu/MenuWidget_DestroyNodeRecursive]
       - [0x53030, c, gpu/Draw_PushPrimToList]
-      - [0x531B0, c, menu/MenuWidget_HasActiveNodes]
-      - [0x531BC, c, menu/menu_widget]
+      # Active-list presence, child access and node searches share widget state.
+      - [0x531B0, c, menu/menu_widget]
       - [0x5327C, c, gpu/Draw_FlushPrimList]
       - [0x534B8, c, menu/menu_widget2]
       # Constructors, pool initialization and list drawing share widget state.
