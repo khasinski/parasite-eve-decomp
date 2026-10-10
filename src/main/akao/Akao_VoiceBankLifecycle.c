@@ -794,19 +794,19 @@ void Akao_UpdateVoiceMask(int new_base) {
             active->call_stack[1] += delta;
             active->call_stack[2] += delta;
             active->call_stack[3] += delta;
-            duration[-1] += 2;
-            duration[0] += 2;
+            active->note_length += 2;
+            active->pan_duration += 2;
             active->update_flags |= magic_flags;
-            if ((bank->status_flags & 0x100) && duration[1] >= 0x20) {
-                duration[1] += 0x30;
+            if ((bank->status_flags & 0x100) && active->note_pitch >= 0x20) {
+                active->note_pitch += 0x30;
             }
         } else {
             register AkaoU8 *default_pc asm("$2");
             register AkaoU16 short_duration asm("$2");
             /* These pins keep the constants inside this branch. */
-            duration[-1] = reset_duration;
+            active->note_length = reset_duration;
             short_duration = 2;
-            duration[0] = short_duration;
+            active->pan_duration = short_duration;
             default_pc = (AkaoU8 *)g_AkaoDefaultVoiceProgram;
             track->pc = default_pc;
         }
@@ -1731,15 +1731,16 @@ void Spu_SetAllVoicePitchImmediate(int *arg0) {
     voice = g_SpuVoiceControlTable;
 
     do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0xF4);
         if ((active & mask) != 0) {
-            if ((*(u32 *)(voice - 0xC8) & block_flag) == 0) {
+            if ((parameters->key_on_mask & block_flag) == 0) {
                 value = ((u8 *)arg0)[4];
-                dirty = *(volatile u32 *)voice;
-                *(u16 *)(voice - 0x84) = 0;
+                dirty = ((volatile AkaoTrack *)parameters)->update_flags;
+                parameters->pitch_offset_duration = 0;
                 value <<= 8;
                 dirty |= AKAO_VOICE_PARAM_PITCH;
-                *(u32 *)(voice - 0xB8) = value;
-                *(u32 *)voice = dirty;
+                parameters->pitch_offset = value;
+                parameters->update_flags = dirty;
             }
         }
         i++;
@@ -1770,15 +1771,16 @@ void Spu_SlideAllVoicePitch(int *arg0) {
     voice = D_800BC070;
 
     do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0x70);
         if ((active & mask) != 0) {
-            if ((*(u32 *)(voice - 0x44) & block_flag) == 0) {
+            if ((parameters->key_on_mask & block_flag) == 0) {
                 step = 1;
                 if (arg0[1] != 0) {
                     step = arg0[1];
                 }
-                delta = (short)((((u8 *)arg0)[8] << 8) - *(int *)(voice - 0x34));
-                *(short *)voice = step;
-                *(int *)(voice - 0x30) = (short)(delta / (short)step);
+                delta = (short)((((u8 *)arg0)[8] << 8) - *(int *)&parameters->pitch_offset);
+                *(short *)&parameters->pitch_offset_duration = step;
+                *(int *)&parameters->pitch_offset_step = (short)(delta / (short)step);
             }
         }
         i++;
