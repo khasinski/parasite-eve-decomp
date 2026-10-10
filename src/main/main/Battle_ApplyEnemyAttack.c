@@ -211,7 +211,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
     case 8:
         if (!(*ps & 0x200)) {
             u8 *pD = D278_13;
-            s32 tmp = *(u16 *)(pD + 0xC) << 16;
+            s32 tmp = ((Combatant *)pD)->curHP << 16;
             if ((tmp >> 16) >= 2) {
                 *(s16 *)(pD + 0xC) = tmp >> 17;
             }

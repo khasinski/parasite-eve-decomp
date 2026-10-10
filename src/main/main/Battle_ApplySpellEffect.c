@@ -135,15 +135,15 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
     switch (idx) {
     case 0:
         dmg = 0x3C0000;
-        *(u16 *)(D278_2 + 0xC) = *(u16 *)(D278_2 + 0xC) + 0x1E;
+        ((Combatant *)D278_2)->curHP = ((Combatant *)D278_2)->curHP + 0x1E;
         break;
     case 1:
         dmg = 0x780000;
-        *(u16 *)(D278_3 + 0xC) = *(u16 *)(D278_3 + 0xC) + 0x3C;
+        ((Combatant *)D278_3)->curHP = ((Combatant *)D278_3)->curHP + 0x3C;
         break;
     case 2:
         dmg = 0x01F40000;
-        *(u16 *)(D278_4 + 0xC) = *(u16 *)(D278_4 + 0xC) + 0x118;
+        ((Combatant *)D278_4)->curHP = ((Combatant *)D278_4)->curHP + 0x118;
         break;
     case 3:
         {
@@ -189,7 +189,7 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
         {
             u8 *p = D278_11;
             ((Combatant *)p)->stateFlags = ((Combatant *)p)->stateFlags | 0x200;
-            *(s32 *)(p + 8) = *(s32 *)(p + 8) - (*(s32 *)(p + 0x28) / 3);
+            ((Combatant *)p)->exp_or_acc = ((Combatant *)p)->exp_or_acc - (((Combatant *)p)->maxAtk / 3);
         }
         break;
     case 7:
@@ -305,7 +305,7 @@ conf10:
             u8 *p;
             s32 f;
             register s32 c18 asm("$2");
-            *(u16 *)(q + 0xC) = *(u16 *)(q + 0x1C);
+            ((Combatant *)q)->curHP = ((Combatant *)q)->maxHP;
             if ((g & 3) != 3) {
                 ((Combatant *)q)->stateFlags = g & ~3;
             }
@@ -345,10 +345,10 @@ clear1000:
             p = D278_26;
         }
         if (!(ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(p)) & 0x200)) {
-            *(s32 *)(p + 8) = *(s32 *)(p + 8) - dmg;
+            ((Combatant *)p)->exp_or_acc = ((Combatant *)p)->exp_or_acc - dmg;
             return;
         }
-        *(s32 *)(p + 8) = *(s32 *)(p + 8) - ((dmg * 2) / 3);
+        ((Combatant *)p)->exp_or_acc = ((Combatant *)p)->exp_or_acc - ((dmg * 2) / 3);
     }
 }
 
