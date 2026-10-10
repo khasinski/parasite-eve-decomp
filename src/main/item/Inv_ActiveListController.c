@@ -15,10 +15,9 @@ void Inv_RebuildSelectableMask(void);
 extern s16 *g_InvItemPtr;
 extern s8 g_AyaEquippedWeaponSlot[];
 extern s8 g_AyaEquippedArmorSlot[];
-extern struct { char _[16]; } D_800C0E22_l0_o __asm__("g_AyaEquippedArmorSlot");
 extern struct { char _[16]; } D_800C0E22_l1_o __asm__("g_AyaEquippedArmorSlot");
 extern struct { char _[16]; } D_800C0E22_s0_o __asm__("g_AyaEquippedArmorSlot");
-#define D_800C0E22_l0 (*(s8 *)&D_800C0E22_l0_o)
+#define D_800C0E22_l0 (*(s8 *)&D_800C0E22_l1_o)
 #define D_800C0E22_l1 (*(s8 *)&D_800C0E22_l1_o)
 #define D_800C0E22_s0 (*(s8 *)&D_800C0E22_s0_o)
 extern struct { char _[16]; } D_800C0EAC_o __asm__("g_InvItemSlotArray");

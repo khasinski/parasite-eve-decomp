@@ -13,11 +13,9 @@ extern s32 g_InvSelectionBitWords;
 extern struct { char _[16]; } D_800A1FD4_o __asm__("g_BattleCountTable");
 #define g_BattleCountTable (*(s16 *)&D_800A1FD4_o)
 extern struct { char _[16]; } D_800C0E20_o __asm__("g_AyaEquippedWeaponSlot");
-extern struct { char _[16]; } D_800C0E20_w __asm__("g_AyaEquippedWeaponSlot");
 extern struct { char _[16]; } D_800C0E20_w2 __asm__("g_AyaEquippedWeaponSlot");
 #define g_AyaEquippedWeaponSlot (*(s8 *)&D_800C0E20_o)
 extern struct { char _[16]; } D_800C0E22_o __asm__("g_AyaEquippedArmorSlot");
-extern struct { char _[16]; } D_800C0E22_w __asm__("g_AyaEquippedArmorSlot");
 extern struct { char _[16]; } D_800C0E22_w2 __asm__("g_AyaEquippedArmorSlot");
 #define g_AyaEquippedArmorSlot (*(s8 *)&D_800C0E22_o)
 extern struct { char _[16]; } g_AyaInventoryItems_o __asm__("g_AyaInventoryItems");
@@ -79,13 +77,13 @@ s32 Inv_TransferItem(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             *temp_a1 ^= temp_v1;
             te20 = g_AyaEquippedWeaponSlot;
             if (te20 == arg1) {
-                (*(s8 *)&D_800C0E20_w) = arg3;
+                (*(s8 *)&D_800C0E20_w2) = arg3;
             } else if (te20 == arg3) {
                 (*(s8 *)&D_800C0E20_w2) = arg1;
             }
             te22 = g_AyaEquippedArmorSlot;
             if (te22 == arg1) {
-                (*(s8 *)&D_800C0E22_w) = arg3;
+                (*(s8 *)&D_800C0E22_w2) = arg3;
             } else if (te22 == arg3) {
                 (*(s8 *)&D_800C0E22_w2) = arg1;
             }
