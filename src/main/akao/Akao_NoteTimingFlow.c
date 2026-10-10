@@ -419,7 +419,6 @@ check_bank:
             bank_byte = *cursor;
             cursor++;
             if (D_8009D2C8->bank.field_56 < bank_byte) goto skip_two;
-            goto read_displacement;
 read_displacement:
             argument = *cursor++;
             displacement = *cursor++;
