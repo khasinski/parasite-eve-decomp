@@ -8,11 +8,6 @@
 #include "pe1/floor_clip.h"
 #include "pe1/field_movement.h"
 
-#define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
-#define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
-#define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
-#define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
-#define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
 int Math_FixedMul(int a, int b);
 
@@ -332,10 +327,10 @@ void Entity_UpdateAndRender(BattleEntity *actor)
                                               D_8009D1D8[floor->plane].inverseB);
         }
     } else {
-        CollisionFace *floor = face;
+        CollisionTriangleHeader *floor = face;
         u8 region = floor->region;
         u32 flags = actor->entityFlags;
-        int height = D_8009CE08[region][0];
+        int height = ((CollisionFlatRegion *)D_8009CE08[region])->height;
 
         if (flags & 2) {
             if (actor->posY.fixed >= height && actor->baseY < height) {
@@ -343,7 +338,7 @@ void Entity_UpdateAndRender(BattleEntity *actor)
                 actor->posY.fixed = height;
                 actor->motionY = 0;
             }
-        } else if (region != ((CollisionFace *)actor->collisionFace)->region) {
+        } else if (region != ((CollisionTriangleHeader *)actor->collisionFace)->region) {
             int delta;
             int step;
 
