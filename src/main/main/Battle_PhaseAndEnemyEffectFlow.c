@@ -219,7 +219,7 @@ block_search_done:
                         do {
                             var_a0_2 = temp_v1_3 * 8;
                             temp_v1_5 = *(void ***)(D_800BE830_BYTES + var_a0_2);
-                            if ((M2C_FIELD(*temp_v1_5, s32 *, 0x10) <= 0) || (temp_v1_5 == NULL)) {
+                            if ((((EnemyCombatant *)*temp_v1_5)->hpAlive <= 0) || (temp_v1_5 == NULL)) {
                                 *(void **)(D_800BE830_BYTES + var_a0_2) = var_a2;
                             }
                             var_s0 += 1;
@@ -251,14 +251,15 @@ block_35:
 block_39:
         Pm_StopAll();
         if (action == 6) {
+            BattleEntity *attackTarget;
             queuedAction = ((Combatant *)D278(13))->action;
             if (!(*(s32 *)&queuedAction->attackWord & 0x3FF)) {
                 BattleCmd_CommitAmmoAndUpdate(queuedAction);
             }
             M2C_FIELD(D278(10), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(10), s32 *, 0x4C) | 0x100000);
-            temp_a0_3 = (s32)temp_s2->actor;
-            temp_s0 = M2C_FIELD(temp_a0_3, s16 *, 0x26A) - D_8009D27C;
-            temp_v0_2 = ratan2(temp_s0, Battle_CalcDistToPlayer((void *) temp_a0_3, D254(14)));
+            attackTarget = temp_s2->actor;
+            temp_s0 = attackTarget->renderObject.target_y - D_8009D27C;
+            temp_v0_2 = ratan2(temp_s0, Battle_CalcDistToPlayer(attackTarget, D254(14)));
             if (temp_v0_2 < -0xAB) {
                 var_v1 = 0;
             } else {
@@ -294,10 +295,10 @@ block_39:
         Akao_SendPositionalCmdStereo(var_a0_3, 0, var_a2_2, var_a3_2, var_v0_5);
         var_a1 = (void *)0xFFDFFFFF;
         var_a0_4 = D278(13);
-        actor_flags = M2C_FIELD(var_a0_4, s32 *, 0x4C);
+        actor_flags = ((Combatant *)var_a0_4)->stateFlags;
         D1A0_W2 = D1A0_R2 | 0x100;
         actor_flags &= (s32)var_a1;
-        M2C_FIELD(var_a0_4, s32 *, 0x4C) = actor_flags;
+        ((Combatant *)var_a0_4)->stateFlags = actor_flags;
     }
 block_55:
     actor = D278(10);
@@ -351,15 +352,15 @@ block_55:
             temp_a0_3 = -0x101;
             var_a1 = D278(13);
             character_state = D254(13);
-            M2C_FIELD(var_a1, s32 *, 8) = 0;
+            ((Combatant *)var_a1)->exp_or_acc = 0;
             *(s32 *)&character_state->entityFlags = (s32) (*(s32 *)&character_state->entityFlags & temp_a0_3);
             system_flags = D1A0_R3;
-            cleanup_flags.value = M2C_FIELD(var_a1, s32 *, 0x4C);
+            cleanup_flags.value = ((Combatant *)var_a1)->stateFlags;
             system_flags &= temp_a0_3;
             cleanup_flags.value &= var_a2_2;
             D1A0_W3 = system_flags;
             cleanup_flags.value |= 0x200000;
-            M2C_FIELD(var_a1, s32 *, 0x4C) = cleanup_flags.value;
+            ((Combatant *)var_a1)->stateFlags = cleanup_flags.value;
             Battle_HaltOnPositiveX();
         }
     } else {
