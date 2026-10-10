@@ -1232,12 +1232,13 @@ void Spu_SetVoiceVolumeImmediateMasked(int *arg0) {
         i = 0;
         voice = base + 0xF4;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0xF4);
             if ((active & mask) != 0) {
-                if ((*(u32 *)(voice - 0xC8) & arg0[2]) != 0) {
+                if ((parameters->key_on_mask & arg0[2]) != 0) {
                     value = (arg0[3] & 0x7F) << 8;
-                    *(u16_1 *)(voice - 0x80) = 0;
-                    *(u16_1 *)(voice - 0x1C) = value;
-                    *(u32 *)voice |= AKAO_VOICE_PARAM_VOLUME;
+                    parameters->panpot_duration = 0;
+                    *(u16 *)&parameters->pan_target = value;
+                    parameters->update_flags |= AKAO_VOICE_PARAM_VOLUME;
                 }
             }
             i++;
@@ -1248,12 +1249,13 @@ void Spu_SetVoiceVolumeImmediateMasked(int *arg0) {
         i = 0;
         voice = base + 0xF4;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0xF4);
             if ((active & mask) != 0) {
-                if (*(int *)(voice - 0xCC) == arg0[1]) {
+                if (*(int *)&parameters->key_off_mask == arg0[1]) {
                     value = (arg0[3] & 0x7F) << 8;
-                    *(u16_1 *)(voice - 0x80) = 0;
-                    *(u16_1 *)(voice - 0x1C) = value;
-                    *(u32 *)voice |= AKAO_VOICE_PARAM_VOLUME;
+                    parameters->panpot_duration = 0;
+                    *(u16 *)&parameters->pan_target = value;
+                    parameters->update_flags |= AKAO_VOICE_PARAM_VOLUME;
                 }
             }
             i++;
