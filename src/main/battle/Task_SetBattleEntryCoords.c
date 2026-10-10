@@ -1,16 +1,16 @@
 #include "common.h"
 #include "pe1/battle.h"
+#include "pe1/task_anim.h"
 
 extern char *g_CurrentEntity;
 
 #define CURRENT_ENTITY ((BattleEntity *)g_CurrentEntity)
 
-void Battle_SetEntryCoords(char *arg0, int arg1, int arg2, int arg3);
 void Render_SetEntryScrolled(int arg0, int arg1, int arg2, int arg3);
 void Render_SetEntryMirrored(int arg0, int arg1, int arg2, int arg3);
 
 int Task_SetBattleEntryCoords(int **arg0) {
-    Battle_SetEntryCoords(g_CurrentEntity, *(unsigned char *)arg0[0], *arg0[1], *arg0[2]);
+    Battle_SetEntryCoords((TaskAnimObj *)g_CurrentEntity, *(unsigned char *)arg0[0], *arg0[1], *arg0[2]);
     return 1;
 }
 

@@ -8,4 +8,6 @@ typedef struct TaskAnimObj {
     EntityAnimEventCore *core;
 } TaskAnimObj;
 
+void Battle_SetEntryCoords(TaskAnimObj *obj, u8 index, int enterStep, int exitStep);
+
 #endif

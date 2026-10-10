@@ -1,6 +1,7 @@
 #include "pe1/battle_context.h"
 #include "common.h"
 #include "pe1/battle.h"
+#include "pe1/battle_entity_anim.h"
 #include "pe1/field_actor.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
@@ -25,10 +26,10 @@ s32 Battle_GetEnemyContextField(FieldActor *arg0, s32 arg1) {
         }
         break;
     case 7:
-        word = ctx->coreFlags;
-        word >>= 17;
-        word &= 0x70;
-        ret = *((u8 *)ctx + word + 0x1C);
+        {
+            EntityAnimEventCore *events = (EntityAnimEventCore *)ctx;
+            ret = events->records[events->flags.bits.selectedRecord].state;
+        }
         break;
     case 19:
         ret = ctx->field88;
