@@ -4,7 +4,6 @@
 #include "pe1/battle.h"
 
 extern char *g_ActiveActor[];
-extern char *g_ActiveActor_late[] asm("g_ActiveActor");
 extern char *g_ActiveActor_late2[] asm("g_ActiveActor");
 extern char *g_PlayerEntity[];
 extern void *g_BattlePendingEnemySpawn[];
@@ -72,7 +71,7 @@ void Entity_ResolveDropTable(void *arg0) {
         int chance;
 
         roll %= 100;
-        chance_state = g_ActiveActor_late[0];
+        chance_state = g_ActiveActor[0];
         chance = ((int)ENEMY_FIELD(entry, u8, effectChance) *
                   (100 - (int)((Combatant *)chance_state)->attributes->parameterWord.fields.third)) /
                  100;
