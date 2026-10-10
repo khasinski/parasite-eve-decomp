@@ -60,6 +60,7 @@ void Draw_AllocTexturedRect(int value, int width);
 int Draw_LookupGlyphMetrics(int glyph);
 void Draw_PrintTextWrapped(u8 *text, int width);
 void Draw_PrintCenteredTextInWidth(u8 *text, int width);
+void MenuWidget_DrawCenteredText(u8 *text);
 extern int g_TextRenderMode, g_DrawGlyphAdvance;
 extern int g_DrawDigitFontBaseTexU, g_DrawDigitFontBaseTexV;
 extern int g_DrawDigitFontTpageClut;

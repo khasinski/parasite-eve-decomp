@@ -1,5 +1,7 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 #include "pe1/inventory.h"
+#include "pe1/draw_state.h"
+#include "pe1/text.h"
 
 int g_MenuItemActionContext;
 int g_MenuActiveItemSlot;
@@ -8,9 +10,7 @@ int g_MenuEquipMode;
 extern int g_MenuItemActionStateTable[][3];
 
 int Inv_IsSlotSelectable(int arg0);
-void *Str_LookupTable4(unsigned int arg0);
 void Draw_SetTextDimmed(int value);
-void MenuWidget_DrawCenteredText(int arg0);
 
 void Sfx_ContextPick(int arg0)
 {
@@ -19,7 +19,7 @@ void Sfx_ContextPick(int arg0)
     int sound;
     int raw;
     int one;
-    unsigned char *entry;
+    ItemDataRecord *entry;
 
     state = g_MenuItemActionStateTable[g_MenuItemActionContext][arg0];
     one = 1;
@@ -42,7 +42,7 @@ case_0:
     raw = g_MenuActiveItemSlot;
     entry = Inv_LookupActiveListData(raw);
     if (Inv_TestSelectionBit(raw) != 0) {
-        if (g_MenuEquipMode != one || entry[6] != 0xA || entry[0xE] < 4) {
+        if (g_MenuEquipMode != one || entry->kind != 0xA || *(u8 *)&entry->bonusStats[0] < 4) {
             flag = 1;
         }
     }

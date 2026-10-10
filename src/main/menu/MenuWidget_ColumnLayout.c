@@ -125,8 +125,8 @@ void MenuWidget_ClearColumnLayout(MenuWidgetNode *node) {
     node->cursor_x = -1;
 }
 
-void MenuWidget_DrawCenteredText(int arg0) {
-    Draw_PrintCenteredTextInWidth(arg0, g_DrawTextPosX);
+void MenuWidget_DrawCenteredText(u8 *text) {
+    Draw_PrintCenteredTextInWidth(text, g_DrawTextPosX);
 }
 
 #include "pe1/draw_state.h"
