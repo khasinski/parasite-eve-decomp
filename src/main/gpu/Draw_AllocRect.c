@@ -12,7 +12,6 @@
 extern u32 g_ActiveDrawBuffer;
 extern s32 g_DrawPacketBufferBase;
 extern s32 g_DrawBufferIndex;
-extern s32 *g_OtListTail;
 
 void Draw_AllocPrimRectFull(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     RECT rect;
@@ -41,8 +40,8 @@ void Draw_AllocPrimRectFull(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (packet != NULL) {
         SetDrawArea(packet, rectPtr);
     }
-    packet->u0.tag = (packet->u0.tag & 0xFF000000) | (*g_OtListTail & 0xFFFFFF);
-    *g_OtListTail = (*g_OtListTail & 0xFF000000) | ((s32) packet & 0xFFFFFF);
+    packet->u0.tag = (packet->u0.tag & 0xFF000000) | (*g_DrawOrderingTableEntry & 0xFFFFFF);
+    *g_DrawOrderingTableEntry = (*g_DrawOrderingTableEntry & 0xFF000000) | ((s32) packet & 0xFFFFFF);
 }
 #include "common.h"
 /* CC1_FLAGS: -G8 */
@@ -57,7 +56,6 @@ void Draw_AllocPrimRectFull(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 extern u32 g_ActiveDrawBuffer;
 extern s32 g_DrawPacketBufferBase;
 extern s32 g_DrawBufferIndex;
-extern s32 *g_OtListTail;
 
 void Draw_AllocPrimRect(void) {
     RECT rect;
@@ -86,6 +84,6 @@ void Draw_AllocPrimRect(void) {
     if (packet != NULL) {
         SetDrawArea(packet, rectPtr);
     }
-    packet->u0.tag = (packet->u0.tag & 0xFF000000) | (*g_OtListTail & 0xFFFFFF);
-    *g_OtListTail = (*g_OtListTail & 0xFF000000) | ((s32) packet & 0xFFFFFF);
+    packet->u0.tag = (packet->u0.tag & 0xFF000000) | (*g_DrawOrderingTableEntry & 0xFFFFFF);
+    *g_DrawOrderingTableEntry = (*g_DrawOrderingTableEntry & 0xFF000000) | ((s32) packet & 0xFFFFFF);
 }

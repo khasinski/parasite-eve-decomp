@@ -84,7 +84,6 @@ extern u32 g_ActiveDrawBuffer;
 extern s32 g_DrawPacketBufferBase;
 extern s32 g_DrawPrimColor;
 extern s32 g_DrawColorShaded;
-extern s32 *g_OtListTail;
 extern u16 g_TextCursorX;
 extern u16 g_TextCursorY;
 
@@ -97,7 +96,7 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     u16 base_y;
     s32 temp;
     u32 oldTag;
-    s32 *ot;
+    u32 *ot;
 
     packet = 0;
     glyph = Draw_LookupGlyphDescriptor(arg0);
@@ -180,7 +179,7 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
         mask24 = 0xFFFFFF;
         clut = *(volatile u16 *)&glyph->clut;
         packet->clut = clut;
-        ot = g_OtListTail;
+        ot = g_DrawOrderingTableEntry;
         maskTop = 0xFF000000;
         packet->tpage = 7;
         packet->tag.word = (oldTag & maskTop) | (*ot & mask24);

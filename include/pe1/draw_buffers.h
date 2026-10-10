@@ -22,5 +22,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DrawFrameBuffer, frontBufferBase) == 0x74,
                   draw_frame_buffer_packets_offset);
 extern DrawFrameBuffer D_800A2180[];
 extern DrawFrameBuffer *D_8009D0FC;
+extern u32 *D_8009D118;
 
 #endif

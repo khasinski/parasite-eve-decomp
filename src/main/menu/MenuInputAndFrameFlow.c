@@ -425,8 +425,6 @@ extern int g_ActiveDrawSlot[];
 extern int g_ActiveDrawBuffer;
 extern int g_DrawPacketBufferBase;
 extern int g_DrawBufferIndex;
-extern int D_8009D118;
-extern int g_OtListTail;
 
 void Draw_SetPresentImage(int arg0) {
     g_DrawPresentImage = arg0;
@@ -437,7 +435,7 @@ void Draw_SelectBuffer(void) {
     int offset;
     DrawFrameBuffer *entry;
     int value0;
-    int value1;
+    u32 *value1;
 
     if (g_DrawPresentEnabled != 0) {
         index = (u32)g_DrawBufferIndex < 1;
@@ -449,12 +447,12 @@ void Draw_SelectBuffer(void) {
     g_DrawBufferIndex = index;
     entry = &D_800A2180[index];
     value0 = *(int *)((u8 *)g_DrawBufferFrontBases + offset);
-    value1 = *(int *)((u8 *)g_DrawBufferOtBases + offset);
+    value1 = *(u32 **)((u8 *)g_DrawBufferOtBases + offset);
     D_8009D0FC = entry;
     g_DrawPacketBufferBase = value0;
     g_ActiveDrawBuffer = value0;
     D_8009D118 = value1;
-    g_OtListTail = value1 + 4;
+    g_DrawOrderingTableEntry = value1 + 1;
 
     if (g_DrawPresentEnabled != 0) {
         ClearOTagR(value1, 0x1000);
@@ -506,10 +504,5 @@ void Draw_PresentFrame(int arg0) {
         LoadImage(&rect, (void *)image);
     }
 
-    {
-        int offset;
-
-        offset = index * 4;
-        DrawOTag(D_8009D118 + offset);
-    }
+    DrawOTag(&D_8009D118[index]);
 }
