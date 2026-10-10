@@ -22,7 +22,7 @@ void Battle_StepEntityAnimState(BattleEntity *entity) {
         if (state->deathPersist != 0) {
             if (U16_AT(entity, 0x16) < state->deathAnimFrame &&
                 entity->actionMode == 0 &&
-                (s8)state->field04.bytes.field05 < 2) {
+                state->field04.bytes.kind < 2) {
                 return;
             }
 

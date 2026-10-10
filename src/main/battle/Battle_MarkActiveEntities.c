@@ -11,7 +11,7 @@ extern s8 D_8009CE6C;
 
 inline static void Mark(BattleEntity *entity)
 {
-  int kind = (s8)((Combatant *)entity->core)->field04.bytes.field05;
+  int kind = ((Combatant *)entity->core)->field04.bytes.kind;
   if (kind == 1)
   {
     entity = entity->parent;
@@ -26,7 +26,7 @@ inline static void Mark(BattleEntity *entity)
     active = D_8009D254[0];
     while (entity != 0)
     {
-      if (((entity != active) && ((entity->core) != 0)) && (((s8)((Combatant *)entity->core)->field04.bytes.field05) == 4))
+      if (((entity != active) && ((entity->core) != 0)) && ((((Combatant *)entity->core)->field04.bytes.kind) == 4))
       {
         entity->renderObject.flags_9C |= 0x20;
       }
@@ -40,7 +40,7 @@ inline static void Mark(BattleEntity *entity)
 
 inline static void MarkCached(BattleEntity *entity, BattleEntity *active)
 {
-  int kind = (s8)((Combatant *)entity->core)->field04.bytes.field05;
+  int kind = ((Combatant *)entity->core)->field04.bytes.kind;
   if (kind == 1)
   {
     entity = entity->parent;
@@ -51,7 +51,7 @@ inline static void MarkCached(BattleEntity *entity, BattleEntity *active)
     entity = D_8009D20C[0];
     while (entity != 0)
     {
-      if (((entity != active) && ((entity->core) != 0)) && (((s8)((Combatant *)entity->core)->field04.bytes.field05) == 4))
+      if (((entity != active) && ((entity->core) != 0)) && ((((Combatant *)entity->core)->field04.bytes.kind) == 4))
       {
         entity->renderObject.flags_9C |= 0x20;
       }
@@ -65,12 +65,12 @@ inline static void MarkCached(BattleEntity *entity, BattleEntity *active)
 
 inline static void MarkKinds(BattleEntity *entity, int group_kind, int linked_kind, BattleEntity *active)
 {
-  int kind = (s8)((Combatant *)entity->core)->field04.bytes.field05;
+  int kind = ((Combatant *)entity->core)->field04.bytes.kind;
   if (kind == linked_kind) entity = entity->parent;
   else if (kind == group_kind) {
     entity = D_8009D20C[0];
     while (entity != 0) {
-      if (entity != active && entity->core != 0 && (s8)((Combatant *)entity->core)->field04.bytes.field05 == group_kind)
+      if (entity != active && entity->core != 0 && ((Combatant *)entity->core)->field04.bytes.kind == group_kind)
         entity->renderObject.flags_9C |= 0x20;
       entity = entity->next;
     }

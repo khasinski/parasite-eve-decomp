@@ -48,17 +48,17 @@ int Battle_ProcessActionSlot(BattleEntity *actor)
                 }
             }
             result = 0;
-            if ((s8)state->field04.bytes.field05 == 0 || state->hpAlive <= 0) goto done;
+            if (state->field04.bytes.kind == 0 || state->hpAlive <= 0) goto done;
             D_8009CE68 = 0xFF;
             goto done;
         }
-        if (phase != 0x4000 || (s8)state->field04.bytes.field05 == 0) goto done;
+        if (phase != 0x4000 || state->field04.bytes.kind == 0) goto done;
 
         {
             register int one asm("$2") = 1;
             u8 color = D_8009CE68 - 8;
             D_8009CE68 = color;
-            if ((s8)state->field04.bytes.field05 == one) {
+            if (state->field04.bytes.kind == one) {
                 if (color <= 0x80) {
                     actor->parent->renderObject.flags_9C |= 0x20;
                     state->coreFlags &= ~0x6000;
@@ -69,11 +69,11 @@ int Battle_ProcessActionSlot(BattleEntity *actor)
                     goto done;
                 }
             }
-            if ((s8)state->field04.bytes.field05 == 4) {
+            if (state->field04.bytes.kind == 4) {
                 BattleEntity *iter = D_8009D20C_absolute.value;
                 for (; iter != 0; iter = iter->next) {
                     if (iter != D_8009D254_absolute.value && iter->core != 0 &&
-                        (s8)((EnemyCombatant *)iter->core)->field04.bytes.field05 == 4) {
+                        ((EnemyCombatant *)iter->core)->field04.bytes.kind == 4) {
                         int shade = D_8009CE68;
                         if ((u8)shade <= 0x80) {
                             iter->renderObject.flags_9C |= 0x20;
@@ -213,7 +213,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
             Battle_StepEnemyMovement(actor);
             Asset_Find08w((s32) enemy->attackAssetId, 0, (s32) actor->renderObject.target_x, (s32) actor->renderObject.target_y, (s32) actor->renderObject.target_z);
         } else if (actionPhase == 0x4000) {
-            s32 kind = (s8)enemy->field04.bytes.field05;
+            s32 kind = enemy->field04.bytes.kind;
             u32 actionBits;
             if (kind == 0) {
                 actionBits = actionFlags & 0xE;
@@ -258,8 +258,8 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
                 if (actionBits != 0) {
 finishInterruptedAction:
                     statusCore->coreFlags &= ~0x6000;
-                    if (((s8) enemy->field04.bytes.field05 != 0) && (enemy->hpAlive > 0)) {
-                        effectKind = (s8) ((EnemyCombatant *)actor->core)->field04.bytes.field05;
+                    if ((enemy->field04.bytes.kind != 0) && (enemy->hpAlive > 0)) {
+                        effectKind = ((EnemyCombatant *)actor->core)->field04.bytes.kind;
                         if (effectKind == 1) {
                             parent = actor->parent;
                             parent->renderObject.flags_9C |= 0x20;
@@ -272,7 +272,7 @@ finishInterruptedAction:
                                 do {
                                     if (linkedActor != player) {
                                         otherCore = linkedActor->core;
-                                        if ((otherCore != 0) && ((s8) otherCore->field04.bytes.field05 == linkedKind)) {
+                                        if ((otherCore != 0) && (otherCore->field04.bytes.kind == linkedKind)) {
                                             linkedActor->renderObject.flags_9C |= 0x20;
                                         }
                                     }
@@ -286,7 +286,7 @@ finishInterruptedAction:
                 }
             }
         }
-        if ((s8) enemy->field04.bytes.field05 != 1) {
+        if (enemy->field04.bytes.kind != 1) {
             actor->motionX = 0;
             actor->motionY = 0;
             actor->motionZ = 0;
@@ -339,14 +339,14 @@ finishInterruptedAction:
     }
     if (enemy->hpAlive <= 0) {
         if (!(g_BattleGameStateWindow.flags & 0x100)) {
-            if (((s8) enemy->field04.bytes.field05 == 1) && !(enemy->coreFlags & 0x6000)) {
+            if ((enemy->field04.bytes.kind == 1) && !(enemy->coreFlags & 0x6000)) {
                 actor->entityFlags |= 0x10;
                 Battle_SlotFree(actor);
             }
-            if ((s8) enemy->field04.bytes.field05 == 4) {
+            if (enemy->field04.bytes.kind == 4) {
                 if (enemy->coreFlags & 0x6000) goto saveHpSnapshot;
                 goto stepDeathAnimation;
-            } else if ((s8) enemy->field04.bytes.field05 != 1 && (s8) enemy->field04.bytes.field05 != 3) {
+            } else if (enemy->field04.bytes.kind != 1 && enemy->field04.bytes.kind != 3) {
 stepDeathAnimation:
                 actor->motionX = 0;
                 actor->motionY = 0;
@@ -356,7 +356,7 @@ stepDeathAnimation:
                 livingLink = D_8009D20C;
                 for (;;) {
                     if (livingLink == 0) {
-                        deadKind = (s8) enemy->field04.bytes.field05;
+                        deadKind = enemy->field04.bytes.kind;
                         if (deadKind != 3) {
                             if (deadKind == 1) {
                                 actor->entityFlags |= 0x10;
@@ -372,7 +372,7 @@ stepDeathAnimation:
                         break;
                     } else {
                         linkedCore = livingLink->core;
-                        if ((linkedCore == 0) || (livingLink == D_8009D254) || (linkedKindValue = (s8) linkedCore->field04.bytes.field05, (linkedKindValue == 0)) || (linkedKindValue == 2) || (linkedKindValue == 4) || (linkedCore->hpAlive <= 0)) {
+                        if ((linkedCore == 0) || (livingLink == D_8009D254) || (linkedKindValue = linkedCore->field04.bytes.kind, (linkedKindValue == 0)) || (linkedKindValue == 2) || (linkedKindValue == 4) || (linkedCore->hpAlive <= 0)) {
                             livingLink = livingLink->next;
                             continue;
                         }

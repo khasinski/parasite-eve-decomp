@@ -29,7 +29,7 @@ void Battle_InitFadeVars(void) {
         } else if (kind == 4) {                                                          \
             for (actor = D_8009D20C; actor != 0; actor = actor->next) {                  \
                 if (actor != D_8009D254 && actor->core != 0 &&                           \
-                    (s8)((Combatant *)actor->core)->field04.bytes.field05 == 4) {        \
+                    ((Combatant *)actor->core)->field04.bytes.kind == 4) {        \
                     Render_FadeEntityColor(&actor->renderObject, g_BattleFadeLevel,      \
                                            g_BattleFadeLevel, g_BattleFadeLevel);        \
                 }                                                                        \

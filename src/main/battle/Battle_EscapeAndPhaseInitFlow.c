@@ -367,7 +367,7 @@ void Battle_PhaseInitEnemyTurn(void) {
                 }
             } else {
                 enemy = entity->core;
-                if ((enemy != 0) && ((s8)enemy->field04.bytes.field05 != 1)) {
+                if ((enemy != 0) && (enemy->field04.bytes.kind != 1)) {
                     if ((u32) (entity->actionMode - 2) >= 2U) {
                         entity->entityFlags = (s32) (entity->entityFlags & ~0x1000);
                         Entity_TickAnimSequences(entity);
@@ -843,7 +843,7 @@ void Battle_PhaseEndTurn(void) {
             do {
                 if (entity != g_BattleTurnPlayerView[0]) {
                     enemy = entity->core;
-                    if ((enemy != 0) && ((s8)enemy->field04.bytes.field05 != 1)) {
+                    if ((enemy != 0) && (enemy->field04.bytes.kind != 1)) {
                         if ((u32) (entity->actionMode - 2) >= 2U) {
                             if (entity->animLastFrame == entity->animPrev.parts.integer) {
                                 Entity_SetActionMode(entity, (u16)(s8)enemy->field06.bytes.low);

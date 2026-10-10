@@ -158,7 +158,7 @@ void Battle_StepEnemyMovement(BattleEntity *entity)
                             applyStop:
                                 flagCore->coreFlags |= 0x1800;
                                 entity->entityFlags |= 0x1000;
-                                if ((s8) enemy->field04.bytes.field05 != 0)
+                                if (enemy->field04.bytes.kind != 0)
                                 {
                                     {
                                         register BattleEntity *callEntity asm("$4") = entity;

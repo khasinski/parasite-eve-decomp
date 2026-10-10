@@ -170,6 +170,20 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleStatusPanel, timer) == 6,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleStatusPanel, style) == 7,
                   battle_status_panel_style_offset);
 
+/* Player and enemy contexts share this two-byte prefix. Script context
+ * access also reads and writes both bytes as a single signed halfword. */
+typedef union CombatantIdentity {
+    s16 fieldId04;
+    struct {
+        u8 rank;
+        s8 kind;
+    } bytes;
+} CombatantIdentity;
+
+PE1_STATIC_ASSERT(sizeof(CombatantIdentity) == 2, combatant_identity_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CombatantIdentity, bytes.kind) == 1,
+                  combatant_identity_kind_offset);
+
 /* ----------------------------------------------------------------------------
  * Combatant -- the active/player-side stat record. g_ActiveActor points here
  * in the setup and command paths below. Enemy entity cores share several
@@ -177,13 +191,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleStatusPanel, style) == 7,
  * --------------------------------------------------------------------------*/
 typedef struct Combatant {
 /* 0x00 */ u32  coreFlags;     /* bitfield; &0x6000 / &0xC0000 facing, >>13&3 weapon-cat (Battle_GetEnemyContextField.c:28,44,55) */
-/* 0x04 */ union {
-               s16 fieldId04;  /* SetContextField case1; GetEnemyCtx case0x29 */
-               struct {
-                   u8 rank;    /* signed rank byte in escape/spawn calculations */
-                   u8 field05;
-               } bytes;
-           } field04;
+/* 0x04 */ CombatantIdentity field04;
 /* 0x06 */ s16  fieldId06;     /* SetContextField case2 (Battle_SetContextField.c:24) */
 /* 0x08 */ s32  exp_or_acc;    /* damage-derived accumulator, clamped to maxAtk@0x28 / 0x10000 (Battle_ApplyDamage.c:92,96) */
 /* 0x0C */ u16  curHP;         /* CURRENT HP -- damage & heal land here; clamped to maxHP@0x1C (Battle_ApplyDamage.c:73-85) */
@@ -258,10 +266,7 @@ typedef struct Combatant {
  */
 typedef struct EnemyCombatant {
 /* 0x00 */ u32 coreFlags;
-/* 0x04 */ union {
-               s16 fieldId04;
-               struct { u8 rank; u8 field05; } bytes;
-           } field04;
+/* 0x04 */ CombatantIdentity field04;
 /* 0x06 */ union {
                s16 field06;
                struct { u8 low; u8 entityId; } bytes;

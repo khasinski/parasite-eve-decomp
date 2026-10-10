@@ -52,7 +52,7 @@ void Battle_StepPostBattle(void)
                 do {
                         if (entity != D_8009D254) {
                             core = entity->core;
-                            if (((s8)core->field04.bytes.field05 != 1) && ((core != 0) || !(entity->entityFlags & 0x40))) {
+                            if ((core->field04.bytes.kind != 1) && ((core != 0) || !(entity->entityFlags & 0x40))) {
                                 entity->renderObject.flags_9C |= 2;
                                 actionCore = entity->core;
                                 entity->entityFlags |= 0x1000;
@@ -96,7 +96,7 @@ void Battle_StepPostBattle(void)
                     do {
                     if (fadingEntity != D_8009D254) {
                         fadingCore = fadingEntity->core;
-                        if (((s8)fadingCore->field04.bytes.field05 != exemptKind) && ((fadingCore != 0) || !(fadingEntity->entityFlags & 0x40))) {
+                        if ((fadingCore->field04.bytes.kind != exemptKind) && ((fadingCore != 0) || !(fadingEntity->entityFlags & 0x40))) {
                             Anim_SetInterpRate(&fadingEntity->renderObject, 0x3C);
                         }
                     }
