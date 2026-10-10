@@ -590,9 +590,8 @@ segments:
       - [0x4E140, c, save/Save_GetCurrentMapNumber]
       - [0x4E170, c, menu/Menu_InitScrollDirection]
       - [0x4E194, c, item/Inv_InitMaxLevelInventory]
+      # Shared default-profile menu descriptor, glyph, item and stat table lookups.
       - [0x4E28C, c, table/Tbl_DescriptorLookups]
-      # Item data and stat-growth lookup share one default-profile object.
-      - [0x4E344, c, item/Item_TableLookup]
       - [0x4E3AC, c, aya/aya]
       # Shared string-table lookup family.
       - [0x4E44C, c, table/Str_LookupTables]

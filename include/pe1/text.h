@@ -3,6 +3,12 @@
 
 #include "common.h"
 
+/* Signed byte offsets are relative to the start of this counted table. */
+typedef struct TextOffsetTable {
+    u16 count;
+    s16 offsets[0];
+} TextOffsetTable;
+
 void *Str_LookupTable4(unsigned int index);
 void *Str_LookupTable8(unsigned int index);
 extern int D_8009D218;
