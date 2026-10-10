@@ -829,7 +829,7 @@ int RoomEffect_BeamSparkController(int mode, RoomBeamSpark *fx,
             gte_stszotz(&depth);
             if ((u32)(depth - 1) < 0xFFF) {
                 gte_stsxy3(&line->x0, &line->x1, &scratch);
-                func_800CF6F8(D_800B0E38.ordering[D_8009CDDC] + depth * 4, line, 1);
+                func_800CF6F8(D_800B0E38.ordering[D_8009CDDC] + depth, line, 1);
             }
         }
         D_800F3368.parameter00 = 0x40;
