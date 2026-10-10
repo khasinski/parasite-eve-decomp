@@ -1,4 +1,42 @@
-#include "pe1/battle_entity_anim.h"
+/* Script setup and execution share six inline animation-event records. */
+#include "common.h"
+#include "pe1/task_anim.h"
+
+void Task_SetObjAnimEntry12(TaskAnimObj *obj, u8 index, int arg2, int arg3, u8 arg4, u16 arg5,
+                   u8 arg6, u8 arg7, u8 arg8, u8 arg9, u8 arg10, u8 arg11) {
+    EnemyActionEffect *dst = &obj->core->records[index];
+
+    dst->state = 0;
+    dst->effectType = arg2;
+    dst->enterMode = arg3;
+    dst->exitMode = arg4;
+    dst->power = arg5;
+    dst->category = arg10;
+    dst->frame = arg11;
+
+    obj->core->parameters[index][0] = arg6;
+    obj->core->parameters[index][1] = arg7;
+    obj->core->parameters[index][2] = arg8;
+    obj->core->parameters[index][3] = arg9;
+}
+
+void Task_SetObjAnimEntry5(TaskAnimObj *obj, int index, int arg2, int arg3, u8 arg4, u16 arg5) {
+    EnemyActionEffect *dst = &obj->core->records[(u8)index];
+
+    dst->state = 0;
+    dst->effectType = arg2;
+    dst->enterMode = arg3;
+    dst->exitMode = arg4;
+    dst->power = arg5;
+}
+
+void Battle_SetEntryCoords(TaskAnimObj *arg0, unsigned char arg1, int arg2, int arg3) {
+    EnemyActionEffect *entry = &arg0->core->records[arg1];
+
+    entry->enterStep = arg2;
+    entry->exitStep = arg3;
+}
+
 
 /* Three register pins preserve the initial core, retained core and parent
  * lifetimes with stock GCC and maspsx. */

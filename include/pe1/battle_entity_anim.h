@@ -29,7 +29,8 @@ typedef struct EntityAnimEventCore {
 /* 0x08 */ u8 reserved08[0x10];
 /* 0x18 */ EnemyActionEffect *active;
 /* 0x1C */ EnemyActionEffect records[6];
-/* 0x7C */ u8 reserved7c[0x36];
+/* 0x7C */ u8 parameters[6][4]; /* four per-record bytes written by script setup */
+/* 0x94 */ u8 reserved94[0x1E];
 /* 0xB2 */ u16 assetId;
 } EntityAnimEventCore;
 
@@ -39,6 +40,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, active) == 0x18,
                   entity_anim_event_active_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, records) == 0x1C,
                   entity_anim_event_records_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, parameters) == 0x7C,
+                  entity_anim_event_parameters_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EntityAnimEventCore, assetId) == 0xB2,
                   entity_anim_event_asset_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyActionEffect, enterStep) == 4,

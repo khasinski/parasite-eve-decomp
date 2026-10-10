@@ -1,19 +1,11 @@
 #ifndef PE1_TASK_ANIM_H
 #define PE1_TASK_ANIM_H
 
-typedef struct TaskAnimEntry {
-    unsigned char field00;
-    unsigned char field01;
-    unsigned char field02;
-    unsigned char field03;
-    int coord_x;
-    int coord_y;
-    unsigned char field0C[4];
-} TaskAnimEntry;
+#include "pe1/battle_entity_anim.h"
 
-/* Task animation object: a thin wrapper over a base pointer. */
+/* Animation setup only needs the actor's first pointer. */
 typedef struct TaskAnimObj {
-    unsigned char *base;              /* 0x00 */
+    EntityAnimEventCore *core;
 } TaskAnimObj;
 
-#endif /* PE1_TASK_ANIM_H */
+#endif
