@@ -1286,15 +1286,16 @@ void Spu_ParameterSlide(int *arg0) {
         i = 0;
         voice = base + 0x74;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0x74);
             if ((active & mask) != 0) {
-                if ((*(u32 *)(voice - 0x48) & arg0[2]) != 0) {
+                if ((parameters->key_on_mask & arg0[2]) != 0) {
                     step = 1;
                     if (arg0[3] != 0) {
                         step = arg0[3];
                     }
-                    delta = ParameterDelta(arg0[4], *(u16 *)(voice + 0x64), step);
-                    *(u16 *)(voice + 0x66) = delta;
-                    *(u16 *)voice = step;
+                    delta = ParameterDelta(arg0[4], *(u16 *)&parameters->pan_target, step);
+                    *(u16 *)&parameters->pan_delta = delta;
+                    parameters->panpot_duration = step;
                 }
             }
             i++;
@@ -1305,15 +1306,16 @@ void Spu_ParameterSlide(int *arg0) {
         i = 0;
         voice = base + 0x74;
         do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0x74);
             if ((active & mask) != 0) {
-                if (*(int *)(voice - 0x4C) == arg0[1]) {
+                if (*(int *)&parameters->key_off_mask == arg0[1]) {
                     step = 1;
                     if (arg0[3] != 0) {
                         step = arg0[3];
                     }
-                    delta = ParameterDelta(arg0[4], *(u16 *)(voice + 0x64), step);
-                    *(u16 *)(voice + 0x66) = delta;
-                    *(u16 *)voice = step;
+                    delta = ParameterDelta(arg0[4], *(u16 *)&parameters->pan_target, step);
+                    *(u16 *)&parameters->pan_delta = delta;
+                    parameters->panpot_duration = step;
                 }
             }
             i++;
@@ -1342,16 +1344,17 @@ void Spu_SetAllVoiceVolumeImmediate(int *arg0) {
     voice = g_SpuVoiceControlTable;
 
     do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0xF4);
         if ((active & mask) != 0) {
-            if ((*(u32 *)(voice - 0xC8) & block_flag) == 0) {
+            if ((parameters->key_on_mask & block_flag) == 0) {
                 value = arg0[1];
-                dirty = *(volatile u32 *)voice;
-                *(u16 *)(voice - 0x80) = 0;
+                dirty = ((volatile AkaoTrack *)parameters)->update_flags;
+                parameters->panpot_duration = 0;
                 value &= 0x7F;
                 value <<= 8;
                 dirty |= AKAO_VOICE_PARAM_VOLUME;
-                *(u16 *)(voice - 0x1C) = value;
-                *(u32 *)voice = dirty;
+                *(u16 *)&parameters->pan_target = value;
+                parameters->update_flags = dirty;
             }
         }
         i++;
@@ -1379,15 +1382,16 @@ void Spu_SlideAllVoiceVolume(int *arg0) {
     voice = D_800BC074;
 
     do {
+            AkaoTrack *parameters = (AkaoTrack *)(voice - 0x74);
         if ((active & mask) != 0) {
-            if ((*(u32 *)(voice - 0x48) & block_flag) == 0) {
+            if ((parameters->key_on_mask & block_flag) == 0) {
                 step = 1;
                 if (arg0[1] != 0) {
                     step = arg0[1];
                 }
-                delta = (short)(((arg0[2] & 0x7F) << 8) - *(u16 *)(voice + 0x64));
-                *(u16 *)voice = step;
-                *(u16 *)(voice + 0x66) = delta / (short)step;
+                delta = (short)(((arg0[2] & 0x7F) << 8) - *(u16 *)&parameters->pan_target);
+                parameters->panpot_duration = step;
+                *(u16 *)&parameters->pan_delta = delta / (short)step;
             }
         }
         i++;
