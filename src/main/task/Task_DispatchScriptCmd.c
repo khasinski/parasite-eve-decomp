@@ -139,21 +139,21 @@ cmd_835:
 cmd_898:
         Render_UpdateScrollPosition(D_8009D254[0] + 0x28,
                                     ARG_WORD(args->arg1), ARG_WORD(args->arg2));
-        goto done;
+        return 1;
 cmd_899:
         D_800BCF88.state.position.originX = ARG_WORD(args->arg1);
         D_800BCF88.state.position.originY = ARG_WORD(args->arg2);
         goto done;
 cmd_8fc:
         Task_SetCollisionFlag(ARG_WORD(args->arg1) != 0);
-        goto done;
+        return 1;
 cmd_960:
         position.x = args->arg1->high;
         position.y = args->arg2->high;
         position.z = args->arg3->high;
         func_800E00CC(&position, 0, args->arg4->low,
                       ARG_BYTE(args->arg5), 0, 0, 0);
-        goto done;
+        return 1;
 cmd_961:
         g_ScriptCameraBytes[0] = ARG_WORD(args->arg1);
         g_ScriptCameraBytes[1] = ARG_WORD(args->arg2);
@@ -166,7 +166,7 @@ cmd_962:
         func_800E00CC(&position2, 1, args->arg4->low,
                       ARG_BYTE(args->arg5), g_ScriptCameraBytes[0],
                       g_ScriptCameraBytes[1], g_ScriptCameraBytes[2]);
-        goto done;
+        return 1;
 cmd_9c4:
         map_id[0] = ARG_WORD(args->arg1);
         map_id[1] = ARG_WORD(args->arg2);
@@ -188,10 +188,10 @@ cmd_a8c:
         goto done;
 cmd_af0:
         Battle_DrawActiveStatus();
-        goto done;
+        return 1;
 cmd_af1:
         Window_SetBoundsByMode(ARG_BYTE(args->arg1));
-        goto done;
+        return 1;
 cmd_b54:
         D_800B0CD8[0] |= 0x400000;
         goto done;
@@ -218,7 +218,7 @@ find_entity:
                 break;
             }
         }
-        goto done;
+        return 1;
 cmd_c1c:
         status = Asset_LoadTimTextures(1);
         if (status == 1) {
@@ -226,7 +226,7 @@ cmd_c1c:
             D_8009D300->active = status;
             return 0;
         }
-        goto done;
+        return 1;
 cmd_c80:
         D_800B0CD8[0] |= 0x8000000;
 done:
