@@ -481,8 +481,8 @@ void Draw_InitBuffers(void) {
     D_800A226C = g_RenderBackBufferBase;
     g_DrawBufferOtBases[0] = g_OtBufferTable;
     D_800A2268 = g_RenderOtBufferBaseAlt;
-    SetDefDrawEnv(bufferBase - 0x74, 0, 0, 0x140, 0xE0);
-    SetDefDrawEnv(bufferBase + 4, 0, 0xE0, 0x140, 0xE0);
+    SetDefDrawEnv(&bufferRecord->draw, 0, 0, 0x140, 0xE0);
+    SetDefDrawEnv(&bufferRecord[1].draw, 0, 0xE0, 0x140, 0xE0);
     D_800A2210 = 1;
     D_800A2198 = 1;
     D_800A2199 = 0;
@@ -491,8 +491,8 @@ void Draw_InitBuffers(void) {
     D_800A2211 = 0;
     D_800A2212 = 0;
     D_800A2213 = 0;
-    SetDefDispEnv(bufferBase - 0x18, 0, 0xE0, 0x140, 0xE0);
-    SetDefDispEnv(bufferBase + 0x60, 0, 0, 0x140, 0xE0);
+    SetDefDispEnv(&bufferRecord->display, 0, 0xE0, 0x140, 0xE0);
+    SetDefDispEnv(&bufferRecord[1].display, 0, 0, 0x140, 0xE0);
     {
         s32 color;
         register u8 *screenBase asm("$16") = bufferBase;
