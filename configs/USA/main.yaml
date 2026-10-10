@@ -631,8 +631,8 @@ segments:
       # Mode-3 popup construction, destruction, drawing, navigation and easing share
       # the typed list navigation view and owner lookup.
       - [0x55508, c, menu/Draw_SwapPrimBuffers]
+      # Field sound event enqueue/reset and actor dispatch share queue records.
       - [0x55B6C, c, task/Task_FieldSfxQueue]
-      - [0x55C00, c, scene/Scene_UpdateEntityList]
       # Reset, animation update and slot commands share GeomCtrlEntry.
       # Reset/setup also byte-match under the update profile (-fno-force-mem).
       - [0x55DD4, c, render/Obj_ControlEntries]
