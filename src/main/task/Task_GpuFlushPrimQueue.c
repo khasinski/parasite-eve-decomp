@@ -33,7 +33,7 @@ u32 Task_GpuFlushPrimQueue(void) {
     head_value += tail_value;
     *head_ptr = head_value;
     /* Finish the entry write and result copy before updating queue offsets. */
-    asm volatile("" : "=r"(head_value) : "0"(head_value) : "memory");
+    asm volatile("" : "=r"(head_value) : "0"(head_value));
     ret = zero | head_value;
     asm volatile("" : "=r"(ret), "=r"(head), "=r"(tail) : "0"(ret), "1"(head), "2"(tail));
 
