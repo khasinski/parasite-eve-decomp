@@ -30,21 +30,21 @@ void Save_SerializeTail(void) {
         u32 screenByte;
         cursor = g_SaveIoCursor;
         g_SaveIoCursor = cursor + 4;
-        asm volatile("" : : : "memory");
+        asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
         b0 = D_800B0CE0;
         b1 = g_LoadedTexturePageId;
         cursor[4] = b0;
         cursor[5] = b1;
         cursor = g_SaveIoCursor;
         g_SaveIoCursor = cursor + 2;
-        asm volatile("" : : : "memory");
+        asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
         b0 = g_SceneAreaType;
         b1 = g_SavedSceneAreaType;
         cursor[2] = b0;
         cursor[3] = b1;
         cursor = g_SaveIoCursor;
         g_SaveIoCursor = cursor + 2;
-        asm volatile("" : : : "memory");
+        asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
         b0 = g_CurrentStoryDay;
         b1 = g_PendingStoryDay;
         cursor[2] = b0;
@@ -102,30 +102,30 @@ void Save_DeserializeTail(void) {
     aya_dest = &g_AyaBattleState;
     asm volatile("" : : "r"(aya_dest));
     g_SaveIoCursor = cursor + 0x800;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     next_cur = g_SaveIoCursorRead;
     field_dest = &g_FieldMoveLock;
     *field_dest = *(SaveBytes4 *)(cursor + 0x800);
     g_SaveIoCursor = next_cur + 4;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     cursor = g_SaveIoCursorRead;
     field_dest = &g_SceneDispatchToken;
     *field_dest = *(SaveBytes4 *)(next_cur + 4);
 
     g_SaveIoCursor = cursor + 4;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     next_cur = g_SaveIoCursorRead;
     field_dest = &g_GameStateFlags;
     *field_dest = *(SaveBytes4 *)(cursor + 4);
 
     g_SaveIoCursor = next_cur + 4;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     cursor = g_SaveIoCursorRead;
     field_dest = &D_800B0CDC;
     *field_dest = *(SaveBytes4 *)(next_cur + 4);
 
     g_SaveIoCursor = cursor + 4;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     next_cur = g_SaveIoCursorRead;
     b0 = ((s8 *)cursor)[4];
     b1 = ((s8 *)cursor)[5];
@@ -134,7 +134,7 @@ void Save_DeserializeTail(void) {
     g_LoadedTexturePageId = b1;
 
     g_SaveIoCursor = next_cur + 2;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     cursor = g_SaveIoCursorRead;
     b0 = ((s8 *)next_cur)[2];
     b1 = ((s8 *)next_cur)[3];
@@ -143,14 +143,14 @@ void Save_DeserializeTail(void) {
     g_SavedSceneAreaType = b1;
 
     g_SaveIoCursor = cursor + 2;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     third_cur = g_SaveIoCursorRead;
     asm volatile("" : : "r"(third_cur));
     b0 = ((s8 *)cursor)[2];
     restoreValue = ((s8 *)cursor)[3];
     g_CurrentStoryDay = b0;
     g_PendingStoryDay = restoreValue;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
 
     bulk_tmp = third_cur + 4;
     bulk_src = bulk_tmp;
@@ -169,7 +169,7 @@ void Save_DeserializeTail(void) {
     cursor = g_SaveIoCursor;
     g_SaveIoCursor = cursor + 0x70;
     game_mask = 0xFFFF2679;
-    asm volatile("" ::: "memory");
+    asm volatile("" : "=m"(g_SaveIoCursorRead) : "m"(g_SaveIoCursorRead));
     next_cur = g_SaveIoCursorRead;
     battle_dest = &g_SavedBattleStateTail;
     *battle_dest = *(SaveBytes18 *)(cursor + 0x70);
