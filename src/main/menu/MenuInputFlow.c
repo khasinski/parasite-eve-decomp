@@ -135,7 +135,7 @@ void MenuInput_EnqueueStatusChanges(int flags) {
             if (event != 0) {
                 {
                     MenuInputQueuedEvent *next = event->next;
-                    asm("" : : "r"(next) : "memory");
+                    asm("" : : : "memory");
                     D_8009D0DC = next;
                 }
                 event->next = 0;
