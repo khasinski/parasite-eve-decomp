@@ -166,7 +166,6 @@ int Task_RunInvCommand(TaskInvCommandArgs *arg0) {
             flags &= 0xFFDF;
             clear_node->flags = flags;
         }
-        goto done;
     }
 done:
     return 1;
@@ -292,10 +291,10 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
     switch (*args->opcode) {
     case 0x64:
         Akao_Cmd_99_9B_9D(*args->arg1);
-        goto done;
+        break;
     case 0x65:
         Akao_Cmd_98_9A_9C(*args->arg1);
-        goto done;
+        break;
     case 0xC8:
     case 0x198:
         status = CD_SeekToTrack(*args->arg1, 1, 0, &locals.slot,
@@ -304,12 +303,12 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
             goto wait_for_cd;
         }
         if ((u32)(locals.slot + 2) < 2) {
-            goto done;
+            break;
         }
         *args->result = Akao_Cmd_10(D_800B0CE8.voice_banks[locals.slot], status);
         Akao_Cmd_C0_WithSlot(0, 0x7F);
         Overlay_RegisterAudioSlot(locals.slot, *args->arg1, *args->result, 0x7F);
-        goto done;
+        break;
     case 0xCB:
         status = CD_SeekToTrack(*args->arg1, 1, 1, &locals.slot,
                                 *args->arg3 == 0);
@@ -317,54 +316,54 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
             goto wait_for_cd;
         }
         if ((u32)(locals.slot + 2) < 2) {
-            goto done;
+            break;
         }
         *args->result = Akao_Cmd_19_Then_C0(
             D_800B0CE8.voice_banks[locals.slot], *args->arg2);
         Overlay_RegisterAudioSlot(locals.slot, *args->arg1, *args->result,
                                   *args->arg2);
-        goto done;
+        break;
     case 0xC9:
         locals.slot = Overlay_GetAudioSlotByKey(*args->arg1);
         if (locals.slot == -1) {
-            goto done;
+            break;
         }
         Akao_Cmd_11(locals.slot);
         wait_one = 1;
         status = CD_SeekToTrack(*args->arg1, 0, 0, &locals.slot, wait_one);
         if (status != wait_one) {
-            goto done;
+            break;
         }
         goto wait_for_cd;
     case 0xCC:
         Akao_Cmd_90(*args->arg1);
-        goto done;
+        break;
     case 0xCD:
         locals.slot = Overlay_GetAudioSlotByKey(*args->arg1);
         if (locals.slot == -1) {
-            goto done;
+            break;
         }
         Akao_Cmd_C0_WithSlot(locals.slot, *args->arg2);
         slot_index0 = Overlay_FindAudioSlotIndex(*args->arg1);
         handle = Overlay_GetAudioSlotByKey(*args->arg1);
         Overlay_RegisterAudioSlot(slot_index0, *args->arg1, handle,
                                   *args->arg2);
-        goto done;
+        break;
     case 0xCE:
         locals.slot = Overlay_GetAudioSlotByKey(*args->arg1);
         if (locals.slot == -1) {
-            goto done;
+            break;
         }
         Akao_Cmd_C1_WithSlot(locals.slot, *args->arg2 * 2, *args->arg3);
         slot_index1 = Overlay_FindAudioSlotIndex(*args->arg1);
         handle = Overlay_GetAudioSlotByKey(*args->arg1);
         Overlay_RegisterAudioSlot(slot_index1, *args->arg1, handle,
                                   *args->arg3);
-        goto done;
+        break;
     case 0xCF:
         locals.slot = Overlay_GetAudioSlotByKey(*args->arg1);
         if (locals.slot == -1) {
-            goto done;
+            break;
         }
         Akao_Cmd_C2_WithSlot(locals.slot, *args->arg2 * 2, *args->arg3,
                              *args->arg4);
@@ -372,103 +371,103 @@ int Akao_ProcessCommand(AkaoCommandArgs *args) {
         handle = Overlay_GetAudioSlotByKey(*args->arg1);
         Overlay_RegisterAudioSlot(slot_index2, *args->arg1, handle,
                                   *args->arg4);
-        goto done;
+        break;
     case 0xD0:
         Akao_Cmd_D0(*args->arg1);
-        goto done;
+        break;
     case 0xD1:
         Akao_Cmd_D1(*args->arg1 * 2, *args->arg2);
-        goto done;
+        break;
     case 0xD2:
         Akao_Cmd_D2(*args->arg1 * 2, *args->arg2, *args->arg3);
-        goto done;
+        break;
     case 0xD3:
         Akao_Cmd_D4(*args->arg1);
-        goto done;
+        break;
     case 0xD4:
         Akao_Cmd_D5(*args->arg1 * 2, *args->arg2);
-        goto done;
+        break;
     case 0xD5:
         Akao_Cmd_D6(*args->arg1 * 2, *args->arg2, *args->arg3);
-        goto done;
+        break;
     case 0xD6:
         Akao_Cmd_D8(*args->arg1);
-        goto done;
+        break;
     case 0xD7:
         Akao_Cmd_D9(*args->arg1 * 2, *args->arg2);
-        goto done;
+        break;
     case 0xD8:
         Akao_Cmd_DA(*args->arg1 * 2, *args->arg2, *args->arg3);
-        goto done;
+        break;
     case 0xD9:
         Akao_ResetPositionalState();
-        goto done;
+        break;
     case 0x12C:
         *args->result = Akao_SendTableCommand(
             D_800B0CE8.archive, *args->arg1, *args->arg2, *args->arg3,
             *args->arg4);
-        goto done;
+        break;
     case 0x12D:
         Akao_Cmd_21(*args->arg1, *args->arg2);
-        goto done;
+        break;
     case 0x12E:
         Akao_Cmd_A0(*args->arg1, *args->arg2, *args->arg3);
-        goto done;
+        break;
     case 0x12F:
         Akao_Cmd_A1(*args->arg1, *args->arg2, *args->arg3 * 2,
                     *args->arg4);
-        goto done;
+        break;
     case 0x130:
         Akao_Cmd_A8(*args->arg1);
-        goto done;
+        break;
     case 0x131:
         Akao_Cmd_A9(*args->arg1 * 2, *args->arg2);
-        goto done;
+        break;
     case 0x132:
         Akao_Cmd_A2(*args->arg1, *args->arg2, *args->arg3);
-        goto done;
+        break;
     case 0x133:
         Akao_Cmd_A3(*args->arg1, *args->arg2, *args->arg3 * 8,
                     *args->arg4);
-        goto done;
+        break;
     case 0x134:
         Akao_Cmd_AA(*args->arg1);
-        goto done;
+        break;
     case 0x135:
         Akao_Cmd_AB(*args->arg1 * 2, *args->arg2);
-        goto done;
+        break;
     case 0x136:
         Akao_Cmd_A4(*args->arg1, *args->arg2, *args->arg3);
-        goto done;
+        break;
     case 0x137:
         Akao_Cmd_A5(*args->arg1, *args->arg2, *args->arg3 * 2,
                     *args->arg4);
-        goto done;
+        break;
     case 0x138:
         Akao_Cmd_AC(*args->arg1);
-        goto done;
+        break;
     case 0x139:
         Akao_Cmd_AD(*args->arg1 * 2, *args->arg2);
-        goto done;
+        break;
     case 0x13A:
         Akao_Cmd_F1();
-        goto done;
+        break;
     case 0x15E:
         D_800B0CE8.position_y = U32_AT(PTR_AT(args, 4), 0);
         D_800B0CE8.position_x = U32_AT(PTR_AT(args, 8), 0);
         D_800B0CE8.position_w = U32_AT(PTR_AT(args, 0xC), 0);
         D_800B0CE8.position_z = U32_AT(PTR_AT(args, 0x10), 0);
-        goto done;
+        break;
     case 0x15F:
         *args->result = Asset_Find08w(
             *args->arg1, 0, S16_AT(D_8009D2F0[0], 0x2A),
             S16_AT(D_8009D2F0[0], 0x2E), S16_AT(D_8009D2F0[0], 0x32));
-        goto done;
+        break;
     case 0x160:
         if (*args->arg2 == 0) {
             player = D_8009D254[0];
             if (player == 0) {
-                goto done;
+                break;
             }
             actor = player;
             goto find_actor_asset;
@@ -487,16 +486,16 @@ find_actor_asset:
                 *args->result = Asset_Find08w(
                     *args->arg1, 0, S16_AT(actor, 0x2A),
                     S16_AT(actor, 0x2E), S16_AT(actor, 0x32));
-                goto done;
+                break;
             }
         }
-        goto done;
+        break;
     case 0x161:
         *args->result = Asset_Find08w(*args->arg1, 0,
                                      S16_AT(args->arg2, 2),
                                      S16_AT(args->arg3, 2),
                                      S16_AT(args->arg4, 2));
-        goto done;
+        break;
     case 0x190:
         base = D_800B0CE8.archive;
         table_info =
@@ -505,7 +504,7 @@ find_actor_asset:
         count = 0;
         entry_count = table_info >> 22;
         if (entry_count == 0) {
-            goto done;
+            break;
         }
         entry_limit = entry_count;
         entries = (AkaoAssetEntry *)base;
@@ -518,7 +517,7 @@ find_actor_asset:
                 }
             }
         } while (++count < entry_limit);
-        goto done;
+        break;
     case 0x191:
         status = CD_SeekTrack0(*args->arg1, 1, 0, &locals.slot,
                                *args->arg2 == 0);
@@ -539,10 +538,10 @@ wait_for_cd:
         return 0;
 store_audio_slot:
         *args->result = locals.slot;
-        goto done;
+        break;
     case 0x195:
         D_800B0CE8.defer_enabled = 1;
-        goto done;
+        break;
     case 0x196:
     case 0x197:
         if (D_800B0CE8.deferred_count < 0x10) {
@@ -561,7 +560,7 @@ store_audio_slot:
             deferred_count = &D_800B0CE8.deferred_count;
             (*deferred_count)++;
         }
-        goto done;
+        break;
     case 0x199:
         volume = *args->arg1;
         locals.volumes[3] = 0;
@@ -570,16 +569,16 @@ store_audio_slot:
         locals.volumes[2] = volume;
         locals.volumes[0] = volume;
         DsMix(locals.volumes);
-        goto done;
+        break;
 archive_match:
         D_800B0CE8.selected_id = current->id;
         D_800B0CE8.selected_value = current->value8;
         D_800B0CE8.selected_data = D_800B0CE8.archive +
                                     (current->data_offset & 0xFFFFFF);
-        goto done;
+        break;
     case 0x19A:
         Akao_Cmd_92(*args->arg1);
-        goto done;
+        break;
     }
 done:
     return 1;
