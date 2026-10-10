@@ -145,12 +145,12 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     }
 
     if (allocateFull) {
-        allocation = Entity_AllocBlock(H((u8 *)actor->model_state.allocation_active, 0) * 8 + B((u8 *)actor->model_state.allocation_active, 3) * 12 + B((u8 *)actor->model_state.allocation_active, 2) * 32 + 0x50);
+        allocation = Entity_AllocBlock(H((u8 *)actor->model_state.allocation_active, 0) * 8 + actor->model_state.model_header->animation_entry_count * 12 + actor->model_state.model_header->part_count * 32 + 0x50);
     } else {
-        allocation = Entity_AllocBlock(B((u8 *)actor->model_state.allocation_active, 3) * 12 + B((u8 *)actor->model_state.allocation_active, 2) * 32);
+        allocation = Entity_AllocBlock(actor->model_state.model_header->animation_entry_count * 12 + actor->model_state.model_header->part_count * 32);
         actor->flags |= 0x600000A0;
     }
-    W(actor, 0x278) = (u32)allocation;
+    actor->allocation_block = (int)allocation;
 
     if (scene[0] == 0) {
         areaType = D_800B0CE2;
@@ -158,7 +158,7 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     }
     goto render_generic;
 render_special: {
-        Render_SetupEntityPrims(&actor->render_object, (RenderObjectHeader *)actor->model_state.allocation_active, allocation + 0x50, 0x3C0,
+        Render_SetupEntityPrims(&actor->render_object, actor->model_state.model_header, allocation + 0x50, 0x3C0,
                                 0x100, 0, 0x1C0, 2, (s8 **)&renderSetup,
                                 allocateFull);
     }
@@ -180,7 +180,7 @@ scan_loop:
 scan_done:
         allocation = actor->allocation_block;
         value = bankRows[i].trailing;
-        Render_SetupEntityPrims(&actor->render_object, (RenderObjectHeader *)actor->model_state.allocation_active, allocation + 0x50,
+        Render_SetupEntityPrims(&actor->render_object, actor->model_state.model_header, allocation + 0x50,
                                 (value >> 6) & 0x3C0, (value >> 9) & 0x180,
                                 0, ((bankRows[i].trailing >> 18) & 0xFF) + 0x1C0,
                                 (bankRows[i].trailing >> 8) & 0xF, (s8 **)&renderSetup,
