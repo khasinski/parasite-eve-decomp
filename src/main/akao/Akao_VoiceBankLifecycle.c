@@ -105,8 +105,8 @@ void Akao_StepSequencerVoice(void *arg0) {
     s32 var_v0;
     void *p2c8a;
     s32 tld;
-    void *p2c8b;
-    void *p2c8c;
+    AkaoSequencerBank *p2c8b;
+    AkaoSequencerBank *p2c8c;
     void *pend;
     register s32 kffe asm("$4");
 
@@ -124,13 +124,13 @@ void Akao_StepSequencerVoice(void *arg0) {
     p2c8b = g_AkaoCurTrack;
     t2dc = g_AkaoSeqPendingFlags;
     g_SpuPendingKeyOffMask |= tand;
-    M2C_FIELD(p2c8b, s32 *, 0x18) = 0;
+    *(s32 *)&p2c8b->key_off_request_mask = 0;
     if (t2dc & 1) {
-        M2C_FIELD(p2c8b, s32 *, 4) = 0;
-        M2C_FIELD(p2c8b, s32 *, 0x1C) = (M2C_FIELD(p2c8b, s32 *, 0x1C) | mask);
+        *(s32 *)&p2c8b->active_voice_mask = 0;
+        *(s32 *)&p2c8b->pending_restore_mask = (*(s32 *)&p2c8b->pending_restore_mask | mask);
     } else {
-        M2C_FIELD(p2c8b, s32 *, 0x1C) = 0;
-        M2C_FIELD(p2c8b, s32 *, 4) = (M2C_FIELD(p2c8b, s32 *, 4) | mask);
+        *(s32 *)&p2c8b->pending_restore_mask = 0;
+        *(s32 *)&p2c8b->active_voice_mask = (*(s32 *)&p2c8b->active_voice_mask | mask);
     }
     walk += 4;
         kFFFb = 0xFFFFFF;
@@ -142,14 +142,14 @@ void Akao_StepSequencerVoice(void *arg0) {
     base = pvoice + 0x116;
     km102 = -0x102;
         p2c8c = g_AkaoCurTrack;
-    M2C_FIELD(p2c8c, s32 *, 8) = tw1 & kFFFb;
+    p2c8c->pending_voice_mask = tw1 & kFFFb;
     tw2 = *(s32 *)walk;
     walk += 8;
-    M2C_FIELD(p2c8c, s32 *, 0xC) = tw2 & kFFFb;
-        tv0 = M2C_FIELD(p2c8c, s32 *, 0) & km102;
+    p2c8c->field_0C = tw2 & kFFFb;
+        tv0 = p2c8c->status_flags & km102;
     tcde = g_AkaoVoiceKeyOnState & 0x100;
     *(volatile s32 *)p2c8c = tv0;
-    M2C_FIELD(p2c8c, s32 *, 0) = tv0 | tcde;
+    p2c8c->status_flags = tv0 | tcde;
     do {
         if (mask & bit) {
             tlhu = *(u16 *)walk;
