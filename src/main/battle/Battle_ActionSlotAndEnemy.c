@@ -24,7 +24,7 @@ int Battle_ProcessActionSlot(BattleEntity *actor)
 
         if (phase == 0x2000) {
             int index = INDEX;
-            s16 command = D_800BE830[index].field04;
+            s16 command = D_800BE830[index].command;
             if (command != 0x196 && command != 0x189) {
                 if (D_8009D278_absolute.value->action->actionCode.actionId != 6) {
                     if (QUEUE_COUNT_READ == 0 && D_800B8A90[0] != 0) {

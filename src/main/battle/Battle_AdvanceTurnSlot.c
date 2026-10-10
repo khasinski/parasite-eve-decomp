@@ -55,7 +55,7 @@ void Battle_AdvanceTurnSlot(void)
     s16 i;
     s8 generation;
     D_8009CE44 = 0;
-    kind = D_800BE830[savedIndex - 1].field04;
+    kind = D_800BE830[savedIndex - 1].command;
     if (kind == 1) {
         asm volatile("" : "=r"(savedIndex) : "0"(savedIndex));
         if (D_8009D1DC == (D_8009D278[0]->action->turnWord & 15)) {
@@ -102,7 +102,7 @@ void Battle_AdvanceTurnSlot(void)
         if (D_800BE830[i].field06 == generation) {
             D_800BE830[i].actor = 0;
             (&D_800BE830[i])->field06 = 0;
-            D_800BE830[i].field04 = 0;
+            D_800BE830[i].command = 0;
         }
     }
 }

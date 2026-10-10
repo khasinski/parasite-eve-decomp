@@ -147,7 +147,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         if (caseEntity->animLastFrame != caseEntity->animPrev.parts.integer)
             break;
         indexB = D_8009D1D4;
-        if (D_800BE830[indexB].field04 == 0x189) {
+        if (D_800BE830[indexB].command == 0x189) {
             idleActor = (*(Combatant **)battle_actor_group_16);
             idleEntity = D_8009D254;
             goto set_idle;
@@ -165,7 +165,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         }
         nextIndexB = indexB + 1;
         { register int offset asm("$5") = nextIndexB << 3;
-        { int nextCode = D_800BE830[nextIndexB].field04;
+        { int nextCode = D_800BE830[nextIndexB].command;
         D_8009D1DC = 0;
         if (nextCode >= 3 || nextIndexB == D_8009CE3C) {
             Entity_SetActionMode(D_8009D254, active->actionMode12);
@@ -245,7 +245,7 @@ asm volatile("" : : "r"(enemy));
         break;
     default:
         indexDefault = D_8009D1D4;
-        if (D_800BE830[indexDefault].field04 == 0x189)
+        if (D_800BE830[indexDefault].command == 0x189)
             break;
         D_8009D1D4 = indexDefault + 1;
         if ((u8)(indexDefault + 1) != D_8009CE3C)

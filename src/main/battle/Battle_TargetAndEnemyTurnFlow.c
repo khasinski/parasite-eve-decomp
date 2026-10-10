@@ -112,7 +112,7 @@ void Battle_SetupEntityTarget(BattleEntity *actor) {
             D_8009D1DC = 0;
             slot = &D_800BE830[D_8009CE3C];
             slot->actor = target;
-            slot->field04 = 2;
+            slot->command = 2;
             slot->field06 = (s8)D_8009D2D8;
             D_8009CE3C++;
         } else {
@@ -122,7 +122,7 @@ void Battle_SetupEntityTarget(BattleEntity *actor) {
                 D_8009D1DC--;
                 slot = &D_800BE830[D_8009CE3C];
                 slot->actor = target;
-                slot->field04 = 1;
+                slot->command = 1;
                 slot->field06 = actionIndex;
                 D_8009CE3C++;
             }
@@ -142,11 +142,11 @@ static inline void PlaySound(int command) {
 }
 static inline void FinishAction(void) {
     u8 i;
-    if ((unsigned int)((u16)D_800BE830[0].field04 - 3) < 404 && D_8009D254->actionMode >= 4)
+    if ((unsigned int)((u16)D_800BE830[0].command - 3) < 404 && D_8009D254->actionMode >= 4)
         g_GameStateFlags |= 0x100;
-    if ((unsigned int)((u16)D_800BE830[0].field04 - 387) >= 21) {
+    if ((unsigned int)((u16)D_800BE830[0].command - 387) >= 21) {
         for (i=0; i<D_8009CE3C; i++) {
-            if ((unsigned int)((u16)D_800BE830[i].field04 - 1) < 2) {
+            if ((unsigned int)((u16)D_800BE830[i].command - 1) < 2) {
                 Battle_DispatchEntityEffect();
                 break;
             }
@@ -243,7 +243,7 @@ s8 g_BattleTargetIndex;
 
 static inline void StoreSlot(BattleInitSlot *slot, BattleEntity *actor, s16 kind, s16 actionIndex) {
     slot->actor = actor;
-    slot->field04 = kind;
+    slot->command = kind;
     slot->field06 = actionIndex;
 }
 

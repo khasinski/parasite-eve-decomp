@@ -15,7 +15,7 @@ void Battle_StepScriptEntry(void)
         entity->motionY = 0;
         entity->motionZ = 0;
         if (entity->actionMode >= 4) {
-            command = entry->field04;
+            command = entry->command;
             if (command < 3) {
                 Battle_UpdatePlayerTurn();
             } else if (command < 0x183) {

@@ -64,7 +64,7 @@ void Battle_Init(void)
     do {
         D_800BE830[index].actor = 0;
         records[index].field06 = 0;
-        D_800BE830[index].field04 = 0;
+        D_800BE830[index].command = 0;
         index++;
     } while (index < 45);
 

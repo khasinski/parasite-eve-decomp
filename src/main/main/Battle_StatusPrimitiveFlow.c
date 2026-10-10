@@ -443,7 +443,7 @@ void Battle_DrawATBGauge(void)
     sprite->y = y;
     AddPrim((unsigned *)D_800B0E38.ordering[g_ActiveDrawSlot] + 4, (unsigned *)packet);
     while (i < (signed char)Pad_GetMenuPressedBitOrDisabled()) {
-        int kind = D_800BE830[i].field04;
+        int kind = D_800BE830[i].command;
         if (kind == 1) {
             --ammo;
         } else if (kind == 2) {

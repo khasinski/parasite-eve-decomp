@@ -122,7 +122,7 @@ extern u16 D_800BE834[];
 #define S16_AT(ptr, offset) (*(s16 *)((u8 *)(ptr) + (offset)))
 #define U16_AT(ptr, offset) (*(u16 *)((u8 *)(ptr) + (offset)))
 #define U32_AT(ptr, offset) (*(u32 *)((u8 *)(ptr) + (offset)))
-#define ACTION_AT(index) ((u16)D_800BE830[(u8)(index)].field04)
+#define ACTION_AT(index) ((u16)D_800BE830[(u8)(index)].command)
 
 void Battle_ApplyDamage(int action);
 
