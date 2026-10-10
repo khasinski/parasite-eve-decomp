@@ -90,3 +90,99 @@ void MenuWidget_DestroyPopupNode(MenuWidgetNode *node) {
     owner->popup_node = 0;
     MenuWidget_DestroyNodeRecursive(node);
 }
+
+#include "pe1/menu_inventory.h"
+#include "pe1/draw_state.h"
+#include "pe1/textbox.h"
+#include "pe1/psyq_cd.h"
+
+MenuWidgetNode *g_MenuWidgetActiveListHead, *g_MenuWidgetCurrentNode;
+int g_DrawColorSelect, g_DrawSpriteX, g_DrawSpriteY;
+int *g_TextCursorStack;
+
+
+static inline void Offset(int x, int y) {
+    g_DrawSpriteX += x;
+    g_DrawSpriteY += y;
+}
+static inline void PopCursor(void) {
+    if (g_TextCursorStackBottom < g_TextCursorStack) {
+        int x = ((DrawTextCursorPair *)g_TextCursorStack)[-1].x;
+        int y = ((DrawTextCursorPair *)g_TextCursorStack)[-1].y;
+        g_TextCursorStack -= 2;
+        g_DrawSpriteX = x;
+        g_DrawSpriteY = y;
+    } else {
+        BoundsCheck_AssertStub(3);
+    }
+}
+
+void Draw_FlushFrontBuffer(MenuWidgetListNavigation *node) {
+    MenuWidgetNode *list = node->list;
+    if (list) {
+        MenuWidgetNode *owner = FindOwner((MenuWidgetNode *)node);
+        DrawTextCursorPair *stack;
+        g_DrawColorSelect = owner->mode == 1 && owner->draw_state != 0;
+        stack = (DrawTextCursorPair *)g_TextCursorStack;
+        if (stack < (DrawTextCursorPair *)g_TextCursorStackTop) {
+            int x = g_DrawSpriteX;
+            int y = g_DrawSpriteY;
+            g_TextCursorStack = (int *)(stack + 1);
+            stack->x = x;
+            stack->y = y;
+        } else {
+            BoundsCheck_AssertStub(2);
+        }
+        Offset(list->draw_state * list->grid_width + 2,
+               node->visibleRows + 2);
+        if (g_MenuWidgetCurrentNode == (MenuWidgetNode *)node && (VSync(-1) & 8))
+            Draw_AllocColorTri(8, node->drawState, 0);
+        Draw_AllocColorGradient(8, node->drawState, 0, 1);
+        if (list->scroll_y) {
+            Offset(0, -6);
+            Draw_AllocSprite(0x4a);
+            Offset(0, 6);
+        }
+        if (list->scroll_y < list->y_limit - list->visible_rows) {
+            Offset(0, node->drawState + 2);
+            Draw_AllocSprite(0x4b);
+        }
+        PopCursor();
+    }
+}
+
+#include "pe1/menu_inventory.h"
+
+static inline int Move(MenuWidgetNode *node, int delta) {
+    int changed = 0;
+
+    if (!node->scroll_adjust) {
+        int old = node->scroll_y;
+        node->scroll_y += delta;
+        if (node->scroll_y < 0) {
+            node->scroll_y = 0;
+        } else if (node->scroll_y > node->y_limit - node->visible_rows) {
+            node->scroll_y = node->y_limit - node->visible_rows;
+        }
+        changed = old != node->scroll_y;
+        if (changed) {
+            int speed = node->disabled;
+            node->scroll_adjust = (delta > 0 ? speed : -speed) / 2;
+        }
+    }
+    return changed;
+}
+
+int Menu_StepListNavigate(MenuWidgetListNavigation *node, unsigned int flags) {
+    MenuWidgetNode *list = node->list;
+    int handled = 0;
+
+    if (flags & 0x1004) {
+        if (Move(list, -list->visible_rows)) Menu_PlayMoveSound();
+        handled = 1;
+    } else if (flags & 0x4008) {
+        if (Move(list, list->visible_rows)) Menu_PlayMoveSound();
+        handled = 1;
+    }
+    return handled || !(node->flags & 0x40);
+}
