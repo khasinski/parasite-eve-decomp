@@ -42,7 +42,7 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                     best_index = loaded;
                     {
                         register u32 *cursor asm("$6") = entries;
-                        do {
+                        for (; i < best_index; ) {
                             int y = (*cursor >> 12) & 0x3FF;
                             if (best_y < y) {
                                 best_y = y;
@@ -50,7 +50,7 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                             ++i;
 
                             ++cursor;
-                        } while (i < best_index);
+                        }
                     }
                 }
             }
@@ -93,7 +93,7 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                     descending_index = loaded;
                     {
                         register u32 *cursor asm("$6") = entries;
-                        do {
+                        for (; i < descending_index; ) {
                             int y = (*cursor >> 12) & 0x3FF;
                             if (y < best_y) {
                                 best_y = y;
@@ -101,7 +101,7 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                             ++i;
 
                             ++cursor;
-                        } while (i < descending_index);
+                        }
                     }
                 }
             }
@@ -130,7 +130,7 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
             i = 0;
             if (best_index < loaded) {
                 register int bound = loaded;
-                do {
+                for (; i < bound; ) {
                     register int raw_y;
 
                     value = entries[i];
@@ -157,7 +157,7 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                     }
 
                     ++i;
-                } while (i < bound);
+                }
             }
         }
         if ((!((u8)descending_index)) && (has_later_x == 1)) {
