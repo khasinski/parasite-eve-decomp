@@ -104,7 +104,7 @@ segments:
       - [0x166C, .rodata, menu/Menu_TextboxDraw]
       - [0x1694, rodata, main/rodata_001694]
       - [0x1734, .rodata, memcard/MemCard_PortAndSaveFlow]
-      - [0x17AC, .rodata, menu/Menu_SaveBgDraw]
+      - [0x17AC, .rodata, menu/Menu_SaveBackground]
       - [0x17CC, .rodata, menu/Menu_StepItemSelectScreen]
       - [0x17F0, rodata, main/rodata_0017F0]
       - [0x17F4, .rodata, menu/Menu_InventoryAndBonusPoints]
@@ -399,8 +399,8 @@ segments:
       # Title-screen card support, card port handling and the save flow share card state (G0354).
       - [0x3086C, c, memcard/MemCard_PortAndSaveFlow]
       # Save background fade: gamma curve, fade step and fade state setters share the fade state words.
-      - [0x33478, c, menu/Menu_SaveBgFade]
-      - [0x33744, c, menu/Menu_SaveBgDraw]
+      # Save-background fade state, captured-frame update and draw controller.
+      - [0x33478, c, menu/Menu_SaveBackground]
       - [0x33838, c, menu/Menu_SaveBgIsFadeComplete]
       - [0x3384C, c, item/Inv_FetchSelectedInventoryItem]
       - [0x338A0, c, menu/Menu_HandleInput]

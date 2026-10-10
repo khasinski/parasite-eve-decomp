@@ -15,6 +15,11 @@ extern unsigned char g_GeomOtZ[];
 
 int g_MenuSaveBgFadeState;
 int g_MenuSaveBgFadeStep;
+int g_MenuSaveBgFadeHeight;
+extern u16 *g_RenderFrontBufferBase[];
+extern u16 *g_RenderBackBufferBase[];
+
+int StoreImage(RECT *rect, void *p);
 
 void Menu_SaveBgInitFade(void) {
     g_MenuSaveBgFadeState = 0;
@@ -155,4 +160,61 @@ void Menu_SaveBgStartFadeOut(void) {
 
 void Menu_SaveBgClearFade(void) {
     g_MenuSaveBgFadeState = 0;
+}
+
+void Menu_SaveBgAdvanceFade(void) {
+    RECT rect;
+    int next;
+
+    switch (g_MenuSaveBgFadeState) {
+    case 0:
+        return;
+
+    case 1:
+        next = 2;
+        break;
+
+    case 2:
+        next = 3;
+        break;
+
+    case 3:
+        rect.y = 0x1E0;
+        rect.x = 0;
+        rect.w = 0x100;
+        rect.h = g_MenuSaveBgFadeHeight;
+        StoreImage(&rect, g_RenderFrontBufferBase[0]);
+        next = 4;
+        break;
+
+    case 5:
+        g_MenuSaveBgFadeState = 6;
+        Menu_SaveBgApplyFadeStep();
+        return;
+
+    case 4:
+    case 6:
+        next = 5;
+        break;
+
+    case 7:
+        return;
+
+    default:
+        return;
+    }
+
+    g_MenuSaveBgFadeState = next;
+}
+
+void Menu_DrawSaveBg(void) {
+    RECT rect;
+
+    if (g_MenuSaveBgFadeState == 6) {
+        rect.y = 0x1E0;
+        rect.h = g_MenuSaveBgFadeHeight;
+        rect.x = 0;
+        rect.w = 0x100;
+        LoadImage(&rect, g_RenderBackBufferBase[0]);
+    }
 }
