@@ -70,8 +70,8 @@ typedef struct FieldActor {
                                          struct FieldActor *other, int other_part);
                 /* run for each overlapping hit-sphere pair (Scene_UpdateEntityPositions) */
     /* 0x198 */ unsigned char pad_198[0x04];
-    /* 0x19C */ int script_cursor_19c;
-    /* 0x1A0 */ int script_cursor_1a0;
+    /* 0x19C */ unsigned char *script_cursor_19c; /* entry for queued field-sfx tasks */
+    /* 0x1A0 */ unsigned char *script_cursor_1a0; /* entry for actor-contact tasks */
     /* 0x1A4 */ int field_1a4;          /* rolled back from field_1a8 alongside pos */
     /* 0x1A8 */ int field_1a8;
     /* 0x1AC */ int allocation_active; /* nonzero when allocation_block must be freed with the actor */
