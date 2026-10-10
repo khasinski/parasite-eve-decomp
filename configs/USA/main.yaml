@@ -621,12 +621,9 @@ segments:
       # Active-list presence, child access and node searches share widget state.
       - [0x531B0, c, menu/menu_widget]
       - [0x5327C, c, gpu/Draw_FlushPrimList]
-      # Selection, constructors, pool, cells, rows, scrolling, layouts and shadow
+      # Selection, constructors, cells, scrolling, saved layouts and mode-3 popups
       # share their typed widget state and -G8/common profile.
       - [0x534B8, c, menu/MenuWidget_Lifecycle]
-      # Mode-3 popup construction, destruction, drawing, navigation and easing share
-      # the typed list navigation view and owner lookup.
-      - [0x55508, c, menu/Draw_SwapPrimBuffers]
       # Field sound event enqueue/reset and actor dispatch share queue records.
       - [0x55B6C, c, task/Task_FieldSfxQueue]
       # Reset, animation update and slot commands share GeomCtrlEntry.
