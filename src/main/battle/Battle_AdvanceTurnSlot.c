@@ -21,8 +21,8 @@ static inline void RewindTurn(int initial)
 store_index:
         D_8009CE3C = next;
     } while (D_8009CE3C != 0 &&
-        D_800BE830[D_8009CE3C].field06 ==
-        D_800BE830[D_8009CE3C - 1].field06);
+        D_800BE830[D_8009CE3C].actionGeneration ==
+        D_800BE830[D_8009CE3C - 1].actionGeneration);
 }
 
 static inline void RewindEqual(int initial)
@@ -30,14 +30,14 @@ static inline void RewindEqual(int initial)
     int current = initial - 1;
     D_8009CE3C = current;
     if ((u8)current == 0 ||
-        D_800BE830[(u8)current].field06 !=
-        D_800BE830[(u8)current - 1].field06)
+        D_800BE830[(u8)current].actionGeneration !=
+        D_800BE830[(u8)current - 1].actionGeneration)
         return;
     do {
                 D_8009CE3C--;
     } while (D_8009CE3C != 0 &&
-        D_800BE830[D_8009CE3C].field06 ==
-        D_800BE830[D_8009CE3C - 1].field06);
+        D_800BE830[D_8009CE3C].actionGeneration ==
+        D_800BE830[D_8009CE3C - 1].actionGeneration);
 }
 
 static inline void RestorePending(int index)
@@ -89,7 +89,7 @@ void Battle_AdvanceTurnSlot(void)
             for (;;) {
                                 current = D_8009CE3C;
                 if (current == 0 ||
-                    D_800BE830[current].field06 != D_800BE830[current - 1].field06)
+                    D_800BE830[current].actionGeneration != D_800BE830[current - 1].actionGeneration)
                     break;
                 D_8009CE3C = current - 1;
             }
@@ -99,9 +99,9 @@ void Battle_AdvanceTurnSlot(void)
     }
     generation = D_8009D2D8;
     for (i = 0; i < 45; i++) {
-        if (D_800BE830[i].field06 == generation) {
+        if (D_800BE830[i].actionGeneration == generation) {
             D_800BE830[i].actor = 0;
-            (&D_800BE830[i])->field06 = 0;
+            (&D_800BE830[i])->actionGeneration = 0;
             D_800BE830[i].command = 0;
         }
     }

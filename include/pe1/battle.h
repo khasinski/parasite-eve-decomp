@@ -434,14 +434,14 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleTargetWords, word_08) == 8,
 typedef struct BattleInitSlot {
     BattleEntity *actor;
     s16 command; /* turn command or spell id; 1/2 are actor action kinds */
-    s16 field06;
+    s16 actionGeneration; /* signed byte generation shared by entries of one queued action */
 } BattleInitSlot;
 extern BattleInitSlot D_800BE830[45];
 
 PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleInitSlot, command) == 4,
                   battle_init_slot_field04_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleInitSlot, field06) == 6,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleInitSlot, actionGeneration) == 6,
                   battle_init_slot_field06_offset);
 
 extern BattleTarget g_BattleTargetList[];

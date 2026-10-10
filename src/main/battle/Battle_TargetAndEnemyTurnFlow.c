@@ -113,17 +113,17 @@ void Battle_SetupEntityTarget(BattleEntity *actor) {
             slot = &D_800BE830[D_8009CE3C];
             slot->actor = target;
             slot->command = 2;
-            slot->field06 = (s8)D_8009D2D8;
+            slot->actionGeneration = (s8)D_8009D2D8;
             D_8009CE3C++;
         } else {
             while (D_8009D1DC) {
                 BattleInitSlot *slot;
-                s16 actionIndex = (s8)D_8009D2D8;
+                s16 actionGeneration = (s8)D_8009D2D8;
                 D_8009D1DC--;
                 slot = &D_800BE830[D_8009CE3C];
                 slot->actor = target;
                 slot->command = 1;
-                slot->field06 = actionIndex;
+                slot->actionGeneration = actionGeneration;
                 D_8009CE3C++;
             }
         }
@@ -241,14 +241,14 @@ s8 g_ItemTargetMode asm("D_8009CE40");
 u16 D_8009CE50;
 s8 g_BattleTargetIndex;
 
-static inline void StoreSlot(BattleInitSlot *slot, BattleEntity *actor, s16 kind, s16 actionIndex) {
+static inline void StoreSlot(BattleInitSlot *slot, BattleEntity *actor, s16 kind, s16 actionGeneration) {
     slot->actor = actor;
     slot->command = kind;
-    slot->field06 = actionIndex;
+    slot->actionGeneration = actionGeneration;
 }
 
-static inline void SetSlot(int index, BattleEntity *actor, s16 kind, s16 actionIndex) {
-    StoreSlot(&D_800BE830[index], actor, kind, actionIndex);
+static inline void SetSlot(int index, BattleEntity *actor, s16 kind, s16 actionGeneration) {
+    StoreSlot(&D_800BE830[index], actor, kind, actionGeneration);
 }
 
 void Battle_FillActionQueue(BattleTarget *target) {
