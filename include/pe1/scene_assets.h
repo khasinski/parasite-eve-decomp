@@ -162,17 +162,33 @@ static inline void *SceneAsset_ResolveOffset(void *base, unsigned int offset)
     return (u8 *)base + offset;
 }
 
-typedef struct TimUploadRecord { u32 words[5]; } TimUploadRecord;
+typedef union TimUploadSource {
+    u32 offsetAndHeight;
+    struct { u8 offset[3]; u8 height; } bytes;
+} TimUploadSource;
+
+/* Each source word stores a 24-bit byte offset and an 8-bit height.
+ * Rectangles pack width (10 bits), x (11 bits), then y (11 bits). */
+typedef struct TimUploadRecord {
+    u32 reserved;
+    TimUploadSource image_source;
+    u32 image_rectangle;
+    TimUploadSource secondary_source;
+    u32 secondary_rectangle;
+} TimUploadRecord;
 typedef struct TimPackedImage {
     u32 key;
-    union {
-        u32 offsetAndHeight;
-        struct { u8 offset[3]; u8 height; } bytes;
-    } source;
+    TimUploadSource source;
     u32 geometry;
 } TimPackedImage;
 
 PE1_STATIC_ASSERT(sizeof(TimUploadRecord) == 20, scene_tim_upload_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TimUploadRecord, image_source.bytes.height) == 7,
+                  scene_tim_upload_image_height_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TimUploadRecord, image_rectangle) == 8,
+                  scene_tim_upload_image_rectangle_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TimUploadRecord, secondary_source.bytes.height) == 15,
+                  scene_tim_upload_secondary_height_offset);
 PE1_STATIC_ASSERT(sizeof(TimPackedImage) == 12, scene_tim_packed_image_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(TimPackedImage, source.bytes.height) == 7,
                   scene_tim_image_height_offset);

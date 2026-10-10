@@ -19,14 +19,14 @@ int Gpu_LoadTimAsset(TimUploadRecord *asset, void *base) {
     unsigned int image_offset;
     u8 *image_address;
 
-    packed = asset->words[2];
+    packed = asset->image_rectangle;
     rect.x = (packed >> 10) & 0x7FF;
-    packed = asset->words[2];
+    packed = asset->image_rectangle;
     rect.y = packed >> 21;
-    packed = asset->words[2];
+    packed = asset->image_rectangle;
     rect.w = packed & 0x3FF;
     saved_base = base;
-    packed = ((u8 *)asset)[7];
+    packed = asset->image_source.bytes.height;
     if (packed != 0) {
         h = packed & 0xFF;
     } else {
@@ -35,20 +35,20 @@ int Gpu_LoadTimAsset(TimUploadRecord *asset, void *base) {
 
     mask = 0xFFFFFF;
     rect.h = h;
-    LoadImage(&rect, saved_base + (asset->words[1] & mask));
+    LoadImage(&rect, saved_base + (asset->image_source.offsetAndHeight & mask));
 
-    secondary = asset->words[3] & mask;
+    secondary = asset->secondary_source.offsetAndHeight & mask;
     if (secondary != 0) {
-        packed = asset->words[4];
+        packed = asset->secondary_rectangle;
         rect.x = (packed >> 10) & 0x7FF;
-        packed = asset->words[4];
+        packed = asset->secondary_rectangle;
         rect.y = packed >> 21;
-        packed = asset->words[4];
+        packed = asset->secondary_rectangle;
         rect.w = packed & 0x3FF;
-        rect.h = ((u8 *)asset)[0xF];
-        image_offset = asset->words[1] & mask;
+        rect.h = asset->secondary_source.bytes.height;
+        image_offset = asset->image_source.offsetAndHeight & mask;
         image_address = saved_base + image_offset;
-        offset = asset->words[3] & mask;
+        offset = asset->secondary_source.offsetAndHeight & mask;
         LoadImage(&rect, offset + image_address);
     }
 
