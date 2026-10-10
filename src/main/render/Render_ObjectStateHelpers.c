@@ -57,7 +57,7 @@ typedef short s16_2;
 void Render_InitObjectFromTable(RenderObjectEntity *obj, RenderObjectEntity *owner, int index) {
     int offset;
     int base;
-    u16 *entry;
+    RenderVec3s *entry;
 
     obj->table_index = index;
     offset = (short)index << 4;
@@ -65,21 +65,22 @@ void Render_InitObjectFromTable(RenderObjectEntity *obj, RenderObjectEntity *own
     obj->animation_source = owner;
 
     base = (int)owner->bounds_vertices;
-    entry = (u16 *)(offset + base);
-    obj->hit_cylinder.radius = entry[3];
+    entry = (RenderVec3s *)(offset + base);
+    /* The first vector of each 16-byte bounds pair stores radius in pad. */
+    obj->hit_cylinder.radius = (u16)entry->pad;
 
     base = (int)owner->bounds_vertices;
-    entry = (u16 *)(offset + base);
-    obj->table_value2c = entry[0];
+    entry = (RenderVec3s *)(offset + base);
+    obj->table_value2c = (u16)entry->x;
 
     base = (int)owner->bounds_vertices;
-    entry = (u16 *)(offset + base);
-    obj->table_value2e = entry[1];
+    entry = (RenderVec3s *)(offset + base);
+    obj->table_value2e = (u16)entry->y;
 
     base = (int)owner->bounds_vertices;
     offset += base;
-    entry = (u16 *)offset;
-    obj->table_value30 = entry[2] + (u16)obj->hit_cylinder.radius;
+    entry = (RenderVec3s *)offset;
+    obj->table_value30 = (u16)entry->z + (u16)obj->hit_cylinder.radius;
 }
 
 void Render_Noop(void) {

@@ -364,9 +364,8 @@ segments:
       # follows stays separate.
       - [0x2C17C, c, render/Render_DrawObjectAndClut]
       - [0x2C8B4, c, render/Render_DrawObjectAlt]
-      # Variant draw, interpolation-rate setup and object animation/colour stepping.
+      # Variant draw, animation stepping, fade and blend update shared object state.
       - [0x2CAE0, c, render/Render_DrawObjectVariant]
-      - [0x2D2EC, c, render/Render_PrimitiveColorAndBlend]
       - [0x2D6F8, c, field/Field_GetMapEntry]
       - [0x2D850, c, render/Render_SetupEntityPrims]
       - [0x2E02C, c, entity/Util_ReturnTrue]
