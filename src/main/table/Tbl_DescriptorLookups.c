@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/menu_widget.h"
+#include "pe1/draw_state.h"
 
 extern MenuWidgetSimpleDescriptor D_80092478[];
 
@@ -23,12 +24,12 @@ MenuWidgetGridDescriptor *MenuWidget_LookupGridDescriptor(unsigned int index) {
     return &D_80092888[index];
 }
 
-void *Draw_LookupGlyphDescriptor(int index) {
+DrawGlyphDescriptor *Draw_LookupGlyphDescriptor(int index) {
     register char *base = (char *)&D_800A8030;
     register int offset = *(int *)base;
 
     base -= 8;
-    return (void *)(offset + base + index * 8);
+    return (DrawGlyphDescriptor *)(offset + base + index * sizeof(DrawGlyphDescriptor));
 }
 
 void *Str_LookupTable0(unsigned int arg0) {
