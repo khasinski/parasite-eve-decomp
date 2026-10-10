@@ -146,14 +146,11 @@ extern struct { char _[16]; } D_800B0CE2_o __asm__("g_SceneAreaType");
 extern struct { char _[16]; } D_800B0CE2_w __asm__("g_SceneAreaType");
 #define g_SceneAreaType (*(u8 *)&D_800B0CE2_o)
 extern struct { char _[16]; } D_800B0CE3_o __asm__("g_SavedSceneAreaType");
-extern struct { char _[16]; } D_800B0CE3_s1 __asm__("g_SavedSceneAreaType");
 #define g_SavedSceneAreaType (*(u8 *)&D_800B0CE3_o)
 extern struct { char _[16]; } D_800B0CE4_o __asm__("D_800B0CE4");
 #define g_CurrentStoryDay (*(s8 *)&D_800B0CE4_o)
 extern struct { char _[16]; } D_800B0CE6_o __asm__("g_DiscChangeFlags");
 extern struct { char _[16]; } D_800B0CE6_w __asm__("g_DiscChangeFlags");
-extern struct { char _[16]; } D_800B0CE6_o2 __asm__("g_DiscChangeFlags");
-extern struct { char _[16]; } D_800B0CE6_w2 __asm__("g_DiscChangeFlags");
 extern Pe1GameState g_GameStateFlagsBeforeSceneSwitch __asm__("g_GameState");
 extern Pe1GameState g_GameStateFlagsAfterSceneSwitch __asm__("g_GameState");
 extern Pe1GameState g_GameStateFlagsBeforePlayerInit __asm__("g_GameState");

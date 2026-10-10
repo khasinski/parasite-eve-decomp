@@ -14,12 +14,10 @@ extern struct { char _[16]; } D_800A1FD4_o __asm__("g_BattleCountTable");
 #define g_BattleCountTable (*(s16 *)&D_800A1FD4_o)
 extern struct { char _[16]; } D_800C0E20_o __asm__("g_AyaEquippedWeaponSlot");
 extern struct { char _[16]; } D_800C0E20_w __asm__("g_AyaEquippedWeaponSlot");
-extern struct { char _[16]; } D_800C0E20_r2 __asm__("g_AyaEquippedWeaponSlot");
 extern struct { char _[16]; } D_800C0E20_w2 __asm__("g_AyaEquippedWeaponSlot");
 #define g_AyaEquippedWeaponSlot (*(s8 *)&D_800C0E20_o)
 extern struct { char _[16]; } D_800C0E22_o __asm__("g_AyaEquippedArmorSlot");
 extern struct { char _[16]; } D_800C0E22_w __asm__("g_AyaEquippedArmorSlot");
-extern struct { char _[16]; } D_800C0E22_r2 __asm__("g_AyaEquippedArmorSlot");
 extern struct { char _[16]; } D_800C0E22_w2 __asm__("g_AyaEquippedArmorSlot");
 #define g_AyaEquippedArmorSlot (*(s8 *)&D_800C0E22_o)
 extern struct { char _[16]; } g_AyaInventoryItems_o __asm__("g_AyaInventoryItems");

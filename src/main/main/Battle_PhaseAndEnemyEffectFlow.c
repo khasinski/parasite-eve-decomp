@@ -81,7 +81,6 @@ extern LargeSymbol D_8009D278_8 __asm__("D_8009D278");
 extern LargeSymbol D_8009D278_9 __asm__("D_8009D278");
 extern LargeSymbol D_8009D278_10 __asm__("D_8009D278");
 extern LargeSymbol D_8009D278_11 __asm__("D_8009D278");
-extern LargeSymbol D_8009D278_12 __asm__("D_8009D278");
 extern LargeSymbol D_8009D278_13 __asm__("D_8009D278");
 extern s16 D_8009D27C;
 extern LargeSymbol D_8009D2A0_o __asm__("D_8009D2A0");
