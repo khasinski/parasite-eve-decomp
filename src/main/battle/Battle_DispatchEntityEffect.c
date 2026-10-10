@@ -4,23 +4,13 @@
 /* MASPSX_FLAGS: -G8 */
 
 extern struct { char _[16]; } D_8009D254_a __asm__("D_8009D254");
-extern struct { char _[16]; } D_8009D254_b __asm__("D_8009D254");
-extern struct { char _[16]; } D_8009D254_c __asm__("D_8009D254");
-extern struct { char _[16]; } D_8009D254_d __asm__("D_8009D254");
-extern struct { char _[16]; } D_8009D254_e __asm__("D_8009D254");
 extern struct { char _[16]; } D_8009D254_f __asm__("D_8009D254");
-extern struct { char _[16]; } D_8009D254_g __asm__("D_8009D254");
 extern struct { char _[16]; } D_8009D278_a __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D278_b __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D2FC_o __asm__("D_8009D2FC");
 
 #define D_8009D254_A (*(BattleEntity **)&D_8009D254_a)
-#define D_8009D254_B (*(BattleEntity **)&D_8009D254_b)
-#define D_8009D254_C (*(BattleEntity **)&D_8009D254_c)
-#define D_8009D254_D (*(BattleEntity **)&D_8009D254_d)
-#define D_8009D254_E (*(BattleEntity **)&D_8009D254_e)
 #define D_8009D254_F (*(BattleEntity **)&D_8009D254_f)
-#define D_8009D254_G (*(BattleEntity **)&D_8009D254_g)
 #define D_8009D278_A (*(Combatant **)&D_8009D278_a)
 #define D_8009D278_B (*(Combatant **)&D_8009D278_b)
 #define D_8009D2FC (*(int *)&D_8009D2FC_o)
@@ -54,7 +44,7 @@ void Battle_DispatchEntityEffect(void) {
     }
 
     if (action_id == 8) {
-        D_8009D2FC = Scene_LoadRoomAssets(6, D_8009D254_B);
+        D_8009D2FC = Scene_LoadRoomAssets(6, D_8009D254_A);
         return;
     }
 
@@ -67,16 +57,16 @@ void Battle_DispatchEntityEffect(void) {
     action_id2 = action2->actionCode.actionId;
 
     if (action_id2 == 5 || ((word10 = action2->turnWord) & 0x1F00) != 0) {
-        result = Scene_LoadRoomAssets(0, D_8009D254_E);
+        result = Scene_LoadRoomAssets(0, D_8009D254_A);
         next_entity = D_8009D254_F;
         next_id = 5;
     } else {
         if ((action_id2 == 2) || ((word10 & 0xC0) == 0x80)) {
-            result = Scene_LoadRoomAssets(1, D_8009D254_C);
+            result = Scene_LoadRoomAssets(1, D_8009D254_A);
         } else {
-            result = Scene_LoadRoomAssets(2, D_8009D254_G);
+            result = Scene_LoadRoomAssets(2, D_8009D254_A);
         }
-        next_entity = D_8009D254_D;
+        next_entity = D_8009D254_A;
         next_id = 4;
     }
 
