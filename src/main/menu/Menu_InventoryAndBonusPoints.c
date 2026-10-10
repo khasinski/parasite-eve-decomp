@@ -970,7 +970,7 @@ int Spend_BonusPoints(void *node, unsigned int buttons)
                 refund = D_8009CFD8;
                 asm volatile("" : : "r"(refund));
                 next = *bonus - 1;
-                asm volatile("" ::: "memory");
+                asm volatile("" : "=m"(*bonus) : "m"(*bonus));
                 *bonus = next;
             }
             break;
@@ -985,7 +985,7 @@ int Spend_BonusPoints(void *node, unsigned int buttons)
                 refund = D_8009CFD8;
                 asm volatile("" : : "r"(refund));
                 next = *bonus - 1;
-                asm volatile("" ::: "memory");
+                asm volatile("" : "=m"(*bonus) : "m"(*bonus));
                 *bonus = next;
             }
             break;
