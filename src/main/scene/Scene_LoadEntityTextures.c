@@ -14,7 +14,7 @@ int Scene_LoadEntityTextures(void)
     TimUploadRecord *firstTim;
     SceneBankAssetRecord *firstRecord;
     SceneBankAssetRecord *root;
-    void *model;
+    RenderObjectHeader *model;
     u32 streamEntries, packed;
     u32 i;
     int result;
@@ -195,7 +195,7 @@ retry:
         } else {
             model = state->scene_object_model;
         }
-        Render_SetupEntityPrims((RenderObjectEntity *)&state->scene_object, model,
+        Render_SetupEntityPrims(&state->scene_object, model,
             state->scene_object_work, 0x2C0, 0x80, 0, 0x1C2, 0, (s8 **)setup, 1);
         if (state->scene_object.animation_source == 0 && g_PlayerEntity != 0) {
             state->scene_object.animation_source = &g_PlayerEntity->render_object;
@@ -203,8 +203,8 @@ retry:
             state->scene_object.animation_id = 0x12;
         }
         state->scene_object.shade = 0x80;
-        state->scene_object.light_negative_y = 0xC;
-        state->scene_object.light_positive_y = 0x18;
+        state->scene_object.lightNegativeY = 0xC;
+        state->scene_object.lightPositiveY = 0x18;
         Render_InitRoomPrimState(&state->scene_object);
         Render_DrawWithAnim(&state->scene_object, 0, 0, D_800BEA40,
             g_EntityRenderScratch);

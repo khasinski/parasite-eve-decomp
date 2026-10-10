@@ -1,6 +1,8 @@
 #ifndef PE1_GAME_STATE_TYPES_H
 #define PE1_GAME_STATE_TYPES_H
 
+#include "pe1/render_object.h"
+
 typedef signed char Pe1S8;
 typedef unsigned char Pe1U8;
 typedef unsigned int Pe1U32;
@@ -16,16 +18,6 @@ struct TimFile;
 struct PmSlotBanks;
 struct RenderObjectEntity;
 union SceneAssetView;
-
-/* Embedded render object at 0x014; the full layout is RenderObjectEntity. */
-typedef struct Pe1SceneRenderObject {
-    void *sections[9];                             /* 0x00 */
-    struct RenderObjectEntity *animation_source;   /* 0x24 */
-    short animation_state, animation_id;           /* 0x28 */
-    Pe1U8 reserved_2c[0x5C];
-    Pe1U8 shade, light_negative_y, light_positive_y; /* 0x88 */
-    Pe1U8 reserved_8b[0x39];
-} Pe1SceneRenderObject;
 
 typedef union Pe1SceneAudioState {
     Pe1U8 bytes[0x10];
@@ -53,7 +45,8 @@ typedef struct Pe1GameState {
     Pe1U8 cd_range_read_mode;      /* 0x010: CD_FindNextDataSector */
     Pe1U8 bank_state_11, bank_state_12;
     Pe1U8 unk_013;
-    Pe1SceneRenderObject scene_object; /* 0x014 */
+    RenderObjectEntity scene_object; /* 0x014 */
+    Pe1U8 reserved_scene_object_tail[8]; /* 0x0D0: outside the render object */
     Pe1SceneAudioState scene_audio; /* 0x0D8: cached track banks and keys */
     short pending_sample_bank;      /* 0x0E8: -1 means no sample upload */
     Pe1U8 pending_stream_banks[2];  /* 0x0EA: zero means no stream upload */
@@ -75,7 +68,7 @@ typedef struct Pe1GameState {
     Pe1U32 pe_image_base_lba;        /* 0x100: g_PeImageBaseLba */
     Pe1U8 draw_prim_b[0x10];         /* 0x104 */
     Pe1U8 draw_prim_c[8];            /* 0x114 */
-    void *scene_object_model;        /* 0x11C */
+    RenderObjectHeader *scene_object_model;        /* 0x11C */
     void *room_geometry_table;       /* 0x120: key 0xCAAD0704 */
     void *bank_asset_table;           /* 0x124: resolved bank asset table */
     Pe1U32 bank_work_base;           /* 0x128 */
@@ -87,7 +80,7 @@ typedef struct Pe1GameState {
     Pe1U32 voice_bank_base;          /* 0x150 */
     Pe1U32 voice_bank_base_1400;     /* 0x154 */
     union SceneAssetView *entity_texture_blob; /* 0x158: voice bank base + 0x2800 */
-    void *scene_object_work;         /* 0x15C */
+    u8 *scene_object_work;         /* 0x15C */
     struct SceneAssetBlob *bg_texture_blob;    /* 0x160 */
     Pe1U8 unk_164[4];
     union SceneAssetView *texture_load_scratch; /* 0x168: second room read */
@@ -113,5 +106,10 @@ typedef struct Pe1GameState {
     Pe1U32 bank_reset_958[1];
 } Pe1GameState;
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_object) == 0x14,
+                  game_state_scene_object_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_audio) == 0xD8,
+                  game_state_scene_audio_offset);
+PE1_STATIC_ASSERT(sizeof(Pe1GameState) == 0x95C, embedded_render_game_state_size);
 
 #endif
