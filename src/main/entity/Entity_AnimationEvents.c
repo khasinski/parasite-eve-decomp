@@ -2,32 +2,39 @@
 #include "common.h"
 #include "pe1/task_anim.h"
 
-void Task_SetObjAnimEntry12(TaskAnimObj *obj, u8 index, int arg2, int arg3, u8 arg4, u16 arg5,
-                   u8 arg6, u8 arg7, u8 arg8, u8 arg9, u8 arg10, u8 arg11) {
+void Task_SetObjAnimEntry12(obj, index, effectType, enterMode, exitMode, power,
+                           parameter0, parameter1, parameter2, parameter3, category, frame)
+    TaskAnimObj *obj;
+    u8 index;
+    int effectType, enterMode;
+    u8 exitMode;
+    u16 power;
+    u8 parameter0, parameter1, parameter2, parameter3, category, frame;
+{
     EnemyActionEffect *dst = &obj->core->records[index];
 
     dst->state = 0;
-    dst->effectType = arg2;
-    dst->enterMode = arg3;
-    dst->exitMode = arg4;
-    dst->power = arg5;
-    dst->category = arg10;
-    dst->frame = arg11;
+    dst->effectType = effectType;
+    dst->enterMode = enterMode;
+    dst->exitMode = exitMode;
+    dst->power = power;
+    dst->category = category;
+    dst->frame = frame;
 
-    obj->core->parameters[index][0] = arg6;
-    obj->core->parameters[index][1] = arg7;
-    obj->core->parameters[index][2] = arg8;
-    obj->core->parameters[index][3] = arg9;
+    obj->core->parameters[index][0] = parameter0;
+    obj->core->parameters[index][1] = parameter1;
+    obj->core->parameters[index][2] = parameter2;
+    obj->core->parameters[index][3] = parameter3;
 }
 
-void Task_SetObjAnimEntry5(TaskAnimObj *obj, int index, int arg2, int arg3, u8 arg4, u16 arg5) {
+void Task_SetObjAnimEntry5(TaskAnimObj *obj, int index, int effectType, int enterMode, u8 exitMode, u16 power) {
     EnemyActionEffect *dst = &obj->core->records[(u8)index];
 
     dst->state = 0;
-    dst->effectType = arg2;
-    dst->enterMode = arg3;
-    dst->exitMode = arg4;
-    dst->power = arg5;
+    dst->effectType = effectType;
+    dst->enterMode = enterMode;
+    dst->exitMode = exitMode;
+    dst->power = power;
 }
 
 void Battle_SetEntryCoords(TaskAnimObj *arg0, unsigned char arg1, int arg2, int arg3) {

@@ -6,6 +6,7 @@
 #include "common.h"
 #include "pe1/field_actor.h"
 #include "pe1/field_collision.h"
+#include "pe1/task_anim.h"
 
 extern FieldActor *g_CurrentEntity;
 extern FieldActor *g_PlayerEntity;
@@ -29,20 +30,6 @@ int Scene_LoadRoomAssets(int arg0, void *arg1);
 int Pm_SendCmd();
 int Pm_SetGetState(int arg0, int arg1, int arg2);
 void Entity_AllocSlot(void *arg0);
-void Task_SetObjAnimEntry12(
-    void *arg0,
-    int arg1,
-    int arg2,
-    int arg3,
-    int arg4,
-    int arg5,
-    int arg6,
-    int arg7,
-    int arg8,
-    int arg9,
-    int arg10,
-    int arg11);
-void Task_SetObjAnimEntry5(void *arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
 void Geo_TransformPoint(void *arg0, int arg1, int arg2, int arg3);
 void Render_SetEntryVisible(int arg0, int arg1);
 void Geo_ClipPoint(int arg0, int arg1, int arg2);
@@ -188,7 +175,7 @@ int Task_InitEntityMoveState(void) {
 
 int Task_SetEntityAnim12Args(char **arg0) {
     Task_SetObjAnimEntry12(
-        g_CurrentEntity,
+        (TaskAnimObj *)g_CurrentEntity,
         *(unsigned char *)arg0[0],
         *(unsigned char *)arg0[1],
         *(unsigned char *)arg0[2],
@@ -205,7 +192,7 @@ int Task_SetEntityAnim12Args(char **arg0) {
 
 int Task_SetEntityAnim5Args(char **arg0) {
     Task_SetObjAnimEntry5(
-        g_CurrentEntity,
+        (TaskAnimObj *)g_CurrentEntity,
         *(unsigned char *)arg0[0],
         *(unsigned char *)arg0[1],
         *(unsigned char *)arg0[2],
