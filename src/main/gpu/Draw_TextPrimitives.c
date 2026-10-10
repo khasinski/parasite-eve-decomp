@@ -6,6 +6,160 @@
 #include "pe1/menu_inventory.h"
 #include "pe1/draw_level_bar.h"
 
+
+#include "pe1/draw_state.h"
+
+int g_TextCursorX;
+int g_TextCursorY;
+
+void Draw_SetCursor(int arg0, int arg1) {
+    g_TextCursorX = arg0;
+    g_TextCursorY = arg1;
+}
+
+void Draw_OffsetCursor(int x, int y) {
+    g_TextCursorX += x;
+    g_TextCursorY += y;
+}
+
+extern int *g_TextCursorStackPtr;
+extern int g_TextCursorStackTop[];
+
+#include "pe1/bounds_check.h"
+
+void Draw_StatePush(void) {
+    DrawTextCursorPair *cursor;
+    int x;
+    int y;
+
+    cursor = (DrawTextCursorPair *)g_TextCursorStackPtr;
+    if (cursor < (DrawTextCursorPair *)g_TextCursorStackTop) {
+        x = g_TextCursorX;
+        y = g_TextCursorY;
+        g_TextCursorStackPtr = (int *)(cursor + 1);
+        cursor->x = x;
+        cursor->y = y;
+    } else {
+        BoundsCheck_AssertStub(2);
+    }
+}
+
+extern int g_TextCursorStackBottom[];
+
+void Draw_StatePop(void) {
+    DrawTextCursorPair *cursor;
+    int x;
+    int y;
+
+    cursor = (DrawTextCursorPair *)g_TextCursorStackPtr;
+    if ((DrawTextCursorPair *)g_TextCursorStackBottom < cursor) {
+        x = cursor[-1].x;
+        y = cursor[-1].y;
+        g_TextCursorStackPtr = (int *)(cursor - 1);
+        g_TextCursorX = x;
+        g_TextCursorY = y;
+    } else {
+        BoundsCheck_AssertStub(3);
+    }
+}
+
+unsigned int g_DrawPrimColor;
+unsigned int g_DrawColorShaded;
+
+void Draw_SetColor(int value) {
+    g_DrawPrimColor = value;
+    g_DrawColorShaded = (value >> 1) & 0x7F7F7F;
+}
+
+void Draw_SetStatCompareColor(int arg0, int arg1) {
+    unsigned int color;
+
+    if (arg0 >= arg1) {
+        color = 0x808080;
+        if (arg1 < arg0) {
+            color = 0x404080;
+        }
+    } else {
+        color = 0x408080;
+    }
+
+    g_DrawPrimColor = color;
+    g_DrawColorShaded = color >> 1;
+}
+
+#include "common.h"
+#include "pe1/draw_level_bar.h"
+
+#define NULL ((void *)0)
+#include "m2c_macros.h"
+
+#include "pe1/psyq_gpu.h"
+#include "pe1/draw_area.h"
+
+extern s32 g_DrawBufferIndex;
+
+void Draw_AllocPrimRectFull(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    DrawAreaRect rect;
+    u8 *oldPacket;
+    u8 *nextPacket;
+    GpuCmdPacket *packet;
+    DrawAreaRect *rectPtr;
+
+    if (g_DrawBufferIndex != 0) {
+        arg1 += 0xE0;
+    }
+    packet = NULL;
+    rect.x = arg0;
+    oldPacket = g_DrawPacketCursor;
+    rectPtr = &rect;
+    rect.y = arg1;
+    rect.w = arg2;
+    nextPacket = oldPacket + sizeof(GpuCmdPacket);
+    rect.h = arg3;
+    if (nextPacket < (g_DrawPacketArenaBase + 0x4000)) {
+        g_DrawPacketCursor = nextPacket;
+        packet = (GpuCmdPacket *) oldPacket;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
+    if (packet != NULL) {
+        SetDrawArea(packet, rectPtr);
+    }
+    packet->u0.tag = (packet->u0.tag & 0xFF000000) | (*g_DrawOrderingTableEntry & 0xFFFFFF);
+    *g_DrawOrderingTableEntry = (*g_DrawOrderingTableEntry & 0xFF000000) | ((s32) packet & 0xFFFFFF);
+}
+
+void Draw_AllocPrimRect(void) {
+    DrawAreaRect rect;
+    u8 *oldPacket;
+    u8 *nextPacket;
+    GpuCmdPacket *packet;
+    DrawAreaRect *rectPtr;
+
+    rect.w = 0x140;
+    rect.x = 0;
+    rect.y = 0;
+    rect.h = 0xE0;
+    if (g_DrawBufferIndex != 0) {
+        rect.y = 0xE0;
+    }
+    packet = NULL;
+    oldPacket = g_DrawPacketCursor;
+    nextPacket = oldPacket + sizeof(GpuCmdPacket);
+    rectPtr = &rect;
+    if (nextPacket < (g_DrawPacketArenaBase + 0x4000)) {
+        g_DrawPacketCursor = nextPacket;
+        packet = (GpuCmdPacket *) oldPacket;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
+    if (packet != NULL) {
+        SetDrawArea(packet, rectPtr);
+    }
+    packet->u0.tag = (packet->u0.tag & 0xFF000000) | (*g_DrawOrderingTableEntry & 0xFFFFFF);
+    *g_DrawOrderingTableEntry = (*g_DrawOrderingTableEntry & 0xFF000000) | ((s32) packet & 0xFFFFFF);
+}
+
 int g_DrawTextDimmed;
 
 void Draw_SetTextDimmed(int value) {
@@ -80,10 +234,10 @@ void Draw_AllocSprite(int index) {
 }
 
 
-extern s32 g_DrawPrimColor;
-extern s32 g_DrawColorShaded;
-extern u16 g_TextCursorX;
-extern u16 g_TextCursorY;
+extern unsigned int g_DrawPrimColor;
+extern unsigned int g_DrawColorShaded;
+extern int g_TextCursorX;
+extern int g_TextCursorY;
 
 void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     DrawGlyphDescriptor *glyph;
@@ -122,8 +276,8 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     {
         register RenderTexturedQuad *ptr asm("$4");
 
-        base_x = g_TextCursorX;
-        base_y = g_TextCursorY;
+        base_x = *(u16 *)&g_TextCursorX;
+        base_y = *(u16 *)&g_TextCursorY;
         ptr = packet;
         ptr->x2 = base_x;
         ptr->x0 = base_x;

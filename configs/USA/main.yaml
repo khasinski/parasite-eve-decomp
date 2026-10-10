@@ -600,15 +600,10 @@ segments:
       - [0x4E688, c, menu/queue]
       # Base-offset setter and Y accessor share one default-profile object.
       - [0x4F050, c, gpu/Draw_BaseOffset]
-      # Text cursor set/offset, the cursor stack push/pop and the draw-colour
-      # setters own the cursor and colour globals; contiguous -G8 range with
-      # no split evidence (identical under the common section).
-      - [0x4F094, c, gpu/Draw_TextCursorAndColor]
-      # Full and default rectangle allocators share one -G8 packet object.
-      - [0x4F1C8, c, gpu/Draw_AllocRect]
-      # Glyph sprites, text/number packets, cursor saves, wrapping and stat bars
-      # share draw state and allocation calls; identical under one -G8 profile.
-      - [0x4F358, c, gpu/Draw_TextPrimitives]
+      # Cursor/colour state, rectangle allocation, glyph sprites, text/number
+      # packets, wrapping and stat bars share typed draw state and one matching
+      # -G8/common/-fno-cse-skip-blocks profile.
+      - [0x4F094, c, gpu/Draw_TextPrimitives]
       - [0x51844, c, gpu/Draw_AllocColorQuad]
       # Blend colour, screen wipes, gradients and colour packet allocators share
       # the draw runtime and matching -G8/common profile.
