@@ -27,6 +27,14 @@ typedef struct CollisionTriangleHeader {
     u8 region; /* flat mode: index into the height records */
 } CollisionTriangleHeader;
 
+/* Sloped triangle prefix. Only kind and region are shared with flat triangles. */
+typedef struct CollisionFace {
+    u8 kind;
+    u8 region;    /* flat mode: index into D_8009CE08 */
+    u16 plane;    /* sloped mode: index into D_8009D1D8 */
+    s32 distance; /* sloped mode: plane D term */
+} CollisionFace;
+
 /* Walkable triangles. Both formats are walked as halfword arrays: the
  * flat one keeps its vertex indices at [1..3] and its edge neighbours at
  * [7..9], the sloped one at [4..6] and [10..12]. */
@@ -37,9 +45,13 @@ typedef union CollisionTriangleXZ {
 } CollisionTriangleXZ;
 typedef union CollisionTriangleXYZ {
     CollisionTriangleHeader header;
+    CollisionFace face;
     u16 words[14];
     u8 kind;
 } CollisionTriangleXYZ;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionFace, plane) == 2, collision_face_plane_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionFace, distance) == 4, collision_face_distance_offset);
+
 typedef union CollisionTriangleTable {
     void *pointer;
     CollisionTriangleHeader *header; /* Common prefix of either triangle format. */

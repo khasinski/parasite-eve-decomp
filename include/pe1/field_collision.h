@@ -75,14 +75,6 @@ void Entity_ApplyCollisionResponse(struct FieldActor *player);
 
 extern CollisionDatabase *D_8009D1FC;
 
-/* Shared head of both triangle formats. */
-typedef struct CollisionFace {
-    u8 kind;
-    u8 region;    /* flat mode: index into D_8009CE08 */
-    u16 plane;    /* sloped mode: index into D_8009D1D8 */
-    s32 distance; /* sloped mode: plane D term */
-} CollisionFace;
-
 /* Sloped-mode plane A*x + B*y + C*z = D, with B stored inverted. */
 typedef struct CollisionPlane {
     s32 a;

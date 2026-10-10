@@ -116,7 +116,7 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
     register int index_v1 asm("$3");
     int arg_y;
     int arg_z;
-    char *entry;
+    CollisionTriangleHeader *entry;
     int value;
 
     actor_s2 = actor;
@@ -125,53 +125,46 @@ void Entity_ResolvePosition(BattleEntity *actor, int index) {
 
     if (table_base == 0) {
         char *base;
-        s16 **table;
+        CollisionFlatRegion **table;
         int idx;
 
         idx = index_v1 & 0xFFFF;
         base = (char *)g_CollisionDb;
         base = (char *)((CollisionDatabase *)base)->triangles.pointer;
-        entry = (char *)&((CollisionTriangleXZ *)base)[idx];
+        entry = (CollisionTriangleHeader *)&((CollisionTriangleXZ *)base)[idx];
         actor_s2->collisionFace = entry;
         actor_s2->collisionFaceMirror = entry;
-        table = g_RegionHeightTable;
-        value = *table[((CollisionTriangleXZ *)entry)->header.region];
+        table = (CollisionFlatRegion **)g_RegionHeightTable;
+        value = table[entry->region]->height;
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
         value <<= 16;
         actor_s2->posY.fixed = value;
     } else {
-        char *entry_s0;
+        CollisionFace *entry_s0;
         int first;
-        char *base;
-        int offset;
         int idx;
         int id;
         int second;
 
         idx = index_v1 & 0xFFFF;
-        offset = idx << 3;
-        base = (char *)g_CollisionDb;
-        offset -= idx;
-        entry_s0 = (char *)((CollisionDatabase *)base)->triangles.pointer;
-        offset <<= 2;
-        entry_s0 += offset;
+        entry_s0 = &g_CollisionDb->triangles.xyz[idx].face;
         actor_s2->collisionFace = entry_s0;
         actor_s2->collisionFaceMirror = entry_s0;
         {
             int id_v1;
-            id_v1 = ((CollisionFace *)entry_s0)->plane;
+            id_v1 = entry_s0->plane;
             id = id_v1;
         }
         first = Math_FixedMul(table_base[id].a, actor_s2->posX.fixed);
-        id = ((CollisionFace *)entry_s0)->plane;
+        id = entry_s0->plane;
         second = Math_FixedMul(g_CollisionPlaneTable[id].c, actor_s2->posZ.fixed);
-        id = ((CollisionFace *)entry_s0)->plane;
-        value = Math_FixedMul(((CollisionFace *)entry_s0)->distance - first - second, g_CollisionPlaneTable[id].inverseB);
+        id = entry_s0->plane;
+        value = Math_FixedMul(entry_s0->distance - first - second, g_CollisionPlaneTable[id].inverseB);
         actor_s2->posY.fixed = value;
         arg_y = actor_s2->posX.parts.integer;
         arg_z = actor_s2->posZ.parts.integer;
-        entry = entry_s0;
+        entry = (CollisionTriangleHeader *)entry_s0;
     }
 
     Geo_PointInTri(entry, arg_y, arg_z);
