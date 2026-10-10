@@ -575,9 +575,9 @@ segments:
       - [0x4B7FC, c, item/Inv_CompareItemsForSort]
       - [0x4C090, c, menu/Menu_BattleEquipMode]
       - [0x4C0A8, c, item/stat]
-      - [0x4C498, c, save/Save_ResetMetadataWindow]
-      # Metadata-window selection, editing, loading, and accessors share one 0x29C-byte -G8 object.
-      - [0x4C4A8, c, save/Save_MetadataWindow]
+      # Metadata-window reset, selection, editing, loading and accessors share
+      # one contiguous 0x2AC-byte -G8 unit, including its common index.
+      - [0x4C498, c, save/Save_MetadataWindow]
       - [0x4C744, c, item/Inv_FindItem]
       - [0x4C974, c, item/Inventory_OpenAyaItemList]
       - [0x4C9EC, c, memcard/MemCard_SetDialogActive]

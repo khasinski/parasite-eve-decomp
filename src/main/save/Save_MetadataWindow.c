@@ -1,8 +1,14 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #include "pe1/save.h"
 #include "pe1/text.h"
+
+int g_SaveMetadataWindowIndex;
+
+void Save_ResetMetadataWindow(void) {
+    g_SaveMetadataWindowIndex = 1;
+}
 
 void Save_PostInitStub(void) {
 }
@@ -14,22 +20,22 @@ int Save_GetMetadataWindowIndex(void) {
 
 
 void Save_SelectMetadataWindow(ItemDataRecord *record) {
-    unsigned char *cursor;
+    SaveMetadataWindow *window;
 
     g_SaveMetadataSourceRecord = record;
     if (record != 0) {
-        cursor = (u8 *)g_CursorRenderMetadataWindows;
+        window = g_CursorRenderMetadataWindows;
         if (record->kind == ITEM_KIND_ARMOR) {
-            cursor += 0x10;
+            window++;
         }
     } else {
-        cursor = (u8 *)g_SaveRuntimeMetadataWindows;
+        window = g_SaveRuntimeMetadataWindows;
         if (g_SaveMetadataWindowIndex != 0) {
-            cursor += 0x10;
+            window++;
         }
     }
 
-    g_SaveMetadataCursor = cursor;
+    g_SaveMetadataCursor = window->text;
     g_SaveMetadataWindowLength = 8;
 }
 
