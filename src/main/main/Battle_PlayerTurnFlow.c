@@ -16,7 +16,7 @@ s16 Battle_CalcAngleToTarget(RenderObjectEntity *object, void *target);
 int ratan2(int y, int x);
 int Battle_StepCharacterAction(BattleInitSlot *slot);
 
-#define CORE_HEALTH(entity) (*(s32 *)((u8 *)(entity)->core + 0x10))
+#define CORE_HEALTH(entity) (((EnemyCombatant *)(entity)->core)->hpAlive)
 
 void Battle_UpdatePlayerTurn(void)
 {
