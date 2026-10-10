@@ -60,14 +60,14 @@ void ER_cbready(int inEvent, u8 *inResult) {
         if (*result & 16) {
             if (state->reserved1C == one) {
                 DsReadyCallback(0);
-                goto done;
+                return;
             }
             DsReadyCallback(state->savedReadyCallback);
             DsStartCallback(state->savedStartCallback);
             state->active = 0;
             if (state->callback)
                 state->callback(event, result, detail);
-            goto done;
+            return;
         } else if (!DsQueueLen() && !(*result & 160)) {
         retry:
             state->retryPending = one;

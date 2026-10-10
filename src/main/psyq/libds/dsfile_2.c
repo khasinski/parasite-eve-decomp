@@ -54,7 +54,7 @@ int DS_newmedia(void) {
     limit = end;
     while (1) {
         record = (IsoPathRecord *)cursor;
-        if (record->nameLength == 0) goto finished;
+        if (record->nameLength == 0) break;
         memcpy(count * sizeof(DslDirectoryCacheEntry) + sectors,
                record->sectorLE, 4);
         name = (char *)((count * sizeof(DslDirectoryCacheEntry)) +
@@ -69,7 +69,7 @@ int DS_newmedia(void) {
             printf(D_80011FA0, g_DslDirectoryCache[count].sector,
                    g_DslDirectoryCache[count].directoryId,
                    g_DslDirectoryCache[count].parentDirectoryId, name);
-        if (++count >= DSL_MAX_DIR) goto finished;
+        if (++count >= DSL_MAX_DIR) break;
         if (cursor < limit) continue;
         break;
     }
