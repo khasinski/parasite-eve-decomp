@@ -1,7 +1,7 @@
 /* End-of-frame overlay pass (draw the game-state primitives into the
  * current draw buffer with background clear off and send the queued AKAO
- * commands) and the soft-reset shutdown; contiguous default-profile pair
- * that Boot_RunFrame calls back to back. */
+ * commands), soft-reset shutdown and screen vertical-offset update. These
+ * contiguous routines share the default compiler profile and display state. */
 #include "common.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/game_state.h"
@@ -57,4 +57,20 @@ void Sys_Shutdown(void) {
     g_SceneDispatchToken = 0xA9400048;
     D_800A77F4 = old;
     g_GameState.flags |= 0x100;
+}
+
+/* Shared draw-environment vertical offset (0..15). */
+
+extern u16 D_800BCE9E;
+extern u16 D_800BCE8A;
+extern u8 D_800B0DB1;
+int func_8006A2E8(int arg0, u32 value)
+{
+  register u32 v;
+  if (value < 16)
+  {
+    v = value;
+    D_800B0DB1 = (D_800BCE8A = (D_800BCE9E = v));
+  }
+  return 0;
 }

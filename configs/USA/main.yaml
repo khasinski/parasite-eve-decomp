@@ -674,10 +674,9 @@ segments:
       - [0x59EF0, c, asset/Asset_UnloadTableEntries]
       # Disc-image discovery and boot notice use the same mount state.
       - [0x5A0D4, c, render/Render_InitDisplayLists]
-      # End-of-frame overlay pass and soft-reset shutdown: contiguous
-      # default-profile pair, both called from the field frame loop.
+      # End-of-frame overlay pass, soft-reset shutdown and vertical-offset
+      # update: contiguous default-profile display-state routines.
       - [0x5A8E8, c, sys/Sys_FrameOverlayAndShutdown]
-      - [0x5AAE8, c, gpu/Gpu_SetScreenYOffset]
       - [0x5AB18, c, akao/Akao_LoadVoiceBank]
       # Boot game-state init: the sound and DS shell reset, Boot_InitGameState (called
       # from main), the memory layout and the scene voice-bank reset defined beside it
