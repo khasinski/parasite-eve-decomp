@@ -142,7 +142,8 @@ void Battle_DrawActiveStatus(void)
             background->w = backgroundHeight;
             asm("" : : "r"(background) : "memory");
             backgroundHeight = 0x19;
-            goto shiftBackgroundDown;
+            background->h = backgroundHeight;
+            backgroundY += 7;
         }
     }
     else if (D_8009D1A0 & 2)
@@ -172,7 +173,6 @@ void Battle_DrawActiveStatus(void)
         background->w = backgroundHeight;
         asm("" : : "r"(background) : "memory");
         backgroundHeight = 0x12;
-    shiftBackgroundDown:
         background->h = backgroundHeight;
         backgroundY += 7;
     }
