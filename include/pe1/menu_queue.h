@@ -34,6 +34,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuQueueEntry, payload.input.flags) == 0x08,
 
 extern MenuQueueEntry D_800A2090[];
 extern MenuQueueEntry D_800A2174[];
+extern MenuQueueEntry *g_MenuEventQueueFreeList;
+extern int g_MenuInputActive;
+extern int g_MenuInputPollingPaused;
+extern int g_MenuInputHeldStatusMask;
 extern MenuQueueEntry *g_MenuEventQueueHead;
 extern MenuQueueEntry *g_MenuEventQueueTail;
 

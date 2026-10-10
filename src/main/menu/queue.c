@@ -115,12 +115,6 @@ typedef MenuWidgetNode MenuInputWidget;
 
 MenuWidgetNode *MenuWidget_GetCurrentNode(void);
 
-extern int D_8009D0EC;
-extern MenuInputQueuedEvent *D_8009D0E0;
-extern MenuInputQueuedEvent *D_8009D0E4;
-extern MenuInputQueuedEvent * D_8009D0DC;
-extern int D_8009D0E8;
-extern int D_8009D0F0;
 extern int D_8009D0F4;
 extern int D_8009D0F8;
 
@@ -196,7 +190,7 @@ int Draw_RemapStatusFlags(void)
 #include "pe1/bounds_check.h"
 
 void MenuInput_SetPollingPaused(int paused) {
-    D_8009D0EC = paused;
+    g_MenuInputPollingPaused = paused;
 }
 
 int MenuInput_GetRepeatStep(void) {
@@ -208,11 +202,11 @@ static inline void AppendInputEvent(MenuInputQueuedEvent *event,
     if (tail != 0) {
         tail->next = event;
     } else {
-        if (D_8009D0E0 != 0)
+        if (g_MenuEventQueueHead != 0)
             BoundsCheck_AssertStub(0x1F);
-        D_8009D0E0 = event;
+        g_MenuEventQueueHead = event;
     }
-    D_8009D0E4 = event;
+    g_MenuEventQueueTail = event;
 }
 
 void MenuInput_EnqueueStatusChanges(int flags) {
@@ -231,29 +225,29 @@ void MenuInput_EnqueueStatusChanges(int flags) {
     flags_reg = flags;
     repeat_reset = 0;
     mapped = Draw_RemapStatusFlags();
-    if (D_8009D0E8 != 0) {
+    if (g_MenuInputActive != 0) {
         int inverse;
-        prev_flags = D_8009D0F0;
+        prev_flags = g_MenuInputHeldStatusMask;
         inverse = ~mapped;
         released = inverse & prev_flags;
         if (released != 0) {
-            event = D_8009D0DC;
+            event = g_MenuEventQueueFreeList;
             release_type = 4;
             if (event != 0) {
                 {
                     MenuInputQueuedEvent *next = event->next;
                     asm("" : : : "memory");
-                    D_8009D0DC = next;
+                    g_MenuEventQueueFreeList = next;
                 }
                 event->next = 0;
-                tail = D_8009D0E4;
+                tail = g_MenuEventQueueTail;
                 AppendInputEvent(event, tail);
                 event->payload.input.type = release_type;
                 event->payload.input.flags = released;
             }
         }
 
-        if (D_8009D0F0 != mapped) {
+        if (g_MenuInputHeldStatusMask != mapped) {
             D_8009D0F8 = 0x10;
         }
 
@@ -261,7 +255,7 @@ void MenuInput_EnqueueStatusChanges(int flags) {
         D_8009D0F8 = timer;
         if (timer < 0) {
             if ((flags_reg != 0 && timer < -0x5A) || (timer & 3) == 0) {
-                D_8009D0F0 = 0;
+                g_MenuInputHeldStatusMask = 0;
                 repeat_reset = 1;
             }
         }
@@ -275,30 +269,30 @@ void MenuInput_EnqueueStatusChanges(int flags) {
 
         {
             int previous;
-            previous = D_8009D0F0;
+            previous = g_MenuInputHeldStatusMask;
             released = mapped & ~previous;
         }
         if (released != 0) {
             if (repeat_reset == 0 || (released & 0x40) == 0) {
                 type = repeat_reset != 0 ? 2 : 1;
-                event = D_8009D0DC;
+                event = g_MenuEventQueueFreeList;
                 if (event != 0) {
                     register MenuInputQueuedEvent *next asm("$2");
                     int event_type;
                     event_type = type;
                     next = event->next;
-                    tail = D_8009D0E4;
+                    tail = g_MenuEventQueueTail;
                     event->next = 0;
-                    D_8009D0DC = next;
+                    g_MenuEventQueueFreeList = next;
                     AppendInputEvent(event, tail);
                     event->payload.input.type = event_type;
                     event->payload.input.flags = released;
                 }
             }
         }
-        D_8009D0F0 = mapped;
+        g_MenuInputHeldStatusMask = mapped;
     } else if (mapped == 0) {
-        D_8009D0E8 = 1;
+        g_MenuInputActive = 1;
     }
 }
 
@@ -315,12 +309,12 @@ void MenuInput_DispatchQueuedEvents(void) {
     int handled;
 
     node = MenuWidget_GetCurrentNode();
-    if (D_8009D0EC == 0) {
+    if (g_MenuInputPollingPaused == 0) {
         MenuInput_EnqueueStatusChanges(node->flags);
     }
 
     localp = &local;
-    head = D_8009D0E0;
+    head = g_MenuEventQueueHead;
     if (head != 0) {
         event = head;
         prev = 0;
@@ -335,13 +329,13 @@ void MenuInput_DispatchQueuedEvents(void) {
             } else {
                 MenuInputQueuedEvent *next = event->next;
                 PE1_NOP_DEP("r", next);
-                D_8009D0E0 = next;
+                g_MenuEventQueueHead = next;
             }
-            if (event == D_8009D0E4) {
-                D_8009D0E4 = prev;
+            if (event == g_MenuEventQueueTail) {
+                g_MenuEventQueueTail = prev;
             }
-            free_head = D_8009D0DC;
-            D_8009D0DC = event;
+            free_head = g_MenuEventQueueFreeList;
+            g_MenuEventQueueFreeList = event;
             event->next = free_head;
             *localp = *event;
         } else {
@@ -394,7 +388,6 @@ void MenuInput_DispatchQueuedEvents(void) {
     }
 }
 
-extern int g_MenuInputActive;
 
 int MenuInput_HasConfirm(void) {
     int ret;
