@@ -3,6 +3,10 @@
 #include "pe1/psyq_nop.h"
 #include "pe1/menu_widget.h"
 #include "pe1/menu_queue.h"
+#include "pe1/boot_disc_check.h"
+#include "pe1/draw_state.h"
+#include "pe1/psyq_tim.h"
+#include "pe1/draw_buffers.h"
 
 typedef MenuWidgetNode MenuInputWidget;
 
@@ -289,7 +293,6 @@ void MenuInput_DispatchQueuedEvents(void) {
 
 extern int g_MenuInputActive;
 
-
 int MenuInput_HasConfirm(void) {
     int ret;
     int mask;
@@ -313,14 +316,6 @@ int MenuInput_HasNavigationRepeat(void) {
     }
     return ret;
 }
-
-#include "common.h"
-#include "pe1/boot_disc_check.h"
-#include "pe1/draw_state.h"
-#include "pe1/psyq_tim.h"
-#include "pe1/psyq_gpu.h"
-
-
 
 int g_DrawPresentEnabled;
 
@@ -382,12 +377,11 @@ void Draw_InitBuffers(void);
 
 void Draw_InitBuffers(void) {
     u8 *bufferBase = (u8 *)g_DrawBufferFrontBases;
-    GpuDisplayBufferRecord *bufferRecord =
-        (GpuDisplayBufferRecord *)(bufferBase -
-                                   PE1_OFFSETOF(GpuDisplayBufferRecord,
-                                                frontBufferBase));
+    DrawFrameBuffer *bufferRecord =
+        (DrawFrameBuffer *)(bufferBase -
+                            PE1_OFFSETOF(DrawFrameBuffer, frontBufferBase));
 
-    bufferRecord->frontBufferBase = g_RenderFrontBufferBase;
+    bufferRecord->frontBufferBase = (u8 *)g_RenderFrontBufferBase;
     D_800A226C = g_RenderBackBufferBase;
     g_DrawBufferOtBases[0] = g_OtBufferTable;
     D_800A2268 = g_RenderOtBufferBaseAlt;
@@ -428,13 +422,11 @@ void Draw_InitBuffers(void) {
 int g_DrawPresentImage;
 
 extern int g_ActiveDrawSlot[];
-extern int D_8009D0FC;
 extern int g_ActiveDrawBuffer;
 extern int g_DrawPacketBufferBase;
 extern int g_DrawBufferIndex;
 extern int D_8009D118;
 extern int g_OtListTail;
-extern u8 D_800A2180[];
 
 void Draw_SetPresentImage(int arg0) {
     g_DrawPresentImage = arg0;
@@ -443,7 +435,7 @@ void Draw_SetPresentImage(int arg0) {
 void Draw_SelectBuffer(void) {
     int index;
     int offset;
-    u8 *entry;
+    DrawFrameBuffer *entry;
     int value0;
     int value1;
 
@@ -455,10 +447,10 @@ void Draw_SelectBuffer(void) {
 
     offset = ((index << 4) - index) << 3;
     g_DrawBufferIndex = index;
-    entry = D_800A2180 + offset;
+    entry = &D_800A2180[index];
     value0 = *(int *)((u8 *)g_DrawBufferFrontBases + offset);
     value1 = *(int *)((u8 *)g_DrawBufferOtBases + offset);
-    D_8009D0FC = (int)entry;
+    D_8009D0FC = entry;
     g_DrawPacketBufferBase = value0;
     g_ActiveDrawBuffer = value0;
     D_8009D118 = value1;
@@ -468,7 +460,6 @@ void Draw_SelectBuffer(void) {
         ClearOTagR(value1, 0x1000);
     }
 }
-
 
 int VSync(int arg0);
 void DrawSync(int arg0);
@@ -499,8 +490,8 @@ void Draw_PresentFrame(int arg0) {
     index = 0xFFF;
     VSync(NormalizeSyncMode(mode));
     ResetGraph(1);
-    PutDrawEnv(D_8009D0FC);
-    PutDispEnv((DISPENV *)(D_8009D0FC + 0x5C));
+    PutDrawEnv(&D_8009D0FC->draw);
+    PutDispEnv(&D_8009D0FC->display);
 
     image = g_DrawPresentImage;
     if (image != 0) {
