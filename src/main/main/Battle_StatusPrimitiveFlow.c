@@ -190,19 +190,15 @@ void Battle_DrawTargetHighlight(void)
 s16 GetClut(s32, s32);
 
 extern struct { char _[16]; } D_8009CDDC_oa __asm__("g_ActiveDrawSlot");
-extern struct { char _[16]; } D_8009CDDC_ob __asm__("g_ActiveDrawSlot");
-extern struct { char _[16]; } D_8009CDDC_oc __asm__("g_ActiveDrawSlot");
-extern struct { char _[16]; } D_8009CDDC_od __asm__("g_ActiveDrawSlot");
-extern struct { char _[16]; } D_8009CDDC_of __asm__("g_ActiveDrawSlot");
 extern struct { char _[16]; } D_8009CDDC_og __asm__("g_ActiveDrawSlot");
 extern struct { char _[16]; } D_8009CDDC_oh __asm__("g_ActiveDrawSlot");
 extern struct { char _[16]; } D_8009CDDC_oi __asm__("g_ActiveDrawSlot");
 #define CDDCA (*(s32 *)&D_8009CDDC_oa)
-#define CDDCB (*(s32 *)&D_8009CDDC_ob)
-#define CDDCC (*(s32 *)&D_8009CDDC_oc)
-#define CDDCD (*(s32 *)&D_8009CDDC_od)
+#define CDDCB (*(s32 *)&D_8009CDDC_oi)
+#define CDDCC (*(s32 *)&D_8009CDDC_og)
+#define CDDCD (*(s32 *)&D_8009CDDC_oh)
 #define CDDCE (*(s32 *)&D_8009CDDC_oa)
-#define CDDCF (*(s32 *)&D_8009CDDC_of)
+#define CDDCF (*(s32 *)&D_8009CDDC_oi)
 #define CDDCG (*(s32 *)&D_8009CDDC_og)
 #define CDDCH (*(s32 *)&D_8009CDDC_oh)
 #define CDDCI (*(s32 *)&D_8009CDDC_oi)
