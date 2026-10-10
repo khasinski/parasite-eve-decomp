@@ -77,13 +77,11 @@ extern char battle_entity_after_set[16] __asm__("D_8009D254");
 extern char battle_entity_alias_0[16] __asm__("D_8009D254");
 extern char battle_entity_alias_1[16] __asm__("D_8009D254");
 extern char battle_entity_alias_2[16] __asm__("D_8009D254");
-extern char battle_entity_alias_3[16] __asm__("D_8009D254");
 extern char battle_entity_alias_4[16] __asm__("D_8009D254");
 extern char battle_entity_alias_5[16] __asm__("D_8009D254");
 extern char battle_entity_alias_6[16] __asm__("D_8009D254");
 extern char battle_entity_alias_7[16] __asm__("D_8009D254");
 
-extern char battle_actor_large[16] __asm__("D_8009D278");
 extern char battle_sfx_slot_large[16] __asm__("D_8009D2FC");
 
 extern u8 D_8009D274, D_8009CE39, D_8009CE3A;
@@ -93,7 +91,7 @@ int ratan2(int y, int x);
 int BattleCmd_CommitAmmoAndUpdate(void);
 
 #define D_8009D254 (*(BattleEntity **)battle_entity_large)
-#define D_8009D278 (*(Combatant **)battle_actor_large)
+#define D_8009D278 ACTIVE_COMBATANT_FIRST
 #define D_8009D2FC (*(int *)battle_sfx_slot_large)
 
 extern char battle_actor_group_0[16] __asm__("D_8009D278");
@@ -105,8 +103,6 @@ extern char battle_actor_group_5[16] __asm__("D_8009D278");
 extern char battle_actor_group_6[16] __asm__("D_8009D278");
 extern char battle_actor_group_7[16] __asm__("D_8009D278");
 extern char battle_actor_group_8[16] __asm__("D_8009D278");
-extern char battle_actor_group_11[16] __asm__("D_8009D278");
-extern char battle_actor_group_12[16] __asm__("D_8009D278");
 extern char battle_actor_group_13[16] __asm__("D_8009D278");
 extern char battle_actor_group_16[16] __asm__("D_8009D278");
 extern char battle_actor_group_17[16] __asm__("D_8009D278");
