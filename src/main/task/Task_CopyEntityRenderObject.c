@@ -22,43 +22,35 @@ int Task_CopyEntityRenderObject(int **args) {
             return 1;
         }
         source = player;
-        goto copy_object;
-    }
-
-    source = g_FieldActorListHead;
-    if (source == 0) {
-        return 1;
-    }
-
-    {
-        int wanted_type;
-
-        wanted_type = type_id;
-
-search:
-        if (source->type_id != wanted_type) {
-            goto next;
-        }
-        if (source->sub_id != *args[1]) {
-            goto next;
-        }
-        if ((source->flags & 0x10) == 0) {
-            goto found;
+    } else {
+        source = g_FieldActorListHead;
+        if (source == 0) {
+            return 1;
         }
 
-next:
-        source = source->next;
-        if (source != 0) {
-            goto search;
+        {
+            int wanted_type;
+
+            wanted_type = type_id;
+
+            do {
+                if (source->type_id != wanted_type) {
+                    source = source->next;
+                } else if (source->sub_id != *args[1]) {
+                    source = source->next;
+                } else if ((source->flags & 0x10) == 0) {
+                    break;
+                } else {
+                    source = source->next;
+                }
+            } while (source != 0);
+        }
+
+        if (source == 0) {
+            return 1;
         }
     }
 
-found:
-    if (source == 0) {
-        return 1;
-    }
-
-copy_object:
     Render_InitObjectFromTable(&g_CurrentEntity->render_object,
                                &source->render_object, (s16)*args[2]);
     Render_TransformSkinnedVertices(&g_CurrentEntity->render_object,
