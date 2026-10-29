@@ -101,7 +101,7 @@ void MenuCard_HandleListInput(void) {
 }
 
 /* Run the title/card-selection screen, then restore the game display.
- * Five pins and the header's two symbol views retain retail allocation. */
+ * Three pins and the header's two symbol views retain retail allocation. */
 s32 MenuCard_RunListScreen(void) {
     u8 *firstMemory;
     s32 searchKind;
@@ -110,10 +110,11 @@ s32 MenuCard_RunListScreen(void) {
     register u32 packedColor asm("$2");
     RECT rect;
     RECT overlay;
-    MemcardImageNode *oldFreeHead;
+    /* One link temporary for the free-list build, unlink and append steps;
+     * sharing it gives the retail register allocation. */
+    MemcardImageNode *link;
     MemcardImageNode *previous;
     MemcardImageNode *selection;
-    MemcardImageNode *nextFree;
     MemcardImageNode *freeEnd;
     MemcardImageNode *freeNode;
     MemcardImageNode *node;
@@ -243,9 +244,9 @@ s32 MenuCard_RunListScreen(void) {
         freeEnd = &g_MemcardImageNodePool[7];
         if ((u32) g_MemcardImageNodePool < (u32) freeEnd) {
             do {
-                nextFree = &freeNode[1];
-                freeNode->next = nextFree;
-                freeNode = nextFree;
+                link = &freeNode[1];
+                freeNode->next = link;
+                freeNode = link;
             } while ((u32) freeNode < (u32) freeEnd);
         }
         freeNode->next = 0;
@@ -278,9 +279,9 @@ s32 MenuCard_RunListScreen(void) {
                             if (g_MemcardActiveNodeTail == node) {
                                 g_MemcardActiveNodeTail = previous;
                             }
-                            oldFreeHead = g_MemcardFreeImageNodes;
+                            link = g_MemcardFreeImageNodes;
                             g_MemcardFreeImageNodes = node;
-                            node->next = oldFreeHead;
+                            node->next = link;
                             if (previous != 0) {
                                 node = previous->next;
                             } else {
@@ -296,16 +297,15 @@ s32 MenuCard_RunListScreen(void) {
                     MemcardImageNode *pending = g_MemcardPendingNodeHead;
                     if (pending != 0) {
                         MemcardImageNode *tail = g_MemcardActiveNodeTail;
-                        register MemcardImageNode *nextTail asm("$2");
 
                         if (tail != 0) {
-                            nextTail = g_MemcardPendingNodeTail;
+                            link = g_MemcardPendingNodeTail;
                             tail->next = pending;
                         } else {
-                            nextTail = g_MemcardPendingNodeTail;
+                            link = g_MemcardPendingNodeTail;
                             g_MemcardActiveNodeHead = pending;
                         }
-                        g_MemcardActiveNodeTail = nextTail;
+                        g_MemcardActiveNodeTail = link;
                         g_MemcardPendingNodeTail = 0;
                         g_MemcardPendingNodeHead = 0;
                     }
