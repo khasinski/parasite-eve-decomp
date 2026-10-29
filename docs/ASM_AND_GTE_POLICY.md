@@ -2238,10 +2238,12 @@ at 0x801909B4 with stock native GCC 2.7.2 (`-G0`,
 SHA-256 is `9072713338b26c335c1a31964282105dcd5f14951950c2d24585fa5948554d30`.
 Compilation and variant searches ran only on darwine.
 
-Five register pins remain: the second buffer address ($5), pixel packing
-accumulator ($3) and output ($2), pending-list tail ($2), and restored screen
-Y ($2). Removing each from the matching source breaks the byte match.
-The first matching candidate had eleven pins; six were removed sequentially.
+Three register pins remain: the second buffer address ($5) and the pixel
+packing accumulator ($3) and output ($2). Removing each from the matching
+source breaks the byte match. The first matching candidate had eleven pins;
+eight were removed. The pending-list tail needs no pin when one link temporary
+serves the free-list build, the unlink and the append; a separate local at any
+declaration position swaps `v0` and `v1`.
 No empty barriers, instruction ASM, NOPs, special ABI, compiler patches or
 assembler patches are used. Removing the per-unit CSE flag also loses the match.
 

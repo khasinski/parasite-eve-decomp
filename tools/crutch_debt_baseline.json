@@ -38,7 +38,7 @@
     "gotos": 42,
     "include_asm": 0,
     "original_asm_units": 2,
-    "pins": 193,
+    "pins": 192,
     "pointer_integer_casts": 57,
     "postpass": 0,
     "raw_offset_dereferences": 41,
