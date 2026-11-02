@@ -33,7 +33,9 @@ extern RenderEffectParameters g_FieldFxSpriteParams;
  * field reached twice across a call keeps its address in a callee-saved
  * register. Units with that reload read D_800F336C. The depth name is still
  * used by fieldfx/geometry.c. */
-extern u16 D_800F336C; /* g_FieldFxSpriteParams.palette */
-extern s16 D_800F3374; /* g_FieldFxSpriteParams.depth */
+extern u16 D_800F336C;
+extern u16 D_800F2E2C; /* g_FieldFxSpriteParams.palette */
+extern s16 D_800F3374;
+extern s16 D_800F2E34; /* g_FieldFxSpriteParams.depth */
 
 #endif /* PE1_FIELD_SPRITE_PARAMS_H */

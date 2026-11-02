@@ -182,7 +182,8 @@ void FxCommon_InitScene(void)
     g_FxCommonEffectSetup[0].motionIndices[1] = 0x1A;
     g_FxCommonEffectSetup[0].motionIndices[2] = 0x2F;
     g_FxCommonEffectSetup[0].motionIndices[3] = 0x2E;
-    pointList = (FxCommonPoint8 *)((u8 *)resourceTable + firstPointOffset + 8);
+    pointList = (FxCommonPoint8 *)&((u8 *)resourceTable)[firstPointOffset]
+        + 1;
 
     g_FxCommonEffectSetup[0].value0c = 0x62;
     g_FxCommonEffectSetup[0].parameter3c = 0x7D0;
@@ -477,10 +478,10 @@ void FxCommon_InitScene(void)
     g_FxCommonType26Nodes[3]->state[2] = 0xBB8;
     for (; groupIndex < 9; ++groupIndex) {
         resourceData = Draw_GetTimTableEntry(resourceTableData, 2);
-        resourceTable = (FxCommonOffsetTable *)((u8 *)resourceData + resourceOffset);
+        resourceTable = (FxCommonOffsetTable *)&((u8 *)resourceData)[resourceOffset];
         pointOffset = resourceTable->offsets[0];
         pointIndex = 0;
-        pointList = (FxCommonPoint8 *)((u8 *)resourceData + pointOffset);
+        pointList = (FxCommonPoint8 *)&((u8 *)resourceData)[pointOffset];
         pointCount = ((FxCommonPointList *)pointList)->count;
         ++pointList;
         /* Separate capture preserves GCC 2.7.2's retail spill layout. */
@@ -494,7 +495,7 @@ void FxCommon_InitScene(void)
             do {
                 effectRoot = &g_FxCommonDefaultNode;
                 variantOrMotionOffset = variantBase + 0x34;
-                firstNode = FxCommon_CreateConfiguredNode(effectRoot, (s16) nodeSubtype, variantOrMotionOffset, (s16) nodeType, (void *) (u16) *(short *)((u8 *)g_FxCommonRouteFarDepths + tableIndex), (void *) (u16) *(short *)((u8 *)g_FxCommonRouteNearDepths + tableIndex), nodeResource);
+                firstNode = FxCommon_CreateConfiguredNode(effectRoot, (s16) nodeSubtype, variantOrMotionOffset, (s16) nodeType, (void *) (u16) *(short *)&((u8 *)g_FxCommonRouteFarDepths)[tableIndex], (void *) (u16) *(short *)&((u8 *)g_FxCommonRouteNearDepths)[tableIndex], nodeResource);
                 firstSlot = &g_FxCommonRouteNodes[g_FxCommonRouteNodeCount];
                 g_FxCommonRouteNodes[g_FxCommonRouteNodeCount] = firstNode;
                 firstNode->state[1] = point->x;
@@ -514,7 +515,9 @@ void FxCommon_InitScene(void)
                 asm("" : "=r"(nodeIndex), "=r"(point) : "0"(nodeIndex), "1"(point), "r"(pointList), "r"(pairedNode));
                 g_FxCommonRouteNodeCount = nodeIndex + 1;
                 /* Byte view retains the retail ordering after the pool-index store. */
-                *(u16 *)((u8 *)pairedNode + PE1_OFFSETOF(FxCommonNode, value2C)) = (u16) (*(u16 *)((u8 *)pairedNode + PE1_OFFSETOF(FxCommonNode, value2C)) + 0x800);
+                *(u16 *)&((u8 *)pairedNode)[PE1_OFFSETOF(FxCommonNode, value2C)] =
+                    (u16) (*(u16 *)&((u8 *)pairedNode)[PE1_OFFSETOF(FxCommonNode, value2C)]
+                           + 0x800);
                 point++;
             } while (nextPointIndex < pointCount);
         }
@@ -535,9 +538,9 @@ void FxCommon_InitScene(void)
     variantOrMotionOffset = 0;
     for (; motionIndex < 10; ++motionIndex) {
         FxCommon_SamplePath(motionIndex << 8, motionBase + 0x40, Draw_GetTimTableEntry(resourceTableData, 2), &motion.vector, &shortMotion);
-        *((s32 *)((u8 *)g_FxCommonMotionPositions + variantOrMotionOffset)) = motion.vector.x << 0x10;
-        *((s32 *)((u8 *)g_FxCommonMotionPositionY + variantOrMotionOffset)) = motion.vector.y << 0x10;
-        *((s32 *)((u8 *)g_FxCommonMotionPositionZ + variantOrMotionOffset)) = motion.vector.z << 0x10;
+        *((s32 *)&((u8 *)g_FxCommonMotionPositions)[variantOrMotionOffset]) = motion.vector.x << 0x10;
+        *((s32 *)&((u8 *)g_FxCommonMotionPositionY)[variantOrMotionOffset]) = motion.vector.y << 0x10;
+        *((s32 *)&((u8 *)g_FxCommonMotionPositionZ)[variantOrMotionOffset]) = motion.vector.z << 0x10;
         variantOrMotionOffset += 0x10;
     }
     if (g_FxCommonAutoPlay == 1) {

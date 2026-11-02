@@ -59,25 +59,18 @@ void Menu_StepSkillList(MenuWidgetNode *arg0, s32 arg1) {
     MenuWidgetNode *saved_arg0 = arg0;
     s32 saved_arg1 = arg1;
     s32 temp_v0;
-    s32 temp_shift;
+    s32 mask;
     MenuWidgetNode *child;
     MenuWidgetNode *parent;
 
     if (g_MenuLayoutLocked != 0) {
         temp_v0 = Inv_RestoreSelection(0);
         if ((Inv_GetActiveListItemType(temp_v0) != 0) && (Inv_GetActiveListItemType(temp_v0) < 6)) {
-            Inv_BuildFilteredPackedListExcluding(0x3E, temp_v0);
+            mask = 0x3E;
         } else {
-            s32 mask;
-            temp_shift = Inv_GetActiveListItemType(temp_v0);
-            {
-                s32 one = 1;
-                mask = one << temp_shift;
-                /* Keep the shift source separate from the resulting filter mask. */
-                asm volatile("" : : "r"(one));
-            }
-            Inv_BuildFilteredPackedListExcluding(mask, temp_v0);
+            mask = 1 << Inv_GetActiveListItemType(temp_v0);
         }
+        Inv_BuildFilteredPackedListExcluding(mask, temp_v0);
         parent = MenuWidget_FindByModeAndSelectedBase(1, 0x2F);
         MenuWidget_OffsetPosition(parent, 0xB4 - parent->x, 0xA4 - parent->y);
     } else {

@@ -720,21 +720,25 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
         offset = 0;
         do {
             {
-                register RenderObjectPart *base asm("$2") = entity->parts;
-                probe = (RenderObjectPart *)(offset + (u32)base);
+                register union {
+                    RenderObjectPart *part;
+                    u32 word;
+                } base asm("$2");
+                base.part = entity->parts;
+                probe = (RenderObjectPart *)(offset + base.word);
             }
             if (probe->visible == 1) {
                 part = probe;
                 Render_LoadObjectMatrix(matrix);
                 boundsOffset = i * 16;
-                bounds = (RenderVec3s *)((u8 *)entity->bounds_vertices + boundsOffset);
+                bounds = &entity->bounds_vertices[i * 2];
                 Render_TransformVertex(bounds, scratch);
                 {
                     u16 yy = (u16)scratch->y;
                     y = (s16)yy;
                 }
                 if (threshold < y ||
-                    (bounds = (RenderVec3s *)(boundsOffset + (u32)entity->bounds_vertices),
+                    (bounds = (RenderVec3s *)(boundsOffset + ((RenderPacketAddress *)&entity->bounds_vertices)->word),
                      radius = bounds->pad,
                      threshold < y - radius || threshold < (sum = y + radius))) {
                     scratch->y = savedLimit;
@@ -749,10 +753,8 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
                     {
                         s32 first = part->vertex_start;
                         RenderVec3s *base = entity->vertices;
-                        s32 vertexOffset = first * 8;
-                        vertices = (RenderVec3s *)((u8 *)base + vertexOffset);
-                        first <<= 2;
-                        clut = (u32 *)((u32)D_800B1640 + first);
+                        vertices = &base[first];
+                        clut = &D_800B1640[first];
                     }
                     Render_LoadObjectMatrix(matrix);
                     for (; vertexIndex < part->vertex_count; vertices++) {

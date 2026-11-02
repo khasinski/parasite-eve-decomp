@@ -12,7 +12,6 @@
 
 #include "../room_lib/room_lib.h"
 #include "RoomM005_FxOrbiter_externs.h"
-extern struct BattleEntity *D_8009CD10;
 
 typedef struct RoomM005_OrbRec {
     short h0;                     /* 0x00: x */

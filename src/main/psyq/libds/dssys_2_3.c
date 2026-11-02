@@ -522,26 +522,33 @@ int DsLastCom(void) {
 
 void CQ_vsync_system(void) {
     int status;
-    s32 *pending;
+    union {
+        s32 *count;
+        s32 address;
+    } pending;
     s32 *workAddress;
     s32 work;
     unsigned int result;
 
     status = DS_system_status(0);
     if (status == 1) {
-        pending = &g_CdPendingReadCount;
-        if (*pending > 0) {
+        pending.count = &g_CdPendingReadCount;
+        if (*pending.count > 0) {
             result = DS_system_status(0);
             if (result == status) {
                 workAddress = &g_CdDsReadIndex;
                 work = *workAddress;
                 result = work * 3;
                 result <<= 3;
-                work = (s32)CD_DS_QUEUE_FROM_PENDING(pending);
+                work = pending.address - PE1_OFFSETOF(CdDsReadQueueWindow, pending_count);
                 work = result + work;
-                if (((CdDsReadQueueEntry *)work)->active != 0) {
-                    DS_cw(((CdDsReadQueueEntry *)work)->command,
-                                      ((CdDsReadQueueEntry *)work)->parameter);
+                {
+                    CdDsQueueEntryAddress at;
+                    at.word = work;
+                    if (at.entry->active != 0) {
+                        DS_cw(at.entry->command,
+                                          at.entry->parameter);
+                    }
                 }
             }
         }

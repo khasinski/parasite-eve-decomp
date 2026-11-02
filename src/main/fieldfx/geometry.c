@@ -154,11 +154,11 @@ void FieldFx_InitTexturePageTable(void) {
     int i;
 
     for (i = 0; i < 2; i++) {
-        *(short *)((char *)g_FieldFxTpageTable + i * 4) = GetTPage(i, 0, 0x380, 0x100);
+        g_FieldFxTpageTable[i * 2] = GetTPage(i, 0, 0x380, 0x100);
     }
 
     for (i = 0; i < 2; i++) {
-        *(short *)((char *)g_FieldFxTpageTable + i * 4 + 2) = GetTPage(i, 0, 0x340, 0x100);
+        g_FieldFxTpageTable[i * 2 + 1] = GetTPage(i, 0, 0x340, 0x100);
     }
 }
 
@@ -350,7 +350,7 @@ void FieldFx_DrawShapeQuads(GteShortVector *position, GteRotation *rotation,
             gte_cop2_hazard_slot();
             gte_rtps_command();
             depth -= bias;
-            if ((u32)depth < 0x1000) {
+            if ((unsigned)depth < 0x1000) {
                 FieldStripLink link;
 
                 {
@@ -501,8 +501,11 @@ void FieldFx_LoadRotationMatrix(GteRotation *rotation, s32 *scale, GteMatrix *ma
 
 static __inline__ void link_packet(void *ordering, void *packet)
 {
+    FieldStripLink link;
+
+    link.tag = packet;
     *(u32 *)packet = (*(u32 *)packet & 0xff000000) | (*(u32 *)ordering & 0xffffff);
-    *(u32 *)ordering = (*(u32 *)ordering & 0xff000000) | ((u32)packet & 0xffffff);
+    *(u32 *)ordering = (*(u32 *)ordering & 0xff000000) | (link.word & 0xffffff);
 }
 void FieldFx_LinkBlendedPacket(void *ordering, void *packet, int mode)
 {

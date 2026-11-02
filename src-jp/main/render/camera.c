@@ -13,8 +13,6 @@
 #include "pe1/render_object.h"
 #include "pe1/render_prim.h"
 #include "pe1/render_tint.h"
-extern unsigned int D_8009CDA8;
-extern struct BattleEntity *D_8009CD10;
 
 /* Geometry animation control: reset, update and script setup commands. */
 

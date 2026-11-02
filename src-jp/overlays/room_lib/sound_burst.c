@@ -9,7 +9,6 @@
 #include "common.h"
 #include "pe1/field_sprite_params.h"
 #include "pe1/room_sound_burst.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Particle emitted by the sound burst controller: it swings on a sine
  * while rising, lights the battle actor when it lands near it, and draws a

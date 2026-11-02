@@ -1,0 +1,53 @@
+name: fx_common.bin
+sha1: a12fe9ad8989739cde57378e6bfb87cab6ea5534
+options:
+  basename: fx_common
+  target_path: original/JP/overlays/fx_common.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/JP/overlays/fx_common
+  src_path: src-jp/overlays/fx_common
+  build_path: build/JP/overlays/fx_common
+  ld_script_path: linkers/JP/overlays/fx_common.ld
+  undefined_funcs_auto_path: linkers/JP/overlays/undefined_funcs_auto.fx_common.txt
+  symbol_addrs_path:
+    - configs/JP/overlays/sym.fx_common.txt
+    - configs/JP/sym.main.txt
+  undefined_syms_auto_path: linkers/JP/overlays/undefined_syms_auto.fx_common.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: fx_common
+    type: code
+    start: 0x0
+    vram: 0x8018EFF0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - start: 0
+        type: rodatabin
+        name: fx_common_header
+        dir: fx_common
+      - [0x44, .rodata, effects]
+      - [0x6C, c, camera]
+      - [0x2FF8, c, effects]
+      - [0x6BF8, c, motion_endpoints]
+      - [0x6D6C, c, camera_path]
+      - [0x6F9C, c, effect_init]
+      - [0x8BD0, c, model_buffers]
+      - [0xCFF4, data, g_FxCommonCameraAngles]
+  - [0xD000]
+# source slice: scanner
+# extract locally with: dd if=disc/jp/extracted/PE.IMG of=original/JP/overlays/fx_common.bin bs=2048 skip=1787 count=26

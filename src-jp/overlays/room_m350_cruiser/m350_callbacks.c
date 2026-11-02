@@ -21,7 +21,6 @@
 #include "m350_callbacks_externs.h"
 #include "room_m350_data.h"
 #include "room_m350_shared.h"
-extern struct BattleEntity *D_8009CD10;
 
 typedef struct {
     char reserved[24];
@@ -1295,11 +1294,11 @@ s32 RoomM350_AreaPlayerPulseEmitter(s32 arg0) {
         obj = FieldFx_AcquireCallbackSlot(ANIM_POOL_AS(char *)[2]);
         if (obj != 0) {
             actor = (char *)D_8009CD10;
-            *(short *)(obj + 0) = *(s32 *)(actor + 0x1FC);
-            *(short *)(obj + 2) = *(s32 *)(actor + 0x200) - 0x140;
+            *(short *)&obj[0] = *(s32 *)&actor[0x1FC];
+            *(short *)&obj[2] = *(s32 *)&actor[0x200] - 0x140;
             {
-                s32 value = *(s32 *)(actor + 0x204);
-                *(short *)(obj + 4) = value;
+                s32 value = *(s32 *)&actor[0x204];
+                *(short *)&obj[4] = value;
             }
             g_RoomM350AreaEntered = 0;
         }
@@ -1358,9 +1357,9 @@ s32 RoomM350_DropSplashEmitter(s32 arg0) {
     } else if (g_RoomM350DropSplashTrigger != 0) {
         obj = FieldFx_AcquireCallbackSlot(ANIM_POOL_AS(char *)[2]);
         if (obj != 0) {
-            *(u16 *)(obj + 0) = g_RoomM350DropSplashPosX;
-            *(u16 *)(obj + 2) = g_RoomFloorY->raw;
-            *(u16 *)(obj + 4) = g_RoomM350DropSplashPosZ;
+            *(u16 *)&obj[0] = g_RoomM350DropSplashPosX;
+            *(u16 *)&obj[2] = g_RoomFloorY->raw;
+            *(u16 *)&obj[4] = g_RoomM350DropSplashPosZ;
             g_RoomM350DropSplashTrigger = 0;
         }
     }

@@ -7,7 +7,6 @@
 #include "pe1/psyq_spu_internal.h"
 
 #include "s_ini_externs.h"
-extern int _spu_rev_flag, _spu_rev_reserve_wa, D_8009AF34;
 
 void _SpuInit(int mode) {
     int i;

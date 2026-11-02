@@ -5,8 +5,6 @@
 #include "pe1/gte_types.h"
 #include "pe1/pad_state.h"
 #include "pe1/render_camera.h"
-extern unsigned int D_8009CDA8;
-extern struct BattleEntity *D_8009CD10;
 
 /* Field player movement state handlers: idle, walk, run, turn-in-place and
  * the idle resync. All five are contiguous, compile under the default

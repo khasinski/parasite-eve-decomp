@@ -11,9 +11,6 @@
 #include "pe1/room_orbiting_pair.h"
 
 #include "m256_externs.h"
-extern u16 D_800F2E2C;
-extern RenderMatrixSlot D_800BCA64;
-extern struct BattleEntity *D_8009CD10;
 
 /* Cosine halves of the packed sine table words (pe1/gte_sine_table.h). */
 
@@ -751,7 +748,7 @@ s32 RoomM256_TrailCallback(int mode, void *effect) {
                 FieldFx_UpdatePointHistory(history, 0x10, state, 0);
                 if ((FieldFx_IsPlayerWithinRadius(state, 0x64) != 0) && (state->y >= (g_RoomFloorY->y - 0x202)) && (g_FieldFxTaskContext->flags != 0) && ((g_FieldFxOwner->actor->state->core_flags & 0x3F000000) == 0x01000000)) {
                     trailPlayerState = g_PlayerEntity->state;
-                    trailPlayerState->flags = (s32) (trailPlayerState->flags | 0x4000);
+                    trailPlayerState->flags |= 0x4000;
                     trailActorState = g_FieldFxOwner->actor->state;
                     trailActorState->core_flags = (trailActorState->core_flags & 0xC0FFFFFF) | 0x19000000;
                     trailActorFlags = g_FieldFxOwner->actor->state;
@@ -886,7 +883,7 @@ s32 RoomM256_TrailCallback(int mode, void *effect) {
             state->frame = (s16) ((u16) state->frame + 1);
             if ((FieldFx_IsPlayerWithinRadius(state, 0xB4) != 0) && (state->frame < 0x10) && (g_FieldFxTaskContext->flags != 0) && ((g_FieldFxOwner->actor->state->core_flags & 0x3F000000) == 0x01000000)) {
                 impactPlayerState = g_PlayerEntity->state;
-                impactPlayerState->flags = (s32) (impactPlayerState->flags | 0x4000);
+                impactPlayerState->flags |= 0x4000;
                 impactActorState = g_FieldFxOwner->actor->state;
                 impactActorState->core_flags = (impactActorState->core_flags & 0xC0FFFFFF) | 0x19000000;
                 impactActorFlags = g_FieldFxOwner->actor->state;
@@ -912,11 +909,11 @@ checkLifetime:
             if ((D_800F2E2C == 4) && (g_FieldFxAltPaletteFlag != 0)) {
                 trailClutY += 4;
             }
-            FieldFx_DrawTexturedRibbon(g_RoomM256TrailHistory[state->index].point, 0x10, 0xF0, 0, 0x60, 0xFF, 0xF, (s32) g_FieldFxTpageTable[g_FieldFxTpageSlot3], GetClut(0x30, trailClutY) & 0xFFFF, 0x80, (RenderColor *)&color.r, (RenderColor *)&darkColor.r, 1);
+            FieldFx_DrawTexturedRibbon(g_RoomM256TrailHistory[state->index].point, 0x10, 0xF0, 0, 0x60, 0xFF, 0xF, g_FieldFxTpageTable[g_FieldFxTpageSlot3], GetClut(0x30, trailClutY) & 0xFFFF, 0x80, (RenderColor *)&color.r, (RenderColor *)&darkColor.r, 1);
             fade = ((g_FieldFxCurrentAge & 1) << 5) + 0x60;
             FieldFx_DrawStarFan((GteShortVector *)state, 0x190, 0x190, 8, 0, 0x1000, 0x1000, (RenderColor *)&color.r, 0, fade, 1);
             historySample = g_RoomM256TrailHistory[0].point + (rand() & 7);
-            FieldFx_DrawStarFan((void *)((unsigned)(state->index * 0x88) + (unsigned)historySample), 0x1F4, 0x1F4, 6, 0, 0x1000, 0x1000, (RenderColor *)&color.r, 0, (u32)fade >> 1, 1);
+            FieldFx_DrawStarFan((void *)((unsigned)(state->index * 0x88) + (unsigned)historySample), 0x1F4, 0x1F4, 6, 0, 0x1000, 0x1000, (RenderColor *)&color.r, 0, (unsigned)fade >> 1, 1);
             return 0;
         case 1:
             firstFade = rcos(state->frame << 6) / 32;
@@ -994,7 +991,7 @@ checkLifetime:
             g_FieldFxSpriteParams.tpage = renderPalette;
             tpage = GetTPage(pageDepth, pageBlend, pageX, 0);
             }
-            modelPage = (*(u16 *)((char *)g_FieldFxTpageTable + ((unsigned)*paletteIndex << 1)) | tpage) & 0xFFFF;
+            modelPage = (*(u16 *)&((char *)g_FieldFxTpageTable)[(unsigned)*paletteIndex << 1] | tpage) & 0xFFFF;
             modelClutY = g_FieldFxPaletteTable[D_800F2E2C];
             if (D_800F2E2C == 4) {
                 if (g_FieldFxAltPaletteFlag != 0) {
@@ -1004,8 +1001,8 @@ checkLifetime:
             FieldFx_ModelSetTexture(modelPage, GetClut(0x70, modelClutY) & 0xFFFF);
             FieldFx_ModelSetSemiTrans(1);
             RotMatrixYXZ(&state->motionX, &transform);
-            transform.t[0] = (s32) state->x;
-            transform.t[1] = (s32) state->y;
+            transform.t[0] = state->x;
+            transform.t[1] = state->y;
             translationZ = state->z;
             scale.x = renderScale;
             scale.y = renderScale;
@@ -1020,7 +1017,7 @@ checkLifetime:
             return 0;
         case 3:
             pulseSine = rsin(state->frame << 6);
-            renderScale = ((s32) ((pulseSine >> 0x1F) + pulseSine) >> 1) + 0x1000;
+            renderScale = ((int) ((pulseSine >> 0x1F) + pulseSine) >> 1) + 0x1000;
             pulseCosine = rcos(state->frame << 6);
             fade = pulseCosine >> 5;
             if (pulseCosine < 0) {
@@ -1052,7 +1049,7 @@ checkLifetime:
             }
             clut = GetClut(0x10, impactClutY) & 0xFFFF;
             tripledScale = renderScale * 3;
-            impactScale = (s32) (tripledScale + (tripledScale >> 0x1F)) >> 1;
+            impactScale = (int) (tripledScale + (tripledScale >> 0x1F)) >> 1;
             spriteFrame = &g_FieldFxSpriteParams.parameter02;
             FieldFx_DrawShapeQuads((GteShortVector *)state, &spriteRotation, impactScale, impactScale, (*spriteFrame * (s16) (state->frame / 3)) + 0x20, clut, 1, 0x80, 0);
             impactFrame = state->frame;

@@ -92,7 +92,7 @@ s32 DecDCTinSync(s32 mode) {
     if (mode == 0) {
         result = MdecDiag_WaitInputSync();
     } else {
-        result = ((u32)MdecDiag_ReadStatus() >> 29) & 1;
+        result = ((unsigned)MdecDiag_ReadStatus() >> 29) & 1;
     }
     return result;
 }
@@ -103,7 +103,7 @@ s32 DecDCToutSync(s32 mode) {
     if (mode == 0) {
         result = MdecDiag_WaitOutputSync();
     } else {
-        result = ((u32)MdecDiag_ReadStatus() >> 24) & 1;
+        result = ((unsigned)MdecDiag_ReadStatus() >> 24) & 1;
     }
     return result;
 }

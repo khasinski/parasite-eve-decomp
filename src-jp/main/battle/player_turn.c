@@ -7,7 +7,6 @@
 #include "pe1/battle_main.h"
 #include "pe1/battle_runtime.h"
 #include "pe1/gte_types.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* COMMON supplies the small-data sizes of the turn queue words to MASPSX;
  * every other word stays absolute. g_BattleActionAnimMode1/3 are one-byte

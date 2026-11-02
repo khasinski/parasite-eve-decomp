@@ -531,8 +531,8 @@ void FxCommon_InitNodePools(void)
 
         offset = 0;
         for (; offset < 800; offset += 4) {
-            *(short *)((char *)g_FxCommonIndexLinks + offset) = empty;
-            *(short *)((char *)g_FxCommonIndexLinks + offset + 2) = empty;
+            ((FxCommonIndexLink *)&((char *)g_FxCommonIndexLinks)[offset])->previous = empty;
+            ((FxCommonIndexLink *)&((char *)g_FxCommonIndexLinks)[offset])->next = empty;
         }
     }
 

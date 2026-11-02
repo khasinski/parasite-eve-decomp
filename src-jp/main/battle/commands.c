@@ -16,7 +16,6 @@
 #include "pe1/menu_widget.h"
 #include "pe1/player_entity.h"
 #include "pe1/weapon_list_output.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* COMMON supplies small-data metadata to MASPSX: these words are reached
  * through $gp, every other extern stays absolute. */
@@ -197,7 +196,7 @@ void Inv_SetActiveList(int mode, int *slot) {
             }
             flags2 = data->attackWord;
             flags2 &= 0xFFCFFFFF;
-            flags2 |= (u32)(encoded & 3) << 20;
+            flags2 |= (unsigned)(encoded & 3) << 20;
             data->attackWord = flags2;
         }
         break;

@@ -5,7 +5,6 @@
 
 #include "../room_lib/room_lib.h"
 #include "m318_player_gate_externs.h"
-extern struct BattleEntity *D_8009CD10;
 
 s32 RoomM318_PlayerGate(s32 arg0, void *arg1, s32 *arg2) {
     FieldActorState *actor;

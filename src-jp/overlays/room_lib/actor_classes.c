@@ -16,7 +16,6 @@
 #include "pe1/gte_types.h"
 
 #include "room_lib.h"
-extern struct BattleEntity *D_8009CD10;
 
 int RoomLib_HandlerDNop0(void) {
     return 0;

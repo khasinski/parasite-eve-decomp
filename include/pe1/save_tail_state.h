@@ -14,7 +14,8 @@
 extern u8 *g_SaveIoCursor;
 
 /* Records the save tail copies as raw bytes besides the game state. */
-extern u32 D_8009D2E8;           /* field movement lock flags */
+extern u32 D_8009D2E8;
+extern unsigned int D_8009CDA8;           /* field movement lock flags */
 /* g_ScreenTint.fadeMode as its own byte symbol. Draw_InitPipeline (a -G8
  * unit) sets its bit 6 through it: the scroll-state view would be placed
  * in small data there. */

@@ -13,7 +13,6 @@
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/psyq_libc.h"
-extern struct BattleEntity *D_8009CD10;
 
 int FieldFx_UpdateStripCollision(char *data, void *unused, int *hit) {
     GteShortVector local[5];

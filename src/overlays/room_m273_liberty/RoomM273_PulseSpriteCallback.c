@@ -22,9 +22,9 @@ int RoomM273_PulseSpriteCallback(int mode, RoomM273PaletteSpriteState *state) {
         frame = g_FieldFxCurrentAge - 1;
         sizeOffset = (frame << 8) & 0x3F00;
         shadeOffset = (frame << 9) & 0x3E00;
-        sizeSample = ((RoomM273TrigEntry *)((char *)rcossin_tbl + sizeOffset))->low;
+        sizeSample = ((RoomM273TrigEntry *)&((char *)rcossin_tbl)[sizeOffset])->low;
         asm volatile("" : : "r"(sizeSample));
-        sample = *(int *)((char *)rcossin_tbl + shadeOffset);
+        sample = *(int *)&((char *)rcossin_tbl)[shadeOffset];
         frame = 4;
         asm volatile("" : "=r"(sample) : "0"(sample));
         size = sizeSample * 2 + 4096;

@@ -14,7 +14,6 @@
 
 #include "pe1/gte.h"
 #include "pe1/room_spark_barrage.h"
-extern struct BattleEntity *D_8009CD10;
 
 static const GteRotation s_FloorRotation = { 0x400, 0, 0, 1 };
 static const GteRotation s_ZeroRotation = { 0, 0, 0, 0 };

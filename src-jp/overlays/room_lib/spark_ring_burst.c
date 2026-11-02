@@ -14,7 +14,6 @@
 #include "pe1/field_texture_tables.h"
 #include "pe1/gte.h"
 #include "pe1/room_spark_ring_burst.h"
-extern struct BattleEntity *D_8009CD10;
 
 static const RoomSparkSeed s_SparkRingParticleSeed = {
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }

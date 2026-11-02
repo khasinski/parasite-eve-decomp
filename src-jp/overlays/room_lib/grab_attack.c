@@ -17,8 +17,6 @@
  */
 
 #include "pe1/room_grab_attack.h"
-extern volatile int D_800BCA48;
-extern struct BattleEntity *D_8009CD10;
 
 /* The player, as the class sees it. */
 #define GRAB_PLAYER ((FieldActor *)D_8009CD10)
@@ -1211,7 +1209,7 @@ int RoomEffect_RisingSprayController(int mode, void *state,
                 if (sound->channel) Akao_SendTableCommand(sound->channel, 0x5B7, 0x80, 0x80, 0x7F);
             }
         }
-        if ((u32)(g_FieldFxCurrentAge - 0x10) < 0x2D) {
+        if ((unsigned)(g_FieldFxCurrentAge - 0x10) < 0x2D) {
             child = FieldFx_AcquireCallbackSlot(ANIM_POOL_AS(RoomSparkChannel)->pool);
             if (child) {
                 child->x = position.x;

@@ -1,6 +1,4 @@
 #include "menu_memcard_glint.h"
-extern u16 D_800F2E2C;
-extern struct BattleEntity *D_8009CD10;
 
 /* Spark that drifts with damped velocity for 44 frames; state 0 draws a
  * flickering coloured glow, state 1 a larger glow that fades with a sine. */

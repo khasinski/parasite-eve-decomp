@@ -3,7 +3,6 @@
 #include "pe1/room_drift_pulse.h"
 #include "pe1/room_m023_beacon.h"
 #include "pe1/room_m023_effects.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Drift/pulse sprite for room_m023. The glow strip's anchor is taken into
  * a local pointer first: its address load is what keeps the frame counter

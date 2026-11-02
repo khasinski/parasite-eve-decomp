@@ -1,0 +1,45 @@
+name: fx_common_sector17.bin
+sha1: 6656ef77766ebc148cc5a2b7ee68880f1cb0478c
+options:
+  basename: fx_common_sector17
+  target_path: original/JP/overlays/render_clip.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/JP/overlays/fx_common_sector17
+  src_path: src-jp/overlays/fx_common_sector17
+  build_path: build/JP/overlays/fx_common_sector17
+  ld_script_path: linkers/JP/overlays/fx_common_sector17.ld
+  undefined_funcs_auto_path: linkers/JP/overlays/undefined_funcs_auto.fx_common_sector17.txt
+  symbol_addrs_path:
+    - configs/JP/sym.main.txt
+  undefined_syms_auto_path: linkers/JP/overlays/undefined_syms_auto.fx_common_sector17.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: fx_common_sector17
+    type: code
+    start: 0x0
+    vram: 0x80170000
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      # PE.IMG sector 1804 is sector 17 of fx_common (sectors 1787-1812), so
+      # this slice is a byte copy of fx_common 0x8800-0x9000: it starts inside
+      # FxCommon_EffectInitializationFlow and truncates FxCommon_DrawPolyResource.
+      # That code is counted in fx_common; this view of it is data.
+      - {start: 0x0, type: data, name: fx_common_sector17_copy, linker_section_order: .text, linker_section: .code_data}
+  - [0x800]
+# source slice: scanner
+# extract locally with: dd if=disc/jp/extracted/PE.IMG of=original/JP/overlays/render_clip.bin bs=2048 skip=1804 count=1

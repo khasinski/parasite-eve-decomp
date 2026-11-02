@@ -18,9 +18,6 @@
 #include "pe1/render_prim.h"
 #include "pe1/render_tint.h"
 #include "pe1/room_fx_model.h"
-extern u32 D_800B1104[];
-extern RenderBufferPrefix D_800B08F8;
-extern s32 D_800A5E2C[];
 
 void RoomEffect_ModelDraw(RenderObjectEntity *entity);
 
@@ -211,10 +208,15 @@ void RoomEffect_ModelUpdate(RoomFxModelGeom *geom) {
 }
 
 /* PSY-Q libgpu style ordering-table link through the 24-bit tag address. */
-#define ROOMFX_SETADDR(p, a) (((RenderGpuTag *)(p))->address = (u32)(a))
-#define ROOMFX_GETADDR(p) (((RenderGpuTag *)(p))->address)
-#define ROOMFX_ADDPRIM(ot, p) \
-    ROOMFX_SETADDR(p, ROOMFX_GETADDR(ot)), ROOMFX_SETADDR(ot, p)
+typedef union RenderPacketAddress {
+    u8 *bytes;
+    u32 word;
+} RenderPacketAddress;
+
+#define ROOMFX_TAG(p) ((RenderGpuTag *)(p))
+#define ROOMFX_ADDPRIM(ot, packet) \
+    (ROOMFX_TAG((packet).bytes)->address = ROOMFX_TAG(ot)->address, \
+     ROOMFX_TAG(ot)->address = (packet).word)
 
 /* Room build of the main binary's Render_DrawTexturedQuads: NCLIP-tests each
  * face on the projected vertices and links the front-facing ones (negative
@@ -232,7 +234,7 @@ void RoomEffect_ModelDraw(RenderObjectEntity *entity) {
     s32 *z = D_800A5E2C;
     u32 xy0, xy1, xy2;
     int a, b, c, d;
-    u8 *packet;
+    RenderPacketAddress packet;
 
     i = 0;
     while (i < entity->header->packet34_count) {
@@ -248,7 +250,7 @@ void RoomEffect_ModelDraw(RenderObjectEntity *entity) {
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
         gte_nclip_now();
-        packet = (u8 *)((RenderPacket34 *)packets + slot);
+        packet.bytes = (u8 *)((RenderPacket34 *)packets + slot);
         d = record->lookup_indices[3];
         gte_stmac0(area);
         if (*area < 0) {
@@ -257,15 +259,14 @@ void RoomEffect_ModelDraw(RenderObjectEntity *entity) {
             depth += z[d];
             depth >>= 4;
             if (depth < 0x1000) {
-                u32 *entry = (u32 *)(depth * 4 + (u32)ordering);
-                ROOMFX_ADDPRIM(entry, packet);
-                ((RenderPacket34 *)packet)->sxy0 = xy0;
-                ((RenderPacket34 *)packet)->sxy1 = xy1;
-                ((RenderPacket34 *)packet)->sxy2 = xy2;
-                ((RenderPacket34 *)packet)->sxy3 = xy[d];
+                ROOMFX_ADDPRIM(&ordering[depth], packet);
+                ((RenderPacket34 *)packet.bytes)->sxy0 = xy0;
+                ((RenderPacket34 *)packet.bytes)->sxy1 = xy1;
+                ((RenderPacket34 *)packet.bytes)->sxy2 = xy2;
+                ((RenderPacket34 *)packet.bytes)->sxy3 = xy[d];
             }
         } else {
-            ROOMFX_SETADDR(packet, 0);
+            ROOMFX_TAG(packet.bytes)->address = 0;
         }
         packets += 2 * sizeof(RenderPacket34);
         i++;
@@ -286,20 +287,19 @@ void RoomEffect_ModelDraw(RenderObjectEntity *entity) {
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
         gte_nclip_now();
-        packet = (u8 *)((RenderPacket28 *)packets + slot);
+        packet.bytes = (u8 *)((RenderPacket28 *)packets + slot);
         gte_stmac0(area);
         if (*area < 0) {
             int depth = z[a] + z[b] + z[c];
             depth = depth / 3 >> 2;
             if (depth < 0x1000) {
-                u32 *entry = (u32 *)(depth * 4 + (u32)ordering);
-                ROOMFX_ADDPRIM(entry, packet);
-                ((RenderPacket28 *)packet)->sxy0 = xy0;
-                ((RenderPacket28 *)packet)->sxy1 = xy1;
-                ((RenderPacket28 *)packet)->sxy2 = xy2;
+                ROOMFX_ADDPRIM(&ordering[depth], packet);
+                ((RenderPacket28 *)packet.bytes)->sxy0 = xy0;
+                ((RenderPacket28 *)packet.bytes)->sxy1 = xy1;
+                ((RenderPacket28 *)packet.bytes)->sxy2 = xy2;
             }
         } else {
-            ROOMFX_SETADDR(packet, 0);
+            ROOMFX_TAG(packet.bytes)->address = 0;
         }
         packets += 2 * sizeof(RenderPacket28);
         i++;
@@ -320,7 +320,7 @@ void RoomEffect_ModelDraw(RenderObjectEntity *entity) {
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
         gte_nclip_now();
-        packet = (u8 *)((RenderPacket24 *)packets + slot);
+        packet.bytes = (u8 *)((RenderPacket24 *)packets + slot);
         d = record->lookup_indices[3];
         gte_stmac0(area);
         if (*area < 0) {
@@ -329,15 +329,14 @@ void RoomEffect_ModelDraw(RenderObjectEntity *entity) {
             depth += z[d];
             depth >>= 4;
             if (depth < 0x1000) {
-                u32 *entry = (u32 *)(depth * 4 + (u32)ordering);
-                ROOMFX_ADDPRIM(entry, packet);
-                ((RenderPacket24 *)packet)->sxy0 = xy0;
-                ((RenderPacket24 *)packet)->sxy1 = xy1;
-                ((RenderPacket24 *)packet)->sxy2 = xy2;
-                ((RenderPacket24 *)packet)->sxy3 = xy[d];
+                ROOMFX_ADDPRIM(&ordering[depth], packet);
+                ((RenderPacket24 *)packet.bytes)->sxy0 = xy0;
+                ((RenderPacket24 *)packet.bytes)->sxy1 = xy1;
+                ((RenderPacket24 *)packet.bytes)->sxy2 = xy2;
+                ((RenderPacket24 *)packet.bytes)->sxy3 = xy[d];
             }
         } else {
-            ROOMFX_SETADDR(packet, 0);
+            ROOMFX_TAG(packet.bytes)->address = 0;
         }
         packets += 2 * sizeof(RenderPacket24);
         i++;
@@ -358,20 +357,19 @@ void RoomEffect_ModelDraw(RenderObjectEntity *entity) {
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
         gte_nclip_now();
-        packet = (u8 *)((RenderPacket1C *)packets + slot);
+        packet.bytes = (u8 *)((RenderPacket1C *)packets + slot);
         gte_stmac0(area);
         if (*area < 0) {
             int depth = z[a] + z[b] + z[c];
             depth = depth / 3 >> 2;
             if (depth < 0x1000) {
-                u32 *entry = (u32 *)(depth * 4 + (u32)ordering);
-                ROOMFX_ADDPRIM(entry, packet);
-                ((RenderPacket1C *)packet)->sxy0 = xy0;
-                ((RenderPacket1C *)packet)->sxy1 = xy1;
-                ((RenderPacket1C *)packet)->sxy2 = xy2;
+                ROOMFX_ADDPRIM(&ordering[depth], packet);
+                ((RenderPacket1C *)packet.bytes)->sxy0 = xy0;
+                ((RenderPacket1C *)packet.bytes)->sxy1 = xy1;
+                ((RenderPacket1C *)packet.bytes)->sxy2 = xy2;
             }
         } else {
-            ROOMFX_SETADDR(packet, 0);
+            ROOMFX_TAG(packet.bytes)->address = 0;
         }
         packets += 2 * sizeof(RenderPacket1C);
         i++;

@@ -17,7 +17,6 @@
 #include "pe1/gte_types.h"
 #include "pe1/psyq_libc.h"
 #include "pe1/random.h"
-extern struct BattleEntity *D_8009CD10;
 
 int PointSprite_PlantScript(char *object) {
     FieldActor *actor;

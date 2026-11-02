@@ -10,6 +10,7 @@ extern u16 g_BattleHitActionPending;
 extern u8 g_BattleHitActionSubmode[];
 
 extern unsigned int D_8009D2E8;
+extern unsigned int D_8009CDA8;
 
 void Battle_FlushScriptSounds(void);
 void Draw_ResetTextboxes(void);

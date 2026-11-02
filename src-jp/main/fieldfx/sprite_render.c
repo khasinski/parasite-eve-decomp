@@ -13,7 +13,6 @@
 #include "pe1/psyq_bios.h"
 #include "pe1/render_object.h"
 #include "pe1/render_prim.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Field engine sprite rendering (0x800C2EAC..0x800C5EB0): the draw state
  * (texture page, CLUT origin, blend mode, cell quad, colour ramps) and the

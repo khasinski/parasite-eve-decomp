@@ -11,7 +11,6 @@
 #include "pe1/room_m086_seeker.h"
 
 #include "m086_externs.h"
-extern struct BattleEntity *D_8009CD10;
 
 int RoomM086_SeekerCallback(int mode, RoomM086Seeker *seeker, RoomM086SeekerParams *params) {
     GteShortVector rotation;
@@ -612,7 +611,7 @@ mode1:
                 actor->vy = -(rand() & 0x1F) - 0x1E;
             } else {
                 actor->vy = -(rand() & 0xF) - 8;
-                mag = (s32)(mag + ((u32)mag >> 31)) >> 1;
+                mag = (int)(mag + ((unsigned)mag >> 31)) >> 1;
             }
             value = rcos(angle) * mag;
             if (value < 0) {

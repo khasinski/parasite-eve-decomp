@@ -80,6 +80,7 @@ typedef struct RoomM123BeaconColor {
 } RoomM123BeaconColor;
 
 extern struct BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 extern RoomM123BeaconOffset g_RoomM123BeaconAnchor;
 extern u8 *g_RoomM123BeaconModel0;
 extern u8 *g_RoomM123BeaconModel1;

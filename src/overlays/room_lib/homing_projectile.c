@@ -150,7 +150,7 @@ int RoomEffect_HomingProjectile(int mode) {
                 gte_stsv(rotated);
                 position.x = model->position[0].word + (rotated[0] << 12);
                 position.z = model->position[2].word + (rotated[2] << 12);
-                point = ((u32)position.x >> 16) | (position.z & 0xFFFF0000);
+                point = ((unsigned)position.x >> 16) | (position.z & 0xFFFF0000);
                 previous = FLOOR_POLYGON_AS(RoomHomingModelVertex)[g_FloorPolygonVertexCount - 1].x |
                            (FLOOR_POLYGON_AS(RoomHomingModelVertex)[g_FloorPolygonVertexCount - 1].yz & 0xFFFF0000);
                 i = 0;

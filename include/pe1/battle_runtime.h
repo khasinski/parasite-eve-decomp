@@ -8,6 +8,7 @@
 
 extern Combatant *g_ActiveActor;
 extern BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 extern s16 g_MenuFrameCommand;
 extern int g_BattleAttackPmSlot;
 extern u8 g_BattleHitPending;
@@ -46,6 +47,7 @@ extern u8 g_BattleSlotCancelPending;
 extern u8 g_BattleActionIndex;
 extern u8 g_BattleActionQueueCount;
 extern unsigned int D_8009D2E8;
+extern unsigned int D_8009CDA8;
 extern int g_BattleModeState;
 /* Action record the battle menu fills in (Menu_RunFrameWithArg). Its packed
  * words are also declared on their own: retail reads each of them through

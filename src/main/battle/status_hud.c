@@ -825,7 +825,7 @@ void Battle_DrawStatusSymbol(s8 which) {
     ((RenderSpritePacket *)packet)->width = b[0];
     ((RenderSpritePacket *)packet)->height = b[1];
     ((RenderSpritePacket *)packet)->x = *(u16 *)(g_BattleStatusRowPosX + slot * 48) + c[0];
-    ((RenderSpritePacket *)packet)->y = *(u16 *)(g_BattleStatusRowPosX + slot * 48 + 2) + c[1];
+    ((RenderSpritePacket *)packet)->y = ((u16 *)(g_BattleStatusRowPosX + slot * 48))[1] + c[1];
     packetBase -= 8;
     AddPrim(D_800B0E38.ordering[slot] + 4, (unsigned int *)(packetBase + packetOffset));
 }
@@ -1025,12 +1025,12 @@ void Battle_DrawStatusPanel(s32 mode, BattleStatusPanel *input) {
             y = g_ActiveDrawSlot;
             missFrameOffset = y * 0x578;
             panelOffset = g_BattleStatusPanelSlot * 0x8C;
-            missSprite = (RenderSpritePacket *)(missFrameOffset + panelOffset + ((u8 *)g_BattleMissSprite));
+            missSprite = (RenderSpritePacket *)(missFrameOffset + panelOffset + (int)g_BattleMissSprite);
             missSprite->width = 0x18;
             missSprite->x = screenX;
             missSprite->y = screenY;
             missSprite->height = 8;
-            AddPrim(((u32 *)D_800B0E38.ordering[y]) + 7, panelOffset + ((((u8 *)g_BattleMissSprite) - 8) + missFrameOffset));
+            AddPrim(((u32 *)D_800B0E38.ordering[y]) + 7, (void *)((((int)g_BattleMissSprite - 8) + missFrameOffset) + panelOffset));
         }
     } else {
         value = number;
@@ -1116,7 +1116,7 @@ void Draw_QueuePrimitive(void) {
  * back 8 bytes for the packet; see CODE_ORGANIZATION.md. */
 #define INDEX_STRIDE(i) ((((((i) << 1) + (i)) << 3) - (i)) << 2) - (i)
 
-#define EMIT_CODED(code_expr) ({ asm volatile(""); ({  \
+#define EMIT_CODED(code_expr) { asm volatile(""); {  \
     int packet_code; \
     register char *base asm("$6"); \
     register int code_off asm("$3"); \
@@ -1140,7 +1140,7 @@ void Draw_QueuePrimitive(void) {
     ot = g_OtBufferTable[idx]; \
     s0 += s3; \
     AddPrim((u32 *)ot + 7, prim); \
- }); })
+ } }
 
 /* The last repeated icon queues its packet before advancing the cursor. */
 #define EMIT_BASE(base_sym, advanceBeforeQueue) { \
@@ -1152,8 +1152,8 @@ void Draw_QueuePrimitive(void) {
     idx = g_ActiveDrawSlot; \
     prim = base - 8; \
     packet = (char *)(INDEX_STRIDE(idx) << 2); \
-    prim = (char *)packet + (int)prim; \
-    packet = (char *)packet + (int)base; \
+    prim = (char *)((int)packet + (int)prim); \
+    packet = (char *)((int)packet + (int)base); \
     ((RenderSpritePacket *)packet)->x = s0; \
     ((RenderSpritePacket *)packet)->y = s2; \
     if (advanceBeforeQueue) s0 += s3; \
@@ -1174,7 +1174,7 @@ void Draw_QueuePrimitive(void) {
     base = base - 8; \
     ((RenderSpritePacket *)packet)->x = s0; \
     ((RenderSpritePacket *)packet)->y = s2; \
-    AddPrim(*(char **)((char *)g_OtBufferTable + idx) + 0x1C, (char *)idx_off + (int)base); \
+    AddPrim((u32 *)(*(void **)((int)g_OtBufferTable + idx)) + 7, (char *)(idx_off + (int)base)); \
 }
 
 void Draw_StatusIcons(void) {

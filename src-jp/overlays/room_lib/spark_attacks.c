@@ -16,7 +16,6 @@
 #include "pe1/room_line_burst.h"
 #include "pe1/room_sound_slot.h"
 #include "pe1/room_spark_attacks.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* First object of the primary channel's pool: its packet flags. */
 typedef struct RoomBurstOrbObject {
@@ -627,7 +626,6 @@ static const RoomLineBurstColor s_BeamBounceTileColor = { 0x80, 0x80, 0x80, 0 };
 #define ROOMLIB_BOUNCE_CLUT_X 0x30
 #define ROOMLIB_BOUNCE_FRAME_BASE 0x80
 #include "bounce_render.inc"
-extern RenderBufferPrefix D_800B08F8;
 
 /* Flat-colour GPU line packet with its tag split into address and length. */
 typedef struct RoomBeamLinePacket {
@@ -823,7 +821,7 @@ int RoomEffect_BeamSparkController(int mode, RoomBeamSpark *fx,
             line->g = fx->brightness;
             line->b = fx->brightness;
             gte_stszotz(&depth);
-            if ((u32)(depth - 1) < 0xFFF) {
+            if ((unsigned)(depth - 1) < 0xFFF) {
                 gte_stsxy3(&line->x0, &line->x1, &scratch);
                 FieldFx_LinkBlendedPacket(D_800B08F8.ordering[g_ActiveDrawSlot] + depth, line, 1);
             }

@@ -8,7 +8,6 @@
 #include "pe1/room_swirl_rise.h"
 
 #include "room_m089.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Spiral trail: the history shift is written out field by field (retail
  * loads all fifteen halfwords before the first store), and the flash angle

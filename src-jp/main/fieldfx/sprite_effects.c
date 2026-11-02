@@ -8,7 +8,6 @@
 #include "pe1/random.h"
 #include "pe1/render_object.h"
 #include "pe1/room_ember_burst.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* One falling sprite: drifts with damped sideways speed, bounces off the
  * floor and spins through a seven-frame strip tinted by the scene track. */
@@ -1692,7 +1691,6 @@ int FieldFx_RisingSpinEmitter(int mode, GteShortVector *state)
 #define SPINNING_MODEL_PALETTE 3
 #define SPINNING_MODEL_COLOR(size) (u8)((size) / 3), 0, (u8)((size) / 2)
 #include "spinning_model.inc"
-extern u8 *D_800F2D98;
 
 int FieldFx_SpinningModelEmitterB(int mode, FieldFxEmitter *state) {
     FieldFxEmittedPoint *point;

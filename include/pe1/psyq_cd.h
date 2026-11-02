@@ -440,6 +440,7 @@ extern CdStreamReadyState g_CdStreamReady;
  * through the union its test and clear schedule differently. */
 extern s16 g_CdStreamReadyHalfword __asm__("g_CdStreamReady");
 extern volatile s32 D_800B6914, g_CdStreamExpectedTypeId;
+extern volatile s32 D_800B63D4;
 extern void (*g_StrEndCallback)(void);
 extern s32 g_CdStreamRingIndex;
 

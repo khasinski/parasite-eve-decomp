@@ -15,7 +15,6 @@
 #include "pe1/scene_room_load.h"
 #include "pe1/scene_transition.h"
 #include "pe1/script_state.h"
-extern unsigned int D_8009CDA8;
 
 /* GPU pipeline start-up: voice bank, first room, light matrix and colours,
  * entity textures and fog. Retail compiles it without small-data address

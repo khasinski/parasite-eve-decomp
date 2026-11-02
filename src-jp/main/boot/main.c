@@ -47,7 +47,7 @@ void main(void) {
             switch (token) {
             case 0xA8000048:
                 Boot_LoadOverlayTables();
-                BOOT_CALL_ON_SCRATCHPAD_STACK(BOOT_SCRATCHPAD_STACK_TOP, func_80191E0C());
+                BOOT_CALL_ON_SCRATCHPAD_STACK(BOOT_SCRATCHPAD_STACK_TOP, func_8019234C());
                 g_GameState.flags |= 1;
                 break;
             case 0xAA108448:
@@ -57,13 +57,13 @@ void main(void) {
                     break;
                 }
                 CdRom_LoadBootAudio();
-                func_8012309C();
+                func_801235DC();
                 g_SceneDispatchToken = 0xA80830C8;
                 g_GameState.flags |= 1;
                 break;
             case 0xA9400048:
                 CdRom_LoadInitialImage();
-                Draw_InitDisplay(func_80190474());
+                Draw_InitDisplay(func_801909B4());
                 g_GameState.flags |= 3;
                 break;
             default:

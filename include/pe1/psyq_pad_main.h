@@ -19,7 +19,9 @@ PE1_STATIC_ASSERT(sizeof(PadIntQueueNode) == 0x10, pad_int_queue_node_size);
 extern int g_MemCardServiceReady, g_MemCardCommandStep;
 extern PadIntQueueNode g_PadVsyncIntQueueNode;
 extern MemCardInterruptRegisters *D_8009B784;
+extern MemCardInterruptRegisters *D_8009B24C;
 extern MemCardSioRegisters *D_8009B788;
+extern MemCardSioRegisters *D_8009B250;
 /* Per-port idle counters that PadEnableCom and the VSync timer age. */
 extern int g_PadPortIdleFrames[2];
 extern int (*g_MemCardCommandStepHandlers[])(void);

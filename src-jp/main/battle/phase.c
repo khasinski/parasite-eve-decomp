@@ -12,7 +12,6 @@
 #include "pe1/gte_types.h"
 #include "pe1/inventory.h"
 #include "pe1/pm.h"
-extern struct BattleEntity *D_8009CD10;
 
 #define NULL ((void *)0)
 typedef struct { s32 words[4]; } Copy16;

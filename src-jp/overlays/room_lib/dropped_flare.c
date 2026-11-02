@@ -10,7 +10,6 @@
 #include "pe1/field_texture_tables.h"
 #include "pe1/gte.h"
 #include "pe1/room_flare.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Flashes the scene: marks the battle actor and rewrites the colour code of
  * the first packet in the primary effect channel. */

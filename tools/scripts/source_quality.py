@@ -154,7 +154,8 @@ def classify(path: pathlib.Path, stack_switch_allowed=None) -> str:
         # semantic C; anywhere else it is quarantined like any other asm.
         allowed = (stack_switch_sources() if stack_switch_allowed is None
                    else stack_switch_allowed)
-        if not any(path.as_posix().endswith("src/" + source) for source in allowed):
+        if not any(path.as_posix().endswith(("src/" + source, "src-jp/" + source))
+                   for source in allowed):
             return "asm_constrained"
     if has_instruction_asm(expanded):
         return "asm_constrained"

@@ -11,7 +11,6 @@
 #include "pe1/akao/voice_state.h"
 #include "pe1/akao_counters.h"
 #include "m2c_macros.h"
-extern AkaoTickBank *D_8009CD88;
 
 void Akao_SetNotePitch(AkaoTrack *track, int arg);
 

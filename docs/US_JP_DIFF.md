@@ -30,71 +30,72 @@ does not automatically apply to the other, because the same C has to produce dif
 bytes in each.
 
 `make VERSION=JP split build check` reassembles `SLPS_012.30` byte for byte (sha1
-411bd943...). `configs/JP/main.yaml` lists which units are C (291 translation units and 24 slices of translation units, taken
-from the USA ones that are byte-identical in JP) and which are asm (`jp/text_*`);
-`configs/JP/sym.main.txt` holds the JP addresses of the names. The target exe is copied to
-`assets/JP/main.exe` (ignored, like `assets/USA`).
+411bd943...). `configs/JP/main.yaml` lists all 369 code units of `main` (335 `c` translation
+units and 34 `s` original-assembler units — 128 game units and 241 PsyQ library units total,
+matching the USA translation-unit layout 1-to-1 with zero splat `asm` subsegments remaining),
+alongside the same named `rodata`, `.data`, `.sdata`, `linker_offset` (`main_sbss`,
+`main_scommon`), `.bss` (`script/sfx_queue`), `field_engine`, and `overlay_windows`
+subsegments as `configs/USA/main.yaml`. `configs/JP/sym.main.txt` and
+`configs/JP/sym.main_only.txt` hold the JP addresses of all 3,507 symbols, while
+`linkers/JP/undefined_syms_manual.txt` holds only SPU hardware registers, LIBCARD kernel patch
+addresses, and symbolic aliases (matching `linkers/USA/undefined_syms_manual.txt`). The target
+exe is copied to `assets/JP/main.exe` (ignored, like `assets/USA`).
 
 `tools/scripts/jp_asm_fixup.py` rewrites `sd`/`ld`/`sdc2`... lines that splat mis-decodes
-inside data to `.word`, because GAS expands them and shifts every later address.
+inside data to `.word`, because GAS expands them and shifts every later address, and
+`tools/scripts/ld_postpass.py` post-processes `linkers/JP/main.ld` and `asm/JP/main/header.s`
+for shiftable `.sdata`/`.sbss`/COMMON layout and `linkers/JP/overlay_windows.txt` inclusion.
 
-A converted unit that calls a function whose JP address differs needs that name pinned in
-`linkers/JP/undefined_syms_manual.txt`, and absolute addresses in the C (`0x80070E0C`) need their JP
-value by hand (`src-jp/main/draw/prim_queue.c`). Undefined data names (the PsyQ CD/DS state, SPU
-registers) are pinned there too, at their JP addresses.
-
-A USA unit that contains a function JP changed, or that JP split with new code, is built as
-several files: `src-jp/main/menu/lists__s0.c`, `__s1.c`, ... each hold one run of functions that
-are adjacent and unchanged in JP, with the unit's shared declarations; the changed function stays in
-asm in the gap between them (`configs/JP/main.yaml` lists the slices as ordinary `c` units).
-Static helpers are made external and prototyped where another slice calls them.
-
-To convert another unit, write `src-jp/main/<unit>.c`, change its line in `configs/JP/main.yaml`
-from `asm` to `c`, and run `make VERSION=JP split build check`.
+Every translation unit in `src-jp/main/` is now unified into a single `.c` file matching its
+USA counterpart in `src/main/`, with JP-specific function changes, debug helpers, and Shift-JIS
+text handling integrated directly in place.
 
 ## JP overlays
 
 `configs/JP/overlays/*.yaml` are the USA overlay configs with the JP `PE.IMG` offsets and
 sha1, window vrams moved and symbols retargeted. `tools/scripts/jp_overlay_check.py --all`
-builds and checks them: all 188 match byte for byte. `menu_memcard` has the JP-only changes
-(the logo fade function is gone, `MenuCard_RunListScreen` and the page-flip/image-node
-constants differ, the video player data sits 0x23BC lower); `boot_display` needed JP symbol
-offsets and entry names. JP moved the overlay windows: mdec_diag and menu_memcard by -0x540,
-boot_display by -0x400, the rest stay (`linkers/JP/overlay_windows.txt`).
+builds and checks them: all 190 match byte for byte (152 rooms, 32 battle scenes, and all 6
+system overlays: `boot_display`, `fx_common`, `fx_common_sector17`, `fx_field`, `mdec_diag`,
+and `menu_memcard`). `menu_memcard` has the JP-only changes (the logo fade function is gone,
+`MenuCard_RunListScreen` and the page-flip/image-node constants differ, the video player data
+sits 0x23BC lower); `boot_display` needed JP symbol offsets and entry names. JP moved the
+overlay windows: mdec_diag and menu_memcard by -0x540, boot_display by -0x400, the rest stay
+(`linkers/JP/overlay_windows.txt`).
 
 ## JP match report
 
 The USA report pipeline runs for JP with `PE_VERSION=JP` (`gen_expected.py`, `objdiff_config.py`;
-`SRC` is `src-jp` there). `menu_memcard` and `boot_display` do not reproduce their retail
-binaries byte for byte but their retail disassembly overlaps itself, so they are left out with
-`PE_SKIP_OVERLAYS=menu_memcard,boot_display` and added back as matched (85 functions, 48,124 bytes, the overlay check is byte-identical;
-taken from the USA report):
+`SRC` is `src-jp` there). Once all overlays are built (`tools/scripts/jp_overlay_check.py --all`),
+the full report can be generated across the entire executable and all 190 overlays:
 
-    PE_VERSION=JP PE_SKIP_OVERLAYS=menu_memcard,boot_display make VERSION=JP expected objdiff-config
-    tools/objdiff/objdiff-cli report generate -p . -o build/JP/report.json
+    PE_VERSION=JP make VERSION=JP report
 
 | | functions matched | code bytes matched |
 | --- | ---: | ---: |
-| Main: game code | 1690 of 2333 (72.4%) | 499,124 of 1,932,012 (25.8%) |
-| Main: PsyQ libraries | 523 of 611 (85.6%) | 78,612 of 81,296 (96.7%) |
-| Room overlays | 7929 of 7929 | 2,390,640 of 2,390,640 |
-| Battle scene overlays | 1194 of 1194 | 407,388 of 407,388 |
-| System overlays | 25 of 25 | 6,916 of 6,916 |
-| **Total, with the two overlays added back** | **11,446 of 12,177 (94.0%)** | **3,430,804 of 4,866,376 (70.5%)** |
+| Main: game code | 1806 of 1806 (100.0%) | 555,604 of 555,604 (100.0%) |
+| Main: PsyQ libraries | 548 of 548 (100.0%) | 83,928 of 83,928 (100.0%) |
+| Room overlays | 7929 of 7929 (100.0%) | 2,390,640 of 2,390,640 (100.0%) |
+| Battle scene overlays | 1194 of 1194 (100.0%) | 407,388 of 407,388 (100.0%) |
+| System overlays | 166 of 166 (100.0%) | 107,280 of 107,280 (100.0%) |
+| **Total** | **11,643 of 11,643 (100.0%)** | **3,544,840 of 3,544,840 (100.0%)** |
 
-USA is 100% of 11,646 functions. The code-byte figure counts the asm data blobs of main as
-code, as the USA report does, so it is dominated by the unconverted main.
+USA is 100.0% of 11,646 functions (3,546,164 code bytes across all 190 overlays). Both USA and
+JP achieve 100.0% function and code-byte match across all translation units (`main-game`,
+`main-psyq`, `rooms`, `scenes`, and `system`), with 1,171 semantic-C units audited at 100%
+consistency.
 
 ## JP-specific functions
 
-A USA translation unit whose JP build differs in some functions is built as several files:
-`<tu>__s*.c` hold runs of functions identical to USA, `<tu>__g*.c` hold functions decompiled
-by hand against the JP bytes (JP behaviour differs from USA), and `__x*` files hold JP-only
-functions. Each is a `c` unit placed at its JP address in `configs/JP/main.yaml`.
+All translation units whose JP build differs from USA are now fully decompiled and unified into
+their canonical `src-jp/main/<subsystem>/<unit>.c` files (such as `field/actor_collision.c`,
+`draw/textbox.c`, `menu/item_actions.c`, `save/game_data.c`, `menu/save_screens.c`,
+`menu/status_panels.c`, `menu/equip_select.c`, `menu/skills.c`, `menu/main_menu.c`,
+`menu/inventory.c`, `menu/lists.c`, `battle/setup.c`, `battle/turn.c`, `script/flow_opcodes.c`,
+`psyq/libc/sprintf.c`, `psyq/libcd/sys_2.c`, `psyq/libcd/bios_4.c`, `psyq/libcard/end.c`,
+`psyq/libds/dsfile.c`, and `psyq/libgte/patchgte.c`).
 
 The field-effect engine (`fieldfx/object_script`, `collision`, `model`, `glow`, `burst`,
-`task_list`, `sprite_effects`, `emitters`, `vector`, `angle`: 280 functions) is built from C at
-JP offsets (USA offset minus 0x540). Splitting that code out of the single asm block made
-objdiff see its functions, so the function total grew (12,177 against 11,641) while the
-matched count rose; `sprite_render` is built from C too, in a `field_engine` segment of its own as in the USA
-config (its jump table sits before the engine's text); `geometry` is still asm.
+`task_list`, `sprite_effects`, `emitters`, `geometry`, `vector`, `angle`, and `sprite_render`:
+324 functions across 12 units) is also built completely from C at JP offsets (USA offset minus
+0x540), with `sprite_render` in a `field_engine` segment of its own as in the USA config (its
+jump table sits before the engine's text).

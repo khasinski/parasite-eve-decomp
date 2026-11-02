@@ -1,6 +1,5 @@
 #include "pe1/field_texture_tables.h"
 #include "pe1/scene_e20_flare_draw.h"
-extern RenderMatrixSlot D_800BCA64;
 
 /* Mode 1 ages the flare and, while it falls, moves and damps it and
  * bounces it off the floor; mode 2 draws a spinning glow with a streak,

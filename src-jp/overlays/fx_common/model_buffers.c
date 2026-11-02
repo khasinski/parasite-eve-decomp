@@ -48,24 +48,24 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
     resourceOffset = var_t8->offsets[0];
     resource_offset2 = var_t8->offsets[2];
     buffer = g_FxCommonActiveBuffer;
-    var_s3 = ((u8 *)var_t8) + resourceOffset;
-    var_t0 = ((u8 *)var_t8) + resource_offset2;
+    var_s3 = &((u8 *)var_t8)[resourceOffset];
+    var_t0 = &((u8 *)var_t8)[resource_offset2];
     resourceOffset = var_t8->offsets[1];
     resource_offset2 = var_t8->offsets[4];
-    var_s5 = ((u8 *)var_t8) + resourceOffset;
-    var_t3 = (FxCommonTexturedTriangle *)(((u8 *)var_t8) + resource_offset2);
+    var_s5 = &((u8 *)var_t8)[resourceOffset];
+    var_t3 = (FxCommonTexturedTriangle *)&((u8 *)var_t8)[resource_offset2];
     resourceOffset = var_t8->offsets[3];
     resource_offset2 = var_t8->offsets[6];
-    var_s7 = (FxCommonColoredQuad *)(((u8 *)var_t8) + resourceOffset);
+    var_s7 = (FxCommonColoredQuad *)&((u8 *)var_t8)[resourceOffset];
     resourceOffset = var_t8->offsets[5];
-    gt3Slot.cursor = (FxCommonColoredTexturedTriangle *)(((u8 *)var_t8) + resource_offset2);
+    gt3Slot.cursor = (FxCommonColoredTexturedTriangle *)&((u8 *)var_t8)[resource_offset2];
     initialDepthBias = g_FxCommonDepthBase;
     asm volatile("" : : "r"(resourceOffset));
-    var_fp = (FxCommonTexturedQuad *)(((u8 *)var_t8) + resourceOffset);
+    var_fp = (FxCommonTexturedQuad *)&((u8 *)var_t8)[resourceOffset];
     resourceOffset = var_t8->offsets[7];
     ((volatile FxCommonRenderScratchpad *)0x1F800000)->depthBias = initialDepthBias;
     asm volatile("" : : "r"(initialDepthBias));
-    gt4Slot.cursor = (FxCommonColoredTexturedQuad *)(((u8 *)var_t8) + resourceOffset);
+    gt4Slot.cursor = (FxCommonColoredTexturedQuad *)&((u8 *)var_t8)[resourceOffset];
     (void)&gt3Slot.cursor;
     (void)&gt4Slot.cursor;
     {
@@ -113,7 +113,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                                       addressMask0);
                             temp_a0_2 |= temp_v0;
                             ((FxCommonF3Packet *)var_s2)->tag.packed = temp_a0_2;
-                            temp_a0_2 = ((u32)var_s2) & addressMask0;
+                            temp_a0_2 = ((unsigned int)var_s2) & addressMask0;
                             var_s2 += 0x14;
                             orderBuffer->allocation[scratchpad->orderingDepth].packed =
                                 ((orderBuffer->allocation[scratchpad->orderingDepth].packed) &
@@ -179,7 +179,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                                 new_var3 = var_s2;
                                 temp_a0_4 |= temp_v0;
                                 ((FxCommonPacketTag *)new_var3)->packed = temp_a0_4;
-                                temp_a0_4 = ((u32)var_s2) & addressMask1;
+                                temp_a0_4 = ((unsigned int)var_s2) & addressMask1;
                                 var_s2 += 0x18;
                                 orderBuffer->allocation[scratchpad->orderingDepth].packed =
                                     ((orderBuffer->allocation[scratchpad->orderingDepth].packed) &
@@ -241,7 +241,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                                       addressMask2);
                             temp_a0_6 |= temp_v0;
                             ((FxCommonPacketTag *)var_s2)->packed = temp_a0_6;
-                            temp_a0_6 = ((u32)var_s2) & addressMask2;
+                            temp_a0_6 = ((unsigned int)var_s2) & addressMask2;
                             var_s2 += 0x1C;
                             orderBuffer->allocation[scratchpad->orderingDepth].packed =
                                 ((orderBuffer->allocation[scratchpad->orderingDepth].packed) &
@@ -305,7 +305,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                                       addressMask3);
                             temp_a0_8 |= temp_v0;
                             ((FxCommonPacketTag *)var_s2)->packed = temp_a0_8;
-                            temp_a0_8 = ((u32)var_s2) & addressMask3;
+                            temp_a0_8 = ((unsigned int)var_s2) & addressMask3;
                             var_s2 += 0x24;
                             orderBuffer->allocation[scratchpad->orderingDepth].packed =
                                 ((orderBuffer->allocation[scratchpad->orderingDepth].packed) &
@@ -492,7 +492,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         orderBuffer->allocation[scratchpad->orderingDepth].packed =
                             (orderBuffer->allocation[scratchpad->orderingDepth].packed &
                              triangleLengthMask) |
-                            (((u32)trianglePacketCursor) & triangleAddressMask);
+                            (((unsigned int)trianglePacketCursor) & triangleAddressMask);
                         ((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->tag.bytes.length =
                             triangleLength;
                         ((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->color = var_t3->color;
@@ -522,7 +522,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         temp_a0 |= ((g_FxCommonActiveBuffer->allocation[scratchpad->orderingDepth].packed) &
                                     triangleAddressMask);
                         trianglePacketCursor->tag.packed = temp_a0;
-                        trianglePacketAddress24 = (s32)trianglePacketCursor;
+                        trianglePacketAddress24 = (int)trianglePacketCursor;
                         trianglePacketAddress24 = triangleAddressMask & trianglePacketAddress24;
                         orderBuffer->allocation[scratchpad->orderingDepth].packed =
                             (orderBuffer->allocation[scratchpad->orderingDepth].packed &
@@ -560,7 +560,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         orderBuffer->allocation[scratchpad->orderingDepth].packed =
                             (orderBuffer->allocation[scratchpad->orderingDepth].packed &
                              triangleLengthMask) |
-                            (((u32)trianglePacketCursor) & triangleAddressMask);
+                            (((unsigned int)trianglePacketCursor) & triangleAddressMask);
                         ++trianglePacketCursor;
                         ((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->tag.bytes.length =
                             triangleLength;
@@ -642,7 +642,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         trianglePacketCursor->tag.packed = finalFt3Tag;
                     }
 
-                    temp_a0_13 = ((u32)trianglePacketCursor) & triangleAddressMask;
+                    temp_a0_13 = ((unsigned int)trianglePacketCursor) & triangleAddressMask;
                     ++trianglePacketCursor;
                     orderBuffer->allocation[scratchpad->orderingDepth].packed =
                         (orderBuffer->allocation[scratchpad->orderingDepth].packed &
@@ -983,7 +983,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                             firstQuadOtWord =
                                 orderBuffer->allocation[scratchpad->orderingDepth].packed;
                             firstQuadOtWord &= quadLengthMask;
-                            firstQuadOtAddress = ((u32)var_t1_2) & quadAddressMask;
+                            firstQuadOtAddress = ((unsigned int)var_t1_2) & quadAddressMask;
                             orderBuffer->allocation[scratchpad->orderingDepth].packed =
                                 firstQuadOtWord | firstQuadOtAddress;
                         }
@@ -1024,7 +1024,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         orderBuffer->allocation[scratchpad->orderingDepth].packed =
                             (orderBuffer->allocation[scratchpad->orderingDepth].packed &
                              quadLengthMask) |
-                            (((u32)var_t1_2) & quadAddressMask);
+                            (((unsigned int)var_t1_2) & quadAddressMask);
                     }
                     {
                         u32 quadPacketLengthBits;
@@ -1065,9 +1065,9 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                             thirdOtIndex = scratchpad->orderingDepth;
 
                             thirdOtBase = (u32 *)orderBuffer->allocation;
-                            thirdOtSlot = (u32 *)((thirdOtIndex << 2) + (u32)thirdOtBase);
+                            thirdOtSlot = (u32 *)((thirdOtIndex << 2) + (unsigned int)thirdOtBase);
                             thirdOtWord = *thirdOtSlot & quadLengthMask;
-                            thirdOtAddress = ((u32)var_t1_2) & quadAddressMask;
+                            thirdOtAddress = ((unsigned int)var_t1_2) & quadAddressMask;
                             *thirdOtSlot = thirdOtWord | thirdOtAddress;
                         }
                     }
@@ -1105,7 +1105,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                               quadAddressMask);
                     lastQuadTag |= lastQuadNext;
                     var_t1_2->tag.packed = lastQuadTag;
-                    lastQuadAddress = ((u32)var_t1_2) & quadAddressMask;
+                    lastQuadAddress = ((unsigned int)var_t1_2) & quadAddressMask;
                     ++var_t1_2;
                     orderBuffer->allocation[scratchpad->orderingDepth].packed =
                         (orderBuffer->allocation[scratchpad->orderingDepth].packed &
@@ -1184,7 +1184,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         ((FxCommonPacketTag *)var_s3)->packed = gt3Tag;
                         {
 
-                            u32 packetAddress6 = ((u32)var_s3) & addressMask6;
+                            u32 packetAddress6 = ((unsigned int)var_s3) & addressMask6;
                             var_s3 += 0x28;
                             orderBuffer->allocation[scratchpad->orderingDepth].packed =
                                 ((orderBuffer->allocation[scratchpad->orderingDepth].packed) &
@@ -1271,7 +1271,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         ((FxCommonPacketTag *)var_s3)->packed = gt4Tag;
                         {
 
-                            u32 packetAddress7 = ((u32)var_s3) & addressMask7;
+                            u32 packetAddress7 = ((unsigned int)var_s3) & addressMask7;
                             var_s3 += 0x34;
                             orderBuffer->allocation[scratchpad->orderingDepth].packed =
                                 (orderBuffer->allocation[scratchpad->orderingDepth].packed &

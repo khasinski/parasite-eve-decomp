@@ -10,7 +10,6 @@
 #include "pe1/psyq_bios.h"
 
 #include "intr_2_externs.h"
-extern volatile u16 *D_8009513C;
 
 void Sys_ClearWordBuf(int *dst, int count);
 int setjmp(void *env);

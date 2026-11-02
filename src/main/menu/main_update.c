@@ -261,7 +261,7 @@ void Menu_MainUpdate(s32 arg0) {
             reset_flags = *temp_s2;
             reset_operand = ~0x2000U;
             reset_flags &= reset_operand;
-            reset_operand = (u32) g_ActiveActor;
+            reset_operand = ((union { Combatant *actor; u32 word; } *)&g_ActiveActor)->word;
             g_BattleHaltTimer = 0;
             *temp_s2 = reset_flags;
             ((Combatant *)reset_operand)->exp_or_acc = 0x10000;

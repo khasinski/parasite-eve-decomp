@@ -43,6 +43,8 @@ typedef struct TextboxNameGlyphs {
     s8 count;
 } TextboxNameGlyphs;
 extern TextboxNameGlyphs g_TextboxNameGlyphs;
+extern u8 g_TextboxNameGlyphBuf[6];
+extern s8 g_TextboxNameGlyphCount;
 typedef struct TextboxGlyphSpacing {
     u8 left, right;
 } TextboxGlyphSpacing;

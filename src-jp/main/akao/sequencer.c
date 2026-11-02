@@ -11,7 +11,6 @@
 #include "pe1/akao_script.h"
 #include "pe1/psyq_bios.h"
 #include "pe1/psyq_spu_internal.h"
-extern AkaoTickBank *D_8009CD88;
 
 void Seq_GetGlobalPitch(unsigned int *out)
 {

@@ -1,0 +1,14 @@
+// Main symbols the overlay splits must not see. Every overlay config lists
+// configs/JP/sym.main.txt, so a main name at an address inside the room
+// load window would label that address in each overlay image as well.
+//
+// The buffer g_StrFileDirBuffer points at: the disc loader reads the STR
+// file directory (asset 70) to the room window plus 8, the address the
+// third header word of a room image and the start of fx_common occupy.
+g_StrFileDirArea = 0x8018EFF0;
+
+// The load areas g_MdecOverlayLoadBase and g_CdLoadAreaBase point at: the
+// mdec_diag window and the menu_memcard window, where the disc loader puts
+// those images (their first words are the overlays' own header data).
+g_MdecOverlayArea = 0x8010B7B8;
+g_CdLoadArea = 0x801207C0;

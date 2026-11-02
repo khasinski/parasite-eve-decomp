@@ -28,8 +28,6 @@
 #include "e19_externs.h"
 #include "scene_e19_shared.h"
 #include "scene_e19_state.h"
-extern volatile int D_800BCA48;
-extern struct BattleEntity *D_8009CD10;
 
 typedef struct SceneE19FrameGateLink {
     u8 reserved_00[0x16];
@@ -305,16 +303,16 @@ s32 SceneE19_ResetGrabTarget(char *obj)
     ((SceneE19Actor *)D_8009CD10)->reset_halfword = 0;
     Entity_FindFloor(D_8009CD10);
     e = (char *)D_8009CD10;
-    *((s32 *) (e + 0x68)) = 0;
-    *((s32 *) (e + 0x6C)) = 0;
-    *((s32 *) (e + 0x70)) = 0;
-    *((s32 *) (e + 0x78)) = 0;
-    *((s32 *) (e + 0x7C)) = 0;
-    out = (s32 *) (e + 0x40);
-    *((s32 *) (e + 0x80)) = 0;
-    *out = *((s32 *) (e + 0x28));
-    *((s32 *) (e + 0x44)) = *((s32 *) (e + 0x2C));
-    *((s32 *) (e + 0x48)) = *((s32 *) (e + 0x30));
+    *(s32 *)&e[0x68] = 0;
+    *(s32 *)&e[0x6C] = 0;
+    *(s32 *)&e[0x70] = 0;
+    *(s32 *)&e[0x78] = 0;
+    *(s32 *)&e[0x7C] = 0;
+    out = (s32 *)&e[0x40];
+    *(s32 *)&e[0x80] = 0;
+    *out = *(s32 *)&e[0x28];
+    *(s32 *)&e[0x44] = *(s32 *)&e[0x2C];
+    *(s32 *)&e[0x48] = *(s32 *)&e[0x30];
     D_800BCA48 |= 0x80;
     sub[0x38] = 0;
   }

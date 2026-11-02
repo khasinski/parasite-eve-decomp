@@ -75,10 +75,10 @@ s32 RoomM273_SweepArcEmitter(s32 arg0) {
 
     obj = FieldFx_AcquireCallbackSlot(ANIM_POOL_AS(RoomM273PoolContext)->pool);
     if (obj != 0) {
-        *(u16 *)(obj + 0) = g_RoomM273SweepPoint.x;
-        *(u16 *)(obj + 2) = g_RoomM273SweepPoint.y;
-        *(u16 *)(obj + 4) = g_RoomM273SweepPoint.z;
-        *(u16 *)(obj + 6) = 0;
+        ((u16 *)obj)[0] = g_RoomM273SweepPoint.x;
+        ((u16 *)obj)[1] = g_RoomM273SweepPoint.y;
+        ((u16 *)obj)[2] = g_RoomM273SweepPoint.z;
+        ((u16 *)obj)[3] = 0;
     }
 
     return 0;

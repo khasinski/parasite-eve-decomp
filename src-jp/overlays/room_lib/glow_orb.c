@@ -14,7 +14,6 @@
 #include "pe1/field_collision.h"
 #include "pe1/gte.h"
 #include "pe1/room_glow_orb.h"
-extern struct BattleEntity *D_8009CD10;
 
 static const GteShortVector s_GlowOrbSpin = { 0xC00, 0, 0, 0 };
 static const GteVector s_GlowOrbFlashScale = { 0x448, 0x448, 0x448, 0 };

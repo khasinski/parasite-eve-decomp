@@ -9,7 +9,6 @@
 #include "pe1/akao/voice_state.h"
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_spu_internal.h"
-extern AkaoTickBank *D_8009CD88;
 
 int Akao_Cmd_10(void *bank) {
     g_AkaoCmd.opcode = 0x10;

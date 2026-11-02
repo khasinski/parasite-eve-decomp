@@ -89,7 +89,7 @@ void RoomEffect_DrawMotionParticles(void *unused, RoomStatePair *control,
         cursor = (RoomMotionCursor *)state;
         do {
             *depth = state->depth;
-            *(u8 *)((char *)depth - 6) =
+            ((u8 *)depth)[-6] =
                 g_RoomMotionLookupCodes[state->lookup[i].id];
             matrix.t[0] = primary->t[0] + cursor->particle.primaryX;
             matrix.t[1] = primary->t[1] + cursor->particle.primaryY;

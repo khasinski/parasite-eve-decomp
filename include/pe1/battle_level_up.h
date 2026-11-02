@@ -4,6 +4,7 @@
 #include "pe1/entity_animation.h"
 
 extern BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 extern BattleRewardSlot g_BattleRewardSlots[10];
 extern u8 g_BattleStepIndex;
 extern s16 g_MenuFrameCommand;

@@ -66,6 +66,7 @@ typedef struct RoomM086EventState {
 } RoomM086EventState;
 
 extern struct BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 extern u8 *g_RoomM086SeekerModelB;
 
 /* room_m086 seeker controller (RoomM086_SeekerController): follows joint 7 of the

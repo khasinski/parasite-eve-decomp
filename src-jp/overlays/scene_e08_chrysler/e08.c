@@ -37,7 +37,6 @@
 #include "scene_e08.h"
 #include "scene_e08_modules.h"
 #include "scene_particle_slots.h"
-extern struct BattleEntity *D_8009CD10;
 
 typedef struct {
     s32 w0;
@@ -1980,8 +1979,8 @@ void SceneE08_InitLayeredSpriteContext(SceneGrabHead *actor, void *unused, Scene
     asm volatile("" : : "r"(two));
     /* hitTimer and hitRequest: as field stores GCC would sink them past
      * the global stores below. */
-    *(s16 *)((char *)state + 0x2A) = 0;
-    *(s16 *)((char *)state + 0x2C) = 0;
+    *(s16 *)&((char *)state)[0x2A] = 0;
+    *(s16 *)&((char *)state)[0x2C] = 0;
     g_SceneE08TrailGlowSpriteOffset = scratch;
     g_SceneE08TrailGlowFloorSprite.offset = -100;
     g_SceneE08TrailGlowFloorSprite.g = 16;
@@ -2317,8 +2316,8 @@ void SceneE08_UpdateLayeredSprite(void *unused, RoomFxControl *control, char *st
     nextX = ((SceneLayeredSpriteState *)state)->center[0].fixed + xVelocity;
     screenLimit = g_FloorPolygonVertexCount;
     ((SceneLayeredSpriteState *)state)->center[0].fixed = nextX;
-    *((s32 *) (state + 4)) = nextY;
-    *((s32 *) (state + 8)) = nextZ;
+    *(s32 *)&state[4] = nextY;
+    *(s32 *)&state[8] = nextZ;
     zArg = (unsigned)(nextZ >> 16) << 16;
     if (Geo_PointInPoly(((unsigned)((SceneLayeredSpriteState *)state)->center[0].parts.integer) << 16, zArg, g_FloorPolygonVertices, screenLimit) == 0)
     {

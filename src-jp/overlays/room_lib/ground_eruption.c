@@ -20,7 +20,6 @@
 
 #include "render_layouts.h"
 #include "room_lib.h"
-extern struct BattleEntity *D_8009CD10;
 
 ROOMLIB_RETURN_ZERO(RoomEffect_GroundEruptionNop0)
 

@@ -2,9 +2,6 @@
 
 #include "pe1/gte.h"
 #include "pe1/scene_e20_hover_orb.h"
-extern u16 D_800F2E2C;
-extern RenderMatrixSlot D_800BCA64;
-extern struct BattleEntity *D_8009CD10;
 
 #define NULL ((void *)0)
 
@@ -132,7 +129,7 @@ update: {
         temp_v0_5 = (u16) effect->timer + 1;
         effect->timer = temp_v0_5;
         if ((temp_v0_5 == 1) && (rand() & 1)) {
-            Asset_Find08w(0x5FF, FieldFx_GetOwnerProgress(), effect->position.x, effect->position.y, (s32) effect->position.z);
+            Asset_Find08w(0x5FF, FieldFx_GetOwnerProgress(), effect->position.x, effect->position.y, (int) effect->position.z);
         }
         temp_s3 = rsin((effect->timer << 0xA) / effect->duration);
         LoadAverageShort12(&effect->previousPosition, &effect->target, 0x1000 - temp_s3, temp_s3, &effect->position);
@@ -174,7 +171,7 @@ update: {
         temp_v0_7 = (u16) effect->timer + 1;
         effect->timer = temp_v0_7;
         if (temp_v0_7 == 1) {
-            Asset_Find08w(0x5FF, FieldFx_GetOwnerProgress(), effect->position.x, effect->position.y, (s32) effect->position.z);
+            Asset_Find08w(0x5FF, FieldFx_GetOwnerProgress(), effect->position.x, effect->position.y, (int) effect->position.z);
         }
         temp_s3 = rsin((effect->timer << 0xA) / effect->duration);
         temp_s0_3 = 0x1000 - temp_s3;
@@ -206,7 +203,7 @@ update: {
                 temp_v0_10->timer = 0;
                 temp_v0_10->position.z = particleZ + effectZ;
             }
-            Asset_Find08w(0x600, 0x80, effect->position.x, effect->position.y, (s32) effect->position.z);
+            Asset_Find08w(0x600, 0x80, effect->position.x, effect->position.y, (int) effect->position.z);
         }
         if (effect->timer >= 4) {
             effect->phase = 5;
@@ -244,7 +241,7 @@ update: {
         effect->timer = (u16) effect->timer + 1;
         if ((FieldFx_IsPlayerWithinRadius(&effect->endpoint, 0x42) != 0) && (g_SceneE20HoverOrbHitCooldown == 0)) {
             temp_v1_3 = ANIM_OWNER_AS(SceneE20Channel)->pool->node;
-            *(u8 *)((u8 *)temp_v1_3 + ((temp_v1_3->flags >> 17) & 0x70) + 0x1C) = 2;
+            (&((u8 *)temp_v1_3)[(temp_v1_3->flags >> 17) & 0x70])[0x1C] = 2;
             if (FX_TASK_AS(SceneE20Event)->active != 0) {
                 if ((ANIM_OWNER_AS(SceneE20Channel)->pool->node->flags & 0x3F000000) == 0x01000000) {
                     temp_v1_4 = *((SceneE20Actor **)D_8009CD10);
@@ -381,8 +378,8 @@ block_63:
             }
             drawRotation.z = (var_v0 >> 3) + 0x800;
             RotMatrixYXZ(&effect->rotation, &matrix);
-            matrix.t[0] = (s32) effect->position.x;
-            matrix.t[1] = (s32) effect->position.y;
+            matrix.t[0] = (int) effect->position.x;
+            matrix.t[1] = (int) effect->position.y;
             translationZ = effect->position.z;
             scale[0] = modelScale;
             scale[1] = modelScale;
@@ -393,7 +390,7 @@ block_63:
             FieldFx_ModelScaleColors(g_SceneE20HoverOrbModel, (u16) effect->alpha);
             FieldFx_ModelDraw(g_SceneE20HoverOrbModel, (GteMatrix *)&matrix);
             FieldFx_ModelRestoreColors(g_SceneE20HoverOrbModel);
-            FieldFx_DrawHistoryTrail(&effect->trailHead, &effect->trailTail, 6, (unsigned char *)&beamColor, (unsigned char *)&edgeColor, (s32) effect->alpha, (struct FieldTrailPair *)effect->history, 1);
+            FieldFx_DrawHistoryTrail(&effect->trailHead, &effect->trailTail, 6, (unsigned char *)&beamColor, (unsigned char *)&edgeColor, (int) effect->alpha, (struct FieldTrailPair *)effect->history, 1);
             g_FieldFxSpriteParams.depth = 0x33;
             var_s0 = effect->alpha;
             if (g_FieldFxCurrentAge & 1) {

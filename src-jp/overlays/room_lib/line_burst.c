@@ -19,7 +19,6 @@ static const RoomLineBurstWords8 s_LineBurstSpriteRotation = { { 0x400, 0x10000 
 #define ROOMLIB_UPDATE_BOUNCE_RENDER_NAME RoomEffect_LineBurstParticle
 #define ROOMLIB_BOUNCE_RENDER_BLOB s_LineBurstParticleColor
 #include "bounce_render.inc"
-extern struct BattleEntity *D_8009CD10;
 
 /* Four-phase burst anchored on the actor: a pair of bounce particles and a
  * line swept from the anchor to the sprite point, a ring of eight particles
@@ -177,7 +176,7 @@ int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
             line->g = state->color;
             line->b = state->color;
             gte_stszotz(&otz);
-            if ((u32)(otz - 1) < 0xFFF) {
+            if ((unsigned)(otz - 1) < 0xFFF) {
                 gte_stsxy3(&line->x0, &line->x1, &weight);
                 FieldFx_LinkBlendedPacket(g_RenderAnimBufferBase[g_ActiveDrawSlot - 8] + otz * 4, line, 1);
             }

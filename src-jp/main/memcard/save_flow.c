@@ -12,7 +12,6 @@
 #include "pe1/save_blob.h"
 #include "pe1/save_tail_state.h"
 #include "pe1/script_queue.h"
-extern unsigned int D_8009CDA8;
 
 /* The save tail is a packed byte stream: each record is copied as an
  * unaligned byte block at the IO cursor, which then advances past it. */

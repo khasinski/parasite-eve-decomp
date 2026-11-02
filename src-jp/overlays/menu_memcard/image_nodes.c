@@ -140,7 +140,7 @@ void MenuCard_BlendImage(MemcardImageNode *node, u8 *destination, s32 padding) {
     {
         MemcardImage *image = node->image;
         height = node->height;
-        source = (u8 *)image + 20;
+        source = (u8 *)(image + 1);
     }
     for (row = 0; row < height; row++) {
         for (column = 0; column < words; column++) {
@@ -236,7 +236,7 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
     s32 eightyFour;
     s32 workspace[1];
     __asm__("" : : "m"(workspace[0]));
-    source = (u8 *)image + 20;
+    source = (u8 *)(image + 1);
     if (60 - progress >= 0) {
         s32 offset;
         product = stride * (60 - progress);
@@ -296,7 +296,7 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
     }
     image = node->image;
     __asm__("" : "=r"(image) : "0"(image) : "memory");
-    source = (u8 *)image + 0x17B1;
+    source = &((u8 *)image)[0x17B1];
     {
         s32 offset = (progress << 1) + progress;
         out = destination + offset;

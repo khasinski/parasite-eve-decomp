@@ -18,7 +18,6 @@
 #include "pe1/room_fx.h"
 
 #include "room_lib.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Seeds copied into the stack frames; file-scope so the all-zero rotation
  * stays a rodata copy. */
@@ -240,7 +239,7 @@ void RoomLib_DrawTwelveElementEffect(void *unused0, void *unused1,
     FieldFx_SetSpriteBlendMode(2);
 
     for (; i < 12; i++) {
-        element = (char *)workState + i;
+        element = &((char *)workState)[i];
         if (((RoomLibTick12Rec *)element)->state[0] == 1) {
             stack.primaryMatrix = workState->matrix;
             ApplyMatrix(primaryMatrix, &workState->position[i],

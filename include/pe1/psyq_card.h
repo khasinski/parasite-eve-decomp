@@ -24,6 +24,7 @@ extern void *volatile g_CardPatchContinuation;
  * 0xDF80, placing CardPatchFunctions at offset 0x2C (0xDFAC). */
 extern const u8 D_A000DFAC[];
 extern const u32 func_8007E344[];
+extern const u32 func_8007DE30[];
 void LIBCARD_PATCH_text_70(void);
 
 #endif

@@ -9,7 +9,6 @@
 #include "pe1/gte.h"
 #include "pe1/math64.h"
 #include "pe1/random.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Legacy name: this computes enemy damage, applies attack/status resistances,
  * subtracts HP, and starts the hit reaction. The double arithmetic calls the

@@ -81,9 +81,9 @@ void RoomLib_GrabOnApproach(SceneGrabHead *head) {
             int mapAngle;
 
             *(int *)0x1F800008 =
-                *(int *)(*(char **)&actor->render_object.matrices + 0x594) << 16;
+                *(int *)&(*(char **)&actor->render_object.matrices)[0x594] << 16;
             *(int *)0x1F800010 =
-                *(int *)(*(char **)&actor->render_object.matrices + 0x59C) << 16;
+                *(int *)&(*(char **)&actor->render_object.matrices)[0x59C] << 16;
             mapAngle = FieldFx_VecToAngle(
                 origin, (Vec3Fixed *)(*(char **)&actor->render_object.matrices + 0x594));
 
@@ -163,7 +163,7 @@ void RoomM273_GrabHoldStep(RoomSelectionState *state) {
             u8 *substate = ((RoomM273ActorState *)actor->state)->substate;
             substate[1] = stateTail->pending_action;
         } else if ((s16)previousFrame < 34 && (s16)currentFrame >= 34) {
-            s32 delta = ((s32)(s16)g_RoomFloorY->raw << 16) - actor->pos_y;
+            s32 delta = ((int)(s16)g_RoomFloorY->raw << 16) - actor->pos_y;
             if (delta < 0) {
                 delta += 15;
             }
@@ -277,7 +277,7 @@ s32 RoomM273_GrabRelease(RoomSelectionState *selection) {
     if (selection->activated != 0) {
         target = *((void **)g_PlayerEntity);
         if (target != 0) {
-            if (*(s16 *)(target + 0xC) > 0) {
+            if (*(s16 *)&target[0xC] > 0) {
                 Battle_ReturnToIdle();
             }
         }
@@ -492,7 +492,7 @@ int RoomM273_GrabPlacementFanEmitter(int mode) {
         effect->parameter[1]=8;
         {
             unsigned long address=((g_FieldFxCurrentAge*1024/12)&0xFFF)*4;
-            address+=(unsigned long)((RoomM273TrigEntry *)rcossin_tbl);
+            address+=(unsigned int)((RoomM273TrigEntry *)rcossin_tbl);
             effect->parameter[2]=((short *)address)[1]*40/4096;
         }
         break;
@@ -1072,7 +1072,7 @@ mode_one:
     state = obj->state->action_state;
     frame = obj->anim.parts.integer;
     /* High half of anim_prev, the previous whole frame. */
-    timer = *(unsigned short *)((char *)obj + 0x1A);
+    timer = *(unsigned short *)&((char *)obj)[0x1A];
 
     if (*state == 1) {
         *state = 2;
@@ -1291,7 +1291,7 @@ int RoomM273_HandTrailEmitter(int mode) {
         actor = candidate;
         {
             u16 previousFrame =
-                *(u16 *)((u8 *)actor + 0x1A);
+                *(u16 *)&((u8 *)actor)[0x1A];
         if ((s16)actor->anim.parts.integer < 6 ||
             (s16)previousFrame >= 35)
             return 0;
@@ -1369,7 +1369,7 @@ particleSetup:
             pathOffset = i * 2;
             particle->position.z = g_RoomM273HandTrailState.hands[i].z;
             particle->yaw = actor->rot_y + size * 4;
-            pathAddress = (s16 *)((u8 *)pathY + pathOffset);
+            pathAddress = (s16 *)&((u8 *)pathY)[pathOffset];
             nextIndex = i + 1;
             particle->pitch = *pathAddress;
             i = nextIndex;
@@ -1473,10 +1473,10 @@ int RoomM273_HandTrailLandingEmitter(int mode) {
                 offset=i*2;
                 asm("" : : "r"(offset));
                 effect->x=*x;
-                y=*(unsigned short *)((char *)batch+offset+16);
+                y=(&((unsigned short *)&((char *)batch)[offset])[8])[0];
                 asm("" : "=r"(offset) : "0"(offset));
                 effect->y=y-128;
-                effect->z=*(unsigned short *)((char *)batch+offset+32);
+                effect->z=(&((unsigned short *)&((char *)batch)[offset])[16])[0];
                 effect->phase=0;
                 effect->size=128;
                 *pointer=effect;
@@ -1577,7 +1577,7 @@ int RoomM273_HandGlowEmitter(int mode) {
                     unsigned long address;
                     if(!out) break;
                     address=i*8;
-                    address+=(unsigned long)positions;
+                    address+=(unsigned int)positions;
                     *out=(Vector *)address;
                     i++;
                 } while(i<2);
@@ -1588,7 +1588,7 @@ int RoomM273_HandGlowEmitter(int mode) {
                     unsigned long address;
                     if(!out) break;
                     address=i*8;
-                    address+=(unsigned long)positions;
+                    address+=(unsigned int)positions;
                     *out=(Vector *)address;
                     i++;
                 } while(i<2);
@@ -1888,7 +1888,7 @@ int RoomM273_SweepSplashEmitter(int mode) {
                 asm("" : "=r"(i) : "0"(i), "r"(x));
                 ++x;
                 offset=i*2;
-                out->z=*(unsigned short *)((char *)batch+offset+48);
+                out->z=(&((unsigned short *)&((char *)batch)[offset])[24])[0];
                 out->pad=0;
                 ++i;
             } while(i<batch->count);
@@ -1978,9 +1978,10 @@ int RoomM273_SweepRisingCallback(int mode, Particle *input) {
         sample = rcossin_tbl[sampleOffset / 4].word;
         asm("" : : "r"(sample), "r"(paletteOffset));
         sizeOffset = ((unsigned int)frame << 7) & 0x3F80;
-        palette = *(unsigned short *)((char *)g_FieldFxPaletteTable + paletteOffset);
+        palette = *(unsigned short *)&((char *)g_FieldFxPaletteTable)[paletteOffset];
         shade = (short)sample >> 5;
-        size = *(short *)((char *)rcossin_tbl + sizeOffset) + 8192;
+        size = *(short *)&((char *)rcossin_tbl)[sizeOffset]
+            + 8192;
         if (kind == 4 && g_FieldFxAltPaletteFlag) palette += 4;
         clut = GetClut(16, palette);
         FieldFx_DrawShapeQuads((GteShortVector *)particle, 0, size, size, (s16)g_FieldFxSpriteParams.parameter02 * (frame / 4) + 200,
@@ -2407,8 +2408,9 @@ int RoomM273_SwayGroundCallback(int mode,Vector *input) {
         if(g_FieldFxCurrentAge>=32) return 1;
     } else if(mode==2) {
         unsigned int phase=(unsigned int)(g_FieldFxCurrentAge-1)<<5;
-        int shadeSample=*(short *)((char *)g_RcossinTblCos+(((phase+1024)&4095)*4));
-        int sizeSample=*(short *)((char *)g_RcossinTblCos+((phase&4095)*4));
+        int shadeSample=*(short *)&((char *)g_RcossinTblCos)[((phase
+            +1024)&4095)*4];
+        int sizeSample=*(short *)&((char *)g_RcossinTblCos)[(phase&4095)*4];
         unsigned int shade;
         int size,kind,palette;
         unsigned short clut;

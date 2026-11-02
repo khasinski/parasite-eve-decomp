@@ -13,7 +13,6 @@
 #include "pe1/room_floor_walker.h"
 
 #include "room_lib.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* The update handler's owner: the step callback it runs first and the
  * squash timer it plays out. */
@@ -236,7 +235,7 @@ void RoomLib_HandlerGFloorWalker(RoomEnt *obj) {
         gte_stmac(&scratch->rotated);
         scratch->next.x = core->pos[0] + (scratch->rotated.x << 12);
         scratch->next.z = core->pos[2] + (scratch->rotated.z << 12);
-        point = ((u32)scratch->next.x >> 16) | (scratch->next.z & 0xFFFF0000);
+        point = ((unsigned)scratch->next.x >> 16) | (scratch->next.z & 0xFFFF0000);
         previous = FLOOR_POLYGON_AS(RoomFloorWalkerVertex)[(s16)g_FloorPolygonVertexCount - 1].x |
                    (FLOOR_POLYGON_AS(RoomFloorWalkerVertex)[(s16)g_FloorPolygonVertexCount - 1].yz & 0xFFFF0000);
         i = 0;

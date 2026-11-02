@@ -14,8 +14,6 @@
 #include "pe1/render_camera.h"
 #include "pe1/render_object.h"
 #include "pe1/render_prim.h"
-extern RenderBufferPrefix D_800B08F8;
-extern struct BattleEntity *D_8009CD10;
 
 /* COMMON supplies small-data metadata to MASPSX: these words are reached
  * through $gp, every other extern stays absolute. */

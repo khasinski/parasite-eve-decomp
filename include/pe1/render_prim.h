@@ -162,6 +162,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderBufferPrefix, packets) == 0x20,
 PE1_STATIC_ASSERT(sizeof(RenderBufferPrefix) == 0x28,
                   render_buffer_prefix_size);
 extern RenderBufferPrefix D_800B0E38;
+extern RenderBufferPrefix D_800B08F8;
 extern int g_DrawPacketOffset, g_ActiveDrawSlot;
 void SetLineF2(RenderLinePacket *packet);
 void FieldFx_LinkBlendedPacket(void *ordering, void *packet, int mode);

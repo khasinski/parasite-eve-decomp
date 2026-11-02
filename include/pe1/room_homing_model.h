@@ -109,6 +109,7 @@ typedef struct RoomHomingModelEntity {
 } RoomHomingModelEntity;
 
 extern struct BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 
 extern void Akao_Cmd_21(int handle, int arg);
 

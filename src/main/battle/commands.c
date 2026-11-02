@@ -196,7 +196,7 @@ void Inv_SetActiveList(int mode, int *slot) {
             }
             flags2 = data->attackWord;
             flags2 &= 0xFFCFFFFF;
-            flags2 |= (u32)(encoded & 3) << 20;
+            flags2 |= (unsigned)(encoded & 3) << 20;
             data->attackWord = flags2;
         }
         break;

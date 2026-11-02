@@ -4,11 +4,13 @@ and byte-matching original assembler (original_asm)."""
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import sys
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
+VERSION = os.environ.get("PE_VERSION", "USA")
 
 
 def number(measures, name):
@@ -64,7 +66,7 @@ def audit(config, report):
 
 def main():
     config = json.loads((ROOT / "objdiff.json").read_text())
-    report = json.loads((ROOT / "build/USA/report.json").read_text())
+    report = json.loads((ROOT / f"build/{VERSION}/report.json").read_text())
     errors, code, functions = audit(config, report)
     if errors:
         print("Progress report audit failed:")

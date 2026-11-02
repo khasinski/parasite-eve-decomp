@@ -357,6 +357,7 @@ extern u16 g_CameraScreenOffsetX;
  * address kept in a register. The renderer reads the whole state through
  * g_GeomScroll, which generates the same code as a record declaration. */
 extern volatile int D_800BCF88;
+extern volatile int D_800BCA48;
 #define g_GeomScroll (*(GeomScrollRecord *)&D_800BCF88)
 /* The screen tint and fade parameters inside the scroll state. */
 #define g_ScreenTint (g_GeomScroll.state.position.tint)

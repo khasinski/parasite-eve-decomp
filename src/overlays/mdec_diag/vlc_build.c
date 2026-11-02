@@ -11,18 +11,17 @@ void MdecDiag_ExpandDecoderTable(u16 *table) {
     u8 token;
     s32 wordCount;
     do {
-        token = *source;
-        __asm__("" : : "r"(token));
+        token = *(const volatile u8 *)source;
         count = token;
         ++source;
         if (count < 240) {
             if (distance != 0) {
-                for (; (s32)count >= 0; --count) {
+                for (; (int)count >= 0; --count) {
                     *output = output[-distance];
                     ++output;
                 }
             } else {
-                for (; (s32)count >= 0; --count)
+                for (; (int)count >= 0; --count)
                     *output++ = *source++;
             }
         } else {

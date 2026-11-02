@@ -41,6 +41,7 @@ void Render_InitSceneGeom(void);
 extern PsyqInterruptHandler g_IntrHandlers[11];
 extern u16 *g_IntrStatusRegPtr;
 extern volatile u16 *D_80095674;
+extern volatile u16 *D_8009513C;
 extern u16 *g_IntrMaskRegPtr;
 extern u32 *g_IntrDmaControlRegPtr;
 PsyqInterruptHandler Sys_SetIntrCallback(int channel, PsyqInterruptHandler handler);
@@ -67,7 +68,9 @@ extern RootCounter *g_RCntRegsPtr;
 extern InterruptControlRegisters *g_RCntIntrRegsPtr;
 extern s32 g_RCntIntrMasks[4];
 extern PadToggleFunc jtbl_800A34C8;
+extern PadToggleFunc jtbl_800A2F88;
 extern PadToggleFunc jtbl_800A34CC;
+extern PadToggleFunc jtbl_800A2F8C;
 
 #define _counters ((volatile RootCounter *)g_RCntRegsPtr)
 #define _interrupt_status_register ((s32 *)g_RCntIntrRegsPtr)

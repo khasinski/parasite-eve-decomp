@@ -239,7 +239,7 @@ void RoomLib_DrawTwelveElementEffect(void *unused0, void *unused1,
     FieldFx_SetSpriteBlendMode(2);
 
     for (; i < 12; i++) {
-        element = (char *)workState + i;
+        element = &((char *)workState)[i];
         if (((RoomLibTick12Rec *)element)->state[0] == 1) {
             stack.primaryMatrix = workState->matrix;
             ApplyMatrix(primaryMatrix, &workState->position[i],

@@ -17,7 +17,6 @@
 #include "pe1/room_twin_ribbon.h"
 
 #include "m318_externs.h"
-extern struct BattleEntity *D_8009CD10;
 
 typedef struct RoomM318Node {
     char pad[8];
@@ -82,8 +81,6 @@ s32 RoomM318_FanSweepTrailCallback(s32 mode, s16 *pos) {
 #define ROOM_FAN_SWEEP_SPARK_PALETTE_LIT 9
 #define ROOM_FAN_SWEEP_SPARK_PALETTE_BASE 5
 #include "../room_lib/fan_sweep_spark.inc"
-extern u16 D_800F2E2C;
-extern u8 *D_800F2D98;
 
 /* Fan sweep: attaches to the actor named by its parameters at floor level,
  * plays its sounds and opens a spark pool plus a trail pool; for 32 frames

@@ -68,7 +68,7 @@ void RoomEffect_UpdateParticleMotion(int arg0, RoomStatePair *control, RoomMotio
         }
     }
 
-    if ((u32)((u16)controlReg->h2 - 1) < 31) {
+    if ((unsigned)((u16)controlReg->h2 - 1) < 31) {
         stateReg->depth += 4;
     }
     if (controlReg->h2 == 65) {

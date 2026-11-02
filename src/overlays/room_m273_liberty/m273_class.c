@@ -24,9 +24,9 @@ int RoomM273_GrabInit(RoomSelectionState *obj) {
 
     ret = MulMatrix0(&g_RoomM273GrabInitMatrix, (void *)0x1F800028, (GteMatrix *)&obj->matrix);
     /* matrix.translation, stored as plain words to keep retail order. */
-    *(int *)((char *)obj + 0x30) = g_RoomM273GrabInitTranslationX;
-    *(int *)((char *)obj + 0x34) = g_RoomM273GrabInitTranslationY;
-    *(int *)((char *)obj + 0x38) = g_RoomM273GrabInitTranslationZ;
+    *(int *)&((char *)obj)[0x30] = g_RoomM273GrabInitTranslationX;
+    *(int *)&((char *)obj)[0x34] = g_RoomM273GrabInitTranslationY;
+    *(int *)&((char *)obj)[0x38] = g_RoomM273GrabInitTranslationZ;
     /* Keep the call result live so GCC allocates the final data load to v1. */
     return ret - ret;
 }

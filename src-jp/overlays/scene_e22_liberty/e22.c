@@ -14,7 +14,6 @@
 
 #include "scene_e22_ember_data.h"
 #include "scene_e22_shared.h"
-extern u16 D_800F2E2C;
 
 typedef struct SceneE22Effect {
     u16 x, y, z;

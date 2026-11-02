@@ -25,6 +25,7 @@ typedef struct FieldTriEntity {
 } FieldTriEntity;
 
 extern struct BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 
 int FieldFx_IsPointInTriangleXZ(GteShortVector *point, GteShortVector *tri);
 int FieldFx_IsPlayerInTriangleXZ(GteShortVector *tri);

@@ -1,7 +1,11 @@
 # parasite-eve-decomp
 
+[![Discord](https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?logo=discord&logoColor=white)](https://discord.gg/bQkCVvrkem)
+
 Work-in-progress matching decompilation of the North American PlayStation
 release of Parasite Eve, target `SLUS-006.62`.
+
+Looking for the playable PC port? See **[parasite-eve-pc](https://github.com/khasinski/parasite-eve-pc)** ([Releases](https://github.com/khasinski/parasite-eve-pc/releases)).
 
 This repository is source-only. It does not contain disc images, extracted game
 assets, FMV, memory cards, Sony PSYQ SDK files, compiler binaries, or generated

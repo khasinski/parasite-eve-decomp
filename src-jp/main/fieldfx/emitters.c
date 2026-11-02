@@ -12,10 +12,6 @@
 #include "pe1/random.h"
 #include "pe1/render_object.h"
 #include "pe1/render_prim.h"
-extern u8 *D_800F2ED8;
-extern u8 *D_800F2D98;
-extern RenderBufferPrefix D_800B08F8;
-extern struct BattleEntity *D_8009CD10;
 
 int FieldFx_CosineEffect(int mode, RenderCosineEffect *effect) {
     u32 color;

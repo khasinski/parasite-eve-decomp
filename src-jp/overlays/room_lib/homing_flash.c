@@ -13,7 +13,6 @@
 
 #include "pe1/gte.h"
 #include "pe1/room_homing_flash.h"
-extern struct BattleEntity *D_8009CD10;
 
 static const RoomSoundBurstColor s_HomingSparkHitColor = { 0xFF, 0x80, 0, 0 };
 static const GteRotation s_HomingSparkRotation = { 0x400, 0, 0, 1 };

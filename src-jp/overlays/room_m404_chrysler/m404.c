@@ -3,7 +3,6 @@
 #include "pe1/room_m404.h"
 #include "pe1/room_m404_drop.h"
 #include "pe1/room_m404_effects.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* Flashes the scene with the given code when the drop touches the player. */
 #define ROOM_M404_DROP_FLASH(code)                                            \

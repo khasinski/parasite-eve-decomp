@@ -89,10 +89,12 @@ PE1_STATIC_ASSERT(sizeof(RoomShakeSweepParticle) == 0x10,
                   room_shake_sweep_particle_size);
 
 extern struct BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 
 extern int rand(void);
 extern void Battle_HaltOnPositiveX(void);
 extern u8 *D_800F32D8;
+extern u8 *D_800F2D98;
 extern void Battle_InitEntityColors(void);
 
 /* room_m318 particle callbacks and the sweep anchor. */

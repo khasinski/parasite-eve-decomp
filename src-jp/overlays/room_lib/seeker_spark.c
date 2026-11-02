@@ -6,7 +6,6 @@
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/room_spark.h"
-extern struct BattleEntity *D_8009CD10;
 
 /* First object of the primary channel's pool: its packet flags. */
 typedef struct RoomSeekerObject {

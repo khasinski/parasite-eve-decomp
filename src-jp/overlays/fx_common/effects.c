@@ -162,14 +162,8 @@ void FxCommon_RunFrameLoop(void)
         g_FxCommonFlyerPathPosition = 120000;
 
     while (g_FxCommonExitRequested == 0) {
-        Field_HandleStateTransition();
-        if ((g_FieldPadBits & 0x0F000006) == 0x0F000006) {
-            VSync(0);
-            SetDispMask(0);
-            g_FxCommonResetRequested = 1;
-            g_FxCommonExitRequested = 1;
-            Boot_Shutdown();
-        }
+        if (g_FxCommonViewMode != 10)
+            Field_HandleStateTransition();
         FxCommon_StepEffects();
         if (g_FxCommonResetRequested != 0)
             continue;
@@ -840,13 +834,11 @@ void FxCommon_StepEffects(void)
     /* Raw halfword is loaded before the blend duration, then sign-extended. */
     u16 phase0;
     u16 phase1;
-    s16 nextMode;
     s16 remaining0;
     s16 remaining1;
     s16 motionBase0;
     s16 motionBase1;
     s16 countdown;
-    s16 mode;
     s16 transitionMode;
     s32 accumX0;
     s32 accumX1;
@@ -897,13 +889,20 @@ void FxCommon_StepEffects(void)
     } else {
         g_FxCommonReplayCamera = 0;
     }
-    mode = g_FxCommonViewMode;
-    if (mode != 0xA) {
+    if (g_FxCommonViewMode != 0xA) {
         if ((g_FxCommonExitCountdown == 0) && (g_FieldPadBits != 0)) {
+            if ((g_FieldPadBits & 0x0F000006) == 0x0F000006) {
+                VSync(0);
+                SetDispMask(0);
+                g_FxCommonResetRequested = 1;
+                g_FxCommonExitRequested = 1;
+                Boot_Shutdown();
+            }
             if ((g_FieldPadPressed & 2) && (g_FxCommonAutoPlay == -1)) {
-                nextMode = (s16)(mode + 1) % 3;
-                g_FxCommonViewMode = nextMode;
-                if ((nextMode << 0x10) == 0) {
+                if (g_FxCommonViewMode != 0xA) {
+                    g_FxCommonViewMode = (s16)(g_FxCommonViewMode + 1) % 3;
+                }
+                if (g_FxCommonViewMode == 0) {
                     g_FxCommonMarkerFade = 1;
                     g_FxCommonPlayAdvance = 0;
                     FxCommon_StartCameraMove(g_FxCommonRoomVariant, 4, 5, 0);

@@ -16,7 +16,6 @@
 #include "pe1/render_camera.h"
 #include "pe1/render_prim.h"
 #include "pe1/render_shadow.h"
-extern RenderBufferPrefix D_800B08F8;
 
 /* Matching debt: fixed-register pins and scheduling constraints preserve the stock PSYQ instruction schedule. */
 

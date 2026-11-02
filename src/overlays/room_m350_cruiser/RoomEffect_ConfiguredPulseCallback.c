@@ -53,7 +53,7 @@ int RoomM350_AreaPlayerPulseCallback(int event, void *object)
         g_FieldFxSpriteParams.depth = unit;
         sampleOffset = ((unsigned int)(frame - 1) << 9) & 0x3E00;
         g_FieldFxSpriteParams.tpage = palette;
-        size = *(short *)((char *)rcossin_tbl + sampleOffset);
+        size = *(short *)&((char *)rcossin_tbl)[sampleOffset];
         size = size * 2 + 4096;
         handle = GetClut(clutX, g_FieldFxPaletteEntry2);
         {

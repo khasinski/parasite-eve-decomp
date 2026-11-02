@@ -338,6 +338,7 @@ void FieldFx_TransformTranslation(const GteShortVector *input,
                                   GteMatrixWords *output);
 
 extern GteShortVector D_800C2258, g_FieldFxZeroVector;
+extern GteShortVector D_800C1D18;
 
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
@@ -684,8 +685,11 @@ extern u32 g_RenderVertexWorkWords[], g_RenderClutLookupTable[];
 extern RenderVec3s g_RenderNormalTable[];
 /* Projected screen XY and view depth of the transformed model vertices. */
 extern u32 D_800B1640[];
+extern u32 D_800B1100[];
 extern u32 D_800B1644[];
+extern u32 D_800B1104[];
 extern s32 D_800A636C[];
+extern s32 D_800A5E2C[];
 extern u8 g_SkinAnchorVector[];
 extern s16 g_SkinAnchorY;
 void Render_CopyFrameData(RenderObjectEntity *dst, RenderObjectEntity *src, s32 frame);

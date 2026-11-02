@@ -16,5 +16,6 @@ typedef struct RenderMatrixSlot {
 extern RenderMatrixSlot g_ViewMatrixSlot;
 /* The old address spelling, still used by fieldfx/geometry.c. */
 extern RenderMatrixSlot D_800BCFA4;
+extern RenderMatrixSlot D_800BCA64;
 
 #endif /* PE1_RENDER_MATRIX_SLOT_H */

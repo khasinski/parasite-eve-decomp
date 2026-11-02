@@ -4,7 +4,6 @@
 /* Treat the patch instruction image as words; copy up to the next label. */
 
 #include "pe1/psyq_card.h"
-extern const u32 func_8007DE30[];
 
 void _copy_memcard_patch(void) {
     register unsigned *dst = (unsigned *)0xdf80;

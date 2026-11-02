@@ -83,6 +83,7 @@ extern void *g_FieldEffectTexturePage0;
 extern void *g_FieldEffectTexturePage1;
 extern s16 g_FieldFxLoadedTexturePage;
 extern u16 D_800E21A8[];
+extern u16 D_800E1C68[];
 extern u16 g_FieldFxRandomPhaseCounter;
 
 #endif /* PE1_FIELDFX_STATE_H */

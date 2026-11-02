@@ -88,9 +88,8 @@ split:
 	rm -rf $(ASM_DIR) $(LD_SCRIPT) $(UNDEFINED_SYMS) $(UNDEFINED_FUNCS) $(ADDR_ALIASES)
 	@$(PY) -m splat split $(SPLAT_CFG)
 	@find $(ASM_DIR) -name '*.data.s' -o -name '*.rodata.s' | xargs $(PY) tools/scripts/collapse_zero_data.py
-	@if [ "$(VERSION)" != JP ]; then $(PY) tools/scripts/ld_postpass.py $(LD_SCRIPT) $(ASM_DIR)/header.s; \
-	else for f in $(ASM_DIR)/jp/text_*.s; do $(PY) tools/scripts/jp_asm_fixup.py $$f sd ld sdc1 ldc1 sdc2 ldc2; done; fi
-	@grep -rl 'INCLUDE_ASM(' src/main --include='*.c' 2>/dev/null | xargs touch 2>/dev/null || true
+	@$(PY) tools/scripts/ld_postpass.py $(LD_SCRIPT) $(ASM_DIR)/header.s
+	@grep -rl 'INCLUDE_ASM(' $(SRC_DIR) --include='*.c' 2>/dev/null | xargs touch 2>/dev/null || true
 
 split-if-needed:
 	@if [ ! -f "$(LD_SCRIPT)" ] || [ ! -f "$(ASM_DIR)/header.s" ] || \

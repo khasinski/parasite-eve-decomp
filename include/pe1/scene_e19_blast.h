@@ -55,6 +55,7 @@ typedef struct SceneE19BlastScript {
 } SceneE19BlastScript;
 
 extern struct BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 extern s32 g_SceneE19BlastGlow;
 extern void *g_SceneE19BlastModel0, *g_SceneE19BlastModel1, *g_SceneE19BlastModel2, *g_SceneE19BlastModel3, *g_SceneE19BlastModel4;
 

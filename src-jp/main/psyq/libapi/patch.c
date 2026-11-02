@@ -6,8 +6,6 @@
  * with the C functions EnablePAD and DisablePAD. */
 
 #include "pe1/psyq_api_internal.h"
-extern PadToggleFunc jtbl_800A2F8C;
-extern PadToggleFunc jtbl_800A2F88;
 
 static inline void PadToggle(PadToggleFunc target) {
     register PadToggleFunc callback asm("$9") = target;

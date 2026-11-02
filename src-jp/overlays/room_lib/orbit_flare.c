@@ -10,7 +10,6 @@
 
 #include "pe1/field_texture_tables.h"
 #include "pe1/room_flare.h"
-extern struct BattleEntity *D_8009CD10;
 
 static const GteRotation s_OrbitFlareRotation = { 0, 0, -60, 0 };
 static const GteRotation s_OrbitFlareSpin = { 0, 0, 0, 0 };

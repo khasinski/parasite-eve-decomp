@@ -6,7 +6,6 @@
 #include "pe1/psyq_cd.h"
 
 #include "c_011_externs.h"
-extern volatile s32 D_800B63D4, g_CdStreamExpectedTypeId;
 
 /* Separate aliases retain the retail handler's address-load schedule. */
 

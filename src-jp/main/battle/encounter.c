@@ -19,9 +19,6 @@
 #include "pe1/battle_turn.h"
 #include "pe1/battle_update.h"
 #include "pe1/game_state.h"
-extern RenderBufferPrefix D_800B08F8;
-extern unsigned int D_8009CDA8;
-extern struct BattleEntity *D_8009CD10;
 
 /* COMMON supplies small-data metadata to MASPSX: these words are reached
  * through $gp, every other extern stays absolute. */

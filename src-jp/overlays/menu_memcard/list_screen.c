@@ -3,7 +3,6 @@
 #include "menu_memcard_image.h"
 #include "menu_memcard_menu.h"
 #include "menu_memcard_screen.h"
-extern RenderBufferPrefix D_800B08F8;
 
 static inline MemcardImageNode *MenuCard_FindImageNode(s32 kind) {
     MemcardImageNode *node;
@@ -242,12 +241,12 @@ s32 MenuCard_RunListScreen(void) {
         /* Rebuild the eight-node free list for this menu pass. */
         freeNode = g_MemcardImageNodePool;
         freeEnd = &g_MemcardImageNodePool[7];
-        if ((u32) g_MemcardImageNodePool < (u32) freeEnd) {
+        if (g_MemcardImageNodePool < freeEnd) {
             do {
                 link = &freeNode[1];
                 freeNode->next = link;
                 freeNode = link;
-            } while ((u32) freeNode < (u32) freeEnd);
+            } while (freeNode < freeEnd);
         }
         freeNode->next = 0;
         g_MemcardFreeImageNodes = g_MemcardImageNodePool;
@@ -364,11 +363,11 @@ s32 MenuCard_RunListScreen(void) {
             } else if ((selectionY >= 0xB5) || ((selectionY == 0xB4) && (MemCard_IsPortPresent(0) == 0) && (MemCard_IsPortPresent(1) == 0))) {
                 result = 3;
             } else {
-                Draw_SetPresentImage((u8 *)g_MemcardSecondScreenView + 0x1C080);
+                Draw_SetPresentImage((u32 *)g_MemcardSecondScreenView + 0x7020);
                 image = (MemcardImage *)&g_MemcardImageBundle[*g_MemcardImageOffsets];
                 source = (u32 *)(image + 1);
                 groupsRemaining = (image->width * image->height) / 6;
-                destination = (u32 *)((u8 *)g_MemcardSecondScreenView + 0x1C080);
+                destination = (u32 *)g_MemcardSecondScreenView + 0x7020;
                 /* Pack four RGB24 pixels into two dimmed RGB555 words.
                  * The inclusive last group is intentional: retail uses >= 0. */
                 if (groupsRemaining >= 0) {

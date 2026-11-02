@@ -49,6 +49,7 @@ extern u8 *g_CurItemEffectData;
 void Menu_SaveOverlayDraw(void);
 
 extern unsigned char g_CursorRenderDataBlock[];
+extern u8 g_MenuSpellInfoPanelPoints[];
 
 /* The save-title formatter consumes four numeric fields and two variant
  * arguments from this contiguous six-word slot array. Each variant slot is

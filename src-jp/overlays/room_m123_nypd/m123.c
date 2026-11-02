@@ -21,7 +21,6 @@
 
 #include "m123_externs.h"
 #include "room_m123_effects.h"
-extern struct BattleEntity *D_8009CD10;
 
 typedef struct RoomPulseObject RoomPulseObject;
 

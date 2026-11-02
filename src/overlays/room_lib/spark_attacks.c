@@ -821,7 +821,7 @@ int RoomEffect_BeamSparkController(int mode, RoomBeamSpark *fx,
             line->g = fx->brightness;
             line->b = fx->brightness;
             gte_stszotz(&depth);
-            if ((u32)(depth - 1) < 0xFFF) {
+            if ((unsigned)(depth - 1) < 0xFFF) {
                 gte_stsxy3(&line->x0, &line->x1, &scratch);
                 FieldFx_LinkBlendedPacket(D_800B0E38.ordering[g_ActiveDrawSlot] + depth, line, 1);
             }

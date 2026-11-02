@@ -292,8 +292,8 @@ void BootDisplay_CallInitSystem(void) {
 void BootDisplay_BrightenImageRegion(void)
 {
     s16 line;
-    register u8 *image asm("$14") = (u8 *)g_BootDisplayFontImagePixels + 0x4000;
-    register u8 *screen asm("$13") = (u8 *)g_BootDisplayImageBuffers[g_BootDisplayBufferIndex].pixels + 0x19DAC;
+    register u8 *image asm("$14") = &((u8 *)g_BootDisplayFontImagePixels)[0x4000];
+    register u8 *screen asm("$13") = &((u8 *)g_BootDisplayImageBuffers[g_BootDisplayBufferIndex].pixels)[0x19DAC];
 
     for (line = 110; line < 134; line++) {
         s16 row;

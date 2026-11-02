@@ -28,7 +28,9 @@ void Boot_FinishFrame(void);
  * object work and ordering tables after the menu_memcard window header. */
 extern u8 g_BootWorkArea[];
 extern u8 D_8010BD00[];
+extern u8 D_8010B7C0[];
 extern u8 D_80120D08[];
+extern u8 D_801207C8[];
 extern u8 g_SceneLoadScratchArea[];
 
 /* Absolute views of the g_GameState buffer-pointer fields that

@@ -101,7 +101,7 @@ class PostPassError(Exception):
     pass
 
 
-def rewrite(text: str) -> str:
+def rewrite(text: str, window_table: str = WINDOW_TABLE) -> str:
     if MARKER in text:
         return text
     blocks = list(BSS_BLOCK.finditer(text))
@@ -149,7 +149,7 @@ def rewrite(text: str) -> str:
         WINDOWS_END,
         WINDOWS_END
         + "    /* ld_postpass: the overlay windows are offsets from the floating block */\n"
-        f"    INCLUDE {WINDOW_TABLE}\n"
+        f"    INCLUDE {window_table}\n"
         "    /* PS-X EXE header fields: the image runs from .main to the end of the\n"
         "     * window block and must load below the initial stack pointer. */\n"
         f"    PSX_EXE_STACK_TOP = 0x{STACK_TOP:08X};\n"
@@ -192,7 +192,9 @@ def rewrite_header(text: str) -> str:
 def main(argv: list[str]) -> int:
     path = Path(argv[1]) if len(argv) > 1 else DEFAULT
     header = Path(argv[2]) if len(argv) > 2 else DEFAULT_HEADER
-    for target, fn in ((path, rewrite), (header, rewrite_header)):
+    window_table = (f"linkers/{path.parent.name}/overlay_windows.txt"
+                    if path.parent.name in ("USA", "JP") else WINDOW_TABLE)
+    for target, fn in ((path, lambda t: rewrite(t, window_table)), (header, rewrite_header)):
         try:
             new = fn(target.read_text())
         except PostPassError as exc:

@@ -22,7 +22,6 @@
 #include "motion_particles.h"
 #include "render_layouts.h"
 #include "room_lib.h"
-extern struct BattleEntity *D_8009CD10;
 
 void RoomEffect_UpdateParticleMotion(int arg0, RoomStatePair *control, RoomMotionState *state) {
     unsigned int i;
@@ -69,7 +68,7 @@ void RoomEffect_UpdateParticleMotion(int arg0, RoomStatePair *control, RoomMotio
         }
     }
 
-    if ((u32)((u16)controlReg->h2 - 1) < 31) {
+    if ((unsigned)((u16)controlReg->h2 - 1) < 31) {
         stateReg->depth += 4;
     }
     if (controlReg->h2 == 65) {

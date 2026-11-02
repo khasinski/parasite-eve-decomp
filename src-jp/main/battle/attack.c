@@ -16,8 +16,6 @@
 #include "pe1/inventory.h"
 #include "pe1/item_ids.h"
 #include "pe1/random.h"
-extern unsigned int D_8009CDA8;
-extern struct BattleEntity *D_8009CD10;
 
 /* COMMON supplies small-data metadata to MASPSX: these words are reached
  * through $gp, every other extern stays absolute. */

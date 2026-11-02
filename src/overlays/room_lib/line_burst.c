@@ -176,7 +176,7 @@ int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
             line->g = state->color;
             line->b = state->color;
             gte_stszotz(&otz);
-            if ((u32)(otz - 1) < 0xFFF) {
+            if ((unsigned)(otz - 1) < 0xFFF) {
                 gte_stsxy3(&line->x0, &line->x1, &weight);
                 FieldFx_LinkBlendedPacket(g_RenderAnimBufferBase[g_ActiveDrawSlot - 8] + otz * 4, line, 1);
             }

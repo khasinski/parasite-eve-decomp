@@ -9,9 +9,6 @@
 #include "pe1/psyq_pad_main.h"
 
 #include "padif_externs.h"
-extern int D_8009B228;
-extern void (*D_8009B21C)(void);
-extern void (*D_8009B218)(void);
 
 int MemCard_ReadByteWithCallbackValue(CardObj *port) {
     g_MemCardDispatchResult = g_MemCardStateDispatchFn(port);

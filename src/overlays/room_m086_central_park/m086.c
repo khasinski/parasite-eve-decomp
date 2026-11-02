@@ -611,7 +611,7 @@ mode1:
                 actor->vy = -(rand() & 0x1F) - 0x1E;
             } else {
                 actor->vy = -(rand() & 0xF) - 8;
-                mag = (s32)(mag + ((u32)mag >> 31)) >> 1;
+                mag = (int)(mag + ((unsigned)mag >> 31)) >> 1;
             }
             value = rcos(angle) * mag;
             if (value < 0) {

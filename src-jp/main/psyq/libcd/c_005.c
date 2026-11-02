@@ -3,7 +3,6 @@
 /* Psy-Q LIBCD C_005.OBJ: StSetStream. */
 
 #include "pe1/psyq_cd.h"
-extern volatile s32 D_800B63D4, g_CdStreamExpectedTypeId;
 
 void StSetStream(u32 mode, u32 startFrame, u32 endFrame,
                  void (*callback1)(void), void (*callback2)(void)) {

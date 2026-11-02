@@ -8,8 +8,6 @@
 #include "padmain_externs.h"
 #include "padmain_externs_2.h"
 #include "padmain_externs_3.h"
-extern MemCardSioRegisters *D_8009B250;
-extern MemCardInterruptRegisters *D_8009B24C;
 
 int PadEnableCom(int portMask) {
     int currentMask;

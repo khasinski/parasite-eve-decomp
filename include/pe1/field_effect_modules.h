@@ -19,6 +19,7 @@ struct BattleEntity;
 /* Player battle entity; the glow modules index their tables by its current
  * action id. */
 extern struct BattleEntity *D_8009D254;
+extern struct BattleEntity *D_8009CD10;
 
 /* Effect resources the scene loaders install: the AKAO sound header the
  * burst modules start, the two texture pages the effect engine loads into
