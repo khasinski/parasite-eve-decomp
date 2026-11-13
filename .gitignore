@@ -27,6 +27,8 @@ __pycache__/
 *.s
 
 # local reverse-engineering scratch/output
+# Claude scratchpad symlink (no extension, so *.s does not cover it)
+/_s
 .cache/
 scratch/
 proposals/
