@@ -2140,6 +2140,26 @@ the branch delay slot; removing it yields 152 bytes with ten differing words.
 All trial register pins were removable, and the function contains no CPU
 instruction assembly. The complete `menu_memcard` overlay SHA-1 still matches.
 
+## Menu memcard image nodes
+
+`image_nodes.c` (USA and JP) has no register pins. The eight earlier pins were
+removed without changing bytes. `MenuCard_BlendImage` computes the word count
+as `node->width * 3 / 4`. `MenuCard_BlendRotatedImage` shares one
+function-level `old` and one `value` across its blend blocks. The three node
+constructors read `node->image` directly for the width and height. The memory
+barrier on the second-pass image reload is also gone: setting `out` in two
+statements gives the retail load order.
+
+Twelve empty barriers remain, and removing any one of them breaks the match.
+Nine keep the shifted product in its own register before the copy to `value`
+in the blend blocks (`MenuCard_BlendImage` 3, `MenuCard_BlendRotatedImage` 6).
+Without them, combine folds the copy and each block is one instruction
+shorter. In `MenuCard_BlendRotatedImage`, one barrier on `columns` keeps the
+retail `t5`/`t6`/`t7` assignment, and one on `dst`/`target` in the third
+column block keeps the `a0`/`a1` roles. The two `workspace` operands, in
+`MenuCard_BlendRotatedImage` and `MenuCard_CreateImageNode`, keep the
+retail stack frames.
+
 ## FxCommon polygon-resource renderer
 
 `FxCommon_DrawPolyResource` (formerly `func_80197BA0`) matches all 6652 retail bytes
