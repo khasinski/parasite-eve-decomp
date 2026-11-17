@@ -126,16 +126,14 @@ void MenuCard_RedrawImageNodes(void) {
 }
 
 void MenuCard_BlendImage(MemcardImageNode *node, u8 *destination, s32 padding) {
-    register s32 width asm("$3") = node->width;
     s32 intensity = node->intensity;
     s32 words;
     s32 row;
     u8 *source;
     s32 height;
     s32 column;
-    width = (width << 1) + width;
-    if (width < 0) width += 3;
-    words = width >> 2;
+
+    words = node->width * 3 / 4;
 
     {
         MemcardImage *image = node->image;
@@ -205,16 +203,17 @@ void MenuCard_BlendImage(MemcardImageNode *node, u8 *destination, s32 padding) {
                     s32 old;
                     s32 input = *source;
                     s32 product;
+                    s32 value;
 
                     product = input * intensity;
                     source++;
 
                     target = destination;
                     old = *destination;
-                    width = product >> 8;
+                    value = product >> 8;
                     destination++;
-                    if (width < old) width = old;
-                    *target = width;
+                    if (value < old) value = old;
+                    *target = value;
                 }
             } else { source += 4; destination += 4; }
         }
@@ -234,6 +233,9 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
     s32 column;
     s32 product;
     s32 eightyFour;
+    /* Shared by all six blend blocks; this gives the retail register allocation. */
+    s32 old;
+    s32 value;
     s32 workspace[1];
     __asm__("" : : "m"(workspace[0]));
     source = (u8 *)(image + 1);
@@ -250,8 +252,7 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
             {
                 s32 input = *source++;
                 u8 *target = out;
-                s32 old = *out;
-                s32 value;
+                old = *out;
                 product = input * intensity;
                 input = product >> 8;
                 __asm__("" : "=r"(input), "=r"(out) : "0"(input), "1"(out));
@@ -263,8 +264,7 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
             {
                 s32 input = *source++;
                 u8 *target = out;
-                s32 old = *out;
-                s32 value;
+                old = *out;
                 product = input * intensity;
                 input = product >> 8;
                 __asm__("" : "=r"(input), "=r"(out) : "0"(input), "1"(out));
@@ -276,8 +276,7 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
             {
                 s32 input = *source++;
                 u8 *target = out;
-                s32 old = *out;
-                s32 value;
+                old = *out;
                 product = input * intensity;
                 input = product >> 8;
                 __asm__("" : "=r"(input), "=r"(out) : "0"(input), "1"(out));
@@ -294,13 +293,11 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
             out += padding * 4 + skip * 3;
         }
     }
-    image = node->image;
-    __asm__("" : "=r"(image) : "0"(image) : "memory");
-    source = &((u8 *)image)[0x17B1];
-    {
-        s32 offset = (progress << 1) + progress;
-        out = destination + offset;
-    }
+    /* The second pass walks the image backwards from its last pixel. Setting
+     * out in two statements keeps the retail order of the image load. */
+    source = (u8 *)(node->image + 1) + 24 * 252 - 3;
+    out = destination;
+    out += progress * 3;
     {
         s32 count = eightyFour - progress;
         row = 0;
@@ -316,8 +313,7 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
                     {
                         s32 input = in[0];
                         u8 *target = dst;
-                        register s32 old asm("$8") = *dst;
-                        s32 value;
+                        old = *dst;
                         product = input * intensity;
                         input = product >> 8;
                         __asm__("" : "=r"(input), "=r"(dst) : "0"(input), "1"(dst));
@@ -329,8 +325,7 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
                     {
                         s32 input = in[1];
                         u8 *target = dst;
-                        register s32 old asm("$8") = *dst;
-                        s32 value;
+                        old = *dst;
                         product = input * intensity;
                         input = product >> 8;
                         __asm__("" : "=r"(input), "=r"(dst) : "0"(input), "1"(dst));
@@ -342,8 +337,6 @@ void MenuCard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 pad
                     {
                         s32 input = in[2];
                         u8 *target = dst;
-                        register s32 old asm("$8");
-                        register s32 value asm("$3");
                         product = input * intensity;
                         __asm__("" : "=r"(dst), "=r"(target) : "0"(dst), "1"(target));
                         old = *dst;
@@ -401,9 +394,9 @@ MemcardImageNode *MenuCard_CreateImageNode(s32 kind) {
 void MenuCard_CreateFixedImageNode(void) {
     s32 kind;
     MemcardImageNode *node = g_MemcardFreeImageNodes;
-    register MemcardImageNode *tail;
+    MemcardImageNode *tail;
     MemcardImage *imageData;
-    register MemcardImagePreset *preset;
+    MemcardImagePreset *preset;
     {
         MemcardImageNode *next = node->next;
         kind = 4;
@@ -421,15 +414,11 @@ void MenuCard_CreateFixedImageNode(void) {
     imageData = (MemcardImage *)(g_MemcardImageBundle + g_MemcardImageOffsets[4]);
     node->kind = kind;
     node->image = imageData;
+    node->x = preset->x; node->y = preset->y;
+    node->width = node->image->width * 2 / 3;
+    node->height = node->image->height;
     {
-        register MemcardImage *image asm("$3") = node->image;
-        node->x = preset->x; node->y = preset->y;
-        node->width = image->width * 2 / 3;
-        image = node->image;
-        node->height = image->height;
-    }
-    {
-        register s32 parameter = preset->parameter;
+        s32 parameter = preset->parameter;
         node->draw = g_MenuCardAdvanceFadeEntry;
         node->update = MenuCard_BlendImage;
         node->parameter = parameter;
@@ -438,11 +427,11 @@ void MenuCard_CreateFixedImageNode(void) {
 
 void MenuCard_CreateImageGroup(void) {
     {
-        register s32 kind;
+        s32 kind;
         MemcardImageNode *node = g_MemcardFreeImageNodes;
-        register MemcardImageNode *tail;
+        MemcardImageNode *tail;
         MemcardImage *imageData;
-        register MemcardImagePreset *preset;
+        MemcardImagePreset *preset;
         {
             MemcardImageNode *next = node->next;
             kind = 7;
@@ -460,15 +449,11 @@ void MenuCard_CreateImageGroup(void) {
         imageData = (MemcardImage *)(g_MemcardImageBundle + g_MemcardImageOffsets[7]);
         node->kind = kind;
         node->image = imageData;
+        node->x = preset->x; node->y = preset->y;
+        node->width = node->image->width * 2 / 3;
+        node->height = node->image->height;
         {
-            register MemcardImage *image asm("$3") = node->image;
-            node->x = preset->x; node->y = preset->y;
-            node->width = image->width * 2 / 3;
-            image = node->image;
-            node->height = image->height;
-        }
-        {
-            register s32 parameter = preset->parameter;
+            s32 parameter = preset->parameter;
             node->update = MenuCard_BlendImage;
             node->parameter = parameter;
         }
@@ -477,11 +462,11 @@ void MenuCard_CreateImageGroup(void) {
     MenuCard_CreateFixedImageNode();
     MenuCard_CreateImageNode(5)->field14 = g_MenuCardInitFadeForNodeEntry;
     {
-        register s32 kind;
+        s32 kind;
         MemcardImageNode *node = g_MemcardFreeImageNodes;
-        register MemcardImageNode *tail;
+        MemcardImageNode *tail;
         MemcardImage *imageData;
-        register MemcardImagePreset *preset;
+        MemcardImagePreset *preset;
         {
             MemcardImageNode *next = node->next;
             kind = 6;
@@ -499,15 +484,11 @@ void MenuCard_CreateImageGroup(void) {
         imageData = (MemcardImage *)(g_MemcardImageBundle + g_MemcardImageOffsets[6]);
         node->kind = kind;
         node->image = imageData;
+        node->x = preset->x; node->y = preset->y;
+        node->width = node->image->width * 2 / 3;
+        node->height = node->image->height;
         {
-            register MemcardImage *image asm("$3") = node->image;
-            node->x = preset->x; node->y = preset->y;
-            node->width = image->width * 2 / 3;
-            image = node->image;
-            node->height = image->height;
-        }
-        {
-            register s32 parameter = preset->parameter;
+            s32 parameter = preset->parameter;
             node->draw = g_MenuCardUpdateFadeDisplayEntry;
             node->update = MenuCard_BlendRotatedImage;
             node->parameter = parameter;

@@ -201,13 +201,13 @@ void MenuCard_ShowLogoFade(void) {
 }
 
 /* Run the title/card-selection screen, then restore the game display.
- * Three pins and the header's two symbol views retain retail allocation. */
+ * One pin and the header's two symbol views retain retail allocation. */
 s32 MenuCard_RunListScreen(void) {
     u8 *firstMemory;
     s32 searchKind;
     s32 wantedKind;
-    register u32 prefix asm("$3");
-    register u32 packedColor asm("$2");
+    u32 prefix;
+    u32 packedColor;
     RECT rect;
     RECT overlay;
     /* One link temporary for the free-list build, unlink and append steps;
@@ -481,20 +481,19 @@ s32 MenuCard_RunListScreen(void) {
                         rgb1 = *source++;
                         rgb2 = *source++;
                         groupsRemaining -= 1;
-                        prefix = ((rgb0 >> 3) & 0x1F);
-                        prefix |= ((rgb0 >> 6) & 0x3E0);
-                        prefix |= ((rgb0 >> 9) & 0x7C00);
-                        prefix |= ((rgb0 >> 0xB) & 0x1F0000);
-                        prefix |= ((rgb1 << 0x12) & 0x03E00000);
-                        packedColor = ((prefix | ((rgb1 << 0xF) & 0x7C000000)) >> 2) & 0x1CE71CE7;
-                        *destination++ = packedColor;
-                        prefix = ((rgb1 >> 0x13) & 0x1F);
-                        prefix |= ((rgb1 >> 0x16) & 0x3E0);
-                        prefix |= ((rgb2 << 7) & 0x7C00);
-                        prefix |= ((rgb2 << 5) & 0x1F0000);
-                        prefix |= ((rgb2 * 4) & 0x03E00000);
-                        packedColor = ((prefix | ((rgb2 >> 1) & 0x7C000000)) >> 2) & 0x1CE71CE7;
-                        *destination++ = packedColor;
+                        /* packedColor also holds the display Y at the end, so
+                         * it is not local to this block; that keeps each OR
+                         * result out of its inputs' registers, as in retail. */
+                        prefix = ((rgb0 >> 3) & 0x1F) | ((rgb0 >> 6) & 0x3E0) |
+                                 ((rgb0 >> 9) & 0x7C00) | ((rgb0 >> 0xB) & 0x1F0000) |
+                                 ((rgb1 << 0x12) & 0x03E00000);
+                        packedColor = prefix | ((rgb1 << 0xF) & 0x7C000000);
+                        *destination++ = (packedColor >> 2) & 0x1CE71CE7;
+                        prefix = ((rgb1 >> 0x13) & 0x1F) | ((rgb1 >> 0x16) & 0x3E0) |
+                                 ((rgb2 << 7) & 0x7C00) | ((rgb2 << 5) & 0x1F0000) |
+                                 ((rgb2 * 4) & 0x03E00000);
+                        packedColor = prefix | ((rgb2 >> 1) & 0x7C000000);
+                        *destination++ = (packedColor >> 2) & 0x1CE71CE7;
                     } while (groupsRemaining >= 0);
                 }
                 SetDispMask(1);
